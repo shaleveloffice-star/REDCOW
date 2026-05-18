@@ -18,6 +18,7 @@ export function SiteHeader() {
           </label>
           <div className="site-menu-panel">
             <a href="#menu">תפריט</a>
+            <Link href="/about">אודות</Link>
             <a href="#branches">סניפים</a>
             <a href="#gallery">גלריה</a>
             <Link href="/admin">ניהול</Link>

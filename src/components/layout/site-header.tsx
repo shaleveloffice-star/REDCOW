@@ -22,6 +22,7 @@ export function SiteHeader() {
             <a href="#branches">סניפים</a>
             <a href="#gallery">גלריה</a>
             <Link href="/admin">ניהול</Link>
+            <Link href="/privacy-policy">מדיניות פרטיות</Link>
             <a href="#contact">צור קשר</a>
             <a className="mobile-order-link" href="#menu">
               הזמן עכשיו

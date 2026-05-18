@@ -79,6 +79,50 @@ select {
   font-size: 14px;
 }
 
+.legal-page {
+  min-height: 100vh;
+  padding: 96px 24px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(214, 165, 101, 0.1), transparent 26%),
+    #030303;
+}
+
+.legal-document {
+  width: min(860px, 100%);
+  margin: 0 auto;
+  border: 1px solid rgba(214, 165, 101, 0.22);
+  padding: clamp(28px, 5vw, 64px);
+  background: rgba(8, 6, 4, 0.72);
+  color: rgba(255, 247, 237, 0.82);
+  line-height: 1.9;
+}
+
+.legal-kicker {
+  margin: 0 0 12px;
+  color: #d6a565;
+  font-family: Georgia, "Times New Roman", serif;
+}
+
+.legal-document h1,
+.legal-document h2 {
+  color: #fffdf5;
+}
+
+.legal-document h1 {
+  margin: 0 0 28px;
+  font-size: clamp(40px, 6vw, 72px);
+}
+
+.legal-document h2 {
+  margin: 40px 0 12px;
+  font-size: 28px;
+}
+
+.legal-document ul {
+  margin: 12px 0 0;
+  padding: 0 22px 0 0;
+}
+
 .button {
   display: inline-flex;
   align-items: center;
@@ -601,11 +645,11 @@ select {
 
 .menu-highlight-card {
   display: grid;
-  grid-template-columns: minmax(190px, 1.15fr) minmax(140px, 0.9fr);
-  align-items: center;
-  gap: 18px;
+  grid-template-columns: 1fr;
+  align-items: start;
+  gap: 22px;
   padding: 0 28px;
-  text-align: start;
+  text-align: center;
 }
 
 .menu-highlight-card + .menu-highlight-card {
@@ -614,14 +658,14 @@ select {
 
 .menu-highlight-image {
   position: relative;
-  min-height: 210px;
+  min-height: 225px;
 }
 
 .menu-highlight-image img {
   position: absolute;
-  inset: -10px;
-  width: calc(100% + 20px);
-  height: calc(100% + 20px);
+  inset: -35px;
+  width: calc(100% + 70px);
+  height: calc(100% + 70px);
   object-fit: contain;
   filter: drop-shadow(0 28px 34px rgba(0, 0, 0, 0.74));
 }
@@ -633,6 +677,10 @@ select {
   font-size: 23px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
+}
+
+.menu-highlight-content {
+  min-height: 154px;
 }
 
 .menu-highlight-content p {
@@ -1246,6 +1294,12 @@ select {
 .footer-checkbox input {
   margin-top: 5px;
   accent-color: #d6a565;
+}
+
+.footer-checkbox a {
+  color: #d6a565;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 .footer-signup button {

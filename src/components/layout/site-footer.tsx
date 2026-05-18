@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const footerNavItems = ["תפריט", "גלריה", "סניפים", "צור קשר"];
 
 const footerInfoItems = [
@@ -62,7 +64,10 @@ export function SiteFooter() {
             </label>
             <label className="footer-checkbox">
               <input name="approval" type="checkbox" />
-              <span>אני מאשר/ת קבלת עדכונים ויצירת קשר בהתאם למדיניות הפרטיות.</span>
+              <span>
+                אני מאשר/ת קבלת עדכונים והודעות שיווקיות מ-RED COW - רד קאו, בהתאם
+                ל<Link href="/privacy-policy">מדיניות הפרטיות</Link>.
+              </span>
             </label>
             <button type="button">עדכנו אותי</button>
           </form>

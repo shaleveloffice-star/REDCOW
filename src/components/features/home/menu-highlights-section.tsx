@@ -15,13 +15,13 @@ export function MenuHighlightsSection({
         <div className="menu-highlights-grid">
           {highlights.map((item) => (
             <article className="menu-highlight-card" key={item.id}>
-              <div className="menu-highlight-image">
-                <img alt={item.name} src={item.imageUrl} />
-              </div>
               <div className="menu-highlight-content">
                 <h3>{item.name}</h3>
                 <p>{item.description}</p>
                 <strong>{item.price} ₪</strong>
+              </div>
+              <div className="menu-highlight-image">
+                <img alt={item.name} src={item.imageUrl} />
               </div>
             </article>
           ))}

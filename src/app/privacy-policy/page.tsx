@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import { SiteFooter } from "@/components/layout/site-footer";
+import { SiteHeader } from "@/components/layout/site-header";
 
 export const metadata: Metadata = {
   title: "מדיניות פרטיות | Red Cow"
@@ -339,34 +341,38 @@ const privacySections = [
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className="legal-page">
-      <article className="legal-document">
-        <p className="legal-kicker">תאריך עדכון אחרון: מרץ 2026</p>
-        <h1>מדיניות פרטיות - RED COW - רד קאו</h1>
+    <>
+      <SiteHeader />
+      <main className="legal-page">
+        <article className="legal-document">
+          <p className="legal-kicker">תאריך עדכון אחרון: מרץ 2026</p>
+          <h1>מדיניות פרטיות - RED COW - רד קאו</h1>
 
-        <section>
-          <h2>מבוא</h2>
-          {introParagraphs.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
-          ))}
-        </section>
-
-        {privacySections.map((section) => (
-          <section key={section.title}>
-            <h2>{section.title}</h2>
-            {section.paragraphs.map((paragraph) => (
+          <section>
+            <h2>מבוא</h2>
+            {introParagraphs.map((paragraph) => (
               <p key={paragraph}>{paragraph}</p>
             ))}
-            {section.items ? (
-              <ul>
-                {section.items.map((item) => (
-                  <li key={item}>{item}</li>
-                ))}
-              </ul>
-            ) : null}
           </section>
-        ))}
-      </article>
-    </main>
+
+          {privacySections.map((section) => (
+            <section key={section.title}>
+              <h2>{section.title}</h2>
+              {section.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              {section.items ? (
+                <ul>
+                  {section.items.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              ) : null}
+            </section>
+          ))}
+        </article>
+      </main>
+      <SiteFooter />
+    </>
   );
 }

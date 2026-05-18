@@ -47,6 +47,11 @@ select {
   padding: 64px 0;
 }
 
+.inner-page {
+  min-height: 60vh;
+  padding-top: 150px;
+}
+
 .section-title {
   margin: 0 0 12px;
   font-size: clamp(32px, 5vw, 56px);

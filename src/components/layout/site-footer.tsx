@@ -1,6 +1,11 @@
 import Link from "next/link";
 
-const footerNavItems = ["תפריט", "גלריה", "סניפים", "צור קשר"];
+const footerNavItems: { label: string; href: string }[] = [
+  { label: "תפריט", href: "/menu" },
+  { label: "גלריה", href: "/#gallery" },
+  { label: "סניפים", href: "/#branches" },
+  { label: "צור קשר", href: "/#contact" }
+];
 
 const footerInfoItems = [
   { icon: "▦", label: "פתיחה בקרוב" },
@@ -34,8 +39,8 @@ export function SiteFooter() {
         <nav className="footer-column" aria-label="ניווט תחתון">
           <h3>ניווט</h3>
           {footerNavItems.map((item) => (
-            <a href={item === "צור קשר" ? "#contact" : "#menu"} key={item}>
-              {item}
+            <a href={item.href} key={item.label}>
+              {item.label}
             </a>
           ))}
         </nav>

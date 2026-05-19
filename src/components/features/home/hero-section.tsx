@@ -48,13 +48,13 @@ export function HeroSection({
                 הזמן עכשיו
               </a>
             ) : null}
-            <a className="hero-button secondary" href="#menu">
+            <a className="hero-button secondary" href="/menu">
               צפה בתפריט
             </a>
           </div>
         </div>
       </div>
-      <a className="hero-scroll" href="#menu">
+      <a className="hero-scroll" href="/menu">
         גלול למטה
         <span>↓</span>
       </a>

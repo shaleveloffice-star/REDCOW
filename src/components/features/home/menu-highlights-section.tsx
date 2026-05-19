@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
 export function MenuHighlightsSection({
@@ -26,9 +27,9 @@ export function MenuHighlightsSection({
             </article>
           ))}
         </div>
-        <a className="menu-highlights-button" href="#menu">
+        <Link className="menu-highlights-button" href="/menu">
           צפה בתפריט המלא
-        </a>
+        </Link>
       </div>
     </section>
   );

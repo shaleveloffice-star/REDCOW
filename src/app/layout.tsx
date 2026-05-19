@@ -1,5 +1,13 @@
 import type { Metadata } from "next";
+import { Assistant } from "next/font/google";
 import "./globals.css";
+
+const assistant = Assistant({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-assistant",
+  display: "swap"
+});
 
 export const metadata: Metadata = {
   title: "Red Cow",
@@ -13,7 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="he" dir="rtl">
-      <body>{children}</body>
+      <body className={assistant.variable}>{children}</body>
     </html>
   );
 }

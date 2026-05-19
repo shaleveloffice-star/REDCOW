@@ -17,21 +17,21 @@ export function SiteHeader() {
             <span />
           </label>
           <div className="site-menu-panel">
-            <a href="#menu">תפריט</a>
+            <Link href="/menu">תפריט</Link>
             <Link href="/about">אודות</Link>
-            <a href="#branches">סניפים</a>
-            <a href="#gallery">גלריה</a>
+            <a href="/#branches">סניפים</a>
+            <a href="/#gallery">גלריה</a>
             <Link href="/admin">ניהול</Link>
             <Link href="/privacy-policy">מדיניות פרטיות</Link>
-            <a href="#contact">צור קשר</a>
-            <a className="mobile-order-link" href="#menu">
+            <a href="/#contact">צור קשר</a>
+            <Link className="mobile-order-link" href="/menu">
               הזמן עכשיו
-            </a>
+            </Link>
           </div>
         </div>
-        <a className="site-order-button" href="#menu">
+        <Link className="site-order-button" href="/menu">
           הזמן עכשיו
-        </a>
+        </Link>
       </nav>
     </header>
   );

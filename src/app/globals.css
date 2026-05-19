@@ -1479,6 +1479,73 @@ select {
   color: var(--foreground);
 }
 
+.admin-form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.admin-form-error {
+  margin: 0;
+  color: #f3b64b;
+  font-size: 14px;
+}
+
+.admin-form label.admin-checkbox-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  color: var(--foreground);
+}
+
+.admin-checkbox-row input {
+  width: auto;
+  margin: 0;
+}
+
+.admin-menu-thumb {
+  display: block;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid var(--border);
+  background: rgba(255, 247, 237, 0.04);
+}
+
+.admin-menu-preview {
+  display: grid;
+  justify-items: start;
+  gap: 4px;
+}
+
+.admin-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  background: rgba(0, 0, 0, 0.62);
+}
+
+.admin-modal {
+  width: min(520px, 100%);
+  max-height: min(90vh, 900px);
+  overflow: auto;
+  border-radius: 20px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  padding: 24px;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.45);
+}
+
+.admin-modal h3 {
+  color: var(--foreground);
+}
+
 @media (max-width: 800px) {
   .site-header {
     position: absolute;

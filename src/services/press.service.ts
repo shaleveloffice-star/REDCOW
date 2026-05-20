@@ -1,4 +1,4 @@
-import { getPressItems, savePressItem } from "@/repositories/press.repository";
+import { deletePressItem, getPressItems, savePressItem } from "@/repositories/press.repository";
 import type { PressItem } from "@/types/content";
 
 export async function listPressItems(options: { activeOnly?: boolean } = {}): Promise<PressItem[]> {
@@ -10,4 +10,8 @@ export async function listPressItems(options: { activeOnly?: boolean } = {}): Pr
 
 export async function upsertPressItem(input: PressItem): Promise<PressItem> {
   return savePressItem({ ...input, updatedAt: new Date().toISOString() });
+}
+
+export async function removePressItem(id: string): Promise<boolean> {
+  return deletePressItem(id);
 }

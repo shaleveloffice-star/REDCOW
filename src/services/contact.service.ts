@@ -1,4 +1,8 @@
-import { getContactMessages, saveContactMessage } from "@/repositories/contact.repository";
+import {
+  deleteContactMessage,
+  getContactMessages,
+  saveContactMessage
+} from "@/repositories/contact.repository";
 import type { ContactMessage } from "@/types/content";
 
 export async function listContactMessages(): Promise<ContactMessage[]> {
@@ -15,4 +19,12 @@ export async function createContactMessage(
     createdAt: new Date().toISOString(),
     status: "new"
   });
+}
+
+export async function upsertContactMessage(input: ContactMessage): Promise<ContactMessage> {
+  return saveContactMessage(input);
+}
+
+export async function removeContactMessage(id: string): Promise<boolean> {
+  return deleteContactMessage(id);
 }

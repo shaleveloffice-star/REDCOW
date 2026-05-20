@@ -1,23 +1,27 @@
 import { mockOrderLinks, mockSiteSettings } from "@/data/mock/settings.mock";
+import { createInMemoryStore } from "@/lib/admin/in-memory-store";
 import type { OrderLink, SiteSettings } from "@/types/content";
 
-let localSiteSettings = mockSiteSettings;
-let localOrderLinks = mockOrderLinks;
+let localSiteSettings = { ...mockSiteSettings };
+const orderLinksStore = createInMemoryStore(mockOrderLinks);
 
 export async function getSiteSettings(): Promise<SiteSettings> {
-  return localSiteSettings;
+  return { ...localSiteSettings };
 }
 
 export async function saveSiteSettings(input: SiteSettings): Promise<SiteSettings> {
-  localSiteSettings = input;
+  localSiteSettings = { ...input };
   return localSiteSettings;
 }
 
 export async function getOrderLinks(): Promise<OrderLink[]> {
-  return localOrderLinks;
+  return orderLinksStore.getAll();
 }
 
 export async function saveOrderLink(input: OrderLink): Promise<OrderLink> {
-  localOrderLinks = localOrderLinks.map((link) => (link.id === input.id ? input : link));
-  return input;
+  return orderLinksStore.save(input);
+}
+
+export async function deleteOrderLink(id: string): Promise<boolean> {
+  return orderLinksStore.remove(id);
 }

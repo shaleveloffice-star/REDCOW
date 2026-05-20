@@ -1,43 +1,34 @@
 import { mockMenuCategories, mockMenuItems } from "@/data/mock/menu.mock";
+import { createInMemoryStore } from "@/lib/admin/in-memory-store";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
-let menuItemsCache: MenuItem[] | null = null;
-
-function getMenuItemsMutable(): MenuItem[] {
-  if (!menuItemsCache) {
-    menuItemsCache = mockMenuItems.map((item) => ({ ...item }));
-  }
-  return menuItemsCache;
-}
+const menuItemsStore = createInMemoryStore(mockMenuItems);
+const menuCategoriesStore = createInMemoryStore(mockMenuCategories);
 
 export async function getMenuItems(): Promise<MenuItem[]> {
-  return getMenuItemsMutable().map((item) => ({ ...item }));
+  return menuItemsStore.getAll();
 }
 
 export async function getMenuCategories(): Promise<MenuCategory[]> {
-  return mockMenuCategories.map((category) => ({ ...category }));
+  return menuCategoriesStore.getAll();
 }
 
 export async function getMenuItemById(id: string): Promise<MenuItem | null> {
-  const found = getMenuItemsMutable().find((item) => item.id === id);
-  return found ? { ...found } : null;
+  return menuItemsStore.getById(id);
 }
 
 export async function saveMenuItem(input: MenuItem): Promise<MenuItem> {
-  const items = getMenuItemsMutable();
-  const idx = items.findIndex((i) => i.id === input.id);
-  const saved: MenuItem = {
-    ...input,
-    updatedAt: new Date().toISOString()
-  };
-  if (idx >= 0) {
-    items[idx] = saved;
-  } else {
-    items.push(saved);
-  }
-  return { ...saved };
+  return menuItemsStore.save(input);
+}
+
+export async function deleteMenuItem(id: string): Promise<boolean> {
+  return menuItemsStore.remove(id);
 }
 
 export async function saveMenuCategory(input: MenuCategory): Promise<MenuCategory> {
-  return input;
+  return menuCategoriesStore.save(input);
+}
+
+export async function deleteMenuCategory(id: string): Promise<boolean> {
+  return menuCategoriesStore.remove(id);
 }

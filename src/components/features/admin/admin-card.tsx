@@ -8,11 +8,11 @@ export function AdminCard({
   children: React.ReactNode;
 }) {
   return (
-    <section className="card" style={{ padding: 24 }}>
-      <div style={{ marginBottom: 20 }}>
-        <h2 style={{ margin: 0 }}>{title}</h2>
-        {description ? <p className="muted">{description}</p> : null}
-      </div>
+    <section className="admin-card">
+      <header className="admin-card-header">
+        <h2 className="admin-card-title">{title}</h2>
+        {description ? <p className="admin-card-desc">{description}</p> : null}
+      </header>
       {children}
     </section>
   );

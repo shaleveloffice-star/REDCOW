@@ -1,4 +1,8 @@
-import { getCareerApplications, saveCareerApplication } from "@/repositories/careers.repository";
+import {
+  deleteCareerApplication,
+  getCareerApplications,
+  saveCareerApplication
+} from "@/repositories/careers.repository";
 import type { CareerApplication } from "@/types/content";
 
 export async function listCareerApplications(): Promise<CareerApplication[]> {
@@ -15,4 +19,12 @@ export async function createCareerApplication(
     createdAt: new Date().toISOString(),
     status: "new"
   });
+}
+
+export async function upsertCareerApplication(input: CareerApplication): Promise<CareerApplication> {
+  return saveCareerApplication(input);
+}
+
+export async function removeCareerApplication(id: string): Promise<boolean> {
+  return deleteCareerApplication(id);
 }

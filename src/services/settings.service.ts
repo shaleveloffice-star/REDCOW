@@ -1,4 +1,5 @@
 import {
+  deleteOrderLink,
   getOrderLinks,
   getSiteSettings,
   saveOrderLink,
@@ -23,4 +24,8 @@ export async function listOrderLinks(options: { activeOnly?: boolean } = {}): Pr
 
 export async function upsertOrderLink(input: OrderLink): Promise<OrderLink> {
   return saveOrderLink({ ...input, updatedAt: new Date().toISOString() });
+}
+
+export async function removeOrderLink(id: string): Promise<boolean> {
+  return deleteOrderLink(id);
 }

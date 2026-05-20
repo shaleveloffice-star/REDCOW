@@ -1,4 +1,4 @@
-import { getBranches, saveBranch } from "@/repositories/branches.repository";
+import { deleteBranch, getBranches, saveBranch } from "@/repositories/branches.repository";
 import type { Branch } from "@/types/content";
 
 export async function listBranches(options: { activeOnly?: boolean } = {}): Promise<Branch[]> {
@@ -8,4 +8,8 @@ export async function listBranches(options: { activeOnly?: boolean } = {}): Prom
 
 export async function upsertBranch(input: Branch): Promise<Branch> {
   return saveBranch({ ...input, updatedAt: new Date().toISOString() });
+}
+
+export async function removeBranch(id: string): Promise<boolean> {
+  return deleteBranch(id);
 }

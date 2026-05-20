@@ -1,1 +1,1 @@
-export { listOrderLinks, upsertOrderLink } from "@/services/settings.service";
+export { listOrderLinks, removeOrderLink, upsertOrderLink } from "@/services/settings.service";

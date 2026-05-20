@@ -1,55 +1,62 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition } from "react";
-import { saveMenuItemAction } from "@/server/actions/menu.actions";
-import type { MenuItem } from "@/types/content";
+import {
+  AdminFormFooter,
+  AdminModal,
+  AdminRowActions,
+  AdminToolbar,
+  useAdminMutation
+} from "@/components/features/admin/admin-crud-ui";
 import { StatusBadge } from "@/components/features/admin/status-badge";
+import { createId } from "@/lib/admin/new-id";
+import { deleteMenuItemAction, saveMenuItemAction } from "@/server/actions/menu.actions";
+import type { MenuCategory, MenuItem } from "@/types/content";
+import { useState } from "react";
+
+function newMenuItem(categories: MenuCategory[], items: MenuItem[]): MenuItem {
+  const now = new Date().toISOString();
+  return {
+    id: createId("item"),
+    name: "",
+    description: "",
+    price: 0,
+    categoryId: categories[0]?.id ?? "",
+    imageUrl: "/images/menu/placeholder.svg",
+    isActive: true,
+    tags: [],
+    sortOrder: items.length + 1,
+    createdAt: now,
+    updatedAt: now
+  };
+}
 
 export function AdminMenuTable({
   items,
-  categoryById
+  categories
 }: {
   items: MenuItem[];
-  categoryById: Record<string, string>;
+  categories: MenuCategory[];
 }) {
-  const router = useRouter();
-  const [isPending, startTransition] = useTransition();
+  const categoryById = Object.fromEntries(categories.map((c) => [c.id, c.name]));
+  const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<MenuItem | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const isNew = draft ? !items.some((i) => i.id === draft.id) : false;
 
-  useEffect(() => {
-    if (!draft) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setDraft(null);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [draft]);
-
-  const closeModal = () => {
+  const close = () => {
     setDraft(null);
     setError(null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!draft) return;
-    setError(null);
-    startTransition(async () => {
-      try {
-        await saveMenuItemAction(draft);
-        closeModal();
-        router.refresh();
-      } catch (err) {
-        const message = err instanceof Error ? err.message : "שמירה נכשלה";
-        setError(message);
-      }
+  const handleDelete = (item: MenuItem) => {
+    if (!confirmDelete(item.name)) return;
+    run(async () => {
+      await deleteMenuItemAction(item.id);
     });
   };
 
   return (
     <>
+      <AdminToolbar label="הוסף מנה" onAdd={() => setDraft(newMenuItem(categories, items))} />
       <table className="table">
         <thead>
           <tr>
@@ -58,21 +65,14 @@ export function AdminMenuTable({
             <th>קטגוריה</th>
             <th>מחיר</th>
             <th>סטטוס</th>
-            <th style={{ width: 120 }}>פעולות</th>
+            <th style={{ width: 160 }}>פעולות</th>
           </tr>
         </thead>
         <tbody>
           {items.map((item) => (
             <tr key={item.id}>
               <td>
-                <img
-                  alt=""
-                  className="admin-menu-thumb"
-                  height={56}
-                  src={item.imageUrl}
-                  width={56}
-                  loading="lazy"
-                />
+                <img alt="" className="admin-menu-thumb" height={56} src={item.imageUrl} width={56} loading="lazy" />
               </td>
               <td>
                 <strong>{item.name}</strong>
@@ -86,106 +86,99 @@ export function AdminMenuTable({
                 <StatusBadge active={item.isActive} />
               </td>
               <td>
-                <button className="button secondary" type="button" onClick={() => setDraft({ ...item })}>
-                  עריכה
-                </button>
+                <AdminRowActions
+                  disabled={isPending}
+                  onDelete={() => handleDelete(item)}
+                  onEdit={() => setDraft({ ...item })}
+                />
               </td>
             </tr>
           ))}
         </tbody>
       </table>
 
-      {draft ? (
-        <div
-          className="admin-modal-backdrop"
-          role="presentation"
-          onMouseDown={(e) => {
-            if (e.target === e.currentTarget) closeModal();
-          }}
-        >
-          <div aria-labelledby="admin-menu-edit-title" className="admin-modal" role="dialog">
-            <h3 id="admin-menu-edit-title" style={{ margin: "0 0 18px" }}>
-              עריכת מנה
-            </h3>
-            <form className="admin-form" onSubmit={handleSubmit}>
-              <label>
-                שם
-                <input
-                  required
-                  maxLength={120}
-                  value={draft.name}
-                  onChange={(e) => setDraft((d) => (d ? { ...d, name: e.target.value } : d))}
-                />
-              </label>
-              <label>
-                תיאור
-                <textarea
-                  rows={4}
-                  maxLength={500}
-                  value={draft.description}
-                  onChange={(e) => setDraft((d) => (d ? { ...d, description: e.target.value } : d))}
-                />
-              </label>
-              <label>
-                מחיר (ש&quot;ח)
-                <input
-                  inputMode="decimal"
-                  min={0}
-                  step={0.01}
-                  type="number"
-                  value={Number.isFinite(draft.price) ? draft.price : 0}
-                  onChange={(e) => {
-                    const v = parseFloat(e.target.value);
-                    setDraft((d) => (d ? { ...d, price: Number.isFinite(v) ? v : 0 } : d));
-                  }}
-                />
-              </label>
-              <label>
-                כתובת תמונה (URL או נתיב מתוך public, למשל /images/menu/...)
-                <input
-                  type="text"
-                  value={draft.imageUrl}
-                  onChange={(e) => setDraft((d) => (d ? { ...d, imageUrl: e.target.value } : d))}
-                  placeholder="/images/menu/red-cow-classic.png"
-                />
-              </label>
-              <div className="admin-menu-preview">
-                <span className="muted" style={{ fontSize: 12 }}>
-                  תצוגה מקדימה
-                </span>
-                <img
-                  alt=""
-                  height={120}
-                  src={draft.imageUrl.trim() || "/images/menu/placeholder.svg"}
-                  width={120}
-                  style={{ objectFit: "contain", borderRadius: 12, marginTop: 8 }}
-                />
-              </div>
-              <label className="admin-checkbox-row">
-                <input
-                  checked={draft.isActive}
-                  type="checkbox"
-                  onChange={(e) => setDraft((d) => (d ? { ...d, isActive: e.target.checked } : d))}
-                />
-                <span>מנה פעילה (מוצגת באתר)</span>
-              </label>
-              {error ? (
-                <p className="admin-form-error" role="alert">
-                  {error}
-                </p>
-              ) : null}
-              <div className="admin-form-actions">
-                <button className="button" disabled={isPending} type="submit">
-                  {isPending ? "שומר…" : "שמור"}
-                </button>
-                <button className="button secondary" disabled={isPending} type="button" onClick={closeModal}>
-                  ביטול
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      ) : null}
+      <AdminModal open={Boolean(draft)} title={isNew ? "הוספת מנה" : "עריכת מנה"} onClose={close}>
+        {draft ? (
+          <form
+            className="admin-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              run(async () => {
+                await saveMenuItemAction(draft);
+              }, close);
+            }}
+          >
+            <label>
+              שם
+              <input
+                required
+                maxLength={120}
+                value={draft.name}
+                onChange={(e) => setDraft({ ...draft, name: e.target.value })}
+              />
+            </label>
+            <label>
+              תיאור
+              <textarea
+                rows={4}
+                maxLength={500}
+                value={draft.description}
+                onChange={(e) => setDraft({ ...draft, description: e.target.value })}
+              />
+            </label>
+            <label>
+              קטגוריה
+              <select
+                required
+                value={draft.categoryId}
+                onChange={(e) => setDraft({ ...draft, categoryId: e.target.value })}
+              >
+                {categories.map((c) => (
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label>
+              מחיר (ש&quot;ח)
+              <input
+                min={0}
+                step={0.01}
+                type="number"
+                value={draft.price}
+                onChange={(e) => setDraft({ ...draft, price: parseFloat(e.target.value) || 0 })}
+              />
+            </label>
+            <label>
+              כתובת תמונה
+              <input
+                type="text"
+                value={draft.imageUrl}
+                onChange={(e) => setDraft({ ...draft, imageUrl: e.target.value })}
+              />
+            </label>
+            <label>
+              סדר תצוגה
+              <input
+                min={0}
+                type="number"
+                value={draft.sortOrder}
+                onChange={(e) => setDraft({ ...draft, sortOrder: parseInt(e.target.value, 10) || 0 })}
+              />
+            </label>
+            <label className="admin-checkbox-row">
+              <input
+                checked={draft.isActive}
+                type="checkbox"
+                onChange={(e) => setDraft({ ...draft, isActive: e.target.checked })}
+              />
+              <span>מנה פעילה</span>
+            </label>
+            <AdminFormFooter error={error} isPending={isPending} onCancel={close} />
+          </form>
+        ) : null}
+      </AdminModal>
     </>
   );
 }

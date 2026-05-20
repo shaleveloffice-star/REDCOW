@@ -1,0 +1,134 @@
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useEffect, useState, useTransition, type ReactNode } from "react";
+
+export function AdminToolbar({
+  onAdd,
+  label = "הוסף חדש"
+}: {
+  onAdd: () => void;
+  label?: string;
+}) {
+  return (
+    <div className="admin-toolbar">
+      <button className="button" type="button" onClick={onAdd}>
+        {label}
+      </button>
+    </div>
+  );
+}
+
+export function AdminRowActions({
+  onEdit,
+  onDelete,
+  disabled
+}: {
+  onEdit: () => void;
+  onDelete: () => void;
+  disabled?: boolean;
+}) {
+  return (
+    <div className="admin-row-actions">
+      <button className="button secondary" disabled={disabled} type="button" onClick={onEdit}>
+        עריכה
+      </button>
+      <button className="button secondary admin-btn-danger" disabled={disabled} type="button" onClick={onDelete}>
+        מחק
+      </button>
+    </div>
+  );
+}
+
+export function AdminModal({
+  title,
+  open,
+  onClose,
+  children
+}: {
+  title: string;
+  open: boolean;
+  onClose: () => void;
+  children: ReactNode;
+}) {
+  useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open, onClose]);
+
+  if (!open) return null;
+
+  return (
+    <div
+      className="admin-modal-backdrop"
+      role="presentation"
+      onMouseDown={(e) => {
+        if (e.target === e.currentTarget) onClose();
+      }}
+    >
+      <div aria-labelledby="admin-modal-title" className="admin-modal" role="dialog">
+        <h3 id="admin-modal-title">{title}</h3>
+        {children}
+      </div>
+    </div>
+  );
+}
+
+export function AdminFormFooter({
+  isPending,
+  error,
+  onCancel,
+  submitLabel = "שמור"
+}: {
+  isPending: boolean;
+  error: string | null;
+  onCancel: () => void;
+  submitLabel?: string;
+}) {
+  return (
+    <>
+      {error ? (
+        <p className="admin-form-error" role="alert">
+          {error}
+        </p>
+      ) : null}
+      <div className="admin-form-actions">
+        <button className="button" disabled={isPending} type="submit">
+          {isPending ? "שומר…" : submitLabel}
+        </button>
+        <button className="button secondary" disabled={isPending} type="button" onClick={onCancel}>
+          ביטול
+        </button>
+      </div>
+    </>
+  );
+}
+
+export function useAdminMutation() {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | null>(null);
+
+  const run = (task: () => Promise<void>, onSuccess?: () => void) => {
+    setError(null);
+    startTransition(async () => {
+      try {
+        await task();
+        onSuccess?.();
+        router.refresh();
+      } catch (err) {
+        const message = err instanceof Error ? err.message : "פעולה נכשלה";
+        setError(message);
+      }
+    });
+  };
+
+  const confirmDelete = (label: string) =>
+    window.confirm(`למחוק את "${label}"? לא ניתן לשחזר בזיכרון המקומי.`);
+
+  return { isPending, error, setError, run, confirmDelete };
+}

@@ -1,4 +1,4 @@
-import { getGalleryItems, saveGalleryItem } from "@/repositories/gallery.repository";
+import { deleteGalleryItem, getGalleryItems, saveGalleryItem } from "@/repositories/gallery.repository";
 import type { GalleryItem } from "@/types/content";
 
 export async function listGalleryItems(
@@ -12,4 +12,8 @@ export async function listGalleryItems(
 
 export async function upsertGalleryItem(input: GalleryItem): Promise<GalleryItem> {
   return saveGalleryItem({ ...input, updatedAt: new Date().toISOString() });
+}
+
+export async function removeGalleryItem(id: string): Promise<boolean> {
+  return deleteGalleryItem(id);
 }

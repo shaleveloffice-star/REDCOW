@@ -15,14 +15,17 @@ const navItems = [
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
-    <div className="admin-layout">
+    <div className="admin-layout" dir="rtl">
       <aside className="admin-sidebar">
-        <Link href="/" className="pill">
+        <Link className="admin-back-link" href="/">
           חזרה לאתר
         </Link>
-        <h1 style={{ margin: "24px 0 0", fontSize: 28 }}>Red Cow Admin</h1>
-        <p className="muted">ניהול לוקלי, מוכן לחיבור Firebase בעתיד.</p>
-        <nav className="admin-nav">
+        <div className="admin-brand">
+          <p className="admin-brand-kicker">Admin Panel</p>
+          <h1 className="admin-brand-title">RED COW</h1>
+          <p className="admin-brand-sub">ניהול האתר</p>
+        </div>
+        <nav aria-label="ניווט ניהול" className="admin-nav">
           {navItems.map((item) => (
             <Link href={item.href} key={item.href}>
               {item.label}

@@ -1,4 +1,6 @@
 import {
+  deleteMenuCategory,
+  deleteMenuItem,
   getMenuCategories,
   getMenuItems,
   saveMenuCategory,
@@ -42,4 +44,12 @@ export async function upsertMenuItem(input: MenuItem): Promise<MenuItem> {
 
 export async function upsertMenuCategory(input: MenuCategory): Promise<MenuCategory> {
   return saveMenuCategory({ ...input, updatedAt: new Date().toISOString() });
+}
+
+export async function removeMenuItem(id: string): Promise<boolean> {
+  return deleteMenuItem(id);
+}
+
+export async function removeMenuCategory(id: string): Promise<boolean> {
+  return deleteMenuCategory(id);
 }

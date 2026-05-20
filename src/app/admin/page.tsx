@@ -32,11 +32,11 @@ export default async function AdminDashboardPage() {
         title="סקירת ניהול"
         description="כל הנתונים נטענים כרגע מקומית דרך server actions ושכבת services."
       >
-        <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(160px, 1fr))" }}>
+        <div className="admin-stat-grid">
           {stats.map(([label, value]) => (
-            <div className="card" key={label} style={{ padding: 20 }}>
-              <p className="muted">{label}</p>
-              <strong style={{ fontSize: 32 }}>{value}</strong>
+            <div className="admin-stat-card" key={label}>
+              <p className="admin-stat-label">{label}</p>
+              <strong className="admin-stat-value">{value}</strong>
             </div>
           ))}
         </div>

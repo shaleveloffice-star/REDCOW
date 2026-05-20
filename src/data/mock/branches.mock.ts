@@ -11,7 +11,7 @@ export const mockBranches: Branch[] = [
     phone: "03-555-1212",
     openingHours: "א-ה 12:00-23:00, ו 11:00-15:00",
     wazeUrl: "https://waze.com/ul?q=Red%20Cow%20Tel%20Aviv",
-    isActive: true,
+    isActive: false,
     createdAt: now,
     updatedAt: now
   },
@@ -23,7 +23,7 @@ export const mockBranches: Branch[] = [
     phone: "03-555-3434",
     openingHours: "א-ה 12:00-23:30, שבת 19:00-00:00",
     wazeUrl: "https://waze.com/ul?q=Red%20Cow%20Rishon",
-    isActive: true,
+    isActive: false,
     createdAt: now,
     updatedAt: now
   }

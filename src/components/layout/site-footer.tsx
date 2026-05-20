@@ -1,9 +1,10 @@
 import Link from "next/link";
+import { SiteLogo } from "@/components/layout/site-logo";
 
 const footerNavItems: { label: string; href: string }[] = [
   { label: "תפריט", href: "/menu" },
   { label: "גלריה", href: "/#gallery" },
-  { label: "סניפים", href: "/#branches" },
+  { label: "סניפים", href: "/branches" },
   { label: "צור קשר", href: "/#contact" }
 ];
 
@@ -25,10 +26,9 @@ export function SiteFooter() {
         </span>
       </div>
       <div className="footer-shell">
-        <section className="footer-brand" aria-label="Red Cow">
-          <h2>RED COW</h2>
-          <p>Classic Burgers</p>
-          <span />
+        <section className="footer-brand" aria-label="NB Burger">
+          <SiteLogo variant="footer" />
+          <span className="footer-brand-divider" aria-hidden="true" />
           <strong>
             המבורגר קלאסי.
             <br />

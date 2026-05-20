@@ -1,14 +1,11 @@
 import Link from "next/link";
+import { SiteLogo } from "@/components/layout/site-logo";
 
 export function SiteHeader() {
   return (
     <header className="site-header">
       <nav className="site-nav" aria-label="ניווט ראשי">
-        <Link href="/" className="site-logo">
-          <span className="site-logo-crown">♛</span>
-          <span>RED COW</span>
-          <small>BURGER</small>
-        </Link>
+        <SiteLogo />
         <div className="site-menu">
           <input className="site-menu-checkbox" id="site-menu-toggle" type="checkbox" />
           <label className="site-menu-toggle" htmlFor="site-menu-toggle" aria-label="פתיחת תפריט">
@@ -19,7 +16,7 @@ export function SiteHeader() {
           <div className="site-menu-panel">
             <Link href="/menu">תפריט</Link>
             <Link href="/about">אודות</Link>
-            <a href="/#branches">סניפים</a>
+            <Link href="/branches">סניפים</Link>
             <a href="/#gallery">גלריה</a>
             <Link href="/admin">ניהול</Link>
             <Link href="/privacy-policy">מדיניות פרטיות</Link>

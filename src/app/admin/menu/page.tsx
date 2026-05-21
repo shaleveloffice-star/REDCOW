@@ -8,7 +8,7 @@ export default async function AdminMenuPage() {
   return (
     <AdminCard
       title="ניהול תפריט"
-      description="הוספה, עריכה ומחיקה — נשמר בזיכרון השרת עד הפעלה מחדש. בעתיד Firestore."
+      description="הוספה, עריכה ומחיקה — נשמר בקובץ מקומי (data/local) ומוצג באתר אחרי שמירה."
     >
       <AdminMenuTable categories={categories} items={items} />
     </AdminCard>

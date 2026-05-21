@@ -30,7 +30,8 @@ export async function saveMenuItemAction(input: MenuItem) {
     description: input.description.trim(),
     imageUrl: input.imageUrl.trim() || "/images/menu/placeholder.svg",
     price,
-    isActive: Boolean(input.isActive)
+    isActive: Boolean(input.isActive),
+    tags: Array.isArray(input.tags) ? input.tags : []
   });
 
   menuPaths.forEach((path) => revalidatePath(path));

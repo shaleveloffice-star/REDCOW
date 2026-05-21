@@ -10,8 +10,9 @@ import {
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import { deleteMenuItemAction, saveMenuItemAction } from "@/server/actions/menu.actions";
+import { uploadMenuImageAction } from "@/server/actions/upload.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
-import { useState } from "react";
+import { useEffect, useState, type ChangeEvent } from "react";
 
 function newMenuItem(categories: MenuCategory[], items: MenuItem[]): MenuItem {
   const now = new Date().toISOString();
@@ -39,8 +40,14 @@ export function AdminMenuTable({
 }) {
   const categoryById = Object.fromEntries(categories.map((c) => [c.id, c.name]));
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
+  const [rows, setRows] = useState(items);
   const [draft, setDraft] = useState<MenuItem | null>(null);
-  const isNew = draft ? !items.some((i) => i.id === draft.id) : false;
+  const [uploadingImage, setUploadingImage] = useState(false);
+  const isNew = draft ? !rows.some((i) => i.id === draft.id) : false;
+
+  useEffect(() => {
+    setRows(items);
+  }, [items]);
 
   const close = () => {
     setDraft(null);
@@ -51,12 +58,36 @@ export function AdminMenuTable({
     if (!confirmDelete(item.name)) return;
     run(async () => {
       await deleteMenuItemAction(item.id);
+      setRows((prev) => prev.filter((row) => row.id !== item.id));
     });
   };
 
+  const handleImageUpload = async (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !draft) return;
+
+    setUploadingImage(true);
+    setError(null);
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+      const imageUrl = await uploadMenuImageAction(formData);
+      setDraft({ ...draft, imageUrl });
+    } catch (err) {
+      const message = err instanceof Error ? err.message : "העלאת התמונה נכשלה";
+      setError(message);
+    } finally {
+      setUploadingImage(false);
+      event.target.value = "";
+    }
+  };
+
+  const menuImageSrc = (item: MenuItem) =>
+    item.imageUrl.includes("?") ? item.imageUrl : `${item.imageUrl}?v=${encodeURIComponent(item.updatedAt)}`;
+
   return (
     <>
-      <AdminToolbar label="הוסף מנה" onAdd={() => setDraft(newMenuItem(categories, items))} />
+      <AdminToolbar label="הוסף מנה" onAdd={() => setDraft(newMenuItem(categories, rows))} />
       <table className="table">
         <thead>
           <tr>
@@ -69,10 +100,17 @@ export function AdminMenuTable({
           </tr>
         </thead>
         <tbody>
-          {items.map((item) => (
+          {rows.map((item) => (
             <tr key={item.id}>
               <td>
-                <img alt="" className="admin-menu-thumb" height={56} src={item.imageUrl} width={56} loading="lazy" />
+                <img
+                  alt=""
+                  className="admin-menu-thumb"
+                  height={56}
+                  src={menuImageSrc(item)}
+                  width={56}
+                  loading="lazy"
+                />
               </td>
               <td>
                 <strong>{item.name}</strong>
@@ -104,7 +142,16 @@ export function AdminMenuTable({
             onSubmit={(e) => {
               e.preventDefault();
               run(async () => {
-                await saveMenuItemAction(draft);
+                const saved = await saveMenuItemAction(draft);
+                setRows((prev) => {
+                  const idx = prev.findIndex((row) => row.id === saved.id);
+                  if (idx >= 0) {
+                    const next = [...prev];
+                    next[idx] = saved;
+                    return next;
+                  }
+                  return [...prev, saved];
+                });
               }, close);
             }}
           >
@@ -151,10 +198,20 @@ export function AdminMenuTable({
               />
             </label>
             <label>
-              כתובת תמונה
+              תמונת מנה
+              <input accept="image/*" disabled={uploadingImage} type="file" onChange={handleImageUpload} />
+            </label>
+            {draft.imageUrl ? (
+              <div className="admin-image-preview">
+                <img alt="" height={120} src={menuImageSrc(draft)} width={120} />
+              </div>
+            ) : null}
+            <label>
+              כתובת תמונה (אופציונלי)
               <input
                 type="text"
                 value={draft.imageUrl}
+                placeholder="/images/menu/your-image.jpg"
                 onChange={(e) => setDraft({ ...draft, imageUrl: e.target.value })}
               />
             </label>

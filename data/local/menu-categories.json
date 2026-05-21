@@ -1,0 +1,52 @@
+[
+  {
+    "id": "cat-burgers",
+    "name": "המבורגרים",
+    "slug": "burgers",
+    "description": "הקלאסיקות של NB Burger",
+    "sortOrder": 1,
+    "isActive": true,
+    "createdAt": "2026-05-17T07:00:00.000Z",
+    "updatedAt": "2026-05-17T07:00:00.000Z"
+  },
+  {
+    "id": "cat-chicken",
+    "name": "עוף וצמחוני",
+    "slug": "chicken-veg",
+    "description": "חלופות קלילות ומנות ללא בקר",
+    "sortOrder": 2,
+    "isActive": true,
+    "createdAt": "2026-05-17T07:00:00.000Z",
+    "updatedAt": "2026-05-17T07:00:00.000Z"
+  },
+  {
+    "id": "cat-sides",
+    "name": "תוספות",
+    "slug": "sides",
+    "description": "ליד הבורגר",
+    "sortOrder": 3,
+    "isActive": true,
+    "createdAt": "2026-05-17T07:00:00.000Z",
+    "updatedAt": "2026-05-17T07:00:00.000Z"
+  },
+  {
+    "id": "cat-drinks",
+    "name": "שתייה",
+    "slug": "drinks",
+    "description": "קר וחמים",
+    "sortOrder": 4,
+    "isActive": true,
+    "createdAt": "2026-05-17T07:00:00.000Z",
+    "updatedAt": "2026-05-17T07:00:00.000Z"
+  },
+  {
+    "id": "cat-desserts",
+    "name": "קינוחים",
+    "slug": "desserts",
+    "description": "סיום מתוק",
+    "sortOrder": 5,
+    "isActive": true,
+    "createdAt": "2026-05-17T07:00:00.000Z",
+    "updatedAt": "2026-05-17T07:00:00.000Z"
+  }
+]

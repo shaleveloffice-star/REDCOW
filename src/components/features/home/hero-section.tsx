@@ -17,19 +17,19 @@ export function HeroSection({
   return (
     <section className="hero">
       <div className="hero-background" aria-hidden="true" />
+      <div className="hero-visual" aria-label={settings.heroMediaAlt}>
+        {hasHeroMedia ? (
+          heroMediaType === "video" ? (
+            <video autoPlay loop muted playsInline src={heroMediaUrl} />
+          ) : (
+            <img alt={settings.heroMediaAlt} src={heroMediaUrl} />
+          )
+        ) : (
+          <div className="hero-burger-placeholder" aria-hidden="true" />
+        )}
+      </div>
       <div className="hero-noise" aria-hidden="true" />
       <div className="hero-inner">
-        <div className="hero-visual" aria-label={settings.heroMediaAlt}>
-          {hasHeroMedia ? (
-            heroMediaType === "video" ? (
-              <video autoPlay loop muted playsInline src={heroMediaUrl} />
-            ) : (
-              <img alt={settings.heroMediaAlt} src={heroMediaUrl} />
-            )
-          ) : (
-            <div className="hero-burger-placeholder" aria-hidden="true" />
-          )}
-        </div>
         <div className="hero-content">
           <p className="hero-kicker">Premium Burgers</p>
           <h1>

@@ -1,9 +1,9 @@
 import { mockMenuCategories, mockMenuItems } from "@/data/mock/menu.mock";
-import { createInMemoryStore } from "@/lib/admin/in-memory-store";
+import { createJsonFileStore } from "@/lib/admin/json-file-store";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
-const menuItemsStore = createInMemoryStore(mockMenuItems);
-const menuCategoriesStore = createInMemoryStore(mockMenuCategories);
+const menuItemsStore = createJsonFileStore<MenuItem>("menu-items.json", mockMenuItems);
+const menuCategoriesStore = createJsonFileStore<MenuCategory>("menu-categories.json", mockMenuCategories);
 
 export async function getMenuItems(): Promise<MenuItem[]> {
   return menuItemsStore.getAll();

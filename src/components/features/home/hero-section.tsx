@@ -43,11 +43,15 @@ export function HeroSection({
             ההמבורגר לבסיס הטוב שלו.
           </p>
           <div className="hero-actions">
-            {primaryOrderLink ? (
-              <a className="hero-button" href={primaryOrderLink.url}>
-                הזמן עכשיו
-              </a>
-            ) : null}
+            <a
+              className="hero-button"
+              href={primaryOrderLink?.url ?? "/menu"}
+              {...(primaryOrderLink
+                ? { rel: "noopener noreferrer", target: "_blank" }
+                : {})}
+            >
+              הזמן עכשיו
+            </a>
             <a className="hero-button secondary" href="/menu">
               צפה בתפריט
             </a>

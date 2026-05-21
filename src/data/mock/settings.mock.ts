@@ -3,12 +3,12 @@ import type { OrderLink, SiteSettings } from "@/types/content";
 const now = "2026-05-17T07:00:00.000Z";
 
 export const mockSiteSettings: SiteSettings = {
-  siteName: "Red Cow",
-  seoTitle: "Red Cow | המבורגרים, גריל ואווירה",
-  seoDescription: "מסעדת Red Cow מגישה המבורגרים, תוספות וארוחות בשר באווירה חמה.",
+  siteName: "NB Burger",
+  seoTitle: "NB Burger | המבורגרים, גריל ואווירה",
+  seoDescription: "NB Burger מגישה המבורגרים, תוספות וארוחות בשר באווירה חמה.",
   heroMediaType: "image",
   heroMediaUrl: "/images/hero/burger-hero.png",
-  heroMediaAlt: "המבורגר Red Cow על רקע כהה",
+  heroMediaAlt: "המבורגר NB Burger על רקע כהה",
   phone: "03-555-0000",
   email: "hello@redcow.local",
   instagramUrl: "https://instagram.com/redcow",

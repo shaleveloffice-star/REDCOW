@@ -17,7 +17,7 @@ export const mockMenuCategories: MenuCategory[] = [
     id: "cat-burgers",
     name: "המבורגרים",
     slug: "burgers",
-    description: "הקלאסיקות של Red Cow",
+    description: "הקלאסיקות של NB Burger",
     sortOrder: 1,
     isActive: true,
     createdAt: now,
@@ -68,7 +68,7 @@ export const mockMenuCategories: MenuCategory[] = [
 export const mockMenuItems: MenuItem[] = [
   {
     id: "item-redcow-classic",
-    name: "Red Cow Classic",
+    name: "NB Classic",
     description: "קציצת בקר, חסה, עגבנייה, בצל סגול ורוטב הבית.",
     price: 58,
     categoryId: "cat-burgers",
@@ -159,7 +159,7 @@ export const mockMenuItems: MenuItem[] = [
   },
   {
     id: "item-fries",
-    name: "צ'יפס Red Cow",
+    name: "צ'יפס NB",
     description: "צ'יפס פריך עם תיבול הבית.",
     price: 22,
     categoryId: "cat-sides",

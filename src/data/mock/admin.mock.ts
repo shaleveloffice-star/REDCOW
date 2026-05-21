@@ -6,7 +6,7 @@ export const mockAdminUsers: AdminUser[] = [
   {
     id: "admin-owner",
     email: "admin@redcow.local",
-    displayName: "Red Cow Admin",
+    displayName: "NB Burger Admin",
     role: "owner",
     permissions: [
       "menu:write",

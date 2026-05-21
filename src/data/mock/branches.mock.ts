@@ -5,7 +5,7 @@ const now = "2026-05-17T07:00:00.000Z";
 export const mockBranches: Branch[] = [
   {
     id: "branch-tel-aviv",
-    name: "Red Cow תל אביב",
+    name: "NB Burger תל אביב",
     city: "תל אביב",
     address: "רחוב הארבעה 12",
     phone: "03-555-1212",
@@ -17,7 +17,7 @@ export const mockBranches: Branch[] = [
   },
   {
     id: "branch-rishon",
-    name: "Red Cow ראשון לציון",
+    name: "NB Burger ראשון לציון",
     city: "ראשון לציון",
     address: "שדרות משה דיין 8",
     phone: "03-555-3434",

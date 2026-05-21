@@ -22,7 +22,7 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
         </Link>
         <div className="admin-brand">
           <p className="admin-brand-kicker">Admin Panel</p>
-          <h1 className="admin-brand-title">RED COW</h1>
+          <h1 className="admin-brand-title">NB BURGER</h1>
           <p className="admin-brand-sub">ניהול האתר</p>
         </div>
         <nav aria-label="ניווט ניהול" className="admin-nav">

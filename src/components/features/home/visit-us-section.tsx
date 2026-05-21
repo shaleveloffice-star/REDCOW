@@ -16,7 +16,7 @@ export function VisitUsSection() {
             <strong>בדרך.</strong>
           </h2>
           <p>
-            אנחנו עובדים על הלוקיישן הראשון של Red Cow. בקרוב תוכלו להגיע,
+            אנחנו עובדים על הלוקיישן הראשון של NB Burger. בקרוב תוכלו להגיע,
             להזמין, לקחת ולתת את הביס הראשון.
           </p>
           <p className="visit-note">

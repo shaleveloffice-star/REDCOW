@@ -21,14 +21,8 @@ export function SiteHeader() {
             <Link href="/admin">ניהול</Link>
             <Link href="/privacy-policy">מדיניות פרטיות</Link>
             <a href="/#contact">צור קשר</a>
-            <Link className="mobile-order-link" href="/menu">
-              הזמן עכשיו
-            </Link>
           </div>
         </div>
-        <Link className="site-order-button" href="/menu">
-          הזמן עכשיו
-        </Link>
       </nav>
     </header>
   );

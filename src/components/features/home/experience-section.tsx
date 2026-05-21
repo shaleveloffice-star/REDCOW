@@ -13,7 +13,10 @@ export function ExperienceSection() {
           <p className="experience-kicker">The Experience</p>
           <h2 id="experience-title">
             חוויית
-            <strong>RED COW</strong>
+            <strong>
+              <span>NB</span>
+              <span>BURGER</span>
+            </strong>
           </h2>
           <h3>לא רק המבורגר.</h3>
           <p>

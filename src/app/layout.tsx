@@ -10,8 +10,8 @@ const assistant = Assistant({
 });
 
 export const metadata: Metadata = {
-  title: "Red Cow",
-  description: "Red Cow restaurant website with a local Firebase-ready architecture."
+  title: "NB Burger",
+  description: "NB Burger restaurant website with a local Firebase-ready architecture."
 };
 
 export default function RootLayout({

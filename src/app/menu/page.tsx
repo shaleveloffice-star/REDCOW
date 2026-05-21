@@ -5,7 +5,7 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { getMenuForDisplay } from "@/services/menu.service";
 
 export const metadata: Metadata = {
-  title: "תפריט | Red Cow",
+  title: "תפריט | NB Burger",
   description: "תפריט המסעדה"
 };
 

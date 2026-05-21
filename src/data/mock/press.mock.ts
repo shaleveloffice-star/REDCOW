@@ -16,7 +16,7 @@ export const mockPressItems: PressItem[] = [
   },
   {
     id: "press-new-branch",
-    title: "Red Cow פותחת סניף חדש",
+    title: "NB Burger פותחת סניף חדש",
     source: "City News",
     url: "https://example.com/redcow-new-branch",
     imageUrl: "/images/press/new-branch.jpg",

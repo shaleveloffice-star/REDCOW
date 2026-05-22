@@ -2108,8 +2108,8 @@ select {
   }
 
   .site-logo-img {
-    height: 96px;
-    max-width: 260px;
+    height: 81px;
+    max-width: 245px;
   }
 
   .site-logo--footer .site-logo-img {
@@ -2146,7 +2146,7 @@ select {
   }
 
   .hero h1 {
-    font-size: clamp(44px, 15vw, 72px);
+    font-size: clamp(26px, 10vw, 47px);
   }
 
   .hero-description {

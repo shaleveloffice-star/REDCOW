@@ -11,7 +11,7 @@ const assistant = Assistant({
 
 const heebo = Heebo({
   subsets: ["hebrew", "latin"],
-  weight: ["200", "300"],
+  weight: ["100", "200", "300"],
   variable: "--font-heebo",
   display: "swap"
 });

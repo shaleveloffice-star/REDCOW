@@ -471,7 +471,7 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
   font-family: var(--font-hero-tagline);
   font-size: clamp(31px, 7.2vw, 41px);
   opacity: 0.9;
-  font-weight: 200;
+  font-weight: 100;
   letter-spacing: 0.03em;
   line-height: 1.4;
   text-align: center;
@@ -2313,7 +2313,7 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
   .hero-taglines {
     margin-bottom: 48px;
     font-size: clamp(19px, 7.5vw, 27px);
-    font-weight: 300;
+    font-weight: 100;
   }
 
   .hero-title,

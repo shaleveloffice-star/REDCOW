@@ -25,6 +25,7 @@
   --font-display: Impact, "Arial Black", Arial, sans-serif;
   --font-editorial: Georgia, "Times New Roman", serif;
   --font-body: var(--font-assistant), "Segoe UI", system-ui, -apple-system, sans-serif;
+  --font-button: var(--font-assistant), "Assistant", "Segoe UI", system-ui, sans-serif;
   --font-hero-tagline: var(--font-heebo), var(--font-body);
 
   --type-display-hero: clamp(48px, 7vw, 88px);
@@ -87,6 +88,21 @@ body:not(:has(.admin-layout)) .button.secondary {
   border: 1px solid #ffe1ba;
   background-color: transparent;
   color: #fff7ed;
+}
+
+body:not(:has(.admin-layout)) .hero-button,
+body:not(:has(.admin-layout)) .menu-highlights-button,
+body:not(:has(.admin-layout)) .experience-button,
+body:not(:has(.admin-layout)) .visit-primary,
+body:not(:has(.admin-layout)) .visit-secondary,
+body:not(:has(.admin-layout)) .footer-signup-submit,
+body:not(:has(.admin-layout)) .branches-card-nav,
+body:not(:has(.admin-layout)) .about-btn-primary,
+body:not(:has(.admin-layout)) .about-btn-ghost {
+  font-family: var(--font-button);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  -webkit-font-smoothing: antialiased;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -453,7 +469,8 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
   margin: 0 0 56px;
   color: rgba(255, 247, 237, 0.94);
   font-family: var(--font-hero-tagline);
-  font-size: clamp(26px, 7.2vw, 36px);
+  font-size: clamp(31px, 7.2vw, 41px);
+  opacity: 0.9;
   font-weight: 200;
   letter-spacing: 0.03em;
   line-height: 1.4;
@@ -500,11 +517,13 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
   border-radius: 0;
   background-color: #ffe1ba;
   color: #170d07;
-  font-family: var(--font-body);
-  font-size: 15px;
-  font-weight: 700;
+  font-family: var(--font-button);
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   text-decoration: none;
   cursor: pointer;
+  -webkit-font-smoothing: antialiased;
 }
 
 .hero-button.secondary {
@@ -1608,9 +1627,9 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
   margin-top: 0;
   border: 1px solid #ffe1ba;
   border-radius: 999px;
-  font-family: var(--font-assistant), "Segoe UI", system-ui, -apple-system, sans-serif;
+  font-family: var(--font-button);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: 0.02em;
 }
 
@@ -2293,14 +2312,14 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
 
   .hero-taglines {
     margin-bottom: 48px;
-    font-size: clamp(24px, 7.5vw, 32px);
+    font-size: clamp(19px, 7.5vw, 27px);
     font-weight: 300;
   }
 
   .hero-title,
   .hero h1.hero-title {
     margin-bottom: 28px;
-    font-size: clamp(30px, 9.8vw, 48px);
+    font-size: clamp(40px, 9.8vw, 58px);
     letter-spacing: 0.08em;
   }
 
@@ -2311,7 +2330,8 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
 
   .hero-button {
     min-height: 48px;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 600;
   }
 
   .menu-highlight-image img {

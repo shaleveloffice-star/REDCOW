@@ -3,7 +3,7 @@ import { Assistant, Heebo } from "next/font/google";
 import "./globals.css";
 
 const assistant = Assistant({
-  subsets: ["latin"],
+  subsets: ["hebrew", "latin"],
   weight: ["300", "400", "500", "600", "700"],
   variable: "--font-assistant",
   display: "swap"

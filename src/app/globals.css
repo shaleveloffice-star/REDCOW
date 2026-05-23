@@ -394,7 +394,7 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
   min-height: 100svh;
   overflow: hidden;
   isolation: isolate;
-  padding: 96px 24px 72px;
+  padding: 88px 24px 72px;
   background: #030303;
 }
 
@@ -430,7 +430,7 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
   display: grid;
   place-items: center;
   width: min(1180px, calc(100% - 48px));
-  flex: 1;
+  flex: 0 0 auto;
   margin: 0 auto;
 }
 
@@ -450,7 +450,7 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
   justify-items: center;
   gap: 8px;
   width: 100%;
-  margin: 0 0 40px;
+  margin: 0 0 56px;
   color: rgba(255, 247, 237, 0.94);
   font-family: var(--font-hero-tagline);
   font-size: clamp(26px, 7.2vw, 36px);
@@ -565,14 +565,15 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
 }
 
 .hero-scroll {
-  position: relative;
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
   z-index: 3;
   display: grid;
   place-items: center;
-  margin-top: auto;
-  padding-top: 20px;
   color: rgba(255, 247, 237, 0.72);
   text-decoration: none;
+  transform: translateX(-50%);
 }
 
 .hero-scroll span {
@@ -2277,11 +2278,12 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
 
   .hero {
     min-height: 100svh;
-    padding: 88px 20px 36px;
+    padding: 96px 20px 36px;
   }
 
   .hero-inner {
     width: min(100%, calc(100% - 24px));
+    margin: 0 auto;
   }
 
   .hero-content {
@@ -2290,7 +2292,7 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
   }
 
   .hero-taglines {
-    margin-bottom: 32px;
+    margin-bottom: 48px;
     font-size: clamp(24px, 7.5vw, 32px);
     font-weight: 300;
   }

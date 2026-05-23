@@ -1,6 +1,7 @@
 import Link from "next/link";
+import { SITE_LOGO_SRC } from "@/data/site-images.registry";
 
-export const SITE_LOGO_SRC = "/images/brand/nb-burger-logo.png";
+export { SITE_LOGO_SRC };
 
 type SiteLogoProps = {
   variant?: "header" | "footer";

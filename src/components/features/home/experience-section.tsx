@@ -6,7 +6,7 @@ const experienceItems = [
 
 export function ExperienceSection() {
   return (
-    <section className="experience-section" aria-labelledby="experience-title">
+    <section id="plancha" className="experience-section" aria-labelledby="experience-title">
       <div className="experience-visual" aria-hidden="true" />
       <div className="experience-shell">
         <div className="experience-content">

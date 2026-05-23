@@ -8,6 +8,11 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
   return galleryStore.getAll();
 }
 
+export async function getGalleryItemById(id: string): Promise<GalleryItem | null> {
+  const found = (await galleryStore.getAll()).find((item) => item.id === id);
+  return found ? { ...found } : null;
+}
+
 export async function saveGalleryItem(input: GalleryItem): Promise<GalleryItem> {
   return galleryStore.save(input);
 }

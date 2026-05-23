@@ -18,7 +18,7 @@ const qualityItems = [
 
 export function QualitySection() {
   return (
-    <section id="quality" className="quality-section" aria-labelledby="quality-title">
+    <section id="atmosphere" className="quality-section" aria-labelledby="quality-title">
       <div className="quality-shell">
         <div className="quality-top-line">
           <span className="quality-burger-icon" aria-hidden="true">

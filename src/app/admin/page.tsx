@@ -1,26 +1,28 @@
 import { AdminCard } from "@/components/features/admin/admin-card";
 import { getBranchesAdminData } from "@/server/actions/branches.actions";
 import { getContactMessagesAdminData } from "@/server/actions/contact.actions";
-import { getGalleryAdminData } from "@/server/actions/gallery.actions";
+import { getSiteImagesAdminData } from "@/server/actions/site-images.actions";
 import { getMenuAdminData } from "@/server/actions/menu.actions";
 import { getPressAdminData } from "@/server/actions/press.actions";
 import { getSettingsAdminData } from "@/server/actions/settings.actions";
 
 export default async function AdminDashboardPage() {
-  const [menu, branches, gallery, press, contact, settings] = await Promise.all([
+  const [menu, branches, siteImageGroups, press, contact, settings] = await Promise.all([
     getMenuAdminData(),
     getBranchesAdminData(),
-    getGalleryAdminData(),
+    getSiteImagesAdminData(),
     getPressAdminData(),
     getContactMessagesAdminData(),
     getSettingsAdminData()
   ]);
 
+  const siteImagesCount = siteImageGroups.reduce((sum, group) => sum + group.items.length, 0);
+
   const stats = [
     ["מנות", menu.items.length],
     ["קטגוריות", menu.categories.length],
     ["סניפים", branches.length],
-    ["תמונות", gallery.length],
+    ["תמונות באתר", siteImagesCount],
     ["כתבות", press.length],
     ["הודעות", contact.length],
     ["קישורי הזמנה", settings.orderLinks.length]

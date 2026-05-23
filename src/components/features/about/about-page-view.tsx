@@ -1,13 +1,8 @@
 import Link from "next/link";
 import { SITE_LOGO_SRC } from "@/components/layout/site-logo";
-
-const IMG = {
-  hero: "/images/hero/burger-hero.png",
-  classic: "/images/menu/red-cow-classic.png",
-  fries: "/images/menu/red-cow-fries.png",
-  experience: "/images/experience/red-cow-experience.png",
-  smoked: "/images/menu/smoked-burger.png"
-} as const;
+import { ABOUT_PAGE_IMAGES as IMG } from "@/data/site-images.registry";
+import { pickSiteImage } from "@/lib/site-image-url";
+import type { SiteImagesMap } from "@/types/site-images";
 
 const momentItems = [
   { title: "צהריים", desc: "באמצע יום עבודה" },
@@ -16,16 +11,26 @@ const momentItems = [
   { title: "משפחה", desc: "שולחן פתוח" }
 ] as const;
 
-export function AboutPageView() {
+type AboutPageViewProps = {
+  siteImages?: SiteImagesMap;
+};
+
+export function AboutPageView({ siteImages }: AboutPageViewProps) {
+  const hero = pickSiteImage(siteImages, "about-hero", IMG.hero);
+  const classic = pickSiteImage(siteImages, "about-classic", IMG.classic);
+  const fries = pickSiteImage(siteImages, "about-fries", IMG.fries);
+  const experience = pickSiteImage(siteImages, "about-experience", IMG.experience);
+  const smoked = pickSiteImage(siteImages, "about-smoked", IMG.smoked);
+  const logo = pickSiteImage(siteImages, "brand-logo", SITE_LOGO_SRC);
   return (
     <>
       <section className="about-hero" aria-labelledby="about-hero-title">
         <div className="about-hero-bg" aria-hidden="true">
-          <img src={IMG.hero} alt="" className="about-hero-bg-img" width={1600} height={900} />
+          <img src={hero} alt="" className="about-hero-bg-img" width={1600} height={900} />
           <div className="about-hero-scrim" />
         </div>
         <div className="about-hero-content page-shell">
-          <img className="about-hero-mark" src={SITE_LOGO_SRC} alt="" width={200} height={100} />
+          <img className="about-hero-mark" src={logo} alt="" width={200} height={100} />
           <p className="menu-highlights-kicker about-hero-kicker">About Us</p>
           <h1 id="about-hero-title" className="about-hero-title">
             אודות NB - אן בי
@@ -62,7 +67,7 @@ export function AboutPageView() {
           </div>
           <figure className="about-split-figure">
             <div className="about-frame">
-              <img src={IMG.classic} alt="המבורגר — בשר וצריבה נכונה" width={640} height={480} loading="lazy" />
+              <img src={classic} alt="המבורגר — בשר וצריבה נכונה" width={640} height={480} loading="lazy" />
             </div>
           </figure>
         </div>
@@ -70,7 +75,7 @@ export function AboutPageView() {
         <div className="about-split about-split-img-start">
           <figure className="about-split-figure">
             <div className="about-frame about-frame-accent">
-              <img src={IMG.fries} alt="תוספות וצ׳יפס ליד הבורגר" width={640} height={480} loading="lazy" />
+              <img src={fries} alt="תוספות וצ׳יפס ליד הבורגר" width={640} height={480} loading="lazy" />
             </div>
           </figure>
           <div className="about-split-copy">
@@ -94,13 +99,13 @@ export function AboutPageView() {
         <section className="about-strip" aria-label="תמונות מהמטבח והמסעדה">
           <div className="about-strip-inner">
             <div className="about-strip-card">
-              <img src={IMG.smoked} alt="מנת המבורגר מהתפריט" width={400} height={300} loading="lazy" />
+              <img src={smoked} alt="מנת המבורגר מהתפריט" width={400} height={300} loading="lazy" />
             </div>
             <div className="about-strip-card">
-              <img src={IMG.experience} alt="חוויית האוכל ב-NB" width={400} height={300} loading="lazy" />
+              <img src={experience} alt="חוויית האוכל ב-NB" width={400} height={300} loading="lazy" />
             </div>
             <div className="about-strip-card">
-              <img src={IMG.classic} alt="המבורגר קלאסי" width={400} height={300} loading="lazy" />
+              <img src={classic} alt="המבורגר קלאסי" width={400} height={300} loading="lazy" />
             </div>
           </div>
         </section>
@@ -117,7 +122,7 @@ export function AboutPageView() {
           </div>
           <figure className="about-split-figure">
             <div className="about-frame">
-              <img src={IMG.experience} alt="אווירת המקום" width={640} height={480} loading="lazy" />
+              <img src={experience} alt="אווירת המקום" width={640} height={480} loading="lazy" />
             </div>
           </figure>
         </div>

@@ -7,7 +7,7 @@ const openingSoonItems = [
 
 export function VisitUsSection() {
   return (
-    <section className="visit-section" aria-labelledby="visit-title">
+    <section id="location" className="visit-section" aria-labelledby="visit-title">
       <div className="visit-shell">
         <div className="visit-copy">
           <p className="visit-kicker">Visit Us</p>

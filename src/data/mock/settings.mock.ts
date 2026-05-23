@@ -8,7 +8,7 @@ export const mockSiteSettings: SiteSettings = {
   seoDescription: "NB Burger מגישה המבורגרים, תוספות וארוחות בשר באווירה חמה.",
   heroMediaType: "image",
   heroMediaUrl: "/images/hero/burger-hero.png",
-  heroMediaAlt: "אווירת ערב במסעדת NB Burger עם תאורה חמה",
+  heroMediaAlt: "המבורגר על פלאנצ'ה לוהטת עם אדים ותאורה חמה",
   phone: "03-555-0000",
   email: "hello@redcow.local",
   instagramUrl: "https://instagram.com/redcow",

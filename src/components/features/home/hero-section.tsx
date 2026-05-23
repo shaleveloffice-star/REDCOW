@@ -31,18 +31,15 @@ export function HeroSection({
       <div className="hero-noise" aria-hidden="true" />
       <div className="hero-inner">
         <div className="hero-content">
-          <p className="hero-kicker">Premium Burgers</p>
-          <h1>
-            ההמבורגר הקלאסי
-            <br />
-            עשוי כמו שצריך.
-          </h1>
-          <span className="hero-divider" />
-          <p className="hero-description">
-            בשר איכותי, לחמנייה נכונה, רטבים מדויקים וחוויית אוכל נקייה שמחזירה את
-            ההמבורגר לבסיס הטוב שלו.
+          <p className="hero-taglines">
+            <span>בשר שנטחן במקום</span>
+            <span>פלאנצ&apos;ה לוהטת</span>
           </p>
+          <h1 className="hero-title">NB BURGER</h1>
           <div className="hero-actions">
+            <a className="hero-button secondary" href="/menu">
+              לתפריט
+            </a>
             <a
               className="hero-button"
               href={primaryOrderLink?.url ?? "/menu"}
@@ -50,17 +47,13 @@ export function HeroSection({
                 ? { rel: "noopener noreferrer", target: "_blank" }
                 : {})}
             >
-              הזמן עכשיו
-            </a>
-            <a className="hero-button secondary" href="/menu">
-              צפה בתפריט
+              להזמנה
             </a>
           </div>
         </div>
       </div>
-      <a className="hero-scroll" href="/menu">
-        גלול למטה
-        <span>↓</span>
+      <a className="hero-scroll" href="#quality" aria-label="גלול למטה">
+        <span aria-hidden="true">⌄</span>
       </a>
     </section>
   );

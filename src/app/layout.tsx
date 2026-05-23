@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
-import { Assistant } from "next/font/google";
+import { Assistant, Heebo } from "next/font/google";
 import "./globals.css";
 
 const assistant = Assistant({
   subsets: ["latin"],
-  weight: ["500", "600", "700"],
+  weight: ["300", "400", "500", "600", "700"],
   variable: "--font-assistant",
+  display: "swap"
+});
+
+const heebo = Heebo({
+  subsets: ["hebrew", "latin"],
+  weight: ["200", "300"],
+  variable: "--font-heebo",
   display: "swap"
 });
 
@@ -21,7 +28,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="he" dir="rtl">
-      <body className={assistant.variable}>{children}</body>
+      <body className={`${assistant.variable} ${heebo.variable}`}>{children}</body>
     </html>
   );
 }

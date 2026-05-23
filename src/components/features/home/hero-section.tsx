@@ -31,7 +31,7 @@ export function HeroSection({
 
       <div className="hero-inner">
         <div className="hero-content">
-          <p className="hero-tagline hero-tagline--1">בשר שנטחן במקום</p>
+          <p className="hero-tagline hero-tagline--1">בשרים שנטחן במקום</p>
           <p className="hero-tagline hero-tagline--2">פלאנצ&apos;ה לוהטת</p>
           <h1 className="hero-title">NB BURGER</h1>
           <div className="hero-actions">

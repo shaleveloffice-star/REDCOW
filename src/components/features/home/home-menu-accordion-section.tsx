@@ -18,10 +18,7 @@ function getCategoryImageUrl(items: MenuItem[]): string {
 
 export function HomeMenuAccordionSection({ groups }: HomeMenuAccordionSectionProps) {
   const baseId = useId();
-  const [openIds, setOpenIds] = useState<Set<string>>(() => {
-    const first = groups[0]?.id;
-    return first ? new Set([first]) : new Set();
-  });
+  const [openIds, setOpenIds] = useState<Set<string>>(() => new Set());
 
   useEffect(() => {
     const hash = window.location.hash.replace("#", "");

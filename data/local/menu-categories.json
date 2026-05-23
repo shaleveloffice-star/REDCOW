@@ -38,15 +38,5 @@
     "isActive": true,
     "createdAt": "2026-05-17T07:00:00.000Z",
     "updatedAt": "2026-05-17T07:00:00.000Z"
-  },
-  {
-    "id": "cat-desserts",
-    "name": "קינוחים",
-    "slug": "desserts",
-    "description": "סיום מתוק",
-    "sortOrder": 5,
-    "isActive": true,
-    "createdAt": "2026-05-17T07:00:00.000Z",
-    "updatedAt": "2026-05-17T07:00:00.000Z"
   }
 ]

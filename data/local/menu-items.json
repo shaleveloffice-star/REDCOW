@@ -82,14 +82,14 @@
     "description": "שניצל עוף פריך, חסה, מיונז לימון וחלה טרייה.",
     "price": 52,
     "categoryId": "cat-chicken",
-    "imageUrl": "/images/menu/red-cow-classic.png",
+    "imageUrl": "/images/site/nb_burger_chicken_80kb-1779541197569.jpg",
     "isActive": true,
     "tags": [
       "עוף"
     ],
     "sortOrder": 1,
     "createdAt": "2026-05-17T07:00:00.000Z",
-    "updatedAt": "2026-05-21T07:49:06.855Z"
+    "updatedAt": "2026-05-23T12:59:59.030Z"
   },
   {
     "id": "item-veggie-burger",
@@ -170,12 +170,12 @@
     "description": "לימונדה קרה וסחוטה.",
     "price": 14,
     "categoryId": "cat-drinks",
-    "imageUrl": "/images/experience/red-cow-experience.png",
+    "imageUrl": "/images/site/nb_burger_drink_80kb-1779540981150.jpg",
     "isActive": true,
     "tags": [],
     "sortOrder": 1,
     "createdAt": "2026-05-17T07:00:00.000Z",
-    "updatedAt": "2026-05-17T07:00:00.000Z"
+    "updatedAt": "2026-05-23T12:56:22.341Z"
   },
   {
     "id": "item-soft-drink",
@@ -215,47 +215,6 @@
     "isActive": true,
     "tags": [],
     "sortOrder": 4,
-    "createdAt": "2026-05-17T07:00:00.000Z",
-    "updatedAt": "2026-05-17T07:00:00.000Z"
-  },
-  {
-    "id": "item-brownie",
-    "name": "בראוניז שוקולד",
-    "description": "בראוניז חם עם כדור גלידת וניל.",
-    "price": 32,
-    "categoryId": "cat-desserts",
-    "imageUrl": "/images/menu/smoked-burger.png",
-    "isActive": true,
-    "tags": [],
-    "sortOrder": 1,
-    "createdAt": "2026-05-17T07:00:00.000Z",
-    "updatedAt": "2026-05-17T07:00:00.000Z"
-  },
-  {
-    "id": "item-churros",
-    "name": "צ'ורוס",
-    "description": "מקלות פריכים עם סוכר וצנובר שוקולד.",
-    "price": 26,
-    "categoryId": "cat-desserts",
-    "imageUrl": "/images/menu/red-cow-fries.png",
-    "isActive": true,
-    "tags": [
-      "צמחוני"
-    ],
-    "sortOrder": 2,
-    "createdAt": "2026-05-17T07:00:00.000Z",
-    "updatedAt": "2026-05-17T07:00:00.000Z"
-  },
-  {
-    "id": "item-cheesecake",
-    "name": "עוגת גבינה",
-    "description": "קרם גבינה אפוי על בסיס ביסקוויט ורוטד פירות יער.",
-    "price": 34,
-    "categoryId": "cat-desserts",
-    "imageUrl": "/images/menu/red-cow-classic.png",
-    "isActive": true,
-    "tags": [],
-    "sortOrder": 3,
     "createdAt": "2026-05-17T07:00:00.000Z",
     "updatedAt": "2026-05-17T07:00:00.000Z"
   }

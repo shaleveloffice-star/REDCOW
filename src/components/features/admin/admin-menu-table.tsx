@@ -12,7 +12,7 @@ import { createId } from "@/lib/admin/new-id";
 import { deleteMenuItemAction, saveMenuItemAction } from "@/server/actions/menu.actions";
 import { uploadMenuImageAction } from "@/server/actions/upload.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
-import { useEffect, useState, type ChangeEvent } from "react";
+import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 
 function newMenuItem(categories: MenuCategory[], items: MenuItem[]): MenuItem {
   const now = new Date().toISOString();
@@ -39,11 +39,40 @@ export function AdminMenuTable({
   categories: MenuCategory[];
 }) {
   const categoryById = Object.fromEntries(categories.map((c) => [c.id, c.name]));
+  const sortedCategories = useMemo(
+    () => [...categories].sort((a, b) => a.sortOrder - b.sortOrder),
+    [categories]
+  );
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [rows, setRows] = useState(items);
+  const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [draft, setDraft] = useState<MenuItem | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
   const isNew = draft ? !rows.some((i) => i.id === draft.id) : false;
+
+  const countByCategory = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const row of rows) {
+      counts[row.categoryId] = (counts[row.categoryId] ?? 0) + 1;
+    }
+    return counts;
+  }, [rows]);
+
+  const filteredRows = useMemo(() => {
+    const list = categoryFilter
+      ? rows.filter((row) => row.categoryId === categoryFilter)
+      : rows;
+    return [...list].sort((a, b) => {
+      if (a.sortOrder !== b.sortOrder) {
+        return a.sortOrder - b.sortOrder;
+      }
+      return a.name.localeCompare(b.name, "he");
+    });
+  }, [rows, categoryFilter]);
+
+  const activeCategory = categoryFilter
+    ? sortedCategories.find((category) => category.id === categoryFilter)
+    : null;
 
   useEffect(() => {
     setRows(items);
@@ -85,53 +114,110 @@ export function AdminMenuTable({
   const menuImageSrc = (item: MenuItem) =>
     item.imageUrl.includes("?") ? item.imageUrl : `${item.imageUrl}?v=${encodeURIComponent(item.updatedAt)}`;
 
+  const openNewItem = () => {
+    const item = newMenuItem(categories, rows);
+    if (categoryFilter) {
+      const inCategory = rows.filter((row) => row.categoryId === categoryFilter);
+      item.categoryId = categoryFilter;
+      item.sortOrder =
+        inCategory.reduce((max, row) => Math.max(max, row.sortOrder), 0) + 1;
+    }
+    setDraft(item);
+  };
+
   return (
     <>
-      <AdminToolbar label="הוסף מנה" onAdd={() => setDraft(newMenuItem(categories, rows))} />
+      <nav className="admin-menu-category-nav" aria-label="סינון לפי קטגוריה">
+        <button
+          type="button"
+          className={`admin-menu-category-chip${categoryFilter === null ? " is-active" : ""}`}
+          aria-pressed={categoryFilter === null}
+          onClick={() => setCategoryFilter(null)}
+        >
+          הכל
+          <span className="admin-menu-category-count">{rows.length}</span>
+        </button>
+        {sortedCategories.map((category) => (
+          <button
+            key={category.id}
+            type="button"
+            className={`admin-menu-category-chip${categoryFilter === category.id ? " is-active" : ""}`}
+            aria-pressed={categoryFilter === category.id}
+            onClick={() => setCategoryFilter(category.id)}
+          >
+            {category.name}
+            <span className="admin-menu-category-count">{countByCategory[category.id] ?? 0}</span>
+          </button>
+        ))}
+      </nav>
+
+      <AdminToolbar
+        label={activeCategory ? `הוסף מנה ל־${activeCategory.name}` : "הוסף מנה"}
+        onAdd={openNewItem}
+      />
+
+      {activeCategory ? (
+        <p className="admin-menu-filter-hint muted">
+          מציג {filteredRows.length} מנות בקטגוריה «{activeCategory.name}» — לפי סדר תצוגה
+        </p>
+      ) : null}
+
       <table className="table">
         <thead>
           <tr>
+            <th style={{ width: 56 }}>סדר</th>
             <th style={{ width: 72 }}>תמונה</th>
             <th>מנה</th>
-            <th>קטגוריה</th>
+            {!categoryFilter ? <th>קטגוריה</th> : null}
             <th>מחיר</th>
             <th>סטטוס</th>
             <th style={{ width: 160 }}>פעולות</th>
           </tr>
         </thead>
         <tbody>
-          {rows.map((item) => (
-            <tr key={item.id}>
-              <td>
-                <img
-                  alt=""
-                  className="admin-menu-thumb"
-                  height={56}
-                  src={menuImageSrc(item)}
-                  width={56}
-                  loading="lazy"
-                />
-              </td>
-              <td>
-                <strong>{item.name}</strong>
-                <p className="muted" style={{ margin: "6px 0 0", maxWidth: 420 }}>
-                  {item.description}
-                </p>
-              </td>
-              <td>{categoryById[item.categoryId] ?? "—"}</td>
-              <td>{item.price} ש&quot;ח</td>
-              <td>
-                <StatusBadge active={item.isActive} />
-              </td>
-              <td>
-                <AdminRowActions
-                  disabled={isPending}
-                  onDelete={() => handleDelete(item)}
-                  onEdit={() => setDraft({ ...item })}
-                />
+          {filteredRows.length === 0 ? (
+            <tr>
+              <td className="admin-menu-empty" colSpan={categoryFilter ? 6 : 7}>
+                {activeCategory
+                  ? `אין מנות בקטגוריה «${activeCategory.name}». לחץ «הוסף מנה ל־${activeCategory.name}».`
+                  : "אין מנות בתפריט."}
               </td>
             </tr>
-          ))}
+          ) : (
+            filteredRows.map((item) => (
+              <tr key={item.id}>
+                <td className="admin-menu-sort">{item.sortOrder}</td>
+                <td>
+                  <img
+                    alt=""
+                    className="admin-menu-thumb"
+                    height={56}
+                    src={menuImageSrc(item)}
+                    width={56}
+                    loading="lazy"
+                  />
+                </td>
+                <td>
+                  <strong>{item.name}</strong>
+                  <p className="muted" style={{ margin: "6px 0 0", maxWidth: 420 }}>
+                    {item.description}
+                  </p>
+                </td>
+                {!categoryFilter ? <td>{categoryById[item.categoryId] ?? "—"}</td> : null}
+                <td>{item.price} ש&quot;ח</td>
+                <td>
+                  <StatusBadge active={item.isActive} />
+                </td>
+                <td>
+                  <AdminRowActions
+                    disabled={isPending}
+                    onDelete={() => handleDelete(item)}
+                    onEdit={() => setDraft({ ...item })}
+                  />
+                </td>
+              </tr>
+            ))
+          )}
         </tbody>
       </table>
 

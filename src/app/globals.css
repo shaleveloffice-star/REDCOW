@@ -2313,8 +2313,9 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
   }
 
   .hero-taglines {
-    margin-bottom: 48px;
-    font-size: clamp(19px, 7.5vw, 27px);
+    margin-bottom: 53px;
+    font-family: var(--font-heebo), "Heebo", system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: clamp(14px, 7.5vw, 22px);
     font-weight: 100;
   }
 

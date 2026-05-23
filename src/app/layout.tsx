@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Assistant, Heebo } from "next/font/google";
+import { Assistant, Heebo, Playfair_Display } from "next/font/google";
 import "./globals.css";
 
 const assistant = Assistant({
@@ -16,6 +16,13 @@ const heebo = Heebo({
   display: "swap"
 });
 
+const playfair = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "700"],
+  variable: "--font-playfair",
+  display: "swap"
+});
+
 export const metadata: Metadata = {
   title: "NB Burger",
   description: "NB Burger restaurant website with a local Firebase-ready architecture."
@@ -28,7 +35,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="he" dir="rtl">
-      <body className={`${assistant.variable} ${heebo.variable}`}>{children}</body>
+      <body className={`${assistant.variable} ${heebo.variable} ${playfair.variable}`}>
+        {children}
+      </body>
     </html>
   );
 }

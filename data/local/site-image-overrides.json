@@ -1,1 +1,23 @@
-[]
+[
+  {
+    "id": "plancha-bite",
+    "imageUrl": "/images/site/nb_burger_hero_80kb-1779542229441.jpg",
+    "label": "הביס",
+    "hidden": false,
+    "updatedAt": "2026-05-23T13:17:11.055Z"
+  },
+  {
+    "id": "plancha-burgers",
+    "imageUrl": "/images/site/nb_burger_board_80kb-1779542501018.jpg",
+    "label": "מבחר המבורגרים",
+    "hidden": false,
+    "updatedAt": "2026-05-23T13:21:42.174Z"
+  },
+  {
+    "id": "kitchen-burger",
+    "imageUrl": "/images/site/nb_burger_hero_80kb-1779542522543.jpg",
+    "label": "המבורגרים",
+    "hidden": false,
+    "updatedAt": "2026-05-23T13:22:03.464Z"
+  }
+]

@@ -1656,37 +1656,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .atmosphere-lead {
   max-width: 22rem;
-  margin: 0 0 40px;
+  margin: 0;
   color: var(--home-text-muted);
   font-size: clamp(17px, 4vw, 20px);
   line-height: 1.75;
-}
-
-.atmosphere-cta {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  width: fit-content;
-  padding: 12px 32px;
-  border: 1px solid rgba(255, 247, 237, 0.3);
-  color: rgba(255, 247, 237, 0.8);
-  font-family: var(--font-button);
-  font-size: 14px;
-  letter-spacing: 0.06em;
-  text-decoration: none;
-  transition:
-    border-color var(--motion-short) ease,
-    color var(--motion-short) ease;
-}
-
-.atmosphere-cta:hover {
-  border-color: #ffe1ba;
-  color: #ffe1ba;
-}
-
-.atmosphere-cta-icon {
-  width: 16px;
-  height: 16px;
 }
 
 .atmosphere-gallery-grid {

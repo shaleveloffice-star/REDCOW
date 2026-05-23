@@ -1,7 +1,6 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowLeft } from "lucide-react";
 
 import {
   ATMOSPHERE_FOOD_IMAGE,
@@ -42,17 +41,6 @@ export function AtmosphereSection({ siteImages }: AtmosphereSectionProps) {
             <br />
             ואנשים שכיף לשבת איתם.
           </motion.p>
-          <motion.a
-            href="#location"
-            className="atmosphere-cta"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.5, duration: 0.8 }}
-          >
-            <span>הצצה למקום</span>
-            <ArrowLeft className="atmosphere-cta-icon" strokeWidth={1.5} aria-hidden="true" />
-          </motion.a>
         </div>
 
         <div className="atmosphere-gallery">

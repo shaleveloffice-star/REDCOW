@@ -35,12 +35,12 @@ export function HeroSection({
           <p className="hero-tagline hero-tagline--2">פלאנצ&apos;ה לוהטת</p>
           <h1 className="hero-title">NB BURGER</h1>
           <div className="hero-actions">
-            <a className="hero-button hero-button--menu" href="/menu">
+            <a className="hero-button hero-button--menu" href="#menu">
               לתפריט
             </a>
             <a
               className="hero-button hero-button--order"
-              href={primaryOrderLink?.url ?? "/menu"}
+              href={primaryOrderLink?.url ?? "#menu"}
               {...(primaryOrderLink
                 ? { rel: "noopener noreferrer", target: "_blank" }
                 : {})}

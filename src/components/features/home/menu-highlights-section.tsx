@@ -27,7 +27,7 @@ export function MenuHighlightsSection({
             </article>
           ))}
         </div>
-        <Link className="menu-highlights-button" href="/menu">
+        <Link className="menu-highlights-button" href="/#menu">
           צפה בתפריט המלא
         </Link>
       </div>

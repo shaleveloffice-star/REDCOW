@@ -1,4 +1,3 @@
-import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 
 function InstagramIcon() {
@@ -28,12 +27,18 @@ const footerNavLinks = [
   { label: "דף הבית", href: "/#hero" },
   { label: "על הפלנצ׳ה", href: "/#plancha" },
   { label: "מה יוצא מהמטבח", href: "/#kitchen" },
+  { label: "התפריט", href: "/#menu" },
   { label: "האווירה", href: "/#atmosphere" },
   { label: "מיקום ושעות", href: "/#location" },
   { label: "ניהול", href: "/admin" }
 ];
 
-const footerMenuItems = ["המבורגרים", "תוספות", "רטבים", "שתייה"];
+const footerMenuItems = [
+  { label: "המבורגרים", href: "/#menu-burgers" },
+  { label: "תוספות", href: "/#menu-sides" },
+  { label: "שתייה", href: "/#menu-drinks" },
+  { label: "קינוחים", href: "/#menu-desserts" }
+];
 
 export function SiteFooter() {
   return (
@@ -124,9 +129,9 @@ export function SiteFooter() {
             </h4>
             <div className="site-footer-links">
               {footerMenuItems.map((item) => (
-                <Link key={item} href="/menu">
-                  {item}
-                </Link>
+                <a key={item.href} href={item.href}>
+                  {item.label}
+                </a>
               ))}
             </div>
           </section>

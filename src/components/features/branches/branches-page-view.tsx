@@ -24,7 +24,7 @@ function BranchesComingSoon() {
           <a className="visit-primary" href="#contact">
             עדכנו אותי בפתיחה
           </a>
-          <Link className="visit-secondary" href="/menu">
+          <Link className="visit-secondary" href="/#menu">
             צפו בתפריט
             <span>‹</span>
           </Link>

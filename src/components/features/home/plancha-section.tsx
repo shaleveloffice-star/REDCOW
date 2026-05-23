@@ -109,7 +109,7 @@ export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
         {footerImage ? <img src={footerImage} alt="מבחר המבורגרים" /> : null}
         <div className="plancha-hero-scrim plancha-hero-scrim--bottom" aria-hidden="true" />
         <div className="plancha-footer-cta-wrap">
-          <a className="plancha-footer-cta" href="#kitchen">
+          <a className="plancha-footer-cta" href="#menu">
             <span aria-hidden="true">←</span>
             <span>לתפריט שלנו</span>
           </a>

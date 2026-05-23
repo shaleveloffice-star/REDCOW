@@ -11,7 +11,7 @@ import {
 } from "@/services/menu.service";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
-const menuPaths = ["/admin/menu", "/admin/menu-categories", "/menu", "/"];
+const menuPaths = ["/admin/menu", "/admin/menu-categories", "/"];
 
 export async function getMenuAdminData() {
   const [items, categories] = await Promise.all([listMenuItems(), listMenuCategories()]);

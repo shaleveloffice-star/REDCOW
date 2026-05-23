@@ -40,7 +40,7 @@ export function AboutPageView({ siteImages }: AboutPageViewProps) {
             <span className="about-hero-sub-break">אנחנו לא שם.</span>
           </p>
           <div className="about-hero-cta">
-            <Link className="about-btn about-btn-primary" href="/menu">
+            <Link className="about-btn about-btn-primary" href="/#menu">
               לתפריט
             </Link>
             <a className="about-btn about-btn-ghost" href="/branches">
@@ -154,7 +154,7 @@ export function AboutPageView({ siteImages }: AboutPageViewProps) {
 
         <div className="about-bottom-cta">
           <p className="about-bottom-cta-text">מוכנים לביס הבא?</p>
-          <Link className="about-btn about-btn-primary about-btn-lg" href="/menu">
+          <Link className="about-btn about-btn-primary about-btn-lg" href="/#menu">
             לתפריט המלא
           </Link>
         </div>

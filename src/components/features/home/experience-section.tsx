@@ -31,7 +31,7 @@ export function ExperienceSection() {
               </div>
             ))}
           </div>
-          <a className="experience-button" href="/menu">
+          <a className="experience-button" href="/#menu">
             צפה בתפריט
           </a>
         </div>

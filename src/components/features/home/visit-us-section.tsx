@@ -26,7 +26,7 @@ export function VisitUsSection() {
             <a className="visit-primary" href="#contact">
               עדכנו אותי בפתיחה
             </a>
-            <a className="visit-secondary" href="/menu">
+            <a className="visit-secondary" href="/#menu">
               צפו בתפריט
               <span>‹</span>
             </a>

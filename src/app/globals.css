@@ -2306,8 +2306,10 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
   }
 
   .hero-content {
-    width: min(100%, 100%);
-    padding-inline: 4px;
+    width: 100%;
+    max-width: 100%;
+    padding-inline: 16px;
+    box-sizing: border-box;
   }
 
   .hero-taglines {
@@ -2318,9 +2320,13 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
 
   .hero-title,
   .hero h1.hero-title {
+    width: 100%;
+    max-width: 100%;
     margin-bottom: 28px;
-    font-size: clamp(60px, 9.8vw, 78px);
-    letter-spacing: 0.08em;
+    font-size: clamp(38px, 11.5vw, 54px);
+    letter-spacing: 0.05em;
+    direction: ltr;
+    unicode-bidi: isolate;
   }
 
   .hero-actions {
@@ -2516,6 +2522,14 @@ body:not(:has(.admin-layout)):has(main > .hero) .site-nav {
 
   .footer-socials {
     justify-content: center;
+  }
+}
+
+@media (max-width: 380px) {
+  .hero-title,
+  .hero h1.hero-title {
+    font-size: clamp(32px, 10.5vw, 42px);
+    letter-spacing: 0.04em;
   }
 }
 

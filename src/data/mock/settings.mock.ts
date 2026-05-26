@@ -7,9 +7,8 @@ export const mockSiteSettings: SiteSettings = {
   seoTitle: "NB Burger | המבורגרים, גריל ואווירה",
   seoDescription: "NB Burger מגישה המבורגרים, תוספות וארוחות בשר באווירה חמה.",
   heroMediaType: "image",
-  heroMediaUrl:
-    "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/ea8949b75_generated_08678c13.png",
-  heroMediaAlt: "המבורגר על פלאנצ'ה לוהטת עם אדים ותאורה חמה",
+  heroMediaUrl: "/images/hero/nb-burger-hero.jpg",
+  heroMediaAlt: "קציצת בשר על גריל חם עם אדים ותאורה חמה",
   phone: "072-3945454",
   email: "hello@nbburger.co.il",
   instagramUrl: "https://instagram.com",

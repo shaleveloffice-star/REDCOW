@@ -2,8 +2,7 @@ import type { SiteImageCatalogItem, SiteImageGroup } from "@/types/site-images";
 
 export const SITE_LOGO_SRC = "/images/brand/nb-burger-logo.png";
 
-export const HERO_DEFAULT_IMAGE_URL =
-  "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/ea8949b75_generated_08678c13.png";
+export const HERO_DEFAULT_IMAGE_URL = "/images/hero/nb-burger-hero.jpg";
 
 export const PLANCHA_HERO_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/fc6fd6ffa_generated_6a27dd75.png";

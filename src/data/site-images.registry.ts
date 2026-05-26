@@ -8,8 +8,7 @@ export const PLANCHA_HERO_IMAGE = "/images/plancha/plancha-hero.jpg";
 export const PLANCHA_MEAT_IMAGE = "/images/plancha/plancha-meat.jpg";
 export const PLANCHA_SEAR_IMAGE = "/images/plancha/plancha-sear.jpg";
 export const PLANCHA_BITE_IMAGE = "/images/plancha/plancha-bite.jpg";
-export const PLANCHA_BURGERS_IMAGE =
-  "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/b1ad5e10e_generated_fc149b91.png";
+export const PLANCHA_BURGERS_IMAGE = "/images/plancha/plancha-burgers.jpg";
 
 export const KITCHEN_BURGER_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/250dd08d5_generated_50e0af93.png";

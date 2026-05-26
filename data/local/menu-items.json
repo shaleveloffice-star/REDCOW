@@ -5,7 +5,7 @@
     "description": "קציצת בקר, חסה, עגבנייה, בצל סגול ורוטב הבית.",
     "price": 58,
     "categoryId": "cat-burgers",
-    "imageUrl": "/images/menu/red-cow-classic.png",
+    "imageUrl": "/images/menu/nb-single-burger.jpg",
     "isActive": true,
     "tags": [
       "מומלץ",

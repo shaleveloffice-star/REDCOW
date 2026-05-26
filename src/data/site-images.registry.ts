@@ -4,14 +4,10 @@ export const SITE_LOGO_SRC = "/images/brand/nb-burger-logo.png";
 
 export const HERO_DEFAULT_IMAGE_URL = "/images/hero/nb-burger-hero.jpg";
 
-export const PLANCHA_HERO_IMAGE =
-  "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/fc6fd6ffa_generated_6a27dd75.png";
-export const PLANCHA_MEAT_IMAGE =
-  "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/21643f3fd_generated_7967e20d.png";
-export const PLANCHA_SEAR_IMAGE =
-  "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/d08d12d07_generated_1c743746.png";
-export const PLANCHA_BITE_IMAGE =
-  "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/87923e711_generated_8b7dae79.png";
+export const PLANCHA_HERO_IMAGE = "/images/plancha/plancha-hero.jpg";
+export const PLANCHA_MEAT_IMAGE = "/images/plancha/plancha-meat.jpg";
+export const PLANCHA_SEAR_IMAGE = "/images/plancha/plancha-sear.jpg";
+export const PLANCHA_BITE_IMAGE = "/images/plancha/plancha-bite.jpg";
 export const PLANCHA_BURGERS_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/b1ad5e10e_generated_fc149b91.png";
 
@@ -21,8 +17,7 @@ export const KITCHEN_SIDES_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/0839e085a_generated_166b5f83.png";
 export const KITCHEN_SAUCES_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/81424122c_generated_cf166321.png";
-export const KITCHEN_GRILL_IMAGE =
-  "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/59d513b52_generated_30699263.png";
+export const KITCHEN_GRILL_IMAGE = "/images/kitchen/kitchen-footer.jpg";
 
 export const ATMOSPHERE_WIDE_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/66d0f2dd1_generated_bc1a932d.png";

@@ -53,7 +53,9 @@ export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
   return (
     <section id="plancha" className="plancha-section" aria-labelledby="plancha-title">
       <div className="plancha-hero-media">
-        {heroImage ? <img src={heroImage} alt="הפלנצ׳ה" /> : null}
+        {heroImage ? (
+          <img src={heroImage} alt="קציצות בשר על פלנצ׳ה עם להבות" />
+        ) : null}
         <div className="plancha-hero-scrim plancha-hero-scrim--top" aria-hidden="true" />
       </div>
 

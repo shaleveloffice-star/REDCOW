@@ -15,11 +15,14 @@ const navLinks = [
   { label: "ניהול", href: "/admin" }
 ];
 
+const PENDING_MENU_TITLE = "האתר ממתין לתפריט מאושר אלחייק";
+
 type SiteNavbarProps = {
   overlay?: boolean;
+  showPendingMenuTitle?: boolean;
 };
 
-export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
+export function SiteNavbar({ overlay = false, showPendingMenuTitle = true }: SiteNavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   useEffect(() => {
@@ -62,6 +65,12 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
           </button>
         </nav>
       </header>
+
+      {showPendingMenuTitle ? (
+        <p className="site-pending-menu-title" role="status">
+          {PENDING_MENU_TITLE}
+        </p>
+      ) : null}
 
       <AnimatePresence>
         {isOpen ? (

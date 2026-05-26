@@ -5,7 +5,6 @@ const navItems = [
   { href: "/admin/menu", label: "ניהול תפריט" },
   { href: "/admin/menu-categories", label: "קטגוריות תפריט" },
   { href: "/admin/branches", label: "סניפים" },
-  { href: "/admin/site-images", label: "תמונות באתר" },
   { href: "/admin/press", label: "כתבות" },
   { href: "/admin/contact-messages", label: "הודעות יצירת קשר" },
   { href: "/admin/career-applications", label: "קורות חיים" },

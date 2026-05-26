@@ -97,7 +97,7 @@ export function KitchenSection({ siteImages }: KitchenSectionProps) {
       </div>
 
       <div className="kitchen-footer-media">
-        <img src={grillImage} alt="פלנצ׳ה בוערת" />
+        <img src={grillImage} alt="מבחר מנות מהמטבח — המבורגר, תוספות ועוד" />
         <div className="kitchen-footer-scrim" aria-hidden="true" />
       </div>
     </section>

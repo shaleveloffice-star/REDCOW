@@ -53,7 +53,6 @@ export function HeroSection({
         <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-vignette" aria-hidden="true" />
         <div className="hero-grain" aria-hidden="true" />
-        <div className="hero-glow" aria-hidden="true" />
       </div>
 
       <div className="hero-inner">

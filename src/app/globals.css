@@ -1,4 +1,4 @@
-:root {
+﻿:root {
   --background: #030303;
   --foreground: #fff7ed;
   --muted: #b99883;
@@ -517,22 +517,11 @@ select {
 
 @keyframes hero-ken-burns {
   0% {
-    transform: scale(1.04) translate3d(0, 0, 0);
+    transform: scale(1.08);
   }
 
   100% {
-    transform: scale(1.12) translate3d(-1.2%, -0.8%, 0);
-  }
-}
-
-@keyframes hero-glow-breathe {
-  0%,
-  100% {
-    opacity: 0.45;
-  }
-
-  50% {
-    opacity: 0.72;
+    transform: scale(1.14);
   }
 }
 
@@ -554,16 +543,19 @@ select {
 
 .hero {
   position: relative;
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
+  height: 100svh;
   min-height: 100svh;
-  overflow: hidden;
+  margin-bottom: -48px;
+  overflow: visible;
   isolation: isolate;
   padding: 0;
-  background: #030303;
+  background: transparent;
 }
 
 .hero--cinematic {
@@ -573,20 +565,22 @@ select {
 
 .hero-visual {
   position: absolute;
-  inset: 0;
+  top: 0;
+  right: 0;
+  bottom: -48px;
+  left: 0;
   z-index: 0;
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   pointer-events: none;
 }
 
 .hero-visual-media {
   position: absolute;
-  inset: -4%;
+  inset: -12%;
   z-index: 0;
-  width: 108%;
-  height: 108%;
+  width: 124%;
+  height: 124%;
+  transform-origin: center center;
   will-change: transform;
 }
 
@@ -602,7 +596,7 @@ select {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 42%;
+  object-position: center center;
 }
 
 .hero-scrim {
@@ -610,9 +604,7 @@ select {
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background:
-    linear-gradient(180deg, rgba(3, 3, 3, 0.55) 0%, rgba(3, 3, 3, 0.2) 38%, rgba(3, 3, 3, 0.75) 100%),
-    linear-gradient(90deg, rgba(3, 3, 3, 0.65) 0%, transparent 28%, transparent 72%, rgba(3, 3, 3, 0.65) 100%);
+  background: rgba(3, 3, 3, 0.42);
 }
 
 .hero-vignette {
@@ -620,7 +612,7 @@ select {
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.55);
+  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.28);
 }
 
 .hero-grain {
@@ -633,16 +625,6 @@ select {
   mix-blend-mode: soft-light;
 }
 
-.hero-glow {
-  position: absolute;
-  inset: auto 0 18% 0;
-  z-index: 2;
-  height: 42%;
-  pointer-events: none;
-  background: radial-gradient(ellipse 70% 55% at 50% 100%, rgba(197, 160, 89, 0.22), transparent 68%);
-  animation: hero-glow-breathe 6s ease-in-out infinite;
-}
-
 .hero-inner {
   position: relative;
   z-index: 2;
@@ -651,7 +633,7 @@ select {
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 100svh;
+  min-height: 0;
   padding: 88px 24px 80px;
 }
 
@@ -903,7 +885,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 @media (prefers-reduced-motion: reduce) {
   .hero-visual-media--alive,
-  .hero-glow,
   .hero-title-shine::after,
   .hero-scroll {
     animation: none;
@@ -1194,6 +1175,9 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .plancha-section {
+  position: relative;
+  z-index: 1;
+  margin-top: -48px;
   background: #030303;
   overflow: hidden;
 }
@@ -1222,9 +1206,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .plancha-hero-scrim--top {
   background: linear-gradient(
     to bottom,
-    rgba(3, 3, 3, 0.4) 0%,
-    transparent 45%,
-    #030303 100%
+    transparent 0%,
+    transparent 14%,
+    rgba(3, 3, 3, 0.22) 48%,
+    rgba(3, 3, 3, 0.55) 100%
   );
 }
 

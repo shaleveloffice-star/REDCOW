@@ -53,11 +53,11 @@ export function HeroSection({
         <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-vignette" aria-hidden="true" />
         <div className="hero-grain" aria-hidden="true" />
-        <div className="hero-glow" aria-hidden="true" />
       </div>
 
       <div className="hero-inner">
         <div className="hero-content">
+          <div className="hero-intro">
           <motion.div
             className="hero-ornament"
             aria-hidden="true"
@@ -92,6 +92,7 @@ export function HeroSection({
           <motion.p className="hero-tagline hero-tagline--2" {...fadeUp(0.38)}>
             פלאנצ&apos;ה לוהטת
           </motion.p>
+          </div>
 
           <motion.h1 className="hero-title" {...fadeUp(0.62)}>
             <img

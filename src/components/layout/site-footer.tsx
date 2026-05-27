@@ -21,7 +21,7 @@ function FacebookIcon() {
   );
 }
 
-const MAPS_URL = "https://maps.google.com/?q=רח+המלאכה+12+נתניה";
+const MAPS_URL = "https://maps.google.com/?q=רח+ויצמן+1+כפר+סבא";
 
 const footerNavLinks = [
   { label: "דף הבית", href: "/#hero" },
@@ -29,8 +29,7 @@ const footerNavLinks = [
   { label: "מה יוצא מהמטבח", href: "/#kitchen" },
   { label: "התפריט", href: "/#menu" },
   { label: "האווירה", href: "/#atmosphere" },
-  { label: "מיקום ושעות", href: "/#location" },
-  { label: "ניהול", href: "/admin" }
+  { label: "מיקום ושעות", href: "/#location" }
 ];
 
 const footerMenuItems = [
@@ -65,13 +64,13 @@ export function SiteFooter() {
               צרו קשר
             </h4>
             <div className="site-footer-contact-list">
-              <a href="tel:072-3945454" className="site-footer-contact-link">
+              <a href="tel:12345678" className="site-footer-contact-link">
                 <Phone className="site-footer-icon" strokeWidth={1.5} aria-hidden="true" />
-                <span>072-3945454</span>
+                <span>12345678</span>
               </a>
               <p className="site-footer-contact-item">
                 <MapPin className="site-footer-icon" strokeWidth={1.5} aria-hidden="true" />
-                <span>רח׳ המלאכה 12, נתניה</span>
+                <span>רח׳ ויצמן 1, כפר סבא</span>
               </p>
               <a href="mailto:hello@nbburger.co.il" className="site-footer-contact-link">
                 <Mail className="site-footer-icon" strokeWidth={1.5} aria-hidden="true" />
@@ -140,10 +139,21 @@ export function SiteFooter() {
 
       <div className="site-footer-bar">
         <div className="site-footer-bar-inner">
-          <p>© 2024 NB BURGER - כל הזכויות שמורות</p>
+          <p>© 2026 NB BURGER - כל הזכויות שמורות</p>
           <p className="site-footer-est">
-            EST. <span>NB</span> BURGER 2024
+            EST. <span>NB</span> BURGER 2026
           </p>
+          <div className="site-footer-legal-links">
+            <a className="site-footer-legal-link" href="/privacy-policy">
+              מדיניות פרטיות
+            </a>
+            <span className="site-footer-legal-sep" aria-hidden="true">
+              ·
+            </span>
+            <a className="site-footer-legal-link" href="/terms">
+              תקנון האתר
+            </a>
+          </div>
           <p>לכל אירוע, בכל שעה. ביס אחד שלא תשכחו.</p>
         </div>
       </div>

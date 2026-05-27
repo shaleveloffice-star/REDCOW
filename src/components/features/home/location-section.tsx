@@ -7,7 +7,7 @@ import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
-const MAPS_URL = "https://maps.google.com/?q=רח+המלאכה+12+נתניה";
+const MAPS_URL = "https://maps.google.com/?q=רח+ויצמן+1+כפר+סבא";
 
 type LocationSectionProps = {
   siteImages?: SiteImagesMap;
@@ -43,7 +43,7 @@ export function LocationSection({ siteImages }: LocationSectionProps) {
               <MapPin className="location-block-icon" strokeWidth={1.5} aria-hidden="true" />
               <h3>מיקום</h3>
             </div>
-            <p className="location-block-text">רח׳ המלאכה 12, נתניה</p>
+            <p className="location-block-text">רח׳ ויצמן 1, כפר סבא</p>
             <p className="location-block-text">חניה חופשית בשפע</p>
           </motion.div>
 

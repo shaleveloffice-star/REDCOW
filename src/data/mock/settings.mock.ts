@@ -9,7 +9,7 @@ export const mockSiteSettings: SiteSettings = {
   heroMediaType: "image",
   heroMediaUrl: "/images/hero/nb-burger-hero.jpg",
   heroMediaAlt: "קציצת בשר על גריל חם עם אדים ותאורה חמה",
-  phone: "072-3945454",
+  phone: "12345678",
   email: "hello@nbburger.co.il",
   instagramUrl: "https://instagram.com",
   orderDeliveryUrl: "https://example.com/delivery",

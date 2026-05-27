@@ -87,15 +87,20 @@ export function HeroSection({
           </motion.div>
 
           <motion.p className="hero-tagline hero-tagline--1" {...fadeUp(0.25)}>
-            בשרים שנטחן במקום
+            בשר שנטחן במקום
           </motion.p>
           <motion.p className="hero-tagline hero-tagline--2" {...fadeUp(0.38)}>
             פלאנצ&apos;ה לוהטת
           </motion.p>
 
           <motion.h1 className="hero-title" {...fadeUp(0.62)}>
-            <span className="hero-title-word">NB</span>
-            <span className="hero-title-word hero-title-word--accent">BURGER</span>
+            <img
+              className="hero-logo"
+              src="/images/brand/nb-burger-wordmark-alpha.png?v=4"
+              alt="NB BURGER"
+              width={520}
+              height={230}
+            />
           </motion.h1>
 
           <motion.div className="hero-title-shine" aria-hidden="true" {...fadeUp(0.72)} />

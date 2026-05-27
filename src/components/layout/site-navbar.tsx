@@ -46,7 +46,13 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
       <header className={navClass}>
         <nav className="site-navbar-inner" aria-label="ניווט ראשי">
           <Link href="/#hero" className="site-navbar-brand">
-            NB BURGER
+            <img
+              className="site-navbar-logo"
+              src="/images/brand/nb-burger-wordmark-alpha.png?v=4"
+              alt="NB BURGER"
+              width={160}
+              height={72}
+            />
           </Link>
           <button
             type="button"

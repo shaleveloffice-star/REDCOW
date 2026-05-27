@@ -16,13 +16,13 @@ const menuCards = [
     id: "kitchen-burger",
     img: KITCHEN_BURGER_IMAGE,
     title: "המבורגרים",
-    desc: "בשר שנטחן במקום, פלאצ׳ה לוהטת ולחמנייה רכה."
+    desc: "קציצת בשר עסיסית, לחמנייה רכה וכל מה שצריך בפנים."
   },
   {
     id: "kitchen-sides",
     img: KITCHEN_SIDES_IMAGE,
     title: "תוספות",
-    desc: "צ׳יפס פריך, מנות צד המות ודברים שסוגרים שולחן."
+    desc: "כנפיים, עוף וצ׳יפס שפותחים את התיאבון."
   },
   {
     id: "kitchen-sauces",
@@ -67,9 +67,7 @@ export function KitchenSection({ siteImages }: KitchenSectionProps) {
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          המבורגרים שנבנים נכון, תוספות המות,
-          <br />
-          צ׳יפס פריך ורוטבים שמחזיקים את הביס בלי להשתלט עליו.
+          כל מה שצריך ליד ההמבורגר
         </motion.p>
       </div>
 

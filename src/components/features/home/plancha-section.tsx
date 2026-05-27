@@ -77,7 +77,7 @@ export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          בשר שנטחן במקום, חום גבוה וביס שנבנה בלי קיצורי דרך.
+          הבשר מגיע טרי, ניטחן במקום ועולה ישר לאש.
         </motion.p>
       </div>
 

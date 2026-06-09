@@ -1,7 +1,6 @@
 import { HeroSection } from "@/components/features/home/hero-section";
 import { AtmosphereSection } from "@/components/features/home/atmosphere-section";
-import { HomeMenuAccordionSection } from "@/components/features/home/home-menu-accordion-section";
-import { KitchenSection } from "@/components/features/home/kitchen-section";
+import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
 import { PlanchaSection } from "@/components/features/home/plancha-section";
 import { LocationSection } from "@/components/features/home/location-section";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -23,9 +22,8 @@ export default async function HomePage() {
       <SiteHeader overlay />
       <main>
         <HeroSection settings={settings} orderLinks={orderLinks} />
+        <HomeMenuShowcaseSection groups={menuGroups} />
         <PlanchaSection siteImages={siteImages} />
-        <KitchenSection siteImages={siteImages} />
-        <HomeMenuAccordionSection groups={menuGroups} />
         <AtmosphereSection siteImages={siteImages} />
         <LocationSection siteImages={siteImages} />
       </main>

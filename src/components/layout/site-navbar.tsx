@@ -7,9 +7,8 @@ import { useEffect, useState } from "react";
 
 const navLinks = [
   { label: "דף הבית", href: "/#hero" },
-  { label: "על הפלנצ׳ה", href: "/#plancha" },
-  { label: "מה יוצא מהמטבח", href: "/#kitchen" },
   { label: "התפריט", href: "/#menu" },
+  { label: "על הפלנצ׳ה", href: "/#plancha" },
   { label: "האווירה", href: "/#atmosphere" },
   { label: "מיקום ושעות", href: "/#location" }
 ];

@@ -25,19 +25,13 @@ const MAPS_URL = "https://maps.google.com/?q=רח+ויצמן+1+כפר+סבא";
 
 const footerNavLinks = [
   { label: "דף הבית", href: "/#hero" },
-  { label: "על הפלנצ׳ה", href: "/#plancha" },
-  { label: "מה יוצא מהמטבח", href: "/#kitchen" },
   { label: "התפריט", href: "/#menu" },
+  { label: "על הפלנצ׳ה", href: "/#plancha" },
   { label: "האווירה", href: "/#atmosphere" },
   { label: "מיקום ושעות", href: "/#location" }
 ];
 
-const footerMenuItems = [
-  { label: "המבורגרים", href: "/#menu-burgers" },
-  { label: "תוספות", href: "/#menu-sides" },
-  { label: "שתייה", href: "/#menu-drinks" },
-  { label: "קינוחים", href: "/#menu-desserts" }
-];
+const footerMenuItems = [{ label: "לתפריט המלא", href: "/#menu" }];
 
 export function SiteFooter() {
   return (

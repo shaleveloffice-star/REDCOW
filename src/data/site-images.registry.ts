@@ -5,8 +5,8 @@ export const SITE_LOGO_SRC = "/images/brand/nb-burger-logo.png";
 export const HERO_DEFAULT_IMAGE_URL = "/images/hero/nb-burger-hero.jpg";
 
 export const PLANCHA_HERO_IMAGE = "/images/plancha/plancha-hero.jpg";
-export const PLANCHA_MEAT_IMAGE = "/images/plancha/plancha-meat.jpg";
-export const PLANCHA_SEAR_IMAGE = "/images/plancha/plancha-sear.jpg";
+export const PLANCHA_MEAT_IMAGE = "/images/plancha/plancha-meat.png";
+export const PLANCHA_SEAR_IMAGE = "/images/plancha/plancha-sear.png";
 export const PLANCHA_BITE_IMAGE = "/images/plancha/plancha-bite.jpg";
 export const PLANCHA_BURGERS_IMAGE = "/images/plancha/plancha-burgers.jpg";
 

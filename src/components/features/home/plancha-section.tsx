@@ -5,14 +5,13 @@ import { motion } from "framer-motion";
 import {
   PLANCHA_BITE_IMAGE,
   PLANCHA_BURGERS_IMAGE,
-  PLANCHA_HERO_IMAGE,
   PLANCHA_MEAT_IMAGE,
   PLANCHA_SEAR_IMAGE
 } from "@/data/site-images.registry";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
-const cards = [
+const steps = [
   {
     id: "plancha-meat",
     img: PLANCHA_MEAT_IMAGE,
@@ -33,12 +32,14 @@ const cards = [
   }
 ];
 
+const easeLuxury = [0.22, 1, 0.36, 1] as const;
+
 const fadeUp = {
-  hidden: { opacity: 0, y: 40 },
+  hidden: { opacity: 0, y: 32 },
   visible: (index: number) => ({
     opacity: 1,
     y: 0,
-    transition: { delay: index * 0.15, duration: 0.7 }
+    transition: { delay: index * 0.12, duration: 0.75, ease: easeLuxury }
   })
 };
 
@@ -47,18 +48,10 @@ type PlanchaSectionProps = {
 };
 
 export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
-  const heroImage = pickSiteImage(siteImages, "plancha-hero", PLANCHA_HERO_IMAGE);
   const footerImage = pickSiteImage(siteImages, "plancha-burgers", PLANCHA_BURGERS_IMAGE);
 
   return (
     <section id="plancha" className="plancha-section" aria-labelledby="plancha-title">
-      <div className="plancha-hero-media">
-        {heroImage ? (
-          <img src={heroImage} alt="קציצות בשר על פלנצ׳ה עם להבות" />
-        ) : null}
-        <div className="plancha-hero-scrim plancha-hero-scrim--top" aria-hidden="true" />
-      </div>
-
       <div className="plancha-intro">
         <motion.h2
           id="plancha-title"
@@ -81,34 +74,39 @@ export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
         </motion.p>
       </div>
 
-      <div className="plancha-cards">
-        {cards.map((card, index) => (
-          <motion.article
-            key={card.title}
-            className="plancha-card"
-            custom={index}
-            variants={fadeUp}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-          >
-            <div className="plancha-card-media">
-              {(() => {
-                const src = pickSiteImage(siteImages, card.id, card.img);
-                return src ? <img src={src} alt={card.title} /> : null;
-              })()}
-            </div>
-            <div className="plancha-card-body">
-              <span className="plancha-card-line" aria-hidden="true" />
-              <h3>{card.title}</h3>
-              <p>{card.desc}</p>
-            </div>
-          </motion.article>
-        ))}
-      </div>
+      <ol className="plancha-panels">
+        {steps.map((item, i) => {
+          const src = pickSiteImage(siteImages, item.id, item.img);
+          const textSide = i % 2 === 0 ? "left" : "right";
+
+          return (
+            <motion.li
+              key={item.id}
+              className={`plancha-panel plancha-panel--text-${textSide} plancha-panel--${item.id}`}
+              custom={i}
+              variants={fadeUp}
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-8%" }}
+            >
+              <article className="plancha-panel-frame">
+                <div className="plancha-panel-copy">
+                  <h3 className="plancha-panel-title">{item.title}</h3>
+                  <p className="plancha-panel-desc">{item.desc}</p>
+                </div>
+                {src ? (
+                  <div className="plancha-panel-media">
+                    <img src={src} alt={item.title} loading="lazy" />
+                  </div>
+                ) : null}
+              </article>
+            </motion.li>
+          );
+        })}
+      </ol>
 
       <div className="plancha-footer-media">
-        {footerImage ? <img src={footerImage} alt="מבחר המבורגרים" /> : null}
+        {footerImage ? <img src={footerImage} alt="מבחר המבורגרים" loading="lazy" /> : null}
         <div className="plancha-hero-scrim plancha-hero-scrim--bottom" aria-hidden="true" />
         <div className="plancha-footer-cta-wrap">
           <a className="plancha-footer-cta" href="#menu">

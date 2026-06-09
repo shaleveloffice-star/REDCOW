@@ -86,13 +86,6 @@ export function HeroSection({
             </span>
             <span className="hero-ornament-line" />
           </motion.div>
-
-          <motion.p className="hero-tagline hero-tagline--1" {...fadeUp(0.25)}>
-            בשר שנטחן במקום
-          </motion.p>
-          <motion.p className="hero-tagline hero-tagline--2" {...fadeUp(0.38)}>
-            פלאנצ&apos;ה לוהטת
-          </motion.p>
           </div>
 
           <motion.h1 className="hero-title" {...fadeUp(0.62)}>
@@ -105,9 +98,13 @@ export function HeroSection({
             />
           </motion.h1>
 
-          <motion.div className="hero-title-shine" aria-hidden="true" {...fadeUp(0.72)} />
+          <motion.p className="hero-tagline hero-tagline--below" {...fadeUp(0.72)}>
+            הביס הראשון מתחיל מהמסך.
+          </motion.p>
 
-          <motion.div className="hero-actions" {...fadeUp(0.85)}>
+          <motion.div className="hero-title-shine" aria-hidden="true" {...fadeUp(0.82)} />
+
+          <motion.div className="hero-actions" {...fadeUp(0.9)}>
             <a className="hero-button hero-button--menu" href="#menu">
               לתפריט
             </a>

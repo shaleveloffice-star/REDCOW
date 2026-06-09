@@ -1,4 +1,4 @@
-﻿:root {
+:root {
   --background: #030303;
   --foreground: #fff7ed;
   --muted: #b99883;
@@ -13,21 +13,43 @@
   --motion-short: 0.2s;
   --motion-medium: 0.45s;
 
-  /* Accent + buttons — edit only these to recolor UI */
-  --accent: #ffe1ba;
-  --accent-dark: #e5c89a;
-  --btn: #ffe1ba;
-  --btn-dark: #e5c89a;
+  /* Secondary accent ? single source of truth (#FFE1BA) */
+  --secondary: #FFE1BA;
+  --secondary-rgb: 255, 225, 186;
+  --secondary-dark: #e5c89a;
+  --secondary-soft: rgba(255, 225, 186, 0.22);
+  --secondary-muted: rgba(255, 225, 186, 0.82);
+  --secondary-border: rgba(255, 225, 186, 0.55);
+  --secondary-border-strong: rgba(255, 225, 186, 0.72);
+  --secondary-border-hover: rgba(255, 225, 186, 0.85);
+  --secondary-glow: rgba(255, 225, 186, 0.35);
+  --secondary-bg-soft: rgba(255, 225, 186, 0.1);
+  --secondary-shadow: rgba(255, 225, 186, 0.18);
+  --secondary-line: rgba(255, 225, 186, 0.18);
+  --secondary-line-soft: rgba(255, 225, 186, 0.12);
+  --secondary-line-mid: rgba(255, 225, 186, 0.28);
+  --secondary-highlight: rgba(255, 225, 186, 0.95);
+  --secondary-radial-soft: rgba(255, 225, 186, 0.08);
+  --secondary-radial-mid: rgba(255, 225, 186, 0.14);
+  --secondary-radial-light: rgba(255, 225, 186, 0.07);
+
+  /* Accent + buttons ? aliases of secondary */
+  --accent: var(--secondary);
+  --accent-dark: var(--secondary-dark);
+  --btn: var(--secondary);
+  --btn-dark: var(--secondary-dark);
   --btn-border: rgba(255, 225, 186, 0.66);
   --btn-border-strong: rgba(255, 225, 186, 0.72);
 
-  /* Typography scale */
-  --font-display: Impact, "Arial Black", Arial, sans-serif;
-  --font-editorial: Georgia, "Times New Roman", serif;
-  --font-body: var(--font-assistant), "Segoe UI", system-ui, -apple-system, sans-serif;
-  --font-button: var(--font-assistant), "Assistant", "Segoe UI", system-ui, sans-serif;
-  --font-hero-tagline: var(--font-heebo), var(--font-body);
-  --font-playfair-display: var(--font-playfair), Georgia, "Times New Roman", serif;
+  /* Typography ? Assistant everywhere */
+  --font-assistant-stack: var(--font-assistant), "Assistant", sans-serif;
+  --font-display: var(--font-assistant-stack);
+  --font-editorial: var(--font-assistant-stack);
+  --font-body: var(--font-assistant-stack);
+  --font-button: var(--font-assistant-stack);
+  --font-hero-tagline: var(--font-assistant-stack);
+  --font-subtitle: var(--font-assistant-stack);
+  --font-playfair-display: var(--font-assistant-stack);
 
   --type-display-hero: clamp(48px, 7vw, 88px);
   --type-display-1: clamp(36px, 4.5vw, 52px);
@@ -51,10 +73,16 @@
   --leading-snug: 1.5;
 
   --tracking-kicker: 0.34em;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
 }
 
-/* Filled CTAs on dark pages — cream bg + dark text (always readable) */
+/* Filled CTAs on dark pages ? cream bg + dark text (always readable) */
 body:not(:has(.admin-layout)) .menu-highlights-button,
+body:not(:has(.admin-layout)) .menu-showcase-button,
 body:not(:has(.admin-layout)) .experience-button,
 body:not(:has(.admin-layout)) .visit-primary,
 body:not(:has(.admin-layout)) .branches-card-nav,
@@ -62,8 +90,8 @@ body:not(:has(.admin-layout)) .about-btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ffe1ba;
-  background-color: #ffe1ba;
+  border: 1px solid var(--secondary);
+  background-color: var(--secondary);
   color: #1a0f08;
   font-weight: 700;
   text-decoration: none;
@@ -75,7 +103,7 @@ body:not(:has(.admin-layout)) .about-btn-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid #ffe1ba;
+  border: 1px solid var(--secondary);
   background-color: transparent;
   color: #fff7ed;
   text-decoration: none;
@@ -83,13 +111,14 @@ body:not(:has(.admin-layout)) .about-btn-ghost {
 }
 
 body:not(:has(.admin-layout)) .button.secondary {
-  border: 1px solid #ffe1ba;
+  border: 1px solid var(--secondary);
   background-color: transparent;
   color: #fff7ed;
 }
 
 body:not(:has(.admin-layout)) .hero-button,
 body:not(:has(.admin-layout)) .menu-highlights-button,
+body:not(:has(.admin-layout)) .menu-showcase-button,
 body:not(:has(.admin-layout)) .experience-button,
 body:not(:has(.admin-layout)) .visit-primary,
 body:not(:has(.admin-layout)) .visit-secondary,
@@ -97,8 +126,9 @@ body:not(:has(.admin-layout)) .branches-card-nav,
 body:not(:has(.admin-layout)) .about-btn-primary,
 body:not(:has(.admin-layout)) .about-btn-ghost {
   font-family: var(--font-button);
-  font-weight: 600;
+  font-weight: var(--weight-bold);
   letter-spacing: 0.02em;
+  border-radius: 999px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -145,8 +175,23 @@ body {
 
 body:not(:has(.admin-layout)) h1,
 body:not(:has(.admin-layout)) h2,
-body:not(:has(.admin-layout)) h3 {
+body:not(:has(.admin-layout)) h3,
+body:not(:has(.admin-layout)) h4 {
   margin-top: 0;
+  font-weight: var(--weight-bold);
+}
+
+body:not(:has(.admin-layout)) [class*="-title"] {
+  font-weight: var(--weight-bold);
+}
+
+body:not(:has(.admin-layout)) [class*="-lead"],
+body:not(:has(.admin-layout)) .hero-tagline {
+  font-weight: var(--weight-medium);
+}
+
+body:not(:has(.admin-layout)) [class*="-kicker"] {
+  font-weight: var(--weight-semibold);
 }
 
 body:not(:has(.admin-layout)) .type-kicker,
@@ -199,7 +244,7 @@ select {
   margin: 0 0 12px;
   font-family: var(--font-display);
   font-size: var(--type-display-2);
-  font-weight: 900;
+  font-weight: var(--weight-bold);
   line-height: var(--leading-title);
 }
 
@@ -233,7 +278,7 @@ select {
   min-height: 100vh;
   padding: 96px 24px;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.1), transparent 26%),
+    radial-gradient(circle at 50% 0%, var(--secondary-bg-soft), transparent 26%),
     #030303;
 }
 
@@ -249,8 +294,8 @@ select {
 
 .legal-kicker {
   margin: 0 0 12px;
-  color: #ffe1ba;
-  font-family: Georgia, "Times New Roman", serif;
+  color: var(--secondary);
+  font-family: var(--font-body);
 }
 
 .legal-document h1,
@@ -262,7 +307,7 @@ select {
   margin: 0 0 28px;
   font-family: var(--font-display);
   font-size: var(--type-display-1);
-  font-weight: 900;
+  font-weight: var(--weight-bold);
   line-height: var(--leading-title);
 }
 
@@ -356,7 +401,7 @@ select {
 }
 
 .site-navbar-brand:hover {
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .site-navbar-toggle {
@@ -389,7 +434,7 @@ select {
 }
 
 .site-navbar-toggle:hover span {
-  background: #ffe1ba;
+  background: var(--secondary);
 }
 
 .site-nav-overlay {
@@ -424,7 +469,7 @@ select {
 }
 
 .site-nav-overlay-close:hover {
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .site-nav-overlay-links {
@@ -439,14 +484,14 @@ select {
   color: rgba(255, 247, 237, 0.8);
   font-family: var(--font-hero-tagline);
   font-size: clamp(24px, 6vw, 40px);
-  font-weight: 300;
+  font-weight: var(--weight-semibold);
   line-height: 1.2;
   text-decoration: none;
   transition: color var(--motion-short) ease;
 }
 
 .site-nav-overlay-link:hover {
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .site-logo {
@@ -567,7 +612,7 @@ select {
 }
 
 .hero--cinematic {
-  --hero-gold: #c5a059;
+  --hero-gold: var(--secondary);
   --hero-cream: #fff7ed;
 }
 
@@ -646,7 +691,7 @@ select {
   z-index: 2;
   height: 42%;
   pointer-events: none;
-  background: radial-gradient(ellipse 70% 55% at 50% 100%, rgba(197, 160, 89, 0.22), transparent 68%);
+  background: radial-gradient(ellipse 70% 55% at 50% 100%, rgba(255, 225, 186, 0.22), transparent 68%);
   animation: hero-glow-breathe 6s ease-in-out infinite;
 }
 
@@ -692,7 +737,7 @@ select {
 .hero-ornament-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.85), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 225, 186, 0.85), transparent);
 }
 
 .hero-ornament-icon {
@@ -701,8 +746,8 @@ select {
   place-items: center;
   width: 44px;
   height: 30px;
-  color: rgba(197, 160, 89, 0.95);
-  filter: drop-shadow(0 0 12px rgba(197, 160, 89, 0.35));
+  color: rgba(255, 225, 186, 0.95);
+  filter: drop-shadow(0 0 12px rgba(255, 225, 186, 0.35));
 }
 
 .hero-ornament-icon svg {
@@ -714,9 +759,9 @@ select {
 .hero-tagline {
   margin: 0;
   color: rgba(255, 247, 237, 0.78);
-  font-family: var(--font-hero-tagline);
+  font-family: var(--font-subtitle);
   font-size: clamp(18px, 4.5vw, 22px);
-  font-weight: 300;
+  font-weight: var(--weight-semibold);
   line-height: 1.5;
   letter-spacing: 0.06em;
   text-shadow: 0 4px 28px rgba(0, 0, 0, 0.65);
@@ -728,6 +773,12 @@ select {
 
 .hero-tagline--2 {
   margin-bottom: 36px;
+  color: rgba(255, 225, 186, 0.88);
+}
+
+.hero-tagline--below {
+  margin-top: 20px;
+  margin-bottom: 0;
   color: rgba(255, 225, 186, 0.88);
 }
 
@@ -755,7 +806,7 @@ select {
   height: 1px;
   margin: 22px 0 8px;
   overflow: hidden;
-  background: linear-gradient(90deg, transparent, rgba(197, 160, 89, 0.55), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 225, 186, 0.55), transparent);
 }
 
 .hero-title-shine::after {
@@ -784,12 +835,11 @@ select {
   min-width: 176px;
   padding: 17px 44px;
   overflow: hidden;
-  border-radius: 0;
   font-family: var(--font-button);
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   line-height: 1.2;
-  letter-spacing: 0.24em;
+  letter-spacing: 0.02em;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -799,7 +849,7 @@ select {
     background-color 0.35s ease,
     box-shadow 0.35s ease,
     transform 0.35s var(--motion-ease);
-  -webkit-font-smoothing: antialiased;
+  -webkit-font-smoothing: auto;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -822,19 +872,37 @@ select {
 
 .hero-button--menu,
 .hero-button--order {
-  border: 1px solid rgba(197, 160, 89, 0.55);
-  background-color: rgba(3, 3, 3, 0.35);
-  color: rgba(255, 247, 237, 0.92);
+  border: 1px solid rgba(255, 225, 186, 0.55);
   backdrop-filter: blur(6px);
   box-shadow: none;
 }
 
-body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:hover,
+.hero-button--menu {
+  background-color: rgba(3, 3, 3, 0.35);
+  color: rgba(255, 247, 237, 0.92);
+}
+
+.hero-button--order {
+  border-color: var(--secondary);
+  background-color: var(--secondary);
+  color: #030303;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: 0;
+}
+
+body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+  background-color: rgba(255, 225, 186, 0.1);
+  box-shadow: 0 14px 36px rgba(255, 225, 186, 0.18);
+}
+
 body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
-  border-color: #ffe1ba;
-  color: #ffe1ba;
-  background-color: rgba(197, 160, 89, 0.1);
-  box-shadow: 0 14px 36px rgba(197, 160, 89, 0.18);
+  border-color: var(--secondary);
+  color: #030303;
+  background-color: var(--secondary);
+  box-shadow: 0 14px 36px rgba(255, 225, 186, 0.18);
 }
 
 .hero-burger-placeholder {
@@ -847,7 +915,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   background:
     radial-gradient(ellipse at 50% 27%, #d09b52 0 8%, #6f3c16 25%, transparent 26%),
     radial-gradient(ellipse at 52% 43%, #3b1c0e 0 19%, transparent 20%),
-    radial-gradient(ellipse at 53% 51%, #ffe1ba 0 6%, transparent 7%),
+    radial-gradient(ellipse at 53% 51%, var(--secondary) 0 6%, transparent 7%),
     radial-gradient(ellipse at 51% 59%, #4f8a31 0 8%, transparent 9%),
     radial-gradient(ellipse at 53% 72%, #a1622a 0 18%, transparent 19%);
   filter: drop-shadow(0 46px 70px rgba(0, 0, 0, 0.88));
@@ -969,7 +1037,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   place-items: center;
   width: 42px;
   height: 28px;
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .quality-burger-icon span {
@@ -1004,7 +1072,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   color: #fffdf5;
   font-family: var(--font-display);
   font-size: var(--type-display-2);
-  font-weight: 900;
+  font-weight: var(--weight-bold);
   letter-spacing: -0.03em;
   line-height: var(--leading-title);
 }
@@ -1035,7 +1103,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .quality-note {
   margin: 12px 0 48px;
-  color: #ffe1ba;
+  color: var(--secondary);
   font-weight: 700;
 }
 
@@ -1057,8 +1125,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .quality-item span {
   display: inline-grid;
   gap: 10px;
-  color: #ffe1ba;
-  font-family: Georgia, "Times New Roman", serif;
+  color: var(--secondary);
+  font-family: var(--font-body);
   font-size: 18px;
   letter-spacing: 0.1em;
 }
@@ -1069,7 +1137,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   height: 1px;
   margin: 10px auto 0;
   content: "";
-  background: #ffe1ba;
+  background: var(--secondary);
 }
 
 .quality-item h3 {
@@ -1152,7 +1220,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .menu-highlight-content h3 {
   margin: 0 0 14px;
-  color: #ffe1ba;
+  color: var(--secondary);
   font-family: var(--font-editorial);
   font-size: var(--type-display-3);
   font-weight: 700;
@@ -1173,7 +1241,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .menu-highlight-content strong {
-  color: #ffe1ba;
+  color: var(--secondary);
   font-size: var(--type-price);
   font-weight: 600;
 }
@@ -1208,38 +1276,14 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   overflow: hidden;
 }
 
-.plancha-hero-media {
-  position: relative;
-  width: 100%;
-  height: 50vh;
-  min-height: 280px;
-  overflow: hidden;
-}
-
-.plancha-hero-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
 .plancha-hero-scrim {
   position: absolute;
   inset: 0;
   pointer-events: none;
 }
 
-.plancha-hero-scrim--top {
-  background: linear-gradient(
-    to bottom,
-    rgba(3, 3, 3, 0.4) 0%,
-    transparent 45%,
-    #030303 100%
-  );
-}
-
 .plancha-intro {
-  padding: 48px 24px;
+  padding: 72px 24px 48px;
   text-align: center;
   direction: rtl;
 }
@@ -1247,7 +1291,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .plancha-title {
   margin: 0 0 16px;
   color: var(--home-text);
-  font-family: var(--font-playfair-display);
+  font-family: var(--font-display);
   font-size: clamp(36px, 6vw, 60px);
   font-weight: 700;
   line-height: 1.1;
@@ -1257,70 +1301,251 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   max-width: 32rem;
   margin: 0 auto;
   color: var(--home-text-muted);
+  font-family: var(--font-subtitle);
   font-size: var(--home-lead-size);
+  font-weight: var(--weight-medium);
   line-height: 1.7;
 }
 
-.plancha-cards {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-  max-width: 1120px;
-  margin: 0 auto;
-  padding: 0 24px 32px;
-  direction: rtl;
-}
-
-.plancha-card {
-  overflow: hidden;
-  border: 1px solid rgba(255, 247, 237, 0.14);
-  background: rgba(4, 3, 2, 0.35);
-}
-
-.plancha-card-media {
-  height: 208px;
-  overflow: hidden;
-}
-
-.plancha-card-media img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.7s ease;
-}
-
-.plancha-card:hover .plancha-card-media img {
-  transform: scale(1.05);
-}
-
-.plancha-card-body {
-  padding: 24px;
-  text-align: center;
-}
-
-.plancha-card-line {
-  display: block;
-  width: 32px;
-  height: 1px;
-  margin: 0 auto 16px;
-  background: #ffe1ba;
-}
-
-.plancha-card-body h3 {
-  margin: 0 0 8px;
-  color: var(--home-text);
-  font-family: var(--font-hero-tagline);
-  font-size: 20px;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-.plancha-card-body p {
+.plancha-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
   margin: 0;
-  color: rgba(255, 247, 237, 0.55);
-  font-size: var(--home-body-size);
-  line-height: 1.75;
+  padding: 0;
+  list-style: none;
+}
+
+.plancha-panel {
+  margin: 0;
+  padding: 0;
+}
+
+.plancha-panel-frame {
+  position: relative;
+  width: 100%;
+  min-height: min(88vh, 920px);
+  background: #030303;
+  overflow: hidden;
+}
+
+.plancha-panel-copy {
+  position: absolute;
+  z-index: 2;
+  top: clamp(36px, 10vh, 96px);
+  width: min(calc(100% - 40px), 540px);
+  padding: 0 clamp(20px, 5vw, 64px);
+  direction: rtl;
+  text-align: right;
+}
+
+.plancha-panel--text-left .plancha-panel-copy {
+  left: 0;
+  right: auto;
+}
+
+.plancha-panel--text-right .plancha-panel-copy {
+  right: 0;
+  left: auto;
+}
+
+.plancha-panel-title {
+  margin: 0 0 clamp(12px, 2.5vw, 24px);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: clamp(52px, 12vw, 120px);
+  font-weight: 700;
+  line-height: 0.92;
+  letter-spacing: 0.02em;
+}
+
+.plancha-panel-desc {
+  max-width: 100%;
+  margin: 0;
+  color: #fff;
+  font-family: var(--font-subtitle);
+  font-size: clamp(15px, 2.6vw, 22px);
+  font-weight: 600;
+  line-height: 1.55;
+}
+
+.plancha-panel-media {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  width: 100%;
+  height: clamp(375px, 60vh, 635px);
+  max-height: none;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.plancha-panel--text-left .plancha-panel-media,
+.plancha-panel--text-right .plancha-panel-media {
+  left: 0;
+  right: 0;
+  margin: 0;
+}
+
+.plancha-panel-media img {
+  position: absolute;
+  bottom: 0;
+  display: block;
+  width: auto;
+  height: clamp(375px, 60vh, 635px);
+  max-width: none;
+  max-height: none;
+  object-fit: contain;
+}
+
+.plancha-panel--text-left .plancha-panel-media img {
+  right: 0;
+  left: auto;
+  object-position: bottom right;
+  transform-origin: bottom right;
+  transform: translateX(50%);
+}
+
+.plancha-panel--text-right .plancha-panel-media img {
+  left: 0;
+  right: auto;
+  object-position: bottom left;
+  transform-origin: bottom left;
+  transform: translateX(-50%);
+}
+
+@media (max-width: 767px) {
+  .plancha-panels {
+    gap: 20px;
+  }
+
+  .plancha-panel-frame {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    min-height: auto;
+    padding: clamp(28px, 7vh, 48px) 0 0;
+    overflow: visible;
+  }
+
+  .plancha-panel-copy {
+    position: static;
+    width: 100%;
+    max-width: 100%;
+    padding: 0 clamp(18px, 5vw, 24px);
+    flex: 0 0 auto;
+    text-align: right;
+  }
+
+  .plancha-panel--text-left .plancha-panel-copy,
+  .plancha-panel--text-right .plancha-panel-copy {
+    margin-right: 0;
+    margin-left: 0;
+    text-align: right;
+  }
+
+  .plancha-panel-title {
+    margin-bottom: 10px;
+    font-size: clamp(56px, 17vw, 92px);
+    line-height: 0.95;
+  }
+
+  .plancha-panel-desc {
+    max-width: min(100%, 19rem);
+    margin-inline-start: auto;
+    font-size: clamp(14px, 3.6vw, 16px);
+    font-weight: 500;
+    line-height: 1.55;
+  }
+
+  .plancha-panel--text-left .plancha-panel-desc,
+  .plancha-panel--text-right .plancha-panel-desc {
+    margin-right: 0;
+    margin-left: auto;
+  }
+
+  .plancha-panel-media,
+  .plancha-panel--text-left .plancha-panel-media,
+  .plancha-panel--text-right .plancha-panel-media {
+    position: relative;
+    left: auto;
+    right: auto;
+    width: 100vw;
+    max-width: none;
+    height: clamp(220px, 42vh, 320px);
+    max-height: none;
+    flex: 0 0 auto;
+    margin-top: 27px;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    overflow: hidden;
+  }
+
+  /* טקסט מימין, תמונה נכנסת משמאל — חצי מחוץ למסך */
+  .plancha-panel-media img,
+  .plancha-panel--text-left .plancha-panel-media img,
+  .plancha-panel--text-right .plancha-panel-media img,
+  .plancha-panel--plancha-meat .plancha-panel-media img,
+  .plancha-panel--plancha-bite .plancha-panel-media img {
+    position: absolute;
+    bottom: 0;
+    left: 10px;
+    right: auto;
+    width: auto;
+    height: clamp(260px, 52vh, 400px);
+    max-width: none;
+    max-height: none;
+    margin-inline: 0;
+    object-fit: contain;
+    object-position: bottom left;
+    transform-origin: bottom left;
+    transform: translateX(-50%);
+  }
+
+  /* הצריבה — מובייל: מהצד השני (ימין) */
+  .plancha-panel--plancha-sear .plancha-panel-media img {
+    left: auto;
+    right: 10px;
+    object-position: bottom right;
+    transform-origin: bottom right;
+    transform: translateX(10%);
+  }
+}
+
+/* הצריבה — מיזוג עליון לרקע האתר */
+.plancha-panel--plancha-sear .plancha-panel-media::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: min(52%, 240px);
+  background: linear-gradient(
+    to bottom,
+    #030303 0%,
+    rgba(3, 3, 3, 0.92) 28%,
+    rgba(3, 3, 3, 0.55) 58%,
+    transparent 100%
+  );
+  z-index: 2;
+  pointer-events: none;
+}
+
+.plancha-panel--plancha-sear .plancha-panel-media img {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.45) 16%,
+    #000 34%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(0, 0, 0, 0.45) 16%,
+    #000 34%
+  );
 }
 
 .plancha-footer-media {
@@ -1361,6 +1586,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   gap: 8px;
   padding: 12px 32px;
   border: 1px solid rgba(255, 247, 237, 0.3);
+  border-radius: 999px;
   color: rgba(255, 247, 237, 0.8);
   font-family: var(--font-button);
   font-size: 14px;
@@ -1373,8 +1599,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .plancha-footer-cta:hover {
-  border-color: #ffe1ba;
-  color: #ffe1ba;
+  border-color: var(--secondary);
+  color: var(--secondary);
 }
 
 .kitchen-section {
@@ -1393,7 +1619,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .kitchen-title {
   margin: 0 0 16px;
   color: var(--home-text);
-  font-family: var(--font-playfair-display);
+  font-family: var(--font-display);
   font-size: clamp(36px, 6vw, 60px);
   font-weight: 700;
   line-height: 1.1;
@@ -1403,7 +1629,9 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   max-width: 36rem;
   margin: 0 auto;
   color: var(--home-text-muted);
+  font-family: var(--font-subtitle);
   font-size: var(--home-lead-size);
+  font-weight: var(--weight-medium);
   line-height: 1.75;
 }
 
@@ -1450,13 +1678,13 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   width: 32px;
   height: 1px;
   margin: 0 auto 16px;
-  background: #ffe1ba;
+  background: var(--secondary);
 }
 
 .kitchen-card-body h3 {
   margin: 0 0 8px;
   color: var(--home-text);
-  font-family: var(--font-hero-tagline);
+  font-family: var(--font-display);
   font-size: 20px;
   font-weight: 600;
   line-height: 1.3;
@@ -1465,7 +1693,9 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .kitchen-card-body p {
   margin: 0;
   color: rgba(255, 247, 237, 0.55);
+  font-family: var(--font-subtitle);
   font-size: var(--home-body-size);
+  font-weight: var(--weight-medium);
   line-height: 1.75;
 }
 
@@ -1496,17 +1726,233 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   );
 }
 
+.menu-showcase-section {
+  padding: clamp(64px, 10vw, 96px) 0 clamp(72px, 10vw, 104px);
+  background: #030303;
+  color: #fff7ed;
+  overflow: hidden;
+}
+
+.menu-showcase-shell {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  direction: rtl;
+}
+
+.menu-showcase-header {
+  margin-bottom: clamp(32px, 5vw, 48px);
+  padding: 0 24px;
+  text-align: center;
+}
+
+.menu-showcase-kicker {
+  margin: 0 0 12px;
+  color: rgba(255, 247, 237, 0.42);
+  font-family: var(--font-display);
+  font-size: 12px;
+  font-weight: var(--weight-semibold);
+  letter-spacing: 0.34em;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.menu-showcase-title {
+  margin: 0 0 14px;
+  color: #fff7ed;
+  font-family: var(--font-display);
+  font-size: clamp(44px, 9vw, 80px);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.menu-showcase-lead {
+  max-width: 28rem;
+  margin: 0 auto;
+  color: rgba(255, 247, 237, 0.62);
+  font-family: var(--font-subtitle);
+  font-size: clamp(16px, 3.8vw, 19px);
+  font-weight: var(--weight-medium);
+  line-height: 1.65;
+}
+
+.menu-showcase-track {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+  padding: 4px 24px 10px;
+  direction: rtl;
+  scrollbar-width: none;
+}
+
+.menu-showcase-track::-webkit-scrollbar {
+  display: none;
+}
+
+.menu-showcase-rail {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  width: max-content;
+  min-width: 100%;
+  direction: rtl;
+}
+
+@keyframes menu-showcase-nudge-hint {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+
+  42%,
+  58% {
+    transform: translate3d(10px, 0, 0);
+  }
+}
+
+.menu-showcase-rail--nudge {
+  animation: menu-showcase-nudge-hint 1.15s cubic-bezier(0.45, 0.05, 0.25, 1) both;
+}
+
+.menu-showcase-card {
+  display: flex;
+  flex: 0 0 calc((100vw - 48px - 14px) / 1.25);
+  flex-direction: column;
+  flex-shrink: 0;
+  max-width: 320px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 247, 237, 0.1);
+  border-radius: 14px;
+  background: #0a0a0a;
+  direction: rtl;
+}
+
+.menu-showcase-card-media {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  padding: 14px 14px 0;
+  background: #050505;
+}
+
+.menu-showcase-card-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.menu-showcase-badge {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  z-index: 1;
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: #d9291c;
+  color: #fff;
+  font-family: var(--font-subtitle);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: 1;
+}
+
+.menu-showcase-card-body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 16px 16px 20px;
+  text-align: center;
+}
+
+.menu-showcase-card-title {
+  margin: 0 0 8px;
+  color: #fff7ed;
+  font-family: var(--font-display);
+  font-size: clamp(20px, 4.2vw, 24px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.menu-showcase-card-desc {
+  margin: 0 0 14px;
+  color: rgba(255, 247, 237, 0.58);
+  font-family: var(--font-subtitle);
+  font-size: clamp(14px, 3.4vw, 15px);
+  font-weight: var(--weight-medium);
+  line-height: 1.65;
+}
+
+.menu-showcase-card-price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+  margin: auto 0 0;
+  color: var(--secondary);
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.menu-showcase-card-currency {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.menu-showcase-action {
+  display: flex;
+  justify-content: center;
+  margin-top: clamp(28px, 5vw, 40px);
+  padding: 0 24px;
+}
+
+.menu-showcase-button {
+  min-width: 190px;
+  min-height: 44px;
+  padding: 0 28px;
+  border-radius: 999px;
+  font-family: var(--font-subtitle);
+  font-size: 14px;
+  letter-spacing: 0.02em;
+}
+
+@media (min-width: 768px) {
+  .menu-showcase-track {
+    overflow: visible;
+    padding: 0 24px;
+    direction: ltr;
+  }
+
+  .menu-showcase-rail {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 20px;
+    width: 100%;
+    min-width: 0;
+    direction: rtl;
+  }
+
+  .menu-showcase-card {
+    flex: unset;
+    max-width: none;
+  }
+}
+
+
 .home-menu-section {
   --home-text: #fff7ed;
   --home-text-muted: rgba(255, 247, 237, 0.62);
-  --home-gold: #c5a059;
-  --home-gold-soft: rgba(197, 160, 89, 0.22);
+  --home-gold: var(--secondary);
+  --home-gold-soft: var(--secondary-soft);
   --home-subhead-size: clamp(18px, 3.6vw, 20px);
   --home-body-size: clamp(15px, 3.6vw, 17px);
   --home-lead-size: clamp(16px, 3.8vw, 19px);
   padding: 80px 0 96px;
   background:
-    radial-gradient(circle at 50% 0%, rgba(197, 160, 89, 0.08), transparent 46%),
+    radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.08), transparent 46%),
     #030303;
   color: var(--home-text);
   overflow: hidden;
@@ -1533,8 +1979,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(197, 160, 89, 0.85) 18%,
-    rgba(197, 160, 89, 0.85) 82%,
+    rgba(255, 225, 186, 0.85) 18%,
+    rgba(255, 225, 186, 0.85) 82%,
     transparent
   );
 }
@@ -1549,7 +1995,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   color: var(--home-text);
   font-family: var(--font-display);
   font-size: clamp(48px, 9vw, 88px);
-  font-weight: 900;
+  font-weight: var(--weight-bold);
   letter-spacing: 0.04em;
   line-height: 0.95;
   text-transform: uppercase;
@@ -1558,8 +2004,9 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .home-menu-note {
   margin: 0;
   color: var(--home-text-muted);
-  font-family: var(--font-body);
+  font-family: var(--font-subtitle);
   font-size: var(--home-lead-size);
+  font-weight: var(--weight-medium);
   line-height: 1.6;
 }
 
@@ -1572,7 +2019,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   position: relative;
   border: 1px solid var(--home-gold-soft);
   background:
-    radial-gradient(circle at 72% 50%, rgba(197, 160, 89, 0.07), transparent 58%),
+    radial-gradient(circle at 72% 50%, rgba(255, 225, 186, 0.07), transparent 58%),
     rgba(6, 5, 4, 0.92);
   transition:
     border-color var(--motion-short) ease,
@@ -1598,20 +2045,20 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .menu-category-row:hover,
 .menu-category-row.is-open {
-  border-color: rgba(197, 160, 89, 0.72);
+  border-color: rgba(255, 225, 186, 0.72);
   box-shadow:
-    0 0 0 1px rgba(197, 160, 89, 0.12),
+    0 0 0 1px rgba(255, 225, 186, 0.12),
     0 18px 48px rgba(0, 0, 0, 0.42),
-    0 0 36px rgba(197, 160, 89, 0.12);
+    0 0 36px rgba(255, 225, 186, 0.12);
   background:
-    radial-gradient(circle at 68% 42%, rgba(197, 160, 89, 0.14), transparent 62%),
+    radial-gradient(circle at 68% 42%, rgba(255, 225, 186, 0.14), transparent 62%),
     rgba(10, 8, 6, 0.96);
 }
 
 .menu-category-row:hover::before,
 .menu-category-row.is-open::before {
   opacity: 1;
-  border-color: rgba(197, 160, 89, 0.85);
+  border-color: rgba(255, 225, 186, 0.85);
 }
 
 .menu-category-heading {
@@ -1643,15 +2090,15 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .menu-category-index-num {
   color: var(--home-gold);
-  font-family: var(--font-playfair-display);
+  font-family: var(--font-display);
   font-size: clamp(34px, 5.5vw, 48px);
-  font-weight: 300;
+  font-weight: var(--weight-semibold);
   line-height: 1;
   letter-spacing: 0.02em;
 }
 
 .menu-category-index-arrow {
-  color: rgba(197, 160, 89, 0.82);
+  color: rgba(255, 225, 186, 0.82);
   font-size: 18px;
   line-height: 1;
   transition: transform var(--motion-short) ease;
@@ -1678,7 +2125,9 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .menu-category-desc {
   color: var(--home-text-muted);
+  font-family: var(--font-subtitle);
   font-size: var(--home-body-size);
+  font-weight: var(--weight-medium);
   line-height: 1.55;
 }
 
@@ -1687,7 +2136,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   width: clamp(120px, 22vw, 168px);
   aspect-ratio: 3 / 2;
   overflow: hidden;
-  border: 1px solid rgba(197, 160, 89, 0.18);
+  border: 1px solid rgba(255, 225, 186, 0.18);
   background: #111;
 }
 
@@ -1699,7 +2148,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .menu-category-panel {
-  border-top: 1px solid rgba(197, 160, 89, 0.18);
+  border-top: 1px solid rgba(255, 225, 186, 0.18);
   padding: 4px clamp(18px, 3vw, 28px) clamp(18px, 3vw, 28px);
   background: rgba(0, 0, 0, 0.22);
 }
@@ -1720,7 +2169,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   gap: 20px;
   align-items: start;
   padding: 18px 0;
-  border-bottom: 1px solid rgba(197, 160, 89, 0.12);
+  border-bottom: 1px solid rgba(255, 225, 186, 0.12);
 }
 
 .menu-category-item:last-child {
@@ -1759,7 +2208,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .menu-category-item-tags li {
-  border: 1px solid rgba(197, 160, 89, 0.28);
+  border: 1px solid rgba(255, 225, 186, 0.28);
   padding: 2px 10px;
   color: rgba(255, 225, 186, 0.9);
   font-size: 11px;
@@ -1772,7 +2221,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   gap: 4px;
   margin: 0;
   color: var(--home-gold);
-  font-family: var(--font-playfair-display);
+  font-family: var(--font-display);
   font-size: clamp(22px, 4vw, 28px);
   font-weight: 700;
   line-height: 1;
@@ -1849,7 +2298,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .atmosphere-title {
   margin: 0 0 24px;
   color: var(--home-text);
-  font-family: var(--font-playfair-display);
+  font-family: var(--font-display);
   font-size: clamp(36px, 6vw, 60px);
   font-weight: 700;
   line-height: 1.1;
@@ -1859,7 +2308,9 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   max-width: 22rem;
   margin: 0;
   color: var(--home-text-muted);
+  font-family: var(--font-subtitle);
   font-size: clamp(17px, 4vw, 20px);
+  font-weight: var(--weight-medium);
   line-height: 1.75;
 }
 
@@ -1955,7 +2406,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .location-title {
   margin: 0 0 48px;
   color: var(--home-text);
-  font-family: var(--font-playfair-display);
+  font-family: var(--font-display);
   font-size: clamp(36px, 6vw, 60px);
   font-weight: 700;
   line-height: 1.1;
@@ -1975,7 +2426,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .location-block-icon {
   width: 20px;
   height: 20px;
-  color: #ffe1ba;
+  color: var(--secondary);
   flex-shrink: 0;
 }
 
@@ -2017,7 +2468,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   margin: 0;
   color: var(--home-text-muted);
   font-size: var(--home-body-size);
-  font-weight: 400;
+  font-weight: var(--weight-medium);
 }
 
 .location-hours dd,
@@ -2029,7 +2480,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   text-align: left;
 }
 
-/* Framer Motion may inject dark inline color on wrappers — force readable copy */
+/* Framer Motion may inject dark inline color on wrappers ? force readable copy */
 .location-section .location-title,
 .location-section .location-block h3,
 .location-section .location-hours dd,
@@ -2058,6 +2509,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   gap: 12px;
   padding: 16px 40px;
   border: 1px solid rgba(255, 247, 237, 0.3);
+  border-radius: 999px;
   color: rgba(255, 247, 237, 0.8);
   font-family: var(--font-button);
   font-size: 14px;
@@ -2069,8 +2521,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .location-cta:hover {
-  border-color: #ffe1ba;
-  color: #ffe1ba;
+  border-color: var(--secondary);
+  color: var(--secondary);
 }
 
 .location-cta-icon {
@@ -2125,22 +2577,58 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 @media (min-width: 768px) {
-  .plancha-hero-media {
-    height: 70vh;
-  }
-
   .plancha-intro {
-    padding: 64px 24px;
+    padding: 96px 24px 64px;
   }
 
-  .plancha-cards {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-    padding-bottom: 32px;
+  .plancha-panel-frame {
+    min-height: min(90vh, 960px);
   }
 
-  .plancha-card-media {
-    height: 224px;
+  .plancha-panel-copy {
+    width: min(46%, 560px);
+  }
+
+  /* הבשר — דסקטop: היפוך כיוון (טקסט ימין, תמונה שמאל) */
+  .plancha-panel--plancha-meat.plancha-panel--text-left .plancha-panel-copy {
+    left: auto;
+    right: 0;
+  }
+
+  .plancha-panel--plancha-meat.plancha-panel--text-left .plancha-panel-media img {
+    right: auto;
+    left: 0;
+    object-position: bottom left;
+    transform-origin: bottom left;
+    transform: translateX(-50%);
+  }
+
+  /* הצריבה — דסקטop: היפוך כיוון (טקסט שמאל, תמונה ימין) */
+  .plancha-panel--plancha-sear.plancha-panel--text-right .plancha-panel-copy {
+    right: auto;
+    left: 0;
+  }
+
+  .plancha-panel--plancha-sear.plancha-panel--text-right .plancha-panel-media img {
+    left: auto;
+    right: 0;
+    object-position: bottom right;
+    transform-origin: bottom right;
+    transform: translateX(10%);
+  }
+
+  /* הביס — דסקטop: היפוך כיוון (טקסט ימין, תמונה שמאל) */
+  .plancha-panel--plancha-bite.plancha-panel--text-left .plancha-panel-copy {
+    left: auto;
+    right: 0;
+  }
+
+  .plancha-panel--plancha-bite.plancha-panel--text-left .plancha-panel-media img {
+    right: auto;
+    left: 0;
+    object-position: bottom left;
+    transform-origin: bottom left;
+    transform: translateX(-50%);
   }
 
   .plancha-footer-media {
@@ -2164,7 +2652,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   z-index: -2;
   content: "";
   background:
-    radial-gradient(circle at 72% 42%, rgba(255, 225, 186, 0.18), transparent 26%),
+    radial-gradient(circle at 72% 42%, var(--secondary-shadow), transparent 26%),
     linear-gradient(90deg, #030303 0%, rgba(3, 3, 3, 0.88) 38%, rgba(3, 3, 3, 0.22) 72%, #030303 100%);
 }
 
@@ -2200,7 +2688,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   align-items: center;
   gap: 18px;
   margin: 0 0 24px;
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .experience-kicker::after {
@@ -2217,14 +2705,14 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   color: #fffdf5;
   font-family: var(--font-display);
   font-size: var(--type-display-1);
-  font-weight: 900;
+  font-weight: var(--weight-bold);
   line-height: var(--leading-display);
 }
 
 .experience-content h2 strong {
   display: grid;
   gap: 2px;
-  color: #ffe1ba;
+  color: var(--secondary);
   font-family: var(--font-editorial);
   font-size: var(--type-display-3);
   font-weight: 700;
@@ -2262,8 +2750,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .experience-list-item span {
-  color: #ffe1ba;
-  font-family: Georgia, "Times New Roman", serif;
+  color: var(--secondary);
+  font-family: var(--font-body);
   font-size: 25px;
   font-weight: 700;
 }
@@ -2287,7 +2775,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   overflow: hidden;
   padding: 92px 24px;
   background:
-    radial-gradient(circle at 100% 100%, rgba(255, 225, 186, 0.1), transparent 26%),
+    radial-gradient(circle at 100% 100%, var(--secondary-bg-soft), transparent 26%),
     linear-gradient(135deg, #050505, #030303 58%, #0b0907);
 }
 
@@ -2325,7 +2813,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   align-items: center;
   gap: 18px;
   margin: 0 0 28px;
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .visit-kicker::after {
@@ -2342,12 +2830,12 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   color: #fffdf5;
   font-family: var(--font-display);
   font-size: var(--type-display-1);
-  font-weight: 900;
+  font-weight: var(--weight-bold);
   line-height: var(--leading-display);
 }
 
 .visit-copy h2 strong {
-  color: #ffe1ba;
+  color: var(--secondary);
   font-style: normal;
 }
 
@@ -2390,9 +2878,9 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   min-width: 220px;
   min-height: 58px;
   border: 1px solid var(--btn-border);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-button);
   font-size: 15px;
-  font-weight: 400;
+  font-weight: var(--weight-bold);
 }
 
 .visit-primary {
@@ -2417,7 +2905,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   padding: 52px 66px;
   background:
     linear-gradient(rgba(3, 3, 3, 0.72), rgba(3, 3, 3, 0.82)),
-    radial-gradient(circle at 80% 10%, rgba(255, 225, 186, 0.1), transparent 36%);
+    radial-gradient(circle at 80% 10%, var(--secondary-bg-soft), transparent 36%);
   box-shadow: 0 32px 90px rgba(0, 0, 0, 0.36);
   text-align: center;
 }
@@ -2427,7 +2915,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   width: 42px;
   height: 28px;
   margin: 0 auto 28px;
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .visit-card-icon span {
@@ -2459,7 +2947,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .visit-card h3 {
   margin: 0;
-  color: #ffe1ba;
+  color: var(--secondary);
   font-family: var(--font-editorial);
   font-size: var(--type-display-3);
   font-weight: 700;
@@ -2500,7 +2988,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .visit-card li span {
-  color: #ffe1ba;
+  color: var(--secondary);
   font-size: 26px;
 }
 
@@ -2560,7 +3048,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .site-footer-heading {
   margin: 0 0 20px;
-  color: #ffe1ba;
+  color: var(--secondary);
   font-size: 14px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -2587,14 +3075,14 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .site-footer-contact-link:hover {
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .site-footer-icon {
   flex: 0 0 auto;
   width: 16px;
   height: 16px;
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .site-footer-social-wrap {
@@ -2603,7 +3091,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .site-footer-social-label {
   margin: 0 0 12px;
-  color: #ffe1ba;
+  color: var(--secondary);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.08em;
@@ -2627,8 +3115,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .site-footer-social:hover {
-  border-color: #ffe1ba;
-  color: #ffe1ba;
+  border-color: var(--secondary);
+  color: var(--secondary);
 }
 
 .site-footer-social-icon {
@@ -2648,7 +3136,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .site-footer-links a:hover {
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .site-footer-bar {
@@ -2708,7 +3196,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .site-footer-legal-link:hover {
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .legal-related {
@@ -2720,7 +3208,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .legal-related a {
-  color: #ffe1ba;
+  color: var(--secondary);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 3px;
@@ -2736,7 +3224,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   }
 }
 
-/* Admin — classic light panel (white / gray) */
+/* Admin ? classic light panel (white / gray) */
 .admin-layout {
   --admin-bg: #f0f0f2;
   --admin-surface: #ffffff;
@@ -3258,7 +3746,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
   .hero-tagline {
     font-size: clamp(17px, 4.6vw, 20px);
-    font-weight: 300;
+    font-weight: var(--weight-semibold);
   }
 
   .hero-tagline--2 {
@@ -3427,7 +3915,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   }
 }
 
-/* Full menu page — aligned with home (menu-highlights, gold accents) */
+/* Full menu page ? aligned with home (secondary accents) */
 .menu-page {
   min-height: 100vh;
   background:
@@ -3532,7 +4020,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .menu-page-dish-head h3 {
   margin: 0 0 10px;
-  color: #ffe1ba;
+  color: var(--secondary);
   font-family: var(--font-editorial);
   font-size: var(--type-display-3);
   font-weight: 700;
@@ -3577,7 +4065,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .menu-page-dish-price {
   display: block;
   margin: 0;
-  color: #ffe1ba;
+  color: var(--secondary);
   font-size: var(--type-price);
   font-weight: 600;
   font-family: var(--font-body);
@@ -3731,8 +4219,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .branches-card h2 {
   margin: 0 0 10px;
-  color: #ffe1ba;
-  font-family: Georgia, "Times New Roman", serif;
+  color: var(--secondary);
+  font-family: var(--font-body);
   font-size: clamp(20px, 2.2vw, 26px);
   font-weight: 700;
 }
@@ -3757,7 +4245,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .branches-card-details dt {
   margin: 0;
-  color: rgba(255, 225, 186, 0.85);
+  color: var(--secondary-border-hover);
   font-size: 12px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -3887,7 +4375,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .about-hero-sub-break {
   display: block;
   margin-top: 8px;
-  color: #ffe1ba;
+  color: var(--secondary);
   font-weight: 600;
 }
 
@@ -3904,6 +4392,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   justify-content: center;
   min-height: 52px;
   padding: 0 28px;
+  border-radius: 999px;
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
@@ -3949,7 +4438,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .about-section-kicker {
   margin: 0 0 8px;
-  color: #ffe1ba;
+  color: var(--secondary);
 }
 
 .about-section-title {
@@ -4061,7 +4550,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .about-moments-heading {
   margin: 0 0 10px;
   color: #fffdf5;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-body);
   font-size: clamp(26px, 3.2vw, 36px);
   font-weight: 700;
 }
@@ -4090,7 +4579,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   padding: 22px 18px;
   border: 1px solid rgba(255, 225, 186, 0.26);
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.1), transparent 55%),
+    radial-gradient(circle at 50% 0%, var(--secondary-bg-soft), transparent 55%),
     rgba(4, 3, 2, 0.55);
   text-align: center;
   transition:
@@ -4104,8 +4593,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .about-moment-title {
-  color: #ffe1ba;
-  font-family: Georgia, "Times New Roman", serif;
+  color: var(--secondary);
+  font-family: var(--font-body);
   font-size: 18px;
   font-weight: 700;
 }
@@ -4129,7 +4618,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .about-closing p {
   margin: 0 0 0.85em;
   color: #fffdf5;
-  font-family: Georgia, "Times New Roman", serif;
+  font-family: var(--font-body);
   font-size: clamp(17px, 2vw, 20px);
   font-weight: 600;
   line-height: 1.65;
@@ -4251,12 +4740,13 @@ body:not(:has(.admin-layout)) a:focus-visible,
 body:not(:has(.admin-layout)) button:focus-visible,
 body:not(:has(.admin-layout)) input:focus-visible,
 body:not(:has(.admin-layout)) textarea:focus-visible {
-  outline: 2px solid rgba(255, 225, 186, 0.85);
+  outline: 2px solid var(--secondary-border-hover);
   outline-offset: 3px;
 }
 
 body:not(:has(.admin-layout)) .hero-button,
 body:not(:has(.admin-layout)) .menu-highlights-button,
+body:not(:has(.admin-layout)) .menu-showcase-button,
 body:not(:has(.admin-layout)) .experience-button {
   transition:
     transform var(--motion-short) var(--motion-ease),
@@ -4269,6 +4759,7 @@ body:not(:has(.admin-layout)) .experience-button {
 
 
 body:not(:has(.admin-layout)) .menu-highlights-button:hover,
+body:not(:has(.admin-layout)) .menu-showcase-button:hover,
 body:not(:has(.admin-layout)) .experience-button:hover {
   transform: translateY(-2px);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);

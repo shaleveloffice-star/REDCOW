@@ -299,5 +299,19 @@ export const mockMenuItems: MenuItem[] = [
     sortOrder: 3,
     createdAt: now,
     updatedAt: now
+  },
+  {
+    id: "item-nuggets",
+    name: "נגטס",
+    description: "נגטס עוף פריכים, מוגשות עם רוטב לבחירה.",
+    price: 28,
+    categoryId: "cat-sides",
+    imageUrl:
+      "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/e10288def_generated_1c5867a8.png",
+    isActive: true,
+    tags: ["עוף"],
+    sortOrder: 5,
+    createdAt: now,
+    updatedAt: now
   }
 ];

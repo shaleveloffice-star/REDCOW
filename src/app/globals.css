@@ -793,9 +793,9 @@ select {
 
 .hero-logo {
   display: block;
-  width: min(520px, 94vw);
+  width: min(680px, 96vw);
   height: auto;
-  max-height: clamp(160px, 30vw, 260px);
+  max-height: clamp(220px, 38vw, 340px);
   object-fit: contain;
   filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.65));
 }
@@ -1259,13 +1259,50 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .plancha-section,
 .kitchen-section,
 .atmosphere-section,
-.location-section {
+.location-section,
+.menu-showcase-section {
   --home-text: #fff7ed;
   --home-text-muted: rgba(255, 247, 237, 0.68);
+  --home-section-title-size: clamp(52px, 12vw, 120px);
+  --home-section-title-line: 0.92;
+  --home-step-title-size: clamp(40px, 9vw, 88px);
+  --home-step-title-line: 0.95;
+  --home-card-title-size: clamp(22px, 2.8vw, 28px);
+  --home-card-title-line: 1.15;
   --home-subhead-size: clamp(18px, 3.6vw, 20px);
   --home-body-size: clamp(15px, 3.6vw, 17px);
   --home-lead-size: clamp(16px, 3.8vw, 19px);
+  --home-price-size: clamp(18px, 2.4vw, 22px);
   color: var(--home-text);
+}
+
+/* Level 1 ? ?????? ???? (????) */
+.plancha-title,
+.menu-showcase-title,
+.atmosphere-title,
+.location-title,
+.kitchen-title {
+  margin: 0 0 16px;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: var(--home-section-title-size);
+  font-weight: 700;
+  line-height: var(--home-section-title-line);
+  letter-spacing: 0.02em;
+}
+
+/* Level 4 ? ???? ???? ???? ?????? */
+.plancha-lead,
+.menu-showcase-lead,
+.atmosphere-lead,
+.kitchen-lead {
+  max-width: 32rem;
+  margin: 0 auto;
+  color: var(--home-text-muted);
+  font-family: var(--font-subtitle);
+  font-size: var(--home-lead-size);
+  font-weight: var(--weight-medium);
+  line-height: 1.7;
 }
 
 .plancha-section {
@@ -1286,26 +1323,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   padding: 72px 24px 48px;
   text-align: center;
   direction: rtl;
-}
-
-.plancha-title {
-  margin: 0 0 16px;
-  color: #fff;
-  font-family: var(--font-display);
-  font-size: clamp(52px, 12vw, 120px);
-  font-weight: 700;
-  line-height: 0.92;
-  letter-spacing: 0.02em;
-}
-
-.plancha-lead {
-  max-width: 32rem;
-  margin: 0 auto;
-  color: var(--home-text-muted);
-  font-family: var(--font-subtitle);
-  font-size: var(--home-lead-size);
-  font-weight: var(--weight-medium);
-  line-height: 1.7;
 }
 
 .plancha-panels {
@@ -1354,20 +1371,20 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   margin: 0 0 clamp(12px, 2.5vw, 24px);
   color: #fff;
   font-family: var(--font-display);
-  font-size: clamp(52px, 12vw, 120px);
+  font-size: var(--home-step-title-size);
   font-weight: 700;
-  line-height: 0.92;
+  line-height: var(--home-step-title-line);
   letter-spacing: 0.02em;
 }
 
 .plancha-panel-desc {
   max-width: 100%;
   margin: 0;
-  color: #fff;
+  color: var(--home-text-muted);
   font-family: var(--font-subtitle);
-  font-size: clamp(15px, 2.6vw, 22px);
-  font-weight: 600;
-  line-height: 1.55;
+  font-size: var(--home-body-size);
+  font-weight: var(--weight-medium);
+  line-height: 1.65;
 }
 
 .plancha-panel-media {
@@ -1418,13 +1435,20 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 @media (max-width: 767px) {
-  .plancha-panels {
-    gap: 20px;
+  .plancha-section,
+  .kitchen-section,
+  .atmosphere-section,
+  .location-section,
+  .menu-showcase-section {
+    --home-section-title-size: clamp(56px, 17vw, 92px);
+    --home-section-title-line: 0.95;
+    --home-step-title-size: clamp(36px, 10vw, 56px);
+    --home-card-title-size: clamp(24px, 6vw, 30px);
+    --home-body-size: clamp(14px, 3.6vw, 16px);
   }
 
-  .plancha-title {
-    font-size: clamp(56px, 17vw, 92px);
-    line-height: 0.95;
+  .plancha-panels {
+    gap: 20px;
   }
 
   .plancha-panel-frame {
@@ -1454,15 +1478,11 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
   .plancha-panel-title {
     margin-bottom: 10px;
-    font-size: clamp(56px, 17vw, 92px);
-    line-height: 0.95;
   }
 
   .plancha-panel-desc {
     max-width: min(100%, 19rem);
     margin-inline-start: auto;
-    font-size: clamp(14px, 3.6vw, 16px);
-    font-weight: 500;
     line-height: 1.55;
   }
 
@@ -1489,7 +1509,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     overflow: hidden;
   }
 
-  /* טקסט מימין, תמונה נכנסת משמאל — חצי מחוץ למסך */
+  /* ?????? ??????????, ???????? ?????? ???????? ??? ????? ??????? ??????? */
   .plancha-panel-media img,
   .plancha-panel--text-left .plancha-panel-media img,
   .plancha-panel--text-right .plancha-panel-media img,
@@ -1509,7 +1529,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     transform: translateX(-50%);
   }
 
-  /* הצריבה — מובייל: מהצד ימין */
+  /* ?????????? ??? ????????????: ??????? ???????? */
   .plancha-panel--plancha-sear .plancha-panel-media img {
     left: auto;
     right: 10px;
@@ -1518,7 +1538,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     transform: translateX(10%);
   }
 
-  /* הביס — מובייל: מהצד שמאל + יותר מהחלק העליון */
+  /* ??????? ??? ????????????: ??????? ?????? + ?????? ????????? ??????????? */
   .plancha-panel--plancha-bite .plancha-panel-media {
     height: clamp(280px, 50vh, 380px);
   }
@@ -1536,7 +1556,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   }
 }
 
-/* הצריבה — מיזוג עליון לרקע האתר */
+/* ?????????? ??? ?????????? ????????? ????? ????? */
 .plancha-panel--plancha-sear .plancha-panel-media::after {
   content: "";
   position: absolute;
@@ -1638,23 +1658,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   direction: rtl;
 }
 
-.kitchen-title {
-  margin: 0 0 16px;
-  color: var(--home-text);
-  font-family: var(--font-display);
-  font-size: clamp(36px, 6vw, 60px);
-  font-weight: 700;
-  line-height: 1.1;
-}
-
 .kitchen-lead {
   max-width: 36rem;
-  margin: 0 auto;
-  color: var(--home-text-muted);
-  font-family: var(--font-subtitle);
-  font-size: var(--home-lead-size);
-  font-weight: var(--weight-medium);
-  line-height: 1.75;
 }
 
 .kitchen-cards {
@@ -1707,9 +1712,9 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   margin: 0 0 8px;
   color: var(--home-text);
   font-family: var(--font-display);
-  font-size: 20px;
+  font-size: var(--home-subhead-size);
   font-weight: 600;
-  line-height: 1.3;
+  line-height: 1.35;
 }
 
 .kitchen-card-body p {
@@ -1749,7 +1754,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .menu-showcase-section {
-  padding: clamp(64px, 10vw, 96px) 0 clamp(72px, 10vw, 104px);
+  padding: 0 0 clamp(72px, 10vw, 104px);
   background: #030303;
   color: #fff7ed;
   overflow: hidden;
@@ -1763,7 +1768,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .menu-showcase-header {
   margin-bottom: clamp(32px, 5vw, 48px);
-  padding: 0 24px;
+  padding: 72px 24px 0;
   text-align: center;
 }
 
@@ -1776,27 +1781,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   letter-spacing: 0.34em;
   line-height: 1;
   text-transform: uppercase;
-}
-
-.menu-showcase-title {
-  margin: 0 0 14px;
-  color: #fff7ed;
-  font-family: var(--font-display);
-  font-size: clamp(44px, 9vw, 80px);
-  font-weight: 700;
-  letter-spacing: 0.04em;
-  line-height: 0.95;
-  text-transform: uppercase;
-}
-
-.menu-showcase-lead {
-  max-width: 28rem;
-  margin: 0 auto;
-  color: rgba(255, 247, 237, 0.62);
-  font-family: var(--font-subtitle);
-  font-size: clamp(16px, 3.8vw, 19px);
-  font-weight: var(--weight-medium);
-  line-height: 1.65;
 }
 
 .menu-showcase-track {
@@ -1890,19 +1874,20 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .menu-showcase-card-title {
-  margin: 0 0 8px;
-  color: #fff7ed;
+  margin: 0 0 10px;
+  color: #fff;
   font-family: var(--font-display);
-  font-size: clamp(20px, 4.2vw, 24px);
+  font-size: var(--home-card-title-size);
   font-weight: 700;
-  line-height: 1.2;
+  line-height: var(--home-card-title-line);
+  letter-spacing: 0.02em;
 }
 
 .menu-showcase-card-desc {
   margin: 0 0 14px;
-  color: rgba(255, 247, 237, 0.58);
+  color: var(--home-text-muted);
   font-family: var(--font-subtitle);
-  font-size: clamp(14px, 3.4vw, 15px);
+  font-size: var(--home-body-size);
   font-weight: var(--weight-medium);
   line-height: 1.65;
 }
@@ -1914,7 +1899,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   margin: auto 0 0;
   color: var(--secondary);
   font-family: var(--font-display);
-  font-size: 18px;
+  font-size: var(--home-price-size);
   font-weight: 700;
   line-height: 1;
 }
@@ -2319,21 +2304,11 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .atmosphere-title {
   margin: 0 0 24px;
-  color: var(--home-text);
-  font-family: var(--font-display);
-  font-size: clamp(36px, 6vw, 60px);
-  font-weight: 700;
-  line-height: 1.1;
 }
 
 .atmosphere-lead {
   max-width: 22rem;
   margin: 0;
-  color: var(--home-text-muted);
-  font-family: var(--font-subtitle);
-  font-size: clamp(17px, 4vw, 20px);
-  font-weight: var(--weight-medium);
-  line-height: 1.75;
 }
 
 .atmosphere-gallery-grid {
@@ -2427,11 +2402,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .location-title {
   margin: 0 0 48px;
-  color: var(--home-text);
-  font-family: var(--font-display);
-  font-size: clamp(36px, 6vw, 60px);
-  font-weight: 700;
-  line-height: 1.1;
 }
 
 .location-block {
@@ -2603,6 +2573,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     padding: 96px 24px 64px;
   }
 
+  .menu-showcase-header {
+    padding: 96px 24px 0;
+  }
+
   .plancha-panel-frame {
     min-height: min(90vh, 960px);
   }
@@ -2611,7 +2585,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     width: min(46%, 560px);
   }
 
-  /* הבשר — דסקטop: היפוך כיוון (טקסט ימין, תמונה שמאל) */
+  /* ?????? ??? ??????op: ????????? ?????????? (?????? ????????, ???????? ??????) */
   .plancha-panel--plancha-meat.plancha-panel--text-left .plancha-panel-copy {
     left: auto;
     right: 0;
@@ -2625,7 +2599,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     transform: translateX(-50%);
   }
 
-  /* הצריבה — דסקטop: היפוך כיוון (טקסט שמאל, תמונה ימין) */
+  /* ?????????? ??? ??????op: ????????? ?????????? (?????? ??????, ???????? ????????) */
   .plancha-panel--plancha-sear.plancha-panel--text-right .plancha-panel-copy {
     right: auto;
     left: 0;
@@ -2639,7 +2613,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     transform: translateX(10%);
   }
 
-  /* הביס — דסקטop: טקסט שמאל, תמונה משמאל + חלק עליון */
+  /* ??????? ??? ??????op: ?????? ??????, ???????? ???????? + ????? ????????? */
   .plancha-panel--plancha-bite.plancha-panel--text-left .plancha-panel-copy {
     right: auto;
     left: 0;
@@ -3778,8 +3752,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   }
 
   .hero-logo {
-    width: min(400px, 96vw);
-    max-height: clamp(140px, 34vw, 200px);
+    width: min(520px, 98vw);
+    max-height: clamp(180px, 42vw, 260px);
   }
 
   .hero-ornament {
@@ -3931,7 +3905,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 @media (max-width: 380px) {
   .hero-logo {
-    max-height: clamp(120px, 36vw, 170px);
+    max-height: clamp(160px, 44vw, 220px);
   }
 
   .hero-tagline {

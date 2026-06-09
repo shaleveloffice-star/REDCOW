@@ -3,6 +3,7 @@ import { AtmosphereSection } from "@/components/features/home/atmosphere-section
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
 import { PlanchaSection } from "@/components/features/home/plancha-section";
 import { LocationSection } from "@/components/features/home/location-section";
+import { ShortTour } from "@/components/features/home/short-tour";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getMenuForDisplay } from "@/services/menu.service";
@@ -27,6 +28,7 @@ export default async function HomePage() {
         <AtmosphereSection siteImages={siteImages} />
         <LocationSection siteImages={siteImages} />
       </main>
+      <ShortTour />
       <SiteFooter />
     </>
   );

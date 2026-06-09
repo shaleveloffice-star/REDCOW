@@ -4,7 +4,6 @@ import { motion } from "framer-motion";
 
 import {
   PLANCHA_BITE_IMAGE,
-  PLANCHA_BURGERS_IMAGE,
   PLANCHA_MEAT_IMAGE,
   PLANCHA_SEAR_IMAGE
 } from "@/data/site-images.registry";
@@ -48,8 +47,6 @@ type PlanchaSectionProps = {
 };
 
 export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
-  const footerImage = pickSiteImage(siteImages, "plancha-burgers", PLANCHA_BURGERS_IMAGE);
-
   return (
     <section id="plancha" className="plancha-section" aria-labelledby="plancha-title">
       <div className="plancha-intro">
@@ -104,17 +101,6 @@ export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
           );
         })}
       </ol>
-
-      <div className="plancha-footer-media">
-        {footerImage ? <img src={footerImage} alt="מבחר המבורגרים" loading="lazy" /> : null}
-        <div className="plancha-hero-scrim plancha-hero-scrim--bottom" aria-hidden="true" />
-        <div className="plancha-footer-cta-wrap">
-          <a className="plancha-footer-cta" href="#menu">
-            <span aria-hidden="true">←</span>
-            <span>לתפריט שלנו</span>
-          </a>
-        </div>
-      </div>
     </section>
   );
 }

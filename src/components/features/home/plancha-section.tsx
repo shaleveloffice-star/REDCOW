@@ -93,7 +93,7 @@ export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
                 </div>
                 {src ? (
                   <div className="plancha-panel-media">
-                    <img src={src} alt={item.title} loading="lazy" />
+                    <img src={src} alt={item.title} loading="lazy" decoding="async" />
                   </div>
                 ) : null}
               </article>

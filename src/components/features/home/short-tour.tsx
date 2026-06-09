@@ -43,6 +43,8 @@ const TOUR_STEPS = [
 
 type TourStep = (typeof TOUR_STEPS)[number];
 
+type TimeoutId = ReturnType<typeof setTimeout>;
+
 type SpotlightRect = {
   top: number;
   left: number;
@@ -73,9 +75,9 @@ export function ShortTour() {
   const [stepIndex, setStepIndex] = useState(0);
   const [spotlight, setSpotlight] = useState<SpotlightRect | null>(null);
   const [reduceMotion, setReduceMotion] = useState(false);
-  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const scrollTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const menuScrollTimersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const timerRef = useRef<TimeoutId | null>(null);
+  const scrollTimerRef = useRef<TimeoutId | null>(null);
+  const menuScrollTimersRef = useRef<Array<TimeoutId>>([]);
 
   useEffect(() => {
     setReduceMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -140,9 +142,9 @@ export function ShortTour() {
       ];
 
       scrollSequence.forEach(({ delay, action }) => {
-        const timerId = window.setTimeout(() => {
+        const timerId = setTimeout(() => {
           dispatchMenuTourScroll({ action, smooth });
-          window.setTimeout(
+          setTimeout(
             () => setSpotlightFromElement(track),
             reduceMotionEnabled ? 0 : 520
           );

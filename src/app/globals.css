@@ -1290,11 +1290,12 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .plancha-title {
   margin: 0 0 16px;
-  color: var(--home-text);
+  color: #fff;
   font-family: var(--font-display);
-  font-size: clamp(36px, 6vw, 60px);
+  font-size: clamp(52px, 12vw, 120px);
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 0.92;
+  letter-spacing: 0.02em;
 }
 
 .plancha-lead {
@@ -1421,6 +1422,11 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     gap: 20px;
   }
 
+  .plancha-title {
+    font-size: clamp(56px, 17vw, 92px);
+    line-height: 0.95;
+  }
+
   .plancha-panel-frame {
     display: flex;
     flex-direction: column;
@@ -1487,8 +1493,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   .plancha-panel-media img,
   .plancha-panel--text-left .plancha-panel-media img,
   .plancha-panel--text-right .plancha-panel-media img,
-  .plancha-panel--plancha-meat .plancha-panel-media img,
-  .plancha-panel--plancha-bite .plancha-panel-media img {
+  .plancha-panel--plancha-meat .plancha-panel-media img {
     position: absolute;
     bottom: 0;
     left: 10px;
@@ -1504,13 +1509,30 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     transform: translateX(-50%);
   }
 
-  /* הצריבה — מובייל: מהצד השני (ימין) */
+  /* הצריבה — מובייל: מהצד ימין */
   .plancha-panel--plancha-sear .plancha-panel-media img {
     left: auto;
     right: 10px;
     object-position: bottom right;
     transform-origin: bottom right;
     transform: translateX(10%);
+  }
+
+  /* הביס — מובייל: מהצד שמאל + יותר מהחלק העליון */
+  .plancha-panel--plancha-bite .plancha-panel-media {
+    height: clamp(280px, 50vh, 380px);
+  }
+
+  .plancha-panel--plancha-bite .plancha-panel-media img {
+    top: 0;
+    bottom: auto;
+    left: 10px;
+    right: auto;
+    height: clamp(340px, 62vh, 500px);
+    object-fit: contain;
+    object-position: left top;
+    transform-origin: top left;
+    transform: translateX(-50%);
   }
 }
 
@@ -2617,17 +2639,19 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     transform: translateX(10%);
   }
 
-  /* הביס — דסקטop: היפוך כיוון (טקסט ימין, תמונה שמאל) */
+  /* הביס — דסקטop: טקסט שמאל, תמונה משמאל + חלק עליון */
   .plancha-panel--plancha-bite.plancha-panel--text-left .plancha-panel-copy {
-    left: auto;
-    right: 0;
+    right: auto;
+    left: 0;
   }
 
   .plancha-panel--plancha-bite.plancha-panel--text-left .plancha-panel-media img {
+    top: 0;
+    bottom: auto;
     right: auto;
     left: 0;
-    object-position: bottom left;
-    transform-origin: bottom left;
+    object-position: left top;
+    transform-origin: top left;
     transform: translateX(-50%);
   }
 

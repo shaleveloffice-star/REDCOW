@@ -4903,7 +4903,12 @@ body:not(:has(.admin-layout)) .footer-bottom a {
 }
 
 body.short-tour-active {
-  overflow: hidden;
+  overscroll-behavior: none;
+}
+
+body.short-tour-active .menu-showcase-track {
+  overflow-x: auto !important;
+  -webkit-overflow-scrolling: touch;
 }
 
 .short-tour-layer {
@@ -4926,57 +4931,69 @@ body.short-tour-active {
   pointer-events: none;
 }
 
-.short-tour-bubble {
+.short-tour-caption {
   position: fixed;
   z-index: 121;
-  width: min(320px, calc(100vw - 32px));
-  padding: 18px 20px 14px;
-  border: 1px solid rgba(255, 225, 186, 0.28);
-  border-radius: 16px;
-  background: rgba(8, 8, 8, 0.96);
-  color: #fff7ed;
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.55);
-  pointer-events: auto;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px clamp(20px, 6vw, 48px);
+  pointer-events: none;
   direction: rtl;
-  text-align: right;
-  animation: short-tour-bubble-in 0.35s ease both;
+  text-align: center;
 }
 
-.short-tour-bubble--center {
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.short-tour-caption-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: min(22rem, calc(100vw - 48px));
+  padding: 20px 22px 16px;
+  border-radius: 16px;
+  background: rgba(3, 3, 3, 0.72);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.45);
+  pointer-events: auto;
+  animation: short-tour-caption-in 0.4s ease both;
 }
 
-.short-tour-bubble-text {
-  margin: 0 0 12px;
+.short-tour-caption-text {
+  max-width: 100%;
+  margin: 0;
+  color: rgba(255, 247, 237, 0.78);
   font-family: var(--font-subtitle);
-  font-size: clamp(15px, 3.8vw, 17px);
+  font-size: clamp(17px, 4.2vw, 22px);
   font-weight: 500;
-  line-height: 1.65;
+  line-height: 1.7;
+  letter-spacing: 0.01em;
+  text-wrap: balance;
 }
 
 .short-tour-skip {
   padding: 0;
   border: 0;
   background: transparent;
-  color: rgba(255, 247, 237, 0.55);
+  color: rgba(255, 247, 237, 0.38);
   font-family: var(--font-body);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
+  pointer-events: auto;
   text-decoration: underline;
   text-underline-offset: 3px;
 }
 
 .short-tour-skip:hover {
-  color: var(--secondary);
+  color: rgba(255, 247, 237, 0.62);
 }
 
-@keyframes short-tour-bubble-in {
+@keyframes short-tour-caption-in {
   from {
     opacity: 0;
-    transform: translateY(8px);
+    transform: translateY(6px);
   }
 
   to {
@@ -4990,7 +5007,7 @@ body.short-tour-active {
     transition: none;
   }
 
-  .short-tour-bubble {
+  .short-tour-caption-panel {
     animation: none;
   }
 }

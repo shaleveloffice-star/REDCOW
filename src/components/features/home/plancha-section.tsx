@@ -74,7 +74,8 @@ export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
       <ol className="plancha-panels" aria-label="שלבי הכנת הבורגר על הפלנצ׳ה">
         {steps.map((item, i) => {
           const src = pickSiteImage(siteImages, item.id, item.img);
-          const textSide = i % 2 === 0 ? "left" : "right";
+          const textSide =
+            item.id === "plancha-bite" ? "right" : i % 2 === 0 ? "left" : "right";
 
           return (
             <motion.li

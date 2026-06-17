@@ -4,8 +4,8 @@ import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react
 
 import { dispatchMenuTourScroll } from "@/lib/menu-showcase-tour";
 
-const FIRST_STEP_MS = 1500;
-const STEP_MS = 6000;
+const FIRST_STEP_MS = 1200;
+const STEP_MS = 3000;
 
 function stepDuration(index: number) {
   return index === 0 ? FIRST_STEP_MS : STEP_MS;
@@ -14,30 +14,30 @@ function stepDuration(index: number) {
 const TOUR_STEPS = [
   {
     sectionId: "hero",
-    message: "הביס הראשון מתחיל מהמסך."
+    message: "ברוכים הבאים"
   },
   {
     sectionId: "menu",
     highlightSelector: ".menu-showcase-track",
     animateMenu: true,
-    message: "כאן תכירו את המנות שלנו, מהקלאסיק ועד הקריספי."
+    message: "התפריט שלנו"
   },
   {
     sectionId: "plancha",
-    message: "בשר טרי, צריבה חזקה וקראסט שעושה את כל ההבדל."
+    message: "על הפלנצ׳ה"
   },
   {
     sectionId: "atmosphere",
-    message: "לא רק המבורגר, מקום לשבת, ליהנות ולהרגיש את הווייב."
+    message: "האווירה כאן"
   },
   {
     sectionId: "location",
-    message: "כאן תמצאו אותנו, ויצמן 1, כפר סבא."
+    message: "מצאו אותנו"
   },
   {
     sectionId: "hero",
     highlightSelector: ".hero-button--order",
-    message: "רעבים? עכשיו הזמן להזמין."
+    message: "להזמין עכשיו"
   }
 ] as const;
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { Clock, MapPin, Phone } from "lucide-react";
+import { Clock, Map, MapPin } from "lucide-react";
 
 import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
 import { pickSiteImage } from "@/lib/site-image-url";
@@ -85,7 +85,7 @@ export function LocationSection({ siteImages }: LocationSectionProps) {
             viewport={{ once: true }}
             transition={{ delay: 0.5, duration: 0.7 }}
           >
-            <Phone className="location-cta-icon" strokeWidth={1.5} aria-hidden="true" />
+            <Map className="location-cta-icon" strokeWidth={1.5} aria-hidden="true" />
             <span>נווטו אלינו</span>
           </motion.a>
         </div>

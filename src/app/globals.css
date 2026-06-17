@@ -597,7 +597,7 @@ select {
 
 @media (max-width: 767px) {
   .hero {
-    min-height: calc(100svh + 45px);
+    min-height: calc(100svh - 5px);
   }
 }
 

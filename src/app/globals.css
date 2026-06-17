@@ -581,22 +581,6 @@ select {
   }
 }
 
-@keyframes hero-shimmer {
-  0% {
-    transform: translateX(-120%);
-    opacity: 0;
-  }
-
-  40% {
-    opacity: 0.55;
-  }
-
-  100% {
-    transform: translateX(120%);
-    opacity: 0;
-  }
-}
-
 .hero {
   position: relative;
   display: flex;
@@ -629,10 +613,10 @@ select {
 
 .hero-visual-media {
   position: absolute;
-  inset: -6%;
+  inset: -8%;
   z-index: 0;
-  width: 112%;
-  height: 112%;
+  width: 116%;
+  height: 116%;
   will-change: transform;
 }
 
@@ -648,7 +632,12 @@ select {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 42%;
+  object-position: center center;
+}
+
+.hero-visual-media video.hero-media {
+  transform: scale(1.22);
+  transform-origin: center center;
 }
 
 .hero-scrim {
@@ -659,12 +648,13 @@ select {
   background:
     linear-gradient(
       180deg,
-      rgba(3, 3, 3, 0.5) 0%,
-      rgba(3, 3, 3, 0.14) 45%,
-      rgba(3, 3, 3, 0.32) 78%,
-      rgba(3, 3, 3, 0.48) 100%
+      rgba(3, 3, 3, 0.46) 0%,
+      rgba(3, 3, 3, 0.1) 36%,
+      rgba(3, 3, 3, 0.02) 62%,
+      rgba(3, 3, 3, 0.18) 82%,
+      rgba(3, 3, 3, 0.42) 100%
     ),
-    linear-gradient(90deg, rgba(3, 3, 3, 0.65) 0%, transparent 28%, transparent 72%, rgba(3, 3, 3, 0.65) 100%);
+    linear-gradient(90deg, rgba(3, 3, 3, 0.55) 0%, transparent 26%, transparent 74%, rgba(3, 3, 3, 0.55) 100%);
 }
 
 .hero-vignette {
@@ -672,7 +662,7 @@ select {
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  box-shadow: inset 0 0 120px rgba(0, 0, 0, 0.55);
+  box-shadow: inset 0 0 90px rgba(0, 0, 0, 0.35);
 }
 
 .hero-grain {
@@ -687,12 +677,33 @@ select {
 
 .hero-glow {
   position: absolute;
-  inset: auto 0 18% 0;
+  inset: auto 0 12% 0;
   z-index: 2;
-  height: 42%;
+  height: 34%;
   pointer-events: none;
-  background: radial-gradient(ellipse 70% 55% at 50% 100%, rgba(255, 225, 186, 0.22), transparent 68%);
+  background: radial-gradient(ellipse 70% 55% at 50% 100%, rgba(255, 225, 186, 0.16), transparent 72%);
   animation: hero-glow-breathe 6s ease-in-out infinite;
+}
+
+.hero-bottom-fade {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 5;
+  height: clamp(200px, 34vh, 320px);
+  pointer-events: none;
+  background: linear-gradient(
+    to bottom,
+    rgba(3, 3, 3, 0) 0%,
+    rgba(3, 3, 3, 0.06) 16%,
+    rgba(3, 3, 3, 0.2) 36%,
+    rgba(3, 3, 3, 0.42) 54%,
+    rgba(3, 3, 3, 0.64) 70%,
+    rgba(3, 3, 3, 0.82) 84%,
+    rgba(3, 3, 3, 0.94) 93%,
+    #030303 100%
+  );
 }
 
 .hero-inner {
@@ -717,45 +728,6 @@ select {
   text-align: center;
 }
 
-.hero-intro {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  transform: translateY(15px);
-}
-
-.hero-ornament {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  width: min(280px, 72vw);
-  margin-bottom: 28px;
-}
-
-.hero-ornament-line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 225, 186, 0.85), transparent);
-}
-
-.hero-ornament-icon {
-  display: grid;
-  flex-shrink: 0;
-  place-items: center;
-  width: 44px;
-  height: 30px;
-  color: rgba(255, 225, 186, 0.95);
-  filter: drop-shadow(0 0 12px rgba(255, 225, 186, 0.35));
-}
-
-.hero-ornament-icon svg {
-  display: block;
-  width: 38px;
-  height: auto;
-}
-
 .hero-tagline {
   margin: 0;
   color: rgba(255, 247, 237, 0.78);
@@ -776,14 +748,26 @@ select {
   color: rgba(255, 225, 186, 0.88);
 }
 
+.hero-brand {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .hero-tagline--below {
-  margin-top: 20px;
+  position: relative;
+  z-index: 3;
+  margin-top: 15px;
   margin-bottom: 0;
   color: rgba(255, 225, 186, 0.88);
 }
 
 .hero-title,
 .hero h1.hero-title {
+  position: relative;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -796,25 +780,10 @@ select {
   width: min(680px, 96vw);
   height: auto;
   max-height: clamp(220px, 38vw, 340px);
+  margin-bottom: clamp(-64px, -14vw, -96px);
   object-fit: contain;
+  object-position: top center;
   filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.65));
-}
-
-.hero-title-shine {
-  position: relative;
-  width: min(320px, 60vw);
-  height: 1px;
-  margin: 22px 0 8px;
-  overflow: hidden;
-  background: linear-gradient(90deg, transparent, rgba(255, 225, 186, 0.55), transparent);
-}
-
-.hero-title-shine::after {
-  content: "";
-  position: absolute;
-  inset: -8px 0;
-  background: linear-gradient(90deg, transparent, rgba(255, 247, 237, 0.65), transparent);
-  animation: hero-shimmer 4.5s ease-in-out 1.8s infinite;
 }
 
 .hero-actions {
@@ -979,7 +948,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 @media (prefers-reduced-motion: reduce) {
   .hero-visual-media--alive,
   .hero-glow,
-  .hero-title-shine::after,
   .hero-scroll {
     animation: none;
   }
@@ -1763,7 +1731,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .menu-showcase-section {
-  padding: 0 0 clamp(72px, 10vw, 104px);
+  position: relative;
+  z-index: 2;
+  margin-top: clamp(-120px, -18vh, -180px);
+  padding: clamp(120px, 18vh, 180px) 0 clamp(72px, 10vw, 104px);
   background: #030303;
   color: #fff7ed;
   overflow: hidden;
@@ -1777,7 +1748,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .menu-showcase-header {
   margin-bottom: clamp(32px, 5vw, 48px);
-  padding: 72px 24px 0;
+  padding: 0 24px;
   text-align: center;
 }
 
@@ -1850,11 +1821,145 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   background: #050505;
 }
 
-.menu-showcase-card-media img {
+.menu-showcase-card-media img,
+.menu-showcase-card-media video {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+@property --menu-border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes menu-showcase-border-snake {
+  0%,
+  20.5% {
+    opacity: 0;
+    --menu-border-angle: 22deg;
+  }
+
+  20.75% {
+    opacity: 1;
+    --menu-border-angle: 22deg;
+  }
+
+  24% {
+    opacity: 1;
+    --menu-border-angle: 64deg;
+  }
+
+  25%,
+  45.5% {
+    opacity: 0;
+    --menu-border-angle: 118deg;
+  }
+
+  45.75% {
+    opacity: 1;
+    --menu-border-angle: 118deg;
+  }
+
+  49% {
+    opacity: 1;
+    --menu-border-angle: 160deg;
+  }
+
+  50%,
+  70.5% {
+    opacity: 0;
+    --menu-border-angle: 214deg;
+  }
+
+  70.75% {
+    opacity: 1;
+    --menu-border-angle: 214deg;
+  }
+
+  74% {
+    opacity: 1;
+    --menu-border-angle: 256deg;
+  }
+
+  75%,
+  95.5% {
+    opacity: 0;
+    --menu-border-angle: 298deg;
+  }
+
+  95.75% {
+    opacity: 1;
+    --menu-border-angle: 298deg;
+  }
+
+  99% {
+    opacity: 1;
+    --menu-border-angle: 340deg;
+  }
+
+  100% {
+    opacity: 0;
+    --menu-border-angle: 340deg;
+  }
+}
+
+.menu-showcase-card-media--video {
+  padding: 12px 12px 0;
+  overflow: visible;
+}
+
+.menu-showcase-card-media--video .menu-showcase-card-video-frame {
+  --menu-border-angle: 0deg;
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  border: 1px solid rgba(255, 225, 186, 0.08);
+  border-radius: 18px;
+  background: #050505;
+  overflow: hidden;
+}
+
+.menu-showcase-card-media--video .menu-showcase-card-video-frame::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 2;
+  border: 1px solid transparent;
+  border-radius: 18px;
+  background:
+    linear-gradient(#050505, #050505) padding-box,
+    conic-gradient(
+      from var(--menu-border-angle),
+      transparent 0deg,
+      transparent 272deg,
+      rgba(255, 225, 186, 0.1) 280deg,
+      #ffe1ba 286deg,
+      #ffe1ba 294deg,
+      rgba(255, 225, 186, 0.1) 302deg,
+      transparent 310deg,
+      transparent 360deg
+    ) border-box;
+  opacity: 0;
+  animation: menu-showcase-border-snake 12s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.menu-showcase-card-media--video .menu-showcase-card-video {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.menu-showcase-card-media--video .menu-showcase-badge {
+  z-index: 2;
 }
 
 .menu-showcase-badge {
@@ -2285,7 +2390,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .atmosphere-section {
-  padding: 80px 0;
+  padding: clamp(36px, 7vh, 56px) 0 80px;
   background: #030303;
   overflow: hidden;
 }
@@ -2293,20 +2398,21 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .atmosphere-shell {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 32px;
+  gap: 28px;
   width: min(1280px, calc(100% - 48px));
   margin: 0 auto;
 }
 
 .atmosphere-gallery {
-  order: 1;
+  order: 2;
 }
 
 .atmosphere-copy {
-  order: 2;
+  order: 1;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding: 0 24px;
   direction: rtl;
   text-align: right;
 }
@@ -2359,6 +2465,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
   .atmosphere-copy {
     order: 1;
+    padding: 0;
   }
 
   .atmosphere-gallery {
@@ -2583,7 +2690,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   }
 
   .menu-showcase-header {
-    padding: 96px 24px 0;
+    padding: 0 24px;
   }
 
   .plancha-panel-frame {
@@ -3758,10 +3865,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   .hero-logo {
     width: min(520px, 98vw);
     max-height: clamp(180px, 42vw, 260px);
-  }
-
-  .hero-ornament {
-    margin-bottom: 22px;
+    margin-bottom: clamp(-48px, -13vw, -72px);
   }
 
   .hero-tagline--2 {
@@ -3910,6 +4014,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 @media (max-width: 380px) {
   .hero-logo {
     max-height: clamp(160px, 44vw, 220px);
+    margin-bottom: clamp(-40px, -12vw, -58px);
   }
 
   .hero-tagline {
@@ -4005,7 +4110,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   padding: 12px 0;
 }
 
-.menu-page-dish-visual img {
+.menu-page-dish-visual img,
+.menu-page-dish-visual video {
   position: static;
   display: block;
   max-width: 100%;
@@ -4108,7 +4214,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     padding: 8px 0;
   }
 
-  .menu-page-dish-visual img {
+  .menu-page-dish-visual img,
+  .menu-page-dish-visual video {
     max-height: 200px;
   }
 }

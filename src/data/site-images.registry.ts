@@ -3,6 +3,7 @@ import type { SiteImageCatalogItem, SiteImageGroup } from "@/types/site-images";
 export const SITE_LOGO_SRC = "/images/brand/nb-burger-logo.png";
 
 export const HERO_DEFAULT_IMAGE_URL = "/images/hero/nb-burger-hero.jpg";
+export const HERO_DEFAULT_VIDEO_URL = "/videos/hero-nb-experience.mp4";
 
 export const PLANCHA_HERO_IMAGE = "/images/plancha/plancha-hero.jpg";
 export const PLANCHA_MEAT_IMAGE = "/images/plancha/plancha-meat.png";

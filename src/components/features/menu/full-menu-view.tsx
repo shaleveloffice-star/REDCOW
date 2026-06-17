@@ -1,5 +1,7 @@
 import type { MenuCategory, MenuItem } from "@/types/content";
 
+import { isVideoMediaUrl } from "@/lib/menu-media";
+
 export function FullMenuView({
   groups
 }: {
@@ -27,7 +29,18 @@ export function FullMenuView({
                     <p>{item.description}</p>
                   </div>
                   <div className="menu-page-dish-visual">
-                    <img alt={item.name} src={item.imageUrl} width={400} height={300} loading="lazy" decoding="async" />
+                    {isVideoMediaUrl(item.imageUrl) ? (
+                      <video
+                        src={item.imageUrl}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        aria-label={item.name}
+                      />
+                    ) : (
+                      <img alt={item.name} src={item.imageUrl} width={400} height={300} loading="lazy" decoding="async" />
+                    )}
                   </div>
                   <div className="menu-page-dish-foot">
                     {item.tags.length > 0 ? (

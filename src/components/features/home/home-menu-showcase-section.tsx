@@ -9,6 +9,7 @@ import {
   scrollMenuTrackToEnd,
   scrollMenuTrackToStart
 } from "@/lib/menu-showcase-tour";
+import { isVideoMediaUrl } from "@/lib/menu-media";
 import { useEffect, useMemo, useRef } from "react";
 
 type MenuGroup = MenuCategory & { items: MenuItem[] };
@@ -194,18 +195,35 @@ export function HomeMenuShowcaseSection({ groups }: HomeMenuShowcaseSectionProps
         <div ref={trackRef} className="menu-showcase-track" aria-label="מנות מהתפריט">
           <div ref={railRef} className="menu-showcase-rail" role="list">
             {items.map((item) => {
-              const image = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
+              const media = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
+              const isVideo = isVideoMediaUrl(media);
               const isBestSeller = item.tags.some(
                 (tag) => tag === "מומלץ" || tag === "הכי נמכר"
               );
 
               return (
                 <article key={item.id} className="menu-showcase-card" role="listitem">
-                  <div className="menu-showcase-card-media">
+                  <div
+                    className={`menu-showcase-card-media${isVideo ? " menu-showcase-card-media--video" : ""}`}
+                  >
                     {isBestSeller ? (
                       <span className="menu-showcase-badge">הכי נמכר</span>
                     ) : null}
-                    <img src={image} alt={item.name} loading="lazy" />
+                    {isVideo ? (
+                      <div className="menu-showcase-card-video-frame">
+                        <video
+                          className="menu-showcase-card-video"
+                          src={media}
+                          autoPlay
+                          loop
+                          muted
+                          playsInline
+                          aria-label={item.name}
+                        />
+                      </div>
+                    ) : (
+                      <img src={media} alt={item.name} loading="lazy" />
+                    )}
                   </div>
                   <div className="menu-showcase-card-body">
                     <h3 className="menu-showcase-card-title">{item.name}</h3>

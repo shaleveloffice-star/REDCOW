@@ -3,7 +3,7 @@
 import type { OrderLink, SiteSettings } from "@/types/content";
 import { motion, useReducedMotion } from "framer-motion";
 
-import { HERO_DEFAULT_IMAGE_URL } from "@/data/site-images.registry";
+import { HERO_DEFAULT_VIDEO_URL } from "@/data/site-images.registry";
 
 const easeLuxury = [0.22, 1, 0.36, 1] as const;
 
@@ -15,8 +15,8 @@ export function HeroSection({
   orderLinks: OrderLink[];
 }) {
   const reduceMotion = useReducedMotion();
-  const heroMediaUrl = settings.heroMediaUrl || HERO_DEFAULT_IMAGE_URL;
-  const heroMediaType = settings.heroMediaUrl ? settings.heroMediaType : "image";
+  const heroMediaUrl = settings.heroMediaUrl || HERO_DEFAULT_VIDEO_URL;
+  const heroMediaType = settings.heroMediaUrl ? settings.heroMediaType : "video";
   const hasHeroMedia = heroMediaType !== "none" && heroMediaUrl.length > 0;
   const primaryOrderLink = orderLinks[0];
 
@@ -54,55 +54,26 @@ export function HeroSection({
         <div className="hero-vignette" aria-hidden="true" />
         <div className="hero-grain" aria-hidden="true" />
         <div className="hero-glow" aria-hidden="true" />
+        <div className="hero-bottom-fade" aria-hidden="true" />
       </div>
 
       <div className="hero-inner">
         <div className="hero-content">
-          <div className="hero-intro">
-          <motion.div
-            className="hero-ornament"
-            aria-hidden="true"
-            {...fadeUp(0.15)}
-          >
-            <span className="hero-ornament-line" />
-            <span className="hero-ornament-icon" aria-hidden="true">
-              <svg viewBox="0 0 40 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path
-                  d="M6 9.5c0-3.8 6.2-5.5 14-5.5s14 1.7 14 5.5"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                />
-                <path d="M9 13.5h22" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-                <path d="M8 16h24" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-                <path d="M9 18.5h22" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round" />
-                <path
-                  d="M6 19.5c0 3.6 6.2 5.5 14 5.5s14-1.9 14-5.5"
-                  stroke="currentColor"
-                  strokeWidth="1.25"
-                  strokeLinecap="round"
-                />
-              </svg>
-            </span>
-            <span className="hero-ornament-line" />
-          </motion.div>
+          <div className="hero-brand">
+            <motion.h1 className="hero-title" {...fadeUp(0.62)}>
+              <img
+                className="hero-logo"
+                src="/images/brand/nb-burger-wordmark-alpha.png?v=4"
+                alt="NB BURGER"
+                width={520}
+                height={230}
+              />
+            </motion.h1>
+
+            <motion.p className="hero-tagline hero-tagline--below" {...fadeUp(0.72)}>
+              הביס הראשון מתחיל מהמסך.
+            </motion.p>
           </div>
-
-          <motion.h1 className="hero-title" {...fadeUp(0.62)}>
-            <img
-              className="hero-logo"
-              src="/images/brand/nb-burger-wordmark-alpha.png?v=4"
-              alt="NB BURGER"
-              width={520}
-              height={230}
-            />
-          </motion.h1>
-
-          <motion.p className="hero-tagline hero-tagline--below" {...fadeUp(0.72)}>
-            הביס הראשון מתחיל מהמסך.
-          </motion.p>
-
-          <motion.div className="hero-title-shine" aria-hidden="true" {...fadeUp(0.82)} />
 
           <motion.div className="hero-actions" {...fadeUp(0.9)}>
             <a className="hero-button hero-button--menu" href="#menu">

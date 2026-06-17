@@ -635,7 +635,27 @@ select {
   object-position: center center;
 }
 
-.hero-visual-media video.hero-media {
+.hero-media--poster {
+  z-index: 0;
+}
+
+.hero-media--poster.is-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.hero-media--video {
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.hero-media--video.is-ready,
+.hero-media--video-static {
+  opacity: 1;
+}
+
+.hero-visual-media video.hero-media--video {
   transform: scale(1.22);
   transform-origin: center center;
 }
@@ -1926,23 +1946,29 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .menu-showcase-card-media--video .menu-showcase-card-video-frame::before {
   content: "";
   position: absolute;
-  inset: -1px;
+  inset: 0;
   z-index: 2;
-  border: 1px solid transparent;
   border-radius: 18px;
-  background:
-    linear-gradient(#050505, #050505) padding-box,
-    conic-gradient(
-      from var(--menu-border-angle),
-      transparent 0deg,
-      transparent 272deg,
-      rgba(255, 225, 186, 0.1) 280deg,
-      #ffe1ba 286deg,
-      #ffe1ba 294deg,
-      rgba(255, 225, 186, 0.1) 302deg,
-      transparent 310deg,
-      transparent 360deg
-    ) border-box;
+  padding: 1px;
+  background: conic-gradient(
+    from var(--menu-border-angle),
+    transparent 0deg,
+    transparent 272deg,
+    rgba(255, 225, 186, 0.1) 280deg,
+    #ffe1ba 286deg,
+    #ffe1ba 294deg,
+    rgba(255, 225, 186, 0.1) 302deg,
+    transparent 310deg,
+    transparent 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
   opacity: 0;
   animation: menu-showcase-border-snake 12s ease-in-out infinite;
   pointer-events: none;

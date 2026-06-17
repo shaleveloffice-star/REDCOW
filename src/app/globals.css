@@ -595,9 +595,10 @@ select {
   background: #030303;
 }
 
-.hero--cinematic {
-  --hero-gold: var(--secondary);
-  --hero-cream: #fff7ed;
+@media (max-width: 767px) {
+  .hero {
+    min-height: calc(100svh + 45px);
+  }
 }
 
 .hero-visual {

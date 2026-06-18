@@ -93,6 +93,6 @@ export const fr: Messages = {
     triggerAria: "Lancer une visite rapide du site",
     dialogAria: "Visite rapide du site",
     skip: "Passer la visite",
-    steps: ["Bienvenue", "Notre carte", "Sur la plancha", "L'ambiance", "Nous trouver", "Commander"]
+    steps: ["Bienvenue", "L'ambiance", "Notre carte", "Sur la plancha", "Nous trouver", "Commander"]
   }
 };

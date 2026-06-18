@@ -1,6 +1,13 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import {
+  motion,
+  useReducedMotion,
+  useScroll,
+  useSpring,
+  useTransform
+} from "framer-motion";
 
 import {
   ATMOSPHERE_FOOD_IMAGE,
@@ -15,8 +22,48 @@ type AtmosphereSectionProps = {
   siteImages?: SiteImagesMap;
 };
 
+type AtmosphereBurgerStackProps = {
+  reduceMotion: boolean | null;
+  children: React.ReactNode;
+};
+
+function AtmosphereBurgerStack({ reduceMotion, children }: AtmosphereBurgerStackProps) {
+  const stackRef = useRef<HTMLDivElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: stackRef,
+    offset: ["start 0.92", "start 0.38"]
+  });
+
+  const scaleRaw = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduceMotion ? [1, 1] : [0.52, 1]
+  );
+  const opacityRaw = useTransform(
+    scrollYProgress,
+    [0, 0.25, 1],
+    reduceMotion ? [1, 1, 1] : [0.2, 0.82, 1]
+  );
+  const yRaw = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [72, 0]);
+
+  const scale = useSpring(scaleRaw, { stiffness: 90, damping: 22, mass: 0.85 });
+  const opacity = useSpring(opacityRaw, { stiffness: 120, damping: 28, mass: 0.7 });
+  const y = useSpring(yRaw, { stiffness: 100, damping: 24, mass: 0.8 });
+
+  return (
+    <motion.div
+      ref={stackRef}
+      className="atmosphere-burger-stack"
+      style={reduceMotion ? undefined : { scale, opacity, y }}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
 export function AtmosphereSection({ siteImages }: AtmosphereSectionProps) {
   const t = useTranslations();
+  const reduceMotion = useReducedMotion();
   const atmosphereFoodMedia = pickSiteImage(
     siteImages,
     "atmosphere-food",
@@ -53,23 +100,13 @@ export function AtmosphereSection({ siteImages }: AtmosphereSectionProps) {
         </div>
 
         <div className="atmosphere-gallery">
-          <div className="atmosphere-burger-stack">
+          <AtmosphereBurgerStack reduceMotion={reduceMotion}>
             <div className="atmosphere-gallery-grid">
-              <motion.div
-                className="atmosphere-gallery-item atmosphere-gallery-item--wide atmosphere-gallery-item--bun-top"
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.7 }}
-              >
+              <div className="atmosphere-gallery-item atmosphere-gallery-item--wide atmosphere-gallery-item--bun-top">
                 <img src={atmosphereTopImage} alt="לחמנייה עליונה" />
-              </motion.div>
-              <motion.div
+              </div>
+              <div
                 className={`atmosphere-gallery-item atmosphere-gallery-item--bottom-panel atmosphere-gallery-item--bottom-video${atmosphereFoodIsVideo ? " atmosphere-gallery-item--video" : ""}`}
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.45, duration: 0.7 }}
               >
                 {atmosphereFoodIsVideo ? (
                   <video
@@ -84,18 +121,12 @@ export function AtmosphereSection({ siteImages }: AtmosphereSectionProps) {
                 ) : (
                   <img src={atmosphereFoodMedia} alt={t.atmosphere.droneAlt} />
                 )}
-              </motion.div>
-              <motion.div
-                className="atmosphere-gallery-item atmosphere-gallery-item--wide atmosphere-gallery-item--bun-bottom"
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.55, duration: 0.7 }}
-              >
+              </div>
+              <div className="atmosphere-gallery-item atmosphere-gallery-item--wide atmosphere-gallery-item--bun-bottom">
                 <img src={atmosphereTopImage} alt={t.atmosphere.bottomAlt} />
-              </motion.div>
+              </div>
             </div>
-          </div>
+          </AtmosphereBurgerStack>
         </div>
       </div>
     </section>

@@ -93,6 +93,6 @@ export const en: Messages = {
     triggerAria: "Start a quick site tour",
     dialogAria: "Quick site tour",
     skip: "Skip tour",
-    steps: ["Welcome", "Our Menu", "On the Plancha", "The Vibe", "Find Us", "Order Now"]
+    steps: ["Welcome", "The Vibe", "Our Menu", "On the Plancha", "Find Us", "Order Now"]
   }
 };

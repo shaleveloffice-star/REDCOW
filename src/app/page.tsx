@@ -34,9 +34,9 @@ export default async function HomePage() {
       <SiteHeader overlay />
       <main>
         <HeroSection settings={settings} orderLinks={orderLinks} />
+        <AtmosphereSection siteImages={siteImages} />
         <HomeMenuShowcaseSection groups={menuGroups} />
         <PlanchaSection siteImages={siteImages} />
-        <AtmosphereSection siteImages={siteImages} />
         <LocationSection siteImages={siteImages} />
       </main>
       <ShortTour />

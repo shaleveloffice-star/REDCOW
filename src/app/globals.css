@@ -843,6 +843,7 @@ select {
   align-items: center;
   width: min(100%, 760px);
   text-align: center;
+  transform: translateY(-5svh);
 }
 
 .hero-tagline {
@@ -876,9 +877,11 @@ select {
 .hero-tagline--below {
   position: relative;
   z-index: 3;
-  margin-top: 20px;
+  margin-top: 16px;
   margin-bottom: 0;
   color: rgba(255, 225, 186, 0.88);
+  line-height: 1.45;
+  transform: translateY(-15px);
 }
 
 .hero-title,
@@ -897,7 +900,7 @@ select {
   width: min(680px, 96vw);
   height: auto;
   max-height: clamp(220px, 38vw, 340px);
-  margin-bottom: clamp(-64px, -14vw, -96px);
+  margin-bottom: 0;
   object-fit: contain;
   object-position: top center;
   filter: drop-shadow(0 12px 40px rgba(0, 0, 0, 0.65));
@@ -910,6 +913,7 @@ select {
   gap: 14px;
   margin-top: 40px;
   direction: ltr;
+  transform: translateY(-15px);
 }
 
 .hero-language-switcher {
@@ -1639,16 +1643,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     transform: translateX(10%);
   }
 
-  /* הביס — מובייל: טקסט משמאל */
-  .plancha-panel--plancha-bite .plancha-panel-copy {
-    text-align: left;
-  }
-
-  .plancha-panel--plancha-bite .plancha-panel-desc {
-    margin-inline-start: 0;
-    margin-inline-end: auto;
-  }
-
   .plancha-panel--plancha-bite .plancha-panel-media {
     height: clamp(280px, 50vh, 380px);
   }
@@ -1874,8 +1868,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .menu-showcase-section {
   position: relative;
   z-index: 2;
-  margin-top: clamp(-120px, -18vh, -180px);
-  padding: clamp(120px, 18vh, 180px) 0 clamp(72px, 10vw, 104px);
+  margin-top: 0;
+  padding: clamp(72px, 10vw, 104px) 0 clamp(72px, 10vw, 104px);
   background: #030303;
   color: #fff7ed;
   overflow: hidden;
@@ -2559,6 +2553,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .atmosphere-gallery {
   order: 2;
+  overflow: hidden;
+  perspective: 1200px;
 }
 
 .atmosphere-copy {
@@ -2592,6 +2588,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   border-radius: 0;
   background: transparent;
   box-shadow: none;
+  transform-origin: center center;
+  will-change: transform;
 }
 
 .atmosphere-burger-stack .atmosphere-gallery-grid {
@@ -2754,8 +2752,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   .atmosphere-burger-stack .atmosphere-gallery-item--bun-bottom {
     height: 228px;
   }
-
-  .atmosphere-burger-stack .atmosphere-gallery-item--bottom-panel {
 
   .atmosphere-burger-stack .atmosphere-gallery-item--filling {
     height: 156px;
@@ -4136,13 +4132,14 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   }
 
   .hero-inner {
-    padding: 80px 20px 72px;
+    padding: 88px 20px 72px;
   }
 
   .hero-content {
     width: 100%;
     padding-inline: 24px;
     box-sizing: border-box;
+    transform: none;
   }
 
   .hero-tagline {
@@ -4151,17 +4148,28 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   }
 
   .hero-tagline--below {
-    margin-top: 25px;
+    margin-top: 11px;
+    line-height: 1.45;
   }
 
   .hero-tagline--2 {
     margin-bottom: 48px;
   }
 
+  .hero-title,
+  .hero h1.hero-title {
+    display: flex;
+    width: auto;
+    max-height: none;
+    overflow: visible;
+  }
+
   .hero-logo {
-    width: min(520px, 98vw);
-    max-height: clamp(180px, 42vw, 260px);
-    margin-bottom: clamp(-48px, -13vw, -72px);
+    width: min(480px, 92vw);
+    max-height: clamp(200px, 48vw, 280px);
+    margin-bottom: 0;
+    object-fit: contain;
+    object-position: top center;
   }
 
   .hero-tagline--2 {
@@ -4172,7 +4180,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     flex-direction: column;
     width: 100%;
     max-width: 320px;
-    margin-top: 48px;
+    margin-top: 28px;
   }
 
   .hero-button {
@@ -4309,8 +4317,12 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 @media (max-width: 380px) {
   .hero-logo {
-    max-height: clamp(160px, 44vw, 220px);
-    margin-bottom: clamp(-40px, -12vw, -58px);
+    width: min(440px, 94vw);
+    max-height: clamp(184px, 46vw, 252px);
+  }
+
+  .hero-tagline--below {
+    margin-top: 9px;
   }
 
   .hero-tagline {

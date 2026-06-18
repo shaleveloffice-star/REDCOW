@@ -5483,31 +5483,79 @@ body.short-tour-active .menu-showcase-track {
 
 .burger-assembly {
   position: relative;
-  min-height: 280vh;
-  background: #030303;
-  overflow: clip;
-}
-
-.burger-assembly__sticky {
-  position: sticky;
-  top: 0;
-  height: 100svh;
   display: grid;
-  place-items: center;
+  place-items: start center;
+  align-content: start;
+  min-height: 118svh;
+  padding: clamp(10vh, 12svh, 14vh) 0 clamp(40px, 6vh, 64px);
+  background: #030303;
+  overflow: visible;
 }
 
 .burger-assembly__stage {
+  --ba-w: min(92vw, 560px);
+  --ba-unit: calc(var(--ba-w) * 481 / 1024);
+  --ba-gap: clamp(14px, 2.2vw, 20px);
   position: relative;
-  width: min(92vw, 560px);
-  height: min(72vh, 620px);
+  width: var(--ba-w);
+  height: calc(var(--ba-unit) * 1.72 + var(--ba-gap) * 5);
+  margin: 0 auto;
 }
 
 .burger-assembly__layer {
   position: absolute;
   left: 50%;
-  width: 100%;
+  width: 94%;
   translate: -50% 0;
   will-change: transform, opacity;
+}
+
+.burger-assembly__layer--bunTop {
+  top: 0;
+  width: 96%;
+  z-index: 6;
+}
+
+.burger-assembly__layer--bunTop .burger-assembly__layer-image {
+  object-position: center top;
+}
+
+.burger-assembly__layer--sauce {
+  top: calc(var(--ba-unit) * 0.4 + var(--ba-gap));
+  width: 86%;
+  z-index: 5;
+}
+
+.burger-assembly__layer--lettuce {
+  top: calc(var(--ba-unit) * 0.52 + var(--ba-gap) * 2);
+  width: 94%;
+  z-index: 4;
+}
+
+.burger-assembly__layer--tomato {
+  top: calc(var(--ba-unit) * 0.64 + var(--ba-gap) * 3);
+  width: 88%;
+  z-index: 3;
+}
+
+.burger-assembly__layer--patty {
+  top: calc(var(--ba-unit) * 0.76 + var(--ba-gap) * 4);
+  width: 92%;
+  z-index: 2;
+}
+
+.burger-assembly__layer--patty .burger-assembly__layer-image {
+  object-position: center 55%;
+}
+
+.burger-assembly__layer--bunBottom {
+  top: calc(var(--ba-unit) * 0.88 + var(--ba-gap) * 5);
+  width: 96%;
+  z-index: 1;
+}
+
+.burger-assembly__layer--bunBottom .burger-assembly__layer-image {
+  object-position: center bottom;
 }
 
 .burger-assembly__layer-image {
@@ -5521,11 +5569,42 @@ body.short-tour-active .menu-showcase-track {
 
 @media (max-width: 767px) {
   .burger-assembly {
-    min-height: 320vh;
+    min-height: 122svh;
+    padding: clamp(8vh, 10svh, 12vh) 0 clamp(32px, 5vh, 48px);
   }
 
   .burger-assembly__stage {
-    width: min(94vw, 420px);
+    --ba-w: min(94vw, 420px);
+    --ba-gap: clamp(10px, 2.8vw, 14px);
+    height: calc(var(--ba-unit) * 1.72 + var(--ba-gap) * 5);
+  }
+
+  .burger-assembly__layer {
+    width: 92%;
+  }
+
+  .burger-assembly__layer--bunTop {
+    width: 94%;
+  }
+
+  .burger-assembly__layer--sauce {
+    width: 84%;
+  }
+
+  .burger-assembly__layer--lettuce {
+    width: 90%;
+  }
+
+  .burger-assembly__layer--tomato {
+    width: 86%;
+  }
+
+  .burger-assembly__layer--patty {
+    width: 90%;
+  }
+
+  .burger-assembly__layer--bunBottom {
+    width: 94%;
   }
 }
 

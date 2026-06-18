@@ -1,7 +1,9 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useMemo } from "react";
 
+import { useTranslations } from "@/components/providers/locale-provider";
 import {
   PLANCHA_BITE_IMAGE,
   PLANCHA_MEAT_IMAGE,
@@ -10,26 +12,8 @@ import {
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
-const steps = [
-  {
-    id: "plancha-meat",
-    img: PLANCHA_MEAT_IMAGE,
-    title: "הבשר",
-    desc: "בשר שנטחן במקום, מתובל בעדינות ונכנס לפלנצ׳ה כשהוא טרי ומדויק."
-  },
-  {
-    id: "plancha-sear",
-    img: PLANCHA_SEAR_IMAGE,
-    title: "הצריבה",
-    desc: "חום גבוה, צריבה חזקה וקראסט שנותן לביס את האופי שלו."
-  },
-  {
-    id: "plancha-bite",
-    img: PLANCHA_BITE_IMAGE,
-    title: "הביס",
-    desc: "לחמנייה רכה, ירקות טריים ורוטב שמחבר הכול בלי להשתלט."
-  }
-];
+const stepIds = ["plancha-meat", "plancha-sear", "plancha-bite"] as const;
+const stepImages = [PLANCHA_MEAT_IMAGE, PLANCHA_SEAR_IMAGE, PLANCHA_BITE_IMAGE] as const;
 
 const easeLuxury = [0.22, 1, 0.36, 1] as const;
 
@@ -47,6 +31,19 @@ type PlanchaSectionProps = {
 };
 
 export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
+  const t = useTranslations();
+
+  const steps = useMemo(
+    () =>
+      stepIds.map((id, index) => ({
+        id,
+        img: stepImages[index],
+        title: t.plancha.steps[index]?.title ?? "",
+        desc: t.plancha.steps[index]?.desc ?? ""
+      })),
+    [t]
+  );
+
   return (
     <section id="plancha" className="plancha-section" aria-labelledby="plancha-title">
       <div className="plancha-intro">
@@ -58,7 +55,7 @@ export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
         >
-          על הפלנצ׳ה
+          {t.plancha.title}
         </motion.h2>
         <motion.p
           className="plancha-lead"
@@ -67,11 +64,11 @@ export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
           viewport={{ once: true }}
           transition={{ delay: 0.3, duration: 0.8 }}
         >
-          הבשר מגיע טרי, ניטחן במקום ועולה ישר לאש.
+          {t.plancha.lead}
         </motion.p>
       </div>
 
-      <ol className="plancha-panels" aria-label="שלבי הכנת הבורגר על הפלנצ׳ה">
+      <ol className="plancha-panels" aria-label={t.plancha.listAria}>
         {steps.map((item, i) => {
           const src = pickSiteImage(siteImages, item.id, item.img);
           const textSide =

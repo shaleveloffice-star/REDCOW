@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { Clock, Map, MapPin } from "lucide-react";
 
+import { useTranslations } from "@/components/providers/locale-provider";
 import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
@@ -14,7 +15,9 @@ type LocationSectionProps = {
 };
 
 export function LocationSection({ siteImages }: LocationSectionProps) {
+  const t = useTranslations();
   const exteriorImage = pickSiteImage(siteImages, "location-exterior", LOCATION_EXTERIOR_IMAGE);
+
   return (
     <section id="location" className="location-section" aria-labelledby="location-title">
       <div className="location-shell">
@@ -28,7 +31,7 @@ export function LocationSection({ siteImages }: LocationSectionProps) {
             transition={{ duration: 0.8 }}
             style={{ color: "#fff7ed" }}
           >
-            מיקום ושעות
+            {t.location.title}
           </motion.h2>
 
           <motion.div
@@ -41,10 +44,10 @@ export function LocationSection({ siteImages }: LocationSectionProps) {
           >
             <div className="location-block-head">
               <MapPin className="location-block-icon" strokeWidth={1.5} aria-hidden="true" />
-              <h3>מיקום</h3>
+              <h3>{t.location.locationHeading}</h3>
             </div>
-            <p className="location-block-text">רח׳ ויצמן 1, כפר סבא</p>
-            <p className="location-block-text">חניה חופשית בשפע</p>
+            <p className="location-block-text">{t.location.address}</p>
+            <p className="location-block-text">{t.location.parking}</p>
           </motion.div>
 
           <motion.div
@@ -57,20 +60,20 @@ export function LocationSection({ siteImages }: LocationSectionProps) {
           >
             <div className="location-block-head">
               <Clock className="location-block-icon" strokeWidth={1.5} aria-hidden="true" />
-              <h3>שעות פתיחה</h3>
+              <h3>{t.location.hoursHeading}</h3>
             </div>
             <dl className="location-hours">
               <div>
-                <dt className="location-hours-day">ראשון - חמישי</dt>
-                <dd className="location-hours-time">11:00 - 23:00</dd>
+                <dt className="location-hours-day">{t.location.days.sunThu}</dt>
+                <dd className="location-hours-time">{t.location.hours.sunThu}</dd>
               </div>
               <div>
-                <dt className="location-hours-day">שישי</dt>
-                <dd className="location-hours-time">11:00 - סוף שעה לפני שבת</dd>
+                <dt className="location-hours-day">{t.location.days.fri}</dt>
+                <dd className="location-hours-time">{t.location.hours.fri}</dd>
               </div>
               <div>
-                <dt className="location-hours-day">שבת</dt>
-                <dd className="location-hours-time">12:00 - 23:00</dd>
+                <dt className="location-hours-day">{t.location.days.sat}</dt>
+                <dd className="location-hours-time">{t.location.hours.sat}</dd>
               </div>
             </dl>
           </motion.div>
@@ -86,7 +89,7 @@ export function LocationSection({ siteImages }: LocationSectionProps) {
             transition={{ delay: 0.5, duration: 0.7 }}
           >
             <Map className="location-cta-icon" strokeWidth={1.5} aria-hidden="true" />
-            <span>נווטו אלינו</span>
+            <span>{t.location.navigate}</span>
           </motion.a>
         </div>
 
@@ -97,7 +100,7 @@ export function LocationSection({ siteImages }: LocationSectionProps) {
           viewport={{ once: true }}
           transition={{ delay: 0.2, duration: 0.8 }}
         >
-          <img src={exteriorImage} alt="חזית המסעדה" />
+          <img src={exteriorImage} alt={t.location.imageAlt} />
         </motion.div>
       </div>
     </section>

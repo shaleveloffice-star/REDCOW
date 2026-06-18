@@ -1,7 +1,8 @@
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
+import { useTranslations } from "@/components/providers/locale-provider";
 import { dispatchMenuTourScroll } from "@/lib/menu-showcase-tour";
 
 const FIRST_STEP_MS = 1200;
@@ -11,37 +12,23 @@ function stepDuration(index: number) {
   return index === 0 ? FIRST_STEP_MS : STEP_MS;
 }
 
-const TOUR_STEPS = [
-  {
-    sectionId: "hero",
-    message: "ברוכים הבאים"
-  },
+const TOUR_STEP_META = [
+  { sectionId: "hero" },
   {
     sectionId: "menu",
     highlightSelector: ".menu-showcase-track",
-    animateMenu: true,
-    message: "התפריט שלנו"
+    animateMenu: true
   },
-  {
-    sectionId: "plancha",
-    message: "על הפלנצ׳ה"
-  },
-  {
-    sectionId: "atmosphere",
-    message: "האווירה כאן"
-  },
-  {
-    sectionId: "location",
-    message: "מצאו אותנו"
-  },
+  { sectionId: "plancha" },
+  { sectionId: "atmosphere" },
+  { sectionId: "location" },
   {
     sectionId: "hero",
-    highlightSelector: ".hero-button--order",
-    message: "להזמין עכשיו"
+    highlightSelector: ".hero-button--order"
   }
 ] as const;
 
-type TourStep = (typeof TOUR_STEPS)[number];
+type TourStep = (typeof TOUR_STEP_META)[number] & { message: string };
 
 type TimeoutId = ReturnType<typeof setTimeout>;
 
@@ -71,6 +58,16 @@ function applySpotlight(el: HTMLElement): SpotlightRect {
 }
 
 export function ShortTour() {
+  const t = useTranslations();
+  const tourSteps = useMemo<TourStep[]>(
+    () =>
+      TOUR_STEP_META.map((step, index) => ({
+        ...step,
+        message: t.shortTour.steps[index] ?? ""
+      })),
+    [t]
+  );
+
   const [active, setActive] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
   const [spotlight, setSpotlight] = useState<SpotlightRect | null>(null);
@@ -112,12 +109,15 @@ export function ShortTour() {
     setSpotlight(applySpotlight(el));
   }, []);
 
-  const updateLayout = useCallback((index: number) => {
-    const step = TOUR_STEPS[index];
-    const target = getTargetElement(step);
-    if (!target) return;
-    setSpotlightFromElement(target);
-  }, [setSpotlightFromElement]);
+  const updateLayout = useCallback(
+    (index: number) => {
+      const step = tourSteps[index];
+      const target = getTargetElement(step);
+      if (!target) return;
+      setSpotlightFromElement(target);
+    },
+    [setSpotlightFromElement, tourSteps]
+  );
 
   const runMenuStepScroll = useCallback(
     (reduceMotionEnabled: boolean) => {
@@ -158,7 +158,7 @@ export function ShortTour() {
 
   const goToStep = useCallback(
     (index: number) => {
-      const step = TOUR_STEPS[index];
+      const step = tourSteps[index];
       const target = getTargetElement(step);
       const section = document.getElementById(step.sectionId);
       if (!target && !section) return;
@@ -182,7 +182,7 @@ export function ShortTour() {
         reduceMotion ? 0 : 680
       );
     },
-    [reduceMotion, updateLayout, runMenuStepScroll]
+    [reduceMotion, tourSteps, updateLayout, runMenuStepScroll]
   );
 
   const startTour = useCallback(() => {
@@ -198,7 +198,7 @@ export function ShortTour() {
 
     timerRef.current = setTimeout(() => {
       const next = stepIndex + 1;
-      if (next >= TOUR_STEPS.length) {
+      if (next >= tourSteps.length) {
         stopTour();
         return;
       }
@@ -207,7 +207,7 @@ export function ShortTour() {
     }, stepDuration(stepIndex));
 
     return clearTimers;
-  }, [active, stepIndex, goToStep, stopTour, clearTimers]);
+  }, [active, stepIndex, goToStep, stopTour, clearTimers, tourSteps.length]);
 
   useLayoutEffect(() => {
     if (!active) return;
@@ -220,7 +220,7 @@ export function ShortTour() {
     const onResize = () => updateLayout(stepIndex);
     const onScroll = () => updateLayout(stepIndex);
     const onMenuTrackScroll = () => {
-      if (TOUR_STEPS[stepIndex]?.sectionId !== "menu") return;
+      if (tourSteps[stepIndex]?.sectionId !== "menu") return;
       const track = document.querySelector<HTMLElement>(".menu-showcase-track");
       if (track) setSpotlightFromElement(track);
     };
@@ -236,7 +236,7 @@ export function ShortTour() {
       window.removeEventListener("scroll", onScroll);
       menuTrack?.removeEventListener("scroll", onMenuTrackScroll);
     };
-  }, [active, stepIndex, updateLayout, setSpotlightFromElement]);
+  }, [active, stepIndex, updateLayout, setSpotlightFromElement, tourSteps]);
 
   useEffect(() => {
     if (!active) return;
@@ -254,7 +254,7 @@ export function ShortTour() {
     document.body.classList.remove("short-tour-active");
   }, [clearTimers]);
 
-  const message = TOUR_STEPS[stepIndex]?.message ?? "";
+  const message = tourSteps[stepIndex]?.message ?? "";
 
   return (
     <>
@@ -262,14 +262,14 @@ export function ShortTour() {
         type="button"
         className="short-tour-trigger"
         onClick={startTour}
-        aria-label="התחל סיור קצר באתר"
+        aria-label={t.shortTour.triggerAria}
         disabled={active}
       >
-        סיור קצר
+        {t.shortTour.trigger}
       </button>
 
       {active ? (
-        <div className="short-tour-layer" role="dialog" aria-modal="true" aria-label="סיור קצר באתר">
+        <div className="short-tour-layer" role="dialog" aria-modal="true" aria-label={t.shortTour.dialogAria}>
           {spotlight ? (
             <div
               className="short-tour-spotlight"
@@ -287,7 +287,7 @@ export function ShortTour() {
             <div className="short-tour-caption-panel" key={stepIndex}>
               <p className="short-tour-caption-text">{message}</p>
               <button type="button" className="short-tour-skip" onClick={stopTour}>
-                דלג על הסיור
+                {t.shortTour.skip}
               </button>
             </div>
           </div>

@@ -10,6 +10,7 @@ import {
   scrollMenuTrackToStart
 } from "@/lib/menu-showcase-tour";
 import { isVideoMediaUrl } from "@/lib/menu-media";
+import { useTranslations } from "@/components/providers/locale-provider";
 import { useEffect, useMemo, useRef } from "react";
 
 type MenuGroup = MenuCategory & { items: MenuItem[] };
@@ -60,6 +61,7 @@ function isAtScrollStart(track: HTMLElement): boolean {
 }
 
 export function HomeMenuShowcaseSection({ groups }: HomeMenuShowcaseSectionProps) {
+  const t = useTranslations();
   const trackRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
   const nudgePausedRef = useRef(false);
@@ -185,14 +187,12 @@ export function HomeMenuShowcaseSection({ groups }: HomeMenuShowcaseSectionProps
         <header className="menu-showcase-header">
           <p className="menu-showcase-kicker">NB BURGER</p>
           <h2 id="menu-showcase-title" className="menu-showcase-title">
-            התפריט
+            {t.menuShowcase.title}
           </h2>
-          <p className="menu-showcase-lead">
-            הסטנדרט הגבוה של אן בי.
-          </p>
+          <p className="menu-showcase-lead">{t.menuShowcase.lead}</p>
         </header>
 
-        <div ref={trackRef} className="menu-showcase-track" aria-label="מנות מהתפריט">
+        <div ref={trackRef} className="menu-showcase-track" aria-label={t.menuShowcase.trackAria}>
           <div ref={railRef} className="menu-showcase-rail" role="list">
             {items.map((item) => {
               const media = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
@@ -207,7 +207,7 @@ export function HomeMenuShowcaseSection({ groups }: HomeMenuShowcaseSectionProps
                     className={`menu-showcase-card-media${isVideo ? " menu-showcase-card-media--video" : ""}`}
                   >
                     {isBestSeller ? (
-                      <span className="menu-showcase-badge">הכי נמכר</span>
+                      <span className="menu-showcase-badge">{t.menuShowcase.bestSeller}</span>
                     ) : null}
                     {isVideo ? (
                       <div className="menu-showcase-card-video-frame">
@@ -243,7 +243,7 @@ export function HomeMenuShowcaseSection({ groups }: HomeMenuShowcaseSectionProps
 
         <div className="menu-showcase-action">
           <Link className="menu-showcase-button" href="/menu">
-            לתפריט המלא
+            {t.menuShowcase.fullMenu}
           </Link>
         </div>
       </div>

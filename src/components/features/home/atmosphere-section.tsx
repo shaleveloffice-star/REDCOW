@@ -9,6 +9,7 @@ import {
   ATMOSPHERE_WIDE_IMAGE
 } from "@/data/site-images.registry";
 import { pickSiteImage } from "@/lib/site-image-url";
+import { useTranslations } from "@/components/providers/locale-provider";
 import type { SiteImagesMap } from "@/types/site-images";
 
 type AtmosphereSectionProps = {
@@ -16,6 +17,8 @@ type AtmosphereSectionProps = {
 };
 
 export function AtmosphereSection({ siteImages }: AtmosphereSectionProps) {
+  const t = useTranslations();
+
   return (
     <section id="atmosphere" className="atmosphere-section" aria-labelledby="atmosphere-title">
       <div className="atmosphere-shell">
@@ -28,7 +31,7 @@ export function AtmosphereSection({ siteImages }: AtmosphereSectionProps) {
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
           >
-            האווירה
+            {t.atmosphere.title}
           </motion.h2>
           <motion.p
             className="atmosphere-lead"
@@ -37,9 +40,9 @@ export function AtmosphereSection({ siteImages }: AtmosphereSectionProps) {
             viewport={{ once: true }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            אוכל טוב, מוזיקה ברקע
+            {t.atmosphere.leadLine1}
             <br />
-            ואנשים שכיף לשבת איתם.
+            {t.atmosphere.leadLine2}
           </motion.p>
         </div>
 

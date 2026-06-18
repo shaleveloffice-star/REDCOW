@@ -8,6 +8,8 @@ import {
   HERO_DEFAULT_POSTER_URL,
   HERO_DEFAULT_VIDEO_URL
 } from "@/data/site-images.registry";
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { useTranslations } from "@/components/providers/locale-provider";
 
 const easeLuxury = [0.22, 1, 0.36, 1] as const;
 
@@ -85,6 +87,7 @@ export function HeroSection({
   orderLinks: OrderLink[];
 }) {
   const reduceMotion = useReducedMotion();
+  const t = useTranslations();
   const heroMediaUrl = settings.heroMediaUrl || HERO_DEFAULT_VIDEO_URL;
   const heroMediaType = settings.heroMediaUrl ? settings.heroMediaType : "video";
   const heroPosterUrl = HERO_DEFAULT_POSTER_URL;
@@ -140,13 +143,13 @@ export function HeroSection({
             </motion.h1>
 
             <motion.p className="hero-tagline hero-tagline--below" {...fadeUp(0.72)}>
-              הביס הראשון מתחיל מהמסך.
+              {t.hero.tagline}
             </motion.p>
           </div>
 
           <motion.div className="hero-actions" {...fadeUp(0.9)}>
             <a className="hero-button hero-button--menu" href="#menu">
-              לתפריט
+              {t.hero.menuCta}
             </a>
             <a
               className="hero-button hero-button--order"
@@ -155,14 +158,17 @@ export function HeroSection({
                 ? { rel: "noopener noreferrer", target: "_blank" }
                 : {})}
             >
-              להזמנה
+              {t.hero.orderCta}
             </a>
+            <div className="hero-language-switcher">
+              <LanguageSwitcher />
+            </div>
           </motion.div>
         </div>
       </div>
 
-      <a className="hero-scroll" href="#plancha" aria-label="גלול למטה">
-        <span className="hero-scroll-label">גלול</span>
+      <a className="hero-scroll" href="#plancha" aria-label={t.hero.scrollAria}>
+        <span className="hero-scroll-label">{t.hero.scroll}</span>
         <svg
           className="hero-scroll-icon"
           viewBox="0 0 24 24"

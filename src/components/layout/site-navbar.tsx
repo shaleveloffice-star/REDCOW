@@ -3,22 +3,28 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { X } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
-const navLinks = [
-  { label: "דף הבית", href: "/#hero" },
-  { label: "התפריט", href: "/#menu" },
-  { label: "על הפלנצ׳ה", href: "/#plancha" },
-  { label: "האווירה", href: "/#atmosphere" },
-  { label: "מיקום ושעות", href: "/#location" }
-];
+import { useTranslations } from "@/components/providers/locale-provider";
 
 type SiteNavbarProps = {
   overlay?: boolean;
 };
 
 export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
+  const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
+
+  const navLinks = useMemo(
+    () => [
+      { label: t.nav.home, href: "/#hero" },
+      { label: t.nav.menu, href: "/#menu" },
+      { label: t.nav.plancha, href: "/#plancha" },
+      { label: t.nav.atmosphere, href: "/#atmosphere" },
+      { label: t.nav.location, href: "/#location" }
+    ],
+    [t]
+  );
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -43,7 +49,7 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
   return (
     <>
       <header className={navClass}>
-        <nav className="site-navbar-inner" aria-label="ניווט ראשי">
+        <nav className="site-navbar-inner" aria-label={t.nav.main}>
           <Link href="/#hero" className="site-navbar-brand">
             <img
               className="site-navbar-logo"
@@ -56,7 +62,7 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
           <button
             type="button"
             className="site-navbar-toggle"
-            aria-label="פתח תפריט"
+            aria-label={t.nav.openMenu}
             aria-expanded={isOpen}
             onClick={() => setIsOpen(true)}
           >
@@ -80,7 +86,7 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
             <button
               type="button"
               className="site-nav-overlay-close"
-              aria-label="סגור תפריט"
+              aria-label={t.nav.closeMenu}
               onClick={() => setIsOpen(false)}
             >
               <X strokeWidth={1.5} aria-hidden="true" />

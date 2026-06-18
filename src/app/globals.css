@@ -367,6 +367,49 @@ select {
   direction: ltr;
 }
 
+.site-navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.language-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border: 1px solid rgba(255, 225, 186, 0.28);
+  border-radius: 999px;
+  background: rgba(3, 3, 3, 0.55);
+  backdrop-filter: blur(8px);
+}
+
+.language-switcher-btn {
+  min-width: 36px;
+  padding: 6px 10px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: rgba(255, 247, 237, 0.72);
+  font-family: var(--font-button);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  transition:
+    color var(--motion-short) ease,
+    background-color var(--motion-short) ease;
+}
+
+.language-switcher-btn:hover {
+  color: var(--secondary);
+}
+
+.language-switcher-btn.is-active {
+  background: rgba(255, 225, 186, 0.16);
+  color: var(--secondary);
+}
+
 .site-navbar-brand {
   display: flex;
   align-items: center;
@@ -588,16 +631,66 @@ select {
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 100svh;
+  min-height: calc(100svh + 180px);
   overflow: hidden;
   isolation: isolate;
   padding: 0;
   background: #030303;
 }
 
+@media (min-width: 768px) {
+  .hero-scrim {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(3, 3, 3, 0.42) 0%,
+        rgba(3, 3, 3, 0.1) 36%,
+        rgba(3, 3, 3, 0.02) 62%,
+        rgba(3, 3, 3, 0.12) 84%,
+        rgba(3, 3, 3, 0.22) 100%
+      ),
+      linear-gradient(90deg, rgba(3, 3, 3, 0.5) 0%, transparent 26%, transparent 74%, rgba(3, 3, 3, 0.5) 100%);
+  }
+
+  .hero-bottom-fade {
+    height: clamp(80px, 14vh, 140px);
+    background: linear-gradient(
+      to bottom,
+      rgba(3, 3, 3, 0) 0%,
+      rgba(3, 3, 3, 0.04) 24%,
+      rgba(3, 3, 3, 0.12) 48%,
+      rgba(3, 3, 3, 0.28) 68%,
+      rgba(3, 3, 3, 0.5) 86%,
+      #030303 100%
+    );
+  }
+}
+
 @media (max-width: 767px) {
-  .hero {
-    min-height: calc(100svh - 5px);
+  .hero-scrim {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(3, 3, 3, 0.4) 0%,
+        rgba(3, 3, 3, 0.08) 34%,
+        rgba(3, 3, 3, 0.02) 60%,
+        rgba(3, 3, 3, 0.1) 84%,
+        rgba(3, 3, 3, 0.22) 100%
+      ),
+      linear-gradient(90deg, rgba(3, 3, 3, 0.48) 0%, transparent 26%, transparent 74%, rgba(3, 3, 3, 0.48) 100%);
+  }
+
+  .hero-bottom-fade {
+    height: clamp(72px, 12vh, 120px);
+    background: linear-gradient(
+      to bottom,
+      rgba(3, 3, 3, 0) 0%,
+      rgba(3, 3, 3, 0.04) 24%,
+      rgba(3, 3, 3, 0.12) 48%,
+      rgba(3, 3, 3, 0.28) 68%,
+      rgba(3, 3, 3, 0.5) 86%,
+      #030303 100%
+    );
   }
 }
 
@@ -780,7 +873,7 @@ select {
 .hero-tagline--below {
   position: relative;
   z-index: 3;
-  margin-top: 15px;
+  margin-top: 20px;
   margin-bottom: 0;
   color: rgba(255, 225, 186, 0.88);
 }
@@ -814,6 +907,17 @@ select {
   gap: 14px;
   margin-top: 40px;
   direction: ltr;
+}
+
+.hero-language-switcher {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.hero-language-switcher .language-switcher {
+  background: rgba(3, 3, 3, 0.72);
 }
 
 .hero-button {
@@ -3883,6 +3987,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   .hero-tagline {
     font-size: clamp(17px, 4.6vw, 20px);
     font-weight: var(--weight-semibold);
+  }
+
+  .hero-tagline--below {
+    margin-top: 25px;
   }
 
   .hero-tagline--2 {

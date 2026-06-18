@@ -1,12 +1,13 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   motion,
   useReducedMotion,
   useScroll,
   useSpring,
-  useTransform
+  useTransform,
+  type UseScrollOptions
 } from "framer-motion";
 
 import {
@@ -26,27 +27,55 @@ type AtmosphereSectionProps = {
 
 type AtmosphereBurgerStackProps = {
   reduceMotion: boolean | null;
+  isIntro?: boolean;
   children: React.ReactNode;
 };
 
-function AtmosphereBurgerStack({ reduceMotion, children }: AtmosphereBurgerStackProps) {
+function AtmosphereBurgerStack({
+  reduceMotion,
+  isIntro = false,
+  children
+}: AtmosphereBurgerStackProps) {
   const stackRef = useRef<HTMLDivElement>(null);
+  const [isMobile, setIsMobile] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches
+  );
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 767px)");
+    const update = () => setIsMobile(mediaQuery.matches);
+    update();
+    mediaQuery.addEventListener("change", update);
+    return () => mediaQuery.removeEventListener("change", update);
+  }, []);
+
+  const scrollOffset: UseScrollOptions["offset"] = isIntro
+    ? isMobile
+      ? ["start end", "center center"]
+      : ["start 0.9", "center 0.48"]
+    : ["start 0.92", "start 0.38"];
+
   const { scrollYProgress } = useScroll({
     target: stackRef,
-    offset: ["start 0.92", "start 0.38"]
+    offset: scrollOffset
   });
 
+  const scaleRange = isIntro ? (isMobile ? [0.62, 1] : [0.52, 1]) : [0.52, 1];
   const scaleRaw = useTransform(
     scrollYProgress,
     [0, 1],
-    reduceMotion ? [1, 1] : [0.52, 1]
+    reduceMotion ? [1, 1] : scaleRange
   );
   const opacityRaw = useTransform(
     scrollYProgress,
     [0, 0.25, 1],
     reduceMotion ? [1, 1, 1] : [0.2, 0.82, 1]
   );
-  const yRaw = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [72, 0]);
+  const yRaw = useTransform(
+    scrollYProgress,
+    [0, 1],
+    reduceMotion || isIntro ? [0, 0] : [72, 0]
+  );
 
   const scale = useSpring(scaleRaw, { stiffness: 90, damping: 22, mass: 0.85 });
   const opacity = useSpring(opacityRaw, { stiffness: 120, damping: 28, mass: 0.7 });
@@ -55,8 +84,14 @@ function AtmosphereBurgerStack({ reduceMotion, children }: AtmosphereBurgerStack
   return (
     <motion.div
       ref={stackRef}
-      className="atmosphere-burger-stack"
-      style={reduceMotion ? undefined : { scale, opacity, y }}
+      className={`atmosphere-burger-stack${isIntro ? " atmosphere-burger-stack--intro" : ""}`}
+      style={
+        reduceMotion
+          ? undefined
+          : isIntro
+            ? { scale, opacity, transformOrigin: "center center" }
+            : { scale, opacity, y, transformOrigin: "center center" }
+      }
     >
       {children}
     </motion.div>
@@ -115,7 +150,7 @@ export function AtmosphereSection({
               </motion.p>
             </div>
             <div className="atmosphere-gallery">
-              <AtmosphereBurgerStack reduceMotion={reduceMotion}>
+              <AtmosphereBurgerStack reduceMotion={reduceMotion} isIntro>
                 <div className="atmosphere-gallery-item atmosphere-gallery-item--burger-single">
                   <img src={atmosphereBurgerStackImage} alt={t.atmosphere.burgerStackAlt} />
                 </div>

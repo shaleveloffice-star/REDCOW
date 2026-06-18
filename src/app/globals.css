@@ -595,17 +595,6 @@ select {
   }
 }
 
-@keyframes hero-scroll-bounce {
-  0%,
-  100% {
-    transform: translateX(-50%) translateY(0);
-  }
-
-  50% {
-    transform: translateX(-50%) translateY(8px);
-  }
-}
-
 @keyframes hero-ken-burns {
   0% {
     transform: scale(1.06) translate3d(0, 0, 0);
@@ -616,17 +605,6 @@ select {
   }
 }
 
-@keyframes hero-glow-breathe {
-  0%,
-  100% {
-    opacity: 0.45;
-  }
-
-  50% {
-    opacity: 0.72;
-  }
-}
-
 .hero {
   position: relative;
   display: flex;
@@ -634,7 +612,7 @@ select {
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: calc(100svh + 180px);
+  min-height: 100svh;
   overflow: hidden;
   isolation: isolate;
   padding: 0;
@@ -649,23 +627,9 @@ select {
         rgba(3, 3, 3, 0.42) 0%,
         rgba(3, 3, 3, 0.1) 36%,
         rgba(3, 3, 3, 0.02) 62%,
-        rgba(3, 3, 3, 0.12) 84%,
-        rgba(3, 3, 3, 0.22) 100%
+        transparent 100%
       ),
       linear-gradient(90deg, rgba(3, 3, 3, 0.5) 0%, transparent 26%, transparent 74%, rgba(3, 3, 3, 0.5) 100%);
-  }
-
-  .hero-bottom-fade {
-    height: clamp(80px, 14vh, 140px);
-    background: linear-gradient(
-      to bottom,
-      rgba(3, 3, 3, 0) 0%,
-      rgba(3, 3, 3, 0.04) 24%,
-      rgba(3, 3, 3, 0.12) 48%,
-      rgba(3, 3, 3, 0.28) 68%,
-      rgba(3, 3, 3, 0.5) 86%,
-      #030303 100%
-    );
   }
 }
 
@@ -677,23 +641,9 @@ select {
         rgba(3, 3, 3, 0.4) 0%,
         rgba(3, 3, 3, 0.08) 34%,
         rgba(3, 3, 3, 0.02) 60%,
-        rgba(3, 3, 3, 0.1) 84%,
-        rgba(3, 3, 3, 0.22) 100%
+        transparent 100%
       ),
       linear-gradient(90deg, rgba(3, 3, 3, 0.48) 0%, transparent 26%, transparent 74%, rgba(3, 3, 3, 0.48) 100%);
-  }
-
-  .hero-bottom-fade {
-    height: clamp(72px, 12vh, 120px);
-    background: linear-gradient(
-      to bottom,
-      rgba(3, 3, 3, 0) 0%,
-      rgba(3, 3, 3, 0.04) 24%,
-      rgba(3, 3, 3, 0.12) 48%,
-      rgba(3, 3, 3, 0.28) 68%,
-      rgba(3, 3, 3, 0.5) 86%,
-      #030303 100%
-    );
   }
 }
 
@@ -768,8 +718,7 @@ select {
       rgba(3, 3, 3, 0.46) 0%,
       rgba(3, 3, 3, 0.1) 36%,
       rgba(3, 3, 3, 0.02) 62%,
-      rgba(3, 3, 3, 0.18) 82%,
-      rgba(3, 3, 3, 0.42) 100%
+      transparent 100%
     ),
     linear-gradient(90deg, rgba(3, 3, 3, 0.55) 0%, transparent 26%, transparent 74%, rgba(3, 3, 3, 0.55) 100%);
 }
@@ -790,37 +739,6 @@ select {
   opacity: 0.07;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   mix-blend-mode: soft-light;
-}
-
-.hero-glow {
-  position: absolute;
-  inset: auto 0 12% 0;
-  z-index: 2;
-  height: 34%;
-  pointer-events: none;
-  background: radial-gradient(ellipse 70% 55% at 50% 100%, rgba(255, 225, 186, 0.16), transparent 72%);
-  animation: hero-glow-breathe 6s ease-in-out infinite;
-}
-
-.hero-bottom-fade {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  z-index: 5;
-  height: clamp(200px, 34vh, 320px);
-  pointer-events: none;
-  background: linear-gradient(
-    to bottom,
-    rgba(3, 3, 3, 0) 0%,
-    rgba(3, 3, 3, 0.06) 16%,
-    rgba(3, 3, 3, 0.2) 36%,
-    rgba(3, 3, 3, 0.42) 54%,
-    rgba(3, 3, 3, 0.64) 70%,
-    rgba(3, 3, 3, 0.82) 84%,
-    rgba(3, 3, 3, 0.94) 93%,
-    #030303 100%
-  );
 }
 
 .hero-inner {
@@ -1033,42 +951,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   filter: blur(22px);
 }
 
-.hero-scroll {
-  position: absolute;
-  bottom: 36px;
-  left: 50%;
-  z-index: 4;
-  display: grid;
-  justify-items: center;
-  gap: 6px;
-  color: rgba(255, 247, 237, 0.5);
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.28em;
-  text-decoration: none;
-  text-transform: uppercase;
-  transform: translateX(-50%);
-  animation:
-    hero-fade-in 1s ease 1.5s both,
-    hero-scroll-bounce 2.2s ease-in-out 2.5s infinite;
-  transition: color var(--motion-short) ease;
-}
-
-.hero-scroll:hover {
-  color: rgba(255, 225, 186, 0.95);
-}
-
-.hero-scroll-label {
-  text-indent: 0.28em;
-}
-
-.hero-scroll-icon {
-  display: block;
-  width: 28px;
-  height: 28px;
-  opacity: 0.85;
-}
-
 @media (min-width: 640px) {
   .hero-actions {
     flex-direction: row;
@@ -1078,14 +960,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .hero-visual-media--alive,
-  .hero-glow,
-  .hero-scroll {
+  .hero-visual-media--alive {
     animation: none;
-  }
-
-  .hero-scroll {
-    transform: translateX(-50%);
   }
 }
 

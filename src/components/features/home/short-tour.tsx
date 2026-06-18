@@ -14,12 +14,12 @@ function stepDuration(index: number) {
 
 const TOUR_STEP_META = [
   { sectionId: "hero" },
-  { sectionId: "atmosphere" },
   {
     sectionId: "menu",
     highlightSelector: ".menu-showcase-track",
     animateMenu: true
   },
+  { sectionId: "atmosphere" },
   { sectionId: "plancha" },
   { sectionId: "location" },
   {

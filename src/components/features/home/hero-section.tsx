@@ -125,8 +125,6 @@ export function HeroSection({
         <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-vignette" aria-hidden="true" />
         <div className="hero-grain" aria-hidden="true" />
-        <div className="hero-glow" aria-hidden="true" />
-        <div className="hero-bottom-fade" aria-hidden="true" />
       </div>
 
       <div className="hero-inner">
@@ -166,20 +164,6 @@ export function HeroSection({
           </motion.div>
         </div>
       </div>
-
-      <a className="hero-scroll" href="#plancha" aria-label={t.hero.scrollAria}>
-        <span className="hero-scroll-label">{t.hero.scroll}</span>
-        <svg
-          className="hero-scroll-icon"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.5"
-          aria-hidden="true"
-        >
-          <path d="M6 9l6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
-        </svg>
-      </a>
     </section>
   );
 }

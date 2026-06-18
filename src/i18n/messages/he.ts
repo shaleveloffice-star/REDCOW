@@ -52,11 +52,8 @@ export const he: Messages = {
     title: "האווירה",
     leadLine1: "אוכל טוב, מוזיקה ברקע",
     leadLine2: "ואנשים שכיף לשבת איתם.",
-    burgerAria: "גלריית האווירה בצורת המבורגר",
-    wideAlt: "אווירה במסעדה",
-    peopleAlt: "אנשים נהנים",
-    signAlt: "שלט NB Burger",
-    droneAlt: "צילום מהרחפן"
+    droneAlt: "צילום מהרחפן",
+    bottomAlt: "לחמנייה תחתונה"
   },
   location: {
     title: "מיקום ושעות",

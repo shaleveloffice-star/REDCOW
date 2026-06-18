@@ -2561,86 +2561,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   order: 2;
 }
 
-.atmosphere-burger {
-  --burger-bun-radius: 32px;
-  --burger-mid-radius: 12px;
-  width: 100%;
-  max-width: 560px;
-  margin: 0 auto;
-  padding: 10px;
-  border: 1px solid rgba(255, 225, 186, 0.24);
-  border-radius: calc(var(--burger-bun-radius) + 8px);
-  background: linear-gradient(180deg, #3a2618 0%, #24160f 48%, #3a2618 100%);
-  box-shadow:
-    0 24px 56px rgba(0, 0, 0, 0.48),
-    inset 0 1px 0 rgba(255, 225, 186, 0.14);
-}
-
-.atmosphere-burger-layer {
-  position: relative;
-  overflow: hidden;
-  border: 1px solid rgba(255, 225, 186, 0.12);
-  background: #050505;
-}
-
-.atmosphere-burger-layer img,
-.atmosphere-burger-layer video,
-.atmosphere-burger-video {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.atmosphere-burger-bun--top {
-  height: clamp(168px, 24vw, 220px);
-  margin-bottom: 5px;
-  border-radius: var(--burger-bun-radius) var(--burger-bun-radius) var(--burger-mid-radius)
-    var(--burger-mid-radius);
-}
-
-.atmosphere-burger-bun--top::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(180deg, rgba(255, 225, 186, 0.1) 0%, transparent 42%);
-}
-
-.atmosphere-burger-fill {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 6px;
-  padding: 7px 8px;
-  background: linear-gradient(180deg, rgba(74, 32, 20, 0.96), rgba(48, 20, 14, 0.98));
-  border-inline: 1px solid rgba(255, 225, 186, 0.08);
-}
-
-.atmosphere-burger-patty,
-.atmosphere-burger-lettuce {
-  height: clamp(118px, 17vw, 152px);
-  border-radius: 10px;
-}
-
-.atmosphere-burger-bun--bottom {
-  height: clamp(168px, 24vw, 220px);
-  margin-top: 5px;
-  border-radius: var(--burger-mid-radius) var(--burger-mid-radius) var(--burger-bun-radius)
-    var(--burger-bun-radius);
-}
-
-.atmosphere-burger-bun--bottom::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(0deg, rgba(255, 225, 186, 0.08) 0%, transparent 38%);
-}
-
-.atmosphere-burger-bun--video {
-  background: #030303;
-}
-
 .atmosphere-copy {
   order: 1;
   display: flex;
@@ -2658,6 +2578,156 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .atmosphere-lead {
   max-width: 22rem;
   margin: 0;
+}
+
+.atmosphere-gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.atmosphere-burger-stack {
+  overflow: visible;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-grid {
+  gap: 5px;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item {
+  position: relative;
+  border: none;
+  border-radius: 0;
+  background: #050505;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item img,
+.atmosphere-burger-stack .atmosphere-gallery-item video {
+  border-radius: 0;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item--bun-top {
+  grid-column: span 2;
+  height: clamp(168px, 24vw, 212px);
+  border-radius: 44px 44px 12px 12px;
+  overflow: hidden;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item--bun-top img {
+  object-fit: contain;
+  object-position: center bottom;
+  background: #030303;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item--bun-top::after {
+  content: "";
+  position: absolute;
+  inset: auto 10% 0;
+  z-index: 2;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 225, 186, 0.28) 20%,
+    rgba(255, 225, 186, 0.28) 80%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item--bottom-panel {
+  grid-column: 1 / -1;
+  justify-self: center;
+  width: min(78%, 380px);
+  height: clamp(148px, 22vw, 200px);
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item--bottom-panel img,
+.atmosphere-burger-stack .atmosphere-gallery-item--bottom-panel video {
+  object-fit: cover;
+  object-position: center center;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item--bun-bottom {
+  grid-column: span 2;
+  height: clamp(168px, 24vw, 212px);
+  border-radius: 12px 12px 44px 44px;
+  overflow: hidden;
+  background: #030303;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item--bun-bottom img {
+  object-fit: contain;
+  object-position: center bottom;
+  transform: scaleY(-1);
+  background: #030303;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item--bun-bottom::before {
+  content: "";
+  position: absolute;
+  inset: 0 10% auto;
+  z-index: 2;
+  height: 3px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 225, 186, 0.28) 20%,
+    rgba(255, 225, 186, 0.28) 80%,
+    transparent
+  );
+  pointer-events: none;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item--filling {
+  height: clamp(118px, 17vw, 148px);
+  overflow: hidden;
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item--filling-sign img {
+  object-position: center center;
+  filter: saturate(1.05) contrast(1.04);
+}
+
+.atmosphere-burger-stack .atmosphere-gallery-item--filling-people img {
+  object-position: center 42%;
+}
+
+.atmosphere-gallery-item {
+  overflow: hidden;
+  border: var(--site-media-frame-border);
+  border-radius: var(--site-media-radius);
+  background: #050505;
+}
+
+.atmosphere-gallery-item img,
+.atmosphere-gallery-item video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: var(--site-media-radius);
+}
+
+.atmosphere-gallery-video {
+  background: #050505;
+}
+
+.atmosphere-gallery-item--wide {
+  grid-column: span 2;
+  height: 208px;
+}
+
+.atmosphere-gallery-item:not(.atmosphere-gallery-item--wide) {
+  height: 176px;
 }
 
 @media (min-width: 768px) {
@@ -2680,18 +2750,23 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     order: 2;
   }
 
-  .atmosphere-burger {
-    max-width: none;
+  .atmosphere-burger-stack .atmosphere-gallery-item--bun-top,
+  .atmosphere-burger-stack .atmosphere-gallery-item--bun-bottom {
+    height: 228px;
   }
 
-  .atmosphere-burger-bun--top,
-  .atmosphere-burger-bun--bottom {
+  .atmosphere-burger-stack .atmosphere-gallery-item--bottom-panel {
+
+  .atmosphere-burger-stack .atmosphere-gallery-item--filling {
+    height: 156px;
+  }
+
+  .atmosphere-gallery-item--wide {
     height: 256px;
   }
 
-  .atmosphere-burger-patty,
-  .atmosphere-burger-lettuce {
-    height: 176px;
+  .atmosphere-gallery-item:not(.atmosphere-gallery-item--wide) {
+    height: 208px;
   }
 }
 

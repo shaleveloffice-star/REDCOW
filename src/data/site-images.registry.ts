@@ -20,13 +20,13 @@ export const KITCHEN_SAUCES_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/81424122c_generated_cf166321.png";
 export const KITCHEN_GRILL_IMAGE = "/images/kitchen/kitchen-footer.jpg";
 
-export const ATMOSPHERE_WIDE_IMAGE =
-  "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/66d0f2dd1_generated_bc1a932d.png";
+export const ATMOSPHERE_WIDE_IMAGE = "/images/atmosphere/atmosphere-bun-top.png";
 export const ATMOSPHERE_PEOPLE_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/c51161c5a_generated_374fe50f.png";
 export const ATMOSPHERE_SIGN_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/d1c62ae3c_generated_d1880d3a.png";
 export const ATMOSPHERE_FOOD_IMAGE = "/videos/atmosphere-drone.mp4";
+export const ATMOSPHERE_BOTTOM_IMAGE = ATMOSPHERE_WIDE_IMAGE;
 
 export const LOCATION_EXTERIOR_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/f40491832_generated_9eac8545.png";
@@ -82,10 +82,11 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
   {
     title: "דף הבית — האווירה",
     items: [
-      item("atmosphere-wide", "אווירה במסעדה", "גלריית האווירה", ATMOSPHERE_WIDE_IMAGE),
+      item("atmosphere-wide", "לחמנייה עליונה", "גלריית האווירה", ATMOSPHERE_WIDE_IMAGE),
       item("atmosphere-people", "אנשים נהנים", "גלריית האווירה", ATMOSPHERE_PEOPLE_IMAGE),
       item("atmosphere-sign", "שלט NB Burger", "גלריית האווירה", ATMOSPHERE_SIGN_IMAGE),
-      item("atmosphere-food", "צילום מהרחפן", "גלריית האווירה", ATMOSPHERE_FOOD_IMAGE)
+      item("atmosphere-food", "צילום מהרחפן", "גלריית האווירה", ATMOSPHERE_FOOD_IMAGE),
+      item("atmosphere-bottom", "לחמנייה תחתונה", "גלריית האווירה", ATMOSPHERE_BOTTOM_IMAGE)
     ]
   },
   {

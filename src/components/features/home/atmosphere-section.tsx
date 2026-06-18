@@ -9,8 +9,8 @@ import {
   useTransform
 } from "framer-motion";
 
+import { BurgerAssemblyStage } from "@/components/features/home/burger-assembly-section";
 import {
-  ATMOSPHERE_BURGER_STACK_IMAGE,
   ATMOSPHERE_FOOD_IMAGE,
   ATMOSPHERE_WIDE_IMAGE
 } from "@/data/site-images.registry";
@@ -26,10 +26,15 @@ type AtmosphereSectionProps = {
 
 type AtmosphereBurgerStackProps = {
   reduceMotion: boolean | null;
+  animateOnScroll?: boolean;
   children: React.ReactNode;
 };
 
-function AtmosphereBurgerStack({ reduceMotion, children }: AtmosphereBurgerStackProps) {
+function AtmosphereBurgerStack({
+  reduceMotion,
+  animateOnScroll = true,
+  children
+}: AtmosphereBurgerStackProps) {
   const stackRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: stackRef,
@@ -52,6 +57,10 @@ function AtmosphereBurgerStack({ reduceMotion, children }: AtmosphereBurgerStack
   const opacity = useSpring(opacityRaw, { stiffness: 120, damping: 28, mass: 0.7 });
   const y = useSpring(yRaw, { stiffness: 100, damping: 24, mass: 0.8 });
 
+  if (!animateOnScroll || reduceMotion) {
+    return <div className="atmosphere-burger-stack">{children}</div>;
+  }
+
   return (
     <motion.div
       ref={stackRef}
@@ -69,6 +78,7 @@ export function AtmosphereSection({
 }: AtmosphereSectionProps) {
   const t = useTranslations();
   const reduceMotion = useReducedMotion();
+  const sectionRef = useRef<HTMLElement>(null);
   const titleId = `${sectionId}-title`;
   const isIntroSection = sectionId === "atmosphere";
   const atmosphereFoodMedia = pickSiteImage(
@@ -76,16 +86,12 @@ export function AtmosphereSection({
     "atmosphere-food",
     ATMOSPHERE_FOOD_IMAGE
   );
-  const atmosphereBurgerStackImage = pickSiteImage(
-    siteImages,
-    "atmosphere-burger-stack",
-    ATMOSPHERE_BURGER_STACK_IMAGE
-  );
   const atmosphereTopImage = pickSiteImage(siteImages, "atmosphere-wide", ATMOSPHERE_WIDE_IMAGE);
   const atmosphereFoodIsVideo = !isIntroSection && isVideoMediaUrl(atmosphereFoodMedia);
 
   return (
     <section
+      ref={sectionRef}
       id={sectionId}
       className={`atmosphere-section${isIntroSection ? " atmosphere-section--intro" : ""}`}
       aria-labelledby={titleId}
@@ -115,9 +121,9 @@ export function AtmosphereSection({
               </motion.p>
             </div>
             <div className="atmosphere-gallery">
-              <AtmosphereBurgerStack reduceMotion={reduceMotion}>
-                <div className="atmosphere-gallery-item atmosphere-gallery-item--burger-single">
-                  <img src={atmosphereBurgerStackImage} alt={t.atmosphere.burgerStackAlt} />
+              <AtmosphereBurgerStack reduceMotion={reduceMotion} animateOnScroll={false}>
+                <div className="atmosphere-gallery-item atmosphere-gallery-item--burger-single burger-assembly--embedded">
+                  <BurgerAssemblyStage dampeningRootRef={sectionRef} />
                 </div>
               </AtmosphereBurgerStack>
             </div>

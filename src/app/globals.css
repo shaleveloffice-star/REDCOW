@@ -1288,10 +1288,9 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .plancha-section {
   position: relative;
   z-index: 1;
-  margin-top: -2px;
+  margin-top: 0;
   background: #030303;
   overflow: hidden;
-  transform: translateY(5%);
 }
 
 .plancha-hero-scrim {
@@ -2424,7 +2423,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   position: relative;
   z-index: 2;
   overflow: visible;
-  padding-bottom: 125px;
+  padding-bottom: clamp(48px, 6vh, 72px);
 }
 
 .atmosphere-shell {
@@ -2439,9 +2438,18 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: clamp(28px, 4vh, 36px);
+  gap: clamp(20px, 3.5vh, 28px);
   text-align: center;
-  transform: translateY(-20%);
+  transform: translateY(-8%);
+  margin-bottom: 0;
+}
+
+.atmosphere-section--intro + .plancha-section {
+  margin-top: clamp(72px, 14vh, 160px);
+}
+
+.atmosphere-section--intro + .plancha-section .plancha-intro {
+  padding-top: clamp(48px, 7vh, 88px);
 }
 
 .atmosphere-gallery {
@@ -2578,34 +2586,77 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   margin: 0 auto;
 }
 
+.atmosphere-section--intro .burger-assembly--embedded {
+  width: fit-content;
+  max-width: 100%;
+  margin: 0 auto;
+  background: transparent;
+  border: none;
+  overflow: visible;
+}
+
+.atmosphere-section--intro .burger-assembly--embedded .burger-assembly__stage {
+  --ba-w: min(94vw, 720px);
+  --ba-gap: clamp(10px, 2.8vw, 14px);
+  width: var(--ba-w);
+  margin: 0 auto;
+}
+
+.atmosphere-section--intro .burger-assembly--embedded .burger-assembly__layer {
+  width: 92%;
+}
+
+.atmosphere-section--intro .burger-assembly--embedded .burger-assembly__layer--bunTop {
+  width: 94%;
+}
+
+.atmosphere-section--intro .burger-assembly--embedded .burger-assembly__layer--sauce {
+  width: 84%;
+}
+
+.atmosphere-section--intro .burger-assembly--embedded .burger-assembly__layer--lettuce {
+  width: 90%;
+}
+
+.atmosphere-section--intro .burger-assembly--embedded .burger-assembly__layer--tomato {
+  width: 86%;
+}
+
+.atmosphere-section--intro .burger-assembly--embedded .burger-assembly__layer--patty {
+  width: 90%;
+}
+
+.atmosphere-section--intro .burger-assembly--embedded .burger-assembly__layer--bunBottom {
+  width: 94%;
+}
+
+.atmosphere-section--intro .atmosphere-burger-stack {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 @media (max-width: 767px) {
   .atmosphere-section--intro {
-    padding-bottom: 125px;
+    padding-bottom: clamp(4px, 1vh, 12px);
   }
 
-  .atmosphere-shell.atmosphere-shell--intro {
-    transform: translateY(-12%);
-    margin-bottom: -11vh;
-    gap: clamp(20px, 3.5vh, 28px);
+  .atmosphere-section--intro + .plancha-section {
+    margin-top: 0;
+  }
+
+  .atmosphere-section--intro + .plancha-section .plancha-intro {
+    padding-top: clamp(12px, 2.5vh, 24px);
+    padding-bottom: 36px;
+  }
+
+  .atmosphere-section--intro .burger-assembly--embedded .burger-assembly__stage {
+    height: calc(var(--ba-unit) * 1.46 + var(--ba-gap) * 4);
   }
 
   .atmosphere-section--intro .atmosphere-gallery-item--burger-single img {
     max-width: 100%;
     max-height: min(83.2vh, 762px);
-  }
-
-  .atmosphere-section--intro .atmosphere-burger-stack {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-  }
-
-  .atmosphere-section--intro + .plancha-section .plancha-intro {
-    padding-top: 36px;
-  }
-
-  .plancha-section {
-    transform: translateY(30%);
   }
 }
 
@@ -2763,7 +2814,15 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   }
 
   .atmosphere-section--intro {
-    padding: clamp(96px, 9vh, 120px) 0 155px;
+    padding: clamp(48px, 7vh, 72px) 0 clamp(72px, 10vh, 112px);
+  }
+
+  .atmosphere-section--intro + .plancha-section {
+    margin-top: clamp(128px, 22vh, 280px);
+  }
+
+  .atmosphere-section--intro + .plancha-section .plancha-intro {
+    padding-top: clamp(64px, 9vh, 112px);
   }
 
   .atmosphere-shell.atmosphere-shell--intro {
@@ -2792,9 +2851,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     max-width: 100%;
   }
 
-  .atmosphere-section--intro .atmosphere-gallery-item--burger-single img {
-    max-width: min(100%, 760px);
-    max-height: min(66vh, 680px);
+  .atmosphere-section--intro .atmosphere-gallery-item--burger-single img,
+  .atmosphere-section--intro .burger-assembly--embedded .burger-assembly__stage {
+    max-width: 100%;
+    max-height: min(83.2vh, 762px);
   }
 
   .atmosphere-burger-stack .atmosphere-gallery-item--bun-top,
@@ -5481,17 +5541,6 @@ body.short-tour-active .menu-showcase-track {
   }
 }
 
-.burger-assembly {
-  position: relative;
-  display: grid;
-  place-items: start center;
-  align-content: start;
-  min-height: 290svh;
-  padding: clamp(10vh, 12svh, 14vh) 0 clamp(96px, 14vh, 140px);
-  background: #030303;
-  overflow: visible;
-}
-
 .burger-assembly__stage {
   --ba-w: min(92vw, 560px);
   --ba-unit: calc(var(--ba-w) * 481 / 1024);
@@ -5568,11 +5617,6 @@ body.short-tour-active .menu-showcase-track {
 }
 
 @media (max-width: 767px) {
-  .burger-assembly {
-    min-height: 310svh;
-    padding: clamp(8vh, 10svh, 12vh) 0 clamp(72px, 12vh, 104px);
-  }
-
   .burger-assembly__stage {
     --ba-w: min(94vw, 420px);
     --ba-gap: clamp(10px, 2.8vw, 14px);

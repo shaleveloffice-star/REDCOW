@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 import {
   motion,
   useReducedMotion,
@@ -22,6 +22,58 @@ type BurgerLayer = {
 };
 
 const OFF_SCREEN_VW = 118;
+const SCROLL_DAMP = 0.58;
+
+function isInScrollDampZone(section: HTMLElement) {
+  const rect = section.getBoundingClientRect();
+  const viewportHeight = window.innerHeight;
+  return rect.top < viewportHeight * 0.78 && rect.bottom > viewportHeight * 0.22;
+}
+
+function useBurgerAssemblyScrollDampening(
+  sectionRef: RefObject<HTMLElement | null>,
+  reduceMotion: boolean | null
+) {
+  useEffect(() => {
+    if (reduceMotion) return;
+
+    let touchStartY = 0;
+
+    const onWheel = (event: WheelEvent) => {
+      const section = sectionRef.current;
+      if (!section || !isInScrollDampZone(section)) return;
+      event.preventDefault();
+      window.scrollBy({ top: event.deltaY * SCROLL_DAMP, behavior: "auto" });
+    };
+
+    const onTouchStart = (event: TouchEvent) => {
+      touchStartY = event.touches[0]?.clientY ?? 0;
+    };
+
+    const onTouchMove = (event: TouchEvent) => {
+      const section = sectionRef.current;
+      if (!section || event.touches.length !== 1 || !isInScrollDampZone(section)) return;
+
+      const touchY = event.touches[0]?.clientY ?? touchStartY;
+      const delta = touchStartY - touchY;
+      touchStartY = touchY;
+      if (delta === 0) return;
+
+      event.preventDefault();
+      window.scrollBy({ top: delta * SCROLL_DAMP, behavior: "auto" });
+    };
+
+    window.addEventListener("wheel", onWheel, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+
+    return () => {
+      window.removeEventListener("wheel", onWheel);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+    };
+  }, [reduceMotion, sectionRef]);
+}
 
 const LAYERS: BurgerLayer[] = [
   {
@@ -119,9 +171,15 @@ function AssemblyLayer({ layer, src, progress, reduceMotion }: AssemblyLayerProp
   );
 }
 
-export function BurgerAssemblySection() {
+type BurgerAssemblyStageProps = {
+  dampeningRootRef?: RefObject<HTMLElement | null>;
+};
+
+export function BurgerAssemblyStage({ dampeningRootRef }: BurgerAssemblyStageProps) {
   const stageRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
+
+  useBurgerAssemblyScrollDampening(dampeningRootRef ?? stageRef, reduceMotion);
 
   const { scrollYProgress } = useScroll({
     target: stageRef,
@@ -129,22 +187,16 @@ export function BurgerAssemblySection() {
   });
 
   return (
-    <section
-      id="burger-assembly"
-      className="burger-assembly"
-      aria-label="הרכבת המבורגר"
-    >
-      <div ref={stageRef} className="burger-assembly__stage">
-        {LAYERS.map((layer) => (
-          <AssemblyLayer
-            key={layer.id}
-            layer={layer}
-            src={BURGER_ASSEMBLY_IMAGES[layer.id]}
-            progress={scrollYProgress}
-            reduceMotion={reduceMotion}
-          />
-        ))}
-      </div>
-    </section>
+    <div ref={stageRef} className="burger-assembly__stage" aria-label="הרכבת המבורגר">
+      {LAYERS.map((layer) => (
+        <AssemblyLayer
+          key={layer.id}
+          layer={layer}
+          src={BURGER_ASSEMBLY_IMAGES[layer.id]}
+          progress={scrollYProgress}
+          reduceMotion={reduceMotion}
+        />
+      ))}
+    </div>
   );
 }

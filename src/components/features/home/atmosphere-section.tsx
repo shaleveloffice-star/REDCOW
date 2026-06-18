@@ -78,7 +78,6 @@ export function AtmosphereSection({
 }: AtmosphereSectionProps) {
   const t = useTranslations();
   const reduceMotion = useReducedMotion();
-  const sectionRef = useRef<HTMLElement>(null);
   const titleId = `${sectionId}-title`;
   const isIntroSection = sectionId === "atmosphere";
   const atmosphereFoodMedia = pickSiteImage(
@@ -91,7 +90,6 @@ export function AtmosphereSection({
 
   return (
     <section
-      ref={sectionRef}
       id={sectionId}
       className={`atmosphere-section${isIntroSection ? " atmosphere-section--intro" : ""}`}
       aria-labelledby={titleId}
@@ -123,7 +121,7 @@ export function AtmosphereSection({
             <div className="atmosphere-gallery">
               <AtmosphereBurgerStack reduceMotion={reduceMotion} animateOnScroll={false}>
                 <div className="atmosphere-gallery-item atmosphere-gallery-item--burger-single burger-assembly--embedded">
-                  <BurgerAssemblyStage dampeningRootRef={sectionRef} />
+                  <BurgerAssemblyStage />
                 </div>
               </AtmosphereBurgerStack>
             </div>

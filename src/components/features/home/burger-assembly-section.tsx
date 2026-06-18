@@ -28,43 +28,43 @@ const LAYERS: BurgerLayer[] = [
     id: "bunTop",
     alt: "לחמנייה עליונה",
     from: "right",
-    enterAt: 0.08,
-    assembleAt: 0.38
+    enterAt: 0.32,
+    assembleAt: 0.52
   },
   {
     id: "sauce",
     alt: "רוטב",
     from: "left",
-    enterAt: 0.18,
-    assembleAt: 0.48
+    enterAt: 0.38,
+    assembleAt: 0.6
   },
   {
     id: "lettuce",
     alt: "חסה",
     from: "right",
-    enterAt: 0.28,
-    assembleAt: 0.58
+    enterAt: 0.44,
+    assembleAt: 0.67
   },
   {
     id: "tomato",
     alt: "עגבנייה",
     from: "left",
-    enterAt: 0.38,
-    assembleAt: 0.68
+    enterAt: 0.5,
+    assembleAt: 0.74
   },
   {
     id: "patty",
     alt: "קציצה",
     from: "right",
-    enterAt: 0.48,
-    assembleAt: 0.78
+    enterAt: 0.56,
+    assembleAt: 0.81
   },
   {
     id: "bunBottom",
     alt: "לחמנייה תחתונה",
     from: "left",
-    enterAt: 0.58,
-    assembleAt: 0.9
+    enterAt: 0.62,
+    assembleAt: 0.99
   }
 ];
 
@@ -75,8 +75,8 @@ type AssemblyLayerProps = {
   reduceMotion: boolean | null;
 };
 
-function easeOutCubic(value: number) {
-  return 1 - Math.pow(1 - value, 3);
+function easeOutQuint(value: number) {
+  return 1 - Math.pow(1 - value, 5);
 }
 
 function AssemblyLayer({ layer, src, progress, reduceMotion }: AssemblyLayerProps) {
@@ -86,15 +86,15 @@ function AssemblyLayer({ layer, src, progress, reduceMotion }: AssemblyLayerProp
     if (reduceMotion) return 0;
     if (value <= layer.enterAt) return `${direction * OFF_SCREEN_VW}vw`;
     if (value >= layer.assembleAt) return "0vw";
-    const t = easeOutCubic((value - layer.enterAt) / (layer.assembleAt - layer.enterAt));
+    const t = easeOutQuint((value - layer.enterAt) / (layer.assembleAt - layer.enterAt));
     return `${direction * OFF_SCREEN_VW * (1 - t)}vw`;
   });
 
   const opacity = useTransform(progress, (value) => {
     if (reduceMotion) return 1;
-    if (value < layer.enterAt) return 0;
-    if (value >= layer.enterAt + 0.04) return 1;
-    return (value - layer.enterAt) / 0.04;
+    if (value <= layer.enterAt) return 0;
+    if (value >= layer.enterAt + 0.08) return 1;
+    return (value - layer.enterAt) / 0.08;
   });
 
   const scale = useTransform(progress, (value) => {
@@ -120,18 +120,16 @@ function AssemblyLayer({ layer, src, progress, reduceMotion }: AssemblyLayerProp
 }
 
 export function BurgerAssemblySection() {
-  const sectionRef = useRef<HTMLElement>(null);
   const stageRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
 
   const { scrollYProgress } = useScroll({
     target: stageRef,
-    offset: ["start 0.9", "center 0.44"]
+    offset: ["start end", "center center"]
   });
 
   return (
     <section
-      ref={sectionRef}
       id="burger-assembly"
       className="burger-assembly"
       aria-label="הרכבת המבורגר"

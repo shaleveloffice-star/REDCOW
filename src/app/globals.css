@@ -5486,8 +5486,8 @@ body.short-tour-active .menu-showcase-track {
   display: grid;
   place-items: start center;
   align-content: start;
-  min-height: 118svh;
-  padding: clamp(10vh, 12svh, 14vh) 0 clamp(40px, 6vh, 64px);
+  min-height: 290svh;
+  padding: clamp(10vh, 12svh, 14vh) 0 clamp(96px, 14vh, 140px);
   background: #030303;
   overflow: visible;
 }
@@ -5569,8 +5569,8 @@ body.short-tour-active .menu-showcase-track {
 
 @media (max-width: 767px) {
   .burger-assembly {
-    min-height: 122svh;
-    padding: clamp(8vh, 10svh, 12vh) 0 clamp(32px, 5vh, 48px);
+    min-height: 310svh;
+    padding: clamp(8vh, 10svh, 12vh) 0 clamp(72px, 12vh, 104px);
   }
 
   .burger-assembly__stage {

@@ -2514,11 +2514,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   justify-content: center;
 }
 
-.atmosphere-section--intro .atmosphere-burger-stack,
-.atmosphere-burger-stack--intro {
-  transform-origin: center center;
-}
-
 .atmosphere-gallery-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -2599,7 +2594,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     max-height: min(83.2vh, 762px);
   }
 
-  .atmosphere-burger-stack--intro {
+  .atmosphere-section--intro .atmosphere-burger-stack {
     width: 100%;
     display: flex;
     justify-content: center;

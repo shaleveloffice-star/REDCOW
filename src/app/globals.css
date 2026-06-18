@@ -2763,7 +2763,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   }
 
   .atmosphere-section--intro {
-    padding: clamp(96px, 9vh, 120px) 0 105px;
+    padding: clamp(96px, 9vh, 120px) 0 155px;
   }
 
   .atmosphere-shell.atmosphere-shell--intro {
@@ -5478,6 +5478,54 @@ body.short-tour-active .menu-showcase-track {
     left: 32px;
     padding: 13px 24px;
     font-size: 15px;
+  }
+}
+
+.burger-assembly {
+  position: relative;
+  min-height: 280vh;
+  background: #030303;
+  overflow: clip;
+}
+
+.burger-assembly__sticky {
+  position: sticky;
+  top: 0;
+  height: 100svh;
+  display: grid;
+  place-items: center;
+}
+
+.burger-assembly__stage {
+  position: relative;
+  width: min(92vw, 560px);
+  height: min(72vh, 620px);
+}
+
+.burger-assembly__layer {
+  position: absolute;
+  left: 50%;
+  width: 100%;
+  translate: -50% 0;
+  will-change: transform, opacity;
+}
+
+.burger-assembly__layer-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 767px) {
+  .burger-assembly {
+    min-height: 320vh;
+  }
+
+  .burger-assembly__stage {
+    width: min(94vw, 420px);
   }
 }
 

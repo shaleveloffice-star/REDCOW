@@ -30,6 +30,15 @@ export const ATMOSPHERE_BURGER_STACK_IMAGE =
   "/images/atmosphere/atmosphere-burger-stack.png";
 export const ATMOSPHERE_BOTTOM_IMAGE = ATMOSPHERE_WIDE_IMAGE;
 
+export const BURGER_ASSEMBLY_IMAGES = {
+  bunTop: "/burger/bun-top.png",
+  sauce: "/burger/sauce.png",
+  lettuce: "/burger/lettuce.png",
+  tomato: "/burger/tomato.png",
+  patty: "/burger/patty.png",
+  bunBottom: "/burger/bun-bottom.png"
+} as const;
+
 export const LOCATION_EXTERIOR_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/f40491832_generated_9eac8545.png";
 

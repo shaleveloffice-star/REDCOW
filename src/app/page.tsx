@@ -1,5 +1,6 @@
 import { HeroSection } from "@/components/features/home/hero-section";
 import { AtmosphereSection } from "@/components/features/home/atmosphere-section";
+import { BurgerAssemblySection } from "@/components/features/home/burger-assembly-section";
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
 import { PlanchaSection } from "@/components/features/home/plancha-section";
 import { LocationSection } from "@/components/features/home/location-section";
@@ -36,6 +37,7 @@ export default async function HomePage() {
         <HeroSection settings={settings} orderLinks={orderLinks} />
         <HomeMenuShowcaseSection groups={menuGroups} />
         <AtmosphereSection siteImages={siteImages} />
+        <BurgerAssemblySection />
         <PlanchaSection siteImages={siteImages} />
         <AtmosphereSection siteImages={siteImages} sectionId="atmosphere-after-plancha" />
         <LocationSection siteImages={siteImages} />

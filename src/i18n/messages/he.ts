@@ -52,7 +52,10 @@ export const he: Messages = {
     title: "האווירה",
     leadLine1: "אוכל טוב, מוזיקה ברקע",
     leadLine2: "ואנשים שכיף לשבת איתם.",
+    introTitle: "אמנות בין שתי לחמניות.",
+    introLead: "קציצת פרימיום מנתחים מובחרים, שנטחנת במקום בכל יום.",
     droneAlt: "צילום מהרחפן",
+    burgerStackAlt: "מבורגר מפורק",
     bottomAlt: "לחמנייה תחתונה"
   },
   location: {

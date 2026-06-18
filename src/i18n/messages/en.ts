@@ -52,7 +52,10 @@ export const en: Messages = {
     title: "The Atmosphere",
     leadLine1: "Great food, music in the background,",
     leadLine2: "and people you actually want to sit with.",
+    introTitle: "Art between two buns.",
+    introLead: "A premium patty from selected butchers, ground fresh on site every day.",
     droneAlt: "Drone footage",
+    burgerStackAlt: "Deconstructed burger",
     bottomAlt: "Bottom bun"
   },
   location: {

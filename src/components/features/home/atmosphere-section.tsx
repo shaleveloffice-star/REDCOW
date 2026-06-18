@@ -10,6 +10,7 @@ import {
 } from "framer-motion";
 
 import {
+  ATMOSPHERE_BURGER_STACK_IMAGE,
   ATMOSPHERE_FOOD_IMAGE,
   ATMOSPHERE_WIDE_IMAGE
 } from "@/data/site-images.registry";
@@ -20,6 +21,7 @@ import type { SiteImagesMap } from "@/types/site-images";
 
 type AtmosphereSectionProps = {
   siteImages?: SiteImagesMap;
+  sectionId?: string;
 };
 
 type AtmosphereBurgerStackProps = {
@@ -61,73 +63,122 @@ function AtmosphereBurgerStack({ reduceMotion, children }: AtmosphereBurgerStack
   );
 }
 
-export function AtmosphereSection({ siteImages }: AtmosphereSectionProps) {
+export function AtmosphereSection({
+  siteImages,
+  sectionId = "atmosphere"
+}: AtmosphereSectionProps) {
   const t = useTranslations();
   const reduceMotion = useReducedMotion();
+  const titleId = `${sectionId}-title`;
+  const isIntroSection = sectionId === "atmosphere";
   const atmosphereFoodMedia = pickSiteImage(
     siteImages,
     "atmosphere-food",
     ATMOSPHERE_FOOD_IMAGE
   );
+  const atmosphereBurgerStackImage = pickSiteImage(
+    siteImages,
+    "atmosphere-burger-stack",
+    ATMOSPHERE_BURGER_STACK_IMAGE
+  );
   const atmosphereTopImage = pickSiteImage(siteImages, "atmosphere-wide", ATMOSPHERE_WIDE_IMAGE);
-  const atmosphereFoodIsVideo = isVideoMediaUrl(atmosphereFoodMedia);
+  const atmosphereFoodIsVideo = !isIntroSection && isVideoMediaUrl(atmosphereFoodMedia);
 
   return (
-    <section id="atmosphere" className="atmosphere-section" aria-labelledby="atmosphere-title">
-      <div className="atmosphere-shell">
-        <div className="atmosphere-copy">
-          <motion.h2
-            id="atmosphere-title"
-            className="atmosphere-title"
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
-            {t.atmosphere.title}
-          </motion.h2>
-          <motion.p
-            className="atmosphere-lead"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.3, duration: 0.8 }}
-          >
-            {t.atmosphere.leadLine1}
-            <br />
-            {t.atmosphere.leadLine2}
-          </motion.p>
-        </div>
-
-        <div className="atmosphere-gallery">
-          <AtmosphereBurgerStack reduceMotion={reduceMotion}>
-            <div className="atmosphere-gallery-grid">
-              <div className="atmosphere-gallery-item atmosphere-gallery-item--wide atmosphere-gallery-item--bun-top">
-                <img src={atmosphereTopImage} alt="לחמנייה עליונה" />
-              </div>
-              <div
-                className={`atmosphere-gallery-item atmosphere-gallery-item--bottom-panel atmosphere-gallery-item--bottom-video${atmosphereFoodIsVideo ? " atmosphere-gallery-item--video" : ""}`}
+    <section
+      id={sectionId}
+      className={`atmosphere-section${isIntroSection ? " atmosphere-section--intro" : ""}`}
+      aria-labelledby={titleId}
+    >
+      <div className={`atmosphere-shell${isIntroSection ? " atmosphere-shell--intro" : ""}`}>
+        {isIntroSection ? (
+          <>
+            <div className="atmosphere-intro-copy">
+              <motion.h2
+                id={titleId}
+                className="atmosphere-title"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
               >
-                {atmosphereFoodIsVideo ? (
-                  <video
-                    className="atmosphere-gallery-video"
-                    src={atmosphereFoodMedia}
-                    autoPlay
-                    loop
-                    muted
-                    playsInline
-                    aria-label={t.atmosphere.droneAlt}
-                  />
-                ) : (
-                  <img src={atmosphereFoodMedia} alt={t.atmosphere.droneAlt} />
-                )}
-              </div>
-              <div className="atmosphere-gallery-item atmosphere-gallery-item--wide atmosphere-gallery-item--bun-bottom">
-                <img src={atmosphereTopImage} alt={t.atmosphere.bottomAlt} />
-              </div>
+                {t.atmosphere.introTitle}
+              </motion.h2>
+              <motion.p
+                className="atmosphere-lead"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 0.8 }}
+              >
+                {t.atmosphere.introLead}
+              </motion.p>
             </div>
-          </AtmosphereBurgerStack>
-        </div>
+            <div className="atmosphere-gallery">
+              <AtmosphereBurgerStack reduceMotion={reduceMotion}>
+                <div className="atmosphere-gallery-item atmosphere-gallery-item--burger-single">
+                  <img src={atmosphereBurgerStackImage} alt={t.atmosphere.burgerStackAlt} />
+                </div>
+              </AtmosphereBurgerStack>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="atmosphere-copy">
+              <motion.h2
+                id={titleId}
+                className="atmosphere-title"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8 }}
+              >
+                {t.atmosphere.title}
+              </motion.h2>
+              <motion.p
+                className="atmosphere-lead"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.3, duration: 0.8 }}
+              >
+                {t.atmosphere.leadLine1}
+                <br />
+                {t.atmosphere.leadLine2}
+              </motion.p>
+            </div>
+
+            <div className="atmosphere-gallery">
+              <AtmosphereBurgerStack reduceMotion={reduceMotion}>
+                <div className="atmosphere-gallery-grid">
+                  <div className="atmosphere-gallery-item atmosphere-gallery-item--wide atmosphere-gallery-item--bun-top">
+                    <img src={atmosphereTopImage} alt="לחמנייה עליונה" />
+                  </div>
+                  <div
+                    className={`atmosphere-gallery-item atmosphere-gallery-item--bottom-panel atmosphere-gallery-item--bottom-video${atmosphereFoodIsVideo ? " atmosphere-gallery-item--video" : ""}`}
+                  >
+                    {atmosphereFoodIsVideo ? (
+                      <video
+                        className="atmosphere-gallery-video"
+                        src={atmosphereFoodMedia}
+                        autoPlay
+                        loop
+                        muted
+                        playsInline
+                        aria-label={t.atmosphere.droneAlt}
+                      />
+                    ) : (
+                      <img src={atmosphereFoodMedia} alt={t.atmosphere.droneAlt} />
+                    )}
+                  </div>
+                  <div className="atmosphere-gallery-item atmosphere-gallery-item--wide atmosphere-gallery-item--bun-bottom">
+                    <img src={atmosphereTopImage} alt={t.atmosphere.bottomAlt} />
+                  </div>
+                </div>
+              </AtmosphereBurgerStack>
+            </div>
+          </>
+        )}
       </div>
     </section>
   );

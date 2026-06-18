@@ -37,6 +37,7 @@ export default async function HomePage() {
         <HomeMenuShowcaseSection groups={menuGroups} />
         <AtmosphereSection siteImages={siteImages} />
         <PlanchaSection siteImages={siteImages} />
+        <AtmosphereSection siteImages={siteImages} sectionId="atmosphere-after-plancha" />
         <LocationSection siteImages={siteImages} />
       </main>
       <ShortTour />

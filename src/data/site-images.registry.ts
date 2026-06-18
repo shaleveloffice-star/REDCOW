@@ -26,6 +26,8 @@ export const ATMOSPHERE_PEOPLE_IMAGE =
 export const ATMOSPHERE_SIGN_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/d1c62ae3c_generated_d1880d3a.png";
 export const ATMOSPHERE_FOOD_IMAGE = "/videos/atmosphere-drone.mp4";
+export const ATMOSPHERE_BURGER_STACK_IMAGE =
+  "/images/atmosphere/atmosphere-burger-stack.png";
 export const ATMOSPHERE_BOTTOM_IMAGE = ATMOSPHERE_WIDE_IMAGE;
 
 export const LOCATION_EXTERIOR_IMAGE =
@@ -86,6 +88,12 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
       item("atmosphere-people", "אנשים נהנים", "גלריית האווירה", ATMOSPHERE_PEOPLE_IMAGE),
       item("atmosphere-sign", "שלט NB Burger", "גלריית האווירה", ATMOSPHERE_SIGN_IMAGE),
       item("atmosphere-food", "צילום מהרחפן", "גלריית האווירה", ATMOSPHERE_FOOD_IMAGE),
+      item(
+        "atmosphere-burger-stack",
+        "מבורגר מפורק",
+        "גלריית האווירה (סקשן עליון)",
+        ATMOSPHERE_BURGER_STACK_IMAGE
+      ),
       item("atmosphere-bottom", "לחמנייה תחתונה", "גלריית האווירה", ATMOSPHERE_BOTTOM_IMAGE)
     ]
   },

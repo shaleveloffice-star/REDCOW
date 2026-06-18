@@ -52,7 +52,10 @@ export const fr: Messages = {
     title: "L'Ambiance",
     leadLine1: "Bonne cuisine, musique en fond,",
     leadLine2: "et des gens avec qui on a envie de rester.",
+    introTitle: "L'art entre deux pains.",
+    introLead: "Une galette premium de bouchers sélectionnés, hachée sur place chaque jour.",
     droneAlt: "Vue drone",
+    burgerStackAlt: "Burger éclaté",
     bottomAlt: "Pain du bas"
   },
   location: {

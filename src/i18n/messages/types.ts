@@ -42,7 +42,10 @@ export type Messages = {
     title: string;
     leadLine1: string;
     leadLine2: string;
+    introTitle: string;
+    introLead: string;
     droneAlt: string;
+    burgerStackAlt: string;
     bottomAlt: string;
   };
   location: {

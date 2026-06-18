@@ -51,7 +51,12 @@ export const he: Messages = {
   atmosphere: {
     title: "האווירה",
     leadLine1: "אוכל טוב, מוזיקה ברקע",
-    leadLine2: "ואנשים שכיף לשבת איתם."
+    leadLine2: "ואנשים שכיף לשבת איתם.",
+    burgerAria: "גלריית האווירה בצורת המבורגר",
+    wideAlt: "אווירה במסעדה",
+    peopleAlt: "אנשים נהנים",
+    signAlt: "שלט NB Burger",
+    droneAlt: "צילום מהרחפן"
   },
   location: {
     title: "מיקום ושעות",

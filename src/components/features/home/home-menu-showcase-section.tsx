@@ -10,7 +10,8 @@ import {
   scrollMenuTrackToStart
 } from "@/lib/menu-showcase-tour";
 import { isVideoMediaUrl } from "@/lib/menu-media";
-import { useTranslations } from "@/components/providers/locale-provider";
+import { getLocalizedMenuItem } from "@/i18n/menu-translations";
+import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { useEffect, useMemo, useRef } from "react";
 
 type MenuGroup = MenuCategory & { items: MenuItem[] };
@@ -61,6 +62,7 @@ function isAtScrollStart(track: HTMLElement): boolean {
 }
 
 export function HomeMenuShowcaseSection({ groups }: HomeMenuShowcaseSectionProps) {
+  const { locale } = useLocale();
   const t = useTranslations();
   const trackRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
@@ -195,6 +197,7 @@ export function HomeMenuShowcaseSection({ groups }: HomeMenuShowcaseSectionProps
         <div ref={trackRef} className="menu-showcase-track" aria-label={t.menuShowcase.trackAria}>
           <div ref={railRef} className="menu-showcase-rail" role="list">
             {items.map((item) => {
+              const localized = getLocalizedMenuItem(item, locale);
               const media = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
               const isVideo = isVideoMediaUrl(media);
               const isBestSeller = item.tags.some(
@@ -218,17 +221,17 @@ export function HomeMenuShowcaseSection({ groups }: HomeMenuShowcaseSectionProps
                           loop
                           muted
                           playsInline
-                          aria-label={item.name}
+                          aria-label={localized.name}
                         />
                       </div>
                     ) : (
-                      <img src={media} alt={item.name} loading="lazy" />
+                      <img src={media} alt={localized.name} loading="lazy" />
                     )}
                   </div>
                   <div className="menu-showcase-card-body">
-                    <h3 className="menu-showcase-card-title">{item.name}</h3>
-                    {item.description ? (
-                      <p className="menu-showcase-card-desc">{item.description}</p>
+                    <h3 className="menu-showcase-card-title">{localized.name}</h3>
+                    {localized.description ? (
+                      <p className="menu-showcase-card-desc">{localized.description}</p>
                     ) : null}
                     <p className="menu-showcase-card-price">
                       <span>{item.price}</span>

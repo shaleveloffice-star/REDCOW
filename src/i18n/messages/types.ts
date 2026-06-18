@@ -42,6 +42,11 @@ export type Messages = {
     title: string;
     leadLine1: string;
     leadLine2: string;
+    burgerAria: string;
+    wideAlt: string;
+    peopleAlt: string;
+    signAlt: string;
+    droneAlt: string;
   };
   location: {
     title: string;

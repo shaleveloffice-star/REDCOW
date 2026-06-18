@@ -26,8 +26,7 @@ export const ATMOSPHERE_PEOPLE_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/c51161c5a_generated_374fe50f.png";
 export const ATMOSPHERE_SIGN_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/d1c62ae3c_generated_d1880d3a.png";
-export const ATMOSPHERE_FOOD_IMAGE =
-  "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/e10288def_generated_1c5867a8.png";
+export const ATMOSPHERE_FOOD_IMAGE = "/videos/atmosphere-drone.mp4";
 
 export const LOCATION_EXTERIOR_IMAGE =
   "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/f40491832_generated_9eac8545.png";
@@ -86,7 +85,7 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
       item("atmosphere-wide", "אווירה במסעדה", "גלריית האווירה", ATMOSPHERE_WIDE_IMAGE),
       item("atmosphere-people", "אנשים נהנים", "גלריית האווירה", ATMOSPHERE_PEOPLE_IMAGE),
       item("atmosphere-sign", "שלט NB Burger", "גלריית האווירה", ATMOSPHERE_SIGN_IMAGE),
-      item("atmosphere-food", "אוכל במסעדה", "גלריית האווירה", ATMOSPHERE_FOOD_IMAGE)
+      item("atmosphere-food", "צילום מהרחפן", "גלריית האווירה", ATMOSPHERE_FOOD_IMAGE)
     ]
   },
   {

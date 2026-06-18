@@ -51,7 +51,12 @@ export const fr: Messages = {
   atmosphere: {
     title: "L'Ambiance",
     leadLine1: "Bonne cuisine, musique en fond,",
-    leadLine2: "et des gens avec qui on a envie de rester."
+    leadLine2: "et des gens avec qui on a envie de rester.",
+    burgerAria: "Galerie ambiance en forme de burger",
+    wideAlt: "Ambiance du restaurant",
+    peopleAlt: "Clients qui profitent du restaurant",
+    signAlt: "Enseigne NB Burger",
+    droneAlt: "Vue drone"
   },
   location: {
     title: "Adresse & Horaires",

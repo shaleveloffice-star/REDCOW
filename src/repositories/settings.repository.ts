@@ -1,17 +1,29 @@
 import { mockOrderLinks, mockSiteSettings } from "@/data/mock/settings.mock";
-import { createInMemoryStore } from "@/lib/admin/in-memory-store";
+import {
+  createFirestoreCollectionStore,
+  createFirestoreDocumentStore
+} from "@/lib/firebase/firestore-store";
+import { localOrderLinksStore, localSiteSettingsStore } from "@/lib/firebase/local-stores";
 import type { OrderLink, SiteSettings } from "@/types/content";
 
-let localSiteSettings = { ...mockSiteSettings };
-const orderLinksStore = createInMemoryStore(mockOrderLinks);
+const siteSettingsStore = createFirestoreDocumentStore(
+  "siteSettings",
+  "default",
+  localSiteSettingsStore,
+  mockSiteSettings
+);
+const orderLinksStore = createFirestoreCollectionStore(
+  "orderLinks",
+  localOrderLinksStore,
+  mockOrderLinks
+);
 
 export async function getSiteSettings(): Promise<SiteSettings> {
-  return { ...localSiteSettings };
+  return siteSettingsStore.get();
 }
 
 export async function saveSiteSettings(input: SiteSettings): Promise<SiteSettings> {
-  localSiteSettings = { ...input };
-  return localSiteSettings;
+  return siteSettingsStore.save(input);
 }
 
 export async function getOrderLinks(): Promise<OrderLink[]> {

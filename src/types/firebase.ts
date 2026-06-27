@@ -14,6 +14,7 @@ export type FirebaseCollectionName =
   | "contactMessages"
   | "careerApplications"
   | "orderLinks"
+  | "siteImageOverrides"
   | "adminUsers";
 
 export type StorageFolder = "gallery" | "menu" | "logos" | "press";

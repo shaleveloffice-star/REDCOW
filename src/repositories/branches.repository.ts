@@ -1,8 +1,9 @@
 import { mockBranches } from "@/data/mock/branches.mock";
-import { createInMemoryStore } from "@/lib/admin/in-memory-store";
+import { createFirestoreCollectionStore } from "@/lib/firebase/firestore-store";
+import { localBranchesStore } from "@/lib/firebase/local-stores";
 import type { Branch } from "@/types/content";
 
-const branchesStore = createInMemoryStore(mockBranches);
+const branchesStore = createFirestoreCollectionStore("branches", localBranchesStore, mockBranches);
 
 export async function getBranches(): Promise<Branch[]> {
   return branchesStore.getAll();

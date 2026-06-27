@@ -1,8 +1,13 @@
 import { mockCareerApplications } from "@/data/mock/contact.mock";
-import { createInMemoryStore } from "@/lib/admin/in-memory-store";
+import { createFirestoreCollectionStore } from "@/lib/firebase/firestore-store";
+import { localCareerApplicationsStore } from "@/lib/firebase/local-stores";
 import type { CareerApplication } from "@/types/content";
 
-const careersStore = createInMemoryStore(mockCareerApplications);
+const careersStore = createFirestoreCollectionStore(
+  "careerApplications",
+  localCareerApplicationsStore,
+  mockCareerApplications
+);
 
 export async function getCareerApplications(): Promise<CareerApplication[]> {
   return careersStore.getAll();

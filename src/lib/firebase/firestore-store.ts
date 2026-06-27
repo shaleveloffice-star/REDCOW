@@ -1,0 +1,165 @@
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDoc,
+  getDocs,
+  setDoc,
+  writeBatch
+} from "firebase/firestore";
+
+import { getFirestoreDb, isFirebaseConfigured } from "@/lib/firebase";
+import type { FirebaseCollectionName } from "@/types/firebase";
+
+export type DocumentStore<T extends { id: string }> = {
+  getAll(): Promise<T[]>;
+  getById(id: string): Promise<T | null>;
+  save(input: T): Promise<T>;
+  remove(id: string): Promise<boolean>;
+};
+
+function toStoredData<T extends { id: string }>(input: T) {
+  const { id: _id, ...data } = input;
+  return data;
+}
+
+function fromSnapshot<T extends { id: string }>(id: string, data: Record<string, unknown>) {
+  return { id, ...data } as T;
+}
+
+async function seedCollection<T extends { id: string }>(
+  collectionName: FirebaseCollectionName,
+  seed: readonly T[]
+) {
+  const db = getFirestoreDb();
+  if (!db || seed.length === 0) return;
+
+  const batch = writeBatch(db);
+  for (const item of seed) {
+    batch.set(doc(db, collectionName, item.id), toStoredData(item));
+  }
+  await batch.commit();
+}
+
+export function createFirestoreCollectionStore<T extends { id: string }>(
+  collectionName: FirebaseCollectionName,
+  localStore: DocumentStore<T>,
+  seed?: readonly T[]
+): DocumentStore<T> {
+  return {
+    async getAll() {
+      if (!isFirebaseConfigured()) {
+        return localStore.getAll();
+      }
+
+      const db = getFirestoreDb();
+      if (!db) {
+        return localStore.getAll();
+      }
+
+      const snapshot = await getDocs(collection(db, collectionName));
+      if (snapshot.empty) {
+        if (seed?.length) {
+          await seedCollection(collectionName, seed);
+          return seed.map((item) => ({ ...item }));
+        }
+        return [];
+      }
+
+      return snapshot.docs.map((entry) => fromSnapshot<T>(entry.id, entry.data() as Record<string, unknown>));
+    },
+
+    async getById(id: string) {
+      if (!isFirebaseConfigured()) {
+        return localStore.getById(id);
+      }
+
+      const db = getFirestoreDb();
+      if (!db) {
+        return localStore.getById(id);
+      }
+
+      const snapshot = await getDoc(doc(db, collectionName, id));
+      if (!snapshot.exists()) {
+        return null;
+      }
+
+      return fromSnapshot<T>(snapshot.id, snapshot.data() as Record<string, unknown>);
+    },
+
+    async save(input: T) {
+      if (!isFirebaseConfigured()) {
+        return localStore.save(input);
+      }
+
+      const db = getFirestoreDb();
+      if (!db) {
+        return localStore.save(input);
+      }
+
+      await setDoc(doc(db, collectionName, input.id), toStoredData(input), { merge: true });
+      return { ...input };
+    },
+
+    async remove(id: string) {
+      if (!isFirebaseConfigured()) {
+        return localStore.remove(id);
+      }
+
+      const db = getFirestoreDb();
+      if (!db) {
+        return localStore.remove(id);
+      }
+
+      const snapshot = await getDoc(doc(db, collectionName, id));
+      if (!snapshot.exists()) {
+        return false;
+      }
+
+      await deleteDoc(doc(db, collectionName, id));
+      return true;
+    }
+  };
+}
+
+export function createFirestoreDocumentStore<T extends Record<string, unknown>>(
+  collectionName: FirebaseCollectionName,
+  documentId: string,
+  localStore: { get(): Promise<T>; save(input: T): Promise<T> },
+  seed: T
+) {
+  return {
+    async get(): Promise<T> {
+      if (!isFirebaseConfigured()) {
+        return localStore.get();
+      }
+
+      const db = getFirestoreDb();
+      if (!db) {
+        return localStore.get();
+      }
+
+      const snapshot = await getDoc(doc(db, collectionName, documentId));
+      if (!snapshot.exists()) {
+        await setDoc(doc(db, collectionName, documentId), seed);
+        return { ...seed };
+      }
+
+      return snapshot.data() as T;
+    },
+
+    async save(input: T): Promise<T> {
+      if (!isFirebaseConfigured()) {
+        return localStore.save(input);
+      }
+
+      const db = getFirestoreDb();
+      if (!db) {
+        return localStore.save(input);
+      }
+
+      await setDoc(doc(db, collectionName, documentId), input, { merge: true });
+      return { ...input };
+    }
+  };
+}

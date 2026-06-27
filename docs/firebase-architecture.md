@@ -1,21 +1,27 @@
 # Firebase Architecture
 
-הפרויקט עובד כרגע לוקלית בלבד. כל הנתונים מגיעים מ-`src/data/mock`, אבל אף קומפוננטת UI לא מייבאת mock data ישירות. הגישה לנתונים עוברת דרך:
+הפרויקט תומך ב-Firestore דרך Firebase Client SDK. כשמשתני `NEXT_PUBLIC_FIREBASE_*` מוגדרים, כל ה-repositories שומרים ל-Firestore. בלי הגדרות — fallback לקבצי JSON / mock מקומי.
 
 ```text
-UI / app pages -> feature components -> services -> repositories -> mock data
-Admin UI -> server actions -> services -> repositories -> mock data
+UI / app pages -> feature components -> services -> repositories -> Firestore (או mock מקומי)
+Admin UI -> server actions -> services -> repositories -> Firestore (או mock מקומי)
 ```
 
 ## איפה נמצא חיבור Firebase
 
-קבצי ההכנה נמצאים תחת `src/lib/firebase`:
+- `src/lib/firebase.ts` — אתחול Firebase App + Firestore (getApps/getApp).
+- `src/lib/firebase/firestore-store.ts` — CRUD ל-collections ול-document בודד.
+- `src/lib/firebase/local-stores.ts` — fallback מקומי כש-Firebase לא מוגדר.
+- `src/lib/firebase/config.ts` — מצב חיבור ו-env חסרים.
+- `src/lib/firebase/admin.ts` — placeholder ל-Firebase Admin SDK (עתידי).
 
-- `config.ts`: רשימת משתני סביבה ובדיקת מצב חיבור.
-- `client.ts`: placeholder ל-Firebase Client SDK.
-- `admin.ts`: placeholder server-only ל-Firebase Admin SDK.
+Collections ב-Firestore:
 
-בשלב הנוכחי אין התקנת Firebase ואין חיבור SDK אמיתי.
+- `menuItems`, `menuCategories`, `contactMessages`, `careerApplications`
+- `branches`, `pressItems`, `galleryItems`, `orderLinks`, `siteImageOverrides`
+- `siteSettings/default` — מסמך יחיד להגדרות האתר
+
+בפעם הראשונה ש-collection ריק, הנתונים מ-mock נזרעים אוטומטית ל-Firestore.
 
 ## Client SDK מול Admin SDK
 

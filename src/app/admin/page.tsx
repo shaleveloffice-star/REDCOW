@@ -27,7 +27,7 @@ export default async function AdminDashboardPage() {
     <div className="grid">
       <AdminCard
         title="סקירת ניהול"
-        description="כל הנתונים נטענים כרגע מקומית דרך server actions ושכבת services."
+        description="כש-Firebase מוגדר (.env), כל הטפסים והניהול נשמרים ב-Firestore. בלי Firebase — fallback מקומי."
       >
         <div className="admin-stat-grid">
           {stats.map(([label, value]) => (

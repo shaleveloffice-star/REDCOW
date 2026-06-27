@@ -1,8 +1,13 @@
 import { mockContactMessages } from "@/data/mock/contact.mock";
-import { createInMemoryStore } from "@/lib/admin/in-memory-store";
+import { createFirestoreCollectionStore } from "@/lib/firebase/firestore-store";
+import { localContactMessagesStore } from "@/lib/firebase/local-stores";
 import type { ContactMessage } from "@/types/content";
 
-const contactStore = createInMemoryStore(mockContactMessages);
+const contactStore = createFirestoreCollectionStore(
+  "contactMessages",
+  localContactMessagesStore,
+  mockContactMessages
+);
 
 export async function getContactMessages(): Promise<ContactMessage[]> {
   return contactStore.getAll();

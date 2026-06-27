@@ -1,9 +1,23 @@
 import { mockMenuCategories, mockMenuItems } from "@/data/mock/menu.mock";
-import { createJsonFileStore } from "@/lib/admin/json-file-store";
+import {
+  createFirestoreCollectionStore
+} from "@/lib/firebase/firestore-store";
+import {
+  localMenuCategoriesStore,
+  localMenuItemsStore
+} from "@/lib/firebase/local-stores";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
-const menuItemsStore = createJsonFileStore<MenuItem>("menu-items.json", mockMenuItems);
-const menuCategoriesStore = createJsonFileStore<MenuCategory>("menu-categories.json", mockMenuCategories);
+const menuItemsStore = createFirestoreCollectionStore(
+  "menuItems",
+  localMenuItemsStore,
+  mockMenuItems
+);
+const menuCategoriesStore = createFirestoreCollectionStore(
+  "menuCategories",
+  localMenuCategoriesStore,
+  mockMenuCategories
+);
 
 export async function getMenuItems(): Promise<MenuItem[]> {
   return menuItemsStore.getAll();

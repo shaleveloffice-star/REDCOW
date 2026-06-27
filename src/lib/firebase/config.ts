@@ -1,13 +1,9 @@
+import {
+  getFirebaseMissingEnvKeys,
+  getFirebaseRequiredEnvKeys,
+  isFirebaseConfigured
+} from "@/lib/firebase";
 import type { FirebaseConnectionState } from "@/types/firebase";
-
-const requiredClientEnvVars = [
-  "NEXT_PUBLIC_FIREBASE_API_KEY",
-  "NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN",
-  "NEXT_PUBLIC_FIREBASE_PROJECT_ID",
-  "NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET",
-  "NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID",
-  "NEXT_PUBLIC_FIREBASE_APP_ID"
-] as const;
 
 const requiredAdminEnvVars = [
   "FIREBASE_PROJECT_ID",
@@ -16,19 +12,19 @@ const requiredAdminEnvVars = [
 ] as const;
 
 export function getFirebaseConnectionState(): FirebaseConnectionState {
-  const missingEnvVars = [...requiredClientEnvVars, ...requiredAdminEnvVars].filter(
-    (key) => !process.env[key]
-  );
+  const missingClientEnvVars = getFirebaseMissingEnvKeys();
+  const missingAdminEnvVars = requiredAdminEnvVars.filter((key) => !process.env[key]);
+  const missingEnvVars = [...missingClientEnvVars, ...missingAdminEnvVars];
 
   return {
-    isConfigured: missingEnvVars.length === 0,
-    mode: "local",
+    isConfigured: isFirebaseConfigured(),
+    mode: isFirebaseConfigured() ? "firebase" : "local",
     missingEnvVars
   };
 }
 
 export function getFirebaseClientEnvKeys() {
-  return [...requiredClientEnvVars];
+  return getFirebaseRequiredEnvKeys();
 }
 
 export function getFirebaseAdminEnvKeys() {

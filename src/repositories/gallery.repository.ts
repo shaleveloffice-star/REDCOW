@@ -1,16 +1,20 @@
 import { mockGalleryItems } from "@/data/mock/gallery.mock";
-import { createInMemoryStore } from "@/lib/admin/in-memory-store";
+import { createFirestoreCollectionStore } from "@/lib/firebase/firestore-store";
+import { localGalleryStore } from "@/lib/firebase/local-stores";
 import type { GalleryItem } from "@/types/content";
 
-const galleryStore = createInMemoryStore(mockGalleryItems);
+const galleryStore = createFirestoreCollectionStore(
+  "galleryItems",
+  localGalleryStore,
+  mockGalleryItems
+);
 
 export async function getGalleryItems(): Promise<GalleryItem[]> {
   return galleryStore.getAll();
 }
 
 export async function getGalleryItemById(id: string): Promise<GalleryItem | null> {
-  const found = (await galleryStore.getAll()).find((item) => item.id === id);
-  return found ? { ...found } : null;
+  return galleryStore.getById(id);
 }
 
 export async function saveGalleryItem(input: GalleryItem): Promise<GalleryItem> {

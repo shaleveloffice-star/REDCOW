@@ -1,7 +1,11 @@
-import { createJsonFileStore } from "@/lib/admin/json-file-store";
+import { createFirestoreCollectionStore } from "@/lib/firebase/firestore-store";
+import { localSiteImageOverridesStore } from "@/lib/firebase/local-stores";
 import type { SiteImageOverride } from "@/types/site-images";
 
-const overridesStore = createJsonFileStore<SiteImageOverride>("site-image-overrides.json", []);
+const overridesStore = createFirestoreCollectionStore(
+  "siteImageOverrides",
+  localSiteImageOverridesStore
+);
 
 export async function getSiteImageOverrides(): Promise<SiteImageOverride[]> {
   return overridesStore.getAll();

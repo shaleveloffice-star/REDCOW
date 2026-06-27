@@ -1,8 +1,9 @@
 import { mockPressItems } from "@/data/mock/press.mock";
-import { createInMemoryStore } from "@/lib/admin/in-memory-store";
+import { createFirestoreCollectionStore } from "@/lib/firebase/firestore-store";
+import { localPressStore } from "@/lib/firebase/local-stores";
 import type { PressItem } from "@/types/content";
 
-const pressStore = createInMemoryStore(mockPressItems);
+const pressStore = createFirestoreCollectionStore("pressItems", localPressStore, mockPressItems);
 
 export async function getPressItems(): Promise<PressItem[]> {
   return pressStore.getAll();

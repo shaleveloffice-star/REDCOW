@@ -42,7 +42,7 @@ export function SiteFooter() {
     [t]
   );
 
-  const footerMenuItems = useMemo(() => [{ label: t.footer.fullMenu, href: "/#menu" }], [t]);
+  const footerMenuItems = useMemo(() => [{ label: t.footer.fullMenu, href: "/menu" }], [t]);
 
   return (
     <footer className="site-footer" id="contact">

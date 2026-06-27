@@ -4477,6 +4477,27 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   line-height: var(--leading-title);
 }
 
+.menu-page-lede {
+  margin: 14px auto 0;
+  max-width: 36ch;
+  color: rgba(255, 247, 237, 0.72);
+  font-size: var(--type-body-lg);
+  line-height: var(--leading-body);
+}
+
+.menu-page-back {
+  display: inline-flex;
+  margin-top: 24px;
+}
+
+.menu-page-empty {
+  margin: 0;
+  text-align: center;
+  color: rgba(255, 247, 237, 0.62);
+  font-size: var(--type-body);
+  line-height: var(--leading-body);
+}
+
 .menu-page-body {
   display: flex;
   flex-direction: column;

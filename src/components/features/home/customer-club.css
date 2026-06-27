@@ -301,11 +301,7 @@
   align-items: center;
   gap: 0;
   margin: 0 0 20px;
-  font-family: var(--font-display);
-  font-size: clamp(52px, 7.5vw, 92px);
-  font-weight: 700;
-  line-height: 0.94;
-  letter-spacing: 0.01em;
+  color: #ffe1ba;
 }
 
 .customer-club-title-primary,
@@ -488,7 +484,6 @@
 
   .customer-club-section .customer-club-title {
     margin-bottom: 10px;
-    font-size: clamp(40px, 11vw, 56px);
   }
 
   .customer-club-lead {
@@ -504,7 +499,7 @@
   }
 
   .customer-club-hero-image {
-    width: min(100%, 520px);
+    width: min(161%, 837px);
     transform: translateY(clamp(-80px, -12vw, -48px));
   }
 

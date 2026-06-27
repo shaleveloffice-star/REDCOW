@@ -116,7 +116,8 @@ export const fr: Messages = {
       dayPlaceholder: "Choisir le jour",
       prevMonth: "Mois précédent",
       nextMonth: "Mois suivant",
-      pickYear: "Choisir l'année"
+      pickYear: "Choisir l'année",
+      pickMonth: "Choisir le mois"
     }
   },
   location: {

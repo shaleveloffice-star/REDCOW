@@ -98,12 +98,20 @@
 
 .birth-date-calendar-nav:focus,
 .birth-date-calendar-nav:focus-visible,
-.birth-date-calendar-title:focus,
-.birth-date-calendar-title:focus-visible {
+.birth-date-calendar-title-part:focus,
+.birth-date-calendar-title-part:focus-visible {
   outline: none;
 }
 
-.birth-date-calendar-title {
+.birth-date-calendar-title-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.birth-date-calendar-title-part {
   min-width: 0;
   padding: 6px 10px;
   border: none;
@@ -118,8 +126,19 @@
   transition: background-color var(--motion-short) ease;
 }
 
-.birth-date-calendar-title:hover {
+.birth-date-calendar-title-part:hover {
   background: rgba(255, 225, 186, 0.06);
+  color: #ffe1ba;
+}
+
+.birth-date-calendar-heading {
+  margin: 0;
+  padding: 6px 10px;
+  color: #fff7ed;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  text-align: center;
 }
 
 .birth-date-calendar-weekdays {
@@ -198,6 +217,47 @@
   padding: 2px;
   scrollbar-width: thin;
   scrollbar-color: #ffe1ba transparent;
+}
+
+.birth-date-calendar-months {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 6px;
+  padding: 2px;
+}
+
+.birth-date-calendar-month {
+  min-height: 42px;
+  padding: 0 8px;
+  border: 1px solid rgba(255, 225, 186, 0.14);
+  border-radius: 10px;
+  background: rgba(255, 247, 237, 0.02);
+  color: #fff7ed;
+  font: inherit;
+  font-size: 13px;
+  cursor: pointer;
+  transition:
+    background-color var(--motion-short) ease,
+    border-color var(--motion-short) ease,
+    color var(--motion-short) ease;
+}
+
+.birth-date-calendar-month:hover:not(:disabled) {
+  background: rgba(255, 225, 186, 0.08);
+  border-color: rgba(255, 225, 186, 0.35);
+  color: #ffe1ba;
+}
+
+.birth-date-calendar-month--selected {
+  background: #ffe1ba;
+  border-color: #ffe1ba;
+  color: #1a0f08;
+  font-weight: 700;
+}
+
+.birth-date-calendar-month--disabled {
+  opacity: 0.22;
+  cursor: not-allowed;
 }
 
 .birth-date-calendar-year {

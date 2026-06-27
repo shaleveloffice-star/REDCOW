@@ -116,7 +116,8 @@ export const he: Messages = {
       dayPlaceholder: "בחרו יום",
       prevMonth: "חודש קודם",
       nextMonth: "חודש הבא",
-      pickYear: "בחירת שנה"
+      pickYear: "בחירת שנה",
+      pickMonth: "בחירת חודש"
     }
   },
   location: {

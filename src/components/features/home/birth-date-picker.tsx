@@ -14,7 +14,7 @@ type BirthDatePickerProps = {
   showLabel?: boolean;
 };
 
-type CalendarView = "days" | "years";
+type CalendarView = "days" | "months" | "years";
 
 const MIN_BIRTH_YEAR = 1940;
 
@@ -115,6 +115,17 @@ export function BirthDatePicker({
     [locale, viewMonth, viewYear]
   );
 
+  const monthOptions = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, index) => ({
+        value: index + 1,
+        label: new Intl.DateTimeFormat(locale, { month: "long" }).format(
+          new Date(viewYear, index, 1)
+        )
+      })),
+    [locale, viewYear]
+  );
+
   const yearOptions = useMemo(
     () =>
       Array.from({ length: currentYear - MIN_BIRTH_YEAR + 1 }, (_, index) => currentYear - index),
@@ -137,20 +148,24 @@ export function BirthDatePicker({
     return cells;
   }, [viewMonth, viewYear]);
 
+  const resetCalendarView = () => {
+    setCalendarView("days");
+  };
+
   useEffect(() => {
     if (!isOpen) return;
 
     const onPointerDown = (event: MouseEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) {
         setIsOpen(false);
-        setCalendarView("days");
+        resetCalendarView();
       }
     };
 
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         setIsOpen(false);
-        setCalendarView("days");
+        resetCalendarView();
       }
     };
 
@@ -173,7 +188,7 @@ export function BirthDatePicker({
       setViewMonth(1);
     }
 
-    setCalendarView("days");
+    resetCalendarView();
     setIsOpen(true);
   };
 
@@ -181,6 +196,7 @@ export function BirthDatePicker({
   const previousMonthView = getPreviousMonth(viewYear, viewMonth);
   const canGoNextMonth = !isFutureMonth(nextMonthView.year, nextMonthView.month);
   const canGoPreviousMonth = previousMonthView.year >= MIN_BIRTH_YEAR;
+  const navDisabled = calendarView !== "days";
 
   const goToPreviousMonth = () => {
     if (!canGoPreviousMonth) return;
@@ -201,17 +217,32 @@ export function BirthDatePicker({
     setSelectedMonth(viewMonth);
     setSelectedDay(day);
     setIsOpen(false);
-    setCalendarView("days");
+    resetCalendarView();
+  };
+
+  const handleMonthSelect = (month: number) => {
+    if (isFutureMonth(viewYear, month)) return;
+
+    setViewMonth(month);
+    resetCalendarView();
   };
 
   const handleYearSelect = (year: number) => {
     setViewYear(year);
-    setCalendarView("days");
 
     if (isFutureMonth(year, viewMonth)) {
       setViewMonth(currentMonth);
     }
+
+    resetCalendarView();
   };
+
+  const headerTitle =
+    calendarView === "months"
+      ? t.customerClub.datePicker.pickMonth
+      : calendarView === "years"
+        ? t.customerClub.datePicker.pickYear
+        : null;
 
   return (
     <div className="birth-date-picker" ref={rootRef}>
@@ -252,25 +283,40 @@ export function BirthDatePicker({
               type="button"
               className="birth-date-calendar-nav"
               aria-label={t.customerClub.datePicker.prevMonth}
-              disabled={!canGoPreviousMonth || calendarView === "years"}
+              disabled={!canGoPreviousMonth || navDisabled}
               onClick={goToPreviousMonth}
             >
               <ChevronRight strokeWidth={1.75} aria-hidden="true" />
             </button>
 
-            <button
-              type="button"
-              className="birth-date-calendar-title"
-              onClick={() => setCalendarView(calendarView === "days" ? "years" : "days")}
-            >
-              {calendarView === "days" ? `${monthLabel} ${viewYear}` : t.customerClub.datePicker.pickYear}
-            </button>
+            {calendarView === "days" ? (
+              <div className="birth-date-calendar-title-group">
+                <button
+                  type="button"
+                  className="birth-date-calendar-title-part"
+                  aria-label={t.customerClub.datePicker.pickMonth}
+                  onClick={() => setCalendarView("months")}
+                >
+                  {monthLabel}
+                </button>
+                <button
+                  type="button"
+                  className="birth-date-calendar-title-part"
+                  aria-label={t.customerClub.datePicker.pickYear}
+                  onClick={() => setCalendarView("years")}
+                >
+                  {viewYear}
+                </button>
+              </div>
+            ) : (
+              <p className="birth-date-calendar-heading">{headerTitle}</p>
+            )}
 
             <button
               type="button"
               className="birth-date-calendar-nav"
               aria-label={t.customerClub.datePicker.nextMonth}
-              disabled={!canGoNextMonth || calendarView === "years"}
+              disabled={!canGoNextMonth || navDisabled}
               onClick={goToNextMonth}
             >
               <ChevronLeft strokeWidth={1.75} aria-hidden="true" />
@@ -318,6 +364,37 @@ export function BirthDatePicker({
                 })}
               </div>
             </>
+          ) : calendarView === "months" ? (
+            <div
+              className="birth-date-calendar-months"
+              role="listbox"
+              aria-label={t.customerClub.datePicker.month}
+            >
+              {monthOptions.map((month) => {
+                const isDisabled = isFutureMonth(viewYear, month.value);
+                const isSelected = viewMonth === month.value;
+
+                return (
+                  <button
+                    key={month.value}
+                    type="button"
+                    role="option"
+                    aria-selected={isSelected}
+                    className={[
+                      "birth-date-calendar-month",
+                      isSelected ? "birth-date-calendar-month--selected" : "",
+                      isDisabled ? "birth-date-calendar-month--disabled" : ""
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
+                    disabled={isDisabled}
+                    onClick={() => handleMonthSelect(month.value)}
+                  >
+                    {month.label}
+                  </button>
+                );
+              })}
+            </div>
           ) : (
             <div className="birth-date-calendar-years" role="listbox" aria-label={t.customerClub.datePicker.year}>
               {yearOptions.map((year) => (

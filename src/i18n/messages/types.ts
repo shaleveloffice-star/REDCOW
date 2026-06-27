@@ -94,6 +94,7 @@ export type Messages = {
       prevMonth: string;
       nextMonth: string;
       pickYear: string;
+      pickMonth: string;
     };
   };
   location: {

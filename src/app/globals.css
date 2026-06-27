@@ -1262,7 +1262,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .menu-showcase-title,
 .atmosphere-title,
 .location-title,
-.kitchen-title {
+.kitchen-title,
+.customer-club-title {
   margin: 0 0 16px;
   color: #fff;
   font-family: var(--font-display);

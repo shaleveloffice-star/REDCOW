@@ -9,7 +9,7 @@ import {
   type Firestore
 } from "firebase/firestore";
 
-import { getFirestoreDb, isFirebaseConfigured } from "@/lib/firebase";
+import { getFirestoreDb, getFirebaseMissingEnvKeys, isFirebaseConfigured } from "@/lib/firebase";
 import type { FirebaseCollectionName } from "@/types/firebase";
 
 export type DocumentStore<T extends { id: string }> = {
@@ -19,9 +19,86 @@ export type DocumentStore<T extends { id: string }> = {
   remove(id: string): Promise<boolean>;
 };
 
+function formatFirestoreError(error: unknown) {
+  if (error instanceof Error) {
+    const firebaseError = error as Error & { code?: string; customData?: unknown };
+    return {
+      name: firebaseError.name,
+      message: firebaseError.message,
+      code: firebaseError.code,
+      stack: firebaseError.stack,
+      customData: firebaseError.customData
+    };
+  }
+
+  return { raw: error };
+}
+
 function logFirestoreError(action: string, collectionName: FirebaseCollectionName, error: unknown) {
-  const message = error instanceof Error ? error.message : String(error);
-  console.error(`[Firestore] ${action} failed for "${collectionName}": ${message}`);
+  console.error(`[Firestore] ${action} failed for "${collectionName}"`, formatFirestoreError(error));
+}
+
+function logFirestoreFallback(
+  collectionName: FirebaseCollectionName,
+  reason: string,
+  details?: Record<string, unknown>
+) {
+  console.warn(`[Firestore] in-memory fallback for "${collectionName}": ${reason}`, details ?? "");
+}
+
+async function withFirestore<T>(
+  collectionName: FirebaseCollectionName,
+  run: (db: Firestore) => Promise<T>,
+  fallback: () => Promise<T>
+): Promise<T> {
+  if (!isFirebaseConfigured()) {
+    logFirestoreFallback(collectionName, "Firebase client env vars missing", {
+      missingEnvVars: getFirebaseMissingEnvKeys()
+    });
+    return fallback();
+  }
+
+  const db = getFirestoreDb();
+  if (!db) {
+    logFirestoreFallback(collectionName, "getFirestoreDb() returned null");
+    return fallback();
+  }
+
+  try {
+    return await run(db);
+  } catch (error) {
+    logFirestoreError("read/write", collectionName, error);
+    return fallback();
+  }
+}
+
+async function withFirestoreWrite<T>(
+  collectionName: FirebaseCollectionName,
+  operation: string,
+  run: (db: Firestore) => Promise<T>,
+  fallback: () => Promise<T>
+): Promise<T> {
+  if (!isFirebaseConfigured()) {
+    logFirestoreFallback(collectionName, `${operation}: Firebase client env vars missing`, {
+      missingEnvVars: getFirebaseMissingEnvKeys()
+    });
+    return fallback();
+  }
+
+  const db = getFirestoreDb();
+  if (!db) {
+    logFirestoreFallback(collectionName, `${operation}: getFirestoreDb() returned null`);
+    return fallback();
+  }
+
+  try {
+    const result = await run(db);
+    console.info(`[Firestore] ${operation} OK for "${collectionName}"`);
+    return result;
+  } catch (error) {
+    logFirestoreError(operation, collectionName, error);
+    throw error;
+  }
 }
 
 function toStoredData<T extends { id: string }>(input: T) {
@@ -45,28 +122,6 @@ async function seedCollection<T extends { id: string }>(
     batch.set(doc(db, collectionName, item.id), toStoredData(item));
   }
   await batch.commit();
-}
-
-async function withFirestore<T>(
-  collectionName: FirebaseCollectionName,
-  run: (db: Firestore) => Promise<T>,
-  fallback: () => Promise<T>
-): Promise<T> {
-  if (!isFirebaseConfigured()) {
-    return fallback();
-  }
-
-  const db = getFirestoreDb();
-  if (!db) {
-    return fallback();
-  }
-
-  try {
-    return await run(db);
-  } catch (error) {
-    logFirestoreError("read/write", collectionName, error);
-    return fallback();
-  }
 }
 
 export function createFirestoreCollectionStore<T extends { id: string }>(
@@ -117,19 +172,27 @@ export function createFirestoreCollectionStore<T extends { id: string }>(
     },
 
     async save(input: T) {
-      return withFirestore(
+      return withFirestoreWrite(
         collectionName,
+        `setDoc ${input.id}`,
         async (db) => {
+          console.info(`[Firestore] setDoc "${collectionName}/${input.id}"`);
           await setDoc(doc(db, collectionName, input.id), toStoredData(input), { merge: true });
           return { ...input };
         },
-        () => localStore.save(input)
+        () => {
+          console.warn(
+            `[Firestore] save stored in memory only for "${collectionName}/${input.id}"`
+          );
+          return localStore.save(input);
+        }
       );
     },
 
     async remove(id: string) {
-      return withFirestore(
+      return withFirestoreWrite(
         collectionName,
+        `deleteDoc ${id}`,
         async (db) => {
           const snapshot = await getDoc(doc(db, collectionName, id));
           if (!snapshot.exists()) {

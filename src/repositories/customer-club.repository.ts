@@ -14,7 +14,14 @@ export async function getCustomerClubSignups(): Promise<CustomerClubSignup[]> {
 }
 
 export async function saveCustomerClubSignup(input: CustomerClubSignup): Promise<CustomerClubSignup> {
-  return customerClubStore.save(input);
+  console.info("[CustomerClub] saveCustomerClubSignup called", {
+    id: input.id,
+    phone: input.phone,
+    collection: "customerClubSignups"
+  });
+  const saved = await customerClubStore.save(input);
+  console.info("[CustomerClub] saveCustomerClubSignup completed", { id: saved.id });
+  return saved;
 }
 
 export async function deleteCustomerClubSignup(id: string): Promise<boolean> {

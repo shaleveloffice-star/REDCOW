@@ -43,17 +43,33 @@ export async function submitCustomerClubSignupAction(
   if (!marketingConsent) return { ok: false, code: "consent" };
 
   try {
-    await createCustomerClubSignup({
+    const saved = await createCustomerClubSignup({
       fullName,
       phone,
       email,
       birthDate: birthDateRaw || undefined,
       marketingConsent
     });
+    console.info("[CustomerClub] submitCustomerClubSignupAction saved", { id: saved.id });
     return { ok: true };
-  } catch {
+  } catch (error) {
+    console.error("[CustomerClub] submitCustomerClubSignupAction failed", formatActionError(error));
     return { ok: false, code: "generic" };
   }
+}
+
+function formatActionError(error: unknown) {
+  if (error instanceof Error) {
+    const firebaseError = error as Error & { code?: string };
+    return {
+      name: firebaseError.name,
+      message: firebaseError.message,
+      code: firebaseError.code,
+      stack: firebaseError.stack
+    };
+  }
+
+  return { raw: error };
 }
 
 export async function saveCustomerClubSignupAction(input: CustomerClubSignup) {

@@ -101,6 +101,17 @@ export type CareerApplication = {
   status: RecordStatus;
 };
 
+export type CustomerClubSignup = {
+  id: string;
+  fullName: string;
+  phone: string;
+  email: string;
+  birthDate?: string;
+  marketingConsent: boolean;
+  createdAt: ISODateString;
+  status: RecordStatus;
+};
+
 export type OrderLink = {
   id: string;
   label: string;

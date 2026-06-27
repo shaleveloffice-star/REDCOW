@@ -16,6 +16,7 @@ export type Messages = {
     menu: string;
     plancha: string;
     atmosphere: string;
+    club: string;
     location: string;
   };
   hero: {
@@ -47,6 +48,32 @@ export type Messages = {
     droneAlt: string;
     burgerStackAlt: string;
     bottomAlt: string;
+  };
+  customerClub: {
+    kicker: string;
+    title: string;
+    lead: string;
+    perksAria: string;
+    perks: Array<{ title: string; desc: string }>;
+    fields: {
+      fullName: string;
+      phone: string;
+      email: string;
+      birthDate: string;
+    };
+    consentPrefix: string;
+    privacyLink: string;
+    submit: string;
+    submitting: string;
+    successTitle: string;
+    successMessage: string;
+    errors: {
+      fullName: string;
+      phone: string;
+      email: string;
+      consent: string;
+      generic: string;
+    };
   };
   location: {
     title: string;

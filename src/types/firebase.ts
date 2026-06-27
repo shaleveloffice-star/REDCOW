@@ -13,6 +13,7 @@ export type FirebaseCollectionName =
   | "pressItems"
   | "contactMessages"
   | "careerApplications"
+  | "customerClubSignups"
   | "orderLinks"
   | "siteImageOverrides"
   | "adminUsers";

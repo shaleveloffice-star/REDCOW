@@ -1,4 +1,4 @@
-import type { CareerApplication, ContactMessage } from "@/types/content";
+import type { CareerApplication, ContactMessage, CustomerClubSignup } from "@/types/content";
 
 export const mockContactMessages: ContactMessage[] = [
   {
@@ -33,3 +33,5 @@ export const mockCareerApplications: CareerApplication[] = [
     status: "new"
   }
 ];
+
+export const mockCustomerClubSignups: CustomerClubSignup[] = [];

@@ -13,6 +13,7 @@ export const fr: Messages = {
     menu: "Carte",
     plancha: "Sur la Plancha",
     atmosphere: "Ambiance",
+    club: "Club client",
     location: "Adresse & Horaires"
   },
   hero: {
@@ -57,6 +58,45 @@ export const fr: Messages = {
     droneAlt: "Vue drone",
     burgerStackAlt: "Burger éclaté",
     bottomAlt: "Pain du bas"
+  },
+  customerClub: {
+    kicker: "NB Club",
+    title: "Club client",
+    lead: "Rejoignez le club pour des avantages, des nouveautés et des surprises en avant-première.",
+    perksAria: "Avantages du club",
+    perks: [
+      {
+        title: "Cadeau d'anniversaire",
+        desc: "Une surprise gourmande de notre cuisine, le jour J."
+      },
+      {
+        title: "En avant-première",
+        desc: "Accès anticipé aux nouveautés et campagnes spéciales."
+      },
+      {
+        title: "Avantages exclusifs",
+        desc: "Offres et infos envoyées directement — sans spam."
+      }
+    ],
+    fields: {
+      fullName: "Nom complet",
+      phone: "Téléphone",
+      email: "E-mail (optionnel)",
+      birthDate: "Date de naissance (optionnel)"
+    },
+    consentPrefix: "J'accepte de recevoir les actualités et avantages du club conformément à la",
+    privacyLink: "Politique de confidentialité",
+    submit: "Rejoindre le club",
+    submitting: "Envoi...",
+    successTitle: "Bienvenue au club !",
+    successMessage: "Nous avons bien reçu votre inscription. Nous vous contacterons très bientôt.",
+    errors: {
+      fullName: "Veuillez saisir votre nom complet.",
+      phone: "Veuillez saisir votre numéro de téléphone.",
+      email: "Veuillez saisir une adresse e-mail valide si renseignée.",
+      consent: "Veuillez accepter les conditions du club.",
+      generic: "Une erreur est survenue. Veuillez réessayer."
+    }
   },
   location: {
     title: "Adresse & Horaires",

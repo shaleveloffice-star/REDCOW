@@ -7,6 +7,7 @@ const navItems = [
   { href: "/admin/branches", label: "סניפים" },
   { href: "/admin/press", label: "כתבות" },
   { href: "/admin/contact-messages", label: "הודעות יצירת קשר" },
+  { href: "/admin/customer-club", label: "מועדון לקוחות" },
   { href: "/admin/career-applications", label: "קורות חיים" },
   { href: "/admin/order-links", label: "קישורי הזמנה" },
   { href: "/admin/settings", label: "הגדרות אתר" }

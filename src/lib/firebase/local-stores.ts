@@ -1,6 +1,6 @@
 import { createInMemoryStore } from "@/lib/admin/in-memory-store";
 import { createJsonFileStore } from "@/lib/admin/json-file-store";
-import { mockCareerApplications, mockContactMessages } from "@/data/mock/contact.mock";
+import { mockCareerApplications, mockContactMessages, mockCustomerClubSignups } from "@/data/mock/contact.mock";
 import { mockBranches } from "@/data/mock/branches.mock";
 import { mockGalleryItems } from "@/data/mock/gallery.mock";
 import { mockMenuCategories, mockMenuItems } from "@/data/mock/menu.mock";
@@ -10,6 +10,7 @@ import type {
   Branch,
   CareerApplication,
   ContactMessage,
+  CustomerClubSignup,
   GalleryItem,
   MenuCategory,
   MenuItem,
@@ -27,6 +28,9 @@ export const localMenuCategoriesStore = createJsonFileStore<MenuCategory>(
 export const localContactMessagesStore = createInMemoryStore<ContactMessage>(mockContactMessages);
 export const localCareerApplicationsStore = createInMemoryStore<CareerApplication>(
   mockCareerApplications
+);
+export const localCustomerClubSignupsStore = createInMemoryStore<CustomerClubSignup>(
+  mockCustomerClubSignups
 );
 export const localBranchesStore = createInMemoryStore<Branch>(mockBranches);
 export const localPressStore = createInMemoryStore<PressItem>(mockPressItems);

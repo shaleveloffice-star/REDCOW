@@ -1,3 +1,4 @@
+import { CustomerClubSection } from "@/components/features/home/customer-club-section";
 import { HeroSection } from "@/components/features/home/hero-section";
 import { AtmosphereSection } from "@/components/features/home/atmosphere-section";
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
@@ -38,6 +39,7 @@ export default async function HomePage() {
         <AtmosphereSection siteImages={siteImages} />
         <PlanchaSection siteImages={siteImages} />
         <AtmosphereSection siteImages={siteImages} sectionId="atmosphere-after-plancha" />
+        <CustomerClubSection />
         <LocationSection siteImages={siteImages} />
       </main>
       <ShortTour />

@@ -13,6 +13,7 @@ export const en: Messages = {
     menu: "Menu",
     plancha: "On the Plancha",
     atmosphere: "Atmosphere",
+    club: "Customer Club",
     location: "Location & Hours"
   },
   hero: {
@@ -57,6 +58,45 @@ export const en: Messages = {
     droneAlt: "Drone footage",
     burgerStackAlt: "Deconstructed burger",
     bottomAlt: "Bottom bun"
+  },
+  customerClub: {
+    kicker: "NB Club",
+    title: "Customer Club",
+    lead: "Join the club for perks, updates, and surprises before anyone else.",
+    perksAria: "Club benefits",
+    perks: [
+      {
+        title: "Birthday treat",
+        desc: "A sweet surprise from our kitchen, right on your day."
+      },
+      {
+        title: "First to know",
+        desc: "Early access to new dishes and special campaigns."
+      },
+      {
+        title: "Exclusive perks",
+        desc: "Deals and updates sent straight to you — no spam."
+      }
+    ],
+    fields: {
+      fullName: "Full name",
+      phone: "Phone",
+      email: "Email (optional)",
+      birthDate: "Birth date (optional)"
+    },
+    consentPrefix: "I agree to receive club updates and perks according to the",
+    privacyLink: "Privacy Policy",
+    submit: "Join the Club",
+    submitting: "Sending...",
+    successTitle: "Welcome to the club!",
+    successMessage: "We received your signup. We'll be in touch as soon as everything is ready.",
+    errors: {
+      fullName: "Please enter your full name.",
+      phone: "Please enter your phone number.",
+      email: "Please enter a valid email address if provided.",
+      consent: "Please accept the club terms to continue.",
+      generic: "Something went wrong. Please try again."
+    }
   },
   location: {
     title: "Location & Hours",

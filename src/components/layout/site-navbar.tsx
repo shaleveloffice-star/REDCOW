@@ -21,6 +21,7 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
       { label: t.nav.menu, href: "/#menu" },
       { label: t.nav.plancha, href: "/#plancha" },
       { label: t.nav.atmosphere, href: "/#atmosphere" },
+      { label: t.nav.club, href: "/#club" },
       { label: t.nav.location, href: "/#location" }
     ],
     [t]

@@ -1,0 +1,21 @@
+// Merge this block into your existing Firestore rules in Firebase Console.
+// Required only when server writes use the client SDK (no Admin SDK env vars).
+
+/*
+match /customerClubSignups/{memberId} {
+  allow create: if request.resource.data.keys().hasAll([
+      'fullName',
+      'phone',
+      'email',
+      'marketingConsent',
+      'createdAt',
+      'status'
+    ])
+    && request.resource.data.fullName is string
+    && request.resource.data.phone is string
+    && request.resource.data.email is string
+    && request.resource.data.marketingConsent == true
+    && request.resource.data.status == 'new';
+  allow read, update, delete: if false;
+}
+*/

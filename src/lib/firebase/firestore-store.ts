@@ -9,6 +9,7 @@ import {
   type Firestore
 } from "firebase/firestore";
 
+import { getAdminFirestore, isFirebaseAdminConfigured } from "@/lib/firebase/admin";
 import { getFirestoreDb, getFirebaseMissingEnvKeys, isFirebaseConfigured } from "@/lib/firebase";
 import type { FirebaseCollectionName } from "@/types/firebase";
 
@@ -103,7 +104,9 @@ async function withFirestoreWrite<T>(
 
 function toStoredData<T extends { id: string }>(input: T) {
   const { id: _id, ...data } = input;
-  return data;
+  return Object.fromEntries(
+    Object.entries(data).filter(([, value]) => value !== undefined)
+  );
 }
 
 function fromSnapshot<T extends { id: string }>(id: string, data: Record<string, unknown>) {
@@ -172,12 +175,34 @@ export function createFirestoreCollectionStore<T extends { id: string }>(
     },
 
     async save(input: T) {
+      const storedData = toStoredData(input);
+      const adminDb = getAdminFirestore();
+
+      if (adminDb) {
+        try {
+          console.info(`[Firestore Admin] set "${collectionName}/${input.id}"`);
+          await adminDb.collection(collectionName).doc(input.id).set(storedData, { merge: true });
+          console.info(`[Firestore Admin] set OK for "${collectionName}/${input.id}"`);
+          return { ...input };
+        } catch (error) {
+          logFirestoreError(`admin set ${input.id}`, collectionName, error);
+          throw error;
+        }
+      }
+
+      if (isFirebaseConfigured() && !isFirebaseAdminConfigured()) {
+        console.warn(
+          `[Firestore] Admin SDK not configured for "${collectionName}" writes. ` +
+            "Client SDK writes may fail with permission-denied unless Firestore rules allow them."
+        );
+      }
+
       return withFirestoreWrite(
         collectionName,
         `setDoc ${input.id}`,
         async (db) => {
           console.info(`[Firestore] setDoc "${collectionName}/${input.id}"`);
-          await setDoc(doc(db, collectionName, input.id), toStoredData(input), { merge: true });
+          await setDoc(doc(db, collectionName, input.id), storedData, { merge: true });
           return { ...input };
         },
         () => {
@@ -190,6 +215,23 @@ export function createFirestoreCollectionStore<T extends { id: string }>(
     },
 
     async remove(id: string) {
+      const adminDb = getAdminFirestore();
+
+      if (adminDb) {
+        try {
+          const snapshot = await adminDb.collection(collectionName).doc(id).get();
+          if (!snapshot.exists) {
+            return false;
+          }
+          await adminDb.collection(collectionName).doc(id).delete();
+          console.info(`[Firestore Admin] delete OK for "${collectionName}/${id}"`);
+          return true;
+        } catch (error) {
+          logFirestoreError(`admin delete ${id}`, collectionName, error);
+          throw error;
+        }
+      }
+
       return withFirestoreWrite(
         collectionName,
         `deleteDoc ${id}`,

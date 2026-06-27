@@ -1,0 +1,613 @@
+/* ── Customer Club — mockup layout ───────────────────────────── */
+
+.customer-club-section {
+  position: relative;
+  z-index: 1;
+  padding: clamp(72px, 9vw, 108px) 0 0;
+  background: #030303;
+  overflow-x: clip;
+}
+
+.customer-club-shell {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: clamp(36px, 5vw, 48px);
+  width: min(1460px, calc(100% - 48px));
+  margin: 0 auto;
+  direction: ltr;
+  position: relative;
+}
+
+.customer-club-form-col,
+.customer-club-copy,
+.customer-club-hero,
+.customer-club-perks,
+.customer-club-form-slot {
+  direction: rtl;
+  min-width: 0;
+  position: relative;
+}
+
+.customer-club-form-col,
+.customer-club-copy,
+.customer-club-perks {
+  z-index: 2;
+}
+
+.customer-club-form-slot {
+  z-index: 2;
+}
+
+/* ── Form (left on desktop) ── */
+
+.customer-club-panel {
+  padding: clamp(24px, 3vw, 30px);
+  border: 1px solid rgba(255, 225, 186, 0.22);
+  border-radius: 16px;
+  background: rgba(6, 6, 6, 0.96);
+  overflow: visible;
+}
+
+.customer-club-form-hint {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 20px;
+  color: rgba(255, 247, 237, 0.5);
+  font-size: 13px;
+  direction: ltr;
+}
+
+.customer-club-form-hint span {
+  flex: 1;
+  text-align: right;
+  direction: rtl;
+}
+
+.customer-club-form-hint svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  color: #ffe1ba;
+}
+
+.customer-club-fields {
+  display: grid;
+  gap: 14px;
+}
+
+.customer-club-field {
+  display: block;
+}
+
+.customer-club-input-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-height: 52px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 225, 186, 0.28);
+  border-radius: 10px;
+  background: rgba(255, 247, 237, 0.02);
+  transition: border-color var(--motion-short) ease;
+  direction: ltr;
+}
+
+.customer-club-input-box:focus-within {
+  border-color: rgba(255, 225, 186, 0.5);
+}
+
+.customer-club-input-icon {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+  color: #ffe1ba;
+}
+
+.customer-club-input-box input {
+  flex: 1;
+  min-width: 0;
+  padding: 12px 0;
+  border: none;
+  background: transparent;
+  color: #fff7ed;
+  font: inherit;
+  font-size: 15px;
+  text-align: right;
+  direction: rtl;
+}
+
+.customer-club-input-box input::placeholder {
+  color: rgba(255, 247, 237, 0.38);
+}
+
+.customer-club-input-box input:focus,
+.customer-club-input-box input:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+.customer-club-input-box input:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.customer-club-input-box--birth {
+  align-items: stretch;
+  padding-inline-end: 10px;
+}
+
+.customer-club-input-box--birth .customer-club-input-icon {
+  align-self: center;
+}
+
+/* Birth date — calendar picker */
+
+.customer-club-form .birth-date-picker {
+  flex: 1;
+  min-width: 0;
+  align-self: stretch;
+}
+
+.customer-club-input-box--birth,
+.customer-club-field {
+  overflow: visible;
+}
+
+/* Submit + consent */
+
+.customer-club-submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 18px;
+  min-height: 52px;
+  padding: 0 24px;
+  border: 1px solid #ffe1ba;
+  border-radius: 999px;
+  background-color: #ffe1ba;
+  color: #1a0f08;
+  font-family: var(--font-subtitle);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.customer-club-submit svg {
+  width: 18px;
+  height: 18px;
+}
+
+.customer-club-submit:hover:not(:disabled) {
+  box-shadow: 0 10px 28px rgba(255, 225, 186, 0.3);
+}
+
+.customer-club-submit:focus,
+.customer-club-submit:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(255, 225, 186, 0.35);
+}
+
+.customer-club-submit:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.customer-club-consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-top: 16px;
+  color: rgba(255, 247, 237, 0.48);
+  font-size: 12px;
+  line-height: 1.6;
+  cursor: pointer;
+}
+
+.customer-club-consent input {
+  margin-top: 2px;
+  accent-color: #ffe1ba;
+}
+
+.customer-club-consent a {
+  color: #ffe1ba;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.customer-club-error {
+  margin: 14px 0 0;
+  color: #ffb4a8;
+  font-size: 13px;
+}
+
+.customer-club-social-proof {
+  display: grid;
+  gap: 10px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(255, 247, 237, 0.08);
+}
+
+.customer-club-stars {
+  display: flex;
+  gap: 2px;
+}
+
+.customer-club-stars svg {
+  width: 13px;
+  height: 13px;
+}
+
+.customer-club-social-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.customer-club-avatars {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.customer-club-avatar {
+  display: block;
+  width: 36px;
+  height: 36px;
+  margin-inline-start: -10px;
+  border: 2px solid #0a0a0a;
+  border-radius: 999px;
+  object-fit: cover;
+  background: #0a0a0a;
+}
+
+.customer-club-avatar:first-child {
+  margin-inline-start: 0;
+}
+
+.customer-club-social-row p {
+  margin: 0;
+  color: rgba(255, 247, 237, 0.45);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+/* ── Title block ── */
+
+.customer-club-copy {
+  text-align: center;
+  align-self: start;
+  margin-top: 0;
+}
+
+.customer-club-kicker {
+  margin: 0 0 14px;
+  color: #ffe1ba;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.32em;
+  text-transform: uppercase;
+}
+
+.customer-club-section .customer-club-title {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 0 0 20px;
+  font-family: var(--font-display);
+  font-size: clamp(52px, 7.5vw, 92px);
+  font-weight: 700;
+  line-height: 0.94;
+  letter-spacing: 0.01em;
+}
+
+.customer-club-title-primary,
+.customer-club-title-accent {
+  color: #ffe1ba;
+}
+
+.customer-club-lead {
+  margin: 0;
+  color: rgba(255, 247, 237, 0.82);
+  font-size: clamp(17px, 2.1vw, 21px);
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+.customer-club-lead-accent {
+  color: #ffe1ba;
+  font-weight: 600;
+}
+
+/* ── Hero — burger + card composite ── */
+
+.customer-club-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  margin: 0 auto;
+  z-index: 0;
+  overflow: visible;
+}
+
+.customer-club-hero-image {
+  display: block;
+  width: min(100%, 560px);
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 28px 56px rgba(0, 0, 0, 0.45));
+}
+
+/* ── Perks (right column) ── */
+
+.customer-club-perks {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 28px;
+  position: relative;
+  z-index: 3;
+}
+
+.customer-club-perks li {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.customer-club-perk-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+  border: 1px solid rgba(255, 225, 186, 0.45);
+  border-radius: 999px;
+  color: #ffe1ba;
+  background: transparent;
+}
+
+.customer-club-perk-icon svg {
+  width: 18px;
+  height: 18px;
+}
+
+.customer-club-perk-body {
+  flex: 1;
+  min-width: 0;
+  text-align: right;
+}
+
+.customer-club-perk-body h3 {
+  margin: 0 0 6px;
+  color: #ffe1ba;
+  font-size: 15px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.customer-club-perk-body p {
+  margin: 0;
+  color: rgba(255, 247, 237, 0.52);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* Trust footer */
+
+.customer-club-trust-bar {
+  margin-top: clamp(48px, 6vw, 72px);
+  border-top: 1px solid rgba(255, 247, 237, 0.08);
+  background: rgba(255, 247, 237, 0.02);
+}
+
+.customer-club-trust-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(1460px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 16px 0 20px;
+  direction: rtl;
+}
+
+.customer-club-trust-inner p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  color: rgba(255, 247, 237, 0.48);
+  font-size: 12px;
+}
+
+.customer-club-trust-inner svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  color: #ffe1ba;
+}
+
+/* Success */
+
+.customer-club-success {
+  text-align: center;
+}
+
+.customer-club-success-icon {
+  width: 36px;
+  height: 36px;
+  margin: 0 auto 16px;
+  color: #ffe1ba;
+}
+
+.customer-club-success h3 {
+  margin: 0 0 10px;
+  color: #fff7ed;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.customer-club-success p {
+  margin: 0;
+  color: rgba(255, 247, 237, 0.55);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+/* ── Responsive ── */
+
+@media (max-width: 899px) {
+  .customer-club-section {
+    padding-top: clamp(48px, 10vw, 72px);
+  }
+
+  .customer-club-shell {
+    gap: 16px;
+  }
+
+  .customer-club-copy {
+    order: 1;
+    z-index: 2;
+    margin-top: calc(clamp(24px, 5vw, 40px) + 30px);
+    margin-bottom: 0;
+  }
+
+  .customer-club-section .customer-club-title {
+    margin-bottom: 10px;
+    font-size: clamp(40px, 11vw, 56px);
+  }
+
+  .customer-club-lead {
+    font-size: clamp(15px, 4vw, 17px);
+    line-height: 1.55;
+  }
+
+  .customer-club-hero {
+    order: 2;
+    z-index: 0;
+    align-items: flex-start;
+    margin-top: clamp(-20px, -4vw, -8px);
+  }
+
+  .customer-club-hero-image {
+    width: min(100%, 520px);
+  }
+
+  .customer-club-perks {
+    order: 3;
+    z-index: 2;
+    gap: 20px;
+  }
+
+  .customer-club-form-col {
+    order: 4;
+    z-index: 2;
+  }
+
+  .customer-club-form-slot {
+    order: 4;
+    justify-self: start;
+    width: min(100%, 500px);
+  }
+}
+
+@media (min-width: 900px) {
+  .customer-club-shell {
+    grid-template-columns: minmax(360px, 500px) minmax(0, 1fr) minmax(200px, 250px);
+    grid-template-rows: auto auto;
+    column-gap: clamp(32px, 4vw, 56px);
+    row-gap: 0;
+    align-items: start;
+  }
+
+  .customer-club-form-slot {
+    grid-column: 1;
+    grid-row: 2;
+    align-self: start;
+    justify-self: start;
+    width: 100%;
+    padding-top: clamp(48px, 8vh, 96px);
+  }
+
+  .customer-club-form-col {
+    width: 100%;
+    z-index: 2;
+  }
+
+  .customer-club-copy {
+    grid-column: 2 / 4;
+    grid-row: 1;
+    justify-self: center;
+    width: min(100%, 640px);
+    margin-inline: auto;
+    margin-top: calc(clamp(56px, 8vh, 104px) + 30px);
+    margin-bottom: clamp(-8px, -1vw, 0);
+    padding-inline: clamp(16px, 3vw, 32px);
+    z-index: 3;
+  }
+
+  .customer-club-section .customer-club-title {
+    margin-bottom: 10px;
+  }
+
+  .customer-club-lead {
+    margin-bottom: 0;
+  }
+
+  .customer-club-hero {
+    grid-column: 2;
+    grid-row: 2;
+    align-self: start;
+    max-width: none;
+    min-height: 0;
+    margin-top: clamp(-36px, -3.5vw, -12px);
+    z-index: 0;
+    overflow: visible;
+  }
+
+  .customer-club-hero-image {
+    width: min(2100px, 225%);
+  }
+
+  .customer-club-perks {
+    grid-column: 3;
+    grid-row: 2;
+    align-self: start;
+    padding-top: clamp(140px, 18vh, 240px);
+    padding-inline-end: clamp(48px, 6vw, 72px);
+    z-index: 3;
+  }
+
+  .customer-club-trust-inner {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+  }
+}
+
+@media (max-width: 640px) {
+  .customer-club-input-box--birth {
+    flex-direction: row;
+    align-items: center;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .customer-club-input-box--birth .customer-club-input-icon {
+    align-self: center;
+    margin-inline-start: 0;
+  }
+}

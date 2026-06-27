@@ -62,7 +62,17 @@ export const en: Messages = {
   customerClub: {
     kicker: "NB Club",
     title: "Customer Club",
-    lead: "Join the club for perks, updates, and surprises before anyone else.",
+    titlePrimary: "Customer",
+    titleAccent: "Club",
+    leadBefore: "Join the club for ",
+    leadHighlight: "perks, updates, and surprises",
+    leadAfter: " before anyone else.",
+    cardAlt: "NB Club member card",
+    burgerAlt: "NB burger",
+    formHint: "Sign up in just 10 seconds",
+    socialProof: "Over 2,300 club members already enjoying the perks",
+    trustSafe: "Your information is safe with us",
+    trustTerms: "No cost | No commitment | Cancel anytime",
     perksAria: "Club benefits",
     perks: [
       {
@@ -86,7 +96,7 @@ export const en: Messages = {
     },
     consentPrefix: "I agree to receive club updates and perks according to the",
     privacyLink: "Privacy Policy",
-    submit: "Join the Club",
+    submit: "Get my perks",
     submitting: "Sending...",
     successTitle: "Welcome to the club!",
     successMessage: "We received your signup. We'll be in touch as soon as everything is ready.",
@@ -98,15 +108,15 @@ export const en: Messages = {
       generic: "Something went wrong. Please try again."
     },
     datePicker: {
-      chooseDate: "Choose birth date",
-      stepsHint: "3 steps: year, month, and day.",
-      dialogLabel: "Birth date selection",
-      stepYear: "What year were you born?",
-      stepMonth: "Which month?",
-      stepDay: "Which day?",
-      stepCount: "Step {current} of {total}",
-      back: "Back",
-      clear: "Clear date"
+      year: "Year",
+      month: "Month",
+      day: "Day",
+      yearPlaceholder: "Select year",
+      monthPlaceholder: "Select month",
+      dayPlaceholder: "Select day",
+      prevMonth: "Previous month",
+      nextMonth: "Next month",
+      pickYear: "Pick a year"
     }
   },
   location: {

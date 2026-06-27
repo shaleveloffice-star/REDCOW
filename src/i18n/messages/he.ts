@@ -62,7 +62,17 @@ export const he: Messages = {
   customerClub: {
     kicker: "NB Club",
     title: "מועדון הלקוחות",
-    lead: "הצטרפו למועדון וקבלו הטבות, עדכונים והפתעות לפני כולם.",
+    titlePrimary: "מועדון",
+    titleAccent: "הלקוחות",
+    leadBefore: "הצטרפו למועדון ותקבלו ",
+    leadHighlight: "הטבות, עדכונים והפתעות",
+    leadAfter: " לפני כולם.",
+    cardAlt: "כרטיס חבר NB Club",
+    burgerAlt: "המבורגר NB",
+    formHint: "הרשמה תוך 10 שניות בלבד",
+    socialProof: "כבר יותר מ-2,300 חברי מועדון נהנים",
+    trustSafe: "המידע שלך בטוח איתנו",
+    trustTerms: "ללא עלות | ללא התחייבות | אפשר לבטל בכל רגע",
     perksAria: "יתרונות המועדון",
     perks: [
       {
@@ -82,11 +92,11 @@ export const he: Messages = {
       fullName: "שם מלא",
       phone: "טלפון",
       email: "אימייל (אופציונלי)",
-      birthDate: "תאריך לידה (אופציונלי)"
+      birthDate: "תאריך לידה"
     },
     consentPrefix: "אני מאשר/ת קבלת עדכונים והטבות מהמועדון, בהתאם ל",
     privacyLink: "מדיניות הפרטיות",
-    submit: "הצטרפו למועדון",
+    submit: "קבלו את ההטבות שלי",
     submitting: "שולחים...",
     successTitle: "ברוכים הבאים למועדון!",
     successMessage: "קיבלנו את ההרשמה שלכם. נשלח אליכם עדכון ברגע שהכל מוכן.",
@@ -98,15 +108,15 @@ export const he: Messages = {
       generic: "משהו השתבש. נסו שוב בעוד רגע."
     },
     datePicker: {
-      chooseDate: "בחרו תאריך לידה",
-      stepsHint: "3 שלבים: שנה, חודש ויום.",
-      dialogLabel: "בחירת תאריך לידה",
-      stepYear: "באיזו שנה נולדת?",
-      stepMonth: "באיזה חודש?",
-      stepDay: "באיזה יום?",
-      stepCount: "שלב {current} מתוך {total}",
-      back: "חזרה",
-      clear: "נקה תאריך"
+      year: "שנה",
+      month: "חודש",
+      day: "יום",
+      yearPlaceholder: "בחרו שנה",
+      monthPlaceholder: "בחרו חודש",
+      dayPlaceholder: "בחרו יום",
+      prevMonth: "חודש קודם",
+      nextMonth: "חודש הבא",
+      pickYear: "בחירת שנה"
     }
   },
   location: {

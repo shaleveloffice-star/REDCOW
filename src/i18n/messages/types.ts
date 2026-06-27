@@ -52,7 +52,17 @@ export type Messages = {
   customerClub: {
     kicker: string;
     title: string;
-    lead: string;
+    titlePrimary: string;
+    titleAccent: string;
+    leadBefore: string;
+    leadHighlight: string;
+    leadAfter: string;
+    cardAlt: string;
+    burgerAlt: string;
+    formHint: string;
+    socialProof: string;
+    trustSafe: string;
+    trustTerms: string;
     perksAria: string;
     perks: Array<{ title: string; desc: string }>;
     fields: {
@@ -75,15 +85,15 @@ export type Messages = {
       generic: string;
     };
     datePicker: {
-      chooseDate: string;
-      stepsHint: string;
-      dialogLabel: string;
-      stepYear: string;
-      stepMonth: string;
-      stepDay: string;
-      stepCount: string;
-      back: string;
-      clear: string;
+      year: string;
+      month: string;
+      day: string;
+      yearPlaceholder: string;
+      monthPlaceholder: string;
+      dayPlaceholder: string;
+      prevMonth: string;
+      nextMonth: string;
+      pickYear: string;
     };
   };
   location: {

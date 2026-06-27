@@ -62,7 +62,17 @@ export const fr: Messages = {
   customerClub: {
     kicker: "NB Club",
     title: "Club client",
-    lead: "Rejoignez le club pour des avantages, des nouveautés et des surprises en avant-première.",
+    titlePrimary: "Club",
+    titleAccent: "client",
+    leadBefore: "Rejoignez le club pour des ",
+    leadHighlight: "avantages, nouveautés et surprises",
+    leadAfter: " en avant-première.",
+    cardAlt: "Carte membre NB Club",
+    burgerAlt: "Burger NB",
+    formHint: "Inscription en 10 secondes seulement",
+    socialProof: "Plus de 2 300 membres profitent déjà du club",
+    trustSafe: "Vos informations sont en sécurité",
+    trustTerms: "Sans frais | Sans engagement | Annulation à tout moment",
     perksAria: "Avantages du club",
     perks: [
       {
@@ -86,7 +96,7 @@ export const fr: Messages = {
     },
     consentPrefix: "J'accepte de recevoir les actualités et avantages du club conformément à la",
     privacyLink: "Politique de confidentialité",
-    submit: "Rejoindre le club",
+    submit: "Obtenir mes avantages",
     submitting: "Envoi...",
     successTitle: "Bienvenue au club !",
     successMessage: "Nous avons bien reçu votre inscription. Nous vous contacterons très bientôt.",
@@ -98,15 +108,15 @@ export const fr: Messages = {
       generic: "Une erreur est survenue. Veuillez réessayer."
     },
     datePicker: {
-      chooseDate: "Choisir la date de naissance",
-      stepsHint: "3 étapes : année, mois et jour.",
-      dialogLabel: "Sélection de la date de naissance",
-      stepYear: "En quelle année êtes-vous né(e) ?",
-      stepMonth: "Quel mois ?",
-      stepDay: "Quel jour ?",
-      stepCount: "Étape {current} sur {total}",
-      back: "Retour",
-      clear: "Effacer la date"
+      year: "Année",
+      month: "Mois",
+      day: "Jour",
+      yearPlaceholder: "Choisir l'année",
+      monthPlaceholder: "Choisir le mois",
+      dayPlaceholder: "Choisir le jour",
+      prevMonth: "Mois précédent",
+      nextMonth: "Mois suivant",
+      pickYear: "Choisir l'année"
     }
   },
   location: {

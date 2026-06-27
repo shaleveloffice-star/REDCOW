@@ -17,14 +17,22 @@ export function createJsonFileStore<T extends { id: string }>(fileName: string, 
       return Array.isArray(parsed) ? parsed : seed.map((item) => ({ ...item }));
     } catch {
       const initial = seed.map((item) => ({ ...item }));
-      await writeAll(initial);
+      try {
+        await writeAll(initial);
+      } catch {
+        // Vercel/serverless file system may be read-only — return seed in memory.
+      }
       return initial;
     }
   }
 
   async function writeAll(items: T[]): Promise<void> {
     await ensureDir();
-    await writeFile(filePath, `${JSON.stringify(items, null, 2)}\n`, "utf8");
+    try {
+      await writeFile(filePath, `${JSON.stringify(items, null, 2)}\n`, "utf8");
+    } catch {
+      // Ignore write failures on read-only deployments (e.g. Vercel).
+    }
   }
 
   return {

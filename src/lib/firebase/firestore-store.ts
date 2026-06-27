@@ -5,7 +5,8 @@ import {
   getDoc,
   getDocs,
   setDoc,
-  writeBatch
+  writeBatch,
+  type Firestore
 } from "firebase/firestore";
 
 import { getFirestoreDb, isFirebaseConfigured } from "@/lib/firebase";
@@ -18,6 +19,11 @@ export type DocumentStore<T extends { id: string }> = {
   remove(id: string): Promise<boolean>;
 };
 
+function logFirestoreError(action: string, collectionName: FirebaseCollectionName, error: unknown) {
+  const message = error instanceof Error ? error.message : String(error);
+  console.error(`[Firestore] ${action} failed for "${collectionName}": ${message}`);
+}
+
 function toStoredData<T extends { id: string }>(input: T) {
   const { id: _id, ...data } = input;
   return data;
@@ -28,17 +34,39 @@ function fromSnapshot<T extends { id: string }>(id: string, data: Record<string,
 }
 
 async function seedCollection<T extends { id: string }>(
+  db: Firestore,
   collectionName: FirebaseCollectionName,
   seed: readonly T[]
 ) {
-  const db = getFirestoreDb();
-  if (!db || seed.length === 0) return;
+  if (seed.length === 0) return;
 
   const batch = writeBatch(db);
   for (const item of seed) {
     batch.set(doc(db, collectionName, item.id), toStoredData(item));
   }
   await batch.commit();
+}
+
+async function withFirestore<T>(
+  collectionName: FirebaseCollectionName,
+  run: (db: Firestore) => Promise<T>,
+  fallback: () => Promise<T>
+): Promise<T> {
+  if (!isFirebaseConfigured()) {
+    return fallback();
+  }
+
+  const db = getFirestoreDb();
+  if (!db) {
+    return fallback();
+  }
+
+  try {
+    return await run(db);
+  } catch (error) {
+    logFirestoreError("read/write", collectionName, error);
+    return fallback();
+  }
 }
 
 export function createFirestoreCollectionStore<T extends { id: string }>(
@@ -48,76 +76,70 @@ export function createFirestoreCollectionStore<T extends { id: string }>(
 ): DocumentStore<T> {
   return {
     async getAll() {
-      if (!isFirebaseConfigured()) {
-        return localStore.getAll();
-      }
+      return withFirestore(
+        collectionName,
+        async (db) => {
+          const snapshot = await getDocs(collection(db, collectionName));
+          if (snapshot.empty) {
+            if (seed?.length) {
+              await seedCollection(db, collectionName, seed);
+              return seed.map((item) => ({ ...item }));
+            }
+            return [];
+          }
 
-      const db = getFirestoreDb();
-      if (!db) {
-        return localStore.getAll();
-      }
-
-      const snapshot = await getDocs(collection(db, collectionName));
-      if (snapshot.empty) {
-        if (seed?.length) {
-          await seedCollection(collectionName, seed);
+          return snapshot.docs.map((entry) =>
+            fromSnapshot<T>(entry.id, entry.data() as Record<string, unknown>)
+          );
+        },
+        async () => {
+          const localItems = await localStore.getAll();
+          if (localItems.length > 0 || !seed?.length) {
+            return localItems;
+          }
           return seed.map((item) => ({ ...item }));
         }
-        return [];
-      }
-
-      return snapshot.docs.map((entry) => fromSnapshot<T>(entry.id, entry.data() as Record<string, unknown>));
+      );
     },
 
     async getById(id: string) {
-      if (!isFirebaseConfigured()) {
-        return localStore.getById(id);
-      }
-
-      const db = getFirestoreDb();
-      if (!db) {
-        return localStore.getById(id);
-      }
-
-      const snapshot = await getDoc(doc(db, collectionName, id));
-      if (!snapshot.exists()) {
-        return null;
-      }
-
-      return fromSnapshot<T>(snapshot.id, snapshot.data() as Record<string, unknown>);
+      return withFirestore(
+        collectionName,
+        async (db) => {
+          const snapshot = await getDoc(doc(db, collectionName, id));
+          if (!snapshot.exists()) {
+            return null;
+          }
+          return fromSnapshot<T>(snapshot.id, snapshot.data() as Record<string, unknown>);
+        },
+        () => localStore.getById(id)
+      );
     },
 
     async save(input: T) {
-      if (!isFirebaseConfigured()) {
-        return localStore.save(input);
-      }
-
-      const db = getFirestoreDb();
-      if (!db) {
-        return localStore.save(input);
-      }
-
-      await setDoc(doc(db, collectionName, input.id), toStoredData(input), { merge: true });
-      return { ...input };
+      return withFirestore(
+        collectionName,
+        async (db) => {
+          await setDoc(doc(db, collectionName, input.id), toStoredData(input), { merge: true });
+          return { ...input };
+        },
+        () => localStore.save(input)
+      );
     },
 
     async remove(id: string) {
-      if (!isFirebaseConfigured()) {
-        return localStore.remove(id);
-      }
-
-      const db = getFirestoreDb();
-      if (!db) {
-        return localStore.remove(id);
-      }
-
-      const snapshot = await getDoc(doc(db, collectionName, id));
-      if (!snapshot.exists()) {
-        return false;
-      }
-
-      await deleteDoc(doc(db, collectionName, id));
-      return true;
+      return withFirestore(
+        collectionName,
+        async (db) => {
+          const snapshot = await getDoc(doc(db, collectionName, id));
+          if (!snapshot.exists()) {
+            return false;
+          }
+          await deleteDoc(doc(db, collectionName, id));
+          return true;
+        },
+        () => localStore.remove(id)
+      );
     }
   };
 }
@@ -139,13 +161,17 @@ export function createFirestoreDocumentStore<T extends Record<string, unknown>>(
         return localStore.get();
       }
 
-      const snapshot = await getDoc(doc(db, collectionName, documentId));
-      if (!snapshot.exists()) {
-        await setDoc(doc(db, collectionName, documentId), seed);
-        return { ...seed };
+      try {
+        const snapshot = await getDoc(doc(db, collectionName, documentId));
+        if (!snapshot.exists()) {
+          await setDoc(doc(db, collectionName, documentId), seed);
+          return { ...seed };
+        }
+        return snapshot.data() as T;
+      } catch (error) {
+        logFirestoreError("get document", collectionName, error);
+        return localStore.get();
       }
-
-      return snapshot.data() as T;
     },
 
     async save(input: T): Promise<T> {
@@ -158,8 +184,13 @@ export function createFirestoreDocumentStore<T extends Record<string, unknown>>(
         return localStore.save(input);
       }
 
-      await setDoc(doc(db, collectionName, documentId), input, { merge: true });
-      return { ...input };
+      try {
+        await setDoc(doc(db, collectionName, documentId), input, { merge: true });
+        return { ...input };
+      } catch (error) {
+        logFirestoreError("save document", collectionName, error);
+        return localStore.save(input);
+      }
     }
   };
 }

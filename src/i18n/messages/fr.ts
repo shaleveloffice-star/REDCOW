@@ -96,6 +96,17 @@ export const fr: Messages = {
       email: "Veuillez saisir une adresse e-mail valide si renseignée.",
       consent: "Veuillez accepter les conditions du club.",
       generic: "Une erreur est survenue. Veuillez réessayer."
+    },
+    datePicker: {
+      chooseDate: "Choisir la date de naissance",
+      stepsHint: "3 étapes : année, mois et jour.",
+      dialogLabel: "Sélection de la date de naissance",
+      stepYear: "En quelle année êtes-vous né(e) ?",
+      stepMonth: "Quel mois ?",
+      stepDay: "Quel jour ?",
+      stepCount: "Étape {current} sur {total}",
+      back: "Retour",
+      clear: "Effacer la date"
     }
   },
   location: {

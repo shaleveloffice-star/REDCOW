@@ -96,6 +96,17 @@ export const he: Messages = {
       email: "נא למלא כתובת אימייל תקינה, אם הוזנה.",
       consent: "יש לאשר את תנאי ההצטרפות למועדון.",
       generic: "משהו השתבש. נסו שוב בעוד רגע."
+    },
+    datePicker: {
+      chooseDate: "בחרו תאריך לידה",
+      stepsHint: "3 שלבים: שנה, חודש ויום.",
+      dialogLabel: "בחירת תאריך לידה",
+      stepYear: "באיזו שנה נולדת?",
+      stepMonth: "באיזה חודש?",
+      stepDay: "באיזה יום?",
+      stepCount: "שלב {current} מתוך {total}",
+      back: "חזרה",
+      clear: "נקה תאריך"
     }
   },
   location: {

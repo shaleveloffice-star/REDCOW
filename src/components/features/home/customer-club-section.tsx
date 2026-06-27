@@ -5,6 +5,7 @@ import { Gift, Percent, Sparkles } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 
+import { BirthDatePicker } from "@/components/features/home/birth-date-picker";
 import { useTranslations } from "@/components/providers/locale-provider";
 import {
   submitCustomerClubSignupAction,
@@ -129,10 +130,11 @@ export function CustomerClubSection() {
                   />
                 </label>
 
-                <label className="customer-club-field customer-club-field--full">
-                  <span>{t.customerClub.fields.birthDate}</span>
-                  <input name="birthDate" type="date" disabled={isPending} />
-                </label>
+                <BirthDatePicker
+                  name="birthDate"
+                  label={t.customerClub.fields.birthDate}
+                  disabled={isPending}
+                />
               </div>
 
               <label className="customer-club-consent">

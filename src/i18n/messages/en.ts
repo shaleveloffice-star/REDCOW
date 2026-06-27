@@ -96,6 +96,17 @@ export const en: Messages = {
       email: "Please enter a valid email address if provided.",
       consent: "Please accept the club terms to continue.",
       generic: "Something went wrong. Please try again."
+    },
+    datePicker: {
+      chooseDate: "Choose birth date",
+      stepsHint: "3 steps: year, month, and day.",
+      dialogLabel: "Birth date selection",
+      stepYear: "What year were you born?",
+      stepMonth: "Which month?",
+      stepDay: "Which day?",
+      stepCount: "Step {current} of {total}",
+      back: "Back",
+      clear: "Clear date"
     }
   },
   location: {

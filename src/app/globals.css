@@ -3078,7 +3078,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
     radial-gradient(circle at 0% 50%, rgba(255, 225, 186, 0.06), transparent 34%),
     radial-gradient(circle at 100% 20%, rgba(255, 225, 186, 0.04), transparent 28%),
     #030303;
-  overflow: hidden;
+  overflow-x: clip;
+  overflow-y: visible;
 }
 
 .customer-club-shell {
@@ -3168,6 +3169,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .customer-club-form-wrap {
   direction: rtl;
+  overflow: visible;
 }
 
 .customer-club-form,
@@ -3178,6 +3180,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   background:
     radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.08), transparent 52%),
     rgba(4, 3, 2, 0.72);
+  overflow: visible;
 }
 
 .customer-club-form-grid {
@@ -3221,6 +3224,286 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .customer-club-field input:disabled {
   opacity: 0.65;
   cursor: not-allowed;
+}
+
+.birth-date-picker {
+  position: relative;
+}
+
+.birth-date-picker-control {
+  display: flex;
+  align-items: stretch;
+}
+
+.birth-date-picker-trigger-field {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(255, 225, 186, 0.24);
+  border-radius: 12px;
+  background: rgba(3, 3, 3, 0.72);
+  color: #fff7ed;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-short) ease,
+    box-shadow var(--motion-short) ease,
+    background-color var(--motion-short) ease;
+}
+
+.birth-date-picker-trigger-field:hover:not(:disabled) {
+  border-color: rgba(255, 225, 186, 0.42);
+  background: rgba(255, 225, 186, 0.04);
+}
+
+.birth-date-picker-trigger-field:focus-visible {
+  outline: none;
+  border-color: rgba(255, 225, 186, 0.72);
+  box-shadow: 0 0 0 3px rgba(255, 225, 186, 0.14);
+}
+
+.birth-date-picker-trigger-field:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+}
+
+.birth-date-picker-trigger-field svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  color: var(--secondary);
+}
+
+.birth-date-picker-placeholder {
+  color: rgba(255, 247, 237, 0.45);
+}
+
+.birth-date-picker-hint {
+  margin: 6px 0 0;
+  color: rgba(255, 247, 237, 0.52);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.birth-date-steps {
+  display: flex;
+  flex-direction: column;
+  padding: 16px;
+  border: 1px solid rgba(255, 225, 186, 0.28);
+  border-radius: 16px;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.1), transparent 55%),
+    rgba(8, 6, 4, 0.98);
+  box-shadow: 0 24px 48px rgba(0, 0, 0, 0.45);
+}
+
+.birth-date-steps--floating {
+  overflow: hidden;
+}
+
+.birth-date-steps-progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.birth-date-steps-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 225, 186, 0.22);
+}
+
+.birth-date-steps-dot--active,
+.birth-date-steps-dot--done {
+  background: var(--secondary);
+}
+
+.birth-date-steps-head {
+  display: grid;
+  grid-template-columns: minmax(72px, auto) 1fr minmax(72px, auto);
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  flex-shrink: 0;
+}
+
+.birth-date-steps-head-spacer {
+  display: block;
+  min-width: 72px;
+}
+
+.birth-date-steps-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 247, 237, 0.68);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.birth-date-steps-back:hover {
+  color: var(--secondary);
+}
+
+.birth-date-steps-back svg {
+  width: 16px;
+  height: 16px;
+}
+
+.birth-date-steps-title {
+  margin: 0;
+  color: #fff7ed;
+  font-family: var(--font-body);
+  font-size: 16px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.birth-date-steps-count {
+  color: rgba(255, 247, 237, 0.48);
+  font-size: 11px;
+  white-space: nowrap;
+}
+
+.birth-date-steps-scroll {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 2px;
+}
+
+.birth-date-steps-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.birth-date-steps-grid--years {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  max-height: min(280px, 42vh);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.birth-date-steps-grid--months {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.birth-date-steps-grid--days {
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+}
+
+.birth-date-steps-option {
+  min-height: 42px;
+  padding: 8px 10px;
+  border: 1px solid rgba(255, 225, 186, 0.22);
+  border-radius: 12px;
+  background: rgba(255, 225, 186, 0.04);
+  color: #fff7ed;
+  font: inherit;
+  font-size: 14px;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-short) ease,
+    background-color var(--motion-short) ease,
+    color var(--motion-short) ease;
+}
+
+.birth-date-steps-option:hover:not(:disabled) {
+  border-color: rgba(255, 225, 186, 0.48);
+  background: rgba(255, 225, 186, 0.1);
+}
+
+.birth-date-steps-option--selected {
+  border-color: var(--secondary);
+  background: var(--secondary);
+  color: #1a0f08;
+  font-weight: 700;
+}
+
+.birth-date-steps-option--selected:hover:not(:disabled) {
+  background: var(--secondary);
+  color: #1a0f08;
+}
+
+.birth-date-steps-option--day {
+  min-height: 40px;
+  aspect-ratio: 1;
+  padding: 0;
+  border-radius: 999px;
+}
+
+.birth-date-steps-option:disabled {
+  opacity: 0.28;
+  cursor: not-allowed;
+}
+
+.birth-date-steps-clear {
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 0 0;
+  border: 0;
+  border-top: 1px solid rgba(255, 225, 186, 0.16);
+  background: transparent;
+  color: rgba(255, 247, 237, 0.68);
+  font-size: 13px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.birth-date-steps-clear:hover {
+  color: var(--secondary);
+}
+
+@media (max-width: 1024px) {
+  .birth-date-steps-grid--years {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    max-height: min(240px, 38vh);
+  }
+
+  .birth-date-steps-grid--months {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .birth-date-steps-option--day {
+    min-height: 36px;
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 480px) {
+  .birth-date-steps {
+    padding: 14px;
+    border-radius: 14px;
+  }
+
+  .birth-date-steps-title {
+    font-size: 15px;
+  }
+
+  .birth-date-steps-grid--years {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .birth-date-steps-grid--days {
+    gap: 6px;
+  }
+
+  .birth-date-steps-option--day {
+    min-height: 34px;
+  }
 }
 
 .customer-club-consent {

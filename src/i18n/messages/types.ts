@@ -74,6 +74,17 @@ export type Messages = {
       consent: string;
       generic: string;
     };
+    datePicker: {
+      chooseDate: string;
+      stepsHint: string;
+      dialogLabel: string;
+      stepYear: string;
+      stepMonth: string;
+      stepDay: string;
+      stepCount: string;
+      back: string;
+      clear: string;
+    };
   };
   location: {
     title: string;

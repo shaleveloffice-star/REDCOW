@@ -1,22 +1,32 @@
 import { AdminCard } from "@/components/features/admin/admin-card";
+import { loginAdminAction } from "@/server/actions/auth.actions";
 
-export default function AdminLoginPage() {
+const ERROR_MESSAGES: Record<string, string> = {
+  invalid: "אימייל לא מורשה.",
+  config: "הגדרות האימות חסרות או לא תקינות. בדוק משתני סביבה."
+};
+
+type AdminLoginPageProps = {
+  searchParams: Promise<{ error?: string }>;
+};
+
+export default async function AdminLoginPage({ searchParams }: AdminLoginPageProps) {
+  const { error } = await searchParams;
+  const errorMessage = error ? ERROR_MESSAGES[error] : null;
+
   return (
     <AdminCard
       title="כניסה לפאנל ניהול"
-      description="כרגע זהו UI לוקלי בלבד. בהמשך הוא יחובר ל-Firebase Auth דרך auth.service."
+      description="הזן אימייל אדמין מאושר."
     >
-      <form className="admin-form">
+      <form action={loginAdminAction} className="admin-form">
+        {errorMessage ? <p className="admin-form-error">{errorMessage}</p> : null}
         <label>
           אימייל
-          <input name="email" defaultValue="admin@redcow.local" />
+          <input name="email" type="email" autoComplete="username" required />
         </label>
-        <label>
-          סיסמה
-          <input name="password" type="password" placeholder="בשלב עתידי Firebase Auth" />
-        </label>
-        <button className="button" type="button">
-          כניסה במצב לוקלי
+        <button className="button" type="submit">
+          כניסה
         </button>
       </form>
     </AdminCard>

@@ -1,13 +1,10 @@
 import "server-only";
 
+import { assertProductionAuthMode } from "@/lib/auth/auth-config";
 import { getCurrentAdminSession } from "@/services/auth.service";
 
 export async function requireAdmin() {
-  const authMode = process.env.ADMIN_AUTH_MODE ?? "mock";
-
-  if (process.env.NODE_ENV === "production" && authMode === "mock") {
-    throw new Error("Mock admin auth is not allowed in production");
-  }
+  assertProductionAuthMode();
 
   const session = await getCurrentAdminSession();
 

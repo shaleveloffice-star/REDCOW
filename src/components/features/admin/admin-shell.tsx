@@ -1,39 +1,13 @@
-import Link from "next/link";
-
-const navItems = [
-  { href: "/admin", label: "סקירה" },
-  { href: "/admin/menu", label: "ניהול תפריט" },
-  { href: "/admin/menu-categories", label: "קטגוריות תפריט" },
-  { href: "/admin/branches", label: "סניפים" },
-  { href: "/admin/press", label: "כתבות" },
-  { href: "/admin/contact-messages", label: "הודעות יצירת קשר" },
-  { href: "/admin/customer-club", label: "מועדון לקוחות" },
-  { href: "/admin/career-applications", label: "קורות חיים" },
-  { href: "/admin/order-links", label: "קישורי הזמנה" },
-  { href: "/admin/settings", label: "הגדרות אתר" }
-];
+import { AdminSidebar } from "@/components/features/admin/admin-sidebar";
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="admin-layout" dir="rtl">
-      <aside className="admin-sidebar">
-        <Link className="admin-back-link" href="/">
-          חזרה לאתר
-        </Link>
-        <div className="admin-brand">
-          <p className="admin-brand-kicker">Admin Panel</p>
-          <h1 className="admin-brand-title">NB BURGER</h1>
-          <p className="admin-brand-sub">ניהול האתר</p>
-        </div>
-        <nav aria-label="ניווט ניהול" className="admin-nav">
-          {navItems.map((item) => (
-            <Link href={item.href} key={item.href}>
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      </aside>
-      <main className="admin-main">{children}</main>
+      <AdminSidebar />
+      <main className="admin-main">
+        <div className="admin-main-glow" aria-hidden="true" />
+        <div className="admin-main-inner">{children}</div>
+      </main>
     </div>
   );
 }

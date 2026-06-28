@@ -13,10 +13,6 @@ export async function getGalleryItems(): Promise<GalleryItem[]> {
   return galleryStore.getAll();
 }
 
-export async function getGalleryItemById(id: string): Promise<GalleryItem | null> {
-  return galleryStore.getById(id);
-}
-
 export async function saveGalleryItem(input: GalleryItem): Promise<GalleryItem> {
   return galleryStore.save(input);
 }

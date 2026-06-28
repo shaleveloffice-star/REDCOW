@@ -6,8 +6,8 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { getCachedMenuForDisplay } from "@/lib/cache/cached-data";
 
 export const metadata: Metadata = {
-  title: "תפריט | NB Burger",
-  description: "התפריט המלא של NB Burger — המבורגרים, תוספות, שתייה ועוד."
+  title: "תפריט | NB BURGER",
+  description: "התפריט המלא של NB BURGER — המבורגרים, תוספות, שתייה ועוד."
 };
 
 export default async function MenuPage() {

@@ -32,7 +32,7 @@
 }
 
 .birth-date-picker-trigger--filled {
-  color: #fff7ed;
+  color: #ffffff;
 }
 
 .birth-date-picker-trigger:focus,
@@ -117,7 +117,7 @@
   border: none;
   border-radius: 10px;
   background: transparent;
-  color: #fff7ed;
+  color: #ffffff;
   font: inherit;
   font-size: 15px;
   font-weight: 600;
@@ -134,7 +134,7 @@
 .birth-date-calendar-heading {
   margin: 0;
   padding: 6px 10px;
-  color: #fff7ed;
+  color: #ffffff;
   font: inherit;
   font-size: 15px;
   font-weight: 600;
@@ -173,7 +173,7 @@
   border: none;
   border-radius: 10px;
   background: transparent;
-  color: #fff7ed;
+  color: #ffffff;
   font: inherit;
   font-size: 14px;
   cursor: pointer;
@@ -232,7 +232,7 @@
   border: 1px solid rgba(255, 225, 186, 0.14);
   border-radius: 10px;
   background: rgba(255, 247, 237, 0.02);
-  color: #fff7ed;
+  color: #ffffff;
   font: inherit;
   font-size: 13px;
   cursor: pointer;
@@ -266,7 +266,7 @@
   border: 1px solid rgba(255, 225, 186, 0.14);
   border-radius: 10px;
   background: rgba(255, 247, 237, 0.02);
-  color: #fff7ed;
+  color: #ffffff;
   font: inherit;
   font-size: 14px;
   cursor: pointer;

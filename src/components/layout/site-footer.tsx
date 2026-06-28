@@ -50,7 +50,7 @@ export function SiteFooter() {
 
       <div className="site-footer-main">
         <div className="site-footer-grid">
-          <section className="site-footer-brand" aria-label="NB Burger">
+          <section className="site-footer-brand" aria-label="NB BURGER">
             <h3 className="site-footer-logo">
               NB
               <br />

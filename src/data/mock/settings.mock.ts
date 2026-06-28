@@ -3,12 +3,12 @@ import type { OrderLink, SiteSettings } from "@/types/content";
 const now = "2026-05-17T07:00:00.000Z";
 
 export const mockSiteSettings: SiteSettings = {
-  siteName: "NB Burger",
-  seoTitle: "NB Burger | המבורגרים, גריל ואווירה",
-  seoDescription: "NB Burger מגישה המבורגרים, תוספות וארוחות בשר באווירה חמה.",
+  siteName: "NB BURGER",
+  seoTitle: "NB BURGER | המבורגרים, גריל ואווירה",
+  seoDescription: "NB BURGER מגישה המבורגרים, תוספות וארוחות בשר באווירה חמה.",
   heroMediaType: "video",
   heroMediaUrl: "/videos/hero-nb-experience.mp4",
-  heroMediaAlt: "חוויה במסעדת NB Burger",
+  heroMediaAlt: "חוויה במסעדת NB BURGER",
   phone: "12345678",
   email: "hello@nbburger.co.il",
   instagramUrl: "https://instagram.com",

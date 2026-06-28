@@ -1,11 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="ъоеръ орд мгевод">
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600" role="img" aria-label="????? ??? ? NB BURGER">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" style="stop-color:#2a1711"/>
-      <stop offset="100%" style="stop-color:#1e0f0b"/>
+      <stop offset="0%" style="stop-color:#141414"/>
+      <stop offset="100%" style="stop-color:#000000"/>
     </linearGradient>
   </defs>
   <rect width="800" height="600" fill="url(#bg)"/>
-  <circle cx="400" cy="280" r="120" fill="none" stroke="#d9291c" stroke-width="3" opacity="0.35"/>
-  <text x="400" y="295" text-anchor="middle" fill="#b99883" font-family="Arial, Helvetica, sans-serif" font-size="22">ъоерд мгевод</text>
+  <circle cx="400" cy="280" r="120" fill="none" stroke="#ffe1ba" stroke-width="3" opacity="0.35"/>
+  <text x="400" y="295" text-anchor="middle" fill="rgba(255,255,255,0.72)" font-family="Arial, Helvetica, sans-serif" font-size="22">NB BURGER</text>
 </svg>

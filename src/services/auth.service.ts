@@ -26,7 +26,7 @@ async function resolveAdminRole(email: string): Promise<AdminRole> {
 
 function getOpenAdminSession(): AdminSession {
   return {
-    email: "admin@nbburger.local",
+    email: "admin@nbburger.co.il",
     role: "owner",
     isMock: true
   };

@@ -5,8 +5,8 @@ import { SiteHeader } from "@/components/layout/site-header";
 import { listBranches } from "@/services/branches.service";
 
 export const metadata: Metadata = {
-  title: "סניפים | NB Burger",
-  description: "סניפי NB Burger — הסניף הראשון בפתיחה בקרוב. עדכונים על מיקום ושעות פתיחה."
+  title: "סניפים | NB BURGER",
+  description: "סניפי NB BURGER — הסניף הראשון בפתיחה בקרוב. עדכונים על מיקום ושעות פתיחה."
 };
 
 export default async function BranchesPage() {

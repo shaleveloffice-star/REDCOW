@@ -17,7 +17,7 @@ export const mockMenuCategories: MenuCategory[] = [
     id: "cat-burgers",
     name: "המבורגרים",
     slug: "burgers",
-    description: "הקלאסיקות של NB Burger",
+    description: "הקלאסיקות של NB BURGER",
     sortOrder: 1,
     isActive: true,
     createdAt: now,

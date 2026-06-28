@@ -3,7 +3,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 
 export const metadata: Metadata = {
-  title: "מדיניות פרטיות | NB Burger"
+  title: "מדיניות פרטיות | NB BURGER"
 };
 
 const introParagraphs = [

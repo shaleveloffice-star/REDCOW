@@ -95,7 +95,7 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
     items: [
       item("atmosphere-wide", "לחמנייה עליונה", "גלריית האווירה", ATMOSPHERE_WIDE_IMAGE),
       item("atmosphere-people", "אנשים נהנים", "גלריית האווירה", ATMOSPHERE_PEOPLE_IMAGE),
-      item("atmosphere-sign", "שלט NB Burger", "גלריית האווירה", ATMOSPHERE_SIGN_IMAGE),
+      item("atmosphere-sign", "שלט NB BURGER", "גלריית האווירה", ATMOSPHERE_SIGN_IMAGE),
       item("atmosphere-food", "צילום מהרחפן", "גלריית האווירה", ATMOSPHERE_FOOD_IMAGE),
       item(
         "atmosphere-burger-stack",

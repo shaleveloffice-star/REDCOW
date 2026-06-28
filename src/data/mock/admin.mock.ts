@@ -5,8 +5,8 @@ const now = "2026-05-17T07:00:00.000Z";
 export const mockAdminUsers: AdminUser[] = [
   {
     id: "admin-owner",
-    email: "admin@nbburger.local",
-    displayName: "NB Burger Admin",
+    email: "admin@nbburger.co.il",
+    displayName: "NB BURGER Admin",
     role: "owner",
     permissions: [
       "menu:write",

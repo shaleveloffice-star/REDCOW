@@ -14,7 +14,7 @@ function BranchesComingSoon() {
       <div className="branches-coming-copy">
         <h2>הסניף הראשון בדרך</h2>
         <p>
-          אנחנו עדיין בוחנים את הלוקיישן המדויק לסניף הראשון של NB Burger. ברגע שנחליט —
+          אנחנו עדיין בוחנים את הלוקיישן המדויק לסניף הראשון של NB BURGER. ברגע שנחליט —
           נעדכן כאן את הכתובת, שעות הפתיחה וניווט.
         </p>
         <p className="branches-coming-note">

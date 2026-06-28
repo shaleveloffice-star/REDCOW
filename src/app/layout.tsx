@@ -14,8 +14,8 @@ const assistant = Assistant({
 });
 
 export const metadata: Metadata = {
-  title: "NB Burger",
-  description: "NB Burger restaurant website with a local Firebase-ready architecture."
+  title: "NB BURGER",
+  description: "NB BURGER — המבורגרים, גריל ואווירה. nbburger.co.il"
 };
 
 export default async function RootLayout({

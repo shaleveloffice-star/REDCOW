@@ -4,7 +4,7 @@
   position: relative;
   z-index: 1;
   padding: clamp(72px, 9vw, 108px) 0 0;
-  background: #030303;
+  background: #000000;
   overflow-x: clip;
 }
 
@@ -110,7 +110,7 @@
   padding: 12px 0;
   border: none;
   background: transparent;
-  color: #fff7ed;
+  color: #ffffff;
   font: inherit;
   font-size: 15px;
   text-align: right;
@@ -451,7 +451,7 @@
 
 .customer-club-success h3 {
   margin: 0 0 10px;
-  color: #fff7ed;
+  color: #ffffff;
   font-size: 20px;
   font-weight: 600;
 }

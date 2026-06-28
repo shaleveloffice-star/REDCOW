@@ -29,7 +29,7 @@ export function LocationSection({ siteImages }: LocationSectionProps) {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8 }}
-            style={{ color: "#fff7ed" }}
+            style={{ color: "#ffffff" }}
           >
             {t.location.title}
           </motion.h2>

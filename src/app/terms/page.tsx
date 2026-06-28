@@ -3,7 +3,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 
 export const metadata: Metadata = {
-  title: "תקנון אתר ותנאי שימוש | NB Burger",
+  title: "תקנון אתר ותנאי שימוש | NB BURGER",
   description: "תקנון האתר ותנאי השימוש של NB BURGER."
 };
 

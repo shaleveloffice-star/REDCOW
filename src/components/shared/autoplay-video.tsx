@@ -6,6 +6,7 @@ type AutoplayVideoProps = {
   src: string;
   className?: string;
   poster?: string;
+  preload?: "auto" | "metadata" | "none";
   "aria-label"?: string;
 };
 
@@ -13,6 +14,7 @@ export function AutoplayVideo({
   src,
   className,
   poster,
+  preload = "none",
   "aria-label": ariaLabel
 }: AutoplayVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -78,7 +80,7 @@ export function AutoplayVideo({
       loop
       muted
       playsInline
-      preload="auto"
+      preload={preload}
       poster={poster}
       aria-label={ariaLabel}
       disablePictureInPicture

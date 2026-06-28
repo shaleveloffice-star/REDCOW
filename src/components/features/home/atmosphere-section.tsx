@@ -10,6 +10,7 @@ import {
 } from "framer-motion";
 
 import { BurgerAssemblyStage } from "@/components/features/home/burger-assembly-section";
+import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import {
   ATMOSPHERE_FOOD_IMAGE,
   ATMOSPHERE_WIDE_IMAGE
@@ -162,13 +163,10 @@ export function AtmosphereSection({
                     className={`atmosphere-gallery-item atmosphere-gallery-item--bottom-panel atmosphere-gallery-item--bottom-video${atmosphereFoodIsVideo ? " atmosphere-gallery-item--video" : ""}`}
                   >
                     {atmosphereFoodIsVideo ? (
-                      <video
+                      <AutoplayVideo
                         className="atmosphere-gallery-video"
                         src={atmosphereFoodMedia}
-                        autoPlay
-                        loop
-                        muted
-                        playsInline
+                        poster={atmosphereTopImage}
                         aria-label={t.atmosphere.droneAlt}
                       />
                     ) : (

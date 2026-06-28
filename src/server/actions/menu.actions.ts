@@ -1,7 +1,8 @@
 "use server";
 
 import { requireAdmin } from "@/lib/auth/admin-guard";
-import { revalidatePath } from "next/cache";
+import { CACHE_TAGS } from "@/lib/cache/cached-data";
+import { revalidatePath, updateTag } from "next/cache";
 import {
   listMenuCategories,
   listMenuItems,
@@ -12,7 +13,13 @@ import {
 } from "@/services/menu.service";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
-const menuPaths = ["/admin/menu", "/admin/menu-categories", "/"];
+const menuPaths = ["/admin/menu", "/admin/menu-categories", "/", "/menu"];
+
+function revalidateMenuCache() {
+  updateTag(CACHE_TAGS.homepageMenu);
+  updateTag(CACHE_TAGS.menuCategories);
+  updateTag(CACHE_TAGS.menuDisplay);
+}
 
 export async function getMenuAdminData() {
   await requireAdmin();
@@ -38,6 +45,7 @@ export async function saveMenuItemAction(input: MenuItem) {
   });
 
   menuPaths.forEach((path) => revalidatePath(path));
+  revalidateMenuCache();
   return saved;
 }
 
@@ -46,6 +54,7 @@ export async function deleteMenuItemAction(id: string) {
   const ok = await removeMenuItem(id);
   if (!ok) throw new Error("המנה לא נמצאה");
   menuPaths.forEach((path) => revalidatePath(path));
+  revalidateMenuCache();
 }
 
 export async function saveMenuCategoryAction(input: MenuCategory) {
@@ -64,6 +73,7 @@ export async function saveMenuCategoryAction(input: MenuCategory) {
   });
 
   menuPaths.forEach((path) => revalidatePath(path));
+  revalidateMenuCache();
   return saved;
 }
 
@@ -76,4 +86,5 @@ export async function deleteMenuCategoryAction(id: string) {
   const ok = await removeMenuCategory(id);
   if (!ok) throw new Error("הקטגוריה לא נמצאה");
   menuPaths.forEach((path) => revalidatePath(path));
+  revalidateMenuCache();
 }

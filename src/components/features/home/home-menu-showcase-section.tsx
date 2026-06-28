@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import type { MenuCategory, MenuItem } from "@/types/content";
+import type { MenuItem } from "@/types/content";
 import {
   MENU_TOUR_SCROLL_EVENT,
   type MenuTourScrollDetail,
@@ -13,38 +13,15 @@ import { isVideoMediaUrl } from "@/lib/menu-media";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
-import { useEffect, useMemo, useRef } from "react";
-
-type MenuGroup = MenuCategory & { items: MenuItem[] };
+import { useEffect, useRef } from "react";
 
 type HomeMenuShowcaseSectionProps = {
-  groups: MenuGroup[];
+  items: MenuItem[];
 };
 
 const PLACEHOLDER_IMAGE = "/images/menu/placeholder.svg";
 const NUDGE_INTERVAL_MS = 5000;
 const NUDGE_CLASS = "menu-showcase-rail--nudge";
-
-const HOMEPAGE_MENU_ITEM_IDS = [
-  "item-redcow-classic",
-  "item-fries",
-  "item-crispy-chicken",
-  "item-nuggets"
-] as const;
-
-function getHomepageMenuItems(groups: MenuGroup[]): MenuItem[] {
-  const itemsById = new Map(
-    groups
-      .flatMap((group) => group.items)
-      .filter((item) => item.isActive)
-      .map((item) => [item.id, item] as const)
-  );
-
-  return HOMEPAGE_MENU_ITEM_IDS.flatMap((id) => {
-    const item = itemsById.get(id);
-    return item ? [item] : [];
-  });
-}
 
 function canScrollHorizontally(track: HTMLElement): boolean {
   return track.scrollWidth > track.clientWidth + 2;
@@ -62,14 +39,12 @@ function isAtScrollStart(track: HTMLElement): boolean {
   return Math.abs(track.scrollLeft) <= 2;
 }
 
-export function HomeMenuShowcaseSection({ groups }: HomeMenuShowcaseSectionProps) {
+export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps) {
   const { locale } = useLocale();
   const t = useTranslations();
   const trackRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
   const nudgePausedRef = useRef(false);
-
-  const items = useMemo(() => getHomepageMenuItems(groups), [groups]);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -218,6 +193,7 @@ export function HomeMenuShowcaseSection({ groups }: HomeMenuShowcaseSectionProps
                         <AutoplayVideo
                           className="menu-showcase-card-video"
                           src={media}
+                          poster={PLACEHOLDER_IMAGE}
                           aria-label={localized.name}
                         />
                       </div>

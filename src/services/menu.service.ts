@@ -1,3 +1,4 @@
+import { HOMEPAGE_MENU_ITEM_IDS } from "@/data/homepage-menu";
 import {
   deleteMenuCategory,
   deleteMenuItem,
@@ -36,6 +37,16 @@ export async function getMenuForDisplay() {
     ...category,
     items: items.filter((item) => item.categoryId === category.id)
   }));
+}
+
+export async function getHomepageMenuShowcase(): Promise<MenuItem[]> {
+  const items = await listMenuItems({ activeOnly: true });
+  const itemsById = new Map(items.map((item) => [item.id, item]));
+
+  return HOMEPAGE_MENU_ITEM_IDS.flatMap((id) => {
+    const item = itemsById.get(id);
+    return item ? [item] : [];
+  });
 }
 
 export async function upsertMenuItem(input: MenuItem): Promise<MenuItem> {

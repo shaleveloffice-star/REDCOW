@@ -7,6 +7,8 @@ import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 
+const MENU_VIDEO_POSTER = "/images/menu/placeholder.svg";
+
 export function FullMenuView({
   groups
 }: {
@@ -49,6 +51,7 @@ export function FullMenuView({
                       {isVideoMediaUrl(item.imageUrl) ? (
                         <AutoplayVideo
                           src={item.imageUrl}
+                          poster={MENU_VIDEO_POSTER}
                           aria-label={localized.name}
                         />
                       ) : (

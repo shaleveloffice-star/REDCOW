@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { MenuPageView } from "@/components/features/menu/menu-page-view";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
-import { getMenuForDisplay } from "@/services/menu.service";
+import { getCachedMenuForDisplay } from "@/lib/cache/cached-data";
 
 export const metadata: Metadata = {
   title: "תפריט | NB Burger",
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function MenuPage() {
-  const groups = await getMenuForDisplay();
+  const groups = await getCachedMenuForDisplay();
 
   return (
     <>

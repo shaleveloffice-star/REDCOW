@@ -1,7 +1,8 @@
 "use server";
 
 import { requireAdmin } from "@/lib/auth/admin-guard";
-import { revalidatePath } from "next/cache";
+import { CACHE_TAGS } from "@/lib/cache/cached-data";
+import { revalidatePath, updateTag } from "next/cache";
 import { listOrderLinks, removeOrderLink, upsertOrderLink } from "@/services/order-links.service";
 import type { OrderLink } from "@/types/content";
 
@@ -23,6 +24,7 @@ export async function saveOrderLinkAction(input: OrderLink) {
     isActive: Boolean(input.isActive)
   });
   paths.forEach((path) => revalidatePath(path));
+  updateTag(CACHE_TAGS.orderLinksActive);
   return saved;
 }
 
@@ -31,4 +33,5 @@ export async function deleteOrderLinkAction(id: string) {
   const ok = await removeOrderLink(id);
   if (!ok) throw new Error("הקישור לא נמצא");
   paths.forEach((path) => revalidatePath(path));
+  updateTag(CACHE_TAGS.orderLinksActive);
 }

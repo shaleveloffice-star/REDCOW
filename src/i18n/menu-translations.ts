@@ -10,7 +10,7 @@ type MenuItemTranslation = {
 type MenuItemTranslations = Partial<Record<Exclude<Locale, "he">, MenuItemTranslation>>;
 
 const MENU_ITEM_TRANSLATIONS: Record<string, MenuItemTranslations> = {
-  "item-redcow-classic": {
+  "item-nb-classic": {
     en: {
       name: "NB Classic",
       description: "Beef patty, lettuce, tomato, red onion, and house sauce."

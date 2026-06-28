@@ -15,22 +15,31 @@ export default async function AdminLoginPage({ searchParams }: AdminLoginPagePro
   const errorMessage = error ? ERROR_MESSAGES[error] : null;
 
   return (
-    <AdminCard
-      title="כניסה לפאנל ניהול"
-      description="הזן אימייל וסיסמת אדמין."
-    >
+    <AdminCard title="כניסה לפאנל ניהול">
       <form action={loginAdminAction} className="admin-form">
         {errorMessage ? <p className="admin-form-error">{errorMessage}</p> : null}
         <label>
           אימייל
-          <input name="email" type="email" autoComplete="username" required />
+          <input
+            name="email"
+            type="email"
+            autoComplete="email"
+            defaultValue=""
+            required
+          />
         </label>
         <label>
           סיסמה
-          <input name="password" type="password" autoComplete="current-password" required />
+          <input
+            name="password"
+            type="password"
+            autoComplete="current-password"
+            defaultValue=""
+            required
+          />
         </label>
         <button className="button" type="submit">
-          כניסה
+          כניסה לפאנל
         </button>
       </form>
     </AdminCard>

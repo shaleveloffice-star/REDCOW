@@ -14,7 +14,7 @@ export const mockSiteSettings: SiteSettings = {
   instagramUrl: "https://instagram.com",
   orderDeliveryUrl: "https://example.com/delivery",
   orderPickupUrl: "https://example.com/pickup",
-  ogImageUrl: "/images/og/redcow.jpg",
+  ogImageUrl: "/images/hero/nb-burger-hero.jpg",
   updatedAt: now
 };
 

@@ -1,6 +1,6 @@
 [
   {
-    "id": "item-redcow-classic",
+    "id": "item-nb-classic",
     "name": "NB Classic",
     "description": "קציצת בקר, חסה, עגבנייה, בצל סגול ורוטב הבית.",
     "price": 58,
@@ -36,7 +36,7 @@
     "description": "בקר, גבינת צ'דר, חלפיניו, רוטב חריף הבית.",
     "price": 62,
     "categoryId": "cat-burgers",
-    "imageUrl": "/images/menu/red-cow-classic.png",
+    "imageUrl": "/images/menu/nb-single-burger.jpg",
     "isActive": true,
     "tags": [
       "חריף"
@@ -51,7 +51,7 @@
     "description": "בקר, פטריות מוקפצות, גבינת שווייץ ומיונז טרי.",
     "price": 64,
     "categoryId": "cat-burgers",
-    "imageUrl": "/images/experience/red-cow-experience.png",
+    "imageUrl": "/images/hero/nb-burger-hero.jpg",
     "isActive": true,
     "tags": [
       "בקר"
@@ -97,7 +97,7 @@
     "description": "קציצת ירקות וקטניות, אבוקדו, עגבנייה ורוטב טחינה.",
     "price": 54,
     "categoryId": "cat-chicken",
-    "imageUrl": "/images/menu/red-cow-classic.png",
+    "imageUrl": "/images/menu/nb-single-burger.jpg",
     "isActive": true,
     "tags": [
       "צמחוני"
@@ -127,7 +127,7 @@
     "description": "בצל בציפוי פריך, מוגש עם רוטב שום.",
     "price": 26,
     "categoryId": "cat-sides",
-    "imageUrl": "/images/menu/red-cow-fries.png",
+    "imageUrl": "/images/menu/nb-single-burger.jpg",
     "isActive": true,
     "tags": [],
     "sortOrder": 2,
@@ -140,7 +140,7 @@
     "description": "כרוב לבן ואדום ברוטב קרמי קליל.",
     "price": 16,
     "categoryId": "cat-sides",
-    "imageUrl": "/images/experience/red-cow-experience.png",
+    "imageUrl": "/images/hero/nb-burger-hero.jpg",
     "isActive": true,
     "tags": [
       "צמחוני"
@@ -155,7 +155,7 @@
     "description": "צ'יפס עם גבינה מותכת, בצל טיגון פריך וירקות טריים.",
     "price": 36,
     "categoryId": "cat-sides",
-    "imageUrl": "/images/menu/red-cow-fries.png",
+    "imageUrl": "/images/menu/nb-single-burger.jpg",
     "isActive": true,
     "tags": [
       "מומלץ"
@@ -183,7 +183,7 @@
     "description": "קולה / זירו / ספרייט — בקבוק 500 מ\"ל.",
     "price": 12,
     "categoryId": "cat-drinks",
-    "imageUrl": "/images/brand/red-cow-icon.png",
+    "imageUrl": "/images/brand/nb-burger-logo.png",
     "isActive": true,
     "tags": [],
     "sortOrder": 2,
@@ -211,7 +211,7 @@
     "description": "קפה קר מחולץ לאט, מוגש על קרח.",
     "price": 18,
     "categoryId": "cat-drinks",
-    "imageUrl": "/images/brand/red-cow-icon.png",
+    "imageUrl": "/images/brand/nb-burger-logo.png",
     "isActive": true,
     "tags": [],
     "sortOrder": 4,

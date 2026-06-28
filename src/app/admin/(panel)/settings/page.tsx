@@ -45,7 +45,7 @@ export default async function AdminSettingsPage() {
             <input
               name="heroMediaUrl"
               defaultValue={settings.heroMediaUrl}
-              placeholder="/images/hero/redcow.jpg או /videos/hero.mp4"
+              placeholder="/images/hero/nb-burger-hero.jpg או /videos/hero.mp4"
             />
           </label>
           <label>

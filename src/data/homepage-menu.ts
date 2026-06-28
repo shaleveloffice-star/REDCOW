@@ -1,5 +1,5 @@
 export const HOMEPAGE_MENU_ITEM_IDS = [
-  "item-redcow-classic",
+  "item-nb-classic",
   "item-fries",
   "item-crispy-chicken",
   "item-nuggets"

@@ -4,12 +4,12 @@ const now = "2026-05-17T07:00:00.000Z";
 
 /** נתיבים לתמונות קיימות תחת `public` — לצורך הדגמה בלבד (מנות חוזרות על אותן תמונות) */
 const demo = {
-  menuClassic: "/images/menu/red-cow-classic.png",
+  menuClassic: "/images/menu/nb-single-burger.jpg",
   menuSmoked: "/images/menu/smoked-burger.png",
-  menuFries: "/images/menu/red-cow-fries.png",
+  menuFries: "/images/menu/nb-single-burger.jpg",
   heroBurger: "/images/hero/burger-hero.png",
-  experience: "/images/experience/red-cow-experience.png",
-  brandIcon: "/images/brand/red-cow-icon.png"
+  experience: "/images/hero/nb-burger-hero.jpg",
+  brandIcon: "/images/brand/nb-burger-logo.png"
 } as const;
 
 export const mockMenuCategories: MenuCategory[] = [
@@ -67,7 +67,7 @@ export const mockMenuCategories: MenuCategory[] = [
 
 export const mockMenuItems: MenuItem[] = [
   {
-    id: "item-redcow-classic",
+    id: "item-nb-classic",
     name: "NB Classic",
     description: "קציצת בקר, חסה, עגבנייה, בצל סגול ורוטב הבית.",
     price: 58,

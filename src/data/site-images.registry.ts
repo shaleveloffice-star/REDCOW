@@ -44,9 +44,9 @@ export const LOCATION_EXTERIOR_IMAGE =
 
 export const ABOUT_PAGE_IMAGES = {
   hero: "/images/hero/burger-hero.png",
-  classic: "/images/menu/red-cow-classic.png",
-  fries: "/images/menu/red-cow-fries.png",
-  experience: "/images/experience/red-cow-experience.png",
+  classic: "/images/menu/nb-single-burger.jpg",
+  fries: "/images/menu/nb-single-burger.jpg",
+  experience: "/images/hero/nb-burger-hero.jpg",
   smoked: "/images/menu/smoked-burger.png"
 } as const;
 

@@ -1,5 +1,6 @@
 "use server";
 
+import { requireAdmin } from "@/lib/auth/admin-guard";
 import { revalidatePath } from "next/cache";
 import { listBranches, removeBranch, upsertBranch } from "@/services/branches.service";
 import type { Branch } from "@/types/content";
@@ -7,10 +8,12 @@ import type { Branch } from "@/types/content";
 const paths = ["/admin/branches", "/branches", "/"];
 
 export async function getBranchesAdminData() {
+  await requireAdmin();
   return listBranches();
 }
 
 export async function saveBranchAction(input: Branch) {
+  await requireAdmin();
   if (!input.name.trim()) throw new Error("שם הסניף נדרש");
   const saved = await upsertBranch({
     ...input,
@@ -27,6 +30,7 @@ export async function saveBranchAction(input: Branch) {
 }
 
 export async function deleteBranchAction(id: string) {
+  await requireAdmin();
   const ok = await removeBranch(id);
   if (!ok) throw new Error("הסניף לא נמצא");
   paths.forEach((path) => revalidatePath(path));

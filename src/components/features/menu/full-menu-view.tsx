@@ -3,6 +3,7 @@
 import type { MenuCategory, MenuItem } from "@/types/content";
 
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
+import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 
@@ -46,12 +47,8 @@ export function FullMenuView({
                     </div>
                     <div className="menu-page-dish-visual">
                       {isVideoMediaUrl(item.imageUrl) ? (
-                        <video
+                        <AutoplayVideo
                           src={item.imageUrl}
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
                           aria-label={localized.name}
                         />
                       ) : (

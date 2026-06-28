@@ -1,5 +1,6 @@
 "use server";
 
+import { requireAdmin } from "@/lib/auth/admin-guard";
 import { revalidatePath } from "next/cache";
 import {
   listMenuCategories,
@@ -14,11 +15,13 @@ import type { MenuCategory, MenuItem } from "@/types/content";
 const menuPaths = ["/admin/menu", "/admin/menu-categories", "/"];
 
 export async function getMenuAdminData() {
+  await requireAdmin();
   const [items, categories] = await Promise.all([listMenuItems(), listMenuCategories()]);
   return { items, categories };
 }
 
 export async function saveMenuItemAction(input: MenuItem) {
+  await requireAdmin();
   const name = input.name.trim();
   if (!name) throw new Error("שם המנה נדרש");
   const price = Number(input.price);
@@ -39,12 +42,14 @@ export async function saveMenuItemAction(input: MenuItem) {
 }
 
 export async function deleteMenuItemAction(id: string) {
+  await requireAdmin();
   const ok = await removeMenuItem(id);
   if (!ok) throw new Error("המנה לא נמצאה");
   menuPaths.forEach((path) => revalidatePath(path));
 }
 
 export async function saveMenuCategoryAction(input: MenuCategory) {
+  await requireAdmin();
   const name = input.name.trim();
   const slug = input.slug.trim();
   if (!name) throw new Error("שם הקטגוריה נדרש");
@@ -63,6 +68,7 @@ export async function saveMenuCategoryAction(input: MenuCategory) {
 }
 
 export async function deleteMenuCategoryAction(id: string) {
+  await requireAdmin();
   const items = await listMenuItems();
   if (items.some((item) => item.categoryId === id)) {
     throw new Error("לא ניתן למחוק קטגוריה שיש בה מנות. העבר או מחק את המנות קודם.");

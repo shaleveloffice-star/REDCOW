@@ -1,5 +1,6 @@
 "use server";
 
+import { requireAdmin } from "@/lib/auth/admin-guard";
 import { revalidatePath } from "next/cache";
 import {
   createCustomerClubSignup,
@@ -25,6 +26,7 @@ export type CustomerClubSignupResult =
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function getCustomerClubAdminData() {
+  await requireAdmin();
   return listCustomerClubSignups();
 }
 
@@ -73,6 +75,7 @@ function formatActionError(error: unknown) {
 }
 
 export async function saveCustomerClubSignupAction(input: CustomerClubSignup) {
+  await requireAdmin();
   if (!input.fullName.trim()) throw new Error("שם נדרש");
   const saved = await upsertCustomerClubSignup({
     ...input,
@@ -88,6 +91,7 @@ export async function saveCustomerClubSignupAction(input: CustomerClubSignup) {
 }
 
 export async function deleteCustomerClubSignupAction(id: string) {
+  await requireAdmin();
   const ok = await removeCustomerClubSignup(id);
   if (!ok) throw new Error("ההרשמה לא נמצאה");
   paths.forEach((path) => revalidatePath(path));

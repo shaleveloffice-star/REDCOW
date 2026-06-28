@@ -1,5 +1,6 @@
 "use server";
 
+import { requireAdmin } from "@/lib/auth/admin-guard";
 import { revalidatePath } from "next/cache";
 import {
   createCareerApplication,
@@ -12,6 +13,7 @@ import type { CareerApplication, RecordStatus } from "@/types/content";
 const paths = ["/admin/career-applications"];
 
 export async function getCareerApplicationsAdminData() {
+  await requireAdmin();
   return listCareerApplications();
 }
 
@@ -26,6 +28,7 @@ export async function createCareerApplicationAction(formData: FormData) {
 }
 
 export async function saveCareerApplicationAction(input: CareerApplication) {
+  await requireAdmin();
   if (!input.fullName.trim()) throw new Error("שם נדרש");
   const saved = await upsertCareerApplication({
     ...input,
@@ -41,6 +44,7 @@ export async function saveCareerApplicationAction(input: CareerApplication) {
 }
 
 export async function deleteCareerApplicationAction(id: string) {
+  await requireAdmin();
   const ok = await removeCareerApplication(id);
   if (!ok) throw new Error("הפנייה לא נמצאה");
   paths.forEach((path) => revalidatePath(path));

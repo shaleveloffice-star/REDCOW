@@ -1,5 +1,6 @@
 "use server";
 
+import { requireAdmin } from "@/lib/auth/admin-guard";
 import { revalidatePath } from "next/cache";
 import {
   createContactMessage,
@@ -12,6 +13,7 @@ import type { ContactMessage, RecordStatus } from "@/types/content";
 const paths = ["/admin/contact-messages"];
 
 export async function getContactMessagesAdminData() {
+  await requireAdmin();
   return listContactMessages();
 }
 
@@ -25,6 +27,7 @@ export async function createContactMessageAction(formData: FormData) {
 }
 
 export async function saveContactMessageAction(input: ContactMessage) {
+  await requireAdmin();
   if (!input.fullName.trim()) throw new Error("שם נדרש");
   const saved = await upsertContactMessage({
     ...input,
@@ -39,6 +42,7 @@ export async function saveContactMessageAction(input: ContactMessage) {
 }
 
 export async function deleteContactMessageAction(id: string) {
+  await requireAdmin();
   const ok = await removeContactMessage(id);
   if (!ok) throw new Error("ההודעה לא נמצאה");
   paths.forEach((path) => revalidatePath(path));

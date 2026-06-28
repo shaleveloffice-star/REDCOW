@@ -11,6 +11,7 @@ import {
 } from "@/lib/menu-showcase-tour";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
+import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { useEffect, useMemo, useRef } from "react";
 
@@ -214,13 +215,9 @@ export function HomeMenuShowcaseSection({ groups }: HomeMenuShowcaseSectionProps
                     ) : null}
                     {isVideo ? (
                       <div className="menu-showcase-card-video-frame">
-                        <video
+                        <AutoplayVideo
                           className="menu-showcase-card-video"
                           src={media}
-                          autoPlay
-                          loop
-                          muted
-                          playsInline
                           aria-label={localized.name}
                         />
                       </div>

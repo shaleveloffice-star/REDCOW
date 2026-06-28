@@ -1981,6 +1981,23 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   height: 100%;
   border-radius: calc(var(--site-media-radius) - 2px);
   object-fit: cover;
+  pointer-events: none;
+}
+
+.menu-showcase-card-video::-webkit-media-controls,
+.menu-showcase-card-video::-webkit-media-controls-enclosure,
+.menu-showcase-card-video::-webkit-media-controls-panel,
+.menu-showcase-card-video::-webkit-media-controls-start-playback-button,
+.menu-showcase-card-video::-webkit-media-controls-play-button,
+.menu-page-dish-visual video::-webkit-media-controls,
+.menu-page-dish-visual video::-webkit-media-controls-enclosure,
+.menu-page-dish-visual video::-webkit-media-controls-panel,
+.menu-page-dish-visual video::-webkit-media-controls-start-playback-button,
+.menu-page-dish-visual video::-webkit-media-controls-play-button {
+  display: none !important;
+  -webkit-appearance: none;
+  opacity: 0;
+  pointer-events: none;
 }
 
 .menu-showcase-card-media--video .menu-showcase-badge {

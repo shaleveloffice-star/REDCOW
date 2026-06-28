@@ -1,5 +1,6 @@
 "use server";
 
+import { requireAdmin } from "@/lib/auth/admin-guard";
 import { mkdir, writeFile } from "fs/promises";
 import path from "path";
 
@@ -47,6 +48,7 @@ async function uploadImageFile(file: File, targetDir: string, publicPrefix: stri
 }
 
 export async function uploadMenuImageAction(formData: FormData): Promise<string> {
+  await requireAdmin();
   const file = formData.get("file");
   if (!(file instanceof File)) {
     throw new Error("לא נבחר קובץ תמונה");
@@ -55,6 +57,7 @@ export async function uploadMenuImageAction(formData: FormData): Promise<string>
 }
 
 export async function uploadSiteImageAction(formData: FormData): Promise<string> {
+  await requireAdmin();
   const file = formData.get("file");
   if (!(file instanceof File)) {
     throw new Error("לא נבחר קובץ תמונה");

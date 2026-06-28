@@ -36,6 +36,14 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  try {
+    assertProductionAuthMode();
+  } catch (error) {
+    const message =
+      error instanceof Error ? error.message : "Admin auth configuration is invalid.";
+    return new NextResponse(message, { status: 500 });
+  }
+
   if (isOpenAdminAuthMode()) {
     if (pathname === "/admin/login") {
       const adminUrl = request.nextUrl.clone();
@@ -44,12 +52,6 @@ export async function middleware(request: NextRequest) {
     }
 
     return NextResponse.next();
-  }
-
-  try {
-    assertProductionAuthMode();
-  } catch {
-    return new NextResponse("Mock admin auth is not allowed in production.", { status: 500 });
   }
 
   const session = await getSessionFromRequest(request);

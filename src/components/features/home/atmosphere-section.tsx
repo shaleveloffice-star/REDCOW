@@ -59,7 +59,11 @@ function AtmosphereBurgerStack({
   const y = useSpring(yRaw, { stiffness: 100, damping: 24, mass: 0.8 });
 
   if (!animateOnScroll || reduceMotion) {
-    return <div className="atmosphere-burger-stack">{children}</div>;
+    return (
+      <div ref={stackRef} className="atmosphere-burger-stack">
+        {children}
+      </div>
+    );
   }
 
   return (

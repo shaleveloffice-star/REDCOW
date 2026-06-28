@@ -1,8 +1,11 @@
+import { timingSafeEqual } from "crypto";
+
 import { cookies } from "next/headers";
 
 import {
   assertProductionAuthMode,
   getAdminAuthMode,
+  getAdminDevPassword,
   getAllowedAdminEmails,
   isEmailAllowedForAdmin,
   isOpenAdminAuthMode
@@ -91,13 +94,34 @@ async function authenticateWithFirebase(
   };
 }
 
+function safeEqualSecret(a: string, b: string) {
+  const left = Buffer.from(a);
+  const right = Buffer.from(b);
+
+  if (left.length !== right.length) {
+    return false;
+  }
+
+  return timingSafeEqual(left, right);
+}
+
 async function authenticateWithPasswordCredentials(
-  email: string
+  email: string,
+  password: string
 ): Promise<AdminSession | null> {
+  const devPassword = getAdminDevPassword();
+  if (!devPassword) {
+    throw new Error("ADMIN_DEV_PASSWORD is missing.");
+  }
+
   const normalizedEmail = email.trim().toLowerCase();
   const allowedEmails = getAllowedAdminEmails();
 
   if (!isEmailAllowedForAdmin(normalizedEmail, allowedEmails)) {
+    return null;
+  }
+
+  if (!safeEqualSecret(password, devPassword)) {
     return null;
   }
 
@@ -154,7 +178,11 @@ export async function loginWithEmailPassword(
   }
 
   if (getAdminAuthMode() === "password") {
-    return authenticateWithPasswordCredentials(trimmedEmail);
+    if (!trimmedPassword) {
+      return null;
+    }
+
+    return authenticateWithPasswordCredentials(trimmedEmail, trimmedPassword);
   }
 
   return authenticateWithMockDevCredentials(trimmedEmail);
@@ -177,11 +205,11 @@ export async function clearAdminSessionCookie(): Promise<void> {
 }
 
 export async function getCurrentAdminSession(): Promise<AdminSession | null> {
+  assertProductionAuthMode();
+
   if (isOpenAdminAuthMode()) {
     return getOpenAdminSession();
   }
-
-  assertProductionAuthMode();
 
   const cookieStore = await cookies();
   const token = cookieStore.get(getAdminSessionCookieName())?.value;

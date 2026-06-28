@@ -2,7 +2,7 @@ import { AdminCard } from "@/components/features/admin/admin-card";
 import { loginAdminAction } from "@/server/actions/auth.actions";
 
 const ERROR_MESSAGES: Record<string, string> = {
-  invalid: "אימייל לא מורשה.",
+  invalid: "אימייל או סיסמה שגויים.",
   config: "הגדרות האימות חסרות או לא תקינות. בדוק משתני סביבה."
 };
 
@@ -17,13 +17,17 @@ export default async function AdminLoginPage({ searchParams }: AdminLoginPagePro
   return (
     <AdminCard
       title="כניסה לפאנל ניהול"
-      description="הזן אימייל אדמין מאושר."
+      description="הזן אימייל וסיסמת אדמין."
     >
       <form action={loginAdminAction} className="admin-form">
         {errorMessage ? <p className="admin-form-error">{errorMessage}</p> : null}
         <label>
           אימייל
           <input name="email" type="email" autoComplete="username" required />
+        </label>
+        <label>
+          סיסמה
+          <input name="password" type="password" autoComplete="current-password" required />
         </label>
         <button className="button" type="submit">
           כניסה

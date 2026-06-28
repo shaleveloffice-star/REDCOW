@@ -10,11 +10,12 @@ import {
 
 export async function loginAdminAction(formData: FormData) {
   const email = String(formData.get("email") ?? "");
+  const password = String(formData.get("password") ?? "");
 
   let session = null;
 
   try {
-    session = await loginWithEmailPassword(email, "");
+    session = await loginWithEmailPassword(email, password);
   } catch (error) {
     console.error("[AdminAuth] login failed", error);
     redirect("/admin/login?error=config");

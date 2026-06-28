@@ -27,9 +27,28 @@ export function isOpenAdminAuthMode() {
 }
 
 export function assertProductionAuthMode() {
-  if (process.env.NODE_ENV === "production" && getAdminAuthMode() === "mock") {
-    throw new Error("Mock admin auth is not allowed in production");
+  if (process.env.NODE_ENV !== "production") {
+    return;
   }
+
+  const mode = getAdminAuthMode();
+
+  if (mode === "open") {
+    throw new Error("Open admin auth is not allowed in production.");
+  }
+
+  if (mode === "mock") {
+    throw new Error("Mock admin auth is not allowed in production.");
+  }
+}
+
+export function getAdminDevPassword(): string | null {
+  const password = process.env.ADMIN_DEV_PASSWORD?.trim();
+  if (!password) {
+    return null;
+  }
+
+  return password;
 }
 
 export function getSessionMaxAgeSeconds() {

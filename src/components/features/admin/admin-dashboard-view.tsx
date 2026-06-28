@@ -1,16 +1,27 @@
 import Link from "next/link";
 import {
   ArrowUpLeft,
+  BarChart3,
   ExternalLink,
   FolderTree,
   Link2,
   Mail,
   MapPin,
   Newspaper,
-  Sparkles,
+  PieChart,
+  TrendingUp,
   UtensilsCrossed,
   Zap
 } from "lucide-react";
+
+import {
+  BarChart,
+  ChartLegend,
+  DonutChart,
+  getChartColor,
+  HorizontalBars,
+  Sparkline
+} from "@/components/features/admin/admin-charts";
 
 type DashboardStat = {
   id: string;
@@ -18,11 +29,19 @@ type DashboardStat = {
   value: number;
   href: string;
   icon: "menu" | "categories" | "branches" | "press" | "messages" | "links";
-  accent: "red" | "gold" | "cream" | "ember";
+};
+
+type CategoryBreakdown = {
+  label: string;
+  value: number;
+  active: number;
 };
 
 type AdminDashboardViewProps = {
   stats: DashboardStat[];
+  categoryBreakdown: CategoryBreakdown[];
+  activeMenuItems: number;
+  totalMenuItems: number;
   firebaseConnected: boolean;
 };
 
@@ -59,61 +78,161 @@ function formatHebrewDate() {
   }).format(new Date());
 }
 
-export function AdminDashboardView({ stats, firebaseConnected }: AdminDashboardViewProps) {
+export function AdminDashboardView({
+  stats,
+  categoryBreakdown,
+  activeMenuItems,
+  totalMenuItems,
+  firebaseConnected
+}: AdminDashboardViewProps) {
   const totalRecords = stats.reduce((sum, stat) => sum + stat.value, 0);
+  const activePct =
+    totalMenuItems > 0 ? Math.round((activeMenuItems / totalMenuItems) * 100) : 0;
+
+  const donutSegments = stats.map((stat, index) => ({
+    label: stat.label,
+    value: stat.value,
+    color: getChartColor(index)
+  }));
+
+  const sparkValues =
+    categoryBreakdown.length > 0
+      ? categoryBreakdown.map((item) => item.value)
+      : stats.map((stat) => stat.value);
+
+  const moduleBars = stats.map((stat) => ({
+    label: stat.label,
+    value: stat.value,
+    max: Math.max(...stats.map((s) => s.value), 1),
+    href: stat.href
+  }));
 
   return (
     <div className="admin-dashboard">
       <header className="admin-dashboard-hero">
-        <div className="admin-dashboard-hero-copy">
-          <p className="admin-dashboard-kicker">
-            <Sparkles size={14} strokeWidth={2} aria-hidden="true" />
-            {getGreeting()}
-          </p>
-          <h1 className="admin-dashboard-title">מרכז הניהול</h1>
-          <p className="admin-dashboard-lead">{formatHebrewDate()}</p>
-        </div>
+        <div className="admin-dashboard-hero-grid">
+          <div className="admin-dashboard-hero-copy">
+            <p className="admin-dashboard-kicker">{getGreeting()}</p>
+            <h1 className="admin-dashboard-title">מרכז הניהול</h1>
+            <p className="admin-dashboard-lead">{formatHebrewDate()}</p>
 
-        <div className="admin-dashboard-hero-meta">
-          <div className="admin-status-pill">
-            <span
-              className={`admin-status-dot${firebaseConnected ? " is-live" : " is-local"}`}
-              aria-hidden="true"
-            />
-            {firebaseConnected ? "Firebase מחובר" : "מצב מקומי (Fallback)"}
+            <div className="admin-hero-metrics">
+              <div className="admin-hero-metric">
+                <span className="admin-hero-metric-value">{totalRecords}</span>
+                <span className="admin-hero-metric-label">רשומות במערכת</span>
+              </div>
+              <div className="admin-hero-metric">
+                <span className="admin-hero-metric-value">{activePct}%</span>
+                <span className="admin-hero-metric-label">מנות פעילות</span>
+              </div>
+              <div className="admin-hero-metric">
+                <span
+                  className={`admin-status-dot${firebaseConnected ? " is-live" : " is-local"}`}
+                  aria-hidden="true"
+                />
+                <span className="admin-hero-metric-label">
+                  {firebaseConnected ? "Firebase מחובר" : "מצב מקומי"}
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="admin-hero-stat">
-            <span className="admin-hero-stat-value">{totalRecords}</span>
-            <span className="admin-hero-stat-label">רשומות פעילות</span>
+
+          <div className="admin-hero-chart-card">
+            <div className="admin-panel-head admin-panel-head--compact">
+              <TrendingUp size={18} strokeWidth={1.75} aria-hidden="true" />
+              <div>
+                <h2 className="admin-panel-title">מגמת תפריט</h2>
+                <p className="admin-panel-desc">מנות לפי קטגוריה</p>
+              </div>
+            </div>
+            <Sparkline values={sparkValues} />
           </div>
         </div>
       </header>
 
-      <section className="admin-bento-grid" aria-label="סטטיסטיקות">
-        {stats.map((stat, index) => {
-          const Icon = ICONS[stat.icon];
+      <div className="admin-dashboard-bento">
+        <section className="admin-panel admin-panel--chart admin-bento-wide" aria-labelledby="chart-distribution">
+          <div className="admin-panel-head">
+            <PieChart size={18} strokeWidth={1.75} aria-hidden="true" />
+            <div>
+              <h2 id="chart-distribution" className="admin-panel-title">
+                התפלגות תוכן
+              </h2>
+              <p className="admin-panel-desc">חלוקה לפי מודולי ניהול</p>
+            </div>
+          </div>
 
-          return (
-            <Link
-              key={stat.id}
-              href={stat.href}
-              className={`admin-stat-tile admin-stat-tile--${stat.accent}`}
-              style={{ animationDelay: `${index * 70}ms` }}
-            >
-              <div className="admin-stat-tile-top">
-                <span className="admin-stat-tile-icon" aria-hidden="true">
-                  <Icon strokeWidth={1.75} size={20} />
-                </span>
-                <ArrowUpLeft className="admin-stat-tile-arrow" size={16} strokeWidth={2} aria-hidden="true" />
-              </div>
-              <strong className="admin-stat-tile-value">{stat.value}</strong>
-              <span className="admin-stat-tile-label">{stat.label}</span>
-            </Link>
-          );
-        })}
-      </section>
+          <div className="admin-chart-split">
+            <DonutChart
+              segments={donutSegments}
+              centerValue={totalRecords}
+              centerLabel="סה״כ"
+            />
+            <ChartLegend segments={donutSegments} />
+          </div>
+        </section>
 
-      <div className="admin-dashboard-panels">
+        <section className="admin-panel admin-panel--chart" aria-labelledby="chart-modules">
+          <div className="admin-panel-head">
+            <BarChart3 size={18} strokeWidth={1.75} aria-hidden="true" />
+            <div>
+              <h2 id="chart-modules" className="admin-panel-title">
+                עוצמת מודולים
+              </h2>
+              <p className="admin-panel-desc">נפח נתונים יחסי</p>
+            </div>
+          </div>
+          <HorizontalBars items={moduleBars} />
+        </section>
+
+        <section className="admin-bento-stats" aria-label="סטטיסטיקות">
+          {stats.map((stat) => {
+            const Icon = ICONS[stat.icon];
+
+            return (
+              <Link key={stat.id} href={stat.href} className="admin-stat-tile">
+                <div className="admin-stat-tile-top">
+                  <span className="admin-stat-tile-icon" aria-hidden="true">
+                    <Icon strokeWidth={1.75} size={18} />
+                  </span>
+                  <ArrowUpLeft className="admin-stat-tile-arrow" size={15} strokeWidth={2} aria-hidden="true" />
+                </div>
+                <strong className="admin-stat-tile-value">{stat.value}</strong>
+                <span className="admin-stat-tile-label">{stat.label}</span>
+              </Link>
+            );
+          })}
+        </section>
+
+        <section
+          className="admin-panel admin-panel--chart admin-bento-wide"
+          aria-labelledby="chart-categories"
+        >
+          <div className="admin-panel-head">
+            <UtensilsCrossed size={18} strokeWidth={1.75} aria-hidden="true" />
+            <div>
+              <h2 id="chart-categories" className="admin-panel-title">
+                מנות לפי קטגוריה
+              </h2>
+              <p className="admin-panel-desc">
+                {activeMenuItems} פעילות מתוך {totalMenuItems} מנות
+              </p>
+            </div>
+          </div>
+
+          {categoryBreakdown.length > 0 ? (
+            <BarChart
+              items={categoryBreakdown.map((item) => ({
+                label: item.label,
+                value: item.value,
+                sublabel: `${item.active} פעילות`
+              }))}
+            />
+          ) : (
+            <p className="admin-chart-empty">אין עדיין קטגוריות בתפריט</p>
+          )}
+        </section>
+
         <section className="admin-panel admin-panel--actions" aria-labelledby="admin-quick-actions">
           <div className="admin-panel-head">
             <Zap size={18} strokeWidth={1.75} aria-hidden="true" />
@@ -153,39 +272,6 @@ export function AdminDashboardView({ stats, firebaseConnected }: AdminDashboardV
               </li>
             ))}
           </ul>
-        </section>
-
-        <section className="admin-panel admin-panel--status" aria-labelledby="admin-system-status">
-          <div className="admin-panel-head">
-            <Sparkles size={18} strokeWidth={1.75} aria-hidden="true" />
-            <div>
-              <h2 id="admin-system-status" className="admin-panel-title">
-                מצב המערכת
-              </h2>
-              <p className="admin-panel-desc">סביבת עבודה ואחסון</p>
-            </div>
-          </div>
-
-          <dl className="admin-status-list">
-            <div className="admin-status-row">
-              <dt>אחסון נתונים</dt>
-              <dd>{firebaseConnected ? "Firestore" : "JSON מקומי"}</dd>
-            </div>
-            <div className="admin-status-row">
-              <dt>סנכרון</dt>
-              <dd>{firebaseConnected ? "בזמן אמת" : "לוקלי בלבד"}</dd>
-            </div>
-            <div className="admin-status-row">
-              <dt>אזורי ניהול</dt>
-              <dd>{stats.length} מודולים</dd>
-            </div>
-          </dl>
-
-          <p className="admin-status-footnote">
-            {firebaseConnected
-              ? "שינויים באדמין נשמרים ישירות ל-Firestore."
-              : "הגדר Firebase ב-.env כדי לשמור לענן."}
-          </p>
         </section>
       </div>
     </div>

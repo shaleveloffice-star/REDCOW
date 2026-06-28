@@ -168,17 +168,3 @@ export async function getCurrentAdminSession(): Promise<AdminSession | null> {
 
   return session;
 }
-
-export async function verifyAdminSessionFromToken(token: string): Promise<AdminSession | null> {
-  const session = await verifyAdminSessionToken(token);
-  if (!session) {
-    return null;
-  }
-
-  const allowedEmails = getAllowedAdminEmails();
-  if (allowedEmails.length > 0 && !isEmailAllowedForAdmin(session.email, allowedEmails)) {
-    return null;
-  }
-
-  return session;
-}

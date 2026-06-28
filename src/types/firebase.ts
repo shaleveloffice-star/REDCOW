@@ -1,9 +1,3 @@
-export type FirebaseConnectionState = {
-  isConfigured: boolean;
-  mode: "local" | "firebase";
-  missingEnvVars: string[];
-};
-
 export type FirebaseCollectionName =
   | "siteSettings"
   | "menuItems"
@@ -17,5 +11,3 @@ export type FirebaseCollectionName =
   | "orderLinks"
   | "siteImageOverrides"
   | "adminUsers";
-
-export type StorageFolder = "gallery" | "menu" | "logos" | "press";

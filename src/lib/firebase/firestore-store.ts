@@ -9,9 +9,17 @@ import {
   type Firestore
 } from "firebase/firestore";
 
-import { getAdminFirestore, isFirebaseAdminConfigured } from "@/lib/firebase/admin";
 import { getFirestoreDb, getFirebaseMissingEnvKeys, isFirebaseConfigured } from "@/lib/firebase";
 import type { FirebaseCollectionName } from "@/types/firebase";
+
+async function loadAdminFirestoreHelpers() {
+  const [{ getAdminFirestore }, { isFirebaseAdminConfigured }] = await Promise.all([
+    import("@/lib/firebase/admin-firestore"),
+    import("@/lib/firebase/admin-core")
+  ]);
+
+  return { getAdminFirestore, isFirebaseAdminConfigured };
+}
 
 export type DocumentStore<T extends { id: string }> = {
   getAll(): Promise<T[]>;
@@ -176,6 +184,7 @@ export function createFirestoreCollectionStore<T extends { id: string }>(
 
     async save(input: T) {
       const storedData = toStoredData(input);
+      const { getAdminFirestore, isFirebaseAdminConfigured } = await loadAdminFirestoreHelpers();
       const adminDb = getAdminFirestore();
 
       if (adminDb) {
@@ -215,6 +224,7 @@ export function createFirestoreCollectionStore<T extends { id: string }>(
     },
 
     async remove(id: string) {
+      const { getAdminFirestore } = await loadAdminFirestoreHelpers();
       const adminDb = getAdminFirestore();
 
       if (adminDb) {

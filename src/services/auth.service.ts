@@ -16,18 +16,8 @@ import {
   signAdminSessionToken,
   verifyAdminSessionToken
 } from "@/lib/auth/admin-session";
-import { getAdminAuth } from "@/lib/firebase/admin";
 import { getAdminUserByEmail } from "@/repositories/admin.repository";
 import type { AdminRole, AdminSession } from "@/types/admin";
-
-type FirebasePasswordSignInResponse = {
-  idToken?: string;
-  email?: string;
-  localId?: string;
-  error?: {
-    message?: string;
-  };
-};
 
 async function resolveAdminRole(email: string): Promise<AdminRole> {
   const admin = await getAdminUserByEmail(email);
@@ -39,58 +29,6 @@ function getOpenAdminSession(): AdminSession {
     email: "admin@redcow.local",
     role: "owner",
     isMock: true
-  };
-}
-
-async function authenticateWithFirebase(
-  email: string,
-  password: string
-): Promise<AdminSession | null> {
-  const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.trim();
-  if (!apiKey) {
-    throw new Error("Firebase API key is missing. Set NEXT_PUBLIC_FIREBASE_API_KEY.");
-  }
-
-  const response = await fetch(
-    `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${apiKey}`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email,
-        password,
-        returnSecureToken: true
-      }),
-      cache: "no-store"
-    }
-  );
-
-  const payload = (await response.json()) as FirebasePasswordSignInResponse;
-  const idToken = payload.idToken;
-
-  if (!idToken) {
-    return null;
-  }
-
-  const adminAuth = getAdminAuth();
-  if (!adminAuth) {
-    throw new Error(
-      "Firebase Admin is not configured. Set FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY."
-    );
-  }
-
-  const decoded = await adminAuth.verifyIdToken(idToken);
-  const verifiedEmail = (decoded.email ?? email).trim().toLowerCase();
-  const allowedEmails = getAllowedAdminEmails();
-
-  if (!isEmailAllowedForAdmin(verifiedEmail, allowedEmails)) {
-    return null;
-  }
-
-  return {
-    email: verifiedEmail,
-    role: await resolveAdminRole(verifiedEmail),
-    isMock: false
   };
 }
 
@@ -174,6 +112,7 @@ export async function loginWithEmailPassword(
       return null;
     }
 
+    const { authenticateWithFirebase } = await import("@/services/auth-firebase.service");
     return authenticateWithFirebase(trimmedEmail, trimmedPassword);
   }
 

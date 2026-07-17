@@ -56,6 +56,7 @@ export function AutoplayVideo({
     video.addEventListener("loadedmetadata", tryPlay);
     video.addEventListener("canplay", tryPlay);
 
+    video.load();
     tryPlay();
 
     const onFirstTouch = () => {

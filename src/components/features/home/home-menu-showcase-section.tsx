@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import type { MenuItem } from "@/types/content";
 import {
@@ -198,7 +199,15 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
                         />
                       </div>
                     ) : (
-                      <img src={media} alt={localized.name} loading="lazy" />
+                      <Image
+                        src={media}
+                        alt={localized.name}
+                        width={640}
+                        height={480}
+                        sizes="(max-width: 767px) 80vw, 280px"
+                        loading="lazy"
+                        style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                      />
                     )}
                   </div>
                   <div className="menu-showcase-card-body">

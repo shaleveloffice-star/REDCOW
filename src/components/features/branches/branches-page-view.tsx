@@ -1,58 +1,11 @@
-import Link from "next/link";
 import type { Branch } from "@/types/content";
 
-const openingSoonItems = [
-  { icon: "⌖", label: "מרכז הארץ" },
-  { icon: "▣", label: "איסוף עצמי" },
-  { icon: "♨", label: "משלוחים" },
-  { icon: "≋", label: "תפריט קלאסי" }
-];
-
-function BranchesComingSoon() {
-  return (
-    <div className="branches-coming-soon">
-      <div className="branches-coming-copy">
-        <h2>הסניף הראשון בדרך</h2>
-        <p>
-          אנחנו עדיין בוחנים את הלוקיישן המדויק לסניף הראשון של NB BURGER. ברגע שנחליט —
-          נעדכן כאן את הכתובת, שעות הפתיחה וניווט.
-        </p>
-        <p className="branches-coming-note">
-          רוצים לדעת ראשונים כשנפתח? השאירו פרטים בטופס בתחתית הדף, ונחזור אליכם עם העדכון.
-        </p>
-        <div className="branches-coming-actions">
-          <a className="visit-primary" href="#contact">
-            עדכנו אותי בפתיחה
-          </a>
-          <Link className="visit-secondary" href="/#menu">
-            צפו בתפריט
-            <span>‹</span>
-          </Link>
-        </div>
-      </div>
-      <div className="visit-card branches-coming-card">
-        <div className="visit-card-icon" aria-hidden="true">
-          <span />
-          <span />
-          <span />
-        </div>
-        <h3>Opening Soon</h3>
-        <div className="visit-card-divider" />
-        <ul>
-          {openingSoonItems.map((item) => (
-            <li key={item.label}>
-              <span aria-hidden="true">{item.icon}</span>
-              {item.label}
-            </li>
-          ))}
-        </ul>
-        <div className="visit-card-divider" />
-      </div>
-    </div>
-  );
-}
+import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 
 function BranchCard({ branch }: { branch: Branch }) {
+  const phone = branch.phone.trim();
+  const mapsFallback = getBusinessMapsSearchUrl();
+
   return (
     <article className="branches-card">
       <h2>{branch.name}</h2>
@@ -60,11 +13,21 @@ function BranchCard({ branch }: { branch: Branch }) {
         {branch.address}, {branch.city}
       </p>
       <dl className="branches-card-details">
+        {phone ? (
+          <div>
+            <dt>טלפון</dt>
+            <dd>
+              <a href={`tel:${phone.replace(/\s/g, "")}`}>{phone}</a>
+            </dd>
+          </div>
+        ) : null}
         <div>
-          <dt>טלפון</dt>
-          <dd>
-            <a href={`tel:${branch.phone.replace(/\s/g, "")}`}>{branch.phone}</a>
-          </dd>
+          <dt>סוג העסק</dt>
+          <dd>{BUSINESS.businessTypeHe}</dd>
+        </div>
+        <div>
+          <dt>כשרות</dt>
+          <dd>{BUSINESS.kosherHe}</dd>
         </div>
         <div>
           <dt>שעות פתיחה</dt>
@@ -73,16 +36,55 @@ function BranchCard({ branch }: { branch: Branch }) {
       </dl>
       {branch.wazeUrl ? (
         <a className="branches-card-nav" href={branch.wazeUrl} rel="noopener noreferrer" target="_blank">
-          ניווט ב-Waze
+          ניווט
         </a>
-      ) : null}
+      ) : (
+        <a className="branches-card-nav" href={mapsFallback} rel="noopener noreferrer" target="_blank">
+          ניווט
+        </a>
+      )}
     </article>
+  );
+}
+
+function PrimaryBranchFromBusiness() {
+  const mapsUrl = getBusinessMapsSearchUrl();
+  const hours = `א׳–ה׳ ${BUSINESS.displayHours.weekday} · שבת ${BUSINESS.displayHours.saturday}`;
+
+  return (
+    <ul className="branches-grid">
+      <li>
+        <article className="branches-card">
+          <h2>
+            {BUSINESS.name} {BUSINESS.address.addressLocality}
+          </h2>
+          <p className="branches-card-address">{BUSINESS.address.formatted.he}</p>
+          <dl className="branches-card-details">
+            <div>
+              <dt>סוג העסק</dt>
+              <dd>{BUSINESS.businessTypeHe}</dd>
+            </div>
+            <div>
+              <dt>כשרות</dt>
+              <dd>{BUSINESS.kosherHe}</dd>
+            </div>
+            <div>
+              <dt>שעות פתיחה</dt>
+              <dd>{hours}</dd>
+            </div>
+          </dl>
+          <a className="branches-card-nav" href={mapsUrl} rel="noopener noreferrer" target="_blank">
+            ניווט
+          </a>
+        </article>
+      </li>
+    </ul>
   );
 }
 
 export function BranchesPageView({ branches }: { branches: Branch[] }) {
   if (branches.length === 0) {
-    return <BranchesComingSoon />;
+    return <PrimaryBranchFromBusiness />;
   }
 
   return (

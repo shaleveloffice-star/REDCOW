@@ -15,7 +15,9 @@ export const he: Messages = {
     plancha: "על הפלנצ׳ה",
     atmosphere: "האווירה",
     club: "מועדון לקוחות",
-    location: "מיקום ושעות"
+    location: "מיקום ושעות",
+    about: "אודות",
+    branches: "סניפים"
   },
   hero: {
     tagline: "פשוט המבורגר טוב.",
@@ -26,7 +28,7 @@ export const he: Messages = {
   },
   menuShowcase: {
     title: "התפריט",
-    lead: "הסטנדרט הגבוה של אן בי.",
+    lead: "הסטנדרט הגבוה של NB BURGER.",
     trackAria: "מנות מהתפריט",
     bestSeller: "הכי נמכר",
     fullMenu: "לתפריט המלא"

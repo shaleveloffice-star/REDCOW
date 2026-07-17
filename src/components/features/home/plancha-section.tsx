@@ -1,71 +1,39 @@
-"use client";
+import Image from "next/image";
 
-import { motion } from "framer-motion";
-import { useMemo } from "react";
-
-import { useTranslations } from "@/components/providers/locale-provider";
 import {
   PLANCHA_BITE_IMAGE,
   PLANCHA_MEAT_IMAGE,
   PLANCHA_SEAR_IMAGE
 } from "@/data/site-images.registry";
+import { getServerLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/messages";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
 const stepIds = ["plancha-meat", "plancha-sear", "plancha-bite"] as const;
 const stepImages = [PLANCHA_MEAT_IMAGE, PLANCHA_SEAR_IMAGE, PLANCHA_BITE_IMAGE] as const;
 
-const easeLuxury = [0.22, 1, 0.36, 1] as const;
-
-const fadeUp = {
-  hidden: { opacity: 0, y: 32 },
-  visible: (index: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { delay: index * 0.12, duration: 0.75, ease: easeLuxury }
-  })
-};
-
 type PlanchaSectionProps = {
   siteImages?: SiteImagesMap;
 };
 
-export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
-  const t = useTranslations();
+export async function PlanchaSection({ siteImages }: PlanchaSectionProps) {
+  const t = getMessages(await getServerLocale());
 
-  const steps = useMemo(
-    () =>
-      stepIds.map((id, index) => ({
-        id,
-        img: stepImages[index],
-        title: t.plancha.steps[index]?.title ?? "",
-        desc: t.plancha.steps[index]?.desc ?? ""
-      })),
-    [t]
-  );
+  const steps = stepIds.map((id, index) => ({
+    id,
+    img: stepImages[index],
+    title: t.plancha.steps[index]?.title ?? "",
+    desc: t.plancha.steps[index]?.desc ?? ""
+  }));
 
   return (
     <section id="plancha" className="plancha-section" aria-labelledby="plancha-title">
       <div className="plancha-intro">
-        <motion.h2
-          id="plancha-title"
-          className="plancha-title"
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-        >
+        <h2 id="plancha-title" className="plancha-title css-reveal css-reveal--0">
           {t.plancha.title}
-        </motion.h2>
-        <motion.p
-          className="plancha-lead"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.3, duration: 0.8 }}
-        >
-          {t.plancha.lead}
-        </motion.p>
+        </h2>
+        <p className="plancha-lead css-reveal css-reveal--1">{t.plancha.lead}</p>
       </div>
 
       <ol className="plancha-panels" aria-label={t.plancha.listAria}>
@@ -75,14 +43,9 @@ export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
             item.id === "plancha-bite" ? "right" : i % 2 === 0 ? "left" : "right";
 
           return (
-            <motion.li
+            <li
               key={item.id}
-              className={`plancha-panel plancha-panel--text-${textSide} plancha-panel--${item.id}`}
-              custom={i}
-              variants={fadeUp}
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-8%" }}
+              className={`plancha-panel plancha-panel--text-${textSide} plancha-panel--${item.id} css-reveal css-reveal--panel-${i}`}
             >
               <article className="plancha-panel-frame">
                 <div className="plancha-panel-copy">
@@ -91,11 +54,19 @@ export function PlanchaSection({ siteImages }: PlanchaSectionProps) {
                 </div>
                 {src ? (
                   <div className="plancha-panel-media">
-                    <img src={src} alt={item.title} loading="lazy" decoding="async" />
+                    <Image
+                      src={src}
+                      alt={item.title}
+                      width={900}
+                      height={1200}
+                      sizes="(max-width: 767px) 100vw, 50vw"
+                      loading="lazy"
+                      decoding="async"
+                    />
                   </div>
                 ) : null}
               </article>
-            </motion.li>
+            </li>
           );
         })}
       </ol>

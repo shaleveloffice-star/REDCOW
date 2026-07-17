@@ -6,9 +6,9 @@ import { getCachedSiteImagesMap } from "@/lib/cache/cached-data";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
-  title: "אודות NB - אן בי",
+  title: "אודות | NB BURGER רעננה",
   description:
-    "אודות NB - אן בי. המבורגר בסיסי: בשר טוב, לחמנייה רכה, ירקות טריים ורוטב נכון, בחוויה מדויקת.",
+    "הכירו את NB BURGER — מסעדת המבורגרים ברעננה. בשר טוב, לחמנייה רכה וחוויה מדויקת על הפלנצ׳ה.",
   path: "/about"
 });
 

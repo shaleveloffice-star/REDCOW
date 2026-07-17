@@ -18,6 +18,8 @@ export type Messages = {
     atmosphere: string;
     club: string;
     location: string;
+    about: string;
+    branches: string;
   };
   hero: {
     tagline: string;

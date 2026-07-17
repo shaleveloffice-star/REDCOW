@@ -9,16 +9,17 @@ import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 const assistant = Assistant({
   subsets: ["hebrew", "latin"],
-  weight: ["300", "400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-assistant",
   display: "swap"
 });
 
-const DEFAULT_DESCRIPTION = "NB BURGER — המבורגרים, גריל ואווירה. nbburger.co.il";
+const DEFAULT_DESCRIPTION =
+  "מסעדת המבורגרים NB BURGER ברעננה — המבורגרים על הפלנצ׳ה, אווירה וטעם מדויק.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: SITE_NAME,
+  title: `${SITE_NAME} | המבורגר רעננה`,
   description: DEFAULT_DESCRIPTION,
   openGraph: {
     type: "website",

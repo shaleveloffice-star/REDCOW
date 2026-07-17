@@ -1,10 +1,7 @@
-"use client";
-
-import { Mail, MapPin, Phone } from "lucide-react";
-import { useMemo } from "react";
-
-import { useTranslations } from "@/components/providers/locale-provider";
+import { IconMail, IconMapPin, IconPhone } from "@/components/shared/site-icons";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
+import { getServerLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/messages";
 
 function InstagramIcon() {
   return (
@@ -38,23 +35,22 @@ function TikTokIcon() {
   );
 }
 
-export function SiteFooter() {
-  const t = useTranslations();
+export async function SiteFooter() {
+  const t = getMessages(await getServerLocale());
   const phone = BUSINESS.phone;
   const mapsUrl = getBusinessMapsSearchUrl();
 
-  const footerNavLinks = useMemo(
-    () => [
-      { label: t.nav.home, href: "/#hero" },
-      { label: t.nav.menu, href: "/#menu" },
-      { label: t.nav.plancha, href: "/#plancha" },
-      { label: t.nav.atmosphere, href: "/#atmosphere" },
-      { label: t.nav.location, href: "/#location" }
-    ],
-    [t]
-  );
+  const footerNavLinks = [
+    { label: t.nav.home, href: "/#hero" },
+    { label: t.nav.menu, href: "/#menu" },
+    { label: t.nav.plancha, href: "/#plancha" },
+    { label: t.nav.atmosphere, href: "/#atmosphere" },
+    { label: t.nav.location, href: "/#location" },
+    { label: t.nav.about, href: "/about" },
+    { label: t.nav.branches, href: "/branches" }
+  ];
 
-  const footerMenuItems = useMemo(() => [{ label: t.footer.fullMenu, href: "/menu" }], [t]);
+  const footerMenuItems = [{ label: t.footer.fullMenu, href: "/menu" }];
 
   return (
     <footer className="site-footer" id="contact">
@@ -63,11 +59,11 @@ export function SiteFooter() {
       <div className="site-footer-main">
         <div className="site-footer-grid">
           <section className="site-footer-brand" aria-label={BUSINESS.name}>
-            <h3 className="site-footer-logo">
+            <p className="site-footer-logo">
               NB
               <br />
               BURGER
-            </h3>
+            </p>
             <p className="site-footer-tagline">
               {t.footer.taglineLine1}
               <br />
@@ -76,22 +72,22 @@ export function SiteFooter() {
           </section>
 
           <section className="site-footer-block" aria-labelledby="footer-contact-title">
-            <h4 id="footer-contact-title" className="site-footer-heading">
+            <p id="footer-contact-title" className="site-footer-heading">
               {t.footer.contact}
-            </h4>
+            </p>
             <div className="site-footer-contact-list">
               {phone ? (
                 <a href={`tel:${phone}`} className="site-footer-contact-link">
-                  <Phone className="site-footer-icon" strokeWidth={1.5} aria-hidden="true" />
+                  <IconPhone className="site-footer-icon" />
                   <span>{phone}</span>
                 </a>
               ) : null}
               <p className="site-footer-contact-item">
-                <MapPin className="site-footer-icon" strokeWidth={1.5} aria-hidden="true" />
+                <IconMapPin className="site-footer-icon" />
                 <span>{t.location.address}</span>
               </p>
               <a href={`mailto:${BUSINESS.email}`} className="site-footer-contact-link">
-                <Mail className="site-footer-icon" strokeWidth={1.5} aria-hidden="true" />
+                <IconMail className="site-footer-icon" />
                 <span>{BUSINESS.email}</span>
               </a>
             </div>
@@ -132,14 +128,14 @@ export function SiteFooter() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <MapPin className="site-footer-social-icon" strokeWidth={1.5} />
+                  <IconMapPin className="site-footer-social-icon" />
                 </a>
               </div>
             </div>
           </section>
 
           <nav className="site-footer-block" aria-label={t.footer.nav}>
-            <h4 className="site-footer-heading">{t.footer.nav}</h4>
+            <p className="site-footer-heading">{t.footer.nav}</p>
             <div className="site-footer-links">
               {footerNavLinks.map((item) => (
                 <a key={item.href} href={item.href}>
@@ -150,9 +146,9 @@ export function SiteFooter() {
           </nav>
 
           <section className="site-footer-block" aria-labelledby="footer-menu-title">
-            <h4 id="footer-menu-title" className="site-footer-heading">
+            <p id="footer-menu-title" className="site-footer-heading">
               {t.footer.menu}
-            </h4>
+            </p>
             <div className="site-footer-links">
               {footerMenuItems.map((item) => (
                 <a key={item.href} href={item.href}>

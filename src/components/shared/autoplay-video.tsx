@@ -2,6 +2,8 @@
 
 import { useEffect, useRef } from "react";
 
+import { videoSourcesForMp4 } from "@/lib/video-sources";
+
 type AutoplayVideoProps = {
   src: string;
   className?: string;
@@ -75,7 +77,6 @@ export function AutoplayVideo({
     <video
       ref={videoRef}
       className={className}
-      src={src}
       autoPlay
       loop
       muted
@@ -85,6 +86,10 @@ export function AutoplayVideo({
       aria-label={ariaLabel}
       disablePictureInPicture
       controlsList="nodownload noplaybackrate noremoteplayback"
-    />
+    >
+      {videoSourcesForMp4(src).map((source) => (
+        <source key={source.type} src={source.src} type={source.type} />
+      ))}
+    </video>
   );
 }

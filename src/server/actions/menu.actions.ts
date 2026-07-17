@@ -31,8 +31,14 @@ export async function saveMenuItemAction(input: MenuItem) {
   await requireAdmin();
   const name = input.name.trim();
   if (!name) throw new Error("שם המנה נדרש");
+
   const price = Number(input.price);
   if (!Number.isFinite(price) || price < 0) throw new Error("מחיר לא תקין");
+
+  const isActive = Boolean(input.isActive);
+  if (isActive && price <= 0) {
+    throw new Error("לא ניתן לפרסם מנה פעילה במחיר 0. יש להגדיר מחיר גדול מ-0 או לבטל את הסימון פעיל.");
+  }
 
   const saved = await upsertMenuItem({
     ...input,
@@ -40,7 +46,7 @@ export async function saveMenuItemAction(input: MenuItem) {
     description: input.description.trim(),
     imageUrl: input.imageUrl.trim() || "/images/menu/placeholder.svg",
     price,
-    isActive: Boolean(input.isActive),
+    isActive,
     tags: Array.isArray(input.tags) ? input.tags : []
   });
 

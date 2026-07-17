@@ -1,10 +1,10 @@
 "use client";
 
-import { AnimatePresence, motion } from "framer-motion";
-import { X } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
+import { IconClose } from "@/components/shared/site-icons";
+import { SITE_WORDMARK_SRC, SITE_WORDMARK_WEBP_SRC } from "@/data/brand-assets";
 import { useTranslations } from "@/components/providers/locale-provider";
 
 type SiteNavbarProps = {
@@ -22,7 +22,9 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
       { label: t.nav.plancha, href: "/#plancha" },
       { label: t.nav.atmosphere, href: "/#atmosphere" },
       { label: t.nav.club, href: "/#club" },
-      { label: t.nav.location, href: "/#location" }
+      { label: t.nav.location, href: "/#location" },
+      { label: t.nav.about, href: "/about" },
+      { label: t.nav.branches, href: "/branches" }
     ],
     [t]
   );
@@ -52,13 +54,18 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
       <header className={navClass}>
         <nav className="site-navbar-inner" aria-label={t.nav.main}>
           <Link href="/#hero" className="site-navbar-brand">
-            <img
-              className="site-navbar-logo"
-              src="/images/brand/nb-burger-wordmark-alpha.png?v=4"
-              alt="NB BURGER"
-              width={160}
-              height={72}
-            />
+            <picture>
+              <source srcSet={SITE_WORDMARK_WEBP_SRC} type="image/webp" />
+              <img
+                className="site-navbar-logo"
+                src={SITE_WORDMARK_SRC}
+                alt="NB BURGER"
+                width={160}
+                height={72}
+                decoding="async"
+                fetchPriority="low"
+              />
+            </picture>
           </Link>
           <button
             type="button"
@@ -74,42 +81,31 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
         </nav>
       </header>
 
-      <AnimatePresence>
-        {isOpen ? (
-          <motion.div
-            key="site-nav-overlay"
-            className="site-nav-overlay"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
+      {isOpen ? (
+        <div className="site-nav-overlay site-nav-overlay--open" role="dialog" aria-modal="true">
+          <button
+            type="button"
+            className="site-nav-overlay-close"
+            aria-label={t.nav.closeMenu}
+            onClick={() => setIsOpen(false)}
           >
-            <button
-              type="button"
-              className="site-nav-overlay-close"
-              aria-label={t.nav.closeMenu}
-              onClick={() => setIsOpen(false)}
-            >
-              <X strokeWidth={1.5} aria-hidden="true" />
-            </button>
-            <div className="site-nav-overlay-links">
-              {navLinks.map((link, index) => (
-                <motion.a
-                  key={link.href}
-                  href={link.href}
-                  className="site-nav-overlay-link"
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.08, duration: 0.35 }}
-                  onClick={() => setIsOpen(false)}
-                >
-                  {link.label}
-                </motion.a>
-              ))}
-            </div>
-          </motion.div>
-        ) : null}
-      </AnimatePresence>
+            <IconClose />
+          </button>
+          <div className="site-nav-overlay-links">
+            {navLinks.map((link, index) => (
+              <a
+                key={link.href}
+                href={link.href}
+                className="site-nav-overlay-link"
+                style={{ animationDelay: `${index * 0.08}s` }}
+                onClick={() => setIsOpen(false)}
+              >
+                {link.label}
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : null}
     </>
   );
 }

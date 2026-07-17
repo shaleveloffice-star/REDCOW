@@ -48,7 +48,7 @@ export const BUSINESS = {
   /** No approved phone yet — do not invent one */
   phone: null as string | null,
 
-  email: "hello@nbburger.co.il",
+  email: "official.nbburger@gmail.com",
 
   website: "https://nbburger.co.il",
 
@@ -63,7 +63,7 @@ export const BUSINESS = {
     delivery: true,
     /** No approved delivery URL yet */
     deliveryUrl: null as string | null,
-    takeaway: true,
+    takeaway: false,
     /** No approved pickup URL yet */
     takeawayUrl: null as string | null
   },

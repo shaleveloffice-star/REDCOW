@@ -12,6 +12,7 @@ import {
   Star,
   User
 } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState, useTransition } from "react";
 
@@ -146,13 +147,14 @@ export function CustomerClubSection() {
                   <div className="customer-club-social-row">
                     <div className="customer-club-avatars" aria-hidden="true">
                       {CLUB_MEMBER_AVATARS.map((src, index) => (
-                        <img
+                        <Image
                           key={src}
                           className="customer-club-avatar"
                           src={src}
                           alt=""
                           width={36}
                           height={36}
+                          sizes="36px"
                           loading="lazy"
                           style={{ zIndex: CLUB_MEMBER_AVATARS.length - index }}
                         />
@@ -185,12 +187,13 @@ export function CustomerClubSection() {
         </header>
 
         <div className="customer-club-hero" aria-hidden="true">
-          <img
+          <Image
             className="customer-club-hero-image"
             src={CLUB_HERO_IMAGE}
             alt={t.customerClub.burgerAlt}
             width={2100}
             height={2100}
+            sizes="(max-width: 767px) 100vw, 40vw"
             loading="lazy"
           />
         </div>

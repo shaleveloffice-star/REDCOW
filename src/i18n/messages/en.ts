@@ -15,7 +15,9 @@ export const en: Messages = {
     plancha: "On the Plancha",
     atmosphere: "Atmosphere",
     club: "Customer Club",
-    location: "Location & Hours"
+    location: "Location & Hours",
+    about: "About",
+    branches: "Locations"
   },
   hero: {
     tagline: "Simply a good burger.",

@@ -114,7 +114,15 @@ function AssemblyLayer({ layer, src, progress, reduceMotion }: AssemblyLayerProp
         scale
       }}
     >
-      <img src={src} alt={layer.alt} className="burger-assembly__layer-image" draggable={false} />
+      <img
+        src={src}
+        alt={layer.alt}
+        className="burger-assembly__layer-image"
+        draggable={false}
+        loading="lazy"
+        decoding="async"
+        fetchPriority="low"
+      />
     </motion.div>
   );
 }

@@ -1,5 +1,8 @@
+import Image from "next/image";
 import Link from "next/link";
+
 import { SITE_LOGO_SRC } from "@/components/layout/site-logo";
+import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { ABOUT_PAGE_IMAGES as IMG } from "@/data/site-images.registry";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
@@ -22,25 +25,41 @@ export function AboutPageView({ siteImages }: AboutPageViewProps) {
   const experience = pickSiteImage(siteImages, "about-experience", IMG.experience);
   const smoked = pickSiteImage(siteImages, "about-smoked", IMG.smoked);
   const logo = pickSiteImage(siteImages, "brand-logo", SITE_LOGO_SRC);
+  const mapsUrl = getBusinessMapsSearchUrl();
   return (
     <>
       <section className="about-hero" aria-labelledby="about-hero-title">
         <div className="about-hero-bg" aria-hidden="true">
-          <img src={hero} alt="" className="about-hero-bg-img" width={1600} height={900} />
+          <Image
+            src={hero}
+            alt=""
+            fill
+            priority
+            sizes="100vw"
+            className="about-hero-bg-img"
+            style={{ objectFit: "cover", objectPosition: "center 40%" }}
+          />
           <div className="about-hero-scrim" />
         </div>
         <div className="about-hero-content page-shell">
-          <img className="about-hero-mark" src={logo} alt="" width={200} height={100} />
+          <Image
+            className="about-hero-mark"
+            src={logo}
+            alt=""
+            width={200}
+            height={100}
+            sizes="(max-width: 767px) 120px, 200px"
+          />
           <p className="menu-highlights-kicker about-hero-kicker">About Us</p>
           <h1 id="about-hero-title" className="about-hero-title">
-            אודות NB - אן בי
+            אודות NB BURGER
           </h1>
           <p className="about-hero-sub">
             יש מקומות שמנסים להמציא את ההמבורגר מחדש.
             <span className="about-hero-sub-break">אנחנו לא שם.</span>
           </p>
           <div className="about-hero-cta">
-            <Link className="about-btn about-btn-primary" href="/#menu">
+            <Link className="about-btn about-btn-primary" href="/menu">
               לתפריט
             </Link>
             <a className="about-btn about-btn-ghost" href="/branches">
@@ -52,8 +71,15 @@ export function AboutPageView({ siteImages }: AboutPageViewProps) {
 
       <div className="about-page-content page-shell section">
         <p className="about-intro-narrow">
-          ב־NB - אן בי לקחנו את הדבר הכי בסיסי, בשר טוב, לחמנייה רכה, ירקות טריים ורוטב נכון, ובנינו סביבו חוויה
-          מדויקת.
+          {`ב־${BUSINESS.name} לקחנו את הדבר הכי בסיסי, בשר טוב, לחמנייה רכה, ירקות טריים ורוטב נכון, ובנינו סביבו חוויה מדויקת.`}
+        </p>
+        <p className="about-intro-narrow">
+          {`את החוויה הזאת אנחנו מביאים ב${BUSINESS.address.streetAddress} ב${BUSINESS.address.addressLocality} — מסעדה ${BUSINESS.kosherHe}, עם המבורגרים על הפלנצ׳ה באווירה פשוטה, מדויקת ולא מתאמצת.`}
+        </p>
+        <p className="about-intro-narrow">
+          <a href={mapsUrl} target="_blank" rel="noopener noreferrer">
+            {`ניווט ל-${BUSINESS.name} ב${BUSINESS.address.addressLocality}`}
+          </a>
         </p>
 
         <div className="about-split about-split-text-start">
@@ -67,7 +93,14 @@ export function AboutPageView({ siteImages }: AboutPageViewProps) {
           </div>
           <figure className="about-split-figure">
             <div className="about-frame">
-              <img src={classic} alt="המבורגר — בשר וצריבה נכונה" width={640} height={480} loading="lazy" />
+              <Image
+                src={classic}
+                alt="המבורגר — בשר וצריבה נכונה"
+                width={640}
+                height={480}
+                sizes="(max-width: 767px) 100vw, 50vw"
+                loading="lazy"
+              />
             </div>
           </figure>
         </div>
@@ -75,7 +108,14 @@ export function AboutPageView({ siteImages }: AboutPageViewProps) {
         <div className="about-split about-split-img-start">
           <figure className="about-split-figure">
             <div className="about-frame about-frame-accent">
-              <img src={fries} alt="תוספות וצ׳יפס ליד הבורגר" width={640} height={480} loading="lazy" />
+              <Image
+                src={fries}
+                alt="תוספות וצ׳יפס ליד הבורגר"
+                width={640}
+                height={480}
+                sizes="(max-width: 767px) 100vw, 50vw"
+                loading="lazy"
+              />
             </div>
           </figure>
           <div className="about-split-copy">
@@ -99,13 +139,34 @@ export function AboutPageView({ siteImages }: AboutPageViewProps) {
         <section className="about-strip" aria-label="תמונות מהמטבח והמסעדה">
           <div className="about-strip-inner">
             <div className="about-strip-card">
-              <img src={smoked} alt="מנת המבורגר מהתפריט" width={400} height={300} loading="lazy" />
+              <Image
+                src={smoked}
+                alt="מנת המבורגר מהתפריט"
+                width={400}
+                height={300}
+                sizes="(max-width: 767px) 100vw, 33vw"
+                loading="lazy"
+              />
             </div>
             <div className="about-strip-card">
-              <img src={experience} alt="חוויית האוכל ב-NB" width={400} height={300} loading="lazy" />
+              <Image
+                src={experience}
+                alt="חוויית האוכל ב-NB"
+                width={400}
+                height={300}
+                sizes="(max-width: 767px) 100vw, 33vw"
+                loading="lazy"
+              />
             </div>
             <div className="about-strip-card">
-              <img src={classic} alt="המבורגר קלאסי" width={400} height={300} loading="lazy" />
+              <Image
+                src={classic}
+                alt="המבורגר קלאסי"
+                width={400}
+                height={300}
+                sizes="(max-width: 767px) 100vw, 33vw"
+                loading="lazy"
+              />
             </div>
           </div>
         </section>
@@ -115,14 +176,21 @@ export function AboutPageView({ siteImages }: AboutPageViewProps) {
             <p className="about-section-kicker">התחושה</p>
             <h2 className="about-section-title">מקום שחוזרים אליו</h2>
             <p>
-              NB - אן בי נבנתה כמו מקום שחוזרים אליו.
+              NB BURGER נבנתה כמו מקום שחוזרים אליו.
               <br />
               לא רק בגלל האוכל, אלא בגלל התחושה.
             </p>
           </div>
           <figure className="about-split-figure">
             <div className="about-frame">
-              <img src={experience} alt="אווירת המקום" width={640} height={480} loading="lazy" />
+              <Image
+                src={experience}
+                alt="אווירת המקום"
+                width={640}
+                height={480}
+                sizes="(max-width: 767px) 100vw, 50vw"
+                loading="lazy"
+              />
             </div>
           </figure>
         </div>
@@ -154,7 +222,7 @@ export function AboutPageView({ siteImages }: AboutPageViewProps) {
 
         <div className="about-bottom-cta">
           <p className="about-bottom-cta-text">מוכנים לביס הבא?</p>
-          <Link className="about-btn about-btn-primary about-btn-lg" href="/#menu">
+          <Link className="about-btn about-btn-primary about-btn-lg" href="/menu">
             לתפריט המלא
           </Link>
         </div>

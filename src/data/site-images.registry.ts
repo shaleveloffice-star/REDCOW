@@ -39,8 +39,7 @@ export const BURGER_ASSEMBLY_IMAGES = {
   bunBottom: "/burger/bun-bottom.png"
 } as const;
 
-export const LOCATION_EXTERIOR_IMAGE =
-  "https://media.base44.com/images/public/6a10bf460e2c0b52f6df3949/f40491832_generated_9eac8545.png";
+export const LOCATION_EXTERIOR_IMAGE = "/images/location/exterior.jpg";
 
 export const ABOUT_PAGE_IMAGES = {
   hero: "/images/hero/burger-hero.png",

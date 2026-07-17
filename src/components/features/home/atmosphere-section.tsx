@@ -9,7 +9,7 @@ import {
   useTransform
 } from "framer-motion";
 
-import { BurgerAssemblyStage } from "@/components/features/home/burger-assembly-section";
+import { LazyBurgerAssemblyStage } from "@/components/features/home/lazy-burger-assembly";
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import {
   ATMOSPHERE_FOOD_IMAGE,
@@ -126,7 +126,7 @@ export function AtmosphereSection({
             <div className="atmosphere-gallery">
               <AtmosphereBurgerStack reduceMotion={reduceMotion} animateOnScroll={false}>
                 <div className="atmosphere-gallery-item atmosphere-gallery-item--burger-single burger-assembly--embedded">
-                  <BurgerAssemblyStage />
+                  <LazyBurgerAssemblyStage />
                 </div>
               </AtmosphereBurgerStack>
             </div>

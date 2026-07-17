@@ -240,10 +240,10 @@
     "price": 0,
     "categoryId": "cat-burgers",
     "imageUrl": "/images/menu/-NB-BURGER-1782572822256.png",
-    "isActive": true,
+    "isActive": false,
     "tags": [],
     "sortOrder": 17,
     "createdAt": "2026-06-27T15:06:28.372Z",
-    "updatedAt": "2026-06-27T15:07:09.845Z"
+    "updatedAt": "2026-07-17T07:24:00.000Z"
   }
 ]

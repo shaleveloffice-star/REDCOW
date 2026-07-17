@@ -1,42 +1,25 @@
+import { BUSINESS } from "@/data/business";
 import type { OrderLink, SiteSettings } from "@/types/content";
 
 const now = "2026-05-17T07:00:00.000Z";
 
 export const mockSiteSettings: SiteSettings = {
-  siteName: "NB BURGER",
-  seoTitle: "NB BURGER | המבורגרים, גריל ואווירה",
-  seoDescription: "NB BURGER מגישה המבורגרים, תוספות וארוחות בשר באווירה חמה.",
+  siteName: BUSINESS.name,
+  seoTitle: `${BUSINESS.name} | המבורגרים, גריל ואווירה`,
+  seoDescription: `${BUSINESS.name} מגישה המבורגרים, תוספות וארוחות בשר באווירה חמה.`,
   heroMediaType: "video",
   heroMediaUrl: "/videos/hero-nb-experience.mp4",
-  heroMediaAlt: "חוויה במסעדת NB BURGER",
-  phone: "12345678",
-  email: "hello@nbburger.co.il",
-  instagramUrl: "https://instagram.com",
-  orderDeliveryUrl: "https://example.com/delivery",
-  orderPickupUrl: "https://example.com/pickup",
+  heroMediaAlt: `חוויה במסעדת ${BUSINESS.name}`,
+  phone: BUSINESS.phone ?? "",
+  email: BUSINESS.email,
+  instagramUrl: BUSINESS.social.instagram,
+  facebookUrl: BUSINESS.social.facebook,
+  tiktokUrl: BUSINESS.social.tiktok,
+  orderDeliveryUrl: BUSINESS.serviceOptions.deliveryUrl ?? "",
+  orderPickupUrl: BUSINESS.serviceOptions.takeawayUrl ?? "",
   ogImageUrl: "/images/hero/nb-burger-hero.jpg",
   updatedAt: now
 };
 
-export const mockOrderLinks: OrderLink[] = [
-  {
-    id: "order-delivery",
-    label: "משלוחים",
-    type: "delivery",
-    url: "https://example.com/delivery",
-    sortOrder: 1,
-    isActive: true,
-    createdAt: now,
-    updatedAt: now
-  },
-  {
-    id: "order-pickup",
-    label: "איסוף עצמי",
-    type: "pickup",
-    url: "https://example.com/pickup",
-    sortOrder: 2,
-    isActive: true,
-    createdAt: now,
-    updatedAt: now
-  }
-];
+/** No approved order links yet — keep empty until real URLs are provided */
+export const mockOrderLinks: OrderLink[] = [];

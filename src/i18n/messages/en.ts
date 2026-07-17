@@ -1,3 +1,4 @@
+import { BUSINESS } from "@/data/business";
 import type { Messages } from "./types";
 
 export const en: Messages = {
@@ -123,7 +124,7 @@ export const en: Messages = {
   location: {
     title: "Location & Hours",
     locationHeading: "Location",
-    address: "1 Weizmann St., Kfar Saba",
+    address: BUSINESS.address.formatted.en,
     parking: "Plenty of free parking",
     hoursHeading: "Opening Hours",
     days: {
@@ -132,9 +133,8 @@ export const en: Messages = {
       sat: "Saturday"
     },
     hours: {
-      sunThu: "11:00 AM - 11:00 PM",
-      fri: "11:00 AM - one hour before Shabbat",
-      sat: "12:00 PM - 11:00 PM"
+      sunThu: BUSINESS.displayHours.weekday,
+      sat: BUSINESS.displayHours.saturday
     },
     navigate: "Get Directions",
     imageAlt: "Restaurant exterior"

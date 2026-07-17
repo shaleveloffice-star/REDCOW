@@ -14,7 +14,7 @@ export default async function AdminSettingsPage() {
           </div>
           <div>
             <p className="muted">טלפון</p>
-            <strong>{settings.phone}</strong>
+            <strong>{settings.phone.trim() ? settings.phone : "לא הוגדר"}</strong>
           </div>
           <div>
             <p className="muted">אימייל</p>

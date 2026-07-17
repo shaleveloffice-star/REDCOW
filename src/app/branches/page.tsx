@@ -3,11 +3,13 @@ import { BranchesPageView } from "@/components/features/branches/branches-page-v
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { listBranches } from "@/services/branches.service";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "סניפים | NB BURGER",
-  description: "סניפי NB BURGER — הסניף הראשון בפתיחה בקרוב. עדכונים על מיקום ושעות פתיחה."
-};
+  description: "סניפי NB BURGER — הסניף הראשון בפתיחה בקרוב. עדכונים על מיקום ושעות פתיחה.",
+  path: "/branches"
+});
 
 export default async function BranchesPage() {
   const branches = await listBranches({ activeOnly: true });

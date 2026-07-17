@@ -110,7 +110,8 @@ export type Messages = {
     };
     hours: {
       sunThu: string;
-      fri: string;
+      /** Omitted when Friday hours are not approved */
+      fri?: string;
       sat: string;
     };
     navigate: string;

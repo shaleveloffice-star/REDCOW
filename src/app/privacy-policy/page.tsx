@@ -1,10 +1,14 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { BUSINESS } from "@/data/business";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
-  title: "מדיניות פרטיות | NB BURGER"
-};
+export const metadata: Metadata = buildPageMetadata({
+  title: "מדיניות פרטיות | NB BURGER",
+  description: "מדיניות הפרטיות של NB BURGER — איך אנחנו אוספים, שומרים ומגנים על מידע אישי באתר.",
+  path: "/privacy-policy"
+});
 
 const introParagraphs = [
   "ברוכים הבאים לאתר NB BURGER - אן בי בורגר.",
@@ -27,11 +31,10 @@ const privacySections = [
       "לכל שאלה בנושא פרטיות ניתן לפנות אלינו באמצעות פרטי הקשר המופיעים בסוף מסמך זה."
     ],
     items: [
-      "שם העסק: NB BURGER - אן בי בורגר",
+      `שם העסק: ${BUSINESS.name}`,
       "תחום פעילות: מסעדה / רשת המבורגרים / שירותי מזון",
-      "טלפון: 12345678",
-      "דוא\"ל: hello@nbburger.co.il",
-      "כתובת העסק: רח׳ ויצמן 1, כפר סבא"
+      `דוא\"ל: ${BUSINESS.email}`,
+      `כתובת העסק: ${BUSINESS.address.formattedWithCountry.he}`
     ]
   },
   {
@@ -336,10 +339,9 @@ const privacySections = [
       "נפעל לבחון את פנייתך ולהשיב בהתאם להוראות הדין."
     ],
     items: [
-      "שם העסק: NB BURGER - אן בי בורגר",
-      "טלפון: 12345678",
-      "דוא\"ל: hello@nbburger.co.il",
-      "כתובת: רח׳ ויצמן 1, כפר סבא"
+      `שם העסק: ${BUSINESS.name}`,
+      `דוא\"ל: ${BUSINESS.email}`,
+      `כתובת: ${BUSINESS.address.formattedWithCountry.he}`
     ]
   }
 ];

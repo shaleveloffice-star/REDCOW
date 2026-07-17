@@ -4,11 +4,10 @@ import { motion } from "framer-motion";
 import { Clock, Map, MapPin } from "lucide-react";
 
 import { useTranslations } from "@/components/providers/locale-provider";
+import { getBusinessMapsSearchUrl } from "@/data/business";
 import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
-
-const MAPS_URL = "https://maps.google.com/?q=רח+ויצמן+1+כפר+סבא";
 
 type LocationSectionProps = {
   siteImages?: SiteImagesMap;
@@ -17,6 +16,7 @@ type LocationSectionProps = {
 export function LocationSection({ siteImages }: LocationSectionProps) {
   const t = useTranslations();
   const exteriorImage = pickSiteImage(siteImages, "location-exterior", LOCATION_EXTERIOR_IMAGE);
+  const mapsUrl = getBusinessMapsSearchUrl();
 
   return (
     <section id="location" className="location-section" aria-labelledby="location-title">
@@ -67,10 +67,12 @@ export function LocationSection({ siteImages }: LocationSectionProps) {
                 <dt className="location-hours-day">{t.location.days.sunThu}</dt>
                 <dd className="location-hours-time">{t.location.hours.sunThu}</dd>
               </div>
-              <div>
-                <dt className="location-hours-day">{t.location.days.fri}</dt>
-                <dd className="location-hours-time">{t.location.hours.fri}</dd>
-              </div>
+              {t.location.hours.fri ? (
+                <div>
+                  <dt className="location-hours-day">{t.location.days.fri}</dt>
+                  <dd className="location-hours-time">{t.location.hours.fri}</dd>
+                </div>
+              ) : null}
               <div>
                 <dt className="location-hours-day">{t.location.days.sat}</dt>
                 <dd className="location-hours-time">{t.location.hours.sat}</dd>
@@ -79,7 +81,7 @@ export function LocationSection({ siteImages }: LocationSectionProps) {
           </motion.div>
 
           <motion.a
-            href={MAPS_URL}
+            href={mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="location-cta"

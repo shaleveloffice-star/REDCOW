@@ -4,6 +4,7 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { useMemo } from "react";
 
 import { useTranslations } from "@/components/providers/locale-provider";
+import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 
 function InstagramIcon() {
   return (
@@ -26,10 +27,21 @@ function FacebookIcon() {
   );
 }
 
-const MAPS_URL = "https://maps.google.com/?q=רח+ויצמן+1+כפר+סבא";
+function TikTokIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="site-footer-social-icon" aria-hidden="true">
+      <path
+        d="M19.6 8.2a5.8 5.8 0 0 1-3.4-1.1v7.2a5.3 5.3 0 1 1-4.5-5.2v2.5a2.8 2.8 0 1 0 2 2.7V3h2.5a5.8 5.8 0 0 0 3.4 3.4v1.8Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
 
 export function SiteFooter() {
   const t = useTranslations();
+  const phone = BUSINESS.phone;
+  const mapsUrl = getBusinessMapsSearchUrl();
 
   const footerNavLinks = useMemo(
     () => [
@@ -50,7 +62,7 @@ export function SiteFooter() {
 
       <div className="site-footer-main">
         <div className="site-footer-grid">
-          <section className="site-footer-brand" aria-label="NB BURGER">
+          <section className="site-footer-brand" aria-label={BUSINESS.name}>
             <h3 className="site-footer-logo">
               NB
               <br />
@@ -68,24 +80,26 @@ export function SiteFooter() {
               {t.footer.contact}
             </h4>
             <div className="site-footer-contact-list">
-              <a href="tel:12345678" className="site-footer-contact-link">
-                <Phone className="site-footer-icon" strokeWidth={1.5} aria-hidden="true" />
-                <span>12345678</span>
-              </a>
+              {phone ? (
+                <a href={`tel:${phone}`} className="site-footer-contact-link">
+                  <Phone className="site-footer-icon" strokeWidth={1.5} aria-hidden="true" />
+                  <span>{phone}</span>
+                </a>
+              ) : null}
               <p className="site-footer-contact-item">
                 <MapPin className="site-footer-icon" strokeWidth={1.5} aria-hidden="true" />
                 <span>{t.location.address}</span>
               </p>
-              <a href="mailto:hello@nbburger.co.il" className="site-footer-contact-link">
+              <a href={`mailto:${BUSINESS.email}`} className="site-footer-contact-link">
                 <Mail className="site-footer-icon" strokeWidth={1.5} aria-hidden="true" />
-                <span>hello@nbburger.co.il</span>
+                <span>{BUSINESS.email}</span>
               </a>
             </div>
             <div className="site-footer-social-wrap">
               <p className="site-footer-social-label">{t.footer.followUs}</p>
               <div className="site-footer-socials">
                 <a
-                  href="https://instagram.com"
+                  href={BUSINESS.social.instagram}
                   className="site-footer-social"
                   aria-label="Instagram"
                   target="_blank"
@@ -94,7 +108,7 @@ export function SiteFooter() {
                   <InstagramIcon />
                 </a>
                 <a
-                  href="https://facebook.com"
+                  href={BUSINESS.social.facebook}
                   className="site-footer-social"
                   aria-label="Facebook"
                   target="_blank"
@@ -103,7 +117,16 @@ export function SiteFooter() {
                   <FacebookIcon />
                 </a>
                 <a
-                  href={MAPS_URL}
+                  href={BUSINESS.social.tiktok}
+                  className="site-footer-social"
+                  aria-label="TikTok"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <TikTokIcon />
+                </a>
+                <a
+                  href={mapsUrl}
                   className="site-footer-social"
                   aria-label={t.footer.mapAria}
                   target="_blank"

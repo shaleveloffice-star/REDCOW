@@ -71,10 +71,15 @@ export type SiteSettings = {
   heroMediaType: "none" | "image" | "video";
   heroMediaUrl: string;
   heroMediaAlt: string;
+  /** Empty until an approved phone number is set */
   phone: string;
   email: string;
   instagramUrl: string;
+  facebookUrl: string;
+  tiktokUrl: string;
+  /** Empty until an approved delivery URL is set */
   orderDeliveryUrl: string;
+  /** Empty until an approved pickup URL is set */
   orderPickupUrl: string;
   ogImageUrl: string;
   updatedAt: ISODateString;

@@ -1,3 +1,5 @@
+import type { Metadata } from "next";
+
 import { CustomerClubSection } from "@/components/features/home/customer-club-section";
 import { HeroSection } from "@/components/features/home/hero-section";
 import { AtmosphereSection } from "@/components/features/home/atmosphere-section";
@@ -14,6 +16,13 @@ import {
   getCachedSettings,
   getCachedSiteImagesMap
 } from "@/lib/cache/cached-data";
+import { buildPageMetadata } from "@/lib/seo";
+
+export const metadata: Metadata = buildPageMetadata({
+  title: "NB BURGER",
+  description: "NB BURGER — המבורגרים, גריל ואווירה. nbburger.co.il",
+  path: "/"
+});
 
 export default async function HomePage() {
   const [settings, orderLinks, siteImages, homepageMenuItems] = await Promise.all([

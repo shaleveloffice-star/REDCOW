@@ -1,3 +1,4 @@
+import { BUSINESS } from "@/data/business";
 import type { Messages } from "./types";
 
 export const he: Messages = {
@@ -123,7 +124,7 @@ export const he: Messages = {
   location: {
     title: "מיקום ושעות",
     locationHeading: "מיקום",
-    address: "רח׳ ויצמן 1, כפר סבא",
+    address: BUSINESS.address.formatted.he,
     parking: "חניה חופשית בשפע",
     hoursHeading: "שעות פתיחה",
     days: {
@@ -132,9 +133,8 @@ export const he: Messages = {
       sat: "שבת"
     },
     hours: {
-      sunThu: "11:00 - 23:00",
-      fri: "11:00 - סוף שעה לפני שבת",
-      sat: "12:00 - 23:00"
+      sunThu: BUSINESS.displayHours.weekday,
+      sat: BUSINESS.displayHours.saturday
     },
     navigate: "נווטו אלינו",
     imageAlt: "חזית המסעדה"

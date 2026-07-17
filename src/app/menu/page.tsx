@@ -4,11 +4,13 @@ import { MenuPageView } from "@/components/features/menu/menu-page-view";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { getCachedMenuForDisplay } from "@/lib/cache/cached-data";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "תפריט | NB BURGER",
-  description: "התפריט המלא של NB BURGER — המבורגרים, תוספות, שתייה ועוד."
-};
+  description: "התפריט המלא של NB BURGER — המבורגרים, תוספות, שתייה ועוד.",
+  path: "/menu"
+});
 
 export default async function MenuPage() {
   const groups = await getCachedMenuForDisplay();

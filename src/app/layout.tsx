@@ -5,6 +5,7 @@ import "./globals.css";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { getDirection } from "@/i18n/config";
 import { getServerLocale } from "@/i18n/get-locale";
+import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 const assistant = Assistant({
   subsets: ["hebrew", "latin"],
@@ -13,9 +14,26 @@ const assistant = Assistant({
   display: "swap"
 });
 
+const DEFAULT_DESCRIPTION = "NB BURGER — המבורגרים, גריל ואווירה. nbburger.co.il";
+
 export const metadata: Metadata = {
-  title: "NB BURGER",
-  description: "NB BURGER — המבורגרים, גריל ואווירה. nbburger.co.il"
+  metadataBase: new URL(SITE_URL),
+  title: SITE_NAME,
+  description: DEFAULT_DESCRIPTION,
+  openGraph: {
+    type: "website",
+    siteName: SITE_NAME,
+    locale: "he_IL",
+    title: SITE_NAME,
+    description: DEFAULT_DESCRIPTION,
+    images: [{ url: DEFAULT_OG_IMAGE, alt: SITE_NAME }]
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: SITE_NAME,
+    description: DEFAULT_DESCRIPTION,
+    images: [DEFAULT_OG_IMAGE]
+  }
 };
 
 export default async function RootLayout({

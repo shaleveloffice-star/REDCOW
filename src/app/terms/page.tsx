@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
+import { BUSINESS } from "@/data/business";
+import { buildPageMetadata } from "@/lib/seo";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = buildPageMetadata({
   title: "תקנון אתר ותנאי שימוש | NB BURGER",
-  description: "תקנון האתר ותנאי השימוש של NB BURGER."
-};
+  description: "תקנון האתר ותנאי השימוש של NB BURGER.",
+  path: "/terms"
+});
 
 const introParagraphs = [
   "ברוכים הבאים לאתר NB BURGER (להלן: \"האתר\").",
@@ -127,12 +130,8 @@ const termsSections: TermsSection[] = [
   },
   {
     title: "12. יצירת קשר",
-    paragraphs: ["NB BURGER"],
-    items: [
-      "טלפון: 12345678",
-      "דוא״ל: hello@nbburger.co.il",
-      "כתובת: רח׳ ויצמן 1, כפר סבא"
-    ]
+    paragraphs: [BUSINESS.name],
+    items: [`דוא״ל: ${BUSINESS.email}`, `כתובת: ${BUSINESS.address.formattedWithCountry.he}`]
   }
 ];
 

@@ -1,4 +1,4 @@
-import { normalizeFirebasePrivateKey } from "@/lib/firebase/admin-core";
+import { normalizeFirebasePrivateKey } from "@/lib/firebase/private-key";
 
 export type AdminAuthMode = "open" | "mock" | "password" | "firebase";
 

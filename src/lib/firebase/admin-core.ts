@@ -1,25 +1,8 @@
 import { cert, getApps, initializeApp, type App } from "firebase-admin/app";
 
-/**
- * Normalize Vercel/env paste quirks: optional wrapping quotes and literal \n sequences.
- * Does not log the key.
- */
-export function normalizeFirebasePrivateKey(raw: string | undefined): string | null {
-  if (!raw) {
-    return null;
-  }
+import { normalizeFirebasePrivateKey } from "@/lib/firebase/private-key";
 
-  let key = raw.trim();
-  if (
-    (key.startsWith('"') && key.endsWith('"')) ||
-    (key.startsWith("'") && key.endsWith("'"))
-  ) {
-    key = key.slice(1, -1).trim();
-  }
-
-  key = key.replace(/\\n/g, "\n");
-  return key.length > 0 ? key : null;
-}
+export { normalizeFirebasePrivateKey } from "@/lib/firebase/private-key";
 
 export function getAdminApp(): App | null {
   const projectId = process.env.FIREBASE_PROJECT_ID?.trim();

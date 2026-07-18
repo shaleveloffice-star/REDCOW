@@ -10,6 +10,11 @@ export function getAdminApp(): App | null {
   const privateKey = normalizeFirebasePrivateKey(process.env.FIREBASE_PRIVATE_KEY);
 
   if (!projectId || !clientEmail || !privateKey) {
+    console.error("[AdminAuth] Admin SDK env incomplete", {
+      hasProjectId: Boolean(projectId),
+      hasClientEmail: Boolean(clientEmail),
+      hasPrivateKey: Boolean(privateKey)
+    });
     return null;
   }
 
@@ -17,9 +22,17 @@ export function getAdminApp(): App | null {
     return getApps()[0] ?? null;
   }
 
-  return initializeApp({
-    credential: cert({ projectId, clientEmail, privateKey })
-  });
+  try {
+    return initializeApp({
+      credential: cert({ projectId, clientEmail, privateKey })
+    });
+  } catch (error) {
+    console.error(
+      "[AdminAuth] Admin SDK initializeApp/cert failed",
+      error instanceof Error ? error.message : "error"
+    );
+    return null;
+  }
 }
 
 export function isFirebaseAdminConfigured() {

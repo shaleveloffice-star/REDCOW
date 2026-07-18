@@ -102,7 +102,17 @@ export async function authenticateWithFirebase(
   }
 
   const { getAdminAuth } = await import("@/lib/firebase/admin-auth");
-  const adminAuth = getAdminAuth();
+  let adminAuth;
+  try {
+    adminAuth = getAdminAuth();
+  } catch (error) {
+    console.error(
+      "[AdminAuth] getAdminAuth threw",
+      error instanceof Error ? error.message : "error"
+    );
+    logAdminAuthEnvDiagnostics("getAdminAuth threw");
+    return { ok: false, code: "config_error" };
+  }
   if (!adminAuth) {
     logAdminAuthEnvDiagnostics("Firebase Admin Auth unavailable at login");
     return { ok: false, code: "config_error" };

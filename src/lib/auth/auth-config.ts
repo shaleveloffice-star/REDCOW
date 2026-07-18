@@ -111,14 +111,16 @@ export function getAdminAuthEnvDiagnostics(): EnvVarCheck[] {
         ? "missing"
         : !privateKey
           ? "invalid"
-          : privateKey.includes("BEGIN PRIVATE KEY")
+          : privateKey.includes("BEGIN PRIVATE KEY") ||
+              privateKey.includes("BEGIN RSA PRIVATE KEY")
             ? "ok"
             : "invalid",
       hint: !process.env.FIREBASE_PRIVATE_KEY?.trim()
         ? "missing"
         : !privateKey
           ? "normalize failed"
-          : privateKey.includes("BEGIN PRIVATE KEY")
+          : privateKey.includes("BEGIN PRIVATE KEY") ||
+              privateKey.includes("BEGIN RSA PRIVATE KEY")
             ? "pem_shape_ok"
             : "pem_shape_unexpected"
     }

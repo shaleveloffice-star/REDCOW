@@ -2,33 +2,14 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import {
-  assertAdminAllowlistConfigured,
-  assertProductionAuthMode,
+  assertEdgeProductionAuthConfig,
   getAdminAuthMode,
-  getAllowedAdminEmails,
-  isEmailAllowedForAdmin,
   isOpenAdminAuthMode
-} from "@/lib/auth/auth-config";
-import { getAdminSessionCookieName, verifyAdminSessionToken } from "@/lib/auth/admin-session";
-
-async function getSessionFromRequest(request: NextRequest) {
-  const token = request.cookies.get(getAdminSessionCookieName())?.value;
-  if (!token) {
-    return null;
-  }
-
-  const session = await verifyAdminSessionToken(token);
-  if (!session) {
-    return null;
-  }
-
-  const allowedEmails = getAllowedAdminEmails();
-  if (!isEmailAllowedForAdmin(session.email, allowedEmails)) {
-    return null;
-  }
-
-  return session;
-}
+} from "@/lib/auth/edge";
+import {
+  getAdminSessionCookieName,
+  getAdminSessionFromRequestCookie
+} from "@/lib/auth/edge-session";
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -38,10 +19,7 @@ export async function middleware(request: NextRequest) {
   }
 
   try {
-    assertProductionAuthMode();
-    if (!isOpenAdminAuthMode()) {
-      assertAdminAllowlistConfigured();
-    }
+    assertEdgeProductionAuthConfig();
   } catch (error) {
     console.error(
       "[AdminAuth] middleware config blocked",
@@ -60,7 +38,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
-  const session = await getSessionFromRequest(request);
+  const session = await getAdminSessionFromRequestCookie(
+    request.cookies.get(getAdminSessionCookieName())?.value
+  );
   const isLoginPage = pathname === "/admin/login";
 
   if (isLoginPage) {
@@ -82,7 +62,7 @@ export async function middleware(request: NextRequest) {
   if (getAdminAuthMode() === "mock" && session.isMock !== true) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/admin/login";
-    loginUrl.searchParams.set("error", "invalid");
+    loginUrl.searchParams.set("error", "invalid_credentials");
     return NextResponse.redirect(loginUrl);
   }
 

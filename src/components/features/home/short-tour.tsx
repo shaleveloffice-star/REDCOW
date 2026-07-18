@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { useTranslations } from "@/components/providers/locale-provider";
+import { focusElement, trapFocus } from "@/lib/a11y/focus-trap";
 import { dispatchMenuTourScroll } from "@/lib/menu-showcase-tour";
 
 const FIRST_STEP_MS = 1200;
@@ -57,6 +58,23 @@ function applySpotlight(el: HTMLElement): SpotlightRect {
   };
 }
 
+function setBackgroundInert(inert: boolean) {
+  const targets = [
+    document.getElementById("main-content"),
+    document.querySelector("header.site-navbar"),
+    document.querySelector("footer.site-footer")
+  ];
+
+  targets.forEach((element) => {
+    if (!(element instanceof HTMLElement)) return;
+    if (inert) {
+      element.setAttribute("inert", "");
+    } else {
+      element.removeAttribute("inert");
+    }
+  });
+}
+
 export function ShortTour() {
   const t = useTranslations();
   const tourSteps = useMemo<TourStep[]>(
@@ -75,6 +93,10 @@ export function ShortTour() {
   const timerRef = useRef<TimeoutId | null>(null);
   const scrollTimerRef = useRef<TimeoutId | null>(null);
   const menuScrollTimersRef = useRef<Array<TimeoutId>>([]);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const skipRef = useRef<HTMLButtonElement>(null);
+  const restoreFocusRef = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
     setReduceMotion(window.matchMedia("(prefers-reduced-motion: reduce)").matches);
@@ -103,6 +125,9 @@ export function ShortTour() {
     setStepIndex(0);
     setSpotlight(null);
     document.body.classList.remove("short-tour-active");
+    setBackgroundInert(false);
+    focusElement(restoreFocusRef.current ?? triggerRef.current);
+    restoreFocusRef.current = null;
   }, [clearTimers]);
 
   const setSpotlightFromElement = useCallback((el: HTMLElement) => {
@@ -187,9 +212,13 @@ export function ShortTour() {
 
   const startTour = useCallback(() => {
     clearTimers();
+    restoreFocusRef.current =
+      (document.activeElement instanceof HTMLElement ? document.activeElement : null) ??
+      triggerRef.current;
     setActive(true);
     setStepIndex(0);
     document.body.classList.add("short-tour-active");
+    setBackgroundInert(true);
     goToStep(0);
   }, [clearTimers, goToStep]);
 
@@ -241,24 +270,41 @@ export function ShortTour() {
   useEffect(() => {
     if (!active) return;
 
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    focusElement(skipRef.current);
+    const releaseTrap = trapFocus(dialog);
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") stopTour();
+      if (event.key === "Escape") {
+        event.preventDefault();
+        stopTour();
+      }
     };
 
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    return () => {
+      releaseTrap();
+      window.removeEventListener("keydown", onKeyDown);
+    };
   }, [active, stopTour]);
 
-  useEffect(() => () => {
-    clearTimers();
-    document.body.classList.remove("short-tour-active");
-  }, [clearTimers]);
+  useEffect(
+    () => () => {
+      clearTimers();
+      document.body.classList.remove("short-tour-active");
+      setBackgroundInert(false);
+    },
+    [clearTimers]
+  );
 
   const message = tourSteps[stepIndex]?.message ?? "";
 
   return (
     <>
       <button
+        ref={triggerRef}
         type="button"
         className="short-tour-trigger"
         onClick={startTour}
@@ -269,7 +315,13 @@ export function ShortTour() {
       </button>
 
       {active ? (
-        <div className="short-tour-layer" role="dialog" aria-modal="true" aria-label={t.shortTour.dialogAria}>
+        <div
+          ref={dialogRef}
+          className="short-tour-layer"
+          role="dialog"
+          aria-modal="true"
+          aria-label={t.shortTour.dialogAria}
+        >
           {spotlight ? (
             <div
               className="short-tour-spotlight"
@@ -286,7 +338,12 @@ export function ShortTour() {
           <div className="short-tour-caption" aria-live="polite">
             <div className="short-tour-caption-panel" key={stepIndex}>
               <p className="short-tour-caption-text">{message}</p>
-              <button type="button" className="short-tour-skip" onClick={stopTour}>
+              <button
+                ref={skipRef}
+                type="button"
+                className="short-tour-skip"
+                onClick={stopTour}
+              >
                 {t.shortTour.skip}
               </button>
             </div>

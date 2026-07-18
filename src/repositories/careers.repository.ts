@@ -6,7 +6,10 @@ import type { CareerApplication } from "@/types/content";
 const careersStore = createFirestoreCollectionStore(
   "careerApplications",
   localCareerApplicationsStore,
-  mockCareerApplications
+  {
+    access: "private",
+    seed: mockCareerApplications
+  }
 );
 
 export async function getCareerApplications(): Promise<CareerApplication[]> {

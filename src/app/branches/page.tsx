@@ -19,7 +19,7 @@ export default async function BranchesPage() {
   return (
     <>
       <SiteHeader />
-      <main className="branches-page" dir="rtl">
+      <main id="main-content" className="branches-page" dir="rtl">
         <div className="page-shell section inner-page branches-page-inner">
           <header className="branches-page-intro menu-highlights-shell">
             <p className="menu-highlights-kicker">Our Locations</p>

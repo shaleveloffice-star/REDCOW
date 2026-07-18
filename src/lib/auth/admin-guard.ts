@@ -1,10 +1,15 @@
 import "server-only";
 
-import { assertProductionAuthMode } from "@/lib/auth/auth-config";
-import { getCurrentAdminSession } from "@/services/auth.service";
+import {
+  assertAdminAllowlistConfigured,
+  assertProductionAuthMode
+} from "@/lib/auth/auth-config";
+import { getCurrentAdminSession } from "@/lib/auth/get-current-admin-session";
+import type { AdminRole } from "@/types/admin";
 
 export async function requireAdmin() {
   assertProductionAuthMode();
+  assertAdminAllowlistConfigured();
 
   const session = await getCurrentAdminSession();
 
@@ -15,6 +20,12 @@ export async function requireAdmin() {
   return session;
 }
 
-export function isAdminPath(pathname: string) {
-  return pathname === "/admin" || pathname.startsWith("/admin/");
+export async function requireAdminRole(allowedRoles: readonly AdminRole[]) {
+  const session = await requireAdmin();
+
+  if (!allowedRoles.includes(session.role)) {
+    throw new Error("Insufficient admin permissions for this action.");
+  }
+
+  return session;
 }

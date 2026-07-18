@@ -3,7 +3,6 @@ export type AdminRole = "owner" | "manager" | "editor";
 export type AdminPermission =
   | "menu:write"
   | "branches:write"
-  | "gallery:write"
   | "press:write"
   | "messages:read"
   | "careers:read"

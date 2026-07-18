@@ -1,6 +1,6 @@
 "use server";
 
-import { requireAdmin } from "@/lib/auth/admin-guard";
+import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
 import { revalidatePath } from "next/cache";
 import {
   createContactMessage,
@@ -18,11 +18,12 @@ export async function getContactMessagesAdminData() {
 }
 
 export async function createContactMessageAction(formData: FormData) {
+  await requireAdmin();
   return createContactMessage({
-    fullName: String(formData.get("fullName") ?? ""),
-    phone: String(formData.get("phone") ?? ""),
-    email: String(formData.get("email") ?? ""),
-    message: String(formData.get("message") ?? "")
+    fullName: String(formData.get("fullName") ?? "").trim().slice(0, 120),
+    phone: String(formData.get("phone") ?? "").trim().slice(0, 40),
+    email: String(formData.get("email") ?? "").trim().slice(0, 254),
+    message: String(formData.get("message") ?? "").trim().slice(0, 5000)
   });
 }
 
@@ -42,7 +43,7 @@ export async function saveContactMessageAction(input: ContactMessage) {
 }
 
 export async function deleteContactMessageAction(id: string) {
-  await requireAdmin();
+  await requireAdminRole(["owner", "manager"]);
   const ok = await removeContactMessage(id);
   if (!ok) throw new Error("ההודעה לא נמצאה");
   paths.forEach((path) => revalidatePath(path));

@@ -1,9 +1,10 @@
 "use server";
 
-import { requireAdmin } from "@/lib/auth/admin-guard";
+import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
+import { assertSafeHttpUrl } from "@/lib/security/safe-url";
 import { revalidatePath, updateTag } from "next/cache";
-import { listOrderLinks, removeOrderLink, upsertOrderLink } from "@/services/order-links.service";
+import { listOrderLinks, removeOrderLink, upsertOrderLink } from "@/services/settings.service";
 import type { OrderLink } from "@/types/content";
 
 const paths = ["/admin/order-links", "/"];
@@ -20,7 +21,7 @@ export async function saveOrderLinkAction(input: OrderLink) {
   const saved = await upsertOrderLink({
     ...input,
     label: input.label.trim(),
-    url: input.url.trim(),
+    url: assertSafeHttpUrl(input.url, "קישור הזמנה"),
     isActive: Boolean(input.isActive)
   });
   paths.forEach((path) => revalidatePath(path));
@@ -29,7 +30,7 @@ export async function saveOrderLinkAction(input: OrderLink) {
 }
 
 export async function deleteOrderLinkAction(id: string) {
-  await requireAdmin();
+  await requireAdminRole(["owner", "manager"]);
   const ok = await removeOrderLink(id);
   if (!ok) throw new Error("הקישור לא נמצא");
   paths.forEach((path) => revalidatePath(path));

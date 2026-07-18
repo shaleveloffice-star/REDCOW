@@ -1,6 +1,7 @@
 "use server";
 
-import { requireAdmin } from "@/lib/auth/admin-guard";
+import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
+import { assertSafeHttpUrl } from "@/lib/security/safe-url";
 import { revalidatePath } from "next/cache";
 import { listBranches, removeBranch, upsertBranch } from "@/services/branches.service";
 import type { Branch } from "@/types/content";
@@ -22,7 +23,7 @@ export async function saveBranchAction(input: Branch) {
     address: input.address.trim(),
     phone: input.phone.trim(),
     openingHours: input.openingHours.trim(),
-    wazeUrl: input.wazeUrl.trim(),
+    wazeUrl: assertSafeHttpUrl(input.wazeUrl, "קישור Waze"),
     isActive: Boolean(input.isActive)
   });
   paths.forEach((path) => revalidatePath(path));
@@ -30,7 +31,7 @@ export async function saveBranchAction(input: Branch) {
 }
 
 export async function deleteBranchAction(id: string) {
-  await requireAdmin();
+  await requireAdminRole(["owner", "manager"]);
   const ok = await removeBranch(id);
   if (!ok) throw new Error("הסניף לא נמצא");
   paths.forEach((path) => revalidatePath(path));

@@ -6,7 +6,10 @@ import type { ContactMessage } from "@/types/content";
 const contactStore = createFirestoreCollectionStore(
   "contactMessages",
   localContactMessagesStore,
-  mockContactMessages
+  {
+    access: "private",
+    seed: mockContactMessages
+  }
 );
 
 export async function getContactMessages(): Promise<ContactMessage[]> {

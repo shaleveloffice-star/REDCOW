@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useMemo, useState, useTransition } from "react";
+import { useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
 
 import { BirthDatePicker } from "@/components/features/home/birth-date-picker";
 import { useTranslations } from "@/components/providers/locale-provider";
@@ -34,11 +34,30 @@ const CLUB_MEMBER_AVATARS = [
   "/images/brand/club-member-4.png"
 ] as const;
 
+type FieldKey = "fullName" | "phone" | "consent";
+
+function fieldForError(code: CustomerClubSignupErrorCode): FieldKey | null {
+  if (code === "fullName" || code === "phone" || code === "consent") {
+    return code;
+  }
+  return null;
+}
+
 export function CustomerClubSection() {
   const t = useTranslations();
+  const ids = useId();
+  const fullNameId = `${ids}-full-name`;
+  const phoneId = `${ids}-phone`;
+  const consentId = `${ids}-consent`;
+  const errorId = `${ids}-error`;
+
   const [isPending, startTransition] = useTransition();
   const [submitted, setSubmitted] = useState(false);
   const [errorCode, setErrorCode] = useState<CustomerClubSignupErrorCode | null>(null);
+  const fullNameRef = useRef<HTMLInputElement>(null);
+  const phoneRef = useRef<HTMLInputElement>(null);
+  const consentRef = useRef<HTMLInputElement>(null);
+  const errorRef = useRef<HTMLParagraphElement>(null);
 
   const perks = useMemo(
     () =>
@@ -50,6 +69,24 @@ export function CustomerClubSection() {
   );
 
   const errorMessage = errorCode ? t.customerClub.errors[errorCode] : null;
+  const invalidField = errorCode ? fieldForError(errorCode) : null;
+
+  useEffect(() => {
+    if (!errorCode) return;
+
+    const target =
+      invalidField === "fullName"
+        ? fullNameRef.current
+        : invalidField === "phone"
+          ? phoneRef.current
+          : invalidField === "consent"
+            ? consentRef.current
+            : errorRef.current;
+
+    window.requestAnimationFrame(() => {
+      target?.focus();
+    });
+  }, [errorCode, invalidField]);
 
   const handleSubmit = (formData: FormData) => {
     setErrorCode(null);
@@ -69,7 +106,11 @@ export function CustomerClubSection() {
         <div className="customer-club-form-slot">
           <aside className="customer-club-form-col">
             {submitted ? (
-              <div className="customer-club-panel customer-club-success" role="status">
+              <div
+                className="customer-club-panel customer-club-success"
+                role="status"
+                aria-live="polite"
+              >
                 <CircleCheck className="customer-club-success-icon" strokeWidth={1.5} aria-hidden="true" />
                 <h3>{t.customerClub.successTitle}</h3>
                 <p>{t.customerClub.successMessage}</p>
@@ -82,24 +123,36 @@ export function CustomerClubSection() {
                 </p>
 
                 <div className="customer-club-fields">
-                  <label className="customer-club-field">
+                  <div className="customer-club-field">
+                    <label className="customer-club-field-label" htmlFor={fullNameId}>
+                      {t.customerClub.fields.fullName}
+                    </label>
                     <span className="customer-club-input-box">
                       <User className="customer-club-input-icon" strokeWidth={1.5} aria-hidden="true" />
                       <input
+                        ref={fullNameRef}
+                        id={fullNameId}
                         name="fullName"
                         type="text"
                         autoComplete="name"
                         placeholder={t.customerClub.fields.fullName}
                         required
                         disabled={isPending}
+                        aria-invalid={invalidField === "fullName" ? true : undefined}
+                        aria-describedby={invalidField === "fullName" ? errorId : undefined}
                       />
                     </span>
-                  </label>
+                  </div>
 
-                  <label className="customer-club-field">
+                  <div className="customer-club-field">
+                    <label className="customer-club-field-label" htmlFor={phoneId}>
+                      {t.customerClub.fields.phone}
+                    </label>
                     <span className="customer-club-input-box">
                       <Phone className="customer-club-input-icon" strokeWidth={1.5} aria-hidden="true" />
                       <input
+                        ref={phoneRef}
+                        id={phoneId}
                         name="phone"
                         type="tel"
                         autoComplete="tel"
@@ -107,16 +160,22 @@ export function CustomerClubSection() {
                         placeholder={t.customerClub.fields.phone}
                         required
                         disabled={isPending}
+                        aria-invalid={invalidField === "phone" ? true : undefined}
+                        aria-describedby={invalidField === "phone" ? errorId : undefined}
                       />
                     </span>
-                  </label>
+                  </div>
 
                   <div className="customer-club-field">
+                    <span className="customer-club-field-label" id={`${ids}-birth-label`}>
+                      {t.customerClub.fields.birthDate}
+                    </span>
                     <span className="customer-club-input-box customer-club-input-box--birth">
                       <Calendar className="customer-club-input-icon" strokeWidth={1.5} aria-hidden="true" />
                       <BirthDatePicker
                         name="birthDate"
                         label={t.customerClub.fields.birthDate}
+                        labelledBy={`${ids}-birth-label`}
                         showLabel={false}
                         disabled={isPending}
                       />
@@ -129,8 +188,17 @@ export function CustomerClubSection() {
                   <span>{isPending ? t.customerClub.submitting : t.customerClub.submit}</span>
                 </button>
 
-                <label className="customer-club-consent">
-                  <input name="marketingConsent" type="checkbox" required disabled={isPending} />
+                <label className="customer-club-consent" htmlFor={consentId}>
+                  <input
+                    ref={consentRef}
+                    id={consentId}
+                    name="marketingConsent"
+                    type="checkbox"
+                    required
+                    disabled={isPending}
+                    aria-invalid={invalidField === "consent" ? true : undefined}
+                    aria-describedby={invalidField === "consent" ? errorId : undefined}
+                  />
                   <span>
                     {t.customerClub.consentPrefix}{" "}
                     <Link href="/privacy-policy">{t.customerClub.privacyLink}</Link>
@@ -138,7 +206,13 @@ export function CustomerClubSection() {
                 </label>
 
                 {errorMessage ? (
-                  <p className="customer-club-error" role="alert">
+                  <p
+                    ref={errorRef}
+                    id={errorId}
+                    className="customer-club-error"
+                    role="alert"
+                    tabIndex={-1}
+                  >
                     {errorMessage}
                   </p>
                 ) : null}
@@ -190,7 +264,7 @@ export function CustomerClubSection() {
           <Image
             className="customer-club-hero-image"
             src={CLUB_HERO_IMAGE}
-            alt={t.customerClub.burgerAlt}
+            alt=""
             width={2100}
             height={2100}
             sizes="(max-width: 767px) 100vw, 40vw"

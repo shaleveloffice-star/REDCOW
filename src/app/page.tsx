@@ -87,7 +87,7 @@ export default async function HomePage() {
     <>
       <JsonLd data={buildRestaurantJsonLd()} />
       <SiteHeader overlay />
-      <main>
+      <main id="main-content">
         <HeroSection settings={settings} orderLinks={orderLinks} />
         <HomeMenuShowcaseSection items={homepageMenuItems} />
         <AtmosphereSection siteImages={siteImages} />

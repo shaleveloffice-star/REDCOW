@@ -2,8 +2,8 @@ import {
   getAllowedAdminEmails,
   isEmailAllowedForAdmin
 } from "@/lib/auth/auth-config";
-import { getAdminUserByEmail } from "@/repositories/admin.repository";
-import type { AdminRole, AdminSession } from "@/types/admin";
+import { resolveAdminRole } from "@/lib/auth/resolve-admin-role";
+import type { AdminSession } from "@/types/admin";
 
 type FirebasePasswordSignInResponse = {
   idToken?: string;
@@ -13,11 +13,6 @@ type FirebasePasswordSignInResponse = {
     message?: string;
   };
 };
-
-async function resolveAdminRole(email: string): Promise<AdminRole> {
-  const admin = await getAdminUserByEmail(email);
-  return admin?.isActive ? admin.role : "owner";
-}
 
 export async function authenticateWithFirebase(
   email: string,

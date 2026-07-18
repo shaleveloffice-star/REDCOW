@@ -153,7 +153,7 @@ export function HeroSection({
 
   return (
     <section id="hero" className="hero hero--cinematic">
-      <div className="hero-visual" aria-label={settings.heroMediaAlt}>
+      <div className="hero-visual">
         <div className="hero-visual-media hero-visual-media--alive">
           {hasHeroMedia ? (
             heroMediaType === "video" ? (

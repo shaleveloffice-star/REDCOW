@@ -72,9 +72,9 @@ export async function SiteFooter() {
           </section>
 
           <section className="site-footer-block" aria-labelledby="footer-contact-title">
-            <p id="footer-contact-title" className="site-footer-heading">
+            <h2 id="footer-contact-title" className="site-footer-heading">
               {t.footer.contact}
-            </p>
+            </h2>
             <div className="site-footer-contact-list">
               {phone ? (
                 <a href={`tel:${phone}`} className="site-footer-contact-link">
@@ -134,8 +134,10 @@ export async function SiteFooter() {
             </div>
           </section>
 
-          <nav className="site-footer-block" aria-label={t.footer.nav}>
-            <p className="site-footer-heading">{t.footer.nav}</p>
+          <nav className="site-footer-block" aria-labelledby="footer-nav-title">
+            <h2 id="footer-nav-title" className="site-footer-heading">
+              {t.footer.nav}
+            </h2>
             <div className="site-footer-links">
               {footerNavLinks.map((item) => (
                 <a key={item.href} href={item.href}>
@@ -146,9 +148,9 @@ export async function SiteFooter() {
           </nav>
 
           <section className="site-footer-block" aria-labelledby="footer-menu-title">
-            <p id="footer-menu-title" className="site-footer-heading">
+            <h2 id="footer-menu-title" className="site-footer-heading">
               {t.footer.menu}
-            </p>
+            </h2>
             <div className="site-footer-links">
               {footerMenuItems.map((item) => (
                 <a key={item.href} href={item.href}>

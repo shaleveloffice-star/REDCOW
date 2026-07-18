@@ -1,6 +1,6 @@
 "use server";
 
-import { requireAdmin } from "@/lib/auth/admin-guard";
+import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
 import { revalidatePath } from "next/cache";
 import {
   createCareerApplication,
@@ -18,12 +18,13 @@ export async function getCareerApplicationsAdminData() {
 }
 
 export async function createCareerApplicationAction(formData: FormData) {
+  await requireAdmin();
   return createCareerApplication({
-    fullName: String(formData.get("fullName") ?? ""),
-    phone: String(formData.get("phone") ?? ""),
-    email: String(formData.get("email") ?? ""),
-    desiredRole: String(formData.get("desiredRole") ?? ""),
-    message: String(formData.get("message") ?? "")
+    fullName: String(formData.get("fullName") ?? "").trim().slice(0, 120),
+    phone: String(formData.get("phone") ?? "").trim().slice(0, 40),
+    email: String(formData.get("email") ?? "").trim().slice(0, 254),
+    desiredRole: String(formData.get("desiredRole") ?? "").trim().slice(0, 120),
+    message: String(formData.get("message") ?? "").trim().slice(0, 5000)
   });
 }
 
@@ -44,7 +45,7 @@ export async function saveCareerApplicationAction(input: CareerApplication) {
 }
 
 export async function deleteCareerApplicationAction(id: string) {
-  await requireAdmin();
+  await requireAdminRole(["owner", "manager"]);
   const ok = await removeCareerApplication(id);
   if (!ok) throw new Error("הפנייה לא נמצאה");
   paths.forEach((path) => revalidatePath(path));

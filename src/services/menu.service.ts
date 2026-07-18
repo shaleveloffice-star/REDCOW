@@ -1,5 +1,6 @@
 import { HOMEPAGE_MENU_ITEM_IDS } from "@/data/homepage-menu";
 import { mockMenuItems } from "@/data/mock/menu.mock";
+import { isFirebaseConfigured } from "@/lib/firebase";
 import {
   deleteMenuCategory,
   deleteMenuItem,
@@ -47,7 +48,10 @@ export async function getHomepageMenuShowcase(): Promise<MenuItem[]> {
   ]);
   const activeById = new Map(activeItems.map((item) => [item.id, item]));
   const allById = new Map(allItems.map((item) => [item.id, item]));
-  const seedById = new Map(mockMenuItems.map((item) => [item.id, item]));
+  // Mock seed only when Firebase is not configured — never silent fallback in production.
+  const seedById = isFirebaseConfigured()
+    ? new Map<string, MenuItem>()
+    : new Map(mockMenuItems.map((item) => [item.id, item]));
 
   return HOMEPAGE_MENU_ITEM_IDS.flatMap((id) => {
     const activeItem = activeById.get(id);

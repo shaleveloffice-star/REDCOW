@@ -1,7 +1,8 @@
 "use server";
 
-import { requireAdmin } from "@/lib/auth/admin-guard";
+import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
+import { assertSafeHttpUrl } from "@/lib/security/safe-url";
 import { revalidatePath, updateTag } from "next/cache";
 import {
   listMenuCategories,
@@ -40,11 +41,12 @@ export async function saveMenuItemAction(input: MenuItem) {
     throw new Error("לא ניתן לפרסם מנה פעילה במחיר 0. יש להגדיר מחיר גדול מ-0 או לבטל את הסימון פעיל.");
   }
 
+  const imageUrlRaw = input.imageUrl.trim() || "/images/menu/placeholder.svg";
   const saved = await upsertMenuItem({
     ...input,
     name,
     description: input.description.trim(),
-    imageUrl: input.imageUrl.trim() || "/images/menu/placeholder.svg",
+    imageUrl: assertSafeHttpUrl(imageUrlRaw, "תמונת מנה"),
     price,
     isActive,
     tags: Array.isArray(input.tags) ? input.tags : []
@@ -56,7 +58,7 @@ export async function saveMenuItemAction(input: MenuItem) {
 }
 
 export async function deleteMenuItemAction(id: string) {
-  await requireAdmin();
+  await requireAdminRole(["owner", "manager"]);
   const ok = await removeMenuItem(id);
   if (!ok) throw new Error("המנה לא נמצאה");
   menuPaths.forEach((path) => revalidatePath(path));
@@ -84,7 +86,7 @@ export async function saveMenuCategoryAction(input: MenuCategory) {
 }
 
 export async function deleteMenuCategoryAction(id: string) {
-  await requireAdmin();
+  await requireAdminRole(["owner", "manager"]);
   const items = await listMenuItems();
   if (items.some((item) => item.categoryId === id)) {
     throw new Error("לא ניתן למחוק קטגוריה שיש בה מנות. העבר או מחק את המנות קודם.");

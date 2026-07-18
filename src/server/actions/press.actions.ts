@@ -1,6 +1,7 @@
 "use server";
 
-import { requireAdmin } from "@/lib/auth/admin-guard";
+import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
+import { assertSafeHttpUrl } from "@/lib/security/safe-url";
 import { revalidatePath } from "next/cache";
 import { listPressItems, removePressItem, upsertPressItem } from "@/services/press.service";
 import type { PressItem } from "@/types/content";
@@ -19,8 +20,8 @@ export async function savePressItemAction(input: PressItem) {
     ...input,
     title: input.title.trim(),
     source: input.source.trim(),
-    url: input.url.trim(),
-    imageUrl: input.imageUrl.trim(),
+    url: assertSafeHttpUrl(input.url, "קישור כתבה"),
+    imageUrl: assertSafeHttpUrl(input.imageUrl, "תמונת כתבה"),
     isActive: Boolean(input.isActive)
   });
   paths.forEach((path) => revalidatePath(path));
@@ -28,7 +29,7 @@ export async function savePressItemAction(input: PressItem) {
 }
 
 export async function deletePressItemAction(id: string) {
-  await requireAdmin();
+  await requireAdminRole(["owner", "manager"]);
   const ok = await removePressItem(id);
   if (!ok) throw new Error("הכתבה לא נמצאה");
   paths.forEach((path) => revalidatePath(path));

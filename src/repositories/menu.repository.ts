@@ -8,15 +8,17 @@ import {
 } from "@/lib/firebase/local-stores";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
-const menuItemsStore = createFirestoreCollectionStore(
-  "menuItems",
-  localMenuItemsStore,
-  mockMenuItems
-);
+const menuItemsStore = createFirestoreCollectionStore("menuItems", localMenuItemsStore, {
+  access: "public",
+  seed: mockMenuItems
+});
 const menuCategoriesStore = createFirestoreCollectionStore(
   "menuCategories",
   localMenuCategoriesStore,
-  mockMenuCategories
+  {
+    access: "public",
+    seed: mockMenuCategories
+  }
 );
 
 export async function getMenuItems(): Promise<MenuItem[]> {

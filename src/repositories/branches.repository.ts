@@ -3,7 +3,10 @@ import { createFirestoreCollectionStore } from "@/lib/firebase/firestore-store";
 import { localBranchesStore } from "@/lib/firebase/local-stores";
 import type { Branch } from "@/types/content";
 
-const branchesStore = createFirestoreCollectionStore("branches", localBranchesStore, mockBranches);
+const branchesStore = createFirestoreCollectionStore("branches", localBranchesStore, {
+  access: "public",
+  seed: mockBranches
+});
 
 export async function getBranches(): Promise<Branch[]> {
   return branchesStore.getAll();

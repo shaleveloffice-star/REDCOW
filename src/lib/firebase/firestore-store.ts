@@ -1,16 +1,23 @@
 import {
   collection,
-  deleteDoc,
   doc,
   getDoc,
   getDocs,
-  setDoc,
-  writeBatch,
   type Firestore
 } from "firebase/firestore";
+import type { Firestore as AdminFirestore } from "firebase-admin/firestore";
 
 import { getFirestoreDb, getFirebaseMissingEnvKeys, isFirebaseConfigured } from "@/lib/firebase";
 import type { FirebaseCollectionName } from "@/types/firebase";
+
+export type FirestoreAccess = "public" | "private";
+
+export type FirestoreCollectionStoreOptions<T extends { id: string }> = {
+  /** public = Client read + Admin write; private = Admin read/write only */
+  access?: FirestoreAccess;
+  /** Used only when Firebase client env is not configured (local/dev). Never written to Firestore. */
+  seed?: readonly T[];
+};
 
 async function loadAdminFirestoreHelpers() {
   const [{ getAdminFirestore }, { isFirebaseAdminConfigured }] = await Promise.all([
@@ -47,69 +54,6 @@ function logFirestoreError(action: string, collectionName: FirebaseCollectionNam
   console.error(`[Firestore] ${action} failed for "${collectionName}"`, formatFirestoreError(error));
 }
 
-function logFirestoreFallback(
-  collectionName: FirebaseCollectionName,
-  reason: string,
-  details?: Record<string, unknown>
-) {
-  console.warn(`[Firestore] in-memory fallback for "${collectionName}": ${reason}`, details ?? "");
-}
-
-async function withFirestore<T>(
-  collectionName: FirebaseCollectionName,
-  run: (db: Firestore) => Promise<T>,
-  fallback: () => Promise<T>
-): Promise<T> {
-  if (!isFirebaseConfigured()) {
-    logFirestoreFallback(collectionName, "Firebase client env vars missing", {
-      missingEnvVars: getFirebaseMissingEnvKeys()
-    });
-    return fallback();
-  }
-
-  const db = getFirestoreDb();
-  if (!db) {
-    logFirestoreFallback(collectionName, "getFirestoreDb() returned null");
-    return fallback();
-  }
-
-  try {
-    return await run(db);
-  } catch (error) {
-    logFirestoreError("read/write", collectionName, error);
-    return fallback();
-  }
-}
-
-async function withFirestoreWrite<T>(
-  collectionName: FirebaseCollectionName,
-  operation: string,
-  run: (db: Firestore) => Promise<T>,
-  fallback: () => Promise<T>
-): Promise<T> {
-  if (!isFirebaseConfigured()) {
-    logFirestoreFallback(collectionName, `${operation}: Firebase client env vars missing`, {
-      missingEnvVars: getFirebaseMissingEnvKeys()
-    });
-    return fallback();
-  }
-
-  const db = getFirestoreDb();
-  if (!db) {
-    logFirestoreFallback(collectionName, `${operation}: getFirestoreDb() returned null`);
-    return fallback();
-  }
-
-  try {
-    const result = await run(db);
-    console.info(`[Firestore] ${operation} OK for "${collectionName}"`);
-    return result;
-  } catch (error) {
-    logFirestoreError(operation, collectionName, error);
-    throw error;
-  }
-}
-
 function toStoredData<T extends { id: string }>(input: T) {
   const { id: _id, ...data } = input;
   return Object.fromEntries(
@@ -121,140 +65,145 @@ function fromSnapshot<T extends { id: string }>(id: string, data: Record<string,
   return { id, ...data } as T;
 }
 
-async function seedCollection<T extends { id: string }>(
-  db: Firestore,
-  collectionName: FirebaseCollectionName,
-  seed: readonly T[]
-) {
-  if (seed.length === 0) return;
+async function requireAdminDb(collectionName: FirebaseCollectionName): Promise<AdminFirestore> {
+  const { getAdminFirestore, isFirebaseAdminConfigured } = await loadAdminFirestoreHelpers();
+  const adminDb = getAdminFirestore();
 
-  const batch = writeBatch(db);
-  for (const item of seed) {
-    batch.set(doc(db, collectionName, item.id), toStoredData(item));
+  if (!adminDb) {
+    const reason = isFirebaseAdminConfigured()
+      ? "Admin Firestore instance unavailable"
+      : "Firebase Admin is not configured (FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY)";
+    console.error(`[Firestore] Admin required for "${collectionName}": ${reason}`);
+    throw new Error(`Firestore Admin required for "${collectionName}": ${reason}`);
   }
-  await batch.commit();
+
+  return adminDb;
+}
+
+function requireClientDb(collectionName: FirebaseCollectionName): Firestore {
+  const db = getFirestoreDb();
+  if (!db) {
+    const missing = getFirebaseMissingEnvKeys();
+    console.error(`[Firestore] Client unavailable for "${collectionName}"`, { missing });
+    throw new Error(
+      `Firestore client unavailable for "${collectionName}". Missing: ${missing.join(", ") || "unknown"}`
+    );
+  }
+  return db;
+}
+
+/**
+ * Local/dev path when Firebase client env is not configured.
+ * Never used as a silent fallback when Firebase is connected.
+ */
+function useLocalOnly(): boolean {
+  return !isFirebaseConfigured();
 }
 
 export function createFirestoreCollectionStore<T extends { id: string }>(
   collectionName: FirebaseCollectionName,
   localStore: DocumentStore<T>,
-  seed?: readonly T[]
+  options: FirestoreCollectionStoreOptions<T> = {}
 ): DocumentStore<T> {
+  const access: FirestoreAccess = options.access ?? "public";
+  const seed = options.seed;
+
   return {
     async getAll() {
-      return withFirestore(
-        collectionName,
-        async (db) => {
-          const snapshot = await getDocs(collection(db, collectionName));
-          if (snapshot.empty) {
-            if (seed?.length) {
-              await seedCollection(db, collectionName, seed);
-              return seed.map((item) => ({ ...item }));
-            }
-            return [];
-          }
+      if (useLocalOnly()) {
+        const localItems = await localStore.getAll();
+        if (localItems.length > 0 || !seed?.length) {
+          return localItems;
+        }
+        return seed.map((item) => ({ ...item }));
+      }
 
+      try {
+        if (access === "private") {
+          const adminDb = await requireAdminDb(collectionName);
+          const snapshot = await adminDb.collection(collectionName).get();
           return snapshot.docs.map((entry) =>
             fromSnapshot<T>(entry.id, entry.data() as Record<string, unknown>)
           );
-        },
-        async () => {
-          const localItems = await localStore.getAll();
-          if (localItems.length > 0 || !seed?.length) {
-            return localItems;
-          }
-          return seed.map((item) => ({ ...item }));
         }
-      );
+
+        const db = requireClientDb(collectionName);
+        const snapshot = await getDocs(collection(db, collectionName));
+        // Do not seed via Client when Firebase is active.
+        return snapshot.docs.map((entry) =>
+          fromSnapshot<T>(entry.id, entry.data() as Record<string, unknown>)
+        );
+      } catch (error) {
+        logFirestoreError("getAll", collectionName, error);
+        throw error;
+      }
     },
 
     async getById(id: string) {
-      return withFirestore(
-        collectionName,
-        async (db) => {
-          const snapshot = await getDoc(doc(db, collectionName, id));
-          if (!snapshot.exists()) {
+      if (useLocalOnly()) {
+        return localStore.getById(id);
+      }
+
+      try {
+        if (access === "private") {
+          const adminDb = await requireAdminDb(collectionName);
+          const snapshot = await adminDb.collection(collectionName).doc(id).get();
+          if (!snapshot.exists) {
             return null;
           }
           return fromSnapshot<T>(snapshot.id, snapshot.data() as Record<string, unknown>);
-        },
-        () => localStore.getById(id)
-      );
+        }
+
+        const db = requireClientDb(collectionName);
+        const snapshot = await getDoc(doc(db, collectionName, id));
+        if (!snapshot.exists()) {
+          return null;
+        }
+        return fromSnapshot<T>(snapshot.id, snapshot.data() as Record<string, unknown>);
+      } catch (error) {
+        logFirestoreError(`getById ${id}`, collectionName, error);
+        throw error;
+      }
     },
 
     async save(input: T) {
+      if (useLocalOnly()) {
+        return localStore.save(input);
+      }
+
       const storedData = toStoredData(input);
-      const { getAdminFirestore, isFirebaseAdminConfigured } = await loadAdminFirestoreHelpers();
-      const adminDb = getAdminFirestore();
+      const adminDb = await requireAdminDb(collectionName);
 
-      if (adminDb) {
-        try {
-          console.info(`[Firestore Admin] set "${collectionName}/${input.id}"`);
-          await adminDb.collection(collectionName).doc(input.id).set(storedData, { merge: true });
-          console.info(`[Firestore Admin] set OK for "${collectionName}/${input.id}"`);
-          return { ...input };
-        } catch (error) {
-          logFirestoreError(`admin set ${input.id}`, collectionName, error);
-          throw error;
-        }
+      try {
+        console.info(`[Firestore Admin] set "${collectionName}/${input.id}"`);
+        await adminDb.collection(collectionName).doc(input.id).set(storedData, { merge: true });
+        console.info(`[Firestore Admin] set OK for "${collectionName}/${input.id}"`);
+        return { ...input };
+      } catch (error) {
+        logFirestoreError(`admin set ${input.id}`, collectionName, error);
+        throw error;
       }
-
-      if (isFirebaseConfigured() && !isFirebaseAdminConfigured()) {
-        console.warn(
-          `[Firestore] Admin SDK not configured for "${collectionName}" writes. ` +
-            "Client SDK writes may fail with permission-denied unless Firestore rules allow them."
-        );
-      }
-
-      return withFirestoreWrite(
-        collectionName,
-        `setDoc ${input.id}`,
-        async (db) => {
-          console.info(`[Firestore] setDoc "${collectionName}/${input.id}"`);
-          await setDoc(doc(db, collectionName, input.id), storedData, { merge: true });
-          return { ...input };
-        },
-        () => {
-          console.warn(
-            `[Firestore] save stored in memory only for "${collectionName}/${input.id}"`
-          );
-          return localStore.save(input);
-        }
-      );
     },
 
     async remove(id: string) {
-      const { getAdminFirestore } = await loadAdminFirestoreHelpers();
-      const adminDb = getAdminFirestore();
-
-      if (adminDb) {
-        try {
-          const snapshot = await adminDb.collection(collectionName).doc(id).get();
-          if (!snapshot.exists) {
-            return false;
-          }
-          await adminDb.collection(collectionName).doc(id).delete();
-          console.info(`[Firestore Admin] delete OK for "${collectionName}/${id}"`);
-          return true;
-        } catch (error) {
-          logFirestoreError(`admin delete ${id}`, collectionName, error);
-          throw error;
-        }
+      if (useLocalOnly()) {
+        return localStore.remove(id);
       }
 
-      return withFirestoreWrite(
-        collectionName,
-        `deleteDoc ${id}`,
-        async (db) => {
-          const snapshot = await getDoc(doc(db, collectionName, id));
-          if (!snapshot.exists()) {
-            return false;
-          }
-          await deleteDoc(doc(db, collectionName, id));
-          return true;
-        },
-        () => localStore.remove(id)
-      );
+      const adminDb = await requireAdminDb(collectionName);
+
+      try {
+        const snapshot = await adminDb.collection(collectionName).doc(id).get();
+        if (!snapshot.exists) {
+          return false;
+        }
+        await adminDb.collection(collectionName).doc(id).delete();
+        console.info(`[Firestore Admin] delete OK for "${collectionName}/${id}"`);
+        return true;
+      } catch (error) {
+        logFirestoreError(`admin delete ${id}`, collectionName, error);
+        throw error;
+      }
     }
   };
 }
@@ -263,48 +212,49 @@ export function createFirestoreDocumentStore<T extends Record<string, unknown>>(
   collectionName: FirebaseCollectionName,
   documentId: string,
   localStore: { get(): Promise<T>; save(input: T): Promise<T> },
-  seed: T
+  /** Kept for call-site compatibility; localStore owns local defaults. Never written to Firestore. */
+  _unusedLocalDefault?: T
 ) {
+  void _unusedLocalDefault;
   return {
     async get(): Promise<T> {
-      if (!isFirebaseConfigured()) {
-        return localStore.get();
-      }
-
-      const db = getFirestoreDb();
-      if (!db) {
+      if (useLocalOnly()) {
         return localStore.get();
       }
 
       try {
+        const db = requireClientDb(collectionName);
         const snapshot = await getDoc(doc(db, collectionName, documentId));
         if (!snapshot.exists()) {
-          await setDoc(doc(db, collectionName, documentId), seed);
-          return { ...seed };
+          console.error(
+            `[Firestore] Missing document "${collectionName}/${documentId}". Create it via Admin — client seed is disabled.`
+          );
+          throw new Error(
+            `Firestore document "${collectionName}/${documentId}" is missing. Seed via Admin SDK, not the client.`
+          );
         }
         return snapshot.data() as T;
       } catch (error) {
-        logFirestoreError("get document", collectionName, error);
-        return localStore.get();
+        logFirestoreError(`get document ${documentId}`, collectionName, error);
+        throw error;
       }
     },
 
     async save(input: T): Promise<T> {
-      if (!isFirebaseConfigured()) {
+      if (useLocalOnly()) {
         return localStore.save(input);
       }
 
-      const db = getFirestoreDb();
-      if (!db) {
-        return localStore.save(input);
-      }
+      const adminDb = await requireAdminDb(collectionName);
 
       try {
-        await setDoc(doc(db, collectionName, documentId), input, { merge: true });
+        console.info(`[Firestore Admin] set "${collectionName}/${documentId}"`);
+        await adminDb.collection(collectionName).doc(documentId).set(input, { merge: true });
+        console.info(`[Firestore Admin] set OK for "${collectionName}/${documentId}"`);
         return { ...input };
       } catch (error) {
-        logFirestoreError("save document", collectionName, error);
-        return localStore.save(input);
+        logFirestoreError(`admin set document ${documentId}`, collectionName, error);
+        throw error;
       }
     }
   };

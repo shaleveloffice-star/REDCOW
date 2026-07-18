@@ -2,14 +2,18 @@ import { BUSINESS } from "@/data/business";
 import type { Messages } from "./types";
 
 export const fr: Messages = {
+  a11y: {
+    skipToMain: "Aller au contenu principal"
+  },
   lang: {
     label: "Langue",
     switchTo: "Changer de langue"
   },
   nav: {
     main: "Navigation principale",
-    openMenu: "Ouvrir le menu",
-    closeMenu: "Fermer le menu",
+    menuDialog: "Menu de navigation",
+    openMenu: "Ouvrir le menu de navigation",
+    closeMenu: "Fermer le menu de navigation",
     home: "Accueil",
     menu: "Carte",
     plancha: "Sur la Plancha",
@@ -31,7 +35,9 @@ export const fr: Messages = {
     lead: "Le standard NB, élevé.",
     trackAria: "Aperçu de la carte",
     bestSeller: "Le plus vendu",
-    fullMenu: "Carte complète"
+    fullMenu: "Carte complète",
+    prev: "Plats précédents",
+    next: "Plats suivants"
   },
   plancha: {
     title: "Sur la Plancha",

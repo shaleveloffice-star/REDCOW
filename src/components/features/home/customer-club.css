@@ -53,7 +53,7 @@
   align-items: center;
   gap: 8px;
   margin: 0 0 20px;
-  color: rgba(255, 247, 237, 0.5);
+  color: rgba(255, 247, 237, 0.82);
   font-size: 13px;
   direction: ltr;
 }
@@ -77,7 +77,17 @@
 }
 
 .customer-club-field {
+  display: grid;
+  gap: 8px;
+}
+
+.customer-club-field-label {
   display: block;
+  color: rgba(255, 247, 237, 0.9);
+  font-size: 13px;
+  font-weight: 600;
+  text-align: right;
+  direction: rtl;
 }
 
 .customer-club-input-box {
@@ -118,13 +128,12 @@
 }
 
 .customer-club-input-box input::placeholder {
-  color: rgba(255, 247, 237, 0.38);
+  color: rgba(255, 247, 237, 0.62);
 }
 
 .customer-club-input-box input:focus,
 .customer-club-input-box input:focus-visible {
   outline: none;
-  box-shadow: none;
 }
 
 .customer-club-input-box input:disabled {
@@ -189,8 +198,9 @@
 
 .customer-club-submit:focus,
 .customer-club-submit:focus-visible {
-  outline: none;
-  box-shadow: 0 0 0 3px rgba(255, 225, 186, 0.35);
+  outline: 2px solid #ffe1ba;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.85), 0 10px 28px rgba(255, 225, 186, 0.22);
 }
 
 .customer-club-submit:disabled {
@@ -204,7 +214,7 @@
   align-items: flex-start;
   gap: 10px;
   margin-top: 16px;
-  color: rgba(255, 247, 237, 0.48);
+  color: rgba(255, 247, 237, 0.86);
   font-size: 12px;
   line-height: 1.6;
   cursor: pointer;
@@ -273,7 +283,7 @@
 
 .customer-club-social-row p {
   margin: 0;
-  color: rgba(255, 247, 237, 0.45);
+  color: rgba(255, 247, 237, 0.82);
   font-size: 12px;
   line-height: 1.45;
 }

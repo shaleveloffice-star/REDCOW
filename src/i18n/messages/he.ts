@@ -2,14 +2,18 @@ import { BUSINESS } from "@/data/business";
 import type { Messages } from "./types";
 
 export const he: Messages = {
+  a11y: {
+    skipToMain: "דלג לתוכן הראשי"
+  },
   lang: {
     label: "שפה",
     switchTo: "החלף שפה"
   },
   nav: {
     main: "ניווט ראשי",
-    openMenu: "פתח תפריט",
-    closeMenu: "סגור תפריט",
+    menuDialog: "תפריט ניווט",
+    openMenu: "פתח תפריט ניווט",
+    closeMenu: "סגור תפריט ניווט",
     home: "דף הבית",
     menu: "התפריט",
     plancha: "על הפלנצ׳ה",
@@ -31,7 +35,9 @@ export const he: Messages = {
     lead: "הסטנדרט הגבוה של NB BURGER.",
     trackAria: "מנות מהתפריט",
     bestSeller: "הכי נמכר",
-    fullMenu: "לתפריט המלא"
+    fullMenu: "לתפריט המלא",
+    prev: "מנות קודמות",
+    next: "מנות הבאות"
   },
   plancha: {
     title: "על הפלנצ׳ה",

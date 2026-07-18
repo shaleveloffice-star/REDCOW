@@ -9,7 +9,7 @@
 .birth-date-picker-label {
   display: block;
   margin-bottom: 8px;
-  color: rgba(255, 247, 237, 0.72);
+  color: rgba(255, 247, 237, 0.9);
   font-size: 13px;
   font-weight: 500;
 }
@@ -20,7 +20,7 @@
   padding: 12px 0;
   border: none;
   background: transparent;
-  color: rgba(255, 247, 237, 0.38);
+  color: rgba(255, 247, 237, 0.82);
   font: inherit;
   font-size: 15px;
   text-align: right;
@@ -37,7 +37,8 @@
 
 .birth-date-picker-trigger:focus,
 .birth-date-picker-trigger:focus-visible {
-  outline: none;
+  outline: 2px solid #ffe1ba;
+  outline-offset: 2px;
 }
 
 .birth-date-picker-trigger:disabled {
@@ -96,11 +97,14 @@
   cursor: not-allowed;
 }
 
-.birth-date-calendar-nav:focus,
 .birth-date-calendar-nav:focus-visible,
-.birth-date-calendar-title-part:focus,
-.birth-date-calendar-title-part:focus-visible {
-  outline: none;
+.birth-date-calendar-title-part:focus-visible,
+.birth-date-calendar-day:focus-visible,
+.birth-date-calendar-month:focus-visible,
+.birth-date-calendar-year:focus-visible {
+  outline: 2px solid #ffe1ba;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.85);
 }
 
 .birth-date-calendar-title-group {

@@ -28,7 +28,7 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
 
           <div
             className="location-block css-reveal css-reveal--1"
-            style={{ color: "rgba(255, 247, 237, 0.68)" }}
+            style={{ color: "rgba(255, 247, 237, 0.86)" }}
           >
             <div className="location-block-head">
               <IconMapPin className="location-block-icon" />
@@ -42,7 +42,7 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
 
           <div
             className="location-block css-reveal css-reveal--2"
-            style={{ color: "rgba(255, 247, 237, 0.68)" }}
+            style={{ color: "rgba(255, 247, 237, 0.86)" }}
           >
             <div className="location-block-head">
               <IconClock className="location-block-icon" />

@@ -170,6 +170,31 @@ body {
   line-height: var(--leading-body);
 }
 
+.skip-to-content {
+  position: absolute;
+  top: 0;
+  inset-inline-start: 0;
+  z-index: 10000;
+  padding: 12px 18px;
+  border: 2px solid var(--secondary);
+  border-radius: 0 0 10px 0;
+  background: #000;
+  color: #fff;
+  font-family: var(--font-button);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  transform: translateY(-120%);
+  transition: transform var(--motion-short) var(--motion-ease);
+}
+
+.skip-to-content:focus,
+.skip-to-content:focus-visible {
+  outline: 2px solid var(--secondary-border-hover);
+  outline-offset: 3px;
+  transform: translateY(0);
+}
+
 body:not(:has(.admin-layout)) h1,
 body:not(:has(.admin-layout)) h2,
 body:not(:has(.admin-layout)) h3,
@@ -369,6 +394,24 @@ select {
   gap: 12px;
 }
 
+.site-navbar-language {
+  display: flex;
+  align-items: center;
+}
+
+.site-navbar-language .language-switcher {
+  transform: scale(0.92);
+  transform-origin: center;
+}
+
+@media (max-width: 480px) {
+  .site-navbar-language .language-switcher-btn {
+    min-width: 30px;
+    padding: 5px 7px;
+    font-size: 11px;
+  }
+}
+
 .language-switcher {
   display: inline-flex;
   align-items: center;
@@ -386,7 +429,7 @@ select {
   border: 0;
   border-radius: 999px;
   background: transparent;
-  color: rgba(255, 255, 255, 0.72);
+  color: rgba(255, 255, 255, 0.86);
   font-family: var(--font-button);
   font-size: 12px;
   font-weight: 700;
@@ -1110,7 +1153,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .location-section,
 .menu-showcase-section {
   --home-text: #ffffff;
-  --home-text-muted: rgba(255, 255, 255, 0.68);
+  --home-text-muted: rgba(255, 255, 255, 0.82);
   --home-section-title-size: clamp(52px, 12vw, 120px);
   --home-section-title-line: 0.92;
   --home-step-title-size: clamp(40px, 9vw, 88px);
@@ -1535,6 +1578,41 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   padding: 4px 24px 10px;
   direction: rtl;
   scrollbar-width: none;
+}
+
+.menu-showcase-carousel {
+  display: grid;
+  gap: 14px;
+}
+
+.menu-showcase-controls {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  padding: 0 24px;
+}
+
+.menu-showcase-control {
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid rgba(255, 225, 186, 0.45);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.55);
+  color: #ffe1ba;
+  font-size: 22px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.menu-showcase-control:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+@media (min-width: 768px) {
+  .menu-showcase-controls {
+    display: none;
+  }
 }
 
 .menu-showcase-track::-webkit-scrollbar {
@@ -2835,7 +2913,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .site-footer-tagline {
   margin: 0;
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 255, 255, 0.82);
   font-size: 14px;
   line-height: 1.7;
 }
@@ -2859,7 +2937,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   align-items: center;
   gap: 8px;
   margin: 0;
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 255, 255, 0.82);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -2902,7 +2980,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   width: 36px;
   height: 36px;
   border: 1px solid rgba(255, 225, 186, 0.22);
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 255, 255, 0.82);
   transition:
     border-color var(--motion-short) ease,
     color var(--motion-short) ease;
@@ -2924,7 +3002,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .site-footer-links a {
-  color: rgba(255, 255, 255, 0.62);
+  color: rgba(255, 255, 255, 0.82);
   font-size: 14px;
   transition: color var(--motion-short) ease;
 }
@@ -2951,19 +3029,19 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .site-footer-bar-inner p {
   margin: 0;
-  color: rgba(255, 255, 255, 0.55);
+  color: rgba(255, 255, 255, 0.75);
   font-size: 12px;
 }
 
 .site-footer-est {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.75);
   font-family: var(--font-editorial);
   font-size: 14px;
   letter-spacing: 0.18em;
 }
 
 .site-footer-est span {
-  color: rgba(255, 255, 255, 0.6);
+  color: rgba(255, 255, 255, 0.85);
   font-size: 18px;
   font-weight: 700;
 }
@@ -5249,23 +5327,19 @@ body:not(:has(.admin-layout)) textarea:focus-visible {
   outline-offset: 3px;
 }
 
-body:not(:has(.admin-layout)) .customer-club-form .customer-club-submit:focus,
 body:not(:has(.admin-layout)) .customer-club-form .customer-club-submit:focus-visible,
-body:not(:has(.admin-layout)) .customer-club-form input:focus,
 body:not(:has(.admin-layout)) .customer-club-form input:focus-visible,
-body:not(:has(.admin-layout)) .customer-club-consent input:focus,
 body:not(:has(.admin-layout)) .customer-club-consent input:focus-visible,
-body:not(:has(.admin-layout)) .customer-club-form .birth-date-picker-trigger:focus,
 body:not(:has(.admin-layout)) .customer-club-form .birth-date-picker-trigger:focus-visible,
-body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-nav:focus,
 body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-nav:focus-visible,
-body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-title:focus,
 body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-title:focus-visible,
-body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-day:focus,
-body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-day:focus-visible {
-  outline: none;
-  outline-offset: 0;
-  box-shadow: none;
+body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-title-part:focus-visible,
+body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-day:focus-visible,
+body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-month:focus-visible,
+body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-year:focus-visible {
+  outline: 2px solid #ffe1ba;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.85);
 }
 
 body:not(:has(.admin-layout)) .hero-button,
@@ -5438,20 +5512,21 @@ body.short-tour-active .menu-showcase-track {
 .short-tour-caption-text {
   max-width: 100%;
   margin: 0;
-  color: #a3a3a3;
+  color: #f5f5f5;
   font-family: var(--font-display);
   font-size: clamp(28px, 7vw, 40px);
   font-weight: 800;
   line-height: 1.15;
   letter-spacing: 0.02em;
   text-wrap: balance;
+  text-shadow: 0 2px 18px rgba(0, 0, 0, 0.55);
 }
 
 .short-tour-skip {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #737373;
+  color: #e8e8e8;
   font-family: var(--font-body);
   font-size: 13px;
   font-weight: 500;
@@ -5462,7 +5537,7 @@ body.short-tour-active .menu-showcase-track {
 }
 
 .short-tour-skip:hover {
-  color: #a3a3a3;
+  color: #ffffff;
 }
 
 @keyframes short-tour-caption-in {

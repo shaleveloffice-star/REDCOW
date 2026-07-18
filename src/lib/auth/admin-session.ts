@@ -11,6 +11,7 @@ type AdminSessionPayload = {
   email: string;
   role: AdminRole;
   isMock: boolean;
+  jti: string;
 };
 
 function getSecretKey() {
@@ -28,13 +29,17 @@ export async function signAdminSessionToken(session: AdminSession): Promise<stri
     return null;
   }
 
+  const jti = globalThis.crypto.randomUUID();
+
   return new SignJWT({
     email: session.email,
     role: session.role,
-    isMock: session.isMock
+    isMock: session.isMock,
+    jti
   } satisfies AdminSessionPayload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
+    .setJti(jti)
     .setExpirationTime(`${getSessionMaxAgeSeconds()}s`)
     .sign(secretKey);
 }
@@ -73,7 +78,8 @@ export function getAdminSessionCookieOptions(maxAge = getSessionMaxAgeSeconds())
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax" as const,
-    path: "/",
+    // Limit session cookie to admin routes (reduces exposure on public pages).
+    path: "/admin",
     maxAge
   };
 }

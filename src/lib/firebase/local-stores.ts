@@ -2,7 +2,6 @@ import { createInMemoryStore } from "@/lib/admin/in-memory-store";
 import { createJsonFileStore } from "@/lib/admin/json-file-store";
 import { mockCareerApplications, mockContactMessages, mockCustomerClubSignups } from "@/data/mock/contact.mock";
 import { mockBranches } from "@/data/mock/branches.mock";
-import { mockGalleryItems } from "@/data/mock/gallery.mock";
 import { mockMenuCategories, mockMenuItems } from "@/data/mock/menu.mock";
 import { mockPressItems } from "@/data/mock/press.mock";
 import { mockOrderLinks, mockSiteSettings } from "@/data/mock/settings.mock";
@@ -11,7 +10,6 @@ import type {
   CareerApplication,
   ContactMessage,
   CustomerClubSignup,
-  GalleryItem,
   MenuCategory,
   MenuItem,
   OrderLink,
@@ -34,7 +32,6 @@ export const localCustomerClubSignupsStore = createInMemoryStore<CustomerClubSig
 );
 export const localBranchesStore = createInMemoryStore<Branch>(mockBranches);
 export const localPressStore = createInMemoryStore<PressItem>(mockPressItems);
-export const localGalleryStore = createInMemoryStore<GalleryItem>(mockGalleryItems);
 export const localOrderLinksStore = createInMemoryStore<OrderLink>(mockOrderLinks);
 export const localSiteImageOverridesStore = createJsonFileStore<SiteImageOverride>(
   "site-image-overrides.json",

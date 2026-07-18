@@ -6,7 +6,10 @@ import type { CustomerClubSignup } from "@/types/content";
 const customerClubStore = createFirestoreCollectionStore(
   "customerClubSignups",
   localCustomerClubSignupsStore,
-  mockCustomerClubSignups
+  {
+    access: "private",
+    seed: mockCustomerClubSignups
+  }
 );
 
 export async function getCustomerClubSignups(): Promise<CustomerClubSignup[]> {

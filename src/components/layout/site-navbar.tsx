@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useMemo, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { IconClose } from "@/components/shared/site-icons";
 import { SITE_WORDMARK_SRC, SITE_WORDMARK_WEBP_SRC } from "@/data/brand-assets";
 import { useTranslations } from "@/components/providers/locale-provider";
+import { focusElement, getFocusableElements, trapFocus } from "@/lib/a11y/focus-trap";
 
 type SiteNavbarProps = {
   overlay?: boolean;
@@ -13,7 +16,13 @@ type SiteNavbarProps = {
 
 export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
   const t = useTranslations();
+  const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
+  const menuId = useId();
+  const toggleRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef<HTMLButtonElement>(null);
+  const showNavLanguage = pathname !== "/";
 
   const navLinks = useMemo(
     () => [
@@ -29,6 +38,13 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
     [t]
   );
 
+  const closeMenu = (restoreFocus = true) => {
+    setIsOpen(false);
+    if (restoreFocus) {
+      focusElement(toggleRef.current);
+    }
+  };
+
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
     return () => {
@@ -37,15 +53,27 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
   }, [isOpen]);
 
   useEffect(() => {
+    if (!isOpen) return;
+
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    focusElement(closeRef.current ?? getFocusableElements(dialog)[0]);
+    const releaseTrap = trapFocus(dialog);
+
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
-        setIsOpen(false);
+        event.preventDefault();
+        closeMenu(true);
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  }, []);
+    return () => {
+      releaseTrap();
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isOpen]);
 
   const navClass = overlay ? "site-navbar site-navbar--overlay" : "site-navbar";
 
@@ -67,27 +95,51 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
               />
             </picture>
           </Link>
-          <button
-            type="button"
-            className="site-navbar-toggle"
-            aria-label={t.nav.openMenu}
-            aria-expanded={isOpen}
-            onClick={() => setIsOpen(true)}
-          >
-            <span />
-            <span />
-            <span />
-          </button>
+
+          <div className="site-navbar-actions">
+            {showNavLanguage ? (
+              <div className="site-navbar-language">
+                <LanguageSwitcher />
+              </div>
+            ) : null}
+            <button
+              ref={toggleRef}
+              type="button"
+              className="site-navbar-toggle"
+              aria-label={isOpen ? t.nav.closeMenu : t.nav.openMenu}
+              aria-expanded={isOpen}
+              aria-controls={menuId}
+              onClick={() => {
+                if (isOpen) {
+                  closeMenu(true);
+                } else {
+                  setIsOpen(true);
+                }
+              }}
+            >
+              <span />
+              <span />
+              <span />
+            </button>
+          </div>
         </nav>
       </header>
 
       {isOpen ? (
-        <div className="site-nav-overlay site-nav-overlay--open" role="dialog" aria-modal="true">
+        <div
+          ref={dialogRef}
+          id={menuId}
+          className="site-nav-overlay site-nav-overlay--open"
+          role="dialog"
+          aria-modal="true"
+          aria-label={t.nav.menuDialog}
+        >
           <button
+            ref={closeRef}
             type="button"
             className="site-nav-overlay-close"
             aria-label={t.nav.closeMenu}
-            onClick={() => setIsOpen(false)}
+            onClick={() => closeMenu(true)}
           >
             <IconClose />
           </button>
@@ -98,7 +150,7 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
                 href={link.href}
                 className="site-nav-overlay-link"
                 style={{ animationDelay: `${index * 0.08}s` }}
-                onClick={() => setIsOpen(false)}
+                onClick={() => closeMenu(true)}
               >
                 {link.label}
               </a>

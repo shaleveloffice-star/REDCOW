@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 
 import { AdminShell } from "@/components/features/admin/admin-shell";
-import { getCurrentAdminSession } from "@/services/auth.service";
+import { getCurrentAdminSession } from "@/lib/auth/get-current-admin-session";
 
 export const dynamic = "force-dynamic";
 

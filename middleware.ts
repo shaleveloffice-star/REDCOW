@@ -2,6 +2,7 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 import {
+  assertAdminAllowlistConfigured,
   assertProductionAuthMode,
   getAdminAuthMode,
   getAllowedAdminEmails,
@@ -22,7 +23,7 @@ async function getSessionFromRequest(request: NextRequest) {
   }
 
   const allowedEmails = getAllowedAdminEmails();
-  if (allowedEmails.length > 0 && !isEmailAllowedForAdmin(session.email, allowedEmails)) {
+  if (!isEmailAllowedForAdmin(session.email, allowedEmails)) {
     return null;
   }
 
@@ -38,10 +39,11 @@ export async function middleware(request: NextRequest) {
 
   try {
     assertProductionAuthMode();
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Admin auth configuration is invalid.";
-    return new NextResponse(message, { status: 500 });
+    if (!isOpenAdminAuthMode()) {
+      assertAdminAllowlistConfigured();
+    }
+  } catch {
+    return new NextResponse("Admin authentication is misconfigured.", { status: 500 });
   }
 
   if (isOpenAdminAuthMode()) {
@@ -70,7 +72,6 @@ export async function middleware(request: NextRequest) {
   if (!session) {
     const loginUrl = request.nextUrl.clone();
     loginUrl.pathname = "/admin/login";
-    loginUrl.searchParams.set("next", pathname);
     return NextResponse.redirect(loginUrl);
   }
 

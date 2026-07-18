@@ -3,7 +3,10 @@ import { createFirestoreCollectionStore } from "@/lib/firebase/firestore-store";
 import { localPressStore } from "@/lib/firebase/local-stores";
 import type { PressItem } from "@/types/content";
 
-const pressStore = createFirestoreCollectionStore("pressItems", localPressStore, mockPressItems);
+const pressStore = createFirestoreCollectionStore("pressItems", localPressStore, {
+  access: "public",
+  seed: mockPressItems
+});
 
 export async function getPressItems(): Promise<PressItem[]> {
   return pressStore.getAll();

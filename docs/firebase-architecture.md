@@ -1,51 +1,44 @@
 # Firebase Architecture
 
-הפרויקט תומך ב-Firestore דרך Firebase Client SDK. כשמשתני `NEXT_PUBLIC_FIREBASE_*` מוגדרים, כל ה-repositories שומרים ל-Firestore. בלי הגדרות — fallback לקבצי JSON / mock מקומי.
+הפרויקט תומך ב-Firestore דרך Firebase Client SDK (קריאות ציבוריות) ו-Admin SDK (כל הכתיבות + קריאות פרטיות).  
+כשמשתני `NEXT_PUBLIC_FIREBASE_*` מוגדרים — repositories עובדים מול Firestore.  
+בלי הגדרות Client — fallback ל-mock / קבצי JSON תחת `data/local/` (**פיתוח בלבד**).  
+כש-Firebase Client מוגדר — **אין** fallback שקט ל-mock; כתיבות דורשות Admin SDK.
+
+ארכיטקטורה מאושרת: **Public Read + Admin Write**.
 
 ```text
-UI / app pages -> feature components -> services -> repositories -> Firestore (או mock מקומי)
-Admin UI -> server actions -> services -> repositories -> Firestore (או mock מקומי)
+UI / app pages → components → services → repositories
+  → Public collections: Client SDK read
+  → Private collections: Admin SDK read
+  → All writes (when Firebase on): Admin SDK only
+Admin UI → server actions → requireAdmin → services → repositories → Admin SDK
 ```
 
 ## איפה נמצא חיבור Firebase
 
-- `src/lib/firebase.ts` — אתחול Firebase App + Firestore (getApps/getApp).
-- `src/lib/firebase/firestore-store.ts` — CRUD ל-collections ול-document בודד.
-- `src/lib/firebase/local-stores.ts` — fallback מקומי כש-Firebase לא מוגדר.
-- `src/lib/firebase/config.ts` — מצב חיבור ו-env חסרים.
-- `src/lib/firebase/admin.ts` — placeholder ל-Firebase Admin SDK (עתידי).
+| קובץ | תפקיד |
+|------|--------|
+| `src/lib/firebase.ts` | אתחול Client App + Firestore |
+| `src/lib/firebase/firestore-store.ts` | CRUD + access public/private + fail-closed |
+| `src/lib/firebase/local-stores.ts` | fallback מקומי (רק בלי Client ENV) |
+| `src/lib/firebase/admin-core.ts` | אתחול Admin SDK |
+| `src/lib/firebase/admin-auth.ts` | אימות Firebase Auth בשרת |
+| `src/lib/firebase/admin-firestore.ts` | Firestore דרך Admin SDK |
+| `firestore.rules` | Rules לפריסה |
+| `scripts/bootstrap-site-settings.mjs` | יצירת `siteSettings/default` חד-פעמית |
 
-Collections ב-Firestore:
+## Collections
 
-- `menuItems`, `menuCategories`, `contactMessages`, `careerApplications`
-- `branches`, `pressItems`, `galleryItems`, `orderLinks`, `siteImageOverrides`
-- `siteSettings/default` — מסמך יחיד להגדרות האתר
+**Public read (Client):** `menuItems`, `menuCategories`, `branches`, `orderLinks`, `pressItems`, `siteImageOverrides`, `siteSettings`
 
-בפעם הראשונה ש-collection ריק, הנתונים מ-mock נזרעים אוטומטית ל-Firestore.
+**Private (Admin only):** `contactMessages`, `careerApplications`, `customerClubSignups`, `adminUsers`
 
 ## Client SDK מול Admin SDK
 
-Client SDK מיועד לדפדפן ולפעולות שמותר לחשוף ללקוח, כמו Firebase Auth או העלאה מבוקרת ל-Storage. רק משתני `NEXT_PUBLIC_` יכולים להגיע אליו.
+- **Client** — קריאת CMS ציבורי לפי Rules (`allow read`). אין כתיבת Client כש-Firebase פעיל.
+- **Admin** — שרת בלבד לכל הכתיבות ולקריאות פרטיות. אסור לייבא לקומפוננטות client.
 
-Admin SDK מיועד לשרת בלבד, למשל server actions, אימות session, כתיבה מאובטחת ופעולות ניהול. אסור לייבא אותו מקומפוננטות UI או קוד client.
+## השקה
 
-## איך מוסיפים collection חדשה
-
-1. מוסיפים type ב-`src/types/content.ts` או קובץ type ייעודי.
-2. מוסיפים mock data תחת `src/data/mock`.
-3. יוצרים repository תחת `src/repositories`.
-4. יוצרים service תחת `src/services`.
-5. אם יש פעולות ניהול, מוסיפים server action תחת `src/server/actions`.
-6. מחברים page או feature component דרך service/action בלבד.
-
-## איך מחברים מסך ניהול ל-Firestore
-
-כאשר Firebase יאושר, משנים רק את שכבת repository. לדוגמה, `menu.repository.ts` יעבור מקריאת `mockMenuItems` לקריאה ל-collection `menuItems`. ה-service, ה-server action וה-UI נשארים עם אותו contract.
-
-## כללי הפרדה
-
-- אין import של Firebase מתוך `src/components`.
-- אין import של mock data מתוך `src/app` או `src/components`.
-- לוגיקה עסקית נמצאת ב-`src/services`.
-- גישה לנתונים נמצאת ב-`src/repositories`.
-- פעולות ניהול נמצאות ב-`src/server/actions`.
+ראו `docs/LAUNCH.md`.

@@ -1,6 +1,8 @@
 "use server";
 
-import { requireAdmin } from "@/lib/auth/admin-guard";
+import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
+import { RATE_LIMITS } from "@/lib/constants";
+import { consumeRateLimit, getRequestClientIp } from "@/lib/security/rate-limit";
 import { revalidatePath } from "next/cache";
 import {
   createCustomerClubSignup,
@@ -24,6 +26,9 @@ export type CustomerClubSignupResult =
   | { ok: false; code: CustomerClubSignupErrorCode };
 
 const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const MAX_NAME = 120;
+const MAX_PHONE = 40;
+const MAX_EMAIL = 254;
 
 export async function getCustomerClubAdminData() {
   await requireAdmin();
@@ -33,10 +38,21 @@ export async function getCustomerClubAdminData() {
 export async function submitCustomerClubSignupAction(
   formData: FormData
 ): Promise<CustomerClubSignupResult> {
-  const fullName = String(formData.get("fullName") ?? "").trim();
-  const phone = String(formData.get("phone") ?? "").trim();
-  const email = String(formData.get("email") ?? "").trim();
-  const birthDateRaw = String(formData.get("birthDate") ?? "").trim();
+  const ip = await getRequestClientIp();
+  if (
+    !consumeRateLimit(
+      `customer-club:${ip}`,
+      RATE_LIMITS.customerClub.maxAttempts,
+      RATE_LIMITS.customerClub.windowMs
+    )
+  ) {
+    return { ok: false, code: "generic" };
+  }
+
+  const fullName = String(formData.get("fullName") ?? "").trim().slice(0, MAX_NAME);
+  const phone = String(formData.get("phone") ?? "").trim().slice(0, MAX_PHONE);
+  const email = String(formData.get("email") ?? "").trim().slice(0, MAX_EMAIL);
+  const birthDateRaw = String(formData.get("birthDate") ?? "").trim().slice(0, 32);
   const marketingConsent = formData.get("marketingConsent") === "on";
 
   if (!fullName) return { ok: false, code: "fullName" };
@@ -55,23 +71,12 @@ export async function submitCustomerClubSignupAction(
     console.info("[CustomerClub] submitCustomerClubSignupAction saved", { id: saved.id });
     return { ok: true };
   } catch (error) {
-    console.error("[CustomerClub] submitCustomerClubSignupAction failed", formatActionError(error));
+    console.error(
+      "[CustomerClub] submitCustomerClubSignupAction failed",
+      error instanceof Error ? { name: error.name, message: error.message } : { raw: "error" }
+    );
     return { ok: false, code: "generic" };
   }
-}
-
-function formatActionError(error: unknown) {
-  if (error instanceof Error) {
-    const firebaseError = error as Error & { code?: string };
-    return {
-      name: firebaseError.name,
-      message: firebaseError.message,
-      code: firebaseError.code,
-      stack: firebaseError.stack
-    };
-  }
-
-  return { raw: error };
 }
 
 export async function saveCustomerClubSignupAction(input: CustomerClubSignup) {
@@ -79,9 +84,9 @@ export async function saveCustomerClubSignupAction(input: CustomerClubSignup) {
   if (!input.fullName.trim()) throw new Error("שם נדרש");
   const saved = await upsertCustomerClubSignup({
     ...input,
-    fullName: input.fullName.trim(),
-    phone: input.phone.trim(),
-    email: input.email.trim(),
+    fullName: input.fullName.trim().slice(0, MAX_NAME),
+    phone: input.phone.trim().slice(0, MAX_PHONE),
+    email: input.email.trim().slice(0, MAX_EMAIL),
     birthDate: input.birthDate?.trim() || undefined,
     marketingConsent: input.marketingConsent,
     status: input.status as RecordStatus
@@ -91,7 +96,7 @@ export async function saveCustomerClubSignupAction(input: CustomerClubSignup) {
 }
 
 export async function deleteCustomerClubSignupAction(id: string) {
-  await requireAdmin();
+  await requireAdminRole(["owner", "manager"]);
   const ok = await removeCustomerClubSignup(id);
   if (!ok) throw new Error("ההרשמה לא נמצאה");
   paths.forEach((path) => revalidatePath(path));

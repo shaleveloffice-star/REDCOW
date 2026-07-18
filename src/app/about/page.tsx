@@ -18,7 +18,7 @@ export default async function AboutPage() {
   return (
     <>
       <SiteHeader />
-      <main className="about-page" dir="rtl">
+      <main id="main-content" className="about-page" dir="rtl">
         <AboutPageView siteImages={siteImages} />
       </main>
       <SiteFooter />

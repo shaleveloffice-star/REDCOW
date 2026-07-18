@@ -40,18 +40,6 @@ export type Branch = {
   updatedAt: ISODateString;
 };
 
-export type GalleryItem = {
-  id: string;
-  title: string;
-  imageUrl: string;
-  alt: string;
-  category: string;
-  sortOrder: number;
-  isActive: boolean;
-  createdAt: ISODateString;
-  updatedAt: ISODateString;
-};
-
 export type PressItem = {
   id: string;
   title: string;

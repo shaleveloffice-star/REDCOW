@@ -4,7 +4,8 @@ import type { SiteImageOverride } from "@/types/site-images";
 
 const overridesStore = createFirestoreCollectionStore(
   "siteImageOverrides",
-  localSiteImageOverridesStore
+  localSiteImageOverridesStore,
+  { access: "public" }
 );
 
 export async function getSiteImageOverrides(): Promise<SiteImageOverride[]> {

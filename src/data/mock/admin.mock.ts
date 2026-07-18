@@ -11,7 +11,6 @@ export const mockAdminUsers: AdminUser[] = [
     permissions: [
       "menu:write",
       "branches:write",
-      "gallery:write",
       "press:write",
       "messages:read",
       "careers:read",

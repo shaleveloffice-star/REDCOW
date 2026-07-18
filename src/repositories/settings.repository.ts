@@ -12,11 +12,10 @@ const siteSettingsStore = createFirestoreDocumentStore(
   localSiteSettingsStore,
   mockSiteSettings
 );
-const orderLinksStore = createFirestoreCollectionStore(
-  "orderLinks",
-  localOrderLinksStore,
-  mockOrderLinks
-);
+const orderLinksStore = createFirestoreCollectionStore("orderLinks", localOrderLinksStore, {
+  access: "public",
+  seed: mockOrderLinks
+});
 
 export async function getSiteSettings(): Promise<SiteSettings> {
   return siteSettingsStore.get();

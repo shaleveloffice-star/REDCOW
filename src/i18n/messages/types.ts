@@ -4,12 +4,16 @@ export type PlanchaStepMessage = {
 };
 
 export type Messages = {
+  a11y: {
+    skipToMain: string;
+  };
   lang: {
     label: string;
     switchTo: string;
   };
   nav: {
     main: string;
+    menuDialog: string;
     openMenu: string;
     closeMenu: string;
     home: string;
@@ -34,6 +38,8 @@ export type Messages = {
     trackAria: string;
     bestSeller: string;
     fullMenu: string;
+    prev: string;
+    next: string;
   };
   plancha: {
     title: string;

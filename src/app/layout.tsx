@@ -3,6 +3,7 @@ import { Assistant } from "next/font/google";
 import "./globals.css";
 
 import { LocaleProvider } from "@/components/providers/locale-provider";
+import { SkipToContent } from "@/components/layout/skip-to-content";
 import { getDirection } from "@/i18n/config";
 import { getServerLocale } from "@/i18n/get-locale";
 import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/seo";
@@ -21,6 +22,14 @@ export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: `${SITE_NAME} | המבורגר רעננה`,
   description: DEFAULT_DESCRIPTION,
+  icons: {
+    icon: [
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/icon.png", type: "image/png" }
+    ],
+    apple: [{ url: "/apple-touch-icon.png", type: "image/png" }],
+    shortcut: ["/favicon.ico"]
+  },
   openGraph: {
     type: "website",
     siteName: SITE_NAME,
@@ -48,7 +57,10 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={dir}>
       <body className={`${assistant.variable} ${assistant.className}`}>
-        <LocaleProvider initialLocale={locale}>{children}</LocaleProvider>
+        <LocaleProvider initialLocale={locale}>
+          <SkipToContent />
+          {children}
+        </LocaleProvider>
       </body>
     </html>
   );

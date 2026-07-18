@@ -29,7 +29,9 @@ export function LocaleProvider({ initialLocale, children }: LocaleProviderProps)
         return;
       }
 
-      document.cookie = `${LOCALE_COOKIE}=${nextLocale};path=/;max-age=31536000;SameSite=Lax`;
+      const secure =
+        typeof window !== "undefined" && window.location.protocol === "https:" ? ";Secure" : "";
+      document.cookie = `${LOCALE_COOKIE}=${nextLocale};path=/;max-age=31536000;SameSite=Lax${secure}`;
       document.documentElement.lang = nextLocale;
       document.documentElement.dir = getDirection(nextLocale);
       setLocaleState(nextLocale);

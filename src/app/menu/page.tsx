@@ -22,7 +22,7 @@ export default async function MenuPage() {
     <>
       <JsonLd data={buildMenuJsonLd(groups)} />
       <SiteHeader />
-      <main className="menu-page" dir="rtl">
+      <main id="main-content" className="menu-page" dir="rtl">
         <div className="menu-page-inner page-shell section inner-page">
           <MenuPageView groups={groups} />
         </div>

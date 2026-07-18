@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { SITE_LOGO_SRC } from "@/components/layout/site-logo";
+import { SITE_LOGO_SRC } from "@/data/site-images.registry";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { ABOUT_PAGE_IMAGES as IMG } from "@/data/site-images.registry";
 import { pickSiteImage } from "@/lib/site-image-url";

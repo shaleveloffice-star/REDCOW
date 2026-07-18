@@ -1,21 +1,70 @@
-// Merge this block into your existing Firestore rules in Firebase Console.
-// Required only when server writes use the client SDK (no Admin SDK env vars).
+// Reference template for Firebase Console / docs.
+// Deployable source of truth: firestore.rules (same rules body).
+// Architecture: Public Read + Admin Write for CMS; private collections deny all client access.
+// Writes from the app use Firebase Admin SDK (bypasses rules). Do not grant client write.
 
 /*
-match /customerClubSignups/{memberId} {
-  allow create: if request.resource.data.keys().hasAll([
-      'fullName',
-      'phone',
-      'email',
-      'marketingConsent',
-      'createdAt',
-      'status'
-    ])
-    && request.resource.data.fullName is string
-    && request.resource.data.phone is string
-    && request.resource.data.email is string
-    && request.resource.data.marketingConsent == true
-    && request.resource.data.status == 'new';
-  allow read, update, delete: if false;
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // --- Public CMS (Client read OK; Client write denied — Admin SDK only) ---
+    match /menuItems/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /menuCategories/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /branches/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /orderLinks/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /pressItems/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /siteImageOverrides/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /siteSettings/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // --- Private (no Client access; Admin SDK only) ---
+    match /customerClubSignups/{documentId} {
+      allow read, write: if false;
+    }
+
+    match /contactMessages/{documentId} {
+      allow read, write: if false;
+    }
+
+    match /careerApplications/{documentId} {
+      allow read, write: if false;
+    }
+
+    match /adminUsers/{documentId} {
+      allow read, write: if false;
+    }
+
+    // Deny everything else by default.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
 }
 */

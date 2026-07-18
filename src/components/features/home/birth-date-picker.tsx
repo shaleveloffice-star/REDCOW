@@ -4,6 +4,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useId, useMemo, useRef, useState } from "react";
 
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
+import { focusElement, getFocusableElements, trapFocus } from "@/lib/a11y/focus-trap";
 
 import "./birth-date-calendar.css";
 
@@ -12,6 +13,7 @@ type BirthDatePickerProps = {
   disabled?: boolean;
   label: string;
   showLabel?: boolean;
+  labelledBy?: string;
 };
 
 type CalendarView = "days" | "months" | "years";
@@ -69,16 +71,20 @@ export function BirthDatePicker({
   name,
   disabled = false,
   label,
-  showLabel = true
+  showLabel = true,
+  labelledBy
 }: BirthDatePickerProps) {
   const { locale } = useLocale();
   const t = useTranslations();
   const fieldId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
 
   const today = useMemo(() => new Date(), []);
   const currentYear = today.getFullYear();
   const currentMonth = today.getMonth() + 1;
+  const currentDay = today.getDate();
 
   const [isOpen, setIsOpen] = useState(false);
   const [calendarView, setCalendarView] = useState<CalendarView>("days");
@@ -152,30 +158,97 @@ export function BirthDatePicker({
     setCalendarView("days");
   };
 
+  const closeCalendar = (restoreFocus = true) => {
+    setIsOpen(false);
+    resetCalendarView();
+    if (restoreFocus) {
+      focusElement(triggerRef.current);
+    }
+  };
+
   useEffect(() => {
     if (!isOpen) return;
 
     const onPointerDown = (event: MouseEvent) => {
       if (!rootRef.current?.contains(event.target as Node)) {
-        setIsOpen(false);
-        resetCalendarView();
-      }
-    };
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        setIsOpen(false);
-        resetCalendarView();
+        closeCalendar(true);
       }
     };
 
     document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
     return () => {
       document.removeEventListener("mousedown", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
     };
   }, [isOpen]);
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const dialog = dialogRef.current;
+    if (!dialog) return;
+
+    const preferred =
+      dialog.querySelector<HTMLElement>('[aria-selected="true"]:not([disabled])') ??
+      dialog.querySelector<HTMLElement>('[aria-current="date"]:not([disabled])') ??
+      getFocusableElements(dialog).find((el) => el.classList.contains("birth-date-calendar-day")) ??
+      getFocusableElements(dialog)[0];
+
+    focusElement(preferred);
+    const releaseTrap = trapFocus(dialog);
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeCalendar(true);
+        return;
+      }
+
+      if (calendarView !== "days") return;
+
+      const active = document.activeElement;
+      if (!(active instanceof HTMLElement) || !active.classList.contains("birth-date-calendar-day")) {
+        return;
+      }
+
+      const day = Number(active.dataset.day);
+      if (!Number.isFinite(day)) return;
+
+      const total = daysInMonth(viewYear, viewMonth);
+      let nextDay: number | null = null;
+
+      if (event.key === "ArrowRight") nextDay = day - 1;
+      if (event.key === "ArrowLeft") nextDay = day + 1;
+      if (event.key === "ArrowUp") nextDay = day - 7;
+      if (event.key === "ArrowDown") nextDay = day + 7;
+      if (event.key === "Home") nextDay = 1;
+      if (event.key === "End") nextDay = total;
+      if (event.key === "PageUp") {
+        event.preventDefault();
+        goToPreviousMonth();
+        return;
+      }
+      if (event.key === "PageDown") {
+        event.preventDefault();
+        goToNextMonth();
+        return;
+      }
+
+      if (nextDay === null) return;
+      if (nextDay < 1 || nextDay > total) return;
+      if (isFutureDate(viewYear, viewMonth, nextDay)) return;
+
+      event.preventDefault();
+      const nextButton = dialog.querySelector<HTMLElement>(
+        `.birth-date-calendar-day[data-day="${nextDay}"]`
+      );
+      nextButton?.focus();
+    };
+
+    dialog.addEventListener("keydown", onKeyDown);
+    return () => {
+      releaseTrap();
+      dialog.removeEventListener("keydown", onKeyDown);
+    };
+  }, [isOpen, calendarView, viewYear, viewMonth]);
 
   const openCalendar = () => {
     if (disabled) return;
@@ -216,8 +289,7 @@ export function BirthDatePicker({
     setSelectedYear(viewYear);
     setSelectedMonth(viewMonth);
     setSelectedDay(day);
-    setIsOpen(false);
-    resetCalendarView();
+    closeCalendar(true);
   };
 
   const handleMonthSelect = (month: number) => {
@@ -244,6 +316,8 @@ export function BirthDatePicker({
         ? t.customerClub.datePicker.pickYear
         : null;
 
+  const labelId = showLabel ? `${fieldId}-label` : labelledBy;
+
   return (
     <div className="birth-date-picker" ref={rootRef}>
       {showLabel ? (
@@ -255,6 +329,7 @@ export function BirthDatePicker({
       <input type="hidden" name={name} value={isoValue} />
 
       <button
+        ref={triggerRef}
         type="button"
         className={[
           "birth-date-picker-trigger",
@@ -262,9 +337,11 @@ export function BirthDatePicker({
         ]
           .filter(Boolean)
           .join(" ")}
-        aria-label={label}
+        aria-label={labelId ? undefined : label}
+        aria-labelledby={labelId}
         aria-haspopup="dialog"
         aria-expanded={isOpen}
+        aria-controls={isOpen ? `${fieldId}-dialog` : undefined}
         disabled={disabled}
         onClick={openCalendar}
       >
@@ -273,10 +350,13 @@ export function BirthDatePicker({
 
       {isOpen ? (
         <div
+          ref={dialogRef}
+          id={`${fieldId}-dialog`}
           className="birth-date-calendar"
           role="dialog"
+          aria-modal="true"
           aria-label={label}
-          {...(showLabel ? { "aria-labelledby": `${fieldId}-label` } : {})}
+          {...(labelId ? { "aria-labelledby": labelId } : {})}
         >
           <div className="birth-date-calendar-header">
             <button
@@ -334,20 +414,31 @@ export function BirthDatePicker({
               <div className="birth-date-calendar-grid" role="grid">
                 {calendarDays.map((cell) => {
                   if (cell.day === null) {
-                    return <span key={cell.key} className="birth-date-calendar-day birth-date-calendar-day--empty" />;
+                    return (
+                      <span
+                        key={cell.key}
+                        className="birth-date-calendar-day birth-date-calendar-day--empty"
+                      />
+                    );
                   }
 
                   const isSelected =
                     selectedYear === viewYear &&
                     selectedMonth === viewMonth &&
                     selectedDay === cell.day;
+                  const isToday =
+                    viewYear === currentYear &&
+                    viewMonth === currentMonth &&
+                    cell.day === currentDay;
                   const isDisabled = isFutureDate(viewYear, viewMonth, cell.day);
+                  const fullDateLabel = formatDisplayDate(viewYear, viewMonth, cell.day, locale);
 
                   return (
                     <button
                       key={cell.key}
                       type="button"
                       role="gridcell"
+                      data-day={cell.day}
                       className={[
                         "birth-date-calendar-day",
                         isSelected ? "birth-date-calendar-day--selected" : "",
@@ -355,6 +446,9 @@ export function BirthDatePicker({
                       ]
                         .filter(Boolean)
                         .join(" ")}
+                      aria-label={fullDateLabel}
+                      aria-selected={isSelected}
+                      aria-current={isToday ? "date" : undefined}
                       disabled={isDisabled}
                       onClick={() => handleDaySelect(cell.day!)}
                     >

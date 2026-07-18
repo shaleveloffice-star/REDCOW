@@ -139,7 +139,7 @@ export default function TermsPage() {
   return (
     <>
       <SiteHeader />
-      <main className="legal-page">
+      <main id="main-content" className="legal-page">
         <article className="legal-document">
           <p className="legal-kicker">עודכן לאחרונה: 27/05/2026</p>
           <h1>תקנון אתר ותנאי שימוש – NB BURGER</h1>

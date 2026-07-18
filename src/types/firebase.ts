@@ -3,7 +3,6 @@ export type FirebaseCollectionName =
   | "menuItems"
   | "menuCategories"
   | "branches"
-  | "galleryItems"
   | "pressItems"
   | "contactMessages"
   | "careerApplications"

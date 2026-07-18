@@ -42,7 +42,11 @@ export async function middleware(request: NextRequest) {
     if (!isOpenAdminAuthMode()) {
       assertAdminAllowlistConfigured();
     }
-  } catch {
+  } catch (error) {
+    console.error(
+      "[AdminAuth] middleware config blocked",
+      error instanceof Error ? error.message : "error"
+    );
     return new NextResponse("Admin authentication is misconfigured.", { status: 500 });
   }
 

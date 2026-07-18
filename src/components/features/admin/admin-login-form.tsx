@@ -1,8 +1,14 @@
 import { loginAdminAction } from "@/server/actions/auth.actions";
 
 const ERROR_MESSAGES: Record<string, string> = {
-  invalid: "אימייל או סיסמה שגויים.",
-  config: "הגדרות האימות חסרות או לא תקינות. בדוק משתני סביבה."
+  invalid_credentials: "האימייל או הסיסמה אינם נכונים.",
+  forbidden_email: "לחשבון הזה אין הרשאה להיכנס לאדמין.",
+  firebase_error: "לא ניתן להתחבר כרגע לשירות האימות.",
+  config_error: "הגדרות האימות בשרת חסרות או לא תקינות.",
+  rate_limited: "ניסיונות התחברות רבים מדי. נסו שוב בעוד כמה דקות.",
+  // Legacy query params from older deploys
+  invalid: "האימייל או הסיסמה אינם נכונים.",
+  config: "הגדרות האימות בשרת חסרות או לא תקינות."
 };
 
 type AdminLoginFormProps = {
@@ -10,7 +16,7 @@ type AdminLoginFormProps = {
 };
 
 export function AdminLoginForm({ error }: AdminLoginFormProps) {
-  const errorMessage = error ? ERROR_MESSAGES[error] : null;
+  const errorMessage = error ? (ERROR_MESSAGES[error] ?? null) : null;
 
   return (
     <form action={loginAdminAction} className="admin-form">

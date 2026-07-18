@@ -7,7 +7,7 @@
 
 ## דרישות
 
-- Node.js **20.9+** (מומלץ 20 LTS — ראו `.nvmrc`)
+- Node.js **22+** (firebase-admin 14 דורש Node ≥22 — ראו `.nvmrc`)
 - npm
 
 ## התקנה
@@ -84,7 +84,7 @@ npm run start
 
 ## Deploy (Vercel)
 
-1. Import הפרויקט ב-Vercel — Framework: Next.js, Node 20.
+1. Import הפרויקט ב-Vercel — Framework: Next.js, Node **22**.
 2. הגדירו את כל משתני הסביבה (ראו `docs/LAUNCH.md`).
 3. Build: `npm run build`.
 4. חברו את `nbburger.co.il` (+ www → apex).

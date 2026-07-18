@@ -171,7 +171,25 @@ Canonical / OG / Twitter / Sitemap / Robots / JSON-LD מבוססים על `NEXT_
 
 ---
 
-## 9. Production Safety (סיכום)
+## Admin 500 — "Admin authentication is misconfigured."
+
+הודעה זו מגיעה מ-`middleware.ts` כש-`assertProductionAuthMode()` נכשל ב-production.
+
+במצב `ADMIN_AUTH_MODE=firebase` נדרשים **לפני** הצגת `/admin/login`:
+
+1. `ADMIN_SESSION_SECRET` — לפחות 32 תווים (אחרי trim)
+2. `ADMIN_ALLOWED_EMAILS` — לפחות אימייל אחד (מופרד בפסיקים, מנורמל ל-lowercase)
+3. `FIREBASE_PROJECT_ID`
+4. `FIREBASE_CLIENT_EMAIL`
+5. `FIREBASE_PRIVATE_KEY`
+
+אם `ADMIN_AUTH_MODE` **לא** מוגדר → ברירת מחדל `password`, ואז נדרש גם `ADMIN_DEV_PASSWORD` (≥12).  
+**אל תשתמשו ב-`open` / `mock` בפרודקשן** — הם נחסמים.
+
+`NEXT_PUBLIC_FIREBASE_API_KEY` אינו נבדק ב-middleware (רק בזמן Login). עדיין חובה ל-login עם Firebase.
+
+לאחר שינוי ENV ב-Vercel: **Redeploy חובה** (במיוחד ל-`NEXT_PUBLIC_*` שמוטמעים ב-build).
+
 
 | בדיקה | תוצאה צפויה |
 |--------|-------------|

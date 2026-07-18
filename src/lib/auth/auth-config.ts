@@ -60,8 +60,9 @@ export function assertProductionAuthMode() {
   if (mode === "firebase") {
     const projectId = process.env.FIREBASE_PROJECT_ID?.trim();
     const clientEmail = process.env.FIREBASE_CLIENT_EMAIL?.trim();
-    const privateKey = process.env.FIREBASE_PRIVATE_KEY?.trim();
-    if (!projectId || !clientEmail || !privateKey) {
+    // Presence check only — full PEM normalize happens in admin-core at use time.
+    const privateKeyRaw = process.env.FIREBASE_PRIVATE_KEY?.trim();
+    if (!projectId || !clientEmail || !privateKeyRaw) {
       throw new Error(
         "FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY are required when ADMIN_AUTH_MODE=firebase in production."
       );

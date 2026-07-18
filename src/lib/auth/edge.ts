@@ -51,6 +51,8 @@ export function getAdminSessionSecret(): string | null {
 /**
  * Production config gate for Edge middleware.
  * Presence checks only — no PEM parsing, no firebase-admin.
+ * Login itself verifies ID tokens with jose (does not need Admin SDK at sign-in).
+ * Admin credentials are still required for Firestore Admin writes after login.
  */
 export function assertEdgeProductionAuthConfig() {
   if (process.env.NODE_ENV !== "production") {
@@ -74,21 +76,20 @@ export function assertEdgeProductionAuthConfig() {
   }
 
   if (mode === "firebase") {
-    const projectId = process.env.FIREBASE_PROJECT_ID?.trim();
-    const clientEmail = process.env.FIREBASE_CLIENT_EMAIL?.trim();
-    const privateKey = process.env.FIREBASE_PRIVATE_KEY?.trim();
-    if (!projectId || !clientEmail || !privateKey) {
+    const projectId =
+      process.env.FIREBASE_PROJECT_ID?.trim() ||
+      process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID?.trim();
+    const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.trim();
+    if (!projectId || !apiKey) {
       console.error(
         "[AdminAuth] Edge failing env vars:",
-        [
-          !projectId ? "FIREBASE_PROJECT_ID" : null,
-          !clientEmail ? "FIREBASE_CLIENT_EMAIL" : null,
-          !privateKey ? "FIREBASE_PRIVATE_KEY" : null
-        ]
+        [!projectId ? "FIREBASE_PROJECT_ID" : null, !apiKey ? "NEXT_PUBLIC_FIREBASE_API_KEY" : null]
           .filter(Boolean)
           .join(", ")
       );
-      throw new Error("Firebase Admin credentials are required for firebase auth mode.");
+      throw new Error(
+        "FIREBASE_PROJECT_ID and NEXT_PUBLIC_FIREBASE_API_KEY are required for firebase auth mode."
+      );
     }
   }
 

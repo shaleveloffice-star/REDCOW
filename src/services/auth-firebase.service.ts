@@ -4,6 +4,7 @@ import {
   logAdminAuthEnvDiagnostics,
   type AdminAuthFailureCode
 } from "@/lib/auth/auth-config";
+import { verifyFirebaseIdToken } from "@/lib/auth/verify-firebase-id-token";
 import { resolveAdminRole } from "@/lib/auth/resolve-admin-role";
 import type { AdminSession } from "@/types/admin";
 
@@ -45,6 +46,10 @@ function mapFirebaseIdentityError(message: string): AdminAuthFailureCode {
   return "firebase_error";
 }
 
+/**
+ * Admin login via Identity Toolkit REST + jose JWT verify.
+ * Does not import firebase-admin (avoids ERR_REQUIRE_ESM on Vercel).
+ */
 export async function authenticateWithFirebase(
   email: string,
   password: string
@@ -52,6 +57,14 @@ export async function authenticateWithFirebase(
   const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.trim();
   if (!apiKey) {
     logAdminAuthEnvDiagnostics("NEXT_PUBLIC_FIREBASE_API_KEY missing at login");
+    return { ok: false, code: "config_error" };
+  }
+
+  const projectId =
+    process.env.FIREBASE_PROJECT_ID?.trim() ||
+    process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID?.trim();
+  if (!projectId) {
+    logAdminAuthEnvDiagnostics("FIREBASE_PROJECT_ID missing at login");
     return { ok: false, code: "config_error" };
   }
 
@@ -101,33 +114,16 @@ export async function authenticateWithFirebase(
     return { ok: false, code };
   }
 
-  const { getAdminAuth } = await import("@/lib/firebase/admin-auth");
-  let adminAuth;
-  try {
-    adminAuth = await getAdminAuth();
-  } catch (error) {
-    console.error(
-      "[AdminAuth] getAdminAuth threw",
-      error instanceof Error ? error.message : "error"
-    );
-    logAdminAuthEnvDiagnostics("getAdminAuth threw");
-    return { ok: false, code: "config_error" };
-  }
-  if (!adminAuth) {
-    logAdminAuthEnvDiagnostics("Firebase Admin Auth unavailable at login");
-    return { ok: false, code: "config_error" };
-  }
-
   let verifiedEmail: string;
   try {
-    const decoded = await adminAuth.verifyIdToken(idToken);
-    verifiedEmail = (decoded.email ?? email).trim().toLowerCase();
+    const verified = await verifyFirebaseIdToken(idToken);
+    verifiedEmail = verified.email;
   } catch (error) {
     console.error(
-      "[AdminAuth] verifyIdToken failed",
+      "[AdminAuth] ID token verify failed (jose)",
       error instanceof Error ? error.message : "error"
     );
-    logAdminAuthEnvDiagnostics("verifyIdToken failed");
+    logAdminAuthEnvDiagnostics("ID token verify failed");
     return { ok: false, code: "config_error" };
   }
 

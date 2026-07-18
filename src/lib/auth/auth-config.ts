@@ -183,19 +183,15 @@ export function assertProductionAuthMode() {
   }
 
   if (mode === "firebase") {
-    const projectId = process.env.FIREBASE_PROJECT_ID?.trim();
-    const clientEmail = process.env.FIREBASE_CLIENT_EMAIL?.trim();
-    const privateKeyRaw = process.env.FIREBASE_PRIVATE_KEY?.trim();
-    if (!projectId || !clientEmail || !privateKeyRaw) {
-      logAdminAuthEnvDiagnostics("Firebase Admin credentials");
+    const projectId =
+      process.env.FIREBASE_PROJECT_ID?.trim() ||
+      process.env.NEXT_PUBLIC_FIREBASE_PROJECT_ID?.trim();
+    const apiKey = process.env.NEXT_PUBLIC_FIREBASE_API_KEY?.trim();
+    if (!projectId || !apiKey) {
+      logAdminAuthEnvDiagnostics("Firebase project/API key");
       throw new Error(
-        "FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, and FIREBASE_PRIVATE_KEY are required when ADMIN_AUTH_MODE=firebase in production."
+        "FIREBASE_PROJECT_ID and NEXT_PUBLIC_FIREBASE_API_KEY are required when ADMIN_AUTH_MODE=firebase in production."
       );
-    }
-
-    if (!normalizeFirebasePrivateKey(privateKeyRaw)) {
-      logAdminAuthEnvDiagnostics("FIREBASE_PRIVATE_KEY invalid");
-      throw new Error("FIREBASE_PRIVATE_KEY could not be normalized.");
     }
   }
 

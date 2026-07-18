@@ -7,13 +7,34 @@ import { getPressAdminData } from "@/server/actions/press.actions";
 import { getSettingsAdminData } from "@/server/actions/settings.actions";
 
 export default async function AdminDashboardPage() {
-  const [menu, branches, press, contact, settings] = await Promise.all([
+  const results = await Promise.allSettled([
     getMenuAdminData(),
     getBranchesAdminData(),
     getPressAdminData(),
     getContactMessagesAdminData(),
     getSettingsAdminData()
   ]);
+
+  const menu =
+    results[0].status === "fulfilled"
+      ? results[0].value
+      : { items: [], categories: [] };
+  const branches = results[1].status === "fulfilled" ? results[1].value : [];
+  const press = results[2].status === "fulfilled" ? results[2].value : [];
+  const contact = results[3].status === "fulfilled" ? results[3].value : [];
+  const settingsData =
+    results[4].status === "fulfilled"
+      ? results[4].value
+      : { orderLinks: [] as Awaited<ReturnType<typeof getSettingsAdminData>>["orderLinks"] };
+
+  for (const [index, result] of results.entries()) {
+    if (result.status === "rejected") {
+      console.error(
+        `[AdminDashboard] load[${index}] failed`,
+        result.reason instanceof Error ? result.reason.message : "error"
+      );
+    }
+  }
 
   const categoryBreakdown = menu.categories.map((category) => {
     const categoryItems = menu.items.filter((item) => item.categoryId === category.id);
@@ -63,7 +84,7 @@ export default async function AdminDashboardPage() {
     {
       id: "order-links",
       label: "קישורי הזמנה",
-      value: settings.orderLinks.length,
+      value: settingsData.orderLinks.length,
       href: "/admin/order-links",
       icon: "links" as const
     }

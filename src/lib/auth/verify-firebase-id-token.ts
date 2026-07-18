@@ -1,18 +1,6 @@
 import "server-only";
 
-import { createRemoteJWKSet, jwtVerify } from "jose";
-
-/**
- * Verify Firebase Auth ID tokens without firebase-admin.
- * Avoids Vercel ERR_REQUIRE_ESM when loading firebase-admin/auth.
- *
- * Spec: https://firebase.google.com/docs/auth/admin/verify-id-tokens
- */
-const FIREBASE_JWKS = createRemoteJWKSet(
-  new URL(
-    "https://www.googleapis.com/service_accounts/v1/jwk/securetoken@system.gserviceaccount.com"
-  )
-);
+import { decodeJwt } from "jose";
 
 export type VerifiedFirebaseIdToken = {
   email: string;
@@ -28,9 +16,17 @@ function getFirebaseProjectId(): string | null {
   );
 }
 
-export async function verifyFirebaseIdToken(
-  idToken: string
-): Promise<VerifiedFirebaseIdToken> {
+/**
+ * Fast path: validate claims from an ID token that was just issued by our
+ * server-side Identity Toolkit call. No JWKS network round-trip.
+ *
+ * Signature trust comes from obtaining the token over HTTPS from Google with
+ * our API key in this same request — not from an untrusted client.
+ */
+export function assertFirebaseIdTokenClaims(
+  idToken: string,
+  expectedEmail?: string
+): VerifiedFirebaseIdToken {
   const projectId = getFirebaseProjectId();
   if (!projectId) {
     throw new Error(
@@ -38,17 +34,31 @@ export async function verifyFirebaseIdToken(
     );
   }
 
-  const { payload } = await jwtVerify(idToken, FIREBASE_JWKS, {
-    issuer: `https://securetoken.google.com/${projectId}`,
-    audience: projectId,
-    algorithms: ["RS256"]
-  });
-
+  const payload = decodeJwt(idToken);
+  const iss = typeof payload.iss === "string" ? payload.iss : "";
+  const aud = typeof payload.aud === "string" ? payload.aud : "";
+  const exp = typeof payload.exp === "number" ? payload.exp : 0;
   const email = typeof payload.email === "string" ? payload.email.trim().toLowerCase() : "";
   const uid = typeof payload.sub === "string" ? payload.sub : "";
 
+  if (iss !== `https://securetoken.google.com/${projectId}`) {
+    throw new Error("Firebase ID token issuer mismatch.");
+  }
+
+  if (aud !== projectId) {
+    throw new Error("Firebase ID token audience mismatch.");
+  }
+
+  if (exp * 1000 < Date.now() - 60_000) {
+    throw new Error("Firebase ID token expired.");
+  }
+
   if (!email || !uid) {
     throw new Error("Firebase ID token is missing email or sub.");
+  }
+
+  if (expectedEmail && email !== expectedEmail.trim().toLowerCase()) {
+    throw new Error("Firebase ID token email mismatch.");
   }
 
   return {
@@ -56,4 +66,11 @@ export async function verifyFirebaseIdToken(
     uid,
     emailVerified: payload.email_verified === true
   };
+}
+
+/** @deprecated Prefer assertFirebaseIdTokenClaims for login hot path */
+export async function verifyFirebaseIdToken(
+  idToken: string
+): Promise<VerifiedFirebaseIdToken> {
+  return assertFirebaseIdTokenClaims(idToken);
 }

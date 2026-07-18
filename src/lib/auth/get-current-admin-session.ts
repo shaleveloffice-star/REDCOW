@@ -1,4 +1,5 @@
 import { cookies } from "next/headers";
+import { cache } from "react";
 
 import {
   assertAdminAllowlistConfigured,
@@ -42,7 +43,8 @@ export async function clearAdminSessionCookie(): Promise<void> {
   });
 }
 
-export async function getCurrentAdminSession(): Promise<AdminSession | null> {
+/** Deduped per React request — admin pages call this many times in parallel. */
+export const getCurrentAdminSession = cache(async (): Promise<AdminSession | null> => {
   assertProductionAuthMode();
 
   if (isOpenAdminAuthMode()) {
@@ -68,4 +70,4 @@ export async function getCurrentAdminSession(): Promise<AdminSession | null> {
   }
 
   return session;
-}
+});

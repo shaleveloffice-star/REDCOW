@@ -4,7 +4,7 @@ import {
   logAdminAuthEnvDiagnostics,
   type AdminAuthFailureCode
 } from "@/lib/auth/auth-config";
-import { verifyFirebaseIdToken } from "@/lib/auth/verify-firebase-id-token";
+import { assertFirebaseIdTokenClaims } from "@/lib/auth/verify-firebase-id-token";
 import { resolveAdminRole } from "@/lib/auth/resolve-admin-role";
 import type { AdminSession } from "@/types/admin";
 
@@ -47,8 +47,7 @@ function mapFirebaseIdentityError(message: string): AdminAuthFailureCode {
 }
 
 /**
- * Admin login via Identity Toolkit REST + jose JWT verify.
- * Does not import firebase-admin (avoids ERR_REQUIRE_ESM on Vercel).
+ * Admin login via Identity Toolkit REST + local JWT claim checks (no JWKS fetch).
  */
 export async function authenticateWithFirebase(
   email: string,
@@ -68,6 +67,8 @@ export async function authenticateWithFirebase(
     return { ok: false, code: "config_error" };
   }
 
+  const normalizedEmail = email.trim().toLowerCase();
+
   let response: Response;
   try {
     response = await fetch(
@@ -76,7 +77,7 @@ export async function authenticateWithFirebase(
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email,
+          email: normalizedEmail,
           password,
           returnSecureToken: true
         }),
@@ -116,15 +117,13 @@ export async function authenticateWithFirebase(
 
   let verifiedEmail: string;
   try {
-    const verified = await verifyFirebaseIdToken(idToken);
-    verifiedEmail = verified.email;
+    verifiedEmail = assertFirebaseIdTokenClaims(idToken, normalizedEmail).email;
   } catch (error) {
     console.error(
-      "[AdminAuth] ID token verify failed (jose)",
+      "[AdminAuth] ID token claim check failed",
       error instanceof Error ? error.message : "error"
     );
-    logAdminAuthEnvDiagnostics("ID token verify failed");
-    return { ok: false, code: "config_error" };
+    return { ok: false, code: "firebase_error" };
   }
 
   const allowedEmails = getAllowedAdminEmails();
@@ -139,7 +138,7 @@ export async function authenticateWithFirebase(
     ok: true,
     session: {
       email: verifiedEmail,
-      role: await resolveAdminRole(verifiedEmail),
+      role: resolveAdminRole(verifiedEmail),
       isMock: false
     }
   };

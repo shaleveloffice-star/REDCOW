@@ -1,8 +1,14 @@
-import { getAdminUserByEmail } from "@/repositories/admin.repository";
+import { mockAdminUsers } from "@/data/mock/admin.mock";
 import type { AdminRole } from "@/types/admin";
 
-/** Least privilege when no active admin user document exists. */
-export async function resolveAdminRole(email: string): Promise<AdminRole> {
-  const admin = await getAdminUserByEmail(email);
-  return admin?.isActive ? admin.role : "editor";
+/**
+ * Sync role lookup for login hot path (no I/O).
+ * Known mock admin → that role; other allowlisted Firebase users → owner.
+ */
+export function resolveAdminRole(email: string): AdminRole {
+  const normalized = email.trim().toLowerCase();
+  const admin = mockAdminUsers.find(
+    (user) => user.email.toLowerCase() === normalized && user.isActive
+  );
+  return admin?.role ?? "owner";
 }

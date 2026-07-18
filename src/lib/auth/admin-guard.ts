@@ -1,5 +1,7 @@
 import "server-only";
 
+import { cache } from "react";
+
 import {
   assertAdminAllowlistConfigured,
   assertProductionAuthMode
@@ -7,7 +9,7 @@ import {
 import { getCurrentAdminSession } from "@/lib/auth/get-current-admin-session";
 import type { AdminRole } from "@/types/admin";
 
-export async function requireAdmin() {
+export const requireAdmin = cache(async () => {
   assertProductionAuthMode();
   assertAdminAllowlistConfigured();
 
@@ -18,7 +20,7 @@ export async function requireAdmin() {
   }
 
   return session;
-}
+});
 
 export async function requireAdminRole(allowedRoles: readonly AdminRole[]) {
   const session = await requireAdmin();

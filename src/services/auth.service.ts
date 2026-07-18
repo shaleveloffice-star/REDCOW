@@ -9,6 +9,7 @@ import {
   logAdminAuthEnvDiagnostics,
   type AdminAuthFailureCode
 } from "@/lib/auth/auth-config";
+import { authenticateWithFirebase } from "@/services/auth-firebase.service";
 import { resolveAdminRole } from "@/lib/auth/resolve-admin-role";
 import { getAdminUserByEmail } from "@/repositories/admin.repository";
 import type { AdminSession } from "@/types/admin";
@@ -59,7 +60,7 @@ async function authenticateWithPasswordCredentials(
     ok: true,
     session: {
       email: normalizedEmail,
-      role: await resolveAdminRole(normalizedEmail),
+      role: resolveAdminRole(normalizedEmail),
       isMock: false
     }
   };
@@ -109,7 +110,6 @@ export async function loginWithEmailPassword(
   }
 
   if (mode === "firebase") {
-    const { authenticateWithFirebase } = await import("@/services/auth-firebase.service");
     return authenticateWithFirebase(trimmedEmail, trimmedPassword);
   }
 

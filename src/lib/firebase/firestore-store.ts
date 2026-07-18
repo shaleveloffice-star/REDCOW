@@ -7,6 +7,7 @@ import {
 } from "firebase/firestore";
 import type { Firestore as AdminFirestore } from "firebase-admin/firestore";
 
+import { getAdminFirestore, isFirebaseAdminConfigured } from "@/lib/firebase/admin-runtime";
 import { getFirestoreDb, getFirebaseMissingEnvKeys, isFirebaseConfigured } from "@/lib/firebase";
 import type { FirebaseCollectionName } from "@/types/firebase";
 
@@ -18,15 +19,6 @@ export type FirestoreCollectionStoreOptions<T extends { id: string }> = {
   /** Used only when Firebase client env is not configured (local/dev). Never written to Firestore. */
   seed?: readonly T[];
 };
-
-async function loadAdminFirestoreHelpers() {
-  const [{ getAdminFirestore }, { isFirebaseAdminConfigured }] = await Promise.all([
-    import("@/lib/firebase/admin-firestore"),
-    import("@/lib/firebase/admin-core")
-  ]);
-
-  return { getAdminFirestore, isFirebaseAdminConfigured };
-}
 
 export type DocumentStore<T extends { id: string }> = {
   getAll(): Promise<T[]>;
@@ -66,7 +58,6 @@ function fromSnapshot<T extends { id: string }>(id: string, data: Record<string,
 }
 
 async function requireAdminDb(collectionName: FirebaseCollectionName): Promise<AdminFirestore> {
-  const { getAdminFirestore, isFirebaseAdminConfigured } = await loadAdminFirestoreHelpers();
   const adminDb = await getAdminFirestore();
 
   if (!adminDb) {

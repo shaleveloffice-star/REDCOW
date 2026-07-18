@@ -57,9 +57,9 @@ const publicAssetCache = "public, max-age=86400, stale-while-revalidate=604800";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
-  // Do NOT list firebase-admin here. With Turbopack + Vercel, externalizing it
-  // causes runtime require() of ESM subpath exports → ERR_REQUIRE_ESM.
-  // Admin modules load firebase-admin only via await import().
+  // Externalize firebase-admin; load only via firebase-admin.cjs (CJS require condition).
+  // ESM import()/bundling caused ERR_REQUIRE_ESM and slow cold starts on Vercel.
+  serverExternalPackages: ["firebase-admin"],
   images: {
     remotePatterns: [
       {

@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "private": true,
   "engines": {
-    "node": ">=20.9.0"
+    "node": ">=22"
   },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build --webpack",
     "start": "next start",
     "lint": "node -e \"console.log('Skipped: next lint was removed in Next.js 16. Use npm run typecheck for static checks.');\"",
     "typecheck": "tsc --noEmit",
@@ -21,7 +21,8 @@
     "lucide-react": "^1.16.0",
     "next": "16.2.6",
     "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react-dom": "19.2.6",
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
     "@types/node": "25.8.0",

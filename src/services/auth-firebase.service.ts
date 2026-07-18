@@ -104,7 +104,7 @@ export async function authenticateWithFirebase(
   const { getAdminAuth } = await import("@/lib/firebase/admin-auth");
   let adminAuth;
   try {
-    adminAuth = getAdminAuth();
+    adminAuth = await getAdminAuth();
   } catch (error) {
     console.error(
       "[AdminAuth] getAdminAuth threw",

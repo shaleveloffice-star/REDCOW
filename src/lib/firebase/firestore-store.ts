@@ -67,10 +67,11 @@ function fromSnapshot<T extends { id: string }>(id: string, data: Record<string,
 
 async function requireAdminDb(collectionName: FirebaseCollectionName): Promise<AdminFirestore> {
   const { getAdminFirestore, isFirebaseAdminConfigured } = await loadAdminFirestoreHelpers();
-  const adminDb = getAdminFirestore();
+  const adminDb = await getAdminFirestore();
 
   if (!adminDb) {
-    const reason = isFirebaseAdminConfigured()
+    const configured = await isFirebaseAdminConfigured();
+    const reason = configured
       ? "Admin Firestore instance unavailable"
       : "Firebase Admin is not configured (FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY)";
     console.error(`[Firestore] Admin required for "${collectionName}": ${reason}`);

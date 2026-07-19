@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Assistant } from "next/font/google";
+import { Assistant, Barlow_Condensed } from "next/font/google";
 import "./globals.css";
 
 import { LocaleProvider } from "@/components/providers/locale-provider";
@@ -12,6 +12,13 @@ const assistant = Assistant({
   subsets: ["hebrew", "latin"],
   weight: ["400", "500", "600", "700"],
   variable: "--font-assistant",
+  display: "swap"
+});
+
+const barlowCondensed = Barlow_Condensed({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-barlow-condensed",
   display: "swap"
 });
 
@@ -56,7 +63,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={dir}>
-      <body className={`${assistant.variable} ${assistant.className}`}>
+      <body className={`${assistant.variable} ${barlowCondensed.variable} ${assistant.className}`}>
         <LocaleProvider initialLocale={locale}>
           <SkipToContent />
           {children}

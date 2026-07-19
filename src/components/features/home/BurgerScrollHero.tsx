@@ -1,25 +1,27 @@
 "use client";
 
 import {
-  motion,
   useMotionValueEvent,
   useReducedMotion,
-  useScroll,
-  useTransform,
-  type MotionValue
+  useScroll
 } from "framer-motion";
-import { useCallback, useEffect, useRef, useState, type ReactNode } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
-const FRAME_COUNT = 121;
-const FRAME_LAST_INDEX = FRAME_COUNT - 1;
-const READY_FRAME_COUNT = 12;
+import { BurgerScrollHud } from "@/components/features/home/BurgerScrollHud";
+import {
+  FRAME_COUNT,
+  FRAME_LAST_INDEX
+} from "@/components/features/home/burger-scroll-timeline";
+
+const READY_FRAME_COUNT = 18;
 const MAX_DPR = 2;
+const CANVAS_BG = "#050505";
 
 function padFrame(n: number) {
   return String(n).padStart(3, "0");
 }
 
-function frameSrc(oneBased: number) {
+export function burgerFrameSrc(oneBased: number) {
   return `/burger-sequence/burger-${padFrame(oneBased)}.webp`;
 }
 
@@ -28,7 +30,10 @@ function clamp01(value: number) {
 }
 
 function frameIndexFromProgress(progress: number) {
-  return Math.min(FRAME_LAST_INDEX, Math.max(0, Math.round(clamp01(progress) * FRAME_LAST_INDEX)));
+  return Math.min(
+    FRAME_LAST_INDEX,
+    Math.max(0, Math.round(clamp01(progress) * FRAME_LAST_INDEX))
+  );
 }
 
 function drawCoverImage(
@@ -44,8 +49,7 @@ function drawCoverImage(
   if (!iw || !ih || !cssWidth || !cssHeight) return;
 
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  ctx.clearRect(0, 0, cssWidth, cssHeight);
-  ctx.fillStyle = "#050505";
+  ctx.fillStyle = CANVAS_BG;
   ctx.fillRect(0, 0, cssWidth, cssHeight);
 
   const scale = Math.max(cssWidth / iw, cssHeight / ih) * coverScale;
@@ -53,49 +57,42 @@ function drawCoverImage(
   const dh = ih * scale;
   const dx = (cssWidth - dw) / 2;
   const dy = (cssHeight - dh) / 2;
+
   ctx.imageSmoothingEnabled = true;
   ctx.imageSmoothingQuality = "high";
   ctx.drawImage(img, dx, dy, dw, dh);
 }
 
-type StageProps = {
-  progress: MotionValue<number>;
-  fadeIn: [number, number];
-  fadeOut: [number, number];
-  children: ReactNode;
-  className?: string;
-};
+function findNearestLoadedFrame(
+  images: Array<HTMLImageElement | null>,
+  loaded: boolean[],
+  preferred: number
+): { index: number; img: HTMLImageElement } | null {
+  const preferredImg = images[preferred];
+  if (loaded[preferred] && preferredImg?.complete && preferredImg.naturalWidth) {
+    return { index: preferred, img: preferredImg };
+  }
 
-function ScrollStage({ progress, fadeIn, fadeOut, children, className }: StageProps) {
-  const opacity = useTransform(progress, (value) => {
-    if (value < fadeIn[0]) return 0;
-    if (value < fadeIn[1]) return (value - fadeIn[0]) / (fadeIn[1] - fadeIn[0]);
-    if (value < fadeOut[0]) return 1;
-    if (value < fadeOut[1]) return 1 - (value - fadeOut[0]) / (fadeOut[1] - fadeOut[0]);
-    return 0;
-  });
+  for (let distance = 1; distance < FRAME_COUNT; distance += 1) {
+    const before = preferred - distance;
+    const after = preferred + distance;
 
-  const y = useTransform(progress, (value) => {
-    if (value < fadeIn[0]) return 28;
-    if (value < fadeIn[1]) {
-      const t = (value - fadeIn[0]) / (fadeIn[1] - fadeIn[0]);
-      return 28 * (1 - t);
+    if (before >= 0) {
+      const img = images[before];
+      if (loaded[before] && img?.complete && img.naturalWidth) {
+        return { index: before, img };
+      }
     }
-    if (value < fadeOut[0]) return 0;
-    if (value < fadeOut[1]) {
-      const t = (value - fadeOut[0]) / (fadeOut[1] - fadeOut[0]);
-      return -16 * t;
+
+    if (after < FRAME_COUNT) {
+      const img = images[after];
+      if (loaded[after] && img?.complete && img.naturalWidth) {
+        return { index: after, img };
+      }
     }
-    return -16;
-  });
+  }
 
-  const pointerEvents = useTransform(opacity, (value) => (value > 0.45 ? "auto" : "none"));
-
-  return (
-    <motion.div className={className} style={{ opacity, y, pointerEvents }}>
-      {children}
-    </motion.div>
-  );
+  return null;
 }
 
 function ReducedMotionHero() {
@@ -106,7 +103,7 @@ function ReducedMotionHero() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             className="burger-scroll-hero__static"
-            src={frameSrc(60)}
+            src={burgerFrameSrc(FRAME_COUNT)}
             alt=""
             width={1920}
             height={1080}
@@ -115,13 +112,20 @@ function ReducedMotionHero() {
           />
         </div>
         <div className="burger-scroll-hero__scrim" aria-hidden="true" />
-        <div className="burger-scroll-hero__copy burger-scroll-hero__copy--static">
-          <p className="burger-scroll-hero__brand">NB BURGER</p>
-          <h1 className="burger-scroll-hero__h1">המבורגר כשר ברעננה</h1>
-          <p className="burger-scroll-hero__line">טועמים ומבינים.</p>
-          <a className="hero-button hero-button--order burger-scroll-hero__cta" href="/menu">
-            לתפריט ולהזמנות
-          </a>
+        <div className="burger-hud burger-hud--static">
+          <div className="burger-hud__intro burger-hud__intro--static">
+            <p className="burger-hud__eyebrow">FLAME-PROOF / CUT No. 01</p>
+            <div className="burger-hud__stack-title" aria-hidden="true">
+              <span className="burger-hud__stack-nb">NB</span>
+              <span className="burger-hud__stack-line">/ THE STACK</span>
+            </div>
+            <h1 className="burger-hud__h1">המבורגר כשר ברעננה</h1>
+            <p className="burger-hud__subtitle">SMASHED. SEARED. BUILT DIFFERENT.</p>
+            <p className="burger-hud__temp burger-hud__temp--inline">209°C</p>
+            <a className="hero-button hero-button--order burger-hud__cta" href="/menu">
+              לתפריט ולהזמנות
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -132,12 +136,17 @@ export function BurgerScrollHero() {
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const imagesRef = useRef<Array<HTMLImageElement | null>>(Array.from({ length: FRAME_COUNT }, () => null));
+  const imagesRef = useRef<Array<HTMLImageElement | null>>(
+    Array.from({ length: FRAME_COUNT }, () => null)
+  );
   const loadedFlagsRef = useRef<boolean[]>(Array.from({ length: FRAME_COUNT }, () => false));
   const frameRef = useRef(0);
+  const lastDrawnRef = useRef(-1);
   const rafDrawRef = useRef(0);
+  const percentRafRef = useRef(0);
+  const loadedCountRef = useRef(0);
   const sizeRef = useRef({ width: 0, height: 0, dpr: 1, coverScale: 1.02 });
-  const startedRef = useRef(false);
+  const readyRef = useRef(false);
 
   const [loadPercent, setLoadPercent] = useState(0);
   const [ready, setReady] = useState(false);
@@ -149,46 +158,52 @@ export function BurgerScrollHero() {
 
   const scheduleDraw = useCallback(() => {
     if (rafDrawRef.current) return;
+
     rafDrawRef.current = window.requestAnimationFrame(() => {
       rafDrawRef.current = 0;
+
       const canvas = canvasRef.current;
       if (!canvas) return;
-      const ctx = canvas.getContext("2d");
+
+      const ctx = canvas.getContext("2d", { alpha: false });
       if (!ctx) return;
 
-      let index = frameRef.current;
-      let img = imagesRef.current[index];
-      if (!img?.complete || !img.naturalWidth) {
-        for (let i = index; i >= 0; i -= 1) {
-          const candidate = imagesRef.current[i];
-          if (candidate?.complete && candidate.naturalWidth) {
-            img = candidate;
-            index = i;
-            break;
-          }
-        }
-      }
-      if (!img?.complete || !img.naturalWidth) return;
+      const nearest = findNearestLoadedFrame(
+        imagesRef.current,
+        loadedFlagsRef.current,
+        frameRef.current
+      );
+      if (!nearest) return;
+
+      if (nearest.index === lastDrawnRef.current) return;
+      lastDrawnRef.current = nearest.index;
 
       const { width, height, dpr, coverScale } = sizeRef.current;
-      drawCoverImage(ctx, img, width, height, dpr, coverScale);
+      drawCoverImage(ctx, nearest.img, width, height, dpr, coverScale);
     });
   }, []);
 
   const resizeCanvas = useCallback(() => {
     const canvas = canvasRef.current;
-    const sticky = canvas?.parentElement;
-    if (!canvas || !sticky) return;
+    const wrap = canvas?.parentElement;
+    if (!canvas || !wrap) return;
 
-    const width = sticky.clientWidth;
-    const height = sticky.clientHeight;
+    const width = wrap.clientWidth;
+    const height = wrap.clientHeight;
     const dpr = Math.min(window.devicePixelRatio || 1, MAX_DPR);
     const isMobile = width < 768;
-    const coverScale = isMobile ? 1.08 : 1.02;
+    const coverScale = isMobile ? 1.06 : 1.02;
 
     sizeRef.current = { width, height, dpr, coverScale };
-    canvas.width = Math.max(1, Math.round(width * dpr));
-    canvas.height = Math.max(1, Math.round(height * dpr));
+
+    const nextW = Math.max(1, Math.round(width * dpr));
+    const nextH = Math.max(1, Math.round(height * dpr));
+    if (canvas.width !== nextW || canvas.height !== nextH) {
+      canvas.width = nextW;
+      canvas.height = nextH;
+      lastDrawnRef.current = -1;
+    }
+
     canvas.style.width = `${width}px`;
     canvas.style.height = `${height}px`;
     scheduleDraw();
@@ -198,45 +213,86 @@ export function BurgerScrollHero() {
     if (reduceMotion) return;
 
     let cancelled = false;
-    let loadedCount = 0;
+
+    const bumpPercent = () => {
+      if (percentRafRef.current) return;
+      percentRafRef.current = window.requestAnimationFrame(() => {
+        percentRafRef.current = 0;
+        if (cancelled) return;
+        setLoadPercent(Math.round((loadedCountRef.current / FRAME_COUNT) * 100));
+      });
+    };
 
     const markLoaded = (index: number) => {
       if (cancelled || loadedFlagsRef.current[index]) return;
       loadedFlagsRef.current[index] = true;
-      loadedCount += 1;
-      setLoadPercent(Math.round((loadedCount / FRAME_COUNT) * 100));
+      loadedCountRef.current += 1;
+      bumpPercent();
 
       const earlyReady =
         loadedFlagsRef.current[0] &&
-        loadedFlagsRef.current.slice(0, READY_FRAME_COUNT).filter(Boolean).length >= READY_FRAME_COUNT;
+        loadedFlagsRef.current.slice(0, READY_FRAME_COUNT).every(Boolean);
 
-      if (earlyReady && !startedRef.current) {
-        startedRef.current = true;
+      if (earlyReady && !readyRef.current) {
+        readyRef.current = true;
         setReady(true);
+        lastDrawnRef.current = -1;
         scheduleDraw();
-      } else if (index === frameRef.current) {
+      } else if (index === frameRef.current || Math.abs(index - frameRef.current) <= 2) {
+        lastDrawnRef.current = -1;
         scheduleDraw();
       }
     };
 
-    for (let i = 0; i < FRAME_COUNT; i += 1) {
+    const loadAt = (index: number) => {
+      if (imagesRef.current[index]) return;
       const img = new Image();
       img.decoding = "async";
-      imagesRef.current[i] = img;
-      img.onload = () => markLoaded(i);
-      img.onerror = () => markLoaded(i);
-      img.src = frameSrc(i + 1);
+      imagesRef.current[index] = img;
+      img.onload = () => markLoaded(index);
+      img.onerror = () => markLoaded(index);
+      img.src = burgerFrameSrc(index + 1);
+    };
+
+    for (let i = 0; i < READY_FRAME_COUNT; i += 1) {
+      loadAt(i);
+    }
+
+    const idleLoad = () => {
+      if (cancelled) return;
+      for (let i = READY_FRAME_COUNT; i < FRAME_COUNT; i += 1) {
+        loadAt(i);
+      }
+    };
+
+    let idleId: number | undefined;
+    let timeoutId: number | undefined;
+
+    if (typeof window.requestIdleCallback === "function") {
+      idleId = window.requestIdleCallback(idleLoad, { timeout: 1200 });
+    } else {
+      timeoutId = window.setTimeout(idleLoad, 120);
     }
 
     resizeCanvas();
-    window.addEventListener("resize", resizeCanvas);
+    window.addEventListener("resize", resizeCanvas, { passive: true });
 
     return () => {
       cancelled = true;
       window.removeEventListener("resize", resizeCanvas);
+      if (idleId !== undefined && typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(idleId);
+      }
+      if (timeoutId !== undefined) {
+        window.clearTimeout(timeoutId);
+      }
       if (rafDrawRef.current) {
         cancelAnimationFrame(rafDrawRef.current);
         rafDrawRef.current = 0;
+      }
+      if (percentRafRef.current) {
+        cancelAnimationFrame(percentRafRef.current);
+        percentRafRef.current = 0;
       }
       for (let i = 0; i < FRAME_COUNT; i += 1) {
         const img = imagesRef.current[i];
@@ -251,7 +307,7 @@ export function BurgerScrollHero() {
   }, [reduceMotion, resizeCanvas, scheduleDraw]);
 
   useMotionValueEvent(scrollYProgress, "change", (value) => {
-    if (reduceMotion || !ready) return;
+    if (reduceMotion || !readyRef.current) return;
     const next = frameIndexFromProgress(value);
     if (next === frameRef.current) return;
     frameRef.current = next;
@@ -270,60 +326,23 @@ export function BurgerScrollHero() {
     >
       <div className="burger-scroll-hero__sticky">
         <div className="burger-scroll-hero__canvas-wrap">
-          <canvas ref={canvasRef} className="burger-scroll-hero__canvas" aria-hidden="true" />
+          <canvas
+            ref={canvasRef}
+            className="burger-scroll-hero__canvas"
+            aria-hidden="true"
+          />
         </div>
 
         <div className="burger-scroll-hero__scrim" aria-hidden="true" />
 
         {!ready ? (
           <div className="burger-scroll-hero__loader" role="status" aria-live="polite">
-            <p className="burger-scroll-hero__loader-text">טוענים את ה־NB...</p>
+            <p className="burger-scroll-hero__loader-text">Loading...</p>
             <p className="burger-scroll-hero__loader-percent">{loadPercent}%</p>
           </div>
         ) : null}
 
-        <div className="burger-scroll-hero__stages">
-          <ScrollStage
-            progress={scrollYProgress}
-            fadeIn={[0, 0.04]}
-            fadeOut={[0.16, 0.2]}
-            className="burger-scroll-hero__stage burger-scroll-hero__stage--start"
-          >
-            <p className="burger-scroll-hero__brand">NB BURGER</p>
-            <h1 className="burger-scroll-hero__h1">המבורגר כשר ברעננה</h1>
-          </ScrollStage>
-
-          <ScrollStage
-            progress={scrollYProgress}
-            fadeIn={[0.24, 0.3]}
-            fadeOut={[0.4, 0.45]}
-            className="burger-scroll-hero__stage"
-          >
-            <p className="burger-scroll-hero__line">לא עוד המבורגר.</p>
-            <p className="burger-scroll-hero__line burger-scroll-hero__line--accent">זה NB.</p>
-          </ScrollStage>
-
-          <ScrollStage
-            progress={scrollYProgress}
-            fadeIn={[0.48, 0.54]}
-            fadeOut={[0.64, 0.69]}
-            className="burger-scroll-hero__stage"
-          >
-            <p className="burger-scroll-hero__line">בשר. אש. דיוק.</p>
-          </ScrollStage>
-
-          <ScrollStage
-            progress={scrollYProgress}
-            fadeIn={[0.72, 0.78]}
-            fadeOut={[0.98, 1.01]}
-            className="burger-scroll-hero__stage burger-scroll-hero__stage--final"
-          >
-            <p className="burger-scroll-hero__line">טועמים ומבינים.</p>
-            <a className="hero-button hero-button--order burger-scroll-hero__cta" href="/menu">
-              לתפריט ולהזמנות
-            </a>
-          </ScrollStage>
-        </div>
+        <BurgerScrollHud progress={scrollYProgress} ready={ready} />
       </div>
     </section>
   );

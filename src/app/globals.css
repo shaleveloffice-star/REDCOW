@@ -1,19 +1,20 @@
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --muted: rgba(255, 255, 255, 0.72);
-  --surface: #0a0a0a;
-  --surface-soft: #141414;
+  --background: #070605;
+  --foreground: #fff8f0;
+  --muted: rgba(255, 248, 240, 0.7);
+  --surface: #100e0c;
+  --surface-soft: #181512;
+  --surface-elevated: #1c1814;
   --brand: #ffe1ba;
   --brand-dark: #e5c89a;
-  --border: rgba(255, 255, 255, 0.14);
+  --border: rgba(255, 225, 186, 0.14);
   --success: #3fb970;
   --warning: #f3b64b;
   --motion-ease: cubic-bezier(0.22, 1, 0.36, 1);
-  --motion-short: 0.2s;
-  --motion-medium: 0.45s;
+  --motion-short: 0.25s;
+  --motion-medium: 0.5s;
 
-  /* Secondary accent ? single source of truth (#FFE1BA) */
+  /* Secondary accent — NB cream gold (#FFE1BA) */
   --secondary: #FFE1BA;
   --secondary-rgb: 255, 225, 186;
   --secondary-dark: #e5c89a;
@@ -29,14 +30,16 @@
   --secondary-line-soft: rgba(255, 225, 186, 0.12);
   --secondary-line-mid: rgba(255, 225, 186, 0.28);
   --secondary-highlight: rgba(255, 225, 186, 0.95);
-  --secondary-radial-soft: rgba(255, 225, 186, 0.08);
-  --secondary-radial-mid: rgba(255, 225, 186, 0.14);
-  --secondary-radial-light: rgba(255, 225, 186, 0.07);
+  --secondary-radial-soft: rgba(255, 225, 186, 0.1);
+  --secondary-radial-mid: rgba(255, 225, 186, 0.16);
+  --secondary-radial-light: rgba(255, 225, 186, 0.08);
 
-  --site-media-radius: 18px;
-  --site-media-frame-border: 1px solid rgba(255, 255, 255, 0.1);
+  --site-media-radius: 12px;
+  --site-media-frame-border: 1px solid rgba(255, 225, 186, 0.12);
+  --luxury-shadow: 0 28px 80px rgba(0, 0, 0, 0.45);
+  --luxury-inset: inset 0 1px 0 rgba(255, 225, 186, 0.08);
 
-  /* Accent + buttons ? aliases of secondary */
+  /* Accent + buttons — aliases of secondary */
   --accent: var(--secondary);
   --accent-dark: var(--secondary-dark);
   --btn: var(--secondary);
@@ -44,7 +47,7 @@
   --btn-border: rgba(255, 225, 186, 0.66);
   --btn-border-strong: rgba(255, 225, 186, 0.72);
 
-  /* Typography ? Assistant everywhere */
+  /* Typography — Assistant */
   --font-assistant-stack: var(--font-assistant), "Assistant", sans-serif;
   --font-display: var(--font-assistant-stack);
   --font-editorial: var(--font-assistant-stack);
@@ -91,11 +94,29 @@ body:not(:has(.admin-layout)) .about-btn-primary {
   align-items: center;
   justify-content: center;
   border: 1px solid var(--secondary);
-  background-color: var(--secondary);
+  background:
+    linear-gradient(180deg, #ffe9c8 0%, var(--secondary) 55%, #e5c89a 100%);
   color: #1a0f08;
   font-weight: 700;
   text-decoration: none;
   cursor: pointer;
+  box-shadow:
+    0 12px 32px rgba(255, 225, 186, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  transition:
+    transform 0.35s var(--motion-ease),
+    box-shadow 0.35s ease,
+    filter 0.35s ease;
+}
+
+body:not(:has(.admin-layout)) .menu-showcase-button:hover,
+body:not(:has(.admin-layout)) .branches-card-nav:hover,
+body:not(:has(.admin-layout)) .about-btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+  box-shadow:
+    0 18px 40px rgba(255, 225, 186, 0.26),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 body:not(:has(.admin-layout)) .visit-secondary,
@@ -103,17 +124,31 @@ body:not(:has(.admin-layout)) .about-btn-ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid var(--secondary);
-  background-color: transparent;
-  color: #ffffff;
+  border: 1px solid rgba(255, 225, 186, 0.45);
+  background-color: rgba(7, 6, 5, 0.35);
+  color: #fff8f0;
   text-decoration: none;
   cursor: pointer;
+  backdrop-filter: blur(8px);
+  transition:
+    border-color 0.35s ease,
+    color 0.35s ease,
+    background-color 0.35s ease,
+    transform 0.35s var(--motion-ease);
+}
+
+body:not(:has(.admin-layout)) .visit-secondary:hover,
+body:not(:has(.admin-layout)) .about-btn-ghost:hover {
+  border-color: var(--secondary);
+  color: var(--secondary);
+  background-color: rgba(255, 225, 186, 0.08);
+  transform: translateY(-2px);
 }
 
 body:not(:has(.admin-layout)) .button.secondary {
-  border: 1px solid var(--secondary);
+  border: 1px solid rgba(255, 225, 186, 0.45);
   background-color: transparent;
-  color: #ffffff;
+  color: #fff8f0;
 }
 
 body:not(:has(.admin-layout)) .hero-button,
@@ -124,10 +159,11 @@ body:not(:has(.admin-layout)) .about-btn-primary,
 body:not(:has(.admin-layout)) .about-btn-ghost {
   font-family: var(--font-button);
   font-weight: var(--weight-bold);
-  letter-spacing: 0.02em;
-  border-radius: 999px;
+  letter-spacing: 0.06em;
+  border-radius: 2px;
   -webkit-font-smoothing: antialiased;
 }
+
 
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -162,12 +198,16 @@ body:not(:has(.admin-layout)) main {
 
 body {
   margin: 0;
-  background-color: #000000;
-  background-image: radial-gradient(circle at top, rgba(255, 225, 186, 0.05) 0, var(--background) 48%);
+  background-color: var(--background);
+  background-image:
+    radial-gradient(ellipse 90% 55% at 50% -10%, rgba(255, 225, 186, 0.09), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 20%, rgba(255, 225, 186, 0.04), transparent 50%),
+    linear-gradient(180deg, #070605 0%, #0c0a08 50%, #070605 100%);
   color: var(--foreground);
   font-family: var(--font-body);
   font-size: var(--type-body);
   line-height: var(--leading-body);
+  -webkit-font-smoothing: antialiased;
 }
 
 .skip-to-content {
@@ -349,33 +389,55 @@ select {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
+  min-height: 48px;
   border: 0;
-  border-radius: 999px;
-  padding: 0 20px;
-  background: var(--brand);
-  color: #fff;
+  border-radius: 2px;
+  padding: 0 24px;
+  background:
+    linear-gradient(180deg, #ffe9c8 0%, var(--brand) 55%, #e5c89a 100%);
+  color: #1a0f08;
   font-weight: 700;
+  letter-spacing: 0.06em;
   cursor: pointer;
+  transition:
+    transform 0.35s var(--motion-ease),
+    filter 0.35s ease,
+    box-shadow 0.35s ease;
+  box-shadow:
+    0 10px 28px rgba(255, 225, 186, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
 }
 
 .button.secondary {
-  border: 1px solid var(--border);
+  border: 1px solid rgba(255, 225, 186, 0.45);
   background: transparent;
+  color: #fff8f0;
+  box-shadow: none;
 }
 
 .site-navbar {
   position: fixed;
   inset: 0 0 auto;
   z-index: 50;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 225, 186, 0.08);
+  background: rgba(7, 6, 5, 0.72);
+  backdrop-filter: blur(18px) saturate(1.2);
+  transition:
+    background-color var(--motion-medium) ease,
+    border-color var(--motion-medium) ease,
+    box-shadow var(--motion-medium) ease;
 }
 
 .site-navbar--overlay {
   position: fixed;
   border-bottom-color: transparent;
+  background: linear-gradient(180deg, rgba(7, 6, 5, 0.55), transparent);
+  backdrop-filter: blur(8px);
 }
 
 .site-navbar-inner {
@@ -639,7 +701,7 @@ select {
   overflow: hidden;
   isolation: isolate;
   padding: 0;
-  background: #000000;
+  background: #070605;
 }
 
 @media (min-width: 768px) {
@@ -939,13 +1001,15 @@ select {
   align-items: center;
   justify-content: center;
   min-width: 176px;
-  padding: 17px 44px;
+  padding: 17px 40px;
   overflow: hidden;
+  border-radius: 2px;
   font-family: var(--font-button);
   font-size: 15px;
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   text-align: center;
   text-decoration: none;
   cursor: pointer;
@@ -954,22 +1018,14 @@ select {
     color 0.35s ease,
     background-color 0.35s ease,
     box-shadow 0.35s ease,
-    transform 0.35s var(--motion-ease);
-  -webkit-font-smoothing: auto;
+    transform 0.35s var(--motion-ease),
+    filter 0.35s ease;
+  -webkit-font-smoothing: antialiased;
   -webkit-tap-highlight-color: transparent;
 }
 
 .hero-button::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(105deg, transparent 42%, rgba(255, 255, 255, 0.14) 50%, transparent 58%);
-  transform: translateX(-130%);
-  transition: transform 0.65s var(--motion-ease);
-}
-
-.hero-button:hover::after {
-  transform: translateX(130%);
+  content: none;
 }
 
 .hero-button:hover {
@@ -979,36 +1035,42 @@ select {
 .hero-button--menu,
 .hero-button--order {
   border: 1px solid rgba(255, 225, 186, 0.55);
-  backdrop-filter: blur(6px);
-  box-shadow: none;
+  backdrop-filter: blur(8px);
 }
 
 .hero-button--menu {
-  background-color: rgba(0, 0, 0, 0.35);
-  color: rgba(255, 255, 255, 0.92);
+  background-color: rgba(7, 6, 5, 0.45);
+  color: rgba(255, 248, 240, 0.92);
+  box-shadow: inset 0 0 0 1px rgba(255, 225, 186, 0.06);
 }
 
 .hero-button--order {
   border-color: var(--secondary);
-  background-color: var(--secondary);
-  color: #000000;
+  background:
+    linear-gradient(180deg, #ffe9c8 0%, var(--secondary) 55%, #e5c89a 100%);
+  color: #1a1008;
   font-size: 16px;
   font-weight: 700;
-  letter-spacing: 0;
+  letter-spacing: 0.02em;
+  box-shadow:
+    0 14px 36px rgba(255, 225, 186, 0.22),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:hover {
   border-color: var(--secondary);
   color: var(--secondary);
-  background-color: rgba(255, 225, 186, 0.1);
-  box-shadow: 0 14px 36px rgba(255, 225, 186, 0.18);
+  background-color: rgba(255, 225, 186, 0.08);
+  box-shadow: 0 12px 32px rgba(255, 225, 186, 0.12);
 }
 
 body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   border-color: var(--secondary);
-  color: #000000;
-  background-color: var(--secondary);
-  box-shadow: 0 14px 36px rgba(255, 225, 186, 0.18);
+  color: #1a1008;
+  filter: brightness(1.04);
+  box-shadow:
+    0 18px 42px rgba(255, 225, 186, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .hero-burger-placeholder {
@@ -1152,14 +1214,14 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .customer-club-section,
 .location-section,
 .menu-showcase-section {
-  --home-text: #ffffff;
-  --home-text-muted: rgba(255, 255, 255, 0.82);
-  --home-section-title-size: clamp(52px, 12vw, 120px);
-  --home-section-title-line: 0.92;
-  --home-step-title-size: clamp(40px, 9vw, 88px);
-  --home-step-title-line: 0.95;
-  --home-card-title-size: clamp(22px, 2.8vw, 28px);
-  --home-card-title-line: 1.15;
+  --home-text: #fff8f0;
+  --home-text-muted: rgba(255, 248, 240, 0.72);
+  --home-section-title-size: clamp(56px, 11vw, 112px);
+  --home-section-title-line: 0.9;
+  --home-step-title-size: clamp(42px, 8.5vw, 84px);
+  --home-step-title-line: 0.94;
+  --home-card-title-size: clamp(24px, 2.8vw, 30px);
+  --home-card-title-line: 1.12;
   --home-subhead-size: clamp(18px, 3.6vw, 20px);
   --home-body-size: clamp(15px, 3.6vw, 17px);
   --home-lead-size: clamp(16px, 3.8vw, 19px);
@@ -1167,39 +1229,40 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   color: var(--home-text);
 }
 
-/* Level 1 ? ?????? ???? (????) */
 .plancha-title,
 .menu-showcase-title,
 .atmosphere-title,
 .location-title,
 .customer-club-title {
-  margin: 0 0 16px;
-  color: #fff;
+  margin: 0 0 20px;
+  color: #fff8f0;
   font-family: var(--font-display);
   font-size: var(--home-section-title-size);
   font-weight: 700;
   line-height: var(--home-section-title-line);
-  letter-spacing: 0.02em;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
-/* Level 4 ? ???? ???? ???? ?????? */
 .plancha-lead,
 .menu-showcase-lead,
 .atmosphere-lead {
-  max-width: 32rem;
+  max-width: 28rem;
   margin: 0 auto;
   color: var(--home-text-muted);
   font-family: var(--font-subtitle);
   font-size: var(--home-lead-size);
   font-weight: var(--weight-medium);
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .plancha-section {
   position: relative;
   z-index: 1;
   margin-top: 0;
-  background: #000000;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(255, 225, 186, 0.06), transparent 55%),
+    linear-gradient(180deg, #0a0806 0%, #070605 100%);
   overflow: hidden;
 }
 
@@ -1233,7 +1296,9 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   position: relative;
   width: 100%;
   min-height: min(88vh, 920px);
-  background: #000000;
+  background:
+    radial-gradient(ellipse 50% 40% at 50% 80%, rgba(255, 225, 186, 0.05), transparent 60%),
+    #070605;
   overflow: hidden;
 }
 
@@ -1542,9 +1607,11 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   position: relative;
   z-index: 2;
   margin-top: 0;
-  padding: clamp(72px, 10vw, 104px) 0 clamp(72px, 10vw, 104px);
-  background: #000000;
-  color: #ffffff;
+  padding: clamp(88px, 12vw, 128px) 0 clamp(88px, 12vw, 128px);
+  background:
+    radial-gradient(ellipse 90% 40% at 50% 0%, rgba(255, 225, 186, 0.08), transparent 50%),
+    linear-gradient(180deg, #0a0806 0%, #070605 60%, #0c0a08 100%);
+  color: #fff8f0;
   overflow: hidden;
 }
 
@@ -1561,12 +1628,12 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .menu-showcase-kicker {
-  margin: 0 0 12px;
-  color: rgba(255, 255, 255, 0.42);
+  margin: 0 0 16px;
+  color: var(--secondary-muted);
   font-family: var(--font-display);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: var(--weight-semibold);
-  letter-spacing: 0.34em;
+  letter-spacing: 0.4em;
   line-height: 1;
   text-transform: uppercase;
 }
@@ -1651,17 +1718,34 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   flex-shrink: 0;
   max-width: 320px;
   overflow: hidden;
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--site-media-radius);
-  background: #0a0a0a;
+  border: 1px solid rgba(255, 225, 186, 0.1);
+  border-radius: 4px;
+  background:
+    linear-gradient(180deg, rgba(255, 225, 186, 0.04) 0%, transparent 40%),
+    #100e0c;
+  box-shadow: var(--luxury-shadow);
   direction: rtl;
+  transition:
+    border-color 0.4s var(--motion-ease),
+    transform 0.4s var(--motion-ease),
+    box-shadow 0.4s var(--motion-ease);
+}
+
+.menu-showcase-card:hover {
+  border-color: rgba(255, 225, 186, 0.28);
+  transform: translateY(-4px);
+  box-shadow:
+    0 32px 64px rgba(0, 0, 0, 0.5),
+    0 0 0 1px rgba(255, 225, 186, 0.08);
 }
 
 .menu-showcase-card-media {
   position: relative;
   aspect-ratio: 4 / 3;
-  padding: 14px 14px 0;
-  background: #050505;
+  padding: 10px 10px 0;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(255, 225, 186, 0.08), transparent 55%),
+    #0a0806;
 }
 
 .menu-showcase-card-media:not(.menu-showcase-card-media--video) img {
@@ -1902,13 +1986,29 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .menu-showcase-button {
-  min-width: 190px;
-  min-height: 44px;
-  padding: 0 28px;
-  border-radius: 999px;
-  font-family: var(--font-subtitle);
+  min-width: 200px;
+  min-height: 52px;
+  padding: 0 36px;
+  border-radius: 2px;
+  font-family: var(--font-button);
   font-size: 14px;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    transform 0.35s var(--motion-ease),
+    box-shadow 0.35s var(--motion-ease),
+    filter 0.35s ease;
+  box-shadow:
+    0 12px 32px rgba(255, 225, 186, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.menu-showcase-button:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.04);
+  box-shadow:
+    0 18px 40px rgba(255, 225, 186, 0.28),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
 }
 
 @media (min-width: 768px) {
@@ -1935,8 +2035,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 
 .atmosphere-section {
-  padding: clamp(36px, 7vh, 56px) 0 80px;
-  background: #000000;
+  padding: clamp(48px, 8vh, 72px) 0 96px;
+  background:
+    radial-gradient(ellipse 70% 45% at 70% 20%, rgba(255, 225, 186, 0.07), transparent 50%),
+    linear-gradient(180deg, #070605 0%, #0c0a08 50%, #070605 100%);
   overflow: hidden;
 }
 
@@ -2407,8 +2509,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .location-section {
-  padding: 80px 0;
-  background: #000000;
+  padding: clamp(88px, 12vh, 120px) 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 20% 50%, rgba(255, 225, 186, 0.06), transparent 55%),
+    linear-gradient(180deg, #0a0806 0%, #070605 100%);
   overflow: hidden;
 }
 
@@ -2425,10 +2529,11 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   position: relative;
   order: 1;
   overflow: hidden;
-  height: 50vh;
-  min-height: 280px;
-  border: var(--site-media-frame-border);
-  border-radius: var(--site-media-radius);
+  height: 56vh;
+  min-height: 320px;
+  border: 1px solid rgba(255, 225, 186, 0.14);
+  border-radius: 2px;
+  box-shadow: var(--luxury-shadow);
 }
 
 .location-media img {
@@ -2868,8 +2973,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   position: relative;
   z-index: 2;
   overflow-x: hidden;
-  border-top: 1px solid rgba(255, 225, 186, 0.12);
-  background: #000000;
+  border-top: 1px solid rgba(255, 225, 186, 0.1);
+  background:
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255, 225, 186, 0.05), transparent 55%),
+    linear-gradient(180deg, #0a0806 0%, #050403 100%);
 }
 
 .site-footer-glow {
@@ -4461,10 +4568,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .menu-page {
   min-height: 100vh;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.07), transparent 32%),
-    radial-gradient(circle at 100% 38%, rgba(255, 225, 186, 0.05), transparent 28%),
-    #000000;
-  padding-bottom: 80px;
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255, 225, 186, 0.09), transparent 45%),
+    radial-gradient(ellipse 40% 30% at 100% 40%, rgba(255, 225, 186, 0.04), transparent 50%),
+    linear-gradient(180deg, #0a0806 0%, #070605 100%);
+  padding-bottom: 96px;
 }
 
 .menu-page-inner {
@@ -4478,11 +4585,12 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 
 .menu-page-hero-title {
   margin: 0;
-  color: #fffdf5;
+  color: #fff8f0;
   font-family: var(--font-editorial);
-  font-size: var(--type-display-1);
+  font-size: clamp(42px, 7vw, 72px);
   font-weight: 700;
-  line-height: var(--leading-title);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
 }
 
 .menu-page-lede {
@@ -4556,27 +4664,33 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   display: grid;
   grid-template-columns: 1fr;
   align-items: start;
-  gap: 16px;
-  padding: 24px 18px 28px;
+  gap: 20px;
+  padding: 0 0 32px;
   text-align: center;
   height: 100%;
-  border: 1px solid rgba(255, 225, 186, 0.26);
-  border-radius: var(--site-media-radius);
-  background:
-    radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.08), transparent 52%),
-    rgba(4, 3, 2, 0.55);
+  border: none;
+  border-bottom: 1px solid rgba(255, 225, 186, 0.12);
+  border-radius: 0;
+  background: transparent;
+  transition: border-color 0.35s ease;
+}
+
+.menu-page-dish:hover {
+  border-bottom-color: rgba(255, 225, 186, 0.35);
 }
 
 .menu-page-dish-visual {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 200px;
-  padding: 12px;
+  min-height: 240px;
+  padding: 8px;
   overflow: hidden;
-  border: var(--site-media-frame-border);
-  border-radius: calc(var(--site-media-radius) - 2px);
-  background: rgba(0, 0, 0, 0.45);
+  border: none;
+  border-radius: 0;
+  background:
+    radial-gradient(circle at 50% 40%, rgba(255, 225, 186, 0.1), transparent 55%),
+    #0a0806;
 }
 
 .menu-page-dish-visual img,
@@ -4694,10 +4808,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .branches-page {
   min-height: 100vh;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.07), transparent 32%),
-    radial-gradient(circle at 100% 38%, rgba(255, 225, 186, 0.05), transparent 28%),
-    #000000;
-  padding-bottom: 80px;
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255, 225, 186, 0.09), transparent 45%),
+    radial-gradient(ellipse 40% 30% at 100% 40%, rgba(255, 225, 186, 0.04), transparent 50%),
+    linear-gradient(180deg, #0a0806 0%, #070605 100%);
+  padding-bottom: 96px;
 }
 
 .branches-page-inner {
@@ -4787,13 +4901,25 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 }
 
 .branches-card {
-  padding: 28px 24px;
-  border: 1px solid rgba(255, 225, 186, 0.28);
+  padding: 32px 28px;
+  border: 1px solid rgba(255, 225, 186, 0.14);
+  border-radius: 2px;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.08), transparent 52%),
-    rgba(4, 3, 2, 0.55);
+    linear-gradient(165deg, rgba(255, 225, 186, 0.05) 0%, transparent 45%),
+    #100e0c;
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
   direction: rtl;
   text-align: start;
+  transition:
+    border-color 0.4s ease,
+    transform 0.4s var(--motion-ease),
+    box-shadow 0.4s ease;
+}
+
+.branches-card:hover {
+  border-color: rgba(255, 225, 186, 0.32);
+  transform: translateY(-3px);
+  box-shadow: 0 28px 56px rgba(0, 0, 0, 0.45);
 }
 
 .branches-card h2 {
@@ -4873,9 +4999,9 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
 .about-page {
   min-height: 100vh;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.07), transparent 32%),
-    radial-gradient(circle at 100% 38%, rgba(255, 225, 186, 0.05), transparent 28%),
-    #000000;
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(255, 225, 186, 0.09), transparent 45%),
+    radial-gradient(ellipse 40% 30% at 100% 40%, rgba(255, 225, 186, 0.05), transparent 50%),
+    linear-gradient(180deg, #0a0806 0%, #070605 100%);
   padding-bottom: 0;
 }
 
@@ -4971,15 +5097,18 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   justify-content: center;
   min-height: 52px;
   padding: 0 28px;
-  border-radius: 999px;
-  font-size: 15px;
-  font-weight: 600;
+  border-radius: 2px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   text-decoration: none;
   border: 1px solid var(--btn-border);
   transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease,
-    background 0.2s ease;
+    transform 0.35s var(--motion-ease),
+    box-shadow 0.35s ease,
+    background 0.35s ease,
+    filter 0.35s ease;
 }
 
 .about-btn:hover {
@@ -5763,5 +5892,233 @@ body.short-tour-active .menu-showcase-track {
 .burger-assembly__stage--placeholder {
   width: 100%;
   min-height: clamp(220px, 42vh, 420px);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PREMIUM ELEVATION LAYER — luxury restaurant polish
+   Preserves structure & functionality; elevates light, depth, rhythm
+   ═══════════════════════════════════════════════════════════════ */
+
+body:not(:has(.admin-layout)) {
+  color-scheme: dark;
+}
+
+/* Soft gold ambient wash behind all public pages */
+body:not(:has(.admin-layout)) main {
+  position: relative;
+}
+
+body:not(:has(.admin-layout)) main::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 100% 40% at 50% -5%, rgba(255, 225, 186, 0.07), transparent 50%),
+    radial-gradient(ellipse 50% 30% at 0% 60%, rgba(255, 225, 186, 0.03), transparent 50%),
+    radial-gradient(ellipse 50% 30% at 100% 80%, rgba(255, 225, 186, 0.03), transparent 50%);
+}
+
+/* Section rhythm — cinematic breathing room */
+.plancha-intro {
+  padding: clamp(80px, 12vh, 120px) 24px clamp(56px, 8vh, 72px);
+}
+
+.menu-showcase-header {
+  margin-bottom: clamp(40px, 6vw, 64px);
+}
+
+.location-copy {
+  padding-block: clamp(8px, 2vh, 24px);
+}
+
+.location-title {
+  margin: 0 0 clamp(40px, 6vh, 64px);
+}
+
+/* Food as hero — richer media treatment */
+.menu-showcase-card-media img,
+.menu-showcase-card-media video {
+  filter: contrast(1.06) saturate(1.08);
+  transition: transform 0.7s var(--motion-ease), filter 0.7s ease;
+}
+
+.menu-showcase-card:hover .menu-showcase-card-media img,
+.menu-showcase-card:hover .menu-showcase-card-media video {
+  transform: scale(1.03);
+  filter: contrast(1.1) saturate(1.12);
+}
+
+.menu-page-dish-visual img,
+.menu-page-dish-visual video {
+  max-height: 260px;
+  filter: drop-shadow(0 24px 36px rgba(0, 0, 0, 0.55)) contrast(1.05) saturate(1.06);
+  transition: transform 0.6s var(--motion-ease);
+}
+
+.menu-page-dish:hover .menu-page-dish-visual img,
+.menu-page-dish:hover .menu-page-dish-visual video {
+  transform: scale(1.04);
+}
+
+.location-media img {
+  transition: transform 8s var(--motion-ease);
+}
+
+.location-media:hover img {
+  transform: scale(1.04);
+}
+
+.plancha-panel-media {
+  border-radius: 2px;
+  box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* Typography polish — tighter leads, cream whites */
+.menu-showcase-card-title {
+  color: #fff8f0;
+  letter-spacing: -0.01em;
+}
+
+.menu-showcase-card-desc {
+  max-width: 28ch;
+  color: rgba(255, 248, 240, 0.62);
+  line-height: 1.65;
+}
+
+.menu-page-dish-head h3 {
+  color: #fff8f0;
+  letter-spacing: -0.01em;
+}
+
+.menu-page-dish-head p {
+  max-width: 32ch;
+  margin-inline: auto;
+  color: rgba(255, 248, 240, 0.62);
+}
+
+.menu-page-lede {
+  max-width: 36ch;
+  color: rgba(255, 248, 240, 0.68);
+}
+
+.plancha-panel-desc {
+  max-width: 34ch;
+}
+
+.atmosphere-lead {
+  max-width: 26rem;
+}
+
+/* Nav — quieter luxury glass */
+.site-navbar:not(.site-navbar--overlay) {
+  box-shadow: 0 1px 0 rgba(255, 225, 186, 0.04);
+}
+
+.site-nav-overlay-link {
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  font-size: clamp(22px, 4vw, 32px);
+  transition:
+    color 0.35s ease,
+    letter-spacing 0.35s ease,
+    opacity 0.35s ease;
+}
+
+.site-nav-overlay-link:hover {
+  color: var(--secondary);
+  letter-spacing: 0.16em;
+}
+
+.language-switcher {
+  border-radius: 2px;
+  border-color: rgba(255, 225, 186, 0.2);
+  background: rgba(7, 6, 5, 0.55);
+}
+
+/* Footer — quieter, more editorial */
+.site-footer-heading {
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 11px;
+}
+
+.site-footer-tagline {
+  max-width: 28ch;
+  color: rgba(255, 248, 240, 0.65);
+}
+
+.site-footer-bar {
+  border-top: 1px solid rgba(255, 225, 186, 0.08);
+  background: rgba(0, 0, 0, 0.35);
+}
+
+/* Branches page breathing room */
+.branches-page {
+  background:
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255, 225, 186, 0.08), transparent 45%),
+    linear-gradient(180deg, #0a0806 0%, #070605 100%);
+}
+
+.branches-card-nav {
+  border-radius: 2px;
+  min-height: 48px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-size: 13px;
+}
+
+/* Focus states — premium accessibility */
+body:not(:has(.admin-layout)) a:focus-visible,
+body:not(:has(.admin-layout)) button:focus-visible {
+  outline: 2px solid var(--secondary);
+  outline-offset: 3px;
+}
+
+/* Soft section dividers instead of hard black cuts */
+.menu-showcase-section::after,
+.atmosphere-section::after,
+.location-section::before {
+  content: "";
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  pointer-events: none;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 225, 186, 0.18),
+    transparent
+  );
+}
+
+.menu-showcase-section::after,
+.atmosphere-section::after {
+  bottom: 0;
+}
+
+.location-section::before {
+  top: 0;
+}
+
+.menu-showcase-section,
+.atmosphere-section,
+.location-section {
+  position: relative;
+}
+
+/* Reduced motion safety for new transforms */
+@media (prefers-reduced-motion: reduce) {
+  .menu-showcase-card:hover,
+  .branches-card:hover,
+  .menu-showcase-card:hover .menu-showcase-card-media img,
+  .menu-showcase-card:hover .menu-showcase-card-media video,
+  .menu-page-dish:hover .menu-page-dish-visual img,
+  .menu-page-dish:hover .menu-page-dish-visual video,
+  .location-media:hover img {
+    transform: none;
+  }
 }
 

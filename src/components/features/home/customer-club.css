@@ -4,7 +4,9 @@
   position: relative;
   z-index: 1;
   padding: clamp(72px, 9vw, 108px) 0 0;
-  background: #000000;
+  background:
+    radial-gradient(ellipse 70% 50% at 80% 40%, rgba(255, 225, 186, 0.07), transparent 55%),
+    linear-gradient(180deg, #070605 0%, #0c0a08 50%, #070605 100%);
   overflow-x: clip;
 }
 

@@ -62,17 +62,24 @@ export type Messages = {
     title: string;
     titlePrimary: string;
     titleAccent: string;
+    lead: string;
     leadBefore: string;
     leadHighlight: string;
     leadAfter: string;
     cardAlt: string;
     burgerAlt: string;
+    formTitle: string;
+    formSubtitle: string;
     formHint: string;
     socialProof: string;
     trustSafe: string;
     trustTerms: string;
+    barBrandSub: string;
+    barSlogan: string;
     perksAria: string;
+    features: Array<{ title: string }>;
     perks: Array<{ title: string; desc: string }>;
+    formPerks: Array<{ title: string; desc: string }>;
     fields: {
       fullName: string;
       phone: string;

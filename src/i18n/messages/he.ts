@@ -69,33 +69,39 @@ export const he: Messages = {
     bottomAlt: "לחמנייה תחתונה"
   },
   customerClub: {
-    kicker: "NB Club",
+    kicker: "NB CLUB",
     title: "מועדון הלקוחות",
     titlePrimary: "מועדון",
     titleAccent: "הלקוחות",
+    lead: "הטבות בלעדיות, מבצעים מיוחדים וחוויית המבורגר ברמה אחרת",
     leadBefore: "",
     leadHighlight: "",
     leadAfter: "",
     cardAlt: "כרטיס חבר NB Club",
     burgerAlt: "המבורגר NB",
+    formTitle: "הצטרפו עכשיו",
+    formSubtitle: "ומקבלים עולם של הטבות",
     formHint: "הרשמה מהירה",
     socialProof: "2,300+ חברים",
     trustSafe: "המידע שלך נשאר אצלנו",
     trustTerms: "בלי עלות · בלי התחייבות",
+    barBrandSub: "REAL BURGERS. REAL PEOPLE.",
+    barSlogan: "NB CLUB — MORE THAN A BURGER",
     perksAria: "יתרונות המועדון",
+    features: [
+      { title: "מבצעים בלעדיים" },
+      { title: "הטבות אישיות" },
+      { title: "מתנה ביום ההולדת" }
+    ],
     perks: [
-      {
-        title: "יום הולדת",
-        desc: ""
-      },
-      {
-        title: "חדשות",
-        desc: ""
-      },
-      {
-        title: "הטבות",
-        desc: ""
-      }
+      { title: "יום הולדת", desc: "" },
+      { title: "חדשות", desc: "" },
+      { title: "הטבות", desc: "" }
+    ],
+    formPerks: [
+      { title: "חברים בלבד", desc: "הטבות בלעדיות" },
+      { title: "מבצעים מיוחדים", desc: "הנחות שוות" },
+      { title: "חוויה אחרת", desc: "אוכל ברמה גבוהה" }
     ],
     fields: {
       fullName: "שם מלא",
@@ -103,7 +109,7 @@ export const he: Messages = {
       email: "אימייל (אופציונלי)",
       birthDate: "תאריך לידה"
     },
-    consentPrefix: "מאשר/ת לפי",
+    consentPrefix: "מאשר/ת קבלת עדכונים ומתנות",
     privacyLink: "פרטיות",
     submit: "להצטרפות",
     submitting: "שולחים...",

@@ -69,33 +69,39 @@ export const fr: Messages = {
     bottomAlt: "Pain du bas"
   },
   customerClub: {
-    kicker: "NB Club",
+    kicker: "NB CLUB",
     title: "Club client",
     titlePrimary: "Club",
     titleAccent: "client",
+    lead: "Avantages exclusifs, offres spéciales et une expérience burger d'un autre niveau",
     leadBefore: "",
-    leadHighlight: "Avantages et surprises pour les membres",
-    leadAfter: ".",
+    leadHighlight: "",
+    leadAfter: "",
     cardAlt: "Carte membre NB Club",
     burgerAlt: "Burger NB",
+    formTitle: "Rejoignez-nous",
+    formSubtitle: "Et accédez à un monde d'avantages",
     formHint: "Inscription rapide",
     socialProof: "2 300+ membres",
     trustSafe: "Vos infos restent chez nous",
     trustTerms: "Gratuit · Sans engagement",
+    barBrandSub: "REAL BURGERS. REAL PEOPLE.",
+    barSlogan: "NB CLUB — MORE THAN A BURGER",
     perksAria: "Avantages du club",
+    features: [
+      { title: "Offres exclusives" },
+      { title: "Avantages perso" },
+      { title: "Cadeau d'anniversaire" }
+    ],
     perks: [
-      {
-        title: "Cadeau d'anniversaire",
-        desc: ""
-      },
-      {
-        title: "En avant-première",
-        desc: ""
-      },
-      {
-        title: "Avantages exclusifs",
-        desc: ""
-      }
+      { title: "Cadeau d'anniversaire", desc: "" },
+      { title: "En avant-première", desc: "" },
+      { title: "Avantages exclusifs", desc: "" }
+    ],
+    formPerks: [
+      { title: "Membres seulement", desc: "Avantages exclusifs" },
+      { title: "Offres spéciales", desc: "Vraies réductions" },
+      { title: "Autre niveau", desc: "Cuisine au top" }
     ],
     fields: {
       fullName: "Nom complet",
@@ -103,9 +109,9 @@ export const fr: Messages = {
       email: "E-mail (optionnel)",
       birthDate: "Date de naissance"
     },
-    consentPrefix: "J'accepte les actus selon la",
-    privacyLink: "Politique de confidentialité",
-    submit: "Rejoindre",
+    consentPrefix: "J'accepte de recevoir actus et cadeaux",
+    privacyLink: "Confidentialité",
+    submit: "S'inscrire",
     submitting: "Envoi...",
     successTitle: "C'est bon !",
     successMessage: "On vous recontacte bientôt avec vos avantages.",

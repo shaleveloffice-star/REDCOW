@@ -160,7 +160,7 @@ body:not(:has(.admin-layout)) .about-btn-ghost {
   font-family: var(--font-button);
   font-weight: var(--weight-bold);
   letter-spacing: 0.06em;
-  border-radius: 2px;
+  border-radius: 999px;
   -webkit-font-smoothing: antialiased;
 }
 
@@ -391,7 +391,7 @@ select {
   justify-content: center;
   min-height: 48px;
   border: 0;
-  border-radius: 2px;
+  border-radius: 999px;
   padding: 0 24px;
   background:
     linear-gradient(180deg, #ffe9c8 0%, var(--brand) 55%, #e5c89a 100%);
@@ -1003,7 +1003,7 @@ select {
   min-width: 176px;
   padding: 17px 40px;
   overflow: hidden;
-  border-radius: 2px;
+  border-radius: 999px;
   font-family: var(--font-button);
   font-size: 15px;
   font-weight: 700;
@@ -1989,7 +1989,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   min-width: 200px;
   min-height: 52px;
   padding: 0 36px;
-  border-radius: 2px;
+  border-radius: 999px;
   font-family: var(--font-button);
   font-size: 14px;
   letter-spacing: 0.08em;
@@ -5097,7 +5097,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--order:hover {
   justify-content: center;
   min-height: 52px;
   padding: 0 28px;
-  border-radius: 2px;
+  border-radius: 999px;
   font-size: 14px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -6032,7 +6032,7 @@ body:not(:has(.admin-layout)) main::before {
 }
 
 .language-switcher {
-  border-radius: 2px;
+  border-radius: 999px;
   border-color: rgba(255, 225, 186, 0.2);
   background: rgba(7, 6, 5, 0.55);
 }
@@ -6062,7 +6062,7 @@ body:not(:has(.admin-layout)) main::before {
 }
 
 .branches-card-nav {
-  border-radius: 2px;
+  border-radius: 999px;
   min-height: 48px;
   letter-spacing: 0.08em;
   text-transform: uppercase;

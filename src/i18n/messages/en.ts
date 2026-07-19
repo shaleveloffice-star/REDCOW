@@ -69,33 +69,39 @@ export const en: Messages = {
     bottomAlt: "Bottom bun"
   },
   customerClub: {
-    kicker: "NB Club",
+    kicker: "NB CLUB",
     title: "Customer Club",
     titlePrimary: "Customer",
     titleAccent: "Club",
+    lead: "Exclusive perks, special offers, and a burger experience on another level",
     leadBefore: "",
-    leadHighlight: "Perks and surprises for members",
-    leadAfter: ".",
+    leadHighlight: "",
+    leadAfter: "",
     cardAlt: "NB Club member card",
     burgerAlt: "NB burger",
+    formTitle: "Join now",
+    formSubtitle: "And unlock a world of benefits",
     formHint: "Quick signup",
     socialProof: "2,300+ members",
     trustSafe: "Your info stays with us",
     trustTerms: "Free · No commitment",
+    barBrandSub: "REAL BURGERS. REAL PEOPLE.",
+    barSlogan: "NB CLUB — MORE THAN A BURGER",
     perksAria: "Club benefits",
+    features: [
+      { title: "Exclusive offers" },
+      { title: "Personal perks" },
+      { title: "Birthday gift" }
+    ],
     perks: [
-      {
-        title: "Birthday treat",
-        desc: ""
-      },
-      {
-        title: "First to know",
-        desc: ""
-      },
-      {
-        title: "Exclusive perks",
-        desc: ""
-      }
+      { title: "Birthday treat", desc: "" },
+      { title: "First to know", desc: "" },
+      { title: "Exclusive perks", desc: "" }
+    ],
+    formPerks: [
+      { title: "Members only", desc: "Exclusive benefits" },
+      { title: "Special deals", desc: "Real discounts" },
+      { title: "Another level", desc: "Food done right" }
     ],
     fields: {
       fullName: "Full name",
@@ -103,9 +109,9 @@ export const en: Messages = {
       email: "Email (optional)",
       birthDate: "Birth date"
     },
-    consentPrefix: "I agree to updates per the",
-    privacyLink: "Privacy Policy",
-    submit: "Join the club",
+    consentPrefix: "I agree to receive updates and gifts",
+    privacyLink: "Privacy",
+    submit: "Join now",
     submitting: "Sending...",
     successTitle: "You're in!",
     successMessage: "We'll be in touch with your perks soon.",

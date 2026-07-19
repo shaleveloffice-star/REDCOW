@@ -1,5 +1,10 @@
 "use client";
 
+/**
+ * Legacy video hero — replaced on the homepage by BurgerScrollHero.
+ * Kept for reference / possible admin preview reuse. Do not delete without review.
+ */
+
 import type { OrderLink, SiteSettings } from "@/types/content";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";

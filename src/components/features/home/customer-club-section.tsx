@@ -1,20 +1,9 @@
 "use client";
 
-import {
-  BadgeCheck,
-  Calendar,
-  CircleCheck,
-  Clock3,
-  Gift,
-  Lock,
-  Percent,
-  Phone,
-  Star,
-  User
-} from "lucide-react";
+import { CircleCheck, Gift, Phone, User } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
+import { useEffect, useId, useRef, useState, useTransition } from "react";
 
 import { BirthDatePicker } from "@/components/features/home/birth-date-picker";
 import { useTranslations } from "@/components/providers/locale-provider";
@@ -25,14 +14,7 @@ import {
 
 import "./customer-club.css";
 
-const perkIcons = [Gift, Star, Percent] as const;
 const CLUB_HERO_IMAGE = "/images/brand/nb-club-hero.png";
-const CLUB_MEMBER_AVATARS = [
-  "/images/brand/club-member-1.png",
-  "/images/brand/club-member-2.png",
-  "/images/brand/club-member-3.png",
-  "/images/brand/club-member-4.png"
-] as const;
 
 type FieldKey = "fullName" | "phone" | "consent";
 
@@ -58,15 +40,6 @@ export function CustomerClubSection() {
   const phoneRef = useRef<HTMLInputElement>(null);
   const consentRef = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
-
-  const perks = useMemo(
-    () =>
-      t.customerClub.perks.map((perk, index) => ({
-        ...perk,
-        Icon: perkIcons[index] ?? Gift
-      })),
-    [t]
-  );
 
   const errorMessage = errorCode ? t.customerClub.errors[errorCode] : null;
   const invalidField = errorCode ? fieldForError(errorCode) : null;
@@ -101,9 +74,33 @@ export function CustomerClubSection() {
   };
 
   return (
-    <section id="club" className="customer-club-section" aria-labelledby="customer-club-title">
+    <section
+      id="club"
+      className="customer-club-section customer-club-section--compact"
+      aria-labelledby="customer-club-title"
+    >
       <div className="customer-club-shell">
-        <div className="customer-club-form-slot">
+        <header className="customer-club-copy">
+          <p className="customer-club-kicker">{t.customerClub.kicker}</p>
+          <h2 id="customer-club-title" className="customer-club-title">
+            <span className="customer-club-title-primary">{t.customerClub.titlePrimary}</span>
+            <span className="customer-club-title-accent">{t.customerClub.titleAccent}</span>
+          </h2>
+        </header>
+
+        <div className="customer-club-signup-unit">
+          <div className="customer-club-hero customer-club-hero--bookmark" aria-hidden="true">
+            <Image
+              className="customer-club-hero-image"
+              src={CLUB_HERO_IMAGE}
+              alt=""
+              width={2100}
+              height={2100}
+              sizes="(max-width: 899px) 190px, 360px"
+              loading="lazy"
+            />
+          </div>
+
           <aside className="customer-club-form-col">
             {submitted ? (
               <div
@@ -117,11 +114,6 @@ export function CustomerClubSection() {
               </div>
             ) : (
               <form className="customer-club-panel customer-club-form" action={handleSubmit} noValidate>
-                <p className="customer-club-form-hint">
-                  <Clock3 strokeWidth={1.5} aria-hidden="true" />
-                  <span>{t.customerClub.formHint}</span>
-                </p>
-
                 <div className="customer-club-fields">
                   <div className="customer-club-field">
                     <label className="customer-club-field-label" htmlFor={fullNameId}>
@@ -171,7 +163,6 @@ export function CustomerClubSection() {
                       {t.customerClub.fields.birthDate}
                     </span>
                     <span className="customer-club-input-box customer-club-input-box--birth">
-                      <Calendar className="customer-club-input-icon" strokeWidth={1.5} aria-hidden="true" />
                       <BirthDatePicker
                         name="birthDate"
                         label={t.customerClub.fields.birthDate}
@@ -216,87 +207,9 @@ export function CustomerClubSection() {
                     {errorMessage}
                   </p>
                 ) : null}
-
-                <div className="customer-club-social-proof">
-                  <div className="customer-club-social-row">
-                    <div className="customer-club-avatars" aria-hidden="true">
-                      {CLUB_MEMBER_AVATARS.map((src, index) => (
-                        <Image
-                          key={src}
-                          className="customer-club-avatar"
-                          src={src}
-                          alt=""
-                          width={36}
-                          height={36}
-                          sizes="36px"
-                          loading="lazy"
-                          style={{ zIndex: CLUB_MEMBER_AVATARS.length - index }}
-                        />
-                      ))}
-                    </div>
-                    <p>{t.customerClub.socialProof}</p>
-                  </div>
-                  <div className="customer-club-stars" aria-hidden="true">
-                    {Array.from({ length: 5 }).map((_, index) => (
-                      <Star key={index} strokeWidth={1.5} fill="#ffe1ba" color="#ffe1ba" />
-                    ))}
-                  </div>
-                </div>
               </form>
             )}
           </aside>
-        </div>
-
-        <header className="customer-club-copy">
-          <p className="customer-club-kicker">{t.customerClub.kicker}</p>
-          <h2 id="customer-club-title" className="customer-club-title">
-            <span className="customer-club-title-primary">{t.customerClub.titlePrimary}</span>
-            <span className="customer-club-title-accent">{t.customerClub.titleAccent}</span>
-          </h2>
-          <p className="customer-club-lead">
-            {t.customerClub.leadBefore}
-            <span className="customer-club-lead-accent">{t.customerClub.leadHighlight}</span>
-            {t.customerClub.leadAfter}
-          </p>
-        </header>
-
-        <div className="customer-club-hero" aria-hidden="true">
-          <Image
-            className="customer-club-hero-image"
-            src={CLUB_HERO_IMAGE}
-            alt=""
-            width={2100}
-            height={2100}
-            sizes="(max-width: 767px) 100vw, 40vw"
-            loading="lazy"
-          />
-        </div>
-
-        <ul className="customer-club-perks" aria-label={t.customerClub.perksAria}>
-          {perks.map((perk) => (
-            <li key={perk.title}>
-              <div className="customer-club-perk-body">
-                <h3>{perk.title}</h3>
-                <p>{perk.desc}</p>
-              </div>
-              <span className="customer-club-perk-icon" aria-hidden="true">
-                <perk.Icon strokeWidth={1.5} />
-              </span>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="customer-club-trust-bar">
-        <div className="customer-club-trust-inner">
-          <p>
-            <Lock strokeWidth={1.5} aria-hidden="true" />
-            <span>{t.customerClub.trustSafe}</span>
-          </p>
-          <p>
-            <BadgeCheck strokeWidth={1.5} aria-hidden="true" />
-            <span>{t.customerClub.trustTerms}</span>
-          </p>
         </div>
       </div>
     </section>

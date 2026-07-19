@@ -73,42 +73,42 @@ export const fr: Messages = {
     title: "Club client",
     titlePrimary: "Club",
     titleAccent: "client",
-    leadBefore: "Rejoignez le club pour des ",
-    leadHighlight: "avantages, nouveautés et surprises",
-    leadAfter: " en avant-première.",
+    leadBefore: "",
+    leadHighlight: "Avantages et surprises pour les membres",
+    leadAfter: ".",
     cardAlt: "Carte membre NB Club",
     burgerAlt: "Burger NB",
-    formHint: "Inscription en 10 secondes seulement",
-    socialProof: "Plus de 2 300 membres profitent déjà du club",
-    trustSafe: "Vos informations sont en sécurité",
-    trustTerms: "Sans frais | Sans engagement | Annulation à tout moment",
+    formHint: "Inscription rapide",
+    socialProof: "2 300+ membres",
+    trustSafe: "Vos infos restent chez nous",
+    trustTerms: "Gratuit · Sans engagement",
     perksAria: "Avantages du club",
     perks: [
       {
         title: "Cadeau d'anniversaire",
-        desc: "Une surprise gourmande de notre cuisine, le jour J."
+        desc: ""
       },
       {
         title: "En avant-première",
-        desc: "Accès anticipé aux nouveautés et campagnes spéciales."
+        desc: ""
       },
       {
         title: "Avantages exclusifs",
-        desc: "Offres et infos envoyées directement — sans spam."
+        desc: ""
       }
     ],
     fields: {
       fullName: "Nom complet",
       phone: "Téléphone",
       email: "E-mail (optionnel)",
-      birthDate: "Date de naissance (optionnel)"
+      birthDate: "Date de naissance"
     },
-    consentPrefix: "J'accepte de recevoir les actualités et avantages du club conformément à la",
+    consentPrefix: "J'accepte les actus selon la",
     privacyLink: "Politique de confidentialité",
-    submit: "Obtenir mes avantages",
+    submit: "Rejoindre",
     submitting: "Envoi...",
-    successTitle: "Bienvenue au club !",
-    successMessage: "Nous avons bien reçu votre inscription. Nous vous contacterons très bientôt.",
+    successTitle: "C'est bon !",
+    successMessage: "On vous recontacte bientôt avec vos avantages.",
     errors: {
       fullName: "Veuillez saisir votre nom complet.",
       phone: "Veuillez saisir votre numéro de téléphone.",

@@ -8,6 +8,142 @@
   overflow-x: clip;
 }
 
+/* Compact club — desktop: image right + form left; mobile: title → badge → form */
+.customer-club-section--compact {
+  padding: clamp(48px, 6vw, 80px) 0 clamp(48px, 6vw, 80px);
+}
+
+.customer-club-section--compact .customer-club-shell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(24px, 3vw, 36px);
+  width: min(1120px, calc(100% - 48px));
+  direction: rtl;
+}
+
+.customer-club-section--compact .customer-club-copy {
+  margin: 0;
+  text-align: center;
+  transform: none;
+}
+
+.customer-club-section--compact .customer-club-kicker {
+  margin-bottom: 10px;
+  font-size: 12px;
+}
+
+.customer-club-section--compact .customer-club-title {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35em;
+  margin: 0;
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+  line-height: 1.15;
+}
+
+.customer-club-section--compact .customer-club-lead {
+  display: none;
+}
+
+.customer-club-signup-unit {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: min(100%, 420px);
+  margin: 0 auto;
+  gap: 0;
+}
+
+.customer-club-hero--bookmark {
+  position: relative;
+  z-index: 3;
+  width: min(58%, 200px);
+  margin: 0 12px -28px auto;
+  pointer-events: none;
+}
+
+.customer-club-hero--bookmark .customer-club-hero-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-width: none;
+  transform: none;
+  filter: drop-shadow(0 18px 32px rgba(0, 0, 0, 0.55));
+}
+
+.customer-club-signup-unit .customer-club-form-col {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+}
+
+.customer-club-signup-unit .customer-club-panel {
+  border-radius: 18px;
+  box-shadow: 0 22px 56px rgba(0, 0, 0, 0.4);
+}
+
+.customer-club-signup-unit .customer-club-panel::before {
+  display: none;
+}
+
+.customer-club-section--compact .customer-club-consent {
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+/* Desktop: side-by-side composition */
+@media (min-width: 900px) {
+  .customer-club-section--compact .customer-club-shell {
+    align-items: stretch;
+    gap: clamp(28px, 3vw, 40px);
+  }
+
+  .customer-club-section--compact .customer-club-copy {
+    text-align: center;
+  }
+
+  .customer-club-signup-unit {
+    display: grid;
+    grid-template-columns: minmax(300px, 380px) minmax(340px, 460px);
+    align-items: center;
+    justify-content: center;
+    gap: clamp(28px, 4vw, 48px);
+    width: 100%;
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 12px 0 0;
+  }
+
+  .customer-club-hero--bookmark {
+    position: relative;
+    top: auto;
+    right: auto;
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    justify-self: end;
+  }
+
+  .customer-club-hero--bookmark .customer-club-hero-image {
+    width: 100%;
+    max-width: 360px;
+    margin-inline-start: auto;
+  }
+
+  .customer-club-signup-unit .customer-club-form-col {
+    justify-self: start;
+    width: 100%;
+  }
+
+  .customer-club-signup-unit .customer-club-panel {
+    padding: 28px 30px 26px;
+  }
+}
+
 .customer-club-shell {
   display: grid;
   grid-template-columns: 1fr;
@@ -41,6 +177,7 @@
 /* ── Form (left on desktop) ── */
 
 .customer-club-panel {
+  position: relative;
   padding: clamp(24px, 3vw, 30px);
   border: 1px solid rgba(255, 225, 186, 0.22);
   border-radius: 16px;
@@ -623,5 +760,128 @@
   .customer-club-input-box--birth .customer-club-input-icon {
     align-self: center;
     margin-inline-start: 0;
+  }
+}
+
+/* Compact overrides (must stay after legacy grid rules) */
+.customer-club-section--compact .customer-club-shell {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  grid-template-columns: none !important;
+  grid-template-rows: none !important;
+  grid-template-areas: none !important;
+  gap: clamp(24px, 3vw, 36px) !important;
+  width: min(1120px, calc(100% - 48px)) !important;
+  direction: rtl;
+}
+
+.customer-club-section--compact .customer-club-copy {
+  order: 0 !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  transform: none !important;
+  margin: 0 !important;
+  text-align: center;
+  width: min(100%, 720px);
+  z-index: 4;
+}
+
+.customer-club-section--compact .customer-club-title {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.35em;
+  font-size: clamp(1.75rem, 3.2vw, 2.75rem) !important;
+  line-height: 1.15;
+}
+
+.customer-club-section--compact .customer-club-signup-unit {
+  order: 1 !important;
+  grid-column: auto !important;
+  grid-row: auto !important;
+  transform: none !important;
+  margin: 0 auto !important;
+  z-index: 2;
+}
+
+.customer-club-section--compact .customer-club-hero--bookmark {
+  transform: none !important;
+}
+
+.customer-club-section--compact .customer-club-hero--bookmark .customer-club-hero-image {
+  transform: none !important;
+}
+
+@media (max-width: 899px) {
+  .customer-club-section--compact .customer-club-copy {
+    order: 0 !important;
+    transform: none !important;
+  }
+
+  .customer-club-section--compact .customer-club-signup-unit {
+    order: 1 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: min(100%, 420px) !important;
+    padding-top: 0 !important;
+  }
+
+  .customer-club-section--compact .customer-club-hero--bookmark {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    width: min(58%, 190px) !important;
+    max-width: 190px !important;
+    margin: 0 10px -26px auto !important;
+  }
+
+  .customer-club-section--compact .customer-club-hero,
+  .customer-club-section--compact .customer-club-form-col,
+  .customer-club-section--compact .customer-club-form-slot {
+    order: unset !important;
+  }
+}
+
+@media (min-width: 900px) {
+  .customer-club-section--compact .customer-club-shell {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    grid-template-columns: none !important;
+    grid-template-areas: none !important;
+  }
+
+  .customer-club-section--compact .customer-club-signup-unit {
+    display: grid !important;
+    grid-template-columns: minmax(300px, 380px) minmax(340px, 460px) !important;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(28px, 4vw, 48px) !important;
+    width: 100% !important;
+    max-width: 920px !important;
+    padding-top: 0 !important;
+  }
+
+  .customer-club-section--compact .customer-club-hero--bookmark {
+    position: relative !important;
+    top: auto !important;
+    right: auto !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 0 !important;
+    justify-self: end;
+  }
+
+  .customer-club-section--compact .customer-club-hero--bookmark .customer-club-hero-image {
+    width: 100% !important;
+    max-width: 360px !important;
+    margin-inline-start: auto;
+  }
+
+  .customer-club-section--compact .customer-club-form-col {
+    width: 100%;
+    justify-self: start;
   }
 }

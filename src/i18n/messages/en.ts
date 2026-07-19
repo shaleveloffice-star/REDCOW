@@ -73,42 +73,42 @@ export const en: Messages = {
     title: "Customer Club",
     titlePrimary: "Customer",
     titleAccent: "Club",
-    leadBefore: "Join the club for ",
-    leadHighlight: "perks, updates, and surprises",
-    leadAfter: " before anyone else.",
+    leadBefore: "",
+    leadHighlight: "Perks and surprises for members",
+    leadAfter: ".",
     cardAlt: "NB Club member card",
     burgerAlt: "NB burger",
-    formHint: "Sign up in just 10 seconds",
-    socialProof: "Over 2,300 club members already enjoying the perks",
-    trustSafe: "Your information is safe with us",
-    trustTerms: "No cost | No commitment | Cancel anytime",
+    formHint: "Quick signup",
+    socialProof: "2,300+ members",
+    trustSafe: "Your info stays with us",
+    trustTerms: "Free · No commitment",
     perksAria: "Club benefits",
     perks: [
       {
         title: "Birthday treat",
-        desc: "A sweet surprise from our kitchen, right on your day."
+        desc: ""
       },
       {
         title: "First to know",
-        desc: "Early access to new dishes and special campaigns."
+        desc: ""
       },
       {
         title: "Exclusive perks",
-        desc: "Deals and updates sent straight to you — no spam."
+        desc: ""
       }
     ],
     fields: {
       fullName: "Full name",
       phone: "Phone",
       email: "Email (optional)",
-      birthDate: "Birth date (optional)"
+      birthDate: "Birth date"
     },
-    consentPrefix: "I agree to receive club updates and perks according to the",
+    consentPrefix: "I agree to updates per the",
     privacyLink: "Privacy Policy",
-    submit: "Get my perks",
+    submit: "Join the club",
     submitting: "Sending...",
-    successTitle: "Welcome to the club!",
-    successMessage: "We received your signup. We'll be in touch as soon as everything is ready.",
+    successTitle: "You're in!",
+    successMessage: "We'll be in touch with your perks soon.",
     errors: {
       fullName: "Please enter your full name.",
       phone: "Please enter your phone number.",

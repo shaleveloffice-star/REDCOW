@@ -1,14 +1,16 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 
-import { BurgerScrollHero } from "@/components/features/home/BurgerScrollHero";
+import { HeroSection } from "@/components/features/home/hero-section";
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
 import { HomeShortTour } from "@/components/features/home/home-short-tour";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
+  getCachedActiveOrderLinks,
   getCachedHomepageMenu,
+  getCachedSettings,
   getCachedSiteImagesMap
 } from "@/lib/cache/cached-data";
 import { buildPageMetadata } from "@/lib/seo";
@@ -74,7 +76,9 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function HomePage() {
-  const [siteImages, homepageMenuItems] = await Promise.all([
+  const [settings, orderLinks, siteImages, homepageMenuItems] = await Promise.all([
+    getCachedSettings(),
+    getCachedActiveOrderLinks(),
     getCachedSiteImagesMap(),
     getCachedHomepageMenu()
   ]);
@@ -84,7 +88,7 @@ export default async function HomePage() {
       <JsonLd data={buildRestaurantJsonLd()} />
       <SiteHeader overlay />
       <main id="main-content">
-        <BurgerScrollHero />
+        <HeroSection settings={settings} orderLinks={orderLinks} />
         <HomeMenuShowcaseSection items={homepageMenuItems} />
         <AtmosphereSection siteImages={siteImages} />
         <PlanchaSection siteImages={siteImages} />

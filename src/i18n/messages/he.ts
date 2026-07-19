@@ -73,28 +73,28 @@ export const he: Messages = {
     title: "מועדון הלקוחות",
     titlePrimary: "מועדון",
     titleAccent: "הלקוחות",
-    leadBefore: "הצטרפו למועדון ותקבלו ",
-    leadHighlight: "הטבות, עדכונים והפתעות",
-    leadAfter: " לפני כולם.",
+    leadBefore: "",
+    leadHighlight: "",
+    leadAfter: "",
     cardAlt: "כרטיס חבר NB Club",
     burgerAlt: "המבורגר NB",
-    formHint: "הרשמה תוך 10 שניות בלבד",
-    socialProof: "כבר יותר מ-2,300 חברי מועדון נהנים",
-    trustSafe: "המידע שלך בטוח איתנו",
-    trustTerms: "ללא עלות | ללא התחייבות | אפשר לבטל בכל רגע",
+    formHint: "הרשמה מהירה",
+    socialProof: "2,300+ חברים",
+    trustSafe: "המידע שלך נשאר אצלנו",
+    trustTerms: "בלי עלות · בלי התחייבות",
     perksAria: "יתרונות המועדון",
     perks: [
       {
-        title: "מתנה ליום ההולדת",
-        desc: "הפתעה מתוקה מהמטבח שלנו, בדיוק ביום שלכם."
+        title: "יום הולדת",
+        desc: ""
       },
       {
-        title: "חדש לפני כולם",
-        desc: "גישה מוקדמת למנות חדשות וקמפיינים מיוחדים."
+        title: "חדשות",
+        desc: ""
       },
       {
-        title: "הטבות בלעדיות",
-        desc: "מבצעים ועדכונים שמגיעים ישר אליכם — בלי ספאם."
+        title: "הטבות",
+        desc: ""
       }
     ],
     fields: {
@@ -103,17 +103,17 @@ export const he: Messages = {
       email: "אימייל (אופציונלי)",
       birthDate: "תאריך לידה"
     },
-    consentPrefix: "אני מאשר/ת קבלת עדכונים והטבות מהמועדון, בהתאם ל",
-    privacyLink: "מדיניות הפרטיות",
-    submit: "קבלו את ההטבות שלי",
+    consentPrefix: "מאשר/ת לפי",
+    privacyLink: "פרטיות",
+    submit: "להצטרפות",
     submitting: "שולחים...",
-    successTitle: "ברוכים הבאים למועדון!",
-    successMessage: "קיבלנו את ההרשמה שלכם. נשלח אליכם עדכון ברגע שהכל מוכן.",
+    successTitle: "נרשמתם!",
+    successMessage: "נחזור אליכם בקרוב.",
     errors: {
       fullName: "נא למלא שם מלא.",
       phone: "נא למלא מספר טלפון.",
       email: "נא למלא כתובת אימייל תקינה, אם הוזנה.",
-      consent: "יש לאשר את תנאי ההצטרפות למועדון.",
+      consent: "יש לאשר את תנאי ההצטרפות.",
       generic: "משהו השתבש. נסו שוב בעוד רגע."
     },
     datePicker: {

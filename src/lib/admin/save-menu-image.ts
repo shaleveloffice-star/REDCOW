@@ -23,6 +23,21 @@ export const MENU_UPLOAD_PUBLIC_DIR = path.join(
 
 export const MENU_IMAGE_MAX_BYTES = 2 * 1024 * 1024;
 
+/**
+ * Max length for an inline data-URL image (stored in Firestore with the item).
+ * Must stay under Firestore's 1MB document limit; client compresses to ~380k chars.
+ */
+const MAX_INLINE_DATA_URL_CHARS = 700_000;
+
+/** Vercel/Lambda have a read-only filesystem — images must be stored inline in the DB. */
+function isReadOnlyServerless(): boolean {
+  return process.env.VERCEL === "1" || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
+}
+
+function toInlineDataUrl(mime: string, bytes: Buffer): string {
+  return `data:${mime};base64,${bytes.toString("base64")}`;
+}
+
 /** Canonical public URL — served by /api/media/menu/[file] (no rewrite dependency). */
 export function menuImagePublicUrl(fileName: string): string {
   return `/api/media/menu/${fileName}`;
@@ -160,6 +175,16 @@ export async function processMenuImageUpload(bytes: Buffer): Promise<ProcessMenu
     return { ok: false, error: "סוג קובץ לא נתמך. השתמשו ב-JPG, PNG, WebP או GIF" };
   }
 
+  // Serverless (Vercel): filesystem is read-only — store the image inline as a
+  // data URL. It is persisted to Firestore together with the menu item.
+  if (isReadOnlyServerless()) {
+    const dataUrl = toInlineDataUrl(detectedMime, bytes);
+    if (dataUrl.length > MAX_INLINE_DATA_URL_CHARS) {
+      return { ok: false, error: "התמונה גדולה מדי. נסו תמונה קטנה יותר." };
+    }
+    return { ok: true, url: dataUrl };
+  }
+
   const ext = extForMime(detectedMime);
   const fileName = `img-${Date.now()}-${Math.random().toString(36).slice(2, 10)}${ext}`;
 
@@ -168,7 +193,14 @@ export async function processMenuImageUpload(bytes: Buffer): Promise<ProcessMenu
     return { ok: true, url: saved.url };
   } catch (err) {
     const detail = err instanceof Error ? err.message : "unknown";
-    console.warn("[processMenuImageUpload] write failed:", detail);
+    console.warn("[processMenuImageUpload] write failed, falling back to inline:", detail);
+
+    // Disk write failed (ReadOnly folder, OneDrive, unknown host) — inline fallback.
+    const dataUrl = toInlineDataUrl(detectedMime, bytes);
+    if (dataUrl.length <= MAX_INLINE_DATA_URL_CHARS) {
+      return { ok: true, url: dataUrl };
+    }
+
     return {
       ok: false,
       error: detail.startsWith("שמירת") ? detail : "שמירת התמונה לשרת נכשלה. נסו שוב."

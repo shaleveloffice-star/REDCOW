@@ -8,6 +8,5 @@
 module.exports = {
   app: require("firebase-admin/app"),
   auth: require("firebase-admin/auth"),
-  firestore: require("firebase-admin/firestore"),
-  storage: require("firebase-admin/storage")
+  firestore: require("firebase-admin/firestore")
 };

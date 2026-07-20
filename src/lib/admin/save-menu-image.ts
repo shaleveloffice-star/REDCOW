@@ -4,10 +4,12 @@ import { access, mkdir, writeFile } from "fs/promises";
 import { constants as fsConstants } from "fs";
 import path from "path";
 
-import { uploadMenuImageToFirebaseStorage } from "@/lib/firebase/admin-storage";
-import { isFirebaseAdminConfigured } from "@/lib/firebase/admin-runtime";
+import {
+  isVercelBlobConfigured,
+  uploadImageToVercelBlob
+} from "@/lib/admin/upload-blob";
 
-/** Durable local store for admin-uploaded menu images. */
+/** Durable local store for admin-uploaded menu images (dev without Blob token). */
 export const MENU_UPLOAD_DATA_DIR = path.join(
   process.cwd(),
   "data",
@@ -31,7 +33,7 @@ function isReadOnlyServerless(): boolean {
   return process.env.VERCEL === "1" || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
 }
 
-/** Canonical public URL — served by /api/media/menu/[file] (no rewrite dependency). */
+/** Canonical local public URL — served by /api/media/menu/[file]. */
 export function menuImagePublicUrl(fileName: string): string {
   return `/api/media/menu/${fileName}`;
 }
@@ -154,6 +156,11 @@ export type ProcessMenuImageResult =
   | { ok: true; url: string }
   | { ok: false; error: string };
 
+/**
+ * Validate + persist menu image.
+ * Prefer Vercel Blob (production / when token set). Local disk only as dev fallback.
+ * Firestore stores only the returned URL — never the image bytes.
+ */
 export async function processMenuImageUpload(bytes: Buffer): Promise<ProcessMenuImageResult> {
   if (bytes.length === 0) {
     return { ok: false, error: "לא נבחר קובץ תמונה" };
@@ -169,26 +176,25 @@ export async function processMenuImageUpload(bytes: Buffer): Promise<ProcessMenu
 
   const ext = extForMime(detectedMime);
   const fileName = `img-${Date.now()}-${Math.random().toString(36).slice(2, 10)}${ext}`;
+  const blobPath = `menu/${fileName}`;
 
-  // Production / when Firebase Admin is available: store in Firebase Storage (short HTTPS URL).
-  // Never put large data URLs into Firestore — that breaks menu saves (1MB doc limit).
-  if (isReadOnlyServerless() || (await isFirebaseAdminConfigured())) {
-    const uploaded = await uploadMenuImageToFirebaseStorage(fileName, bytes, detectedMime);
+  // Prefer Vercel Blob whenever configured (local with token, or Vercel).
+  if (isVercelBlobConfigured() || isReadOnlyServerless()) {
+    const uploaded = await uploadImageToVercelBlob(blobPath, bytes, detectedMime);
     if (uploaded.ok) {
       return uploaded;
     }
-    // On Vercel there is no disk fallback — surface the Storage error clearly.
     if (isReadOnlyServerless()) {
       return uploaded;
     }
-    console.warn("[processMenuImageUpload] Storage failed, trying local disk:", uploaded.error);
+    console.warn("[processMenuImageUpload] Blob failed, trying local disk:", uploaded.error);
   }
 
   if (isReadOnlyServerless()) {
     return {
       ok: false,
       error:
-        "לא ניתן לשמור תמונות בשרת זה בלי Firebase Storage. בדקו את הגדרות Firebase ב-Vercel."
+        "לא ניתן לשמור תמונות בשרת זה בלי Vercel Blob. בדקו ש-BLOB_READ_WRITE_TOKEN מוגדר בפרויקט."
     };
   }
 
@@ -205,7 +211,7 @@ export async function processMenuImageUpload(bytes: Buffer): Promise<ProcessMenu
   }
 }
 
-/** If admin saved a data URL, persist it and return a short URL (Storage or local file). */
+/** If admin saved a data URL, persist it and return a short Blob/local URL. */
 export async function materializeMenuImageUrl(imageUrl: string): Promise<ProcessMenuImageResult> {
   const trimmed = imageUrl.trim();
   if (!trimmed.startsWith("data:image/")) {

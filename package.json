@@ -14,6 +14,7 @@
     "bootstrap:site-settings": "node scripts/bootstrap-site-settings.mjs"
   },
   "dependencies": {
+    "@vercel/blob": "^2.6.1",
     "firebase": "^12.15.0",
     "firebase-admin": "^14.1.0",
     "framer-motion": "^12.40.0",

@@ -29,7 +29,7 @@ export default async function AdminSettingsPage() {
 
       <AdminCard
         title="Hero Media"
-        description="כרגע מוסיפים URL מקומי או חיצוני. בעתיד השדה יתחבר ל-Firebase Storage."
+        description="כרגע מוסיפים URL מקומי או חיצוני. העלאות תמונות תפריט נשמרות ב-Vercel Blob."
       >
         <form action={saveHeroMediaAction} className="admin-form">
           <label>

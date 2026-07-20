@@ -4,7 +4,7 @@ import { access, mkdir, writeFile } from "fs/promises";
 import { constants as fsConstants } from "fs";
 import path from "path";
 
-/** Durable local store — same area as JSON admin data (survives OneDrive ReadOnly on public/). */
+/** Durable local store for admin-uploaded menu images. */
 export const MENU_UPLOAD_DATA_DIR = path.join(
   process.cwd(),
   "data",
@@ -13,7 +13,7 @@ export const MENU_UPLOAD_DATA_DIR = path.join(
   "menu"
 );
 
-/** Optional static mirror for faster serving when the folder is writable. */
+/** Optional static mirror when public/ is writable. */
 export const MENU_UPLOAD_PUBLIC_DIR = path.join(
   process.cwd(),
   "public",
@@ -21,10 +21,11 @@ export const MENU_UPLOAD_PUBLIC_DIR = path.join(
   "menu"
 );
 
-export const MENU_IMAGE_MAX_BYTES = 8 * 1024 * 1024;
+export const MENU_IMAGE_MAX_BYTES = 2 * 1024 * 1024;
 
+/** Canonical public URL — served by /api/media/menu/[file] (no rewrite dependency). */
 export function menuImagePublicUrl(fileName: string): string {
-  return `/images/menu/${fileName}`;
+  return `/api/media/menu/${fileName}`;
 }
 
 export function menuImageDiskPath(fileName: string): string {
@@ -84,16 +85,33 @@ export function detectImageMime(bytes: Buffer): string | null {
   return null;
 }
 
+export function parseDataImageUrl(dataUrl: string): { mime: string; bytes: Buffer } | null {
+  const match = /^data:(image\/(?:jpeg|jpg|png|webp|gif));base64,([A-Za-z0-9+/=\s]+)$/i.exec(
+    dataUrl.trim()
+  );
+  if (!match) return null;
+  const mime = match[1].toLowerCase() === "image/jpg" ? "image/jpeg" : match[1].toLowerCase();
+  try {
+    const bytes = Buffer.from(match[2].replace(/\s+/g, ""), "base64");
+    if (bytes.length === 0) return null;
+    return { mime, bytes };
+  } catch {
+    return null;
+  }
+}
+
 async function writeBytes(filePath: string, bytes: Buffer): Promise<void> {
   await mkdir(path.dirname(filePath), { recursive: true });
   await writeFile(filePath, bytes);
   await access(filePath, fsConstants.R_OK);
+  // Spot-check size so OneDrive placeholders don't fake success.
+  const { stat } = await import("fs/promises");
+  const info = await stat(filePath);
+  if (info.size !== bytes.length) {
+    throw new Error("גודל הקובץ אחרי כתיבה לא תואם");
+  }
 }
 
-/**
- * Persist menu image bytes. Always writes to data/local/uploads/menu.
- * Mirrors to public/images/menu when possible.
- */
 export async function saveMenuImageBytes(
   fileName: string,
   bytes: Buffer
@@ -119,7 +137,7 @@ export async function saveMenuImageBytes(
     await writeBytes(publicPath, bytes);
     mirroredToPublic = true;
   } catch {
-    // OneDrive / Vercel read-only public — API fallback rewrite still serves the file.
+    // public/ may be ReadOnly on OneDrive — API route still serves from data/local.
   }
 
   return { url: menuImagePublicUrl(fileName), mirroredToPublic };
@@ -129,13 +147,12 @@ export type ProcessMenuImageResult =
   | { ok: true; url: string }
   | { ok: false; error: string };
 
-/** Validate + save raw image bytes. Never throws — always returns a result. */
 export async function processMenuImageUpload(bytes: Buffer): Promise<ProcessMenuImageResult> {
   if (bytes.length === 0) {
     return { ok: false, error: "לא נבחר קובץ תמונה" };
   }
   if (bytes.length > MENU_IMAGE_MAX_BYTES) {
-    return { ok: false, error: "הקובץ גדול מדי (מקסימום 8MB)" };
+    return { ok: false, error: "הקובץ גדול מדי אחרי דחיסה (מקסימום 2MB)" };
   }
 
   const detectedMime = detectImageMime(bytes);
@@ -157,4 +174,19 @@ export async function processMenuImageUpload(bytes: Buffer): Promise<ProcessMenu
       error: detail.startsWith("שמירת") ? detail : "שמירת התמונה לשרת נכשלה. נסו שוב."
     };
   }
+}
+
+/** If admin saved a data URL, persist it as a file and return a short URL. */
+export async function materializeMenuImageUrl(imageUrl: string): Promise<ProcessMenuImageResult> {
+  const trimmed = imageUrl.trim();
+  if (!trimmed.startsWith("data:image/")) {
+    return { ok: true, url: trimmed };
+  }
+
+  const parsed = parseDataImageUrl(trimmed);
+  if (!parsed) {
+    return { ok: false, error: "תמונת data URL לא תקינה" };
+  }
+
+  return processMenuImageUpload(parsed.bytes);
 }

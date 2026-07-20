@@ -29,7 +29,7 @@ export function serializeJsonLd(data: JsonLdObject | JsonLdObject[]): string {
 
 function isStaticImageUrl(url: string): boolean {
   const trimmed = url.trim();
-  if (!trimmed) {
+  if (!trimmed || trimmed.startsWith("data:") || trimmed.startsWith("blob:")) {
     return false;
   }
   return !isVideoMediaUrl(trimmed);

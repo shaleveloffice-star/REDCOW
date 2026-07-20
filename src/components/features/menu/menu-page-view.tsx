@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 
@@ -11,6 +10,7 @@ import {
   IconDeliveryMark,
   IconLocationPinFilled
 } from "@/components/shared/site-icons";
+import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import {
   HERO_DEFAULT_POSTER_URL,
@@ -62,7 +62,7 @@ function MenuItemsGrid({
                 {isVideoMediaUrl(item.imageUrl) ? (
                   <MenuAutoplayMedia src={item.imageUrl} name={localized.name} />
                 ) : (
-                  <Image
+                  <MenuItemImage
                     src={item.imageUrl}
                     alt={localized.name}
                     width={480}

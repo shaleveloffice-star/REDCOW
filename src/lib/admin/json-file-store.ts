@@ -19,8 +19,11 @@ export function createJsonFileStore<T extends { id: string }>(fileName: string, 
       const initial = seed.map((item) => ({ ...item }));
       try {
         await writeAll(initial);
-      } catch {
-        // Vercel/serverless file system may be read-only — return seed in memory.
+      } catch (err) {
+        console.warn(
+          `[json-file-store] seed write failed for ${fileName}:`,
+          err instanceof Error ? err.message : err
+        );
       }
       return initial;
     }
@@ -28,10 +31,13 @@ export function createJsonFileStore<T extends { id: string }>(fileName: string, 
 
   async function writeAll(items: T[]): Promise<void> {
     await ensureDir();
-    try {
-      await writeFile(filePath, `${JSON.stringify(items, null, 2)}\n`, "utf8");
-    } catch {
-      // Ignore write failures on read-only deployments (e.g. Vercel).
+    const payload = `${JSON.stringify(items, null, 2)}\n`;
+    await writeFile(filePath, payload, "utf8");
+
+    // Verify — OneDrive / ReadOnly can pretend to succeed or leave stale files.
+    const verify = await readFile(filePath, "utf8");
+    if (verify !== payload) {
+      throw new Error(`אימות כתיבה נכשל עבור ${fileName}`);
     }
   }
 
@@ -53,7 +59,15 @@ export function createJsonFileStore<T extends { id: string }>(fileName: string, 
       } else {
         items.push(saved);
       }
-      await writeAll(items);
+      try {
+        await writeAll(items);
+      } catch (err) {
+        const detail = err instanceof Error ? err.message : "write failed";
+        console.error(`[json-file-store] save failed for ${fileName}:`, detail);
+        throw new Error(
+          `שמירה לדיסק נכשלה (${fileName}). אם הפרויקט ב-OneDrive — סמנו את התיקייה Available offline או העתיקו מחוץ ל-OneDrive.`
+        );
+      }
       return { ...saved };
     },
     async remove(id: string): Promise<boolean> {
@@ -61,7 +75,13 @@ export function createJsonFileStore<T extends { id: string }>(fileName: string, 
       const idx = items.findIndex((item) => item.id === id);
       if (idx < 0) return false;
       items.splice(idx, 1);
-      await writeAll(items);
+      try {
+        await writeAll(items);
+      } catch (err) {
+        const detail = err instanceof Error ? err.message : "write failed";
+        console.error(`[json-file-store] remove failed for ${fileName}:`, detail);
+        throw new Error(`מחיקה מהדיסק נכשלה (${fileName}).`);
+      }
       return true;
     }
   };

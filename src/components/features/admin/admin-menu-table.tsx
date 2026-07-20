@@ -9,6 +9,7 @@ import {
 } from "@/components/features/admin/admin-crud-ui";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
+import { compressImageFileToDataUrl } from "@/lib/client/compress-image";
 import { deleteMenuItemAction, saveMenuItemAction } from "@/server/actions/menu.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
@@ -97,13 +98,14 @@ export function AdminMenuTable({
     setUploadingImage(true);
     setError(null);
     try {
-      const formData = new FormData();
-      formData.append("file", file, file.name);
+      const dataUrl = await compressImageFileToDataUrl(file);
 
+      // Upload as JSON (not multipart) — avoids Windows/OneDrive hang on FormData.
       const response = await fetch("/api/admin/menu-image", {
         method: "POST",
-        body: formData,
-        credentials: "same-origin"
+        headers: { "Content-Type": "application/json" },
+        credentials: "same-origin",
+        body: JSON.stringify({ dataUrl })
       });
 
       let result: { ok: true; url: string } | { ok: false; error: string };
@@ -111,30 +113,38 @@ export function AdminMenuTable({
         result = (await response.json()) as typeof result;
       } catch {
         setError(
-          response.ok
-            ? "העלאת התמונה נכשלה. נסו שוב."
-            : `העלאת התמונה נכשלה (${response.status}). נסו קובץ קטן יותר או רעננו את הדף.`
+          `העלאת התמונה נכשלה (${response.status}). רעננו את הדף ונסו שוב.`
         );
         return;
       }
 
       if (!result.ok) {
-        setError(result.error || "העלאת התמונה נכשלה. נסו שוב.");
+        setError(result.error || "העלאת התמונה נכשלה.");
         return;
       }
 
-      setDraft({ ...draft, imageUrl: result.url });
+      const uploadedUrl = result.url;
+      // Functional update — don't clobber fields edited while compressing/uploading.
+      setDraft((prev) => (prev ? { ...prev, imageUrl: uploadedUrl } : prev));
     } catch (err) {
       console.error("[AdminMenuTable] image upload failed:", err);
-      setError("העלאת התמונה נכשלה. בדקו חיבור לרשת ונסו שוב.");
+      const message =
+        err instanceof Error && err.message && !/digest|Server Components/i.test(err.message)
+          ? err.message
+          : "העלאת התמונה נכשלה. נסו קובץ JPG או PNG.";
+      setError(message);
     } finally {
       setUploadingImage(false);
       event.target.value = "";
     }
   };
 
-  const menuImageSrc = (item: MenuItem) =>
-    item.imageUrl.includes("?") ? item.imageUrl : `${item.imageUrl}?v=${encodeURIComponent(item.updatedAt)}`;
+  const menuImageSrc = (item: MenuItem) => {
+    if (item.imageUrl.startsWith("data:") || item.imageUrl.includes("?")) {
+      return item.imageUrl;
+    }
+    return `${item.imageUrl}?v=${encodeURIComponent(item.updatedAt)}`;
+  };
 
   const openNewItem = () => {
     const item = newMenuItem(categories, rows);
@@ -250,7 +260,11 @@ export function AdminMenuTable({
             onSubmit={(e) => {
               e.preventDefault();
               run(async () => {
-                const saved = await saveMenuItemAction(draft);
+                const result = await saveMenuItemAction(draft);
+                if (!result.ok) {
+                  throw new Error(result.error);
+                }
+                const saved = result.item;
                 setRows((prev) => {
                   const idx = prev.findIndex((row) => row.id === saved.id);
                   if (idx >= 0) {
@@ -306,23 +320,38 @@ export function AdminMenuTable({
               />
             </label>
             <label>
-              תמונת מנה
+              תמונת מנה (מהמחשב)
               <input accept="image/*" disabled={uploadingImage} type="file" onChange={handleImageUpload} />
             </label>
+            {uploadingImage ? <p className="muted">דוחס ומכין תמונה…</p> : null}
             {draft.imageUrl ? (
               <div className="admin-image-preview">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img alt="" height={120} src={menuImageSrc(draft)} width={120} />
+                {draft.imageUrl.startsWith("/api/media/menu/") ? (
+                  <p className="muted">התמונה נשמרה — לחצו שמור כדי לשייך למנה</p>
+                ) : null}
               </div>
             ) : null}
-            <label>
-              כתובת תמונה (אופציונלי)
-              <input
-                type="text"
-                value={draft.imageUrl}
-                placeholder="/images/menu/your-image.jpg"
-                onChange={(e) => setDraft({ ...draft, imageUrl: e.target.value })}
-              />
-            </label>
+            {!draft.imageUrl.startsWith("data:") ? (
+              <label>
+                כתובת תמונה (אופציונלי)
+                <input
+                  type="text"
+                  value={draft.imageUrl}
+                  placeholder="/api/media/menu/… או https://…"
+                  onChange={(e) => setDraft({ ...draft, imageUrl: e.target.value })}
+                />
+              </label>
+            ) : (
+              <button
+                type="button"
+                className="button secondary"
+                onClick={() => setDraft({ ...draft, imageUrl: "/images/menu/nb-menu-burger.png" })}
+              >
+                הסר תמונה שהועלתה
+              </button>
+            )}
             <label>
               סדר תצוגה
               <input

@@ -121,7 +121,11 @@ export function useAdminMutation() {
         onSuccess?.();
         router.refresh();
       } catch (err) {
-        const message = err instanceof Error ? err.message : "פעולה נכשלה";
+        const raw = err instanceof Error ? err.message : "פעולה נכשלה";
+        const message =
+          /digest|Server Components render|omitted in production/i.test(raw)
+            ? "הפעולה נכשלה בשרת. נסו שוב או רעננו את הדף."
+            : raw;
         setError(message);
       }
     });

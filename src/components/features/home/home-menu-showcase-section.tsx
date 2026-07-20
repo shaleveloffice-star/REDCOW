@@ -1,11 +1,11 @@
 "use client";
 
-import Image from "next/image";
 import Link from "next/link";
 import type { MenuItem } from "@/types/content";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
+import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { useEffect, useRef, useState } from "react";
 
@@ -200,7 +200,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
                           />
                         </div>
                       ) : (
-                        <Image
+                        <MenuItemImage
                           src={media}
                           alt={localized.name}
                           width={640}

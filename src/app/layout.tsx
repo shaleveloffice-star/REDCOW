@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Assistant } from "next/font/google";
 import "./globals.css";
+import "./homepage-ds.css";
 
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { SkipToContent } from "@/components/layout/skip-to-content";
@@ -10,7 +11,7 @@ import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 const assistant = Assistant({
   subsets: ["hebrew", "latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["400", "500", "600", "700", "800"],
   variable: "--font-assistant",
   display: "swap"
 });

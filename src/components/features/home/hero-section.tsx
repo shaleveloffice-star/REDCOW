@@ -152,7 +152,7 @@ export function HeroSection({
   const primaryOrderLink = orderLinks[0];
 
   return (
-    <section id="hero" className="hero hero--cinematic">
+    <section id="hero" className="hero hero--cinematic hero--premier">
       <div className="hero-visual">
         <div className="hero-visual-media hero-visual-media--alive">
           {hasHeroMedia ? (
@@ -168,6 +168,7 @@ export function HeroSection({
         <div className="hero-scrim" aria-hidden="true" />
         <div className="hero-vignette" aria-hidden="true" />
         <div className="hero-grain" aria-hidden="true" />
+        <div className="hero-bottom-fade" aria-hidden="true" />
       </div>
 
       <div className="hero-inner">
@@ -189,15 +190,19 @@ export function HeroSection({
               </picture>
             </div>
 
-            <h1 className="hero-seo-heading">
+            <span className="hero-brand-rule hero-chrome-rise hero-chrome-rise--rule" aria-hidden="true" />
+
+            <h1 className="hero-seo-heading hero-chrome-rise hero-chrome-rise--copy">
               {`המבורגר כשר ב${BUSINESS.address.addressLocality}`}
             </h1>
 
-            <p className="hero-local-lede">
+            <p className="hero-local-lede hero-chrome-rise hero-chrome-rise--copy">
               עשוי מחומרי גלם איכותיים ומוכן על הפלנצ׳ה בדיוק כמו שאנחנו אוהבים.
             </p>
 
-            <p className="hero-tagline hero-tagline--below">{t.hero.tagline}</p>
+            <p className="hero-tagline hero-tagline--below hero-chrome-rise hero-chrome-rise--tag">
+              {t.hero.tagline}
+            </p>
           </div>
 
           <div className="hero-actions hero-chrome-rise hero-chrome-rise--actions">
@@ -213,9 +218,10 @@ export function HeroSection({
             >
               {t.hero.orderCta}
             </a>
-            <div className="hero-language-switcher">
-              <LanguageSwitcher />
-            </div>
+          </div>
+
+          <div className="hero-language-switcher hero-chrome-rise hero-chrome-rise--lang">
+            <LanguageSwitcher />
           </div>
         </div>
       </div>

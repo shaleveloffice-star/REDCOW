@@ -10,9 +10,66 @@ import {
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import { compressImageFileToDataUrl } from "@/lib/client/compress-image";
-import { deleteMenuItemAction, saveMenuItemAction } from "@/server/actions/menu.actions";
+import { deleteMenuItemAction } from "@/server/actions/menu.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
+
+type SaveMenuItemApiResult =
+  | { ok: true; item: MenuItem }
+  | { ok: false; error: string };
+
+async function saveMenuItemViaApi(item: MenuItem): Promise<SaveMenuItemApiResult> {
+  // If a temporary data URL is still in the form, upload it first so the save
+  // payload stays small (Server Actions / Firestore choke on huge base64).
+  let imageUrl = item.imageUrl;
+  if (imageUrl.startsWith("data:image/")) {
+    const uploadResponse = await fetch("/api/admin/menu-image", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "same-origin",
+      body: JSON.stringify({ dataUrl: imageUrl })
+    });
+    let uploadResult: { ok: true; url: string } | { ok: false; error: string };
+    try {
+      uploadResult = (await uploadResponse.json()) as typeof uploadResult;
+    } catch {
+      return {
+        ok: false,
+        error: `העלאת התמונה נכשלה לפני השמירה (${uploadResponse.status}).`
+      };
+    }
+    if (!uploadResult.ok) {
+      return { ok: false, error: uploadResult.error };
+    }
+    imageUrl = uploadResult.url;
+  }
+
+  const response = await fetch("/api/admin/menu-item", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    credentials: "same-origin",
+    body: JSON.stringify({ ...item, imageUrl })
+  });
+
+  let result: SaveMenuItemApiResult;
+  try {
+    result = (await response.json()) as SaveMenuItemApiResult;
+  } catch {
+    return {
+      ok: false,
+      error: `שמירת המנה נכשלה (${response.status}). רעננו את הדף ונסו שוב.`
+    };
+  }
+
+  if (!result.ok) {
+    return {
+      ok: false,
+      error: result.error || `שמירת המנה נכשלה (${response.status}).`
+    };
+  }
+
+  return result;
+}
 
 function newMenuItem(categories: MenuCategory[], items: MenuItem[]): MenuItem {
   const now = new Date().toISOString();
@@ -260,11 +317,12 @@ export function AdminMenuTable({
             onSubmit={(e) => {
               e.preventDefault();
               run(async () => {
-                const result = await saveMenuItemAction(draft);
+                const result = await saveMenuItemViaApi(draft);
                 if (!result.ok) {
                   throw new Error(result.error);
                 }
                 const saved = result.item;
+                setDraft((prev) => (prev ? { ...prev, imageUrl: saved.imageUrl } : prev));
                 setRows((prev) => {
                   const idx = prev.findIndex((row) => row.id === saved.id);
                   if (idx >= 0) {

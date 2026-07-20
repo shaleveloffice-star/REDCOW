@@ -1,62 +1,19 @@
-import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
-import {
-  assertProductionAuthMode,
-  getAdminAuthMode,
-  getAllowedAdminEmails,
-  isEmailAllowedForAdmin,
-  isOpenAdminAuthMode
-} from "@/lib/auth/auth-config";
-import {
-  getAdminSessionCookieName,
-  verifyAdminSessionToken
-} from "@/lib/auth/admin-session";
 import {
   parseDataImageUrl,
   processMenuImageUpload
 } from "@/lib/admin/save-menu-image";
-import type { AdminSession } from "@/types/admin";
+import { getAdminApiSession } from "@/lib/auth/admin-api-session";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
+/** Allow enough time for large images on slow disks / Storage. */
+export const maxDuration = 60;
+
 function jsonError(error: string, status = 400) {
   return NextResponse.json({ ok: false as const, error }, { status });
-}
-
-/**
- * Auth for upload API — must NOT use React cache() (hangs/breaks in Route Handlers).
- */
-async function getUploadAdminSession(): Promise<AdminSession | null> {
-  try {
-    assertProductionAuthMode();
-
-    if (isOpenAdminAuthMode()) {
-      return { email: "admin@nbburger.co.il", role: "owner", isMock: true };
-    }
-
-    const cookieStore = await cookies();
-    const token = cookieStore.get(getAdminSessionCookieName())?.value;
-    if (!token) return null;
-
-    const session = await verifyAdminSessionToken(token);
-    if (!session) return null;
-
-    // Password mode: cookie signature is the proof — no allowlist check.
-    if (getAdminAuthMode() !== "password") {
-      const allowed = getAllowedAdminEmails();
-      if (!isEmailAllowedForAdmin(session.email, allowed)) return null;
-    }
-
-    return session;
-  } catch (err) {
-    console.warn(
-      "[POST /api/admin/menu-image] auth:",
-      err instanceof Error ? err.message : err
-    );
-    return null;
-  }
 }
 
 type JsonUploadBody = {
@@ -67,7 +24,7 @@ type JsonUploadBody = {
 
 export async function POST(request: Request) {
   try {
-    const session = await getUploadAdminSession();
+    const session = await getAdminApiSession();
     if (!session) {
       return jsonError("אין הרשאת אדמין להעלאת תמונה. התחברו מחדש ל־/admin/login", 401);
     }

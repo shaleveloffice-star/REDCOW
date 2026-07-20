@@ -1,31 +1,31 @@
 "use server";
 
 import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
-import { materializeMenuImageUrl } from "@/lib/admin/save-menu-image";
+import { saveMenuItemCore, type SaveMenuItemResult } from "@/lib/admin/save-menu-item";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
-import { assertSafeHttpUrl } from "@/lib/security/safe-url";
 import { revalidatePath, updateTag } from "next/cache";
 import {
   listMenuCategories,
   listMenuItems,
   removeMenuCategory,
   removeMenuItem,
-  upsertMenuCategory,
-  upsertMenuItem
+  upsertMenuCategory
 } from "@/services/menu.service";
 import type { MenuCategory, MenuItem } from "@/types/content";
+
+export type { SaveMenuItemResult };
 
 const menuPaths = ["/admin/menu", "/admin/menu-categories", "/", "/menu"];
 
 function revalidateMenuCache() {
-  updateTag(CACHE_TAGS.homepageMenu);
-  updateTag(CACHE_TAGS.menuCategories);
-  updateTag(CACHE_TAGS.menuDisplay);
+  try {
+    updateTag(CACHE_TAGS.homepageMenu);
+    updateTag(CACHE_TAGS.menuCategories);
+    updateTag(CACHE_TAGS.menuDisplay);
+  } catch {
+    // ignore cache errors — data already saved
+  }
 }
-
-export type SaveMenuItemResult =
-  | { ok: true; item: MenuItem }
-  | { ok: false; error: string };
 
 export async function getMenuAdminData() {
   await requireAdmin();
@@ -40,65 +40,7 @@ export async function saveMenuItemAction(input: MenuItem): Promise<SaveMenuItemR
     return { ok: false, error: "אין הרשאת אדמין. התחברו מחדש ל־/admin/login" };
   }
 
-  try {
-    const name = input.name.trim();
-    if (!name) return { ok: false, error: "שם המנה נדרש" };
-
-    const price = Number(input.price);
-    if (!Number.isFinite(price) || price < 0) return { ok: false, error: "מחיר לא תקין" };
-
-    const isActive = Boolean(input.isActive);
-    if (isActive && price <= 0) {
-      return {
-        ok: false,
-        error: "לא ניתן לפרסם מנה פעילה במחיר 0. יש להגדיר מחיר גדול מ-0 או לבטל את הסימון פעיל."
-      };
-    }
-
-    const imageUrlRaw = input.imageUrl.trim() || "/images/menu/nb-menu-burger.png";
-    let imageUrl: string;
-    try {
-      imageUrl = assertSafeHttpUrl(imageUrlRaw, "תמונת מנה");
-    } catch (err) {
-      return {
-        ok: false,
-        error: err instanceof Error ? err.message : "תמונת מנה לא תקינה"
-      };
-    }
-
-    // Persist any temporary data URL as a real file + short URL (admin source of truth).
-    const materialized = await materializeMenuImageUrl(imageUrl);
-    if (!materialized.ok) {
-      return { ok: false, error: materialized.error };
-    }
-    imageUrl = materialized.url;
-
-    const saved = await upsertMenuItem({
-      ...input,
-      name,
-      description: input.description.trim(),
-      imageUrl,
-      price,
-      isActive,
-      tags: Array.isArray(input.tags) ? input.tags : []
-    });
-
-    menuPaths.forEach((path) => revalidatePath(path));
-    revalidateMenuCache();
-    return { ok: true, item: saved };
-  } catch (err) {
-    const detail = err instanceof Error ? err.message : "unknown";
-    console.warn("[saveMenuItemAction]", detail);
-
-    // Surface the real reason — generic "נסה שוב" hid Firestore/Storage failures.
-    if (/Firebase|Firestore|Storage|Admin|הרשאה|תמונ|מחיר|שם|OneDrive|דיסק|גדול/i.test(detail)) {
-      return { ok: false, error: detail };
-    }
-    if (detail.length > 0 && detail.length < 280) {
-      return { ok: false, error: `שמירת המנה נכשלה: ${detail}` };
-    }
-    return { ok: false, error: "שמירת המנה נכשלה. נסו שוב." };
-  }
+  return saveMenuItemCore(input);
 }
 
 export async function deleteMenuItemAction(id: string) {

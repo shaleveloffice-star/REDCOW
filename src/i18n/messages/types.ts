@@ -163,11 +163,4 @@ export type Messages = {
     terms: string;
     closing: string;
   };
-  shortTour: {
-    trigger: string;
-    triggerAria: string;
-    dialogAria: string;
-    skip: string;
-    steps: string[];
-  };
 };

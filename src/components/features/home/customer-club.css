@@ -351,10 +351,10 @@
   margin-top: 18px;
   min-height: 54px;
   padding: 0 24px;
-  border: 1px solid #ffe1ba;
-  border-radius: 999px;
-  background: linear-gradient(180deg, #ffe9c8 0%, #ffe1ba 55%, #e5c89a 100%);
-  color: #1a0f08;
+  border: 1px solid #ffffff;
+  border-radius: 0;
+  background: #ffffff;
+  color: #000000;
   font-family: var(--font-button);
   font-size: 16px;
   font-weight: 700;
@@ -375,13 +375,13 @@
 
 .customer-club-submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  filter: brightness(1.03);
-  box-shadow: 0 14px 36px rgba(255, 225, 186, 0.32);
+  filter: none;
+  box-shadow: 0 12px 28px rgba(255, 255, 255, 0.18);
 }
 
 .customer-club-submit:focus,
 .customer-club-submit:focus-visible {
-  outline: 2px solid #ffe1ba;
+  outline: 2px solid #ffffff;
   outline-offset: 3px;
 }
 

@@ -3,13 +3,6 @@
 import Image from "next/image";
 import Link from "next/link";
 import type { MenuItem } from "@/types/content";
-import {
-  MENU_TOUR_SCROLL_EVENT,
-  type MenuTourScrollDetail,
-  scrollMenuTrackToIndex,
-  scrollMenuTrackToEnd,
-  scrollMenuTrackToStart
-} from "@/lib/menu-showcase-tour";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
@@ -168,39 +161,6 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
       rail.removeEventListener("animationend", onAnimationEnd);
       rail.classList.remove(NUDGE_CLASS);
     };
-  }, [items.length]);
-
-  useEffect(() => {
-    const onTourScroll = (event: Event) => {
-      const track = trackRef.current;
-      if (!track) return;
-
-      const detail = (event as CustomEvent<MenuTourScrollDetail>).detail;
-      if (!detail) return;
-
-      nudgePausedRef.current = true;
-
-      if (detail.action === "reset") {
-        scrollMenuTrackToStart(track, detail.smooth ?? true);
-        return;
-      }
-
-      if (detail.action === "end") {
-        requestAnimationFrame(() => {
-          scrollMenuTrackToEnd(track, detail.smooth ?? true);
-        });
-        return;
-      }
-
-      if (detail.action === "goto" && typeof detail.index === "number") {
-        requestAnimationFrame(() => {
-          scrollMenuTrackToIndex(track, detail.index!, detail.smooth ?? true);
-        });
-      }
-    };
-
-    window.addEventListener(MENU_TOUR_SCROLL_EVENT, onTourScroll);
-    return () => window.removeEventListener(MENU_TOUR_SCROLL_EVENT, onTourScroll);
   }, [items.length]);
 
   if (items.length === 0) {

@@ -183,12 +183,5 @@ export const en: Messages = {
     privacy: "Privacy Policy",
     terms: "Terms of Use",
     closing: "Any occasion, any hour. A bite you won't forget."
-  },
-  shortTour: {
-    trigger: "Quick Tour",
-    triggerAria: "Start a quick site tour",
-    dialogAria: "Quick site tour",
-    skip: "Skip tour",
-    steps: ["Welcome", "Our Menu", "The Vibe", "On the Plancha", "Find Us", "Order Now"]
   }
 };

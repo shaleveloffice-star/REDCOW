@@ -183,12 +183,5 @@ export const fr: Messages = {
     privacy: "Politique de confidentialité",
     terms: "Conditions d'utilisation",
     closing: "Pour chaque moment. Une bouchée inoubliable."
-  },
-  shortTour: {
-    trigger: "Visite rapide",
-    triggerAria: "Lancer une visite rapide du site",
-    dialogAria: "Visite rapide du site",
-    skip: "Passer la visite",
-    steps: ["Bienvenue", "Notre carte", "L'ambiance", "Sur la plancha", "Nous trouver", "Commander"]
   }
 };

@@ -4,7 +4,6 @@ import dynamic from "next/dynamic";
 import { HeroSection } from "@/components/features/home/hero-section";
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
 import { HomePlaceholderSection } from "@/components/features/home/home-placeholder-section";
-import { HomeShortTour } from "@/components/features/home/home-short-tour";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
@@ -93,7 +92,6 @@ export default async function HomePage() {
         <CustomerClubSection />
         <LocationSection siteImages={siteImages} />
       </main>
-      <HomeShortTour />
       <SiteFooter />
     </>
   );

@@ -53,14 +53,18 @@ body:not(:has(.admin-layout)) main {
   line-height: var(--ds-leading-base);
 }
 
-/* Shared public CTAs — pill 50px, fast motion, full states */
+/* Shared public CTAs — square, black & white */
 body:not(:has(.admin-layout)) .menu-showcase-button,
 body:not(:has(.admin-layout)) .branches-card-nav,
 body:not(:has(.admin-layout)) .about-btn-primary,
 body:not(:has(.admin-layout)) .location-cta,
 body:not(:has(.admin-layout)) .plancha-footer-cta,
-body:not(:has(.admin-layout)) .customer-club-submit {
-  border-radius: var(--ds-radius-pill);
+body:not(:has(.admin-layout)) .customer-club-submit,
+body:not(:has(.admin-layout)) .hero-button,
+body:not(:has(.admin-layout)) .visit-secondary,
+body:not(:has(.admin-layout)) .about-btn-ghost,
+body:not(:has(.admin-layout)) .about-btn {
+  border-radius: 0;
   min-height: var(--ds-space-7);
   transition:
     border-color var(--ds-motion-fast) ease,
@@ -76,9 +80,9 @@ body:not(:has(.admin-layout)) .menu-showcase-button,
 body:not(:has(.admin-layout)) .branches-card-nav,
 body:not(:has(.admin-layout)) .about-btn-primary,
 body:not(:has(.admin-layout)) .customer-club-submit {
-  border: 1px solid var(--ds-accent);
-  background: var(--ds-accent);
-  color: #1a1008;
+  border: 1px solid #ffffff;
+  background: #ffffff;
+  color: #000000;
   font-weight: 800;
   box-shadow: none;
 }
@@ -88,39 +92,30 @@ body:not(:has(.admin-layout)) .branches-card-nav:hover,
 body:not(:has(.admin-layout)) .about-btn-primary:hover,
 body:not(:has(.admin-layout)) .customer-club-submit:hover:not(:disabled) {
   transform: translateY(-2px);
-  filter: brightness(1.05);
-  box-shadow: 0 12px 28px rgba(255, 225, 186, 0.22);
+  filter: none;
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
+  box-shadow: 0 12px 28px rgba(255, 255, 255, 0.18);
 }
 
 body:not(:has(.admin-layout)) .visit-secondary,
 body:not(:has(.admin-layout)) .about-btn-ghost,
 body:not(:has(.admin-layout)) .location-cta,
 body:not(:has(.admin-layout)) .plancha-footer-cta {
-  border: 1px solid var(--ds-border);
-  background: rgba(0, 0, 0, 0.35);
-  color: var(--ds-border);
-  border-radius: var(--ds-radius-pill);
+  border: 1px solid #ffffff;
+  background: transparent;
+  color: #ffffff;
 }
 
 body:not(:has(.admin-layout)) .visit-secondary:hover,
 body:not(:has(.admin-layout)) .about-btn-ghost:hover,
 body:not(:has(.admin-layout)) .location-cta:hover,
 body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
-  background: var(--ds-border);
-  color: var(--ds-surface);
-  border-color: var(--ds-border);
+  background: #ffffff;
+  color: #000000;
+  border-color: #ffffff;
   transform: translateY(-2px);
-}
-
-body:not(:has(.admin-layout)) .hero-button,
-body:not(:has(.admin-layout)) .menu-showcase-button,
-body:not(:has(.admin-layout)) .visit-secondary,
-body:not(:has(.admin-layout)) .branches-card-nav,
-body:not(:has(.admin-layout)) .about-btn-primary,
-body:not(:has(.admin-layout)) .about-btn-ghost,
-body:not(:has(.admin-layout)) .location-cta,
-body:not(:has(.admin-layout)) .plancha-footer-cta {
-  border-radius: var(--ds-radius-pill);
 }
 
 /* —— Header / navigation —— */
@@ -289,14 +284,14 @@ body:not(:has(.admin-layout)) .plancha-footer-cta {
   min-width: 200px;
   min-height: var(--ds-space-7);
   padding: 0 var(--ds-space-6);
-  border-radius: var(--ds-radius-pill);
+  border-radius: 0;
   font-size: var(--ds-font-sm);
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
 .menu-showcase-control {
-  border-radius: var(--ds-radius-pill);
+  border-radius: 0;
   border-color: rgba(255, 255, 255, 0.35);
   color: #ffffff;
   transition:
@@ -405,8 +400,8 @@ body:not(:has(.admin-layout)) .plancha-footer-cta {
 .plancha-footer-cta {
   min-height: var(--ds-space-7);
   padding: 0 var(--ds-space-6);
-  border-radius: var(--ds-radius-pill);
-  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: 0;
+  border: 1px solid #ffffff;
   font-size: var(--ds-font-sm);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -458,7 +453,7 @@ body:not(:has(.admin-layout)) .plancha-footer-cta {
 .location-cta {
   min-height: var(--ds-space-7);
   padding: 0 var(--ds-space-6);
-  border-radius: var(--ds-radius-pill);
+  border-radius: 0;
   font-size: var(--ds-font-sm);
   letter-spacing: 0.08em;
   text-transform: uppercase;
@@ -563,9 +558,10 @@ body:not(:has(.admin-layout)) .plancha-footer-cta {
 .customer-club-section--mockup .customer-club-submit {
   margin-top: var(--ds-space-5);
   min-height: var(--ds-space-7);
-  border-radius: var(--ds-radius-pill);
-  background: var(--ds-accent);
-  border: 1px solid var(--ds-accent);
+  border-radius: 0;
+  background: #ffffff;
+  border: 1px solid #ffffff;
+  color: #000000;
   font-size: var(--ds-font-md);
   font-weight: 800;
 }

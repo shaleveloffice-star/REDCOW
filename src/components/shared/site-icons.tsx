@@ -111,3 +111,53 @@ export function IconClose({ className }: IconProps) {
     </svg>
   );
 }
+
+/** Filled location pin — header icon style */
+export function IconLocationPinFilled({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
+    </svg>
+  );
+}
+
+/** Filled shopping bag — header icon style */
+export function IconShoppingBagFilled({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M6.5 8h11l.9 11.2A1.5 1.5 0 0 1 16.9 21H7.1a1.5 1.5 0 0 1-1.5-1.8L6.5 8z" />
+      <path
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        d="M9 8V6.8A3 3 0 0 1 12 3.8 3 3 0 0 1 15 6.8V8"
+      />
+    </svg>
+  );
+}
+
+/** Simple burger mark for order modal */
+export function IconBurgerMark({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
+      <path d="M10 28c2-10 12-16 22-16s20 6 22 16H10z" />
+      <rect x="8" y="30" width="48" height="6" rx="2" />
+      <rect x="8" y="38" width="48" height="5" rx="2" />
+      <path d="M10 45h44c-2 9-12 14-22 14S12 54 10 45z" />
+    </svg>
+  );
+}
+
+/** Delivery scooter / bag mark for order modal */
+export function IconDeliveryMark({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 64 64" fill="currentColor" aria-hidden="true">
+      <circle cx="16" cy="46" r="7" fill="none" stroke="currentColor" strokeWidth="3" />
+      <circle cx="46" cy="46" r="7" fill="none" stroke="currentColor" strokeWidth="3" />
+      <path d="M16 46h18l6-14h10" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M34 32V22h12l4 10" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
+      <rect x="8" y="20" width="14" height="12" rx="2" />
+    </svg>
+  );
+}

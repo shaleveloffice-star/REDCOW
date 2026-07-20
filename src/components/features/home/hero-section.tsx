@@ -142,7 +142,7 @@ function HeroVideo({ src, poster, alt }: HeroVideoProps) {
 
 export function HeroSection({ settings }: HeroSectionProps) {
   const t = useTranslations();
-  const locale = useLocale();
+  const { locale } = useLocale();
   const heroMediaUrl = HERO_DEFAULT_VIDEO_URL;
   const heroPosterUrl = HERO_DEFAULT_POSTER_URL;
   const heroAlt = settings.heroMediaAlt || `חוויה במסעדת ${BUSINESS.name}`;

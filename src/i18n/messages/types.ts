@@ -34,6 +34,19 @@ export type Messages = {
     scroll: string;
     scrollAria: string;
   };
+  orderModal: {
+    title: string;
+    close: string;
+    pickup: string;
+    delivery: string;
+  };
+  locations: {
+    findLocal: string;
+    ourLocations: string;
+    mapTitle: string;
+    navigate: string;
+    backHome: string;
+  };
   menuShowcase: {
     title: string;
     lead: string;

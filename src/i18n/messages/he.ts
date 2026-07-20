@@ -32,6 +32,19 @@ export const he: Messages = {
     scroll: "גלול",
     scrollAria: "גלול למטה"
   },
+  orderModal: {
+    title: "בחרו אופן הזמנה",
+    close: "סגור",
+    pickup: "CLICK & COLLECT",
+    delivery: "DELIVERY"
+  },
+  locations: {
+    findLocal: "FIND MY LOCAL",
+    ourLocations: "OUR LOCATIONS",
+    mapTitle: "מפת סניפי NB BURGER",
+    navigate: "ניווט",
+    backHome: "חזרה לדף הבית"
+  },
   menuShowcase: {
     title: "התפריט",
     lead: "הסטנדרט הגבוה של NB BURGER.",

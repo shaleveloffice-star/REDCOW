@@ -87,7 +87,11 @@ export default async function HomePage() {
   return (
     <>
       <JsonLd data={buildRestaurantJsonLd()} />
-      <SiteHeader overlay orderUrl={orderLinks[0]?.url ?? "#location"} />
+      <SiteHeader
+        overlay
+        orderUrl={orderLinks[0]?.url ?? "#location"}
+        orderLinks={orderLinks}
+      />
       <main id="main-content">
         <HeroSection settings={settings} />
         <HomePlaceholderSection />

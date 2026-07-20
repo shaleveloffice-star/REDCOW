@@ -1,18 +1,25 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
-import { IconClose } from "@/components/shared/site-icons";
+import { OrderModal } from "@/components/layout/order-modal";
+import {
+  IconClose,
+  IconLocationPinFilled,
+  IconShoppingBagFilled
+} from "@/components/shared/site-icons";
 import { SITE_WORDMARK_SRC, SITE_WORDMARK_WEBP_SRC } from "@/data/brand-assets";
 import { BUSINESS } from "@/data/business";
 import { useTranslations } from "@/components/providers/locale-provider";
 import { focusElement, getFocusableElements, trapFocus } from "@/lib/a11y/focus-trap";
+import type { OrderLink } from "@/types/content";
 
 type SiteNavbarProps = {
   overlay?: boolean;
   orderUrl?: string;
+  orderLinks?: OrderLink[];
 };
 
 function IconInstagram() {
@@ -27,29 +34,23 @@ function IconInstagram() {
 }
 
 function CtaButtons({
-  orderUrl,
+  onOrderClick,
   orderLabel,
   menuLabel,
   className
 }: {
-  orderUrl: string;
+  onOrderClick: () => void;
   orderLabel: string;
   menuLabel: string;
   className: string;
 }) {
-  const orderIsExternal = orderUrl.startsWith("http");
-
   return (
     <div className={className} dir="ltr">
-      <a
-        className="site-cta-btn site-cta-btn--solid"
-        href={orderUrl}
-        {...(orderIsExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      >
-        {orderLabel}
-      </a>
+      <button type="button" className="site-cta-btn site-cta-btn--solid" onClick={onOrderClick}>
+        <span className="site-cta-btn-label">{orderLabel}</span>
+      </button>
       <a className="site-cta-btn site-cta-btn--outline" href="/menu">
-        {menuLabel}
+        <span className="site-cta-btn-label">{menuLabel}</span>
         <span className="site-cta-arrow" aria-hidden="true">
           ↗
         </span>
@@ -58,25 +59,59 @@ function CtaButtons({
   );
 }
 
-export function SiteNavbar({ overlay = false, orderUrl = "#location" }: SiteNavbarProps) {
+function resolveOrderUrls(orderLinks: OrderLink[], fallbackOrderUrl: string) {
+  const pickup =
+    orderLinks.find((link) => link.type === "pickup" && link.isActive)?.url ??
+    "/menu";
+  const delivery =
+    orderLinks.find((link) => (link.type === "delivery" || link.type === "marketplace") && link.isActive)
+      ?.url ??
+    fallbackOrderUrl ??
+    "#location";
+
+  return { pickupUrl: pickup, deliveryUrl: delivery };
+}
+
+export function SiteNavbar({
+  overlay = false,
+  orderUrl = "#location",
+  orderLinks = []
+}: SiteNavbarProps) {
   const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isOrderOpen, setIsOrderOpen] = useState(false);
   const menuId = useId();
   const toggleRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const bagButtonRef = useRef<HTMLButtonElement>(null);
+
+  const { pickupUrl, deliveryUrl } = useMemo(
+    () => resolveOrderUrls(orderLinks, orderUrl),
+    [orderLinks, orderUrl]
+  );
 
   const navLinks = useMemo(
     () => [
       { label: t.nav.home, href: "/#hero" },
       { label: t.nav.menu, href: "/#menu" },
-      { label: t.nav.location, href: "/#location" },
+      { label: t.nav.location, href: "/locations" },
       { label: t.nav.about, href: "/about" },
       { label: t.nav.branches, href: "/branches" }
     ],
     [t]
   );
+
+  const openOrderModal = useCallback(() => {
+    setIsOpen(false);
+    setIsOrderOpen(true);
+  }, []);
+
+  const closeOrderModal = useCallback(() => {
+    setIsOrderOpen(false);
+    focusElement(bagButtonRef.current);
+  }, []);
 
   const closeMenu = (restoreFocus = true) => {
     setIsOpen(false);
@@ -159,7 +194,7 @@ export function SiteNavbar({ overlay = false, orderUrl = "#location" }: SiteNavb
               {navLinks.map((link) => (
                 <li key={link.href}>
                   <a href={link.href} className="site-navbar-link">
-                    {link.label}
+                    <span className="site-navbar-link-label">{link.label}</span>
                   </a>
                 </li>
               ))}
@@ -176,9 +211,28 @@ export function SiteNavbar({ overlay = false, orderUrl = "#location" }: SiteNavb
               </li>
             </ul>
 
+            <div className="site-navbar-icons">
+              <Link
+                href="/locations"
+                className="site-navbar-icon-btn"
+                aria-label={t.locations.findLocal}
+              >
+                <IconLocationPinFilled className="site-navbar-icon" />
+              </Link>
+              <button
+                ref={bagButtonRef}
+                type="button"
+                className="site-navbar-icon-btn"
+                aria-label={t.hero.orderCta}
+                onClick={openOrderModal}
+              >
+                <IconShoppingBagFilled className="site-navbar-icon" />
+              </button>
+            </div>
+
             <CtaButtons
               className="site-cta site-cta--desktop"
-              orderUrl={orderUrl}
+              onOrderClick={openOrderModal}
               orderLabel={t.hero.orderCta}
               menuLabel={t.hero.menuCta}
             />
@@ -215,9 +269,16 @@ export function SiteNavbar({ overlay = false, orderUrl = "#location" }: SiteNavb
 
       <CtaButtons
         className="site-cta site-cta--mobile"
-        orderUrl={orderUrl}
+        onOrderClick={openOrderModal}
         orderLabel={t.hero.orderCta}
         menuLabel={t.hero.menuCta}
+      />
+
+      <OrderModal
+        open={isOrderOpen}
+        onClose={closeOrderModal}
+        pickupUrl={pickupUrl}
+        deliveryUrl={deliveryUrl}
       />
 
       {isOpen ? (
@@ -250,6 +311,14 @@ export function SiteNavbar({ overlay = false, orderUrl = "#location" }: SiteNavb
                 {link.label}
               </a>
             ))}
+            <button
+              type="button"
+              className="site-nav-overlay-link"
+              style={{ animationDelay: `${navLinks.length * 0.08}s` }}
+              onClick={openOrderModal}
+            >
+              {t.hero.orderCta}
+            </button>
             <a
               href={BUSINESS.social.instagram}
               className="site-nav-overlay-link site-nav-overlay-social"

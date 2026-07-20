@@ -32,6 +32,19 @@ export const en: Messages = {
     scroll: "Scroll",
     scrollAria: "Scroll down"
   },
+  orderModal: {
+    title: "Choose how to order",
+    close: "Close",
+    pickup: "CLICK & COLLECT",
+    delivery: "DELIVERY"
+  },
+  locations: {
+    findLocal: "FIND MY LOCAL",
+    ourLocations: "OUR LOCATIONS",
+    mapTitle: "NB BURGER locations map",
+    navigate: "Navigate",
+    backHome: "Back to home"
+  },
   menuShowcase: {
     title: "The Menu",
     lead: "The NB standard, elevated.",

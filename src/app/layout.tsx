@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Archivo_Black, Assistant } from "next/font/google";
 import "./globals.css";
 import "./homepage-ds.css";
+import "./locations-page.css";
 
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { SkipToContent } from "@/components/layout/skip-to-content";

@@ -32,6 +32,19 @@ export const fr: Messages = {
     scroll: "Défiler",
     scrollAria: "Défiler vers le bas"
   },
+  orderModal: {
+    title: "Choisissez votre commande",
+    close: "Fermer",
+    pickup: "CLICK & COLLECT",
+    delivery: "LIVRAISON"
+  },
+  locations: {
+    findLocal: "FIND MY LOCAL",
+    ourLocations: "OUR LOCATIONS",
+    mapTitle: "Carte des restaurants NB BURGER",
+    navigate: "Itinéraire",
+    backHome: "Retour à l'accueil"
+  },
   menuShowcase: {
     title: "La Carte",
     lead: "Le standard NB, élevé.",

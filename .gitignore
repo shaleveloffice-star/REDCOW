@@ -26,3 +26,5 @@ pnpm-debug.log*
 
 # Admin-uploaded menu images (local durable store)
 data/local/uploads/
+.vercel
+.env*

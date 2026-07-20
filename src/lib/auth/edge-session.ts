@@ -1,12 +1,6 @@
 import { jwtVerify } from "jose";
 
-import {
-  ADMIN_SESSION_COOKIE,
-  getAdminAuthMode,
-  getAdminSessionSecret,
-  isEmailAllowedForAdmin,
-  getAllowedAdminEmails
-} from "@/lib/auth/edge";
+import { ADMIN_SESSION_COOKIE, getAdminSessionSecret } from "@/lib/auth/edge";
 import type { AdminRole, AdminSession } from "@/types/admin";
 
 export function getAdminSessionCookieName() {
@@ -40,6 +34,7 @@ export async function verifyAdminSessionTokenEdge(
   }
 }
 
+/** Valid signed cookie = authenticated admin (no email allowlist). */
 export async function getAdminSessionFromRequestCookie(
   cookieValue: string | undefined
 ): Promise<AdminSession | null> {
@@ -47,17 +42,5 @@ export async function getAdminSessionFromRequestCookie(
     return null;
   }
 
-  const session = await verifyAdminSessionTokenEdge(cookieValue);
-  if (!session) {
-    return null;
-  }
-
-  // Password mode: cookie signature is the proof — no allowlist check.
-  if (getAdminAuthMode() !== "password") {
-    if (!isEmailAllowedForAdmin(session.email, getAllowedAdminEmails())) {
-      return null;
-    }
-  }
-
-  return session;
+  return verifyAdminSessionTokenEdge(cookieValue);
 }

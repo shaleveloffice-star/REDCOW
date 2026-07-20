@@ -2,13 +2,7 @@ import "server-only";
 
 import { cookies } from "next/headers";
 
-import {
-  assertProductionAuthMode,
-  getAdminAuthMode,
-  getAllowedAdminEmails,
-  isEmailAllowedForAdmin,
-  isOpenAdminAuthMode
-} from "@/lib/auth/auth-config";
+import { assertAdminAuthConfigured } from "@/lib/auth/auth-config";
 import {
   getAdminSessionCookieName,
   verifyAdminSessionToken
@@ -20,25 +14,13 @@ import type { AdminSession } from "@/types/admin";
  */
 export async function getAdminApiSession(): Promise<AdminSession | null> {
   try {
-    assertProductionAuthMode();
-
-    if (isOpenAdminAuthMode()) {
-      return { email: "admin@nbburger.co.il", role: "owner", isMock: true };
-    }
+    assertAdminAuthConfigured();
 
     const cookieStore = await cookies();
     const token = cookieStore.get(getAdminSessionCookieName())?.value;
     if (!token) return null;
 
-    const session = await verifyAdminSessionToken(token);
-    if (!session) return null;
-
-    if (getAdminAuthMode() !== "password") {
-      const allowed = getAllowedAdminEmails();
-      if (!isEmailAllowedForAdmin(session.email, allowed)) return null;
-    }
-
-    return session;
+    return verifyAdminSessionToken(token);
   } catch (err) {
     console.warn(
       "[getAdminApiSession]",

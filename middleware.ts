@@ -1,11 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
-import {
-  assertEdgeProductionAuthConfig,
-  getAdminAuthMode,
-  isOpenAdminAuthMode
-} from "@/lib/auth/edge";
+import { assertEdgeProductionAuthConfig } from "@/lib/auth/edge";
 import {
   getAdminSessionCookieName,
   getAdminSessionFromRequestCookie
@@ -14,7 +10,10 @@ import {
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (!pathname.startsWith("/admin")) {
+  const isAdminPage = pathname.startsWith("/admin");
+  const isAdminApi = pathname.startsWith("/api/admin");
+
+  if (!isAdminPage && !isAdminApi) {
     return NextResponse.next();
   }
 
@@ -25,22 +24,29 @@ export async function middleware(request: NextRequest) {
       "[AdminAuth] middleware config blocked",
       error instanceof Error ? error.message : "error"
     );
-    return new NextResponse("Admin authentication is misconfigured.", { status: 500 });
-  }
-
-  if (isOpenAdminAuthMode()) {
-    if (pathname === "/admin/login") {
-      const adminUrl = request.nextUrl.clone();
-      adminUrl.pathname = "/admin";
-      return NextResponse.redirect(adminUrl);
+    if (isAdminApi) {
+      return NextResponse.json(
+        { ok: false, error: "Admin authentication is misconfigured." },
+        { status: 500 }
+      );
     }
-
-    return NextResponse.next();
+    return new NextResponse("Admin authentication is misconfigured.", { status: 500 });
   }
 
   const session = await getAdminSessionFromRequestCookie(
     request.cookies.get(getAdminSessionCookieName())?.value
   );
+
+  if (isAdminApi) {
+    if (!session) {
+      return NextResponse.json(
+        { ok: false, error: "אין הרשאת אדמין. התחברו מחדש ל־/admin/login" },
+        { status: 401 }
+      );
+    }
+    return NextResponse.next();
+  }
+
   const isLoginPage = pathname === "/admin/login";
 
   if (isLoginPage) {
@@ -49,7 +55,6 @@ export async function middleware(request: NextRequest) {
       adminUrl.pathname = "/admin";
       return NextResponse.redirect(adminUrl);
     }
-
     return NextResponse.next();
   }
 
@@ -59,16 +64,9 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(loginUrl);
   }
 
-  if (getAdminAuthMode() === "mock" && session.isMock !== true) {
-    const loginUrl = request.nextUrl.clone();
-    loginUrl.pathname = "/admin/login";
-    loginUrl.searchParams.set("error", "invalid_credentials");
-    return NextResponse.redirect(loginUrl);
-  }
-
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/admin", "/admin/:path*"]
+  matcher: ["/admin", "/admin/:path*", "/api/admin/:path*"]
 };

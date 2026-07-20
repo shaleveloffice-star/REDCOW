@@ -1,15 +1,11 @@
 import "server-only";
 
-import {
-  assertAdminAllowlistConfigured,
-  assertProductionAuthMode
-} from "@/lib/auth/auth-config";
+import { assertAdminAuthConfigured } from "@/lib/auth/auth-config";
 import { getCurrentAdminSession } from "@/lib/auth/get-current-admin-session";
 import type { AdminRole } from "@/types/admin";
 
 export async function requireAdmin() {
-  assertProductionAuthMode();
-  assertAdminAllowlistConfigured();
+  assertAdminAuthConfigured();
 
   const session = await getCurrentAdminSession();
 

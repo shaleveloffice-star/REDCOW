@@ -1,17 +1,10 @@
 import { timingSafeEqual } from "crypto";
 
 import {
-  assertProductionAuthMode,
-  getAdminAuthMode,
-  getAdminDevPassword,
-  getAllowedAdminEmails,
-  isEmailAllowedForAdmin,
+  getAdminPassword,
   logAdminAuthEnvDiagnostics,
   type AdminAuthFailureCode
 } from "@/lib/auth/auth-config";
-import { authenticateWithFirebase } from "@/services/auth-firebase.service";
-import { resolveAdminRole } from "@/lib/auth/resolve-admin-role";
-import { getAdminUserByEmail } from "@/repositories/admin.repository";
 import type { AdminSession } from "@/types/admin";
 
 export {
@@ -35,17 +28,22 @@ function safeEqualSecret(a: string, b: string) {
   return timingSafeEqual(left, right);
 }
 
-/** Simple password mode — one shared password, no email/allowlist. */
-async function authenticateWithPasswordCredentials(
+/** One shared admin password — no email, Firebase Auth, or allowlist. */
+export async function loginWithAdminPassword(
   password: string
 ): Promise<AdminLoginResult> {
-  const devPassword = getAdminDevPassword();
-  if (!devPassword) {
-    logAdminAuthEnvDiagnostics("ADMIN_DEV_PASSWORD for password mode");
+  const trimmedPassword = password.trim();
+  if (!trimmedPassword) {
+    return { ok: false, code: "invalid_credentials" };
+  }
+
+  const expected = getAdminPassword();
+  if (!expected) {
+    logAdminAuthEnvDiagnostics("ADMIN_PASSWORD missing");
     return { ok: false, code: "config_error" };
   }
 
-  if (!safeEqualSecret(password, devPassword)) {
+  if (!safeEqualSecret(trimmedPassword, expected)) {
     return { ok: false, code: "invalid_credentials" };
   }
 
@@ -59,59 +57,10 @@ async function authenticateWithPasswordCredentials(
   };
 }
 
-async function authenticateWithMockDevCredentials(email: string): Promise<AdminLoginResult> {
-  assertProductionAuthMode();
-
-  const normalizedEmail = email.trim().toLowerCase();
-  const admin = await getAdminUserByEmail(normalizedEmail);
-  const allowedEmails = getAllowedAdminEmails();
-  const emailAllowed =
-    allowedEmails.length > 0
-      ? isEmailAllowedForAdmin(normalizedEmail, allowedEmails)
-      : Boolean(admin?.isActive);
-
-  if (!emailAllowed || !admin?.isActive) {
-    return { ok: false, code: "forbidden_email" };
-  }
-
-  return {
-    ok: true,
-    session: {
-      email: admin.email,
-      role: admin.role,
-      isMock: true
-    }
-  };
-}
-
+/** @deprecated Use loginWithAdminPassword */
 export async function loginWithEmailPassword(
-  email: string,
+  _email: string,
   password: string
 ): Promise<AdminLoginResult> {
-  const trimmedEmail = email.trim();
-  const trimmedPassword = password.trim();
-
-  const mode = getAdminAuthMode();
-
-  if (process.env.NODE_ENV === "production" && mode !== "firebase" && mode !== "password") {
-    logAdminAuthEnvDiagnostics(`blocked production mode=${mode}`);
-    return { ok: false, code: "config_error" };
-  }
-
-  if (mode === "password") {
-    if (!trimmedPassword) {
-      return { ok: false, code: "invalid_credentials" };
-    }
-    return authenticateWithPasswordCredentials(trimmedPassword);
-  }
-
-  if (!trimmedEmail || !trimmedPassword) {
-    return { ok: false, code: "invalid_credentials" };
-  }
-
-  if (mode === "firebase") {
-    return authenticateWithFirebase(trimmedEmail, trimmedPassword);
-  }
-
-  return authenticateWithMockDevCredentials(trimmedEmail);
+  return loginWithAdminPassword(password);
 }

@@ -6,7 +6,7 @@ import { logAdminAuthEnvDiagnostics, type AdminAuthFailureCode } from "@/lib/aut
 import {
   clearAdminSessionCookie,
   createAdminSessionCookie,
-  loginWithEmailPassword
+  loginWithAdminPassword
 } from "@/services/auth.service";
 
 function redirectLoginError(code: AdminAuthFailureCode): never {
@@ -14,12 +14,11 @@ function redirectLoginError(code: AdminAuthFailureCode): never {
 }
 
 export async function loginAdminAction(formData: FormData) {
-  const email = String(formData.get("email") ?? "");
   const password = String(formData.get("password") ?? "");
 
   let result;
   try {
-    result = await loginWithEmailPassword(email, password);
+    result = await loginWithAdminPassword(password);
   } catch (error) {
     console.error(
       "[AdminAuth] login threw",

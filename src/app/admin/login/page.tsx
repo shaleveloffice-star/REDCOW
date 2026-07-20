@@ -1,6 +1,6 @@
 import { AdminCard } from "@/components/features/admin/admin-card";
 import { AdminLoginForm } from "@/components/features/admin/admin-login-form";
-import { getAdminAuthEnvDiagnostics, getAdminAuthMode } from "@/lib/auth/auth-config";
+import { getAdminAuthEnvDiagnostics } from "@/lib/auth/auth-config";
 
 export const dynamic = "force-dynamic";
 
@@ -17,11 +17,7 @@ export default async function AdminLoginPage({ searchParams }: AdminLoginPagePro
 
   return (
     <AdminCard title="כניסה לפאנל ניהול">
-      <AdminLoginForm
-        error={error}
-        configDiagnostics={configDiagnostics}
-        passwordOnly={getAdminAuthMode() === "password"}
-      />
+      <AdminLoginForm error={error} configDiagnostics={configDiagnostics} />
     </AdminCard>
   );
 }

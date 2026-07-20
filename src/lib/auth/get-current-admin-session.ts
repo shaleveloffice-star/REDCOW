@@ -1,14 +1,7 @@
 import { cookies } from "next/headers";
 import { cache } from "react";
 
-import {
-  assertAdminAllowlistConfigured,
-  assertProductionAuthMode,
-  getAdminAuthMode,
-  getAllowedAdminEmails,
-  isEmailAllowedForAdmin,
-  isOpenAdminAuthMode
-} from "@/lib/auth/auth-config";
+import { assertAdminAuthConfigured } from "@/lib/auth/auth-config";
 import {
   getAdminSessionCookieName,
   getAdminSessionCookieOptions,
@@ -16,14 +9,6 @@ import {
   verifyAdminSessionToken
 } from "@/lib/auth/admin-session";
 import type { AdminSession } from "@/types/admin";
-
-function getOpenAdminSession(): AdminSession {
-  return {
-    email: "admin@nbburger.co.il",
-    role: "owner",
-    isMock: true
-  };
-}
 
 export async function createAdminSessionCookie(session: AdminSession): Promise<boolean> {
   const token = await signAdminSessionToken(session);
@@ -46,13 +31,7 @@ export async function clearAdminSessionCookie(): Promise<void> {
 
 /** Deduped per React request — admin pages call this many times in parallel. */
 export const getCurrentAdminSession = cache(async (): Promise<AdminSession | null> => {
-  assertProductionAuthMode();
-
-  if (isOpenAdminAuthMode()) {
-    return getOpenAdminSession();
-  }
-
-  assertAdminAllowlistConfigured();
+  assertAdminAuthConfigured();
 
   const cookieStore = await cookies();
   const token = cookieStore.get(getAdminSessionCookieName())?.value;
@@ -60,18 +39,5 @@ export const getCurrentAdminSession = cache(async (): Promise<AdminSession | nul
     return null;
   }
 
-  const session = await verifyAdminSessionToken(token);
-  if (!session) {
-    return null;
-  }
-
-  // Password mode: one shared password, cookie signature is the proof — no allowlist.
-  if (getAdminAuthMode() !== "password") {
-    const allowedEmails = getAllowedAdminEmails();
-    if (!isEmailAllowedForAdmin(session.email, allowedEmails)) {
-      return null;
-    }
-  }
-
-  return session;
+  return verifyAdminSessionToken(token);
 });

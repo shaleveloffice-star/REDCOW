@@ -25,6 +25,8 @@ export const en: Messages = {
   },
   hero: {
     tagline: "Simply a good burger.",
+    captionKicker: "REDEFINING THE BURGER EXPERIENCE",
+    captionTitle: "NB BURGER",
     menuCta: "View Menu",
     orderCta: "Order Now",
     scroll: "Scroll",

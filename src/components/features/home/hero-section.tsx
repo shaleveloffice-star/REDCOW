@@ -4,6 +4,8 @@ import type { SiteSettings } from "@/types/content";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
+import { LanguageSwitcher } from "@/components/layout/language-switcher";
+import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import {
   HERO_DEFAULT_POSTER_URL,
   HERO_DEFAULT_VIDEO_URL
@@ -139,9 +141,12 @@ function HeroVideo({ src, poster, alt }: HeroVideoProps) {
 }
 
 export function HeroSection({ settings }: HeroSectionProps) {
+  const t = useTranslations();
+  const locale = useLocale();
   const heroMediaUrl = HERO_DEFAULT_VIDEO_URL;
   const heroPosterUrl = HERO_DEFAULT_POSTER_URL;
   const heroAlt = settings.heroMediaAlt || `חוויה במסעדת ${BUSINESS.name}`;
+  const captionDir = locale === "he" ? "rtl" : "ltr";
 
   return (
     <section id="hero" className="hero hero--cinematic hero--premier" aria-label="NB BURGER">
@@ -154,9 +159,14 @@ export function HeroSection({ settings }: HeroSectionProps) {
       </div>
 
       <div className="hero-caption">
-        <div className="hero-caption-inner">
-          <p className="hero-caption-kicker">REDEFINING THE BURGER EXPERIENCE</p>
-          <p className="hero-caption-title">NB BURGER</p>
+        <div className="hero-caption-inner" dir={captionDir}>
+          <div className="hero-language-switcher" dir="ltr">
+            <LanguageSwitcher />
+          </div>
+          <p className="hero-caption-kicker">{t.hero.captionKicker}</p>
+          <p className="hero-caption-title" dir="ltr">
+            {t.hero.captionTitle}
+          </p>
         </div>
       </div>
     </section>

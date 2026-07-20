@@ -25,6 +25,8 @@ export const he: Messages = {
   },
   hero: {
     tagline: "פשוט המבורגר טוב.",
+    captionKicker: "מגדירים מחדש את חוויית ההמבורגר",
+    captionTitle: "NB BURGER",
     menuCta: "לתפריט",
     orderCta: "להזמנה",
     scroll: "גלול",

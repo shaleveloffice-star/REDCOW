@@ -184,9 +184,11 @@ export function SiteNavbar({ overlay = false, orderUrl = "#location" }: SiteNavb
             />
 
             <div className="site-navbar-actions">
-              <div className="site-navbar-language">
-                <LanguageSwitcher />
-              </div>
+              {!overlay ? (
+                <div className="site-navbar-language">
+                  <LanguageSwitcher />
+                </div>
+              ) : null}
               <button
                 ref={toggleRef}
                 type="button"

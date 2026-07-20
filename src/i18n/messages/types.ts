@@ -27,6 +27,8 @@ export type Messages = {
   };
   hero: {
     tagline: string;
+    captionKicker: string;
+    captionTitle: string;
     menuCta: string;
     orderCta: string;
     scroll: string;

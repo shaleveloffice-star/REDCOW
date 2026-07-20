@@ -171,7 +171,6 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
     <section id="menu" className="menu-showcase-section" aria-labelledby="menu-showcase-title">
       <div className="menu-showcase-shell">
         <header className="menu-showcase-header">
-          <p className="menu-showcase-kicker">NB BURGER</p>
           <h2 id="menu-showcase-title" className="menu-showcase-title">
             {t.menuShowcase.title}
           </h2>
@@ -185,18 +184,12 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
                 const localized = getLocalizedMenuItem(item, locale);
                 const media = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
                 const isVideo = isVideoMediaUrl(media);
-                const isBestSeller = item.tags.some(
-                  (tag) => tag === "מומלץ" || tag === "הכי נמכר"
-                );
 
                 return (
                   <article key={item.id} className="menu-showcase-card" role="listitem">
                     <div
                       className={`menu-showcase-card-media${isVideo ? " menu-showcase-card-media--video" : ""}`}
                     >
-                      {isBestSeller ? (
-                        <span className="menu-showcase-badge">{t.menuShowcase.bestSeller}</span>
-                      ) : null}
                       {isVideo ? (
                         <div className="menu-showcase-card-video-frame">
                           <AutoplayVideo
@@ -211,22 +204,12 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
                           src={media}
                           alt={localized.name}
                           width={640}
-                          height={480}
-                          sizes="(max-width: 767px) 80vw, 280px"
+                          height={640}
+                          sizes="(max-width: 767px) 70vw, 260px"
                           loading="lazy"
-                          style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                          className="menu-showcase-card-image"
                         />
                       )}
-                    </div>
-                    <div className="menu-showcase-card-body">
-                      <h3 className="menu-showcase-card-title">{localized.name}</h3>
-                      {localized.description ? (
-                        <p className="menu-showcase-card-desc">{localized.description}</p>
-                      ) : null}
-                      <p className="menu-showcase-card-price">
-                        <span>{item.price}</span>
-                        <span className="menu-showcase-card-currency">₪</span>
-                      </p>
                     </div>
                   </article>
                 );

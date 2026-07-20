@@ -23,3 +23,6 @@ yarn-error.log*
 pnpm-debug.log*
 
 *.tsbuildinfo
+
+# Admin-uploaded menu images (local durable store)
+data/local/uploads/

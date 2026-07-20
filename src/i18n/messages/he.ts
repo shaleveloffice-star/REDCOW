@@ -55,8 +55,8 @@ export const he: Messages = {
     backHome: "חזרה לדף הבית"
   },
   menuShowcase: {
-    title: "התפריט",
-    lead: "הסטנדרט הגבוה של NB BURGER.",
+    title: "התפריט שלנו",
+    lead: "המבורגרים, צ'יפס ועוד!",
     trackAria: "מנות מהתפריט",
     bestSeller: "הכי נמכר",
     fullMenu: "לתפריט המלא",

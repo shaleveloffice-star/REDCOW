@@ -69,6 +69,20 @@ const nextConfig: NextConfig = {
       }
     ]
   },
+  /**
+   * When OneDrive marks public/images/menu ReadOnly, uploads land in data/local/uploads/menu.
+   * Fallback rewrite serves those files under the same `/images/menu/*` URL.
+   */
+  async rewrites() {
+    return {
+      fallback: [
+        {
+          source: "/images/menu/:file",
+          destination: "/api/media/menu/:file"
+        }
+      ]
+    };
+  },
   async headers() {
     return [
       {

@@ -55,11 +55,11 @@ export const fr: Messages = {
     backHome: "Retour à l'accueil"
   },
   menuShowcase: {
-    title: "La Carte",
-    lead: "Le standard NB, élevé.",
+    title: "Notre carte",
+    lead: "Burgers, frites, milkshakes et plus encore !",
     trackAria: "Aperçu de la carte",
     bestSeller: "Le plus vendu",
-    fullMenu: "Carte complète",
+    fullMenu: "Voir la carte complète",
     prev: "Plats précédents",
     next: "Plats suivants"
   },

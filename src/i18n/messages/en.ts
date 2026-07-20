@@ -55,11 +55,11 @@ export const en: Messages = {
     backHome: "Back to home"
   },
   menuShowcase: {
-    title: "The Menu",
-    lead: "The NB standard, elevated.",
+    title: "Our Menu",
+    lead: "Burgers, fries, shakes and more!",
     trackAria: "Menu highlights",
     bestSeller: "Best Seller",
-    fullMenu: "Full Menu",
+    fullMenu: "View Full Menu",
     prev: "Previous dishes",
     next: "Next dishes"
   },

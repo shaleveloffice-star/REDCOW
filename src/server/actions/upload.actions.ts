@@ -1,10 +1,8 @@
 "use server";
 
 import { requireAdmin } from "@/lib/auth/admin-guard";
-import { mkdir, writeFile } from "fs/promises";
-import path from "path";
+import { saveMenuImageBytes } from "@/lib/admin/save-menu-image";
 
-const MENU_IMAGE_DIR = path.join(process.cwd(), "public", "images", "menu");
 const MAX_BYTES = 8 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 
@@ -73,11 +71,7 @@ function asUploadBlob(value: FormDataEntryValue | null): Blob | null {
   return value as Blob;
 }
 
-async function uploadImageFile(
-  file: Blob,
-  targetDir: string,
-  publicPrefix: string
-): Promise<UploadImageResult> {
+async function uploadImageFile(file: Blob): Promise<UploadImageResult> {
   if (file.size > MAX_BYTES) {
     return { ok: false, error: "הקובץ גדול מדי (מקסימום 8MB)" };
   }
@@ -96,21 +90,21 @@ async function uploadImageFile(
 
   const ext = extForMime(detectedMime);
   const fileName = `img-${Date.now()}-${Math.random().toString(36).slice(2, 10)}${ext}`;
-  const diskPath = path.join(targetDir, fileName);
 
   try {
-    await mkdir(targetDir, { recursive: true });
-    await writeFile(diskPath, bytes);
+    const saved = await saveMenuImageBytes(fileName, bytes);
+    return { ok: true, url: saved.url };
   } catch (err) {
     const detail = err instanceof Error ? err.message : "unknown";
     console.warn("[uploadMenuImageAction] write failed:", detail);
     return {
       ok: false,
-      error: "שמירת התמונה לשרת נכשלה. בדקו הרשאות כתיבה לתיקיית public/images/menu"
+      error:
+        detail.startsWith("שמירת")
+          ? detail
+          : "שמירת התמונה נכשלה. נסו שוב — הקובץ נשמר ב־data/local/uploads/menu"
     };
   }
-
-  return { ok: true, url: `${publicPrefix}/${fileName}` };
 }
 
 export async function uploadMenuImageAction(formData: FormData): Promise<UploadImageResult> {
@@ -130,5 +124,5 @@ export async function uploadMenuImageAction(formData: FormData): Promise<UploadI
     return { ok: false, error: "לא נבחר קובץ תמונה" };
   }
 
-  return uploadImageFile(file, MENU_IMAGE_DIR, "/images/menu");
+  return uploadImageFile(file);
 }

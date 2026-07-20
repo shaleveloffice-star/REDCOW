@@ -10,7 +10,6 @@ import {
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import { deleteMenuItemAction, saveMenuItemAction } from "@/server/actions/menu.actions";
-import { uploadMenuImageAction } from "@/server/actions/upload.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
 
@@ -99,19 +98,35 @@ export function AdminMenuTable({
     setError(null);
     try {
       const formData = new FormData();
-      formData.append("file", file);
-      const result = await uploadMenuImageAction(formData);
-      if (!result.ok) {
-        setError(result.error);
+      formData.append("file", file, file.name);
+
+      const response = await fetch("/api/admin/menu-image", {
+        method: "POST",
+        body: formData,
+        credentials: "same-origin"
+      });
+
+      let result: { ok: true; url: string } | { ok: false; error: string };
+      try {
+        result = (await response.json()) as typeof result;
+      } catch {
+        setError(
+          response.ok
+            ? "העלאת התמונה נכשלה. נסו שוב."
+            : `העלאת התמונה נכשלה (${response.status}). נסו קובץ קטן יותר או רעננו את הדף.`
+        );
         return;
       }
+
+      if (!result.ok) {
+        setError(result.error || "העלאת התמונה נכשלה. נסו שוב.");
+        return;
+      }
+
       setDraft({ ...draft, imageUrl: result.url });
     } catch (err) {
-      const message =
-        err instanceof Error && err.message && !err.message.includes("digest")
-          ? err.message
-          : "העלאת התמונה נכשלה. נסו שוב או רעננו את הדף.";
-      setError(message);
+      console.error("[AdminMenuTable] image upload failed:", err);
+      setError("העלאת התמונה נכשלה. בדקו חיבור לרשת ונסו שוב.");
     } finally {
       setUploadingImage(false);
       event.target.value = "";

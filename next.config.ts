@@ -60,6 +60,12 @@ const nextConfig: NextConfig = {
   // Externalize firebase-admin; load only via firebase-admin.cjs (CJS require condition).
   // ESM import()/bundling caused ERR_REQUIRE_ESM and slow cold starts on Vercel.
   serverExternalPackages: ["firebase-admin"],
+  experimental: {
+    // Default is 1MB — large menu photos were rejected before the action ran (digest errors).
+    serverActions: {
+      bodySizeLimit: "10mb"
+    }
+  },
   images: {
     remotePatterns: [
       {

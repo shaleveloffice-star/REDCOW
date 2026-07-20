@@ -12,6 +12,7 @@ import { focusElement, getFocusableElements, trapFocus } from "@/lib/a11y/focus-
 
 type SiteNavbarProps = {
   overlay?: boolean;
+  orderUrl?: string;
 };
 
 function IconInstagram() {
@@ -25,9 +26,42 @@ function IconInstagram() {
   );
 }
 
-export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
+function CtaButtons({
+  orderUrl,
+  orderLabel,
+  menuLabel,
+  className
+}: {
+  orderUrl: string;
+  orderLabel: string;
+  menuLabel: string;
+  className: string;
+}) {
+  const orderIsExternal = orderUrl.startsWith("http");
+
+  return (
+    <div className={className} dir="ltr">
+      <a
+        className="site-cta-btn site-cta-btn--solid"
+        href={orderUrl}
+        {...(orderIsExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+      >
+        {orderLabel}
+      </a>
+      <a className="site-cta-btn site-cta-btn--outline" href="/menu">
+        {menuLabel}
+        <span className="site-cta-arrow" aria-hidden="true">
+          ↗
+        </span>
+      </a>
+    </div>
+  );
+}
+
+export function SiteNavbar({ overlay = false, orderUrl = "#location" }: SiteNavbarProps) {
   const t = useTranslations();
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const menuId = useId();
   const toggleRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -37,9 +71,6 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
     () => [
       { label: t.nav.home, href: "/#hero" },
       { label: t.nav.menu, href: "/#menu" },
-      { label: t.nav.plancha, href: "/#plancha" },
-      { label: t.nav.atmosphere, href: "/#atmosphere" },
-      { label: t.nav.club, href: "/#club" },
       { label: t.nav.location, href: "/#location" },
       { label: t.nav.about, href: "/about" },
       { label: t.nav.branches, href: "/branches" }
@@ -53,6 +84,18 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
       focusElement(toggleRef.current);
     }
   };
+
+  useEffect(() => {
+    const onScroll = () => {
+      setIsScrolled(window.scrollY > 5);
+    };
+
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
 
   useEffect(() => {
     document.body.style.overflow = isOpen ? "hidden" : "";
@@ -84,7 +127,13 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
     };
   }, [isOpen]);
 
-  const navClass = overlay ? "site-navbar site-navbar--overlay" : "site-navbar";
+  const navClass = [
+    "site-navbar",
+    overlay ? "site-navbar--overlay" : "",
+    isScrolled ? "site-navbar--scrolled" : ""
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <>
@@ -127,6 +176,13 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
               </li>
             </ul>
 
+            <CtaButtons
+              className="site-cta site-cta--desktop"
+              orderUrl={orderUrl}
+              orderLabel={t.hero.orderCta}
+              menuLabel={t.hero.menuCta}
+            />
+
             <div className="site-navbar-actions">
               <div className="site-navbar-language">
                 <LanguageSwitcher />
@@ -154,6 +210,13 @@ export function SiteNavbar({ overlay = false }: SiteNavbarProps) {
           </div>
         </nav>
       </header>
+
+      <CtaButtons
+        className="site-cta site-cta--mobile"
+        orderUrl={orderUrl}
+        orderLabel={t.hero.orderCta}
+        menuLabel={t.hero.menuCta}
+      />
 
       {isOpen ? (
         <div

@@ -75,6 +75,7 @@
 
   /* Typography — Assistant */
   --font-assistant-stack: var(--font-assistant), "Assistant", sans-serif;
+  --font-archivo-black-stack: var(--font-archivo-black), "Archivo Black", sans-serif;
   --font-display: var(--font-assistant-stack);
   --font-editorial: var(--font-assistant-stack);
   --font-body: var(--font-assistant-stack);
@@ -466,7 +467,9 @@ select {
   border-bottom: 0;
   background: #000000;
   backdrop-filter: none;
-  transition: none;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
 }
 
 .site-navbar--overlay {
@@ -474,6 +477,11 @@ select {
   border-bottom-color: transparent;
   background: #000000;
   backdrop-filter: none;
+}
+
+.site-navbar--scrolled,
+.site-navbar--scrolled.site-navbar--overlay {
+  background: #ffffff;
 }
 
 .site-navbar-inner {
@@ -522,7 +530,9 @@ select {
   text-decoration: none;
   text-transform: uppercase;
   white-space: nowrap;
-  transition: opacity 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    color 0.25s ease;
 }
 
 .site-navbar-link:hover {
@@ -542,7 +552,9 @@ select {
   height: 100%;
   color: #ffffff;
   line-height: 0;
-  transition: opacity 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    color 0.25s ease;
 }
 
 .site-navbar-social:hover {
@@ -645,6 +657,7 @@ select {
   height: clamp(48px, 8vw, 64px);
   max-width: min(200px, 52vw);
   object-fit: contain;
+  transition: filter 0.25s ease;
 }
 
 @media (min-width: 640px) {
@@ -837,7 +850,12 @@ select {
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: calc(100svh - 36px);
+  height: 100svh;
+  height: 100dvh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  max-height: 100svh;
+  max-height: 100dvh;
   overflow: hidden;
   isolation: isolate;
   padding: 0;
@@ -879,9 +897,9 @@ select {
   margin: 0 0 clamp(10px, 1.6vw, 20px);
   max-width: min(100%, 92vw);
   color: #ffffff;
-  font-family: var(--font-button);
+  font-family: var(--font-archivo-black-stack);
   font-size: clamp(15px, calc(2.8vw + 4px), 30px);
-  font-weight: 700;
+  font-weight: 400;
   letter-spacing: 0.18em;
   line-height: 1.2;
   text-transform: uppercase;
@@ -893,15 +911,151 @@ select {
 .hero-caption-title {
   margin: 0;
   color: #ffffff;
-  font-family: var(--font-button);
+  font-family: var(--font-archivo-black-stack);
   font-size: clamp(64px, 18vw, 220px);
-  font-weight: 800;
+  font-weight: 400;
   letter-spacing: -0.06em;
   line-height: 0.82;
   text-transform: uppercase;
   text-align: center;
   white-space: nowrap;
   padding-inline-end: 0.06em;
+}
+
+/* Header CTAs — desktop in navbar, mobile sticky bottom */
+.site-cta {
+  display: flex;
+  align-items: stretch;
+  gap: 10px;
+  direction: ltr;
+}
+
+.site-cta--desktop {
+  display: none;
+  flex-shrink: 0;
+  margin-inline-start: 8px;
+}
+
+.site-cta--mobile {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 60;
+  display: flex;
+  width: 100%;
+  gap: 12px;
+  margin: 0;
+  padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
+  background: #efede8;
+  box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.06);
+  pointer-events: auto;
+}
+
+.site-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex: 1;
+  min-height: 48px;
+  padding: 12px 18px;
+  border-radius: 0;
+  font-family: var(--font-archivo-black-stack);
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    border-color 0.25s ease,
+    opacity 0.15s ease;
+}
+
+.site-cta-btn--solid {
+  border: 2px solid #ffffff;
+  background: #ffffff;
+  color: #000000;
+}
+
+.site-cta-btn--outline {
+  border: 2px solid #ffffff;
+  background: transparent;
+  color: #ffffff;
+}
+
+.site-cta-btn:hover {
+  opacity: 0.88;
+}
+
+.site-cta-btn:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.site-cta-arrow {
+  display: inline-block;
+  font-size: 1.05em;
+  line-height: 1;
+  transform: translateY(-1px);
+}
+
+/* Mobile sticky bar — black buttons on light strip (matches reference) */
+.site-cta--mobile .site-cta-btn--solid {
+  border-color: #000000;
+  background: #000000;
+  color: #ffffff;
+}
+
+.site-cta--mobile .site-cta-btn--outline {
+  border-color: #000000;
+  background: transparent;
+  color: #000000;
+}
+
+.site-navbar--scrolled .site-cta--desktop .site-cta-btn--solid {
+  border-color: #000000;
+  background: #000000;
+  color: #ffffff;
+}
+
+.site-navbar--scrolled .site-cta--desktop .site-cta-btn--outline {
+  border-color: #000000;
+  background: transparent;
+  color: #000000;
+}
+
+@media (max-width: 767px) {
+  .hero {
+    height: calc(100svh - 15px);
+    height: calc(100dvh - 15px);
+    min-height: calc(100svh - 15px);
+    min-height: calc(100dvh - 15px);
+    max-height: calc(100svh - 15px);
+    max-height: calc(100dvh - 15px);
+  }
+
+  .hero-caption {
+    padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
+  }
+
+  .site-cta--desktop {
+    display: none !important;
+  }
+
+  .site-cta--mobile {
+    display: flex;
+  }
+
+  body {
+    padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  }
 }
 
 @media (min-width: 768px) {
@@ -922,6 +1076,22 @@ select {
     line-height: 0.84;
     padding-inline-end: 0.05em;
   }
+
+  .site-cta--desktop {
+    display: flex;
+  }
+
+  .site-cta--mobile {
+    display: none;
+  }
+
+  .site-cta-btn {
+    flex: 0 0 auto;
+    min-width: 132px;
+    min-height: 42px;
+    padding: 10px 18px;
+    font-size: 12px;
+  }
 }
 
 @media (min-width: 1200px) {
@@ -941,6 +1111,13 @@ select {
     letter-spacing: -0.055em;
     line-height: 0.82;
     padding-inline-end: 0.055em;
+  }
+
+  .site-cta-btn {
+    min-width: 148px;
+    min-height: 44px;
+    padding: 12px 22px;
+    font-size: 13px;
   }
 }
 
@@ -1011,13 +1188,14 @@ select {
   min-height: 100%;
   overflow: hidden;
   pointer-events: none;
+  transition: opacity 0.25s ease;
 }
 
 .hero-media-dim {
   position: absolute;
   inset: 0;
   z-index: 2;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, 0.4);
   pointer-events: none;
 }
 
@@ -6364,6 +6542,61 @@ body:not(:has(.admin-layout)) main::before {
 .site-navbar--overlay {
   box-shadow: none;
   background: #000000;
+}
+
+.site-navbar--scrolled,
+.site-navbar--scrolled.site-navbar--overlay,
+.site-navbar--scrolled:not(.site-navbar--overlay) {
+  background: #ffffff;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+.site-navbar--scrolled .site-navbar-link,
+.site-navbar--scrolled .site-navbar-social {
+  color: #000000;
+}
+
+.site-navbar--scrolled .site-navbar-link:hover,
+.site-navbar--scrolled .site-navbar-social:hover {
+  color: #000000;
+  opacity: 0.65;
+}
+
+.site-navbar--scrolled .site-navbar-link:focus-visible,
+.site-navbar--scrolled .site-navbar-social:focus-visible,
+.site-navbar--scrolled .site-navbar-toggle:focus-visible {
+  outline-color: #000000;
+}
+
+.site-navbar--scrolled .site-navbar-logo {
+  filter: invert(1);
+}
+
+.site-navbar--scrolled .site-navbar-brand:hover {
+  color: #000000;
+}
+
+.site-navbar--scrolled .site-navbar-toggle span,
+.site-navbar--scrolled .site-navbar-toggle:hover span {
+  background: #000000;
+}
+
+.site-navbar--scrolled .language-switcher {
+  border-color: rgba(0, 0, 0, 0.28);
+  background: transparent;
+}
+
+.site-navbar--scrolled .language-switcher-btn {
+  color: rgba(0, 0, 0, 0.72);
+}
+
+.site-navbar--scrolled .language-switcher-btn:hover {
+  color: #000000;
+}
+
+.site-navbar--scrolled .language-switcher-btn.is-active {
+  background: rgba(0, 0, 0, 0.1);
+  color: #000000;
 }
 
 .site-nav-overlay-link {

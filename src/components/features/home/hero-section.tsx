@@ -21,6 +21,10 @@ type HeroVideoProps = {
   alt: string;
 };
 
+type HeroSectionProps = {
+  settings: SiteSettings;
+};
+
 function scheduleDeferredWork(work: () => void): () => void {
   if (typeof window.requestIdleCallback === "function") {
     const id = window.requestIdleCallback(() => work(), { timeout: 2500 });
@@ -134,26 +138,17 @@ function HeroVideo({ src, poster, alt }: HeroVideoProps) {
   );
 }
 
-export function HeroSection({ settings }: { settings: SiteSettings }) {
-  const heroMediaUrl = settings.heroMediaUrl || HERO_DEFAULT_VIDEO_URL;
-  const heroMediaType = settings.heroMediaUrl ? settings.heroMediaType : "video";
+export function HeroSection({ settings }: HeroSectionProps) {
+  const heroMediaUrl = HERO_DEFAULT_VIDEO_URL;
   const heroPosterUrl = HERO_DEFAULT_POSTER_URL;
-  const hasHeroMedia = heroMediaType !== "none" && heroMediaUrl.length > 0;
+  const heroAlt = settings.heroMediaAlt || `חוויה במסעדת ${BUSINESS.name}`;
 
   return (
     <section id="hero" className="hero hero--cinematic hero--premier" aria-label="NB BURGER">
       <h1 className="sr-only">{`המבורגר כשר ב${BUSINESS.address.addressLocality}`}</h1>
       <div className="hero-visual">
         <div className="hero-visual-media hero-visual-media--alive">
-          {hasHeroMedia ? (
-            heroMediaType === "video" ? (
-              <HeroVideo src={heroMediaUrl} poster={heroPosterUrl} alt={settings.heroMediaAlt} />
-            ) : (
-              <img className="hero-media" alt={settings.heroMediaAlt} src={heroMediaUrl} />
-            )
-          ) : (
-            <div className="hero-burger-placeholder" aria-hidden="true" />
-          )}
+          <HeroVideo src={heroMediaUrl} poster={heroPosterUrl} alt={heroAlt} />
         </div>
         <div className="hero-media-dim" aria-hidden="true" />
       </div>

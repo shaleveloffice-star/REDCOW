@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Assistant } from "next/font/google";
+import { Archivo_Black, Assistant } from "next/font/google";
 import "./globals.css";
 import "./homepage-ds.css";
 
@@ -13,6 +13,13 @@ const assistant = Assistant({
   subsets: ["hebrew", "latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-assistant",
+  display: "swap"
+});
+
+const archivoBlack = Archivo_Black({
+  subsets: ["latin"],
+  weight: "400",
+  variable: "--font-archivo-black",
   display: "swap"
 });
 
@@ -57,7 +64,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={dir}>
-      <body className={`${assistant.variable} ${assistant.className}`}>
+      <body className={`${assistant.variable} ${archivoBlack.variable} ${assistant.className}`}>
         <LocaleProvider initialLocale={locale}>
           <SkipToContent />
           {children}

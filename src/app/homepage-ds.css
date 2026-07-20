@@ -132,6 +132,11 @@ body:not(:has(.admin-layout)) .plancha-footer-cta {
   box-shadow: none;
 }
 
+.site-navbar--scrolled,
+.site-navbar--scrolled.site-navbar--overlay {
+  background: #ffffff;
+}
+
 .site-navbar-inner {
   width: min(1400px, calc(100% - 64px));
 }

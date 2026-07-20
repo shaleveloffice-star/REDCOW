@@ -41,7 +41,7 @@ export async function saveMenuItemAction(input: MenuItem) {
     throw new Error("לא ניתן לפרסם מנה פעילה במחיר 0. יש להגדיר מחיר גדול מ-0 או לבטל את הסימון פעיל.");
   }
 
-  const imageUrlRaw = input.imageUrl.trim() || "/images/menu/placeholder.svg";
+  const imageUrlRaw = input.imageUrl.trim() || "/images/menu/nb-menu-burger.png";
   const saved = await upsertMenuItem({
     ...input,
     name,

@@ -8,6 +8,10 @@ const MENU_IMAGE_DIR = path.join(process.cwd(), "public", "images", "menu");
 const MAX_BYTES = 8 * 1024 * 1024;
 const ALLOWED_TYPES = new Set(["image/jpeg", "image/png", "image/webp", "image/gif"]);
 
+export type UploadImageResult =
+  | { ok: true; url: string }
+  | { ok: false; error: string };
+
 function extForMime(mime: string): string {
   switch (mime) {
     case "image/jpeg":
@@ -61,35 +65,70 @@ function detectImageMime(bytes: Buffer): string | null {
   return null;
 }
 
-async function uploadImageFile(file: File, targetDir: string, publicPrefix: string): Promise<string> {
-  if (!(file instanceof File) || file.size === 0) {
-    throw new Error("לא נבחר קובץ תמונה");
-  }
+/** Next/Node may not treat FormData entries as `instanceof File`. */
+function asUploadBlob(value: FormDataEntryValue | null): Blob | null {
+  if (!value || typeof value === "string") return null;
+  if (typeof (value as Blob).arrayBuffer !== "function") return null;
+  if (typeof (value as Blob).size !== "number" || (value as Blob).size <= 0) return null;
+  return value as Blob;
+}
+
+async function uploadImageFile(
+  file: Blob,
+  targetDir: string,
+  publicPrefix: string
+): Promise<UploadImageResult> {
   if (file.size > MAX_BYTES) {
-    throw new Error("הקובץ גדול מדי (מקסימום 8MB)");
+    return { ok: false, error: "הקובץ גדול מדי (מקסימום 8MB)" };
   }
 
-  const bytes = Buffer.from(await file.arrayBuffer());
+  let bytes: Buffer;
+  try {
+    bytes = Buffer.from(await file.arrayBuffer());
+  } catch {
+    return { ok: false, error: "לא ניתן לקרוא את קובץ התמונה" };
+  }
+
   const detectedMime = detectImageMime(bytes);
   if (!detectedMime || !ALLOWED_TYPES.has(detectedMime)) {
-    throw new Error("סוג קובץ לא נתמך. השתמשו ב-JPG, PNG, WebP או GIF");
+    return { ok: false, error: "סוג קובץ לא נתמך. השתמשו ב-JPG, PNG, WebP או GIF" };
   }
 
   const ext = extForMime(detectedMime);
   const fileName = `img-${Date.now()}-${Math.random().toString(36).slice(2, 10)}${ext}`;
   const diskPath = path.join(targetDir, fileName);
 
-  await mkdir(targetDir, { recursive: true });
-  await writeFile(diskPath, bytes);
+  try {
+    await mkdir(targetDir, { recursive: true });
+    await writeFile(diskPath, bytes);
+  } catch (err) {
+    const detail = err instanceof Error ? err.message : "unknown";
+    console.warn("[uploadMenuImageAction] write failed:", detail);
+    return {
+      ok: false,
+      error: "שמירת התמונה לשרת נכשלה. בדקו הרשאות כתיבה לתיקיית public/images/menu"
+    };
+  }
 
-  return `${publicPrefix}/${fileName}`;
+  return { ok: true, url: `${publicPrefix}/${fileName}` };
 }
 
-export async function uploadMenuImageAction(formData: FormData): Promise<string> {
-  await requireAdmin();
-  const file = formData.get("file");
-  if (!(file instanceof File)) {
-    throw new Error("לא נבחר קובץ תמונה");
+export async function uploadMenuImageAction(formData: FormData): Promise<UploadImageResult> {
+  try {
+    await requireAdmin();
+  } catch (err) {
+    const detail = err instanceof Error ? err.message : "";
+    console.warn("[uploadMenuImageAction] auth failed:", detail);
+    return {
+      ok: false,
+      error: "אין הרשאת אדמין להעלאת תמונה. התחברו מחדש ל־/admin/login"
+    };
   }
+
+  const file = asUploadBlob(formData.get("file"));
+  if (!file) {
+    return { ok: false, error: "לא נבחר קובץ תמונה" };
+  }
+
   return uploadImageFile(file, MENU_IMAGE_DIR, "/images/menu");
 }

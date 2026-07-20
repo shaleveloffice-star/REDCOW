@@ -35,8 +35,15 @@ export const fr: Messages = {
   orderModal: {
     title: "Choisissez votre commande",
     close: "Fermer",
-    pickup: "CLICK & COLLECT",
-    delivery: "LIVRAISON"
+    pickup: "À emporter",
+    delivery: "Livraison"
+  },
+  menuPage: {
+    title: "Notre carte",
+    filterAll: "Tout",
+    empty: "Aucun plat à afficher pour le moment.",
+    viewLocations: "Voir nos adresses",
+    heroAlt: "Plats de la carte NB BURGER"
   },
   locations: {
     findLocal: "Trouver un restaurant",

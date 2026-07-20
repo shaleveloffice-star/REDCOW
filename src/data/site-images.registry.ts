@@ -43,10 +43,10 @@ export const LOCATION_EXTERIOR_IMAGE = "/images/location/exterior.jpg";
 
 export const ABOUT_PAGE_IMAGES = {
   hero: "/images/hero/burger-hero.png",
-  classic: "/images/menu/nb-single-burger.jpg",
-  fries: "/images/menu/nb-single-burger.jpg",
+  classic: "/images/menu/nb-menu-burger.png",
+  fries: "/images/menu/nb-menu-burger.png",
   experience: "/images/hero/nb-burger-hero.jpg",
-  smoked: "/images/menu/smoked-burger.png"
+  smoked: "/images/menu/nb-menu-burger.png"
 } as const;
 
 function item(

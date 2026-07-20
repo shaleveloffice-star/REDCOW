@@ -13,7 +13,7 @@ type HomeMenuShowcaseSectionProps = {
   items: MenuItem[];
 };
 
-const PLACEHOLDER_IMAGE = "/images/menu/placeholder.svg";
+const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
 const NUDGE_INTERVAL_MS = 5000;
 const NUDGE_CLASS = "menu-showcase-rail--nudge";
 

@@ -5,7 +5,7 @@
     "description": "קציצת בקר, חסה, עגבנייה, בצל סגול ורוטב הבית.",
     "price": 58,
     "categoryId": "cat-burgers",
-    "imageUrl": "/videos/menu-nb-classic.mp4",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "מומלץ",
@@ -21,7 +21,7 @@
     "description": "בקר מעושן, גבינה, בצל מקורמל וברביקיו.",
     "price": 66,
     "categoryId": "cat-burgers",
-    "imageUrl": "/images/menu/smoked-burger.png",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "מעושן"
@@ -36,7 +36,7 @@
     "description": "בקר, גבינת צ'דר, חלפיניו, רוטב חריף הבית.",
     "price": 62,
     "categoryId": "cat-burgers",
-    "imageUrl": "/images/menu/nb-single-burger.jpg",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "חריף"
@@ -51,7 +51,7 @@
     "description": "בקר, פטריות מוקפצות, גבינת שווייץ ומיונז טרי.",
     "price": 64,
     "categoryId": "cat-burgers",
-    "imageUrl": "/images/hero/nb-burger-hero.jpg",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "בקר"
@@ -66,7 +66,7 @@
     "description": "שתי קציצות בקר, גבינה כפולה, חסה ומלפפון חמוץ.",
     "price": 78,
     "categoryId": "cat-burgers",
-    "imageUrl": "/images/menu/smoked-burger.png",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "כפול",
@@ -82,7 +82,7 @@
     "description": "שניצל עוף פריך, חסה, מיונז לימון וחלה טרייה.",
     "price": 52,
     "categoryId": "cat-chicken",
-    "imageUrl": "/videos/menu-crispy-chicken.mp4",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "עוף"
@@ -97,7 +97,7 @@
     "description": "קציצת ירקות וקטניות, אבוקדו, עגבנייה ורוטב טחינה.",
     "price": 54,
     "categoryId": "cat-chicken",
-    "imageUrl": "/images/menu/nb-single-burger.jpg",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "צמחוני"
@@ -112,7 +112,7 @@
     "description": "צ'יפס פריך עם תיבול הבית.",
     "price": 22,
     "categoryId": "cat-sides",
-    "imageUrl": "/videos/menu-fries.mp4",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "צמחוני"
@@ -127,7 +127,7 @@
     "description": "בצל בציפוי פריך, מוגש עם רוטב שום.",
     "price": 26,
     "categoryId": "cat-sides",
-    "imageUrl": "/images/menu/nb-single-burger.jpg",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [],
     "sortOrder": 2,
@@ -140,7 +140,7 @@
     "description": "כרוב לבן ואדום ברוטב קרמי קליל.",
     "price": 16,
     "categoryId": "cat-sides",
-    "imageUrl": "/images/hero/nb-burger-hero.jpg",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "צמחוני"
@@ -155,7 +155,7 @@
     "description": "צ'יפס עם גבינה מותכת, בצל טיגון פריך וירקות טריים.",
     "price": 36,
     "categoryId": "cat-sides",
-    "imageUrl": "/images/menu/nb-single-burger.jpg",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "מומלץ"
@@ -170,7 +170,7 @@
     "description": "לימונדה קרה וסחוטה.",
     "price": 14,
     "categoryId": "cat-drinks",
-    "imageUrl": "/images/site/nb_burger_drink_80kb-1779540981150.jpg",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [],
     "sortOrder": 1,
@@ -183,7 +183,7 @@
     "description": "קולה / זירו / ספרייט — בקבוק 500 מ\"ל.",
     "price": 12,
     "categoryId": "cat-drinks",
-    "imageUrl": "/images/brand/nb-burger-logo.png",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [],
     "sortOrder": 2,
@@ -196,7 +196,7 @@
     "description": "וניל, שוקולד או תות — עם קצפת.",
     "price": 28,
     "categoryId": "cat-drinks",
-    "imageUrl": "/images/hero/burger-hero.png",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "מומלץ"
@@ -211,7 +211,7 @@
     "description": "קפה קר מחולץ לאט, מוגש על קרח.",
     "price": 18,
     "categoryId": "cat-drinks",
-    "imageUrl": "/images/brand/nb-burger-logo.png",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [],
     "sortOrder": 4,
@@ -224,7 +224,7 @@
     "description": "נגטס עוף פריכים, מוגשות עם רוטב לבחירה.",
     "price": 28,
     "categoryId": "cat-sides",
-    "imageUrl": "/videos/menu-nuggets.mp4",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": true,
     "tags": [
       "עוף"
@@ -239,7 +239,7 @@
     "description": "",
     "price": 0,
     "categoryId": "cat-burgers",
-    "imageUrl": "/images/menu/-NB-BURGER-1782572822256.png",
+    "imageUrl": "/images/menu/nb-menu-burger.png",
     "isActive": false,
     "tags": [],
     "sortOrder": 17,

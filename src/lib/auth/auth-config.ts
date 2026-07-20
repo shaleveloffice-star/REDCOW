@@ -146,10 +146,11 @@ export function getAdminAuthEnvDiagnostics(): EnvVarCheck[] {
 export function logAdminAuthEnvDiagnostics(reason: string) {
   const checks = getAdminAuthEnvDiagnostics();
   const summary = checks.map((c) => `${c.name}=${c.status}${c.hint ? `(${c.hint})` : ""}`);
-  console.error(`[AdminAuth] config diagnostics (${reason}):`, summary.join(", "));
   const failed = checks.filter((c) => c.status !== "ok").map((c) => c.name);
+  const log = process.env.NODE_ENV === "production" ? console.error : console.warn;
+  log(`[AdminAuth] config diagnostics (${reason}):`, summary.join(", "));
   if (failed.length > 0) {
-    console.error(`[AdminAuth] failing env vars: ${failed.join(", ")}`);
+    log(`[AdminAuth] failing env vars: ${failed.join(", ")}`);
   }
 }
 

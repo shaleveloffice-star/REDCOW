@@ -22,7 +22,7 @@ function newMenuItem(categories: MenuCategory[], items: MenuItem[]): MenuItem {
     description: "",
     price: 0,
     categoryId: categories[0]?.id ?? "",
-    imageUrl: "/images/menu/placeholder.svg",
+    imageUrl: "/images/menu/nb-menu-burger.png",
     isActive: true,
     tags: [],
     sortOrder: items.length + 1,
@@ -100,10 +100,17 @@ export function AdminMenuTable({
     try {
       const formData = new FormData();
       formData.append("file", file);
-      const imageUrl = await uploadMenuImageAction(formData);
-      setDraft({ ...draft, imageUrl });
+      const result = await uploadMenuImageAction(formData);
+      if (!result.ok) {
+        setError(result.error);
+        return;
+      }
+      setDraft({ ...draft, imageUrl: result.url });
     } catch (err) {
-      const message = err instanceof Error ? err.message : "העלאת התמונה נכשלה";
+      const message =
+        err instanceof Error && err.message && !err.message.includes("digest")
+          ? err.message
+          : "העלאת התמונה נכשלה. נסו שוב או רעננו את הדף.";
       setError(message);
     } finally {
       setUploadingImage(false);

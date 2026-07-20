@@ -35,8 +35,15 @@ export const en: Messages = {
   orderModal: {
     title: "Choose how to order",
     close: "Close",
-    pickup: "CLICK & COLLECT",
-    delivery: "DELIVERY"
+    pickup: "Click & Collect",
+    delivery: "Delivery"
+  },
+  menuPage: {
+    title: "Our Menu",
+    filterAll: "All",
+    empty: "No dishes to show right now.",
+    viewLocations: "View Our Locations",
+    heroAlt: "Dishes from the NB BURGER menu"
   },
   locations: {
     findLocal: "FIND MY LOCAL",

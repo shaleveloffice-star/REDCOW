@@ -2,7 +2,7 @@
 
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
 
-const MENU_VIDEO_POSTER = "/images/menu/placeholder.svg";
+const MENU_VIDEO_POSTER = "/images/menu/nb-menu-burger.png";
 
 type MenuAutoplayMediaProps = {
   src: string;

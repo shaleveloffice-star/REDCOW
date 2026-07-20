@@ -40,6 +40,13 @@ export type Messages = {
     pickup: string;
     delivery: string;
   };
+  menuPage: {
+    title: string;
+    filterAll: string;
+    empty: string;
+    viewLocations: string;
+    heroAlt: string;
+  };
   locations: {
     findLocal: string;
     ourLocations: string;

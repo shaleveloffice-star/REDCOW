@@ -3,6 +3,7 @@ import { Archivo_Black, Assistant } from "next/font/google";
 import "./globals.css";
 import "./homepage-ds.css";
 import "./locations-page.css";
+import "./menu-page.css";
 
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { LocaleProvider } from "@/components/providers/locale-provider";

@@ -1,104 +1,186 @@
+"use client";
+
 import Image from "next/image";
 import Link from "next/link";
+import { useMemo, useState } from "react";
 
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
-import { BUSINESS } from "@/data/business";
-import { getServerLocale } from "@/i18n/get-locale";
+import { OrderModal } from "@/components/layout/order-modal";
+import {
+  IconBurgerMark,
+  IconDeliveryMark,
+  IconLocationPinFilled
+} from "@/components/shared/site-icons";
+import { AutoplayVideo } from "@/components/shared/autoplay-video";
+import {
+  HERO_DEFAULT_POSTER_URL,
+  HERO_DEFAULT_VIDEO_URL
+} from "@/data/site-images.registry";
+import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
-import { getMessages } from "@/i18n/messages";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
+type MenuGroup = MenuCategory & { items: MenuItem[] };
+
 type MenuPageViewProps = {
-  groups: Array<MenuCategory & { items: MenuItem[] }>;
+  groups: MenuGroup[];
+  pickupUrl: string;
+  deliveryUrl: string;
 };
 
-export async function MenuPageView({ groups }: MenuPageViewProps) {
-  const locale = await getServerLocale();
-  const t = getMessages(locale);
+function formatPrice(price: number, locale: string) {
+  if (locale === "he") {
+    return `${price} ₪`;
+  }
+  return `${price}`;
+}
+
+function isBurgersGroup(group: MenuGroup) {
+  return group.slug === "burgers" || group.id === "cat-burgers";
+}
+
+function MenuItemsGrid({
+  items,
+  large,
+  locale
+}: {
+  items: MenuItem[];
+  large: boolean;
+  locale: "he" | "en" | "fr";
+}) {
+  if (items.length === 0) return null;
 
   return (
-    <>
-      <header className="menu-page-intro menu-highlights-shell">
-        <p className="menu-highlights-kicker">Menu</p>
-        <h1 className="menu-page-hero-title">
-          {`תפריט המבורגרים ב${BUSINESS.address.addressLocality}`}
-        </h1>
-        <p className="menu-page-lede">
-          {`בחרו את ההמבורגר הבא שלכם מתוך התפריט של ${BUSINESS.name} – עם מנות שמוכנות על הפלנצ׳ה ותוספות שמשלימות כל ביס.`}
-        </p>
-        <div className="menu-page-intro-actions">
-          <Link className="menu-showcase-button menu-page-back" href="/">
-            {t.nav.home}
-          </Link>
-          <Link className="menu-showcase-button menu-page-back" href="/branches">
-            {`פרטי הסניף וניווט ל-${BUSINESS.name} ${BUSINESS.address.addressLocality}`}
-          </Link>
-        </div>
-      </header>
-
-      {groups.length === 0 ? (
-        <p className="menu-page-empty">{t.menuShowcase.lead}</p>
-      ) : (
-        <div className="menu-page-body menu-highlights-shell">
-          {groups.map((category) => (
-            <section
-              key={category.id}
-              className="menu-page-category"
-              id={category.slug}
-              aria-labelledby={`menu-cat-${category.id}`}
-            >
-              <div className="menu-page-category-head">
-                <h2 id={`menu-cat-${category.id}`}>{category.name}</h2>
-                {category.description ? (
-                  <p className="menu-page-category-desc">{category.description}</p>
-                ) : null}
+    <ul className={`menu-bleecker-grid${large ? " menu-bleecker-grid--burgers" : ""}`}>
+      {items.map((item) => {
+        const localized = getLocalizedMenuItem(item, locale);
+        return (
+          <li key={item.id}>
+            <article className="menu-bleecker-card">
+              <div className="menu-bleecker-card-media">
+                {isVideoMediaUrl(item.imageUrl) ? (
+                  <MenuAutoplayMedia src={item.imageUrl} name={localized.name} />
+                ) : (
+                  <Image
+                    src={item.imageUrl}
+                    alt={localized.name}
+                    width={480}
+                    height={480}
+                    sizes={large ? "(max-width: 700px) 50vw, 33vw" : "(max-width: 700px) 50vw, 25vw"}
+                    loading="lazy"
+                    className="menu-bleecker-card-image"
+                  />
+                )}
               </div>
-              <ul className="menu-page-grid">
-                {category.items.map((item) => {
-                  const localized = getLocalizedMenuItem(item, locale);
+              <h2 className="menu-bleecker-card-name">{localized.name}</h2>
+              <p className="menu-bleecker-card-price">{formatPrice(item.price, locale)}</p>
+            </article>
+          </li>
+        );
+      })}
+    </ul>
+  );
+}
 
-                  return (
-                    <li key={item.id}>
-                      <article className="menu-page-dish">
-                        <div className="menu-page-dish-head">
-                          <h3>{localized.name}</h3>
-                          <p>{localized.description}</p>
-                        </div>
-                        <div className="menu-page-dish-visual">
-                          {isVideoMediaUrl(item.imageUrl) ? (
-                            <MenuAutoplayMedia src={item.imageUrl} name={localized.name} />
-                          ) : (
-                            <Image
-                              alt={localized.name}
-                              src={item.imageUrl}
-                              width={400}
-                              height={300}
-                              sizes="(max-width: 767px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                              loading="lazy"
-                              decoding="async"
-                            />
-                          )}
-                        </div>
-                        <div className="menu-page-dish-foot">
-                          {item.tags.length > 0 ? (
-                            <ul className="menu-page-tags" aria-label="תגיות">
-                              {item.tags.map((tag) => (
-                                <li key={tag}>{tag}</li>
-                              ))}
-                            </ul>
-                          ) : null}
-                          <strong className="menu-page-dish-price">{item.price} ₪</strong>
-                        </div>
-                      </article>
-                    </li>
-                  );
-                })}
-              </ul>
-            </section>
+export function MenuPageView({ groups, pickupUrl, deliveryUrl }: MenuPageViewProps) {
+  const t = useTranslations();
+  const { locale } = useLocale();
+  const [activeCategoryId, setActiveCategoryId] = useState<string>("all");
+  const [orderOpen, setOrderOpen] = useState(false);
+
+  const visibleGroups = useMemo(() => {
+    if (activeCategoryId === "all") {
+      return groups.filter((group) => group.items.length > 0);
+    }
+    const group = groups.find((entry) => entry.id === activeCategoryId);
+    return group && group.items.length > 0 ? [group] : [];
+  }, [activeCategoryId, groups]);
+
+  const deliveryExternal = deliveryUrl.startsWith("http");
+  const isEmpty = visibleGroups.length === 0;
+
+  return (
+    <div className="menu-bleecker">
+      <div className="menu-bleecker-hero">
+        <AutoplayVideo
+          className="menu-bleecker-hero-video"
+          src={HERO_DEFAULT_VIDEO_URL}
+          poster={HERO_DEFAULT_POSTER_URL}
+          aria-label={t.menuPage.heroAlt}
+        />
+      </div>
+
+      <div className="menu-bleecker-toolbar">
+        <h1 className="menu-bleecker-title">{t.menuPage.title}</h1>
+      </div>
+
+      <div className="menu-bleecker-filters" role="tablist" aria-label={t.menuPage.title}>
+        <button
+          type="button"
+          role="tab"
+          aria-selected={activeCategoryId === "all"}
+          className={`menu-bleecker-filter${activeCategoryId === "all" ? " is-active" : ""}`}
+          onClick={() => setActiveCategoryId("all")}
+        >
+          {t.menuPage.filterAll}
+        </button>
+        {groups.map((group) => (
+          <button
+            key={group.id}
+            type="button"
+            role="tab"
+            aria-selected={activeCategoryId === group.id}
+            className={`menu-bleecker-filter${activeCategoryId === group.id ? " is-active" : ""}`}
+            onClick={() => setActiveCategoryId(group.id)}
+          >
+            {group.name}
+          </button>
+        ))}
+      </div>
+
+      {isEmpty ? (
+        <p className="menu-bleecker-empty">{t.menuPage.empty}</p>
+      ) : (
+        <div className="menu-bleecker-sections">
+          {visibleGroups.map((group) => (
+            <MenuItemsGrid
+              key={group.id}
+              items={group.items}
+              large={isBurgersGroup(group)}
+              locale={locale}
+            />
           ))}
         </div>
       )}
-    </>
+
+      <section className="menu-bleecker-ctas" aria-label={t.orderModal.title}>
+        <button type="button" className="menu-bleecker-cta" onClick={() => setOrderOpen(true)}>
+          <IconBurgerMark className="menu-bleecker-cta-icon" />
+          <span>{t.orderModal.pickup}</span>
+        </button>
+
+        <a
+          className="menu-bleecker-cta"
+          href={deliveryUrl}
+          {...(deliveryExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+        >
+          <IconDeliveryMark className="menu-bleecker-cta-icon" />
+          <span>{t.orderModal.delivery}</span>
+        </a>
+
+        <Link className="menu-bleecker-cta" href="/locations">
+          <IconLocationPinFilled className="menu-bleecker-cta-icon" />
+          <span>{t.menuPage.viewLocations}</span>
+        </Link>
+      </section>
+
+      <OrderModal
+        open={orderOpen}
+        onClose={() => setOrderOpen(false)}
+        pickupUrl={pickupUrl}
+        deliveryUrl={deliveryUrl}
+      />
+    </div>
   );
 }

@@ -35,8 +35,15 @@ export const he: Messages = {
   orderModal: {
     title: "בחרו אופן הזמנה",
     close: "סגור",
-    pickup: "CLICK & COLLECT",
-    delivery: "DELIVERY"
+    pickup: "איסוף עצמי",
+    delivery: "משלוח"
+  },
+  menuPage: {
+    title: "התפריט שלנו",
+    filterAll: "הכל",
+    empty: "אין מנות להצגה כרגע.",
+    viewLocations: "הסניפים שלנו",
+    heroAlt: "מנות מתוך תפריט NB BURGER"
   },
   locations: {
     findLocal: "מצא סניף",

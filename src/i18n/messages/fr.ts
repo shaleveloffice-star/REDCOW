@@ -39,10 +39,12 @@ export const fr: Messages = {
     delivery: "LIVRAISON"
   },
   locations: {
-    findLocal: "FIND MY LOCAL",
-    ourLocations: "OUR LOCATIONS",
+    findLocal: "Trouver un restaurant",
+    ourLocations: "Nos restaurants",
     mapTitle: "Carte des restaurants NB BURGER",
     navigate: "Itinéraire",
+    deliveryZonesTitle: "Zones de livraison",
+    deliveryZones: ["Hod Hasharon", "Kfar Saba", "Ra'anana"],
     backHome: "Retour à l'accueil"
   },
   menuShowcase: {

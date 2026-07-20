@@ -6,10 +6,8 @@ import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-sh
 import { HomePlaceholderSection } from "@/components/features/home/home-placeholder-section";
 import { HomeShortTour } from "@/components/features/home/home-short-tour";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
-  getCachedActiveOrderLinks,
   getCachedHomepageMenu,
   getCachedSettings,
   getCachedSiteImagesMap
@@ -77,9 +75,8 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function HomePage() {
-  const [settings, orderLinks, siteImages, homepageMenuItems] = await Promise.all([
+  const [settings, siteImages, homepageMenuItems] = await Promise.all([
     getCachedSettings(),
-    getCachedActiveOrderLinks(),
     getCachedSiteImagesMap(),
     getCachedHomepageMenu()
   ]);
@@ -87,11 +84,6 @@ export default async function HomePage() {
   return (
     <>
       <JsonLd data={buildRestaurantJsonLd()} />
-      <SiteHeader
-        overlay
-        orderUrl={orderLinks[0]?.url ?? "#location"}
-        orderLinks={orderLinks}
-      />
       <main id="main-content">
         <HeroSection settings={settings} />
         <HomePlaceholderSection />

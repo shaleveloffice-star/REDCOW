@@ -39,10 +39,12 @@ export const he: Messages = {
     delivery: "DELIVERY"
   },
   locations: {
-    findLocal: "FIND MY LOCAL",
-    ourLocations: "OUR LOCATIONS",
+    findLocal: "מצא סניף",
+    ourLocations: "הסניפים שלנו",
     mapTitle: "מפת סניפי NB BURGER",
     navigate: "ניווט",
+    deliveryZonesTitle: "מיקומי משלוחים",
+    deliveryZones: ["הוד השרון", "כפר סבא", "רעננה"],
     backHome: "חזרה לדף הבית"
   },
   menuShowcase: {

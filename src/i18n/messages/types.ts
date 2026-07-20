@@ -45,6 +45,8 @@ export type Messages = {
     ourLocations: string;
     mapTitle: string;
     navigate: string;
+    deliveryZonesTitle: string;
+    deliveryZones: string[];
     backHome: string;
   };
   menuShowcase: {

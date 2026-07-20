@@ -3,8 +3,9 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { IconLocationPinFilled } from "@/components/shared/site-icons";
+import { LocationsMap } from "@/components/features/locations/locations-map";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
+import { PLANCHA_BURGERS_IMAGE } from "@/data/site-images.registry";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import type { Branch } from "@/types/content";
 
@@ -20,17 +21,24 @@ type LocationCard = {
   hours: string;
   mapsUrl: string;
   image: string;
+  lat: number;
+  lng: number;
 };
+
+/** Default pin: Ahuza 96, Ra'anana */
+const DEFAULT_COORDS = { lat: 32.1849, lng: 34.8709 };
 
 function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "en" | "fr"): LocationCard[] {
   if (branches.length > 0) {
-    return branches.map((branch) => ({
+    return branches.map((branch, index) => ({
       id: branch.id,
       name: branch.name,
       address: `${branch.address}, ${branch.city}`,
       hours: branch.openingHours,
       mapsUrl: branch.wazeUrl || getBusinessMapsSearchUrl(),
-      image: exteriorImage
+      image: exteriorImage,
+      lat: DEFAULT_COORDS.lat + index * 0.008,
+      lng: DEFAULT_COORDS.lng + index * 0.008
     }));
   }
 
@@ -44,9 +52,16 @@ function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "e
           : locale === "fr"
             ? BUSINESS.address.formatted.fr
             : BUSINESS.address.formatted.en,
-      hours: `א׳–ה׳ ${BUSINESS.displayHours.weekday} · שבת ${BUSINESS.displayHours.saturday}`,
+      hours:
+        locale === "he"
+          ? `א׳–ה׳ ${BUSINESS.displayHours.weekday} · שבת ${BUSINESS.displayHours.saturday}`
+          : locale === "fr"
+            ? `Dim–Jeu ${BUSINESS.displayHours.weekday} · Sam ${BUSINESS.displayHours.saturday}`
+            : `Sun–Thu ${BUSINESS.displayHours.weekday} · Sat ${BUSINESS.displayHours.saturday}`,
       mapsUrl: getBusinessMapsSearchUrl(),
-      image: exteriorImage
+      image: exteriorImage,
+      lat: DEFAULT_COORDS.lat,
+      lng: DEFAULT_COORDS.lng
     }
   ];
 }
@@ -55,33 +70,17 @@ export function LocationsPageView({ branches, exteriorImage }: LocationsPageView
   const t = useTranslations();
   const { locale } = useLocale();
   const cards = buildCards(branches, exteriorImage, locale);
-  const mapEmbedSrc = `https://maps.google.com/maps?q=${encodeURIComponent(
-    BUSINESS.address.mapsSearchQuery
-  )}&hl=${locale}&z=15&output=embed`;
+  const mapPoints = cards.map((card) => ({
+    id: card.id,
+    name: card.name,
+    lat: card.lat,
+    lng: card.lng
+  }));
 
   return (
     <div className="locations-page">
-      <div className="locations-toolbar">
-        <div className="locations-toolbar-title">
-          <IconLocationPinFilled className="locations-toolbar-pin" />
-          <span>{t.locations.findLocal}</span>
-        </div>
-      </div>
-
       <div className="locations-map-wrap">
-        <iframe
-          className="locations-map"
-          title={t.locations.mapTitle}
-          src={mapEmbedSrc}
-          loading="lazy"
-          referrerPolicy="no-referrer-when-downgrade"
-          allowFullScreen
-        />
-        <div className="locations-map-marker" aria-hidden="true">
-          <span className="locations-map-marker-pin">
-            <span className="locations-map-marker-dot" />
-          </span>
-        </div>
+        <LocationsMap points={mapPoints} />
       </div>
 
       <section className="locations-list" aria-labelledby="locations-heading">
@@ -116,6 +115,28 @@ export function LocationsPageView({ branches, exteriorImage }: LocationsPageView
             </li>
           ))}
         </ul>
+
+        <div className="locations-delivery">
+          <h2 className="locations-list-title">{t.locations.deliveryZonesTitle}</h2>
+          <ul className="locations-delivery-grid">
+            {t.locations.deliveryZones.map((city) => (
+              <li key={city}>
+                <article className="locations-delivery-tile">
+                  <Image
+                    src={PLANCHA_BURGERS_IMAGE}
+                    alt=""
+                    fill
+                    sizes="(max-width: 900px) 100vw, 33vw"
+                    className="locations-delivery-tile-image"
+                  />
+                  <span className="locations-delivery-tile-scrim" aria-hidden="true" />
+                  <h3 className="locations-delivery-tile-name">{city}</h3>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </div>
+
         <p className="locations-back">
           <Link href="/">{t.locations.backHome}</Link>
         </p>

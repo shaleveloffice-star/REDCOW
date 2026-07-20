@@ -4,10 +4,12 @@ import "./globals.css";
 import "./homepage-ds.css";
 import "./locations-page.css";
 
+import { SiteChrome } from "@/components/layout/site-chrome";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { SkipToContent } from "@/components/layout/skip-to-content";
 import { getDirection } from "@/i18n/config";
 import { getServerLocale } from "@/i18n/get-locale";
+import { getCachedActiveOrderLinks } from "@/lib/cache/cached-data";
 import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 const assistant = Assistant({
@@ -60,7 +62,10 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getServerLocale();
+  const [locale, orderLinks] = await Promise.all([
+    getServerLocale(),
+    getCachedActiveOrderLinks()
+  ]);
   const dir = getDirection(locale);
 
   return (
@@ -68,7 +73,7 @@ export default async function RootLayout({
       <body className={`${assistant.variable} ${archivoBlack.variable} ${assistant.className}`}>
         <LocaleProvider initialLocale={locale}>
           <SkipToContent />
-          {children}
+          <SiteChrome orderLinks={orderLinks}>{children}</SiteChrome>
         </LocaleProvider>
       </body>
     </html>

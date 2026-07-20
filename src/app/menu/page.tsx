@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 
 import { MenuPageView } from "@/components/features/menu/menu-page-view";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getCachedMenuForDisplay } from "@/lib/cache/cached-data";
 import { buildPageMetadata } from "@/lib/seo";
@@ -21,7 +20,6 @@ export default async function MenuPage() {
   return (
     <>
       <JsonLd data={buildMenuJsonLd(groups)} />
-      <SiteHeader />
       <main id="main-content" className="menu-page" dir="rtl">
         <div className="menu-page-inner page-shell section inner-page">
           <MenuPageView groups={groups} />

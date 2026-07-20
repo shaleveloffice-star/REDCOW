@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
 import { BUSINESS } from "@/data/business";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -138,7 +137,6 @@ const termsSections: TermsSection[] = [
 export default function TermsPage() {
   return (
     <>
-      <SiteHeader />
       <main id="main-content" className="legal-page">
         <article className="legal-document">
           <p className="legal-kicker">עודכן לאחרונה: 27/05/2026</p>

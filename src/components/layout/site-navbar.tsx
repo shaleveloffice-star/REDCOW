@@ -12,7 +12,7 @@ import {
 } from "@/components/shared/site-icons";
 import { SITE_WORDMARK_SRC, SITE_WORDMARK_WEBP_SRC } from "@/data/brand-assets";
 import { BUSINESS } from "@/data/business";
-import { useTranslations } from "@/components/providers/locale-provider";
+import { useTranslations, useLocale } from "@/components/providers/locale-provider";
 import { focusElement, getFocusableElements, trapFocus } from "@/lib/a11y/focus-trap";
 import type { OrderLink } from "@/types/content";
 
@@ -78,6 +78,8 @@ export function SiteNavbar({
   orderLinks = []
 }: SiteNavbarProps) {
   const t = useTranslations();
+  const { locale } = useLocale();
+  const stackLanguageSwitcher = locale === "fr";
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isOrderOpen, setIsOrderOpen] = useState(false);
@@ -165,10 +167,18 @@ export function SiteNavbar({
   const navClass = [
     "site-navbar",
     overlay ? "site-navbar--overlay" : "",
-    isScrolled ? "site-navbar--scrolled" : ""
+    isScrolled ? "site-navbar--scrolled" : "",
+    stackLanguageSwitcher ? "site-navbar--lang-stack" : ""
   ]
     .filter(Boolean)
     .join(" ");
+
+  const languageSwitcher =
+    !overlay ? (
+      <div className="site-navbar-language">
+        <LanguageSwitcher />
+      </div>
+    ) : null;
 
   return (
     <>
@@ -238,11 +248,7 @@ export function SiteNavbar({
             />
 
             <div className="site-navbar-actions">
-              {!overlay ? (
-                <div className="site-navbar-language">
-                  <LanguageSwitcher />
-                </div>
-              ) : null}
+              {!stackLanguageSwitcher ? languageSwitcher : null}
               <button
                 ref={toggleRef}
                 type="button"
@@ -264,6 +270,8 @@ export function SiteNavbar({
               </button>
             </div>
           </div>
+
+          {stackLanguageSwitcher ? languageSwitcher : null}
         </nav>
       </header>
 

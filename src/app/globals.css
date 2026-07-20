@@ -1021,6 +1021,20 @@ select {
   margin-inline-start: 8px;
 }
 
+.site-navbar--lang-stack .site-navbar-inner {
+  flex-wrap: wrap;
+  gap: 12px 32px;
+  padding-bottom: 14px;
+}
+
+.site-navbar--lang-stack .site-navbar-language {
+  flex: 1 0 100%;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0;
+}
+
 .site-cta--mobile {
   position: fixed;
   left: 0;

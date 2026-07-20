@@ -5,95 +5,71 @@
   color: #ffffff;
 }
 
-.locations-toolbar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: min(1200px, calc(100% - 40px));
-  margin: 0 auto;
-  padding: 110px 0 16px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.85);
-}
-
-.locations-toolbar-title {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-family: var(--font-archivo-black-stack);
-  font-size: clamp(14px, 2vw, 18px);
-  font-weight: 400;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-}
-
-.locations-toolbar-pin {
-  width: 18px;
-  height: 18px;
-}
-
 .locations-map-wrap {
   position: relative;
   width: 100%;
-  height: min(52vh, 520px);
+  height: min(62vh, 640px);
+  margin-top: 72px;
   overflow: hidden;
-  background: #111;
+  background: #0a0a0a;
 }
 
 .locations-map {
   width: 100%;
-  height: 120%;
-  margin-top: -10%;
-  border: 0;
-  filter: grayscale(1) invert(0.92) contrast(0.95) brightness(0.95);
-  pointer-events: auto;
+  height: 100%;
+  background: #0a0a0a;
 }
 
-.locations-map-marker {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  pointer-events: none;
+.locations-map .leaflet-control-attribution {
+  background: rgba(0, 0, 0, 0.55) !important;
+  color: rgba(255, 255, 255, 0.55) !important;
+  font-size: 10px;
 }
 
-.locations-map-marker-pin {
+.locations-map .leaflet-control-attribution a {
+  color: rgba(255, 255, 255, 0.7) !important;
+}
+
+.locations-map .leaflet-bar a {
+  background: #111 !important;
+  color: #fff !important;
+  border-bottom-color: #333 !important;
+}
+
+.locations-leaflet-pin {
+  background: transparent !important;
+  border: 0 !important;
+}
+
+.locations-leaflet-pin-shape {
   position: relative;
-  width: 42px;
-  height: 56px;
+  display: block;
+  width: 36px;
+  height: 48px;
   background: #ffffff;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.45);
 }
 
-.locations-map-marker-dot {
+.locations-leaflet-pin-core {
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 18px;
-  height: 18px;
+  display: grid;
+  place-items: center;
+  width: 20px;
+  height: 20px;
   border-radius: 50%;
   background: #000000;
+  box-sizing: border-box;
   transform: translate(-50%, -50%) rotate(45deg);
 }
 
-.locations-map-marker-dot::before,
-.locations-map-marker-dot::after {
-  content: "";
-  position: absolute;
-  left: 4px;
-  right: 4px;
-  height: 2px;
-  background: #ffffff;
-}
-
-.locations-map-marker-dot::before {
-  top: 5px;
-}
-
-.locations-map-marker-dot::after {
-  top: 9px;
-  box-shadow: 0 4px 0 #ffffff;
+.locations-leaflet-burger {
+  display: block;
+  width: 14px;
+  height: 14px;
 }
 
 .locations-list {
@@ -171,6 +147,55 @@
   opacity: 0.7;
 }
 
+.locations-delivery {
+  margin-top: 64px;
+}
+
+.locations-delivery-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.locations-delivery-tile {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  border-radius: 16px;
+  background: #1a1a1a;
+}
+
+.locations-delivery-tile-image {
+  object-fit: cover;
+}
+
+.locations-delivery-tile-scrim {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: rgba(0, 0, 0, 0.48);
+  pointer-events: none;
+}
+
+.locations-delivery-tile-name {
+  position: relative;
+  z-index: 2;
+  margin: 0;
+  padding: 16px;
+  color: #ffffff;
+  font-family: var(--font-assistant-stack, var(--font-body));
+  font-size: clamp(22px, 2.8vw, 32px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-align: center;
+  line-height: 1.2;
+}
+
 .locations-back {
   margin: 40px 0 0;
 }
@@ -186,15 +211,13 @@
 }
 
 @media (max-width: 900px) {
-  .locations-grid {
+  .locations-grid,
+  .locations-delivery-grid {
     grid-template-columns: 1fr;
   }
 
-  .locations-toolbar {
-    padding-top: 96px;
-  }
-
   .locations-map-wrap {
+    margin-top: 64px;
     height: 42vh;
   }
 }
@@ -322,6 +345,12 @@
   align-items: center;
   gap: 6px;
   margin-inline-start: 4px;
+}
+
+@media (min-width: 768px) {
+  .site-navbar-icons {
+    display: none;
+  }
 }
 
 .site-navbar-icon-btn {

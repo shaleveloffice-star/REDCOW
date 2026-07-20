@@ -43,6 +43,8 @@ export const en: Messages = {
     ourLocations: "OUR LOCATIONS",
     mapTitle: "NB BURGER locations map",
     navigate: "Navigate",
+    deliveryZonesTitle: "Delivery areas",
+    deliveryZones: ["Hod Hasharon", "Kfar Saba", "Ra'anana"],
     backHome: "Back to home"
   },
   menuShowcase: {

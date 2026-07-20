@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
 import { BUSINESS } from "@/data/business";
 import { buildPageMetadata } from "@/lib/seo";
 
@@ -349,7 +348,6 @@ const privacySections = [
 export default function PrivacyPolicyPage() {
   return (
     <>
-      <SiteHeader />
       <main id="main-content" className="legal-page">
         <article className="legal-document">
           <p className="legal-kicker">תאריך עדכון אחרון: מרץ 2026</p>

@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { BranchesPageView } from "@/components/features/branches/branches-page-view";
 import { SiteFooter } from "@/components/layout/site-footer";
-import { SiteHeader } from "@/components/layout/site-header";
 import { BUSINESS } from "@/data/business";
 import { listBranches } from "@/services/branches.service";
 import { buildPageMetadata } from "@/lib/seo";
@@ -18,7 +17,6 @@ export default async function BranchesPage() {
 
   return (
     <>
-      <SiteHeader />
       <main id="main-content" className="branches-page" dir="rtl">
         <div className="page-shell section inner-page branches-page-inner">
           <header className="branches-page-intro menu-highlights-shell">

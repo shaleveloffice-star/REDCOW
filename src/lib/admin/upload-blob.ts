@@ -51,16 +51,21 @@ function resolvePutAuth(): PutAuth | { mode: "missing"; error: string } {
   const rwToken = getReadWriteToken();
   const onVercel = process.env.VERCEL === "1";
 
-  // Production / Preview on Vercel: always bind to the PUBLIC store by ID via OIDC.
-  // Do not use a leftover private-store BLOB_READ_WRITE_TOKEN here.
+  // Production / Preview on Vercel: bind to the PUBLIC store by ID via OIDC first.
+  // OIDC + BLOB_STORE_ID targets nbburger-blob (Access: Public) and avoids any
+  // leftover private-store token that might still be named BLOB_READ_WRITE_TOKEN.
   if (onVercel) {
     if (storeId && oidcToken) {
       return { mode: "oidc", storeId, oidcToken };
     }
+    // Same public store's RW token (injected when the public store is connected).
+    if (rwToken) {
+      return { mode: "token", token: rwToken };
+    }
     return {
       mode: "missing",
       error:
-        "Vercel Blob (public) לא מוגדר בשרת. ודאו ש-store הציבורי מחובר לפרויקט (BLOB_STORE_ID=store_YtiRgyBGU1IPJyak) ו-OIDC פעיל."
+        "Vercel Blob (public) לא מוגדר בשרת. ודאו ש-store הציבורי מחובר לפרויקט (BLOB_STORE_ID=store_YtiRgyBGU1IPJyak) ו-OIDC / BLOB_READ_WRITE_TOKEN פעילים."
     };
   }
 

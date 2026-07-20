@@ -89,12 +89,15 @@ export async function saveMenuItemAction(input: MenuItem): Promise<SaveMenuItemR
   } catch (err) {
     const detail = err instanceof Error ? err.message : "unknown";
     console.warn("[saveMenuItemAction]", detail);
-    return {
-      ok: false,
-      error: detail.includes("OneDrive") || detail.includes("דיסק")
-        ? detail
-        : "שמירת המנה נכשלה. נסו שוב."
-    };
+
+    // Surface the real reason — generic "נסה שוב" hid Firestore/Storage failures.
+    if (/Firebase|Firestore|Storage|Admin|הרשאה|תמונ|מחיר|שם|OneDrive|דיסק|גדול/i.test(detail)) {
+      return { ok: false, error: detail };
+    }
+    if (detail.length > 0 && detail.length < 280) {
+      return { ok: false, error: `שמירת המנה נכשלה: ${detail}` };
+    }
+    return { ok: false, error: "שמירת המנה נכשלה. נסו שוב." };
   }
 }
 

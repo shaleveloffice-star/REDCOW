@@ -76,6 +76,16 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: "media.base44.com",
         pathname: "/images/**"
+      },
+      {
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
+        pathname: "/v0/b/**"
+      },
+      {
+        protocol: "https",
+        hostname: "storage.googleapis.com",
+        pathname: "/**"
       }
     ]
   },

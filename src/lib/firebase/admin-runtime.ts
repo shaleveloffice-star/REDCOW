@@ -13,7 +13,7 @@ type AdminAppModule = {
     privateKey: string;
   }) => Credential;
   getApps: () => App[];
-  initializeApp: (options: { credential: Credential }) => App;
+  initializeApp: (options: { credential: Credential; storageBucket?: string }) => App;
 };
 
 type AdminModules = {
@@ -65,8 +65,13 @@ export async function getAdminApp(): Promise<App | null> {
       return cachedApp;
     }
 
+    const storageBucket =
+      process.env.FIREBASE_STORAGE_BUCKET?.trim() ||
+      process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET?.trim();
+
     cachedApp = app.initializeApp({
-      credential: app.cert({ projectId, clientEmail, privateKey })
+      credential: app.cert({ projectId, clientEmail, privateKey }),
+      ...(storageBucket ? { storageBucket } : {})
     });
     return cachedApp;
   } catch (error) {

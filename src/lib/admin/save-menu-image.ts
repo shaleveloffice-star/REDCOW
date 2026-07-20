@@ -4,6 +4,9 @@ import { access, mkdir, writeFile } from "fs/promises";
 import { constants as fsConstants } from "fs";
 import path from "path";
 
+import { uploadMenuImageToFirebaseStorage } from "@/lib/firebase/admin-storage";
+import { isFirebaseAdminConfigured } from "@/lib/firebase/admin-runtime";
+
 /** Durable local store for admin-uploaded menu images. */
 export const MENU_UPLOAD_DATA_DIR = path.join(
   process.cwd(),
@@ -23,19 +26,9 @@ export const MENU_UPLOAD_PUBLIC_DIR = path.join(
 
 export const MENU_IMAGE_MAX_BYTES = 2 * 1024 * 1024;
 
-/**
- * Max length for an inline data-URL image (stored in Firestore with the item).
- * Must stay under Firestore's 1MB document limit; client compresses to ~380k chars.
- */
-const MAX_INLINE_DATA_URL_CHARS = 700_000;
-
-/** Vercel/Lambda have a read-only filesystem — images must be stored inline in the DB. */
+/** Vercel/Lambda have a read-only filesystem. */
 function isReadOnlyServerless(): boolean {
   return process.env.VERCEL === "1" || Boolean(process.env.AWS_LAMBDA_FUNCTION_NAME);
-}
-
-function toInlineDataUrl(mime: string, bytes: Buffer): string {
-  return `data:${mime};base64,${bytes.toString("base64")}`;
 }
 
 /** Canonical public URL — served by /api/media/menu/[file] (no rewrite dependency). */
@@ -119,7 +112,6 @@ async function writeBytes(filePath: string, bytes: Buffer): Promise<void> {
   await mkdir(path.dirname(filePath), { recursive: true });
   await writeFile(filePath, bytes);
   await access(filePath, fsConstants.R_OK);
-  // Spot-check size so OneDrive placeholders don't fake success.
   const { stat } = await import("fs/promises");
   const info = await stat(filePath);
   if (info.size !== bytes.length) {
@@ -175,32 +167,37 @@ export async function processMenuImageUpload(bytes: Buffer): Promise<ProcessMenu
     return { ok: false, error: "סוג קובץ לא נתמך. השתמשו ב-JPG, PNG, WebP או GIF" };
   }
 
-  // Serverless (Vercel): filesystem is read-only — store the image inline as a
-  // data URL. It is persisted to Firestore together with the menu item.
-  if (isReadOnlyServerless()) {
-    const dataUrl = toInlineDataUrl(detectedMime, bytes);
-    if (dataUrl.length > MAX_INLINE_DATA_URL_CHARS) {
-      return { ok: false, error: "התמונה גדולה מדי. נסו תמונה קטנה יותר." };
-    }
-    return { ok: true, url: dataUrl };
-  }
-
   const ext = extForMime(detectedMime);
   const fileName = `img-${Date.now()}-${Math.random().toString(36).slice(2, 10)}${ext}`;
+
+  // Production / when Firebase Admin is available: store in Firebase Storage (short HTTPS URL).
+  // Never put large data URLs into Firestore — that breaks menu saves (1MB doc limit).
+  if (isReadOnlyServerless() || (await isFirebaseAdminConfigured())) {
+    const uploaded = await uploadMenuImageToFirebaseStorage(fileName, bytes, detectedMime);
+    if (uploaded.ok) {
+      return uploaded;
+    }
+    // On Vercel there is no disk fallback — surface the Storage error clearly.
+    if (isReadOnlyServerless()) {
+      return uploaded;
+    }
+    console.warn("[processMenuImageUpload] Storage failed, trying local disk:", uploaded.error);
+  }
+
+  if (isReadOnlyServerless()) {
+    return {
+      ok: false,
+      error:
+        "לא ניתן לשמור תמונות בשרת זה בלי Firebase Storage. בדקו את הגדרות Firebase ב-Vercel."
+    };
+  }
 
   try {
     const saved = await saveMenuImageBytes(fileName, bytes);
     return { ok: true, url: saved.url };
   } catch (err) {
     const detail = err instanceof Error ? err.message : "unknown";
-    console.warn("[processMenuImageUpload] write failed, falling back to inline:", detail);
-
-    // Disk write failed (ReadOnly folder, OneDrive, unknown host) — inline fallback.
-    const dataUrl = toInlineDataUrl(detectedMime, bytes);
-    if (dataUrl.length <= MAX_INLINE_DATA_URL_CHARS) {
-      return { ok: true, url: dataUrl };
-    }
-
+    console.warn("[processMenuImageUpload] disk write failed:", detail);
     return {
       ok: false,
       error: detail.startsWith("שמירת") ? detail : "שמירת התמונה לשרת נכשלה. נסו שוב."
@@ -208,7 +205,7 @@ export async function processMenuImageUpload(bytes: Buffer): Promise<ProcessMenu
   }
 }
 
-/** If admin saved a data URL, persist it as a file and return a short URL. */
+/** If admin saved a data URL, persist it and return a short URL (Storage or local file). */
 export async function materializeMenuImageUrl(imageUrl: string): Promise<ProcessMenuImageResult> {
   const trimmed = imageUrl.trim();
   if (!trimmed.startsWith("data:image/")) {

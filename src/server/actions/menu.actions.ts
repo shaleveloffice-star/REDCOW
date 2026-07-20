@@ -1,7 +1,8 @@
 "use server";
 
 import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
-import { saveMenuItemCore, type SaveMenuItemResult } from "@/lib/admin/save-menu-item";
+import { saveMenuItemCore } from "@/lib/admin/save-menu-item";
+import type { SaveMenuItemResult } from "@/lib/admin/save-menu-item";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
 import { revalidatePath, updateTag } from "next/cache";
 import {
@@ -12,8 +13,6 @@ import {
   upsertMenuCategory
 } from "@/services/menu.service";
 import type { MenuCategory, MenuItem } from "@/types/content";
-
-export type { SaveMenuItemResult };
 
 const menuPaths = ["/admin/menu", "/admin/menu-categories", "/", "/menu"];
 

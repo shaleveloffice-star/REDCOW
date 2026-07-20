@@ -23,10 +23,7 @@ const TOUR_STEP_META = [
   { sectionId: "atmosphere" },
   { sectionId: "plancha" },
   { sectionId: "location" },
-  {
-    sectionId: "hero",
-    highlightSelector: ".hero-button--order"
-  }
+  { sectionId: "hero" }
 ] as const;
 
 type TourStep = (typeof TOUR_STEP_META)[number] & { message: string };

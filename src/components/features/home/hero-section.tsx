@@ -1,6 +1,6 @@
 "use client";
 
-import type { OrderLink, SiteSettings } from "@/types/content";
+import type { SiteSettings } from "@/types/content";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -9,9 +9,6 @@ import {
   HERO_DEFAULT_VIDEO_URL
 } from "@/data/site-images.registry";
 import { BUSINESS } from "@/data/business";
-import { SITE_WORDMARK_SRC, SITE_WORDMARK_WEBP_SRC } from "@/data/brand-assets";
-import { LanguageSwitcher } from "@/components/layout/language-switcher";
-import { useTranslations } from "@/components/providers/locale-provider";
 import { videoSourcesForMp4 } from "@/lib/video-sources";
 
 type NavigatorWithConnection = Navigator & {
@@ -137,22 +134,15 @@ function HeroVideo({ src, poster, alt }: HeroVideoProps) {
   );
 }
 
-export function HeroSection({
-  settings,
-  orderLinks
-}: {
-  settings: SiteSettings;
-  orderLinks: OrderLink[];
-}) {
-  const t = useTranslations();
+export function HeroSection({ settings }: { settings: SiteSettings }) {
   const heroMediaUrl = settings.heroMediaUrl || HERO_DEFAULT_VIDEO_URL;
   const heroMediaType = settings.heroMediaUrl ? settings.heroMediaType : "video";
   const heroPosterUrl = HERO_DEFAULT_POSTER_URL;
   const hasHeroMedia = heroMediaType !== "none" && heroMediaUrl.length > 0;
-  const primaryOrderLink = orderLinks[0];
 
   return (
-    <section id="hero" className="hero hero--cinematic hero--premier">
+    <section id="hero" className="hero hero--cinematic hero--premier" aria-label="NB BURGER">
+      <h1 className="sr-only">{`המבורגר כשר ב${BUSINESS.address.addressLocality}`}</h1>
       <div className="hero-visual">
         <div className="hero-visual-media hero-visual-media--alive">
           {hasHeroMedia ? (
@@ -165,64 +155,13 @@ export function HeroSection({
             <div className="hero-burger-placeholder" aria-hidden="true" />
           )}
         </div>
-        <div className="hero-scrim" aria-hidden="true" />
-        <div className="hero-vignette" aria-hidden="true" />
-        <div className="hero-grain" aria-hidden="true" />
-        <div className="hero-bottom-fade" aria-hidden="true" />
+        <div className="hero-media-dim" aria-hidden="true" />
       </div>
 
-      <div className="hero-inner">
-        <div className="hero-content">
-          <div className="hero-brand">
-            <div className="hero-title hero-chrome-rise hero-chrome-rise--logo">
-              <picture>
-                <source srcSet={SITE_WORDMARK_WEBP_SRC} type="image/webp" />
-                <img
-                  className="hero-logo"
-                  src={SITE_WORDMARK_SRC}
-                  alt=""
-                  aria-hidden="true"
-                  width={520}
-                  height={230}
-                  decoding="async"
-                  fetchPriority="high"
-                />
-              </picture>
-            </div>
-
-            <span className="hero-brand-rule hero-chrome-rise hero-chrome-rise--rule" aria-hidden="true" />
-
-            <h1 className="hero-seo-heading hero-chrome-rise hero-chrome-rise--copy">
-              {`המבורגר כשר ב${BUSINESS.address.addressLocality}`}
-            </h1>
-
-            <p className="hero-local-lede hero-chrome-rise hero-chrome-rise--copy">
-              עשוי מחומרי גלם איכותיים ומוכן על הפלנצ׳ה בדיוק כמו שאנחנו אוהבים.
-            </p>
-
-            <p className="hero-tagline hero-tagline--below hero-chrome-rise hero-chrome-rise--tag">
-              {t.hero.tagline}
-            </p>
-          </div>
-
-          <div className="hero-actions hero-chrome-rise hero-chrome-rise--actions">
-            <a className="hero-button hero-button--menu" href="/menu">
-              {t.hero.menuCta}
-            </a>
-            <a
-              className="hero-button hero-button--order"
-              href={primaryOrderLink?.url ?? "#menu"}
-              {...(primaryOrderLink
-                ? { rel: "noopener noreferrer", target: "_blank" }
-                : {})}
-            >
-              {t.hero.orderCta}
-            </a>
-          </div>
-
-          <div className="hero-language-switcher hero-chrome-rise hero-chrome-rise--lang">
-            <LanguageSwitcher />
-          </div>
+      <div className="hero-caption">
+        <div className="hero-caption-inner">
+          <p className="hero-caption-kicker">REDEFINING THE BURGER EXPERIENCE</p>
+          <p className="hero-caption-title">NB BURGER</p>
         </div>
       </div>
     </section>

@@ -78,8 +78,8 @@ export function getAdminSessionCookieOptions(maxAge = getSessionMaxAgeSeconds())
     httpOnly: true,
     secure: process.env.NODE_ENV === "production",
     sameSite: "lax" as const,
-    // Limit session cookie to admin routes (reduces exposure on public pages).
-    path: "/admin",
+    // Must be "/" so the cookie also reaches /api/admin/* (image upload API).
+    path: "/",
     maxAge
   };
 }

@@ -64,7 +64,11 @@ const nextConfig: NextConfig = {
     // Default is 1MB — large menu photos were rejected before the action ran (digest errors).
     serverActions: {
       bodySizeLimit: "10mb"
-    }
+    },
+    // Known Turbopack dev memory leak in 16.2.x — grows until OOM crash (vercel/next.js#91396).
+    turbopackServerFastRefresh: false,
+    // Persistent dev cache churns endlessly (worse on OneDrive) and leaks (vercel/next.js#81161).
+    turbopackFileSystemCacheForDev: false
   },
   images: {
     remotePatterns: [

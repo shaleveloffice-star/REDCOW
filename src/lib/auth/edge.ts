@@ -5,11 +5,17 @@
 
 export type AdminAuthMode = "open" | "mock" | "password" | "firebase";
 
-export const ADMIN_SESSION_COOKIE = "admin_session";
+/** v2: path changed from /admin to / so the cookie reaches /api/admin/* too. */
+export const ADMIN_SESSION_COOKIE = "admin_session_v2";
 
 const MIN_SESSION_SECRET_LENGTH = 32;
 
 export function getAdminAuthMode(): AdminAuthMode {
+  // Local development is always fully open — no login, no cookies, no allowlist.
+  if (process.env.NODE_ENV === "development") {
+    return "open";
+  }
+
   const mode = process.env.ADMIN_AUTH_MODE?.trim();
 
   if (mode === "firebase" || mode === "password" || mode === "mock" || mode === "open") {
@@ -70,7 +76,8 @@ export function assertEdgeProductionAuthConfig() {
     throw new Error("ADMIN_SESSION_SECRET is required in production.");
   }
 
-  if (getAllowedAdminEmails().length === 0) {
+  // Password mode uses one shared password — no allowlist required.
+  if (mode !== "password" && getAllowedAdminEmails().length === 0) {
     console.error("[AdminAuth] Edge: ADMIN_ALLOWED_EMAILS missing");
     throw new Error("ADMIN_ALLOWED_EMAILS is required in production.");
   }
@@ -95,7 +102,7 @@ export function assertEdgeProductionAuthConfig() {
 
   if (mode === "password") {
     const password = process.env.ADMIN_DEV_PASSWORD?.trim();
-    if (!password || password.length < 12) {
+    if (!password || password.length < 6) {
       console.error("[AdminAuth] Edge: ADMIN_DEV_PASSWORD missing or too short");
       throw new Error("ADMIN_DEV_PASSWORD is required for password mode in production.");
     }

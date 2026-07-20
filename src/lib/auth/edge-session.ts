@@ -2,6 +2,7 @@ import { jwtVerify } from "jose";
 
 import {
   ADMIN_SESSION_COOKIE,
+  getAdminAuthMode,
   getAdminSessionSecret,
   isEmailAllowedForAdmin,
   getAllowedAdminEmails
@@ -51,8 +52,11 @@ export async function getAdminSessionFromRequestCookie(
     return null;
   }
 
-  if (!isEmailAllowedForAdmin(session.email, getAllowedAdminEmails())) {
-    return null;
+  // Password mode: cookie signature is the proof — no allowlist check.
+  if (getAdminAuthMode() !== "password") {
+    if (!isEmailAllowedForAdmin(session.email, getAllowedAdminEmails())) {
+      return null;
+    }
   }
 
   return session;

@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 import {
   assertProductionAuthMode,
+  getAdminAuthMode,
   getAllowedAdminEmails,
   isEmailAllowedForAdmin,
   isOpenAdminAuthMode
@@ -42,8 +43,11 @@ async function getUploadAdminSession(): Promise<AdminSession | null> {
     const session = await verifyAdminSessionToken(token);
     if (!session) return null;
 
-    const allowed = getAllowedAdminEmails();
-    if (!isEmailAllowedForAdmin(session.email, allowed)) return null;
+    // Password mode: cookie signature is the proof — no allowlist check.
+    if (getAdminAuthMode() !== "password") {
+      const allowed = getAllowedAdminEmails();
+      if (!isEmailAllowedForAdmin(session.email, allowed)) return null;
+    }
 
     return session;
   } catch (err) {

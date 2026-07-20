@@ -4,6 +4,7 @@ import { cache } from "react";
 import {
   assertAdminAllowlistConfigured,
   assertProductionAuthMode,
+  getAdminAuthMode,
   getAllowedAdminEmails,
   isEmailAllowedForAdmin,
   isOpenAdminAuthMode
@@ -64,9 +65,12 @@ export const getCurrentAdminSession = cache(async (): Promise<AdminSession | nul
     return null;
   }
 
-  const allowedEmails = getAllowedAdminEmails();
-  if (!isEmailAllowedForAdmin(session.email, allowedEmails)) {
-    return null;
+  // Password mode: one shared password, cookie signature is the proof — no allowlist.
+  if (getAdminAuthMode() !== "password") {
+    const allowedEmails = getAllowedAdminEmails();
+    if (!isEmailAllowedForAdmin(session.email, allowedEmails)) {
+      return null;
+    }
   }
 
   return session;

@@ -35,21 +35,14 @@ function safeEqualSecret(a: string, b: string) {
   return timingSafeEqual(left, right);
 }
 
+/** Simple password mode — one shared password, no email/allowlist. */
 async function authenticateWithPasswordCredentials(
-  email: string,
   password: string
 ): Promise<AdminLoginResult> {
   const devPassword = getAdminDevPassword();
   if (!devPassword) {
     logAdminAuthEnvDiagnostics("ADMIN_DEV_PASSWORD for password mode");
     return { ok: false, code: "config_error" };
-  }
-
-  const normalizedEmail = email.trim().toLowerCase();
-  const allowedEmails = getAllowedAdminEmails();
-
-  if (!isEmailAllowedForAdmin(normalizedEmail, allowedEmails)) {
-    return { ok: false, code: "forbidden_email" };
   }
 
   if (!safeEqualSecret(password, devPassword)) {
@@ -59,8 +52,8 @@ async function authenticateWithPasswordCredentials(
   return {
     ok: true,
     session: {
-      email: normalizedEmail,
-      role: resolveAdminRole(normalizedEmail),
+      email: "admin@nbburger.co.il",
+      role: "owner",
       isMock: false
     }
   };
@@ -98,10 +91,6 @@ export async function loginWithEmailPassword(
   const trimmedEmail = email.trim();
   const trimmedPassword = password.trim();
 
-  if (!trimmedEmail || !trimmedPassword) {
-    return { ok: false, code: "invalid_credentials" };
-  }
-
   const mode = getAdminAuthMode();
 
   if (process.env.NODE_ENV === "production" && mode !== "firebase" && mode !== "password") {
@@ -109,17 +98,19 @@ export async function loginWithEmailPassword(
     return { ok: false, code: "config_error" };
   }
 
-  if (mode === "firebase") {
-    return authenticateWithFirebase(trimmedEmail, trimmedPassword);
+  if (mode === "password") {
+    if (!trimmedPassword) {
+      return { ok: false, code: "invalid_credentials" };
+    }
+    return authenticateWithPasswordCredentials(trimmedPassword);
   }
 
-  if (mode === "password") {
-    if (process.env.NODE_ENV === "production") {
-      console.warn(
-        "[AdminAuth] ADMIN_AUTH_MODE=password in production — prefer firebase"
-      );
-    }
-    return authenticateWithPasswordCredentials(trimmedEmail, trimmedPassword);
+  if (!trimmedEmail || !trimmedPassword) {
+    return { ok: false, code: "invalid_credentials" };
+  }
+
+  if (mode === "firebase") {
+    return authenticateWithFirebase(trimmedEmail, trimmedPassword);
   }
 
   return authenticateWithMockDevCredentials(trimmedEmail);

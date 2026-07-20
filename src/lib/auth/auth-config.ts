@@ -2,10 +2,11 @@ import { normalizeFirebasePrivateKey } from "@/lib/firebase/private-key";
 
 export type AdminAuthMode = "open" | "mock" | "password" | "firebase";
 
-export const ADMIN_SESSION_COOKIE = "admin_session";
+/** v2: path changed from /admin to / so the cookie reaches /api/admin/* too. */
+export const ADMIN_SESSION_COOKIE = "admin_session_v2";
 
 const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
-const MIN_DEV_PASSWORD_LENGTH = 12;
+const MIN_DEV_PASSWORD_LENGTH = 6;
 const MIN_SESSION_SECRET_LENGTH = 32;
 
 /** Discrete login outcomes — never collapse into a single generic failure. */
@@ -24,6 +25,12 @@ export type EnvVarCheck = {
 };
 
 export function getAdminAuthMode(): AdminAuthMode {
+  // Local development is always fully open — no login, no cookies, no allowlist.
+  // Password mode (ADMIN_DEV_PASSWORD) applies only to production builds.
+  if (process.env.NODE_ENV === "development") {
+    return "open";
+  }
+
   const mode = process.env.ADMIN_AUTH_MODE?.trim();
 
   if (mode === "firebase") {
@@ -178,7 +185,8 @@ export function assertProductionAuthMode() {
     );
   }
 
-  if (getAllowedAdminEmails().length === 0) {
+  // Password mode uses a single shared password — no email allowlist needed.
+  if (mode !== "password" && getAllowedAdminEmails().length === 0) {
     logAdminAuthEnvDiagnostics("ADMIN_ALLOWED_EMAILS");
     throw new Error("ADMIN_ALLOWED_EMAILS is required in production.");
   }
@@ -199,14 +207,15 @@ export function assertProductionAuthMode() {
   if (mode === "password" && !getAdminDevPassword()) {
     logAdminAuthEnvDiagnostics("ADMIN_DEV_PASSWORD");
     throw new Error(
-      "ADMIN_DEV_PASSWORD (min 12 characters) is required when ADMIN_AUTH_MODE=password in production. Prefer ADMIN_AUTH_MODE=firebase."
+      "ADMIN_DEV_PASSWORD (min 6 characters) is required when ADMIN_AUTH_MODE=password in production."
     );
   }
 }
 
-/** Password / Firebase modes always require a non-empty allowlist. */
+/** Firebase/mock modes require an allowlist; password mode uses one shared password. */
 export function assertAdminAllowlistConfigured() {
-  if (isOpenAdminAuthMode()) {
+  const mode = getAdminAuthMode();
+  if (mode === "open" || mode === "password") {
     return;
   }
 

@@ -6581,8 +6581,7 @@ body:not(:has(.admin-layout)) button:focus-visible {
 
 /* Soft section dividers instead of hard black cuts */
 .menu-showcase-section::after,
-.atmosphere-section::after,
-.location-section::before {
+.atmosphere-section::after {
   content: "";
   position: absolute;
   left: 10%;
@@ -6600,10 +6599,6 @@ body:not(:has(.admin-layout)) button:focus-visible {
 .menu-showcase-section::after,
 .atmosphere-section::after {
   bottom: 0;
-}
-
-.location-section::before {
-  top: 0;
 }
 
 .menu-showcase-section,

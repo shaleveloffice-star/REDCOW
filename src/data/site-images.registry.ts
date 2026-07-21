@@ -106,6 +106,17 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
     ]
   },
   {
+    title: "דף הבית — לא עוד המבורגר",
+    items: [
+      item(
+        "home-story",
+        "תמונת הסקשן",
+        "סקשן לא עוד המבורגר (דף הבית)",
+        LOCATION_EXTERIOR_IMAGE
+      )
+    ]
+  },
+  {
     title: "דף הבית — מיקום ושעות",
     items: [
       item("location-exterior", "חזית המסעדה", "סקשן מיקום ושעות", LOCATION_EXTERIOR_IMAGE)

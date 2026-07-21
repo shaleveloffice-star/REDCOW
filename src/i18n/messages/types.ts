@@ -73,6 +73,13 @@ export type Messages = {
     prev: string;
     next: string;
   };
+  homeStory: {
+    title: string;
+    imageAlt: string;
+    intro: string;
+    punchLines: string[];
+    closing: string[];
+  };
   plancha: {
     title: string;
     lead: string;

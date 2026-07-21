@@ -364,6 +364,102 @@ a.menu-showcase-button.site-cta-btn {
   }
 }
 
+/* —— Home: לא עוד המבורגר (Bleecker-style editorial) —— */
+.home-story-section {
+  position: relative;
+  padding: clamp(56px, 9vw, var(--ds-space-8)) 25px clamp(88px, 11vw, 128px);
+  background: #ffffff;
+  color: #000000;
+  overflow: hidden;
+}
+
+.home-story-shell {
+  display: grid;
+  grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
+  gap: clamp(28px, 5vw, 72px);
+  width: min(1240px, 100%);
+  margin: 0 auto;
+  align-items: start;
+}
+
+.home-story-intro {
+  min-width: 0;
+}
+
+.home-story-title {
+  margin: 0 0 clamp(24px, 4vw, 40px);
+  color: #000000;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(34px, 5.8vw, 58px);
+  font-weight: 400;
+  letter-spacing: 0.03em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.home-story-media {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background: #f2f2f2;
+}
+
+.home-story-image {
+  object-fit: cover;
+}
+
+.home-story-copy {
+  max-width: 42ch;
+  padding-top: clamp(4px, 1.5vw, 20px);
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  font-size: clamp(13px, 1.45vw, 15px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.65;
+}
+
+.home-story-copy p {
+  margin: 0 0 1.1em;
+}
+
+.home-story-copy p:last-child {
+  margin-bottom: 0;
+}
+
+.home-story-lead {
+  margin-bottom: 1.35em !important;
+}
+
+.home-story-punch {
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+}
+
+.home-story-slope {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: clamp(52px, 8vw, 92px);
+  background: #000000;
+  clip-path: polygon(0 42%, 100% 0, 100% 100%, 0 100%);
+  pointer-events: none;
+}
+
+@media (max-width: 900px) {
+  .home-story-shell {
+    grid-template-columns: 1fr;
+    gap: clamp(24px, 5vw, 40px);
+  }
+
+  .home-story-copy {
+    max-width: none;
+    padding-top: 0;
+  }
+}
+
 /* —— Atmosphere / brand story + food —— */
 .atmosphere-section {
   padding: var(--ds-space-8) 0 var(--ds-space-8);

@@ -71,6 +71,22 @@ export const fr: Messages = {
     prev: "Plats précédents",
     next: "Plats suivants"
   },
+  homeStory: {
+    title: "Pas un burger de plus.",
+    imageAlt: "Façade NB BURGER à Ra'anana",
+    intro: "Chez NB BURGER, nous croyons que la qualité n'a pas besoin de longs discours.",
+    punchLines: [
+      "Bœuf de qualité.",
+      "Pains briochés frais.",
+      "Sauces préparées sur place.",
+      "Des ingrédients choisis avec soin."
+    ],
+    closing: [
+      "Chaque burger est saisi à la commande et servi exactement comme il doit l'être — juteux, précis, sans compromis.",
+      "Parce qu'au fond, il n'est pas nécessaire de réinventer le burger.",
+      "Il suffit de le préparer comme il se doit."
+    ]
+  },
   plancha: {
     title: "Sur la Plancha",
     lead: "Viande fraîche, hachée sur place, directement sur le feu.",

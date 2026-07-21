@@ -71,6 +71,22 @@ export const en: Messages = {
     prev: "Previous dishes",
     next: "Next dishes"
   },
+  homeStory: {
+    title: "Not just another burger.",
+    imageAlt: "NB BURGER storefront in Ra'anana",
+    intro: "At NB BURGER, we believe quality doesn't need a long explanation.",
+    punchLines: [
+      "Premium beef.",
+      "Fresh brioche buns.",
+      "House-made sauces.",
+      "Ingredients chosen with care."
+    ],
+    closing: [
+      "Every burger is seared to order and served exactly as it should be — juicy, precise, and uncompromising.",
+      "Because in the end, you don't need to reinvent the burger.",
+      "Just make it the way it should be."
+    ]
+  },
   plancha: {
     title: "On the Plancha",
     lead: "Fresh beef, ground in-house, straight onto the heat.",

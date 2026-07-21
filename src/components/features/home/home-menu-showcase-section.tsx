@@ -124,8 +124,11 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
             <p className="menu-showcase-lead">{t.menuShowcase.lead}</p>
           </header>
           <div className="menu-showcase-action">
-            <Link className="menu-showcase-button" href="/menu">
-              {t.menuShowcase.fullMenu}
+            <Link className="site-cta-btn site-cta-btn--outline menu-showcase-button" href="/menu">
+              <span className="site-cta-btn-label">{t.menuShowcase.fullMenu}</span>
+              <span className="site-cta-arrow" aria-hidden="true">
+                ↗
+              </span>
             </Link>
           </div>
         </div>
@@ -188,8 +191,11 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
         </div>
 
         <div className="menu-showcase-action">
-          <Link className="menu-showcase-button" href="/menu">
-            {t.menuShowcase.fullMenu}
+          <Link className="site-cta-btn site-cta-btn--outline menu-showcase-button" href="/menu">
+            <span className="site-cta-btn-label">{t.menuShowcase.fullMenu}</span>
+            <span className="site-cta-arrow" aria-hidden="true">
+              ↗
+            </span>
           </Link>
         </div>
       </div>

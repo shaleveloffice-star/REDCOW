@@ -2690,47 +2690,19 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
 .menu-showcase-action {
   display: flex;
   flex-direction: column;
-  align-items: start;
+  align-items: flex-start;
   justify-content: flex-start;
   gap: 10px;
   margin-top: clamp(28px, 5vw, 40px);
   padding: 0 24px;
 }
 
-.menu-showcase-button {
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 200px;
-  min-height: 52px;
-  padding: 14px 32px;
-  border: 1px solid #ffffff;
-  border-radius: 999px;
-  background: #ffffff;
-  color: #000000;
-  font-family: var(--font-button);
-  font-size: 14px;
-  font-weight: 800;
-  line-height: 1.2;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  text-align: center;
-  text-decoration: none;
-  white-space: nowrap;
-  cursor: pointer;
-  box-shadow: none;
-  transition:
-    transform 0.35s var(--motion-ease),
-    box-shadow 0.35s var(--motion-ease),
-    background-color 0.35s ease,
-    color 0.35s ease;
-}
-
-.menu-showcase-button:hover {
-  transform: translateY(-2px);
-  filter: none;
-  box-shadow: 0 12px 28px rgba(255, 255, 255, 0.18);
+.menu-showcase-action .site-cta-btn,
+a.menu-showcase-button.site-cta-btn {
+  flex: none;
+  width: auto;
+  min-width: 168px;
+  direction: ltr;
 }
 
 
@@ -6177,8 +6149,7 @@ body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-year:focu
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.85);
 }
 
-body:not(:has(.admin-layout)) .hero-button,
-body:not(:has(.admin-layout)) .menu-showcase-button {
+body:not(:has(.admin-layout)) .hero-button {
   transition:
     transform var(--motion-short) var(--motion-ease),
     box-shadow var(--motion-short) var(--motion-ease),
@@ -6186,12 +6157,6 @@ body:not(:has(.admin-layout)) .menu-showcase-button {
     color var(--motion-short) ease,
     border-color var(--motion-short) ease,
     opacity var(--motion-short) ease;
-}
-
-
-body:not(:has(.admin-layout)) .menu-showcase-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 12px 28px rgba(255, 255, 255, 0.18);
 }
 
 body:not(:has(.admin-layout)) .visit-secondary {

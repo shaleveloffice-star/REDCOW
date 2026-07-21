@@ -7,7 +7,11 @@ import {
 } from "firebase/firestore";
 import type { Firestore as AdminFirestore } from "firebase-admin/firestore";
 
-import { getAdminFirestore, isFirebaseAdminConfigured } from "@/lib/firebase/admin-runtime";
+import {
+  formatFirebaseAdminInitError,
+  getAdminFirestore,
+  getFirebaseAdminInitState
+} from "@/lib/firebase/admin-runtime";
 import { getFirestoreDb, getFirebaseMissingEnvKeys, isFirebaseConfigured } from "@/lib/firebase";
 import type { FirebaseCollectionName } from "@/types/firebase";
 
@@ -61,10 +65,11 @@ async function requireAdminDb(collectionName: FirebaseCollectionName): Promise<A
   const adminDb = await getAdminFirestore();
 
   if (!adminDb) {
-    const configured = await isFirebaseAdminConfigured();
-    const reason = configured
-      ? "Admin Firestore instance unavailable"
-      : "Firebase Admin is not configured (FIREBASE_PROJECT_ID, FIREBASE_CLIENT_EMAIL, FIREBASE_PRIVATE_KEY)";
+    const initState = await getFirebaseAdminInitState();
+    const reason =
+      initState.status === "ok"
+        ? "Admin Firestore instance unavailable"
+        : formatFirebaseAdminInitError(initState);
     console.error(`[Firestore] Admin required for "${collectionName}": ${reason}`);
     throw new Error(`Firestore Admin required for "${collectionName}": ${reason}`);
   }

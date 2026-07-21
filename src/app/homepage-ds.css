@@ -367,7 +367,7 @@ a.menu-showcase-button.site-cta-btn {
 /* —— Home: לא עוד המבורגר (Bleecker-style editorial) —— */
 .home-story-section {
   position: relative;
-  padding-block: clamp(56px, 9vw, var(--ds-space-8)) calc(clamp(48px, 7vw, 72px) + 15px);
+  padding-block: clamp(56px, 9vw, var(--ds-space-8)) calc(clamp(48px, 7vw, 72px) + 40px);
   padding-inline: 0;
   background: #ffffff;
   color: #000000;
@@ -502,13 +502,26 @@ a.menu-showcase-button.site-cta-btn {
   height: 100%;
   object-fit: cover;
   object-position: center;
+}
+
+.home-atmosphere-slide--base {
+  z-index: 1;
+  opacity: 1;
+}
+
+.home-atmosphere-slide--overlay {
+  z-index: 2;
   opacity: 0;
   will-change: opacity;
   transition: opacity 1.2s ease-in-out;
 }
 
-.home-atmosphere-slide.is-active {
+.home-atmosphere-slide--overlay.is-visible {
   opacity: 1;
+}
+
+.home-atmosphere-slide--overlay.is-resetting {
+  transition: none;
 }
 
 @media (max-width: 640px) {
@@ -518,7 +531,7 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .home-atmosphere-slide {
+  .home-atmosphere-slide--overlay {
     transition: none;
   }
 }

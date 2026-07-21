@@ -16,6 +16,7 @@ const contentSecurityPolicy = [
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://media.base44.com https:",
   "media-src 'self' blob:",
+  "frame-src 'self' https://www.instagram.com",
   "font-src 'self' data:",
   [
     "connect-src 'self'",

@@ -1,24 +1,11 @@
-import Image from "next/image";
-
 import { BUSINESS } from "@/data/business";
 
-const VIBE_IMAGES = [
-  {
-    src: "/images/plancha/plancha-sear.png",
-    alt: "המבורגר נצרב על הפלנצ׳ה"
-  },
-  {
-    src: "/images/hero/nb-burger-hero-spread.png",
-    alt: "ארוחת המבורגרים של NB BURGER"
-  },
-  {
-    src: "/images/atmosphere/atmosphere-third-1.png",
-    alt: "לקוח יוצא מ-NB BURGER עם הזמנה"
-  },
-  {
-    src: "/images/atmosphere/atmosphere-third-2.png",
-    alt: "לקוח נהנה מהמבורגר במסעדה"
-  }
+const VIBE_REELS = [
+  "DZJhDpgolz1",
+  "DZGEerQx4ro",
+  "DZG6jdooaVB",
+  "DZHtdgxN0Lw",
+  "DZJg3oKo5gH"
 ] as const;
 
 function InstagramIcon() {
@@ -45,36 +32,21 @@ export function HomeSocialVibeSection() {
       </header>
 
       <div className="home-vibe-gallery">
-        <div className="home-vibe-card home-vibe-card--1 home-vibe-card--embed">
-          <iframe
-            src="https://www.instagram.com/reel/DZJhDpgolz1/embed/"
-            title="Instagram Reel של NB BURGER"
-            className="home-vibe-embed"
-            loading="lazy"
-            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-            allowFullScreen
-          />
-        </div>
-        {VIBE_IMAGES.map((image, index) => (
-          <a
-            key={image.src}
-            href={BUSINESS.social.instagram}
-            className={`home-vibe-card home-vibe-card--${index + 2}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label={`Instagram — ${image.alt}`}
+        {VIBE_REELS.map((reelId, index) => (
+          <div
+            key={reelId}
+            className={`home-vibe-card home-vibe-card--${index + 1} home-vibe-card--embed`}
           >
-            <Image
-              src={image.src}
-              alt={image.alt}
-              fill
-              sizes="(max-width: 700px) 78vw, (max-width: 1100px) 42vw, 28vw"
-              className="home-vibe-image"
+            <iframe
+              src={`https://www.instagram.com/reel/${reelId}/embed/`}
+              title={`Instagram Reel ${index + 1} של NB BURGER`}
+              className="home-vibe-embed"
+              loading="lazy"
+              scrolling="no"
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              allowFullScreen
             />
-            <span className="home-vibe-card-mark" aria-hidden="true">
-              <InstagramIcon />
-            </span>
-          </a>
+          </div>
         ))}
       </div>
 

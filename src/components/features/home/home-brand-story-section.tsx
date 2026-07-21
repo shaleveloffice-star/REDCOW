@@ -47,7 +47,6 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
           ))}
         </div>
       </div>
-      <div className="home-story-slope" aria-hidden="true" />
     </section>
   );
 }

@@ -36,7 +36,9 @@ export async function HomeAtmosphereSection({ siteImages }: HomeAtmosphereSectio
 
   return (
     <section id="atmosphere" className="home-atmosphere-section" aria-label={t.nav.atmosphere}>
-      <HomeAtmosphereSlideshow slides={slides} />
+      <div className="home-atmosphere-clip">
+        <HomeAtmosphereSlideshow slides={slides} />
+      </div>
     </section>
   );
 }

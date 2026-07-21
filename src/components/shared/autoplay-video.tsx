@@ -82,9 +82,11 @@ export function AutoplayVideo({
       loop
       muted
       playsInline
+      controls={false}
       preload={preload}
       poster={poster}
       aria-label={ariaLabel}
+      data-autoplay-video=""
       disablePictureInPicture
       controlsList="nodownload noplaybackrate noremoteplayback"
     >

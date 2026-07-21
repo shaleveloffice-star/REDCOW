@@ -78,27 +78,40 @@ function HeroVideo({ src, poster, alt }: HeroVideoProps) {
     const video = videoRef.current;
     if (!video) return;
 
-    const markReady = () => setVideoReady(true);
+    video.defaultMuted = true;
+    video.muted = true;
+    video.setAttribute("playsinline", "");
+    video.setAttribute("webkit-playsinline", "");
 
     const tryPlay = () => {
-      void video.play().catch(() => {});
+      void video.play().catch(() => {
+        setVideoReady(false);
+      });
     };
 
-    video.addEventListener("loadeddata", markReady);
-    video.addEventListener("canplay", markReady);
+    const markReady = () => setVideoReady(true);
+    const onFirstTouch = () => {
+      tryPlay();
+      document.removeEventListener("touchstart", onFirstTouch);
+    };
+
+    video.addEventListener("playing", markReady);
+    video.addEventListener("canplay", tryPlay);
     video.addEventListener("loadedmetadata", tryPlay);
+    document.addEventListener("touchstart", onFirstTouch, { passive: true });
 
     if (video.readyState >= HTMLMediaElement.HAVE_CURRENT_DATA) {
-      markReady();
+      tryPlay();
     }
 
     video.load();
     tryPlay();
 
     return () => {
-      video.removeEventListener("loadeddata", markReady);
-      video.removeEventListener("canplay", markReady);
+      video.removeEventListener("playing", markReady);
+      video.removeEventListener("canplay", tryPlay);
       video.removeEventListener("loadedmetadata", tryPlay);
+      document.removeEventListener("touchstart", onFirstTouch);
     };
   }, [shouldLoadVideo, skipVideo, src]);
 
@@ -126,10 +139,14 @@ function HeroVideo({ src, poster, alt }: HeroVideoProps) {
           loop
           muted
           playsInline
+          controls={false}
           preload="none"
           poster={poster}
           className={`hero-media hero-media--video${videoReady ? " is-ready" : ""}`}
           aria-label={alt}
+          data-autoplay-video=""
+          disablePictureInPicture
+          controlsList="nodownload noplaybackrate noremoteplayback"
         >
           {videoSourcesForMp4(src).map((source) => (
             <source key={source.type} src={source.src} type={source.type} />

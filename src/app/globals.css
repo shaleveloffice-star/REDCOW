@@ -2598,6 +2598,16 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   pointer-events: none;
 }
 
+.hero-media--video::-webkit-media-controls,
+.hero-media--video::-webkit-media-controls-enclosure,
+.hero-media--video::-webkit-media-controls-panel,
+.hero-media--video::-webkit-media-controls-start-playback-button,
+.hero-media--video::-webkit-media-controls-play-button,
+[data-autoplay-video]::-webkit-media-controls,
+[data-autoplay-video]::-webkit-media-controls-enclosure,
+[data-autoplay-video]::-webkit-media-controls-panel,
+[data-autoplay-video]::-webkit-media-controls-start-playback-button,
+[data-autoplay-video]::-webkit-media-controls-play-button,
 .menu-showcase-card-video::-webkit-media-controls,
 .menu-showcase-card-video::-webkit-media-controls-enclosure,
 .menu-showcase-card-video::-webkit-media-controls-panel,

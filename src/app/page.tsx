@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 
+import { HomeAtmosphereSection } from "@/components/features/home/home-atmosphere-section";
 import { HomeBrandStorySection } from "@/components/features/home/home-brand-story-section";
 import { HeroSection } from "@/components/features/home/hero-section";
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
@@ -56,6 +57,7 @@ export default async function HomePage() {
         <HeroSection settings={settings} />
         <HomeMenuShowcaseSection items={homepageMenuItems} />
         <HomeBrandStorySection siteImages={siteImages} />
+        <HomeAtmosphereSection siteImages={siteImages} />
         <LocationSection siteImages={siteImages} />
       </main>
       <SiteFooter />

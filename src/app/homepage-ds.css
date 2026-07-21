@@ -472,6 +472,41 @@ a.menu-showcase-button.site-cta-btn {
   }
 }
 
+/* —— Home: האווירה (image slideshow) —— */
+.home-atmosphere-section {
+  width: 100%;
+  background: #000000;
+  overflow: hidden;
+}
+
+.home-atmosphere-slideshow {
+  position: relative;
+  width: 100%;
+  height: clamp(320px, 52vw, 720px);
+}
+
+.home-atmosphere-slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 900ms ease;
+}
+
+.home-atmosphere-slide.is-active {
+  opacity: 1;
+}
+
+.home-atmosphere-image {
+  object-fit: cover;
+  object-position: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-atmosphere-slide {
+    transition: none;
+  }
+}
+
 /* —— Atmosphere / brand story + food —— */
 .atmosphere-section {
   padding: var(--ds-space-8) 0 var(--ds-space-8);

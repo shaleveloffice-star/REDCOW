@@ -478,6 +478,8 @@ a.menu-showcase-button.site-cta-btn {
   position: absolute;
   inset: 0;
   overflow: hidden;
+  isolation: isolate;
+  contain: paint;
   clip-path: polygon(
     0 6%,
     100% 0,
@@ -501,6 +503,7 @@ a.menu-showcase-button.site-cta-btn {
   object-fit: cover;
   object-position: center;
   opacity: 0;
+  will-change: opacity;
   transition: opacity 1.2s ease-in-out;
 }
 

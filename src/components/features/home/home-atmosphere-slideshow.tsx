@@ -28,7 +28,9 @@ export function HomeAtmosphereSlideshow({ slides }: HomeAtmosphereSlideshowProps
         (src) =>
           new Promise<void>((resolve, reject) => {
             const image = new Image();
-            image.onload = () => resolve();
+            image.onload = () => {
+              image.decode().then(resolve).catch(resolve);
+            };
             image.onerror = () => reject(new Error(`Failed to preload atmosphere image: ${src}`));
             image.src = src;
           })

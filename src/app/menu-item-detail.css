@@ -125,6 +125,14 @@
   margin: 0 auto;
 }
 
+.menu-item-detail-long .menu-item-detail-card-head {
+  width: min(440px, 100%);
+}
+
+.menu-item-detail-long .menu-item-detail-card-text {
+  max-width: 60ch;
+}
+
 .menu-item-detail-cards {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));

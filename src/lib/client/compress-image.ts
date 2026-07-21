@@ -1,11 +1,19 @@
 /** Client-only: compress an image file to a JPEG data-URL for admin upload. */
 
-const MAX_EDGE = 1000;
-const JPEG_QUALITY = 0.78;
-/** Cap string length (~base64). ~280KB binary ≈ 380k chars. */
-const MAX_DATA_URL_CHARS = 380_000;
+export const MENU_PRIMARY_IMAGE_MAX_BYTES = 80 * 1024;
+export const MENU_CLOSEUP_IMAGE_MAX_BYTES = 40 * 1024;
+
+const DEFAULT_MAX_EDGE = 1200;
+const CLOSEUP_MAX_EDGE = 960;
+const MIN_EDGE = 480;
+const MIN_QUALITY = 0.32;
 
 const ALLOWED_EXT = /\.(jpe?g|png|webp|gif)$/i;
+
+export type CompressImageOptions = {
+  maxBytes?: number;
+  maxEdge?: number;
+};
 
 function readFileAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -37,10 +45,70 @@ function looksLikeImageFile(file: File): boolean {
   return ALLOWED_EXT.test(file.name);
 }
 
+function dataUrlByteLength(dataUrl: string): number {
+  const base64 = dataUrl.split(",")[1] ?? "";
+  return Math.ceil((base64.replace(/\s/g, "").length * 3) / 4);
+}
+
+function renderJpeg(
+  img: HTMLImageElement,
+  width: number,
+  height: number,
+  quality: number
+): string {
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.max(1, Math.round(width));
+  canvas.height = Math.max(1, Math.round(height));
+  const ctx = canvas.getContext("2d");
+  if (!ctx) {
+    throw new Error("דחיסת התמונה נכשלה בדפדפן זה");
+  }
+
+  ctx.fillStyle = "#ffffff";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+  return canvas.toDataURL("image/jpeg", quality);
+}
+
+function compressLoadedImage(
+  img: HTMLImageElement,
+  maxBytes: number,
+  maxEdge: number
+): string {
+  let edgeScale = Math.min(1, maxEdge / Math.max(img.width, img.height, 1));
+  let width = Math.max(1, img.width * edgeScale);
+  let height = Math.max(1, img.height * edgeScale);
+
+  while (true) {
+    for (let quality = 0.86; quality >= MIN_QUALITY; quality -= 0.06) {
+      const dataUrl = renderJpeg(img, width, height, quality);
+      if (dataUrlByteLength(dataUrl) <= maxBytes) {
+        return dataUrl;
+      }
+    }
+
+    const nextWidth = Math.max(MIN_EDGE, Math.round(width * 0.82));
+    const nextHeight = Math.max(MIN_EDGE, Math.round(height * 0.82));
+    if (nextWidth === Math.round(width) && nextHeight === Math.round(height)) {
+      break;
+    }
+    width = nextWidth;
+    height = nextHeight;
+  }
+
+  throw new Error("התמונה עדיין גדולה מדי אחרי דחיסה. נסו תמונה אחרת.");
+}
+
 /**
- * Returns `data:image/jpeg;base64,...` small enough to POST as JSON to the upload API.
+ * Returns `data:image/jpeg;base64,...` sized for menu admin upload.
  */
-export async function compressImageFileToDataUrl(file: File): Promise<string> {
+export async function compressImageFileToDataUrl(
+  file: File,
+  options: CompressImageOptions = {}
+): Promise<string> {
+  const maxBytes = options.maxBytes ?? MENU_PRIMARY_IMAGE_MAX_BYTES;
+  const maxEdge = options.maxEdge ?? DEFAULT_MAX_EDGE;
+
   if (/heic|heif/i.test(file.type) || /\.heic$/i.test(file.name)) {
     throw new Error("קבצי HEIC מאייפון לא נתמכים. שמרו כ-JPG בגלריה ונסו שוב.");
   }
@@ -53,45 +121,19 @@ export async function compressImageFileToDataUrl(file: File): Promise<string> {
 
   const original = await readFileAsDataUrl(file);
   const img = await loadHtmlImage(original);
+  return compressLoadedImage(img, maxBytes, maxEdge);
+}
 
-  const scale = Math.min(1, MAX_EDGE / Math.max(img.width, img.height, 1));
-  const width = Math.max(1, Math.round(img.width * scale));
-  const height = Math.max(1, Math.round(img.height * scale));
+export async function compressMenuPrimaryImage(file: File): Promise<string> {
+  return compressImageFileToDataUrl(file, {
+    maxBytes: MENU_PRIMARY_IMAGE_MAX_BYTES,
+    maxEdge: DEFAULT_MAX_EDGE
+  });
+}
 
-  const canvas = document.createElement("canvas");
-  canvas.width = width;
-  canvas.height = height;
-  const ctx = canvas.getContext("2d");
-  if (!ctx) {
-    throw new Error("דחיסת התמונה נכשלה בדפדפן זה");
-  }
-
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, width, height);
-  ctx.drawImage(img, 0, 0, width, height);
-
-  let quality = JPEG_QUALITY;
-  let dataUrl = canvas.toDataURL("image/jpeg", quality);
-
-  while (dataUrl.length > MAX_DATA_URL_CHARS && quality > 0.4) {
-    quality -= 0.08;
-    dataUrl = canvas.toDataURL("image/jpeg", quality);
-  }
-
-  if (dataUrl.length > MAX_DATA_URL_CHARS) {
-    // Last resort: shrink canvas further.
-    const shrink = 0.7;
-    canvas.width = Math.max(1, Math.round(width * shrink));
-    canvas.height = Math.max(1, Math.round(height * shrink));
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-    dataUrl = canvas.toDataURL("image/jpeg", 0.65);
-  }
-
-  if (dataUrl.length > MAX_DATA_URL_CHARS) {
-    throw new Error("התמונה עדיין גדולה מדי אחרי דחיסה. נסו תמונה אחרת.");
-  }
-
-  return dataUrl;
+export async function compressMenuCloseUpImage(file: File): Promise<string> {
+  return compressImageFileToDataUrl(file, {
+    maxBytes: MENU_CLOSEUP_IMAGE_MAX_BYTES,
+    maxEdge: CLOSEUP_MAX_EDGE
+  });
 }

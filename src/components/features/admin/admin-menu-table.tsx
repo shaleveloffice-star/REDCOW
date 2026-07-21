@@ -9,7 +9,10 @@ import {
 } from "@/components/features/admin/admin-crud-ui";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
-import { compressImageFileToDataUrl } from "@/lib/client/compress-image";
+import {
+  compressMenuCloseUpImage,
+  compressMenuPrimaryImage
+} from "@/lib/client/compress-image";
 import { getMenuItemHref, slugifyProductName } from "@/lib/menu/product-slug";
 import { deleteMenuItemAction } from "@/server/actions/menu.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
@@ -204,7 +207,10 @@ export function AdminMenuTable({
     setUploading(true);
     setError(null);
     try {
-      const dataUrl = await compressImageFileToDataUrl(file);
+      const dataUrl =
+        target === "closeUp"
+          ? await compressMenuCloseUpImage(file)
+          : await compressMenuPrimaryImage(file);
       const response = await fetch("/api/admin/menu-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -494,7 +500,7 @@ export function AdminMenuTable({
               תמונה ראשית (מוצגת בכל האתר)
               <input accept="image/*" disabled={uploadingImage} type="file" onChange={handleImageUpload} />
             </label>
-            {uploadingImage ? <p className="muted">דוחס ומכין תמונה ראשית…</p> : null}
+            {uploadingImage ? <p className="muted">דוחס תמונה ראשית עד 80KB…</p> : null}
             {draft.imageUrl ? (
               <div className="admin-image-preview">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -517,7 +523,7 @@ export function AdminMenuTable({
                 onChange={handleCloseUpImageUpload}
               />
             </label>
-            {uploadingCloseUpImage ? <p className="muted">דוחס ומכין תמונת מקרוב…</p> : null}
+            {uploadingCloseUpImage ? <p className="muted">דוחס תמונת מקרוב עד 40KB…</p> : null}
             {draft.closeUpImageUrl?.trim() ? (
               <div className="admin-image-preview">
                 {/* eslint-disable-next-line @next/next/no-img-element */}

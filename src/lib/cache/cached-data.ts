@@ -4,6 +4,8 @@ import { CACHE_REVALIDATE_SECONDS } from "@/lib/constants";
 import {
   getHomepageMenuShowcase,
   getMenuForDisplay,
+  getMenuItemBySlugForDisplay,
+  getMenuItemForDisplay,
   listMenuCategories
 } from "@/services/menu.service";
 import { getSettings, listOrderLinks } from "@/services/settings.service";
@@ -56,3 +58,25 @@ export const getCachedMenuForDisplay = unstable_cache(
     tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.menuCategories, CACHE_TAGS.homepageMenu]
   }
 );
+
+export async function getCachedMenuItemById(id: string) {
+  return unstable_cache(
+    () => getMenuItemForDisplay(id),
+    [CACHE_TAGS.menuDisplay, "menu-item", id],
+    {
+      revalidate: CACHE_REVALIDATE_SECONDS.menu,
+      tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.homepageMenu]
+    }
+  )();
+}
+
+export async function getCachedMenuItemBySlug(slug: string) {
+  return unstable_cache(
+    () => getMenuItemBySlugForDisplay(slug),
+    [CACHE_TAGS.menuDisplay, "menu-item-slug", slug],
+    {
+      revalidate: CACHE_REVALIDATE_SECONDS.menu,
+      tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.homepageMenu]
+    }
+  )();
+}

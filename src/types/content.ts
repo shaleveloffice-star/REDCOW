@@ -16,10 +16,27 @@ export type MenuCategory = {
 export type MenuItem = {
   id: string;
   name: string;
+  /** Short description shown near title on the product page. */
   description: string;
+  /** Longer body copy shown lower on the product page. */
+  longDescription?: string;
   price: number;
   categoryId: string;
   imageUrl: string;
+  /** Public URL slug for /menu/[slug]. Generated from name when empty. */
+  slug?: string;
+  /** Image ALT text for accessibility and SEO. */
+  imageAlt?: string;
+  /** Primary SEO keyword (admin/SEO use). */
+  primaryKeyword?: string;
+  /** Optional SEO title override. */
+  metaTitle?: string;
+  /** Optional SEO description override. */
+  metaDescription?: string;
+  /** Optional extra gallery images (legacy / optional). */
+  galleryUrls?: string[];
+  /** Optional legacy story lines on the product page. */
+  detailNotes?: string[];
   isActive: boolean;
   tags: string[];
   sortOrder: number;

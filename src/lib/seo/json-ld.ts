@@ -107,3 +107,65 @@ export function buildMenuJsonLd(groups: MenuGroup[]): JsonLdObject {
     }))
   };
 }
+
+export function buildProductJsonLd(item: MenuItem, options: { slug: string }): JsonLdObject {
+  const description =
+    item.metaDescription?.trim() ||
+    item.description.trim() ||
+    item.longDescription?.trim() ||
+    item.name;
+
+  const product: JsonLdObject = {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    name: item.name,
+    description,
+    brand: {
+      "@type": "Brand",
+      name: BUSINESS.name
+    },
+    url: absoluteUrl(`/menu/${options.slug}`),
+    offers: {
+      "@type": "Offer",
+      price: String(item.price),
+      priceCurrency: "ILS",
+      availability: item.isActive
+        ? "https://schema.org/InStock"
+        : "https://schema.org/OutOfStock",
+      url: absoluteUrl(`/menu/${options.slug}`)
+    }
+  };
+
+  if (isStaticImageUrl(item.imageUrl)) {
+    product.image = absoluteUrl(item.imageUrl);
+  }
+
+  return product;
+}
+
+export function buildProductBreadcrumbJsonLd(item: MenuItem, options: { slug: string }): JsonLdObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "דף הבית",
+        item: absoluteUrl("/")
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "תפריט",
+        item: absoluteUrl("/menu")
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: item.name,
+        item: absoluteUrl(`/menu/${options.slug}`)
+      }
+    ]
+  };
+}

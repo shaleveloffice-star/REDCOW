@@ -1,10 +1,12 @@
 import { HOMEPAGE_MENU_ITEM_IDS } from "@/data/homepage-menu";
 import { mockMenuItems } from "@/data/mock/menu.mock";
 import { isFirebaseConfigured } from "@/lib/firebase";
+import { resolveMenuItemSlug } from "@/lib/menu/product-slug";
 import {
   deleteMenuCategory,
   deleteMenuItem,
   getMenuCategories,
+  getMenuItemById,
   getMenuItems,
   saveMenuCategory,
   saveMenuItem
@@ -53,7 +55,7 @@ export async function getHomepageMenuShowcase(): Promise<MenuItem[]> {
     ? new Map<string, MenuItem>()
     : new Map(mockMenuItems.map((item) => [item.id, item]));
 
-  return HOMEPAGE_MENU_ITEM_IDS.flatMap((id) => {
+  const curated = HOMEPAGE_MENU_ITEM_IDS.flatMap((id) => {
     const activeItem = activeById.get(id);
     if (activeItem) {
       return [activeItem];
@@ -66,6 +68,38 @@ export async function getHomepageMenuShowcase(): Promise<MenuItem[]> {
     const seedItem = seedById.get(id);
     return seedItem?.isActive ? [seedItem] : [];
   });
+
+  if (curated.length > 0) {
+    return curated;
+  }
+
+  // Fallback: show the first active dishes so homepage section 2 is never empty black.
+  const MAX_SHOWCASE = 8;
+  return activeItems.slice(0, MAX_SHOWCASE);
+}
+
+export async function getMenuItemForDisplay(id: string): Promise<MenuItem | null> {
+  const item = await getMenuItemById(id);
+  if (!item || !item.isActive) {
+    return null;
+  }
+  return item;
+}
+
+export async function getMenuItemBySlugForDisplay(slug: string): Promise<MenuItem | null> {
+  const normalized = slug.trim().toLowerCase();
+  if (!normalized) return null;
+
+  const items = await listMenuItems({ activeOnly: false });
+  const match = items.find((item) => {
+    const itemSlug = resolveMenuItemSlug(item).toLowerCase();
+    return itemSlug === normalized || item.id.toLowerCase() === normalized;
+  });
+
+  if (!match || !match.isActive) {
+    return null;
+  }
+  return match;
 }
 
 export async function upsertMenuItem(input: MenuItem): Promise<MenuItem> {

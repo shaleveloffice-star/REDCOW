@@ -1,0 +1,230 @@
+/* Product detail — NB BURGER product page */
+
+.menu-item-detail-page {
+  background: #ffffff;
+  color: #000000;
+  min-height: 100svh;
+}
+
+.menu-item-detail {
+  padding: 24px 0 72px;
+}
+
+.menu-item-detail-hero {
+  display: grid;
+  gap: 28px;
+  width: min(1040px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.menu-item-detail-media {
+  aspect-ratio: 1 / 1;
+  width: min(640px, 100%);
+  margin: 0 auto;
+  background: #ffffff;
+  overflow: hidden;
+}
+
+.menu-item-detail-image,
+.menu-item-detail-media img,
+.menu-item-detail-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #ffffff;
+}
+
+.menu-item-detail-intro {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.menu-item-detail-category {
+  margin: 0;
+  color: rgba(0, 0, 0, 0.55);
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.menu-item-detail-title {
+  margin: 0;
+  color: #000000;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(34px, 7vw, 56px);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 0.95;
+  text-transform: uppercase;
+}
+
+.menu-item-detail-price {
+  margin: 0;
+  color: #000000;
+  font-family: var(--font-body);
+  font-size: clamp(18px, 2.4vw, 22px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.menu-item-detail-short {
+  margin: 4px 0 0;
+  max-width: 34em;
+  color: #000000;
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  font-size: clamp(13px, 1.7vw, 15px);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.45;
+}
+
+.menu-item-detail-order {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 180px;
+  min-height: 48px;
+  margin-top: 10px;
+  padding: 12px 36px;
+  border: 1px solid #000000;
+  border-radius: 999px;
+  background: #000000;
+  color: #ffffff;
+  font-family: var(--font-button);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    transform 160ms var(--motion-ease),
+    box-shadow 160ms ease;
+}
+
+.menu-item-detail-order:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.menu-item-detail-order:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 3px;
+}
+
+.menu-item-detail-allergy {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+  color: #000000;
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1.2;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.menu-item-detail-allergy:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.menu-item-detail-allergy:focus-visible {
+  outline: 2px solid #000000;
+  outline-offset: 3px;
+}
+
+.menu-item-detail-allergy-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid #000000;
+  border-radius: 50%;
+  font-family: var(--font-assistant), sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  font-style: italic;
+  line-height: 1;
+}
+
+.menu-item-detail-long {
+  width: min(720px, calc(100% - 32px));
+  margin: 48px auto 0;
+  padding: 28px 24px;
+  border-radius: 12px;
+  background: #000000;
+  color: #ffffff;
+}
+
+.menu-item-detail-long-text {
+  margin: 0;
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  font-size: clamp(13px, 1.6vw, 15px);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.6;
+  text-align: center;
+}
+
+.menu-item-detail-long-text + .menu-item-detail-long-text {
+  margin-top: 16px;
+}
+
+.menu-item-detail-footer {
+  display: flex;
+  justify-content: center;
+  margin-top: 28px;
+}
+
+.menu-item-detail-back {
+  color: rgba(0, 0, 0, 0.55);
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.menu-item-detail-back:hover {
+  color: #000000;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (min-width: 900px) {
+  .menu-item-detail {
+    padding-top: 40px;
+  }
+
+  .menu-item-detail-hero {
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    align-items: center;
+    gap: 48px;
+  }
+
+  .menu-item-detail-media {
+    margin: 0;
+    width: 100%;
+  }
+
+  .menu-item-detail-intro {
+    align-items: flex-start;
+    text-align: start;
+  }
+
+  .menu-item-detail-long {
+    margin-top: 64px;
+    padding: 36px 40px;
+  }
+}

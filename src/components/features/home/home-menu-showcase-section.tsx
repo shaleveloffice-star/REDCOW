@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import type { MenuItem } from "@/types/content";
-import { isVideoMediaUrl } from "@/lib/menu-media";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
+import { getMenuItemHref } from "@/lib/menu/product-slug";
+import { isVideoMediaUrl } from "@/lib/menu-media";
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
@@ -21,11 +22,11 @@ function canScrollHorizontally(track: HTMLElement): boolean {
   return track.scrollWidth > track.clientWidth + 2;
 }
 
-function isMobileCarousel(): boolean {
-  return window.matchMedia("(max-width: 767px)").matches;
+function isCoarsePointer(): boolean {
+  return window.matchMedia("(hover: none), (pointer: coarse)").matches;
 }
 
-function scrollToRtlStart(track: HTMLElement): void {
+function scrollToStart(track: HTMLElement): void {
   track.scrollLeft = 0;
 }
 
@@ -73,7 +74,6 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
     const card = track.querySelector<HTMLElement>(".menu-showcase-card");
     const amount = card ? card.getBoundingClientRect().width + 16 : track.clientWidth * 0.8;
     const delta = direction === "next" ? amount : -amount;
-    // In RTL, "next" visually moves toward older scroll position for start-aligned tracks.
     const isRtl = getComputedStyle(track).direction === "rtl";
     const signed = isRtl ? -delta : delta;
 
@@ -90,13 +90,9 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
     }
 
     const alignScrollStart = () => {
-      if (!isMobileCarousel()) {
-        return;
-      }
-
-      scrollToRtlStart(track);
+      scrollToStart(track);
       requestAnimationFrame(() => {
-        scrollToRtlStart(track);
+        scrollToStart(track);
       });
     };
 
@@ -124,7 +120,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
       if (
         motionQuery.matches ||
         nudgePausedRef.current ||
-        !isMobileCarousel() ||
+        !isCoarsePointer() ||
         !canScrollHorizontally(track) ||
         !isAtScrollStart(track) ||
         rail.classList.contains(NUDGE_CLASS)
@@ -164,7 +160,24 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
   }, [items.length]);
 
   if (items.length === 0) {
-    return null;
+    return (
+      <section id="menu" className="menu-showcase-section" aria-labelledby="menu-showcase-title">
+        <div className="menu-showcase-shell">
+          <header className="menu-showcase-header">
+            <h2 id="menu-showcase-title" className="menu-showcase-title">
+              {t.menuShowcase.title}
+            </h2>
+            <p className="menu-showcase-lead">{t.menuShowcase.lead}</p>
+          </header>
+          <div className="menu-showcase-action">
+            <Link className="menu-showcase-button" href="/menu">
+              {t.menuShowcase.fullMenu}
+            </Link>
+            <p className="menu-showcase-allergy">{t.menuShowcase.allergyNote}</p>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
@@ -178,7 +191,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
         </header>
 
         <div className="menu-showcase-carousel" role="region" aria-label={t.menuShowcase.trackAria}>
-          <div ref={trackRef} className="menu-showcase-track" tabIndex={-1}>
+          <div ref={trackRef} className="menu-showcase-track" tabIndex={0}>
             <div ref={railRef} className="menu-showcase-rail" role="list">
               {items.map((item) => {
                 const localized = getLocalizedMenuItem(item, locale);
@@ -187,30 +200,33 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
 
                 return (
                   <article key={item.id} className="menu-showcase-card" role="listitem">
-                    <div
-                      className={`menu-showcase-card-media${isVideo ? " menu-showcase-card-media--video" : ""}`}
-                    >
-                      {isVideo ? (
-                        <div className="menu-showcase-card-video-frame">
-                          <AutoplayVideo
-                            className="menu-showcase-card-video"
+                    <Link href={getMenuItemHref(item)} className="menu-showcase-card-link">
+                      <div
+                        className={`menu-showcase-card-media${isVideo ? " menu-showcase-card-media--video" : ""}`}
+                      >
+                        {isVideo ? (
+                          <div className="menu-showcase-card-video-frame">
+                            <AutoplayVideo
+                              className="menu-showcase-card-video"
+                              src={media}
+                              poster={PLACEHOLDER_IMAGE}
+                              aria-label={localized.name}
+                            />
+                          </div>
+                        ) : (
+                          <MenuItemImage
                             src={media}
-                            poster={PLACEHOLDER_IMAGE}
-                            aria-label={localized.name}
+                            alt={localized.imageAlt}
+                            width={640}
+                            height={640}
+                            sizes="(max-width: 767px) 70vw, 260px"
+                            loading="lazy"
+                            className="menu-showcase-card-image"
                           />
-                        </div>
-                      ) : (
-                        <MenuItemImage
-                          src={media}
-                          alt={localized.name}
-                          width={640}
-                          height={640}
-                          sizes="(max-width: 767px) 70vw, 260px"
-                          loading="lazy"
-                          className="menu-showcase-card-image"
-                        />
-                      )}
-                    </div>
+                        )}
+                      </div>
+                      <h3 className="menu-showcase-card-name">{localized.name}</h3>
+                    </Link>
                   </article>
                 );
               })}
@@ -245,6 +261,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
           <Link className="menu-showcase-button" href="/menu">
             {t.menuShowcase.fullMenu}
           </Link>
+          <p className="menu-showcase-allergy">{t.menuShowcase.allergyNote}</p>
         </div>
       </div>
     </section>

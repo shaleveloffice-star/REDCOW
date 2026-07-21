@@ -1,6 +1,8 @@
 import type { MetadataRoute } from "next";
 
+import { resolveMenuItemSlug } from "@/lib/menu/product-slug";
 import { SITE_URL } from "@/lib/seo";
+import { listMenuItems } from "@/services/menu.service";
 
 type SitemapEntryInput = {
   path: string;
@@ -17,13 +19,28 @@ const PUBLIC_ROUTES: SitemapEntryInput[] = [
   { path: "/privacy-policy", changeFrequency: "yearly", priority: 0.3 }
 ];
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
 
-  return PUBLIC_ROUTES.map(({ path, changeFrequency, priority }) => ({
+  const staticEntries = PUBLIC_ROUTES.map(({ path, changeFrequency, priority }) => ({
     url: `${SITE_URL}${path === "/" ? "" : path}`,
     lastModified,
     changeFrequency,
     priority
   }));
+
+  let menuEntries: MetadataRoute.Sitemap = [];
+  try {
+    const items = await listMenuItems({ activeOnly: true });
+    menuEntries = items.map((item) => ({
+      url: `${SITE_URL}/menu/${resolveMenuItemSlug(item)}`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.8
+    }));
+  } catch {
+    menuEntries = [];
+  }
+
+  return [...staticEntries, ...menuEntries];
 }

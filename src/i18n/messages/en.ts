@@ -45,6 +45,13 @@ export const en: Messages = {
     viewLocations: "View Our Locations",
     heroAlt: "Dishes from the NB BURGER menu"
   },
+  menuItemDetail: {
+    orderNow: "Order Now",
+    allergyGuide: "Allergy Guide",
+    galleryAria: "Dish photos",
+    backToMenu: "Back to menu",
+    longSectionAria: "Full description"
+  },
   locations: {
     findLocal: "FIND MY LOCAL",
     ourLocations: "OUR LOCATIONS",
@@ -60,6 +67,7 @@ export const en: Messages = {
     trackAria: "Menu highlights",
     bestSeller: "Best Seller",
     fullMenu: "View Full Menu",
+    allergyNote: "Includes full allergy info",
     prev: "Previous dishes",
     next: "Next dishes"
   },

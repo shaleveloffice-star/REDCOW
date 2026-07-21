@@ -4,6 +4,7 @@ import "./globals.css";
 import "./homepage-ds.css";
 import "./locations-page.css";
 import "./menu-page.css";
+import "./menu-item-detail.css";
 
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { LocaleProvider } from "@/components/providers/locale-provider";

@@ -12,9 +12,20 @@ type PageMetadataInput = {
   title: string;
   description: string;
   path: string;
+  image?: string;
+  imageAlt?: string;
 };
 
-export function buildPageMetadata({ title, description, path }: PageMetadataInput): Metadata {
+export function buildPageMetadata({
+  title,
+  description,
+  path,
+  image,
+  imageAlt
+}: PageMetadataInput): Metadata {
+  const ogImage = image?.trim() || DEFAULT_OG_IMAGE;
+  const ogAlt = imageAlt?.trim() || SITE_NAME;
+
   return {
     title,
     description,
@@ -28,13 +39,13 @@ export function buildPageMetadata({ title, description, path }: PageMetadataInpu
       url: path,
       title,
       description,
-      images: [{ url: DEFAULT_OG_IMAGE, alt: SITE_NAME }]
+      images: [{ url: ogImage, alt: ogAlt }]
     },
     twitter: {
       card: "summary_large_image",
       title,
       description,
-      images: [DEFAULT_OG_IMAGE]
+      images: [ogImage]
     }
   };
 }

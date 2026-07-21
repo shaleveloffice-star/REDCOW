@@ -18,6 +18,7 @@ import {
 } from "@/data/site-images.registry";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
+import { getMenuItemHref } from "@/lib/menu/product-slug";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
@@ -57,25 +58,27 @@ function MenuItemsGrid({
         const localized = getLocalizedMenuItem(item, locale);
         return (
           <li key={item.id}>
-            <article className="menu-bleecker-card">
-              <div className="menu-bleecker-card-media">
-                {isVideoMediaUrl(item.imageUrl) ? (
-                  <MenuAutoplayMedia src={item.imageUrl} name={localized.name} />
-                ) : (
-                  <MenuItemImage
-                    src={item.imageUrl}
-                    alt={localized.name}
-                    width={480}
-                    height={480}
-                    sizes={large ? "(max-width: 700px) 50vw, 33vw" : "(max-width: 700px) 50vw, 25vw"}
-                    loading="lazy"
-                    className="menu-bleecker-card-image"
-                  />
-                )}
-              </div>
-              <h2 className="menu-bleecker-card-name">{localized.name}</h2>
-              <p className="menu-bleecker-card-price">{formatPrice(item.price, locale)}</p>
-            </article>
+            <Link href={getMenuItemHref(item)} className="menu-bleecker-card-link">
+              <article className="menu-bleecker-card">
+                <div className="menu-bleecker-card-media">
+                  {isVideoMediaUrl(item.imageUrl) ? (
+                    <MenuAutoplayMedia src={item.imageUrl} name={localized.name} />
+                  ) : (
+                    <MenuItemImage
+                      src={item.imageUrl}
+                      alt={localized.imageAlt}
+                      width={480}
+                      height={480}
+                      sizes={large ? "(max-width: 700px) 50vw, 33vw" : "(max-width: 700px) 50vw, 25vw"}
+                      loading="lazy"
+                      className="menu-bleecker-card-image"
+                    />
+                  )}
+                </div>
+                <h2 className="menu-bleecker-card-name">{localized.name}</h2>
+                <p className="menu-bleecker-card-price">{formatPrice(item.price, locale)}</p>
+              </article>
+            </Link>
           </li>
         );
       })}
@@ -174,6 +177,10 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl }: MenuPageViewPro
           <span>{t.menuPage.viewLocations}</span>
         </Link>
       </section>
+
+      <p id="allergy-guide" className="menu-bleecker-allergy">
+        {t.menuShowcase.allergyNote}
+      </p>
 
       <OrderModal
         open={orderOpen}

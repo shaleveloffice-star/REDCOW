@@ -66,6 +66,14 @@ export const mockMenuItems: MenuItem[] = [
     price: 58,
     categoryId: "cat-burgers",
     imageUrl: MENU_ITEM_IMAGE,
+    detailNotes: [
+      "אנחנו משתמשים בגבינה אמריקאית כי היא נמסה טוב יותר מגבינות אחרות. היא הכי טובה.",
+      "הבשר שלנו יקר לנו. לכן אנחנו משתמשים בתערובת מיוחדת שמיישנים אצלנו במקום."
+    ],
+    longDescription:
+      "הקלאסיקה שלנו — בשר טרי על הפלנצ׳ה, שכבות ירקות פריכות ורוטב הבית.",
+    slug: "nb-classic",
+    imageAlt: "המבורגר NB Classic של NB BURGER",
     isActive: true,
     tags: ["מומלץ", "בקר"],
     sortOrder: 1,

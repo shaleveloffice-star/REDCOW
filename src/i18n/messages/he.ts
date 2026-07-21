@@ -45,6 +45,13 @@ export const he: Messages = {
     viewLocations: "הסניפים שלנו",
     heroAlt: "מנות מתוך תפריט NB BURGER"
   },
+  menuItemDetail: {
+    orderNow: "להזמנה",
+    allergyGuide: "מדריך אלרגנים",
+    galleryAria: "תמונות המנה",
+    backToMenu: "חזרה לתפריט",
+    longSectionAria: "תיאור מורחב"
+  },
   locations: {
     findLocal: "מצא סניף",
     ourLocations: "הסניפים שלנו",
@@ -56,10 +63,11 @@ export const he: Messages = {
   },
   menuShowcase: {
     title: "התפריט שלנו",
-    lead: "המבורגרים, צ'יפס ועוד!",
+    lead: "המבורגרים, צ'יפס, שייקים ועוד!",
     trackAria: "מנות מהתפריט",
     bestSeller: "הכי נמכר",
     fullMenu: "לתפריט המלא",
+    allergyNote: "כולל מידע מלא על אלרגנים",
     prev: "מנות קודמות",
     next: "מנות הבאות"
   },

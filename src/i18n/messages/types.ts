@@ -47,6 +47,13 @@ export type Messages = {
     viewLocations: string;
     heroAlt: string;
   };
+  menuItemDetail: {
+    orderNow: string;
+    allergyGuide: string;
+    galleryAria: string;
+    backToMenu: string;
+    longSectionAria: string;
+  };
   locations: {
     findLocal: string;
     ourLocations: string;
@@ -62,6 +69,7 @@ export type Messages = {
     trackAria: string;
     bestSeller: string;
     fullMenu: string;
+    allergyNote: string;
     prev: string;
     next: string;
   };

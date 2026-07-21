@@ -45,6 +45,13 @@ export const fr: Messages = {
     viewLocations: "Voir nos adresses",
     heroAlt: "Plats de la carte NB BURGER"
   },
+  menuItemDetail: {
+    orderNow: "Commander",
+    allergyGuide: "Guide allergènes",
+    galleryAria: "Photos du plat",
+    backToMenu: "Retour à la carte",
+    longSectionAria: "Description complète"
+  },
   locations: {
     findLocal: "Trouver un restaurant",
     ourLocations: "Nos restaurants",
@@ -60,6 +67,7 @@ export const fr: Messages = {
     trackAria: "Aperçu de la carte",
     bestSeller: "Le plus vendu",
     fullMenu: "Voir la carte complète",
+    allergyNote: "Inclut toutes les infos allergènes",
     prev: "Plats précédents",
     next: "Plats suivants"
   },

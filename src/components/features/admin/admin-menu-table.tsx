@@ -10,6 +10,7 @@ import {
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import { compressImageFileToDataUrl } from "@/lib/client/compress-image";
+import { getMenuItemHref, slugifyProductName } from "@/lib/menu/product-slug";
 import { deleteMenuItemAction } from "@/server/actions/menu.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
@@ -19,8 +20,6 @@ type SaveMenuItemApiResult =
   | { ok: false; error: string };
 
 async function saveMenuItemViaApi(item: MenuItem): Promise<SaveMenuItemApiResult> {
-  // If a temporary data URL is still in the form, upload it first so the save
-  // payload stays small (Server Actions / Firestore choke on huge base64).
   let imageUrl = item.imageUrl;
   if (imageUrl.startsWith("data:image/")) {
     const uploadResponse = await fetch("/api/admin/menu-image", {
@@ -77,9 +76,15 @@ function newMenuItem(categories: MenuCategory[], items: MenuItem[]): MenuItem {
     id: createId("item"),
     name: "",
     description: "",
+    longDescription: "",
     price: 0,
     categoryId: categories[0]?.id ?? "",
     imageUrl: "/images/menu/nb-menu-burger.png",
+    slug: "",
+    imageAlt: "",
+    primaryKeyword: "",
+    metaTitle: "",
+    metaDescription: "",
     isActive: true,
     tags: [],
     sortOrder: items.length + 1,
@@ -104,6 +109,7 @@ export function AdminMenuTable({
   const [rows, setRows] = useState(items);
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [draft, setDraft] = useState<MenuItem | null>(null);
+  const [slugTouched, setSlugTouched] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const isNew = draft ? !rows.some((i) => i.id === draft.id) : false;
 
@@ -137,6 +143,7 @@ export function AdminMenuTable({
 
   const close = () => {
     setDraft(null);
+    setSlugTouched(false);
     setError(null);
   };
 
@@ -156,8 +163,6 @@ export function AdminMenuTable({
     setError(null);
     try {
       const dataUrl = await compressImageFileToDataUrl(file);
-
-      // Upload as JSON (not multipart) — avoids Windows/OneDrive hang on FormData.
       const response = await fetch("/api/admin/menu-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -169,9 +174,7 @@ export function AdminMenuTable({
       try {
         result = (await response.json()) as typeof result;
       } catch {
-        setError(
-          `העלאת התמונה נכשלה (${response.status}). רעננו את הדף ונסו שוב.`
-        );
+        setError(`העלאת התמונה נכשלה (${response.status}). רעננו את הדף ונסו שוב.`);
         return;
       }
 
@@ -181,8 +184,11 @@ export function AdminMenuTable({
       }
 
       const uploadedUrl = result.url;
-      // Functional update — don't clobber fields edited while compressing/uploading.
-      setDraft((prev) => (prev ? { ...prev, imageUrl: uploadedUrl } : prev));
+      setDraft((prev) => {
+        if (!prev) return prev;
+        const nextAlt = prev.imageAlt?.trim() ? prev.imageAlt : prev.name.trim() || prev.imageAlt;
+        return { ...prev, imageUrl: uploadedUrl, imageAlt: nextAlt ?? "" };
+      });
     } catch (err) {
       console.error("[AdminMenuTable] image upload failed:", err);
       const message =
@@ -211,7 +217,35 @@ export function AdminMenuTable({
       item.sortOrder =
         inCategory.reduce((max, row) => Math.max(max, row.sortOrder), 0) + 1;
     }
+    setSlugTouched(false);
     setDraft(item);
+  };
+
+  const openEditItem = (item: MenuItem) => {
+    setSlugTouched(Boolean(item.slug?.trim()));
+    setDraft({
+      ...item,
+      longDescription: item.longDescription ?? "",
+      slug: item.slug ?? "",
+      imageAlt: item.imageAlt ?? "",
+      primaryKeyword: item.primaryKeyword ?? "",
+      metaTitle: item.metaTitle ?? "",
+      metaDescription: item.metaDescription ?? ""
+    });
+  };
+
+  const updateName = (name: string) => {
+    setDraft((prev) => {
+      if (!prev) return prev;
+      const next: MenuItem = { ...prev, name };
+      if (!slugTouched) {
+        next.slug = slugifyProductName(name);
+      }
+      if (!prev.imageAlt?.trim()) {
+        next.imageAlt = name;
+      }
+      return next;
+    });
   };
 
   return (
@@ -278,7 +312,7 @@ export function AdminMenuTable({
                 <td className="admin-menu-sort">{item.sortOrder}</td>
                 <td>
                   <img
-                    alt=""
+                    alt={item.imageAlt || item.name}
                     className="admin-menu-thumb"
                     height={56}
                     src={menuImageSrc(item)}
@@ -291,6 +325,9 @@ export function AdminMenuTable({
                   <p className="muted" style={{ margin: "6px 0 0", maxWidth: 420 }}>
                     {item.description}
                   </p>
+                  <p className="muted" style={{ margin: "4px 0 0", fontSize: 12 }}>
+                    {getMenuItemHref(item)}
+                  </p>
                 </td>
                 {!categoryFilter ? <td>{categoryById[item.categoryId] ?? "—"}</td> : null}
                 <td>{item.price} ש&quot;ח</td>
@@ -301,7 +338,7 @@ export function AdminMenuTable({
                   <AdminRowActions
                     disabled={isPending}
                     onDelete={() => handleDelete(item)}
-                    onEdit={() => setDraft({ ...item })}
+                    onEdit={() => openEditItem(item)}
                   />
                 </td>
               </tr>
@@ -322,7 +359,7 @@ export function AdminMenuTable({
                   throw new Error(result.error);
                 }
                 const saved = result.item;
-                setDraft((prev) => (prev ? { ...prev, imageUrl: saved.imageUrl } : prev));
+                setDraft((prev) => (prev ? { ...prev, ...saved } : prev));
                 setRows((prev) => {
                   const idx = prev.findIndex((row) => row.id === saved.id);
                   if (idx >= 0) {
@@ -336,21 +373,12 @@ export function AdminMenuTable({
             }}
           >
             <label>
-              שם
+              שם המנה
               <input
                 required
                 maxLength={120}
                 value={draft.name}
-                onChange={(e) => setDraft({ ...draft, name: e.target.value })}
-              />
-            </label>
-            <label>
-              תיאור
-              <textarea
-                rows={4}
-                maxLength={500}
-                value={draft.description}
-                onChange={(e) => setDraft({ ...draft, description: e.target.value })}
+                onChange={(e) => updateName(e.target.value)}
               />
             </label>
             <label>
@@ -373,10 +401,45 @@ export function AdminMenuTable({
                 min={0}
                 step={0.01}
                 type="number"
+                required
                 value={draft.price}
                 onChange={(e) => setDraft({ ...draft, price: parseFloat(e.target.value) || 0 })}
               />
             </label>
+            <label>
+              תיאור קצר
+              <textarea
+                rows={3}
+                maxLength={500}
+                value={draft.description}
+                onChange={(e) => setDraft({ ...draft, description: e.target.value })}
+              />
+            </label>
+            <label>
+              תיאור ארוך
+              <textarea
+                rows={5}
+                maxLength={4000}
+                value={draft.longDescription ?? ""}
+                onChange={(e) => setDraft({ ...draft, longDescription: e.target.value })}
+              />
+            </label>
+            <label>
+              סלאג (כתובת העמוד)
+              <input
+                maxLength={80}
+                value={draft.slug ?? ""}
+                placeholder="נוצר אוטומטית משם המנה"
+                onChange={(e) => {
+                  setSlugTouched(true);
+                  setDraft({ ...draft, slug: e.target.value });
+                }}
+              />
+            </label>
+            <p className="muted" style={{ marginTop: -8 }}>
+              כתובת ציבורית: {getMenuItemHref(draft)}
+            </p>
+
             <label>
               תמונת מנה (מהמחשב)
               <input accept="image/*" disabled={uploadingImage} type="file" onChange={handleImageUpload} />
@@ -385,31 +448,57 @@ export function AdminMenuTable({
             {draft.imageUrl ? (
               <div className="admin-image-preview">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img alt="" height={120} src={menuImageSrc(draft)} width={120} />
-                {draft.imageUrl.startsWith("/api/media/menu/") ? (
-                  <p className="muted">התמונה נשמרה — לחצו שמור כדי לשייך למנה</p>
-                ) : null}
+                <img
+                  alt={draft.imageAlt || draft.name || ""}
+                  height={120}
+                  src={menuImageSrc(draft)}
+                  width={120}
+                />
+                <p className="muted">התמונה נשמרת אוטומטית לאחר העלאה — לחצו שמור לשייך למנה</p>
               </div>
             ) : null}
-            {!draft.imageUrl.startsWith("data:") ? (
-              <label>
-                כתובת תמונה (אופציונלי)
-                <input
-                  type="text"
-                  value={draft.imageUrl}
-                  placeholder="/api/media/menu/… או https://…"
-                  onChange={(e) => setDraft({ ...draft, imageUrl: e.target.value })}
-                />
-              </label>
-            ) : (
-              <button
-                type="button"
-                className="button secondary"
-                onClick={() => setDraft({ ...draft, imageUrl: "/images/menu/nb-menu-burger.png" })}
-              >
-                הסר תמונה שהועלתה
-              </button>
-            )}
+            <label>
+              טקסט ALT לתמונה
+              <input
+                required={Boolean(draft.imageUrl)}
+                maxLength={160}
+                value={draft.imageAlt ?? ""}
+                onChange={(e) => setDraft({ ...draft, imageAlt: e.target.value })}
+              />
+            </label>
+
+            <label>
+              מילת מפתח ראשית (SEO)
+              <input
+                maxLength={80}
+                value={draft.primaryKeyword ?? ""}
+                onChange={(e) => setDraft({ ...draft, primaryKeyword: e.target.value })}
+              />
+            </label>
+            <label>
+              כותרת מטא (עד 60)
+              <input
+                maxLength={60}
+                value={draft.metaTitle ?? ""}
+                onChange={(e) => setDraft({ ...draft, metaTitle: e.target.value })}
+              />
+            </label>
+            <p className="muted" style={{ marginTop: -8 }}>
+              {(draft.metaTitle ?? "").length}/60
+            </p>
+            <label>
+              תיאור מטא (עד 160)
+              <textarea
+                rows={3}
+                maxLength={160}
+                value={draft.metaDescription ?? ""}
+                onChange={(e) => setDraft({ ...draft, metaDescription: e.target.value })}
+              />
+            </label>
+            <p className="muted" style={{ marginTop: -8 }}>
+              {(draft.metaDescription ?? "").length}/160
+            </p>
+
             <label>
               סדר תצוגה
               <input

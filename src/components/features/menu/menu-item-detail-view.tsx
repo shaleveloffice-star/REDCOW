@@ -77,13 +77,6 @@ export function MenuItemDetailView({
           >
             {t.menuItemDetail.orderNow}
           </button>
-
-          <Link className="menu-item-detail-allergy" href="/menu#allergy-guide">
-            <span className="menu-item-detail-allergy-icon" aria-hidden="true">
-              i
-            </span>
-            <span>{t.menuItemDetail.allergyGuide}</span>
-          </Link>
         </div>
       </div>
 

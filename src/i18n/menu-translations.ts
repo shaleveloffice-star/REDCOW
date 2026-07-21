@@ -75,16 +75,18 @@ export type LocalizedMenuItem = {
 };
 
 export function getLocalizedMenuItem(item: MenuItem, locale: Locale): LocalizedMenuItem {
-  const hebrewNotes = item.detailNotes?.filter((note) => note.trim().length > 0) ?? [];
-  const hebrewLong = item.longDescription?.trim() ?? "";
-  const fallbackAlt = item.imageAlt?.trim() || item.name;
+  const hebrewNotes = (item.detailNotes ?? []).filter((note) => String(note).trim().length > 0);
+  const hebrewLong = String(item.longDescription ?? "").trim();
+  const name = String(item.name ?? "").trim() || "NB BURGER";
+  const description = String(item.description ?? "").trim();
+  const fallbackAlt = String(item.imageAlt ?? "").trim() || name;
 
   if (locale === "he") {
     return {
-      name: item.name,
-      description: item.description,
+      name,
+      description,
       longDescription: hebrewLong,
-      detailNotes: hebrewNotes,
+      detailNotes: hebrewNotes.map(String),
       imageAlt: fallbackAlt
     };
   }
@@ -92,11 +94,12 @@ export function getLocalizedMenuItem(item: MenuItem, locale: Locale): LocalizedM
   const translation = MENU_ITEM_TRANSLATIONS[item.id]?.[locale];
 
   return {
-    name: translation?.name ?? item.name,
-    description: translation?.description ?? item.description,
+    name: translation?.name ?? name,
+    description: translation?.description ?? description,
     longDescription: translation?.longDescription?.trim() || hebrewLong,
     detailNotes:
-      translation?.detailNotes?.filter((note) => note.trim().length > 0) ?? hebrewNotes,
+      translation?.detailNotes?.filter((note) => note.trim().length > 0) ??
+      hebrewNotes.map(String),
     imageAlt: fallbackAlt
   };
 }

@@ -47,7 +47,6 @@ export const en: Messages = {
   },
   menuItemDetail: {
     orderNow: "Order Now",
-    allergyGuide: "Allergy Guide",
     galleryAria: "Dish photos",
     backToMenu: "Back to menu",
     longSectionAria: "Full description"
@@ -67,7 +66,6 @@ export const en: Messages = {
     trackAria: "Menu highlights",
     bestSeller: "Best Seller",
     fullMenu: "View Full Menu",
-    allergyNote: "Includes full allergy info",
     prev: "Previous dishes",
     next: "Next dishes"
   },

@@ -178,10 +178,6 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl }: MenuPageViewPro
         </Link>
       </section>
 
-      <p id="allergy-guide" className="menu-bleecker-allergy">
-        {t.menuShowcase.allergyNote}
-      </p>
-
       <OrderModal
         open={orderOpen}
         onClose={() => setOrderOpen(false)}

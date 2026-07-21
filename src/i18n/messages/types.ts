@@ -49,7 +49,6 @@ export type Messages = {
   };
   menuItemDetail: {
     orderNow: string;
-    allergyGuide: string;
     galleryAria: string;
     backToMenu: string;
     longSectionAria: string;
@@ -69,7 +68,6 @@ export type Messages = {
     trackAria: string;
     bestSeller: string;
     fullMenu: string;
-    allergyNote: string;
     prev: string;
     next: string;
   };

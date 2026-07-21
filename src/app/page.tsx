@@ -74,9 +74,18 @@ export const metadata: Metadata = buildPageMetadata({
 
 export default async function HomePage() {
   const [settings, siteImages, homepageMenuItems] = await Promise.all([
-    getCachedSettings(),
-    getCachedSiteImagesMap(),
-    getCachedHomepageMenu()
+    getCachedSettings().catch((err) => {
+      console.error("[HomePage] settings failed", err instanceof Error ? err.message : err);
+      throw err;
+    }),
+    getCachedSiteImagesMap().catch((err) => {
+      console.error("[HomePage] site images failed", err instanceof Error ? err.message : err);
+      throw err;
+    }),
+    getCachedHomepageMenu().catch((err) => {
+      console.error("[HomePage] menu showcase failed", err instanceof Error ? err.message : err);
+      return [] as Awaited<ReturnType<typeof getCachedHomepageMenu>>;
+    })
   ]);
 
   return (

@@ -47,7 +47,6 @@ export const fr: Messages = {
   },
   menuItemDetail: {
     orderNow: "Commander",
-    allergyGuide: "Guide allergènes",
     galleryAria: "Photos du plat",
     backToMenu: "Retour à la carte",
     longSectionAria: "Description complète"
@@ -67,7 +66,6 @@ export const fr: Messages = {
     trackAria: "Aperçu de la carte",
     bestSeller: "Le plus vendu",
     fullMenu: "Voir la carte complète",
-    allergyNote: "Inclut toutes les infos allergènes",
     prev: "Plats précédents",
     next: "Plats suivants"
   },

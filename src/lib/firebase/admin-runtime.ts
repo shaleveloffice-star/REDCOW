@@ -21,8 +21,11 @@ type AdminAppModule = {
 
 type AdminModules = {
   app: AdminAppModule;
-  auth: { getAuth: (app: App) => Auth };
   firestore: { getFirestore: (app: App) => Firestore };
+};
+
+type AdminAuthModule = {
+  getAuth: (app: App) => Auth;
 };
 
 export type FirebaseAdminInitState =
@@ -32,8 +35,10 @@ export type FirebaseAdminInitState =
   | { status: "init_failed"; message: string };
 
 let cachedModules: AdminModules | null = null;
+let cachedAuthModule: AdminAuthModule | null = null;
 let cachedState: FirebaseAdminInitState | undefined;
 
+/** Loads app + firestore only — never firebase-admin/auth / jwks-rsa. */
 function loadAdminModules(): AdminModules {
   if (cachedModules) {
     return cachedModules;
@@ -43,6 +48,17 @@ function loadAdminModules(): AdminModules {
   // eslint-disable-next-line @typescript-eslint/no-require-imports
   cachedModules = require("./firebase-admin.cjs") as AdminModules;
   return cachedModules;
+}
+
+/** Lazy auth loader — only when getAdminAuth() is called. */
+function loadAdminAuthModule(): AdminAuthModule {
+  if (cachedAuthModule) {
+    return cachedAuthModule;
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
+  cachedAuthModule = require("./firebase-admin-auth.cjs") as AdminAuthModule;
+  return cachedAuthModule;
 }
 
 export { normalizeFirebasePrivateKey } from "@/lib/firebase/private-key";
@@ -159,7 +175,7 @@ export async function getAdminAuth(): Promise<Auth | null> {
   }
 
   try {
-    const { auth } = loadAdminModules();
+    const auth = loadAdminAuthModule();
     return auth.getAuth(appInstance);
   } catch (error) {
     console.error(

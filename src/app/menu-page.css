@@ -218,16 +218,6 @@
   border-top: 1px solid rgba(255, 255, 255, 0.28);
 }
 
-.menu-bleecker-allergy {
-  width: min(1280px, calc(100% - 24px));
-  margin: 0 auto 72px;
-  color: rgba(255, 255, 255, 0.62);
-  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
-  font-size: 12px;
-  letter-spacing: 0.04em;
-  text-align: center;
-}
-
 .menu-bleecker-cta {
   display: flex;
   flex-direction: column;

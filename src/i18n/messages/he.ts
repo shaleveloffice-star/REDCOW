@@ -47,7 +47,6 @@ export const he: Messages = {
   },
   menuItemDetail: {
     orderNow: "להזמנה",
-    allergyGuide: "מדריך אלרגנים",
     galleryAria: "תמונות המנה",
     backToMenu: "חזרה לתפריט",
     longSectionAria: "תיאור מורחב"
@@ -67,7 +66,6 @@ export const he: Messages = {
     trackAria: "מנות מהתפריט",
     bestSeller: "הכי נמכר",
     fullMenu: "לתפריט המלא",
-    allergyNote: "כולל מידע מלא על אלרגנים",
     prev: "מנות קודמות",
     next: "מנות הבאות"
   },

@@ -8,7 +8,7 @@ import { isVideoMediaUrl } from "@/lib/menu-media";
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 type HomeMenuShowcaseSectionProps = {
   items: MenuItem[];
@@ -40,47 +40,6 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
   const trackRef = useRef<HTMLDivElement>(null);
   const railRef = useRef<HTMLDivElement>(null);
   const nudgePausedRef = useRef(false);
-  const [canScrollPrev, setCanScrollPrev] = useState(false);
-  const [canScrollNext, setCanScrollNext] = useState(false);
-
-  const updateScrollButtons = () => {
-    const track = trackRef.current;
-    if (!track) {
-      setCanScrollPrev(false);
-      setCanScrollNext(false);
-      return;
-    }
-
-    if (!canScrollHorizontally(track)) {
-      setCanScrollPrev(false);
-      setCanScrollNext(false);
-      return;
-    }
-
-    const maxScroll = Math.max(0, track.scrollWidth - track.clientWidth);
-    const left = track.scrollLeft;
-    // RTL scrollLeft can be 0 at start or negative depending on browser.
-    const atStart = Math.abs(left) <= 2;
-    const atEnd = Math.abs(Math.abs(left) - maxScroll) <= 2 || Math.abs(left + maxScroll) <= 2;
-
-    setCanScrollPrev(!atStart);
-    setCanScrollNext(!atEnd);
-  };
-
-  const scrollByCard = (direction: "prev" | "next") => {
-    const track = trackRef.current;
-    if (!track) return;
-
-    const card = track.querySelector<HTMLElement>(".menu-showcase-card");
-    const amount = card ? card.getBoundingClientRect().width + 16 : track.clientWidth * 0.8;
-    const delta = direction === "next" ? amount : -amount;
-    const isRtl = getComputedStyle(track).direction === "rtl";
-    const signed = isRtl ? -delta : delta;
-
-    track.scrollBy({ left: signed, behavior: "smooth" });
-    nudgePausedRef.current = true;
-    window.setTimeout(updateScrollButtons, 400);
-  };
 
   useEffect(() => {
     const track = trackRef.current;
@@ -135,25 +94,20 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
     track.addEventListener("pointerdown", pauseNudge);
     track.addEventListener("touchend", resumeNudge, { passive: true });
     track.addEventListener("pointerup", resumeNudge);
-    track.addEventListener("scroll", updateScrollButtons, { passive: true });
     rail.addEventListener("animationend", onAnimationEnd);
 
     const intervalId = window.setInterval(runNudge, NUDGE_INTERVAL_MS);
     const firstNudgeId = window.setTimeout(runNudge, 2000);
     window.addEventListener("resize", alignScrollStart);
-    window.addEventListener("resize", updateScrollButtons);
-    updateScrollButtons();
 
     return () => {
       window.removeEventListener("resize", alignScrollStart);
-      window.removeEventListener("resize", updateScrollButtons);
       window.clearInterval(intervalId);
       window.clearTimeout(firstNudgeId);
       track.removeEventListener("touchstart", pauseNudge);
       track.removeEventListener("pointerdown", pauseNudge);
       track.removeEventListener("touchend", resumeNudge);
       track.removeEventListener("pointerup", resumeNudge);
-      track.removeEventListener("scroll", updateScrollButtons);
       rail.removeEventListener("animationend", onAnimationEnd);
       rail.classList.remove(NUDGE_CLASS);
     };
@@ -173,7 +127,6 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
             <Link className="menu-showcase-button" href="/menu">
               {t.menuShowcase.fullMenu}
             </Link>
-            <p className="menu-showcase-allergy">{t.menuShowcase.allergyNote}</p>
           </div>
         </div>
       </section>
@@ -219,7 +172,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
                             alt={localized.imageAlt}
                             width={640}
                             height={640}
-                            sizes="(max-width: 767px) 70vw, 260px"
+                            sizes="(max-width: 767px) 67vw, 247px"
                             loading="lazy"
                             className="menu-showcase-card-image"
                           />
@@ -232,36 +185,12 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
               })}
             </div>
           </div>
-
-          {items.length > 1 ? (
-            <div className="menu-showcase-controls">
-              <button
-                type="button"
-                className="menu-showcase-control"
-                aria-label={t.menuShowcase.prev}
-                disabled={!canScrollPrev}
-                onClick={() => scrollByCard("prev")}
-              >
-                ‹
-              </button>
-              <button
-                type="button"
-                className="menu-showcase-control"
-                aria-label={t.menuShowcase.next}
-                disabled={!canScrollNext}
-                onClick={() => scrollByCard("next")}
-              >
-                ›
-              </button>
-            </div>
-          ) : null}
         </div>
 
         <div className="menu-showcase-action">
           <Link className="menu-showcase-button" href="/menu">
             {t.menuShowcase.fullMenu}
           </Link>
-          <p className="menu-showcase-allergy">{t.menuShowcase.allergyNote}</p>
         </div>
       </div>
     </section>

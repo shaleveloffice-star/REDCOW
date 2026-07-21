@@ -18,20 +18,21 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
 
   return (
     <section id="story" className="home-story-section" aria-labelledby="home-story-title">
+      <header className="home-story-header">
+        <h2 id="home-story-title" className="home-story-title">
+          {story.title}
+        </h2>
+      </header>
+
       <div className="home-story-shell">
-        <div className="home-story-intro">
-          <h2 id="home-story-title" className="home-story-title">
-            {story.title}
-          </h2>
-          <div className="home-story-media">
-            <Image
-              src={imageUrl}
-              alt={story.imageAlt}
-              fill
-              sizes="(max-width: 900px) 100vw, 45vw"
-              className="home-story-image"
-            />
-          </div>
+        <div className="home-story-media">
+          <Image
+            src={imageUrl}
+            alt={story.imageAlt}
+            fill
+            sizes="(max-width: 900px) 100vw, 45vw"
+            className="home-story-image"
+          />
         </div>
 
         <div className="home-story-copy">

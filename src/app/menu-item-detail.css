@@ -1,4 +1,4 @@
-/* Product detail — NB BURGER product page */
+/* Product detail — Bleecker-style layout, black & white only */
 
 .menu-item-detail-page {
   background: #ffffff;
@@ -7,80 +7,90 @@
 }
 
 .menu-item-detail {
-  padding: 24px 0 72px;
+  padding: 0 0 56px;
 }
 
-.menu-item-detail-hero {
+.menu-item-detail-gallery {
   display: grid;
-  gap: 28px;
-  width: min(1040px, calc(100% - 32px));
-  margin: 0 auto;
+  grid-template-columns: 1fr;
+  gap: 0;
+  width: 100%;
 }
 
-.menu-item-detail-media {
+.menu-item-detail-gallery--dual {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.menu-item-detail-gallery-cell {
+  position: relative;
   aspect-ratio: 1 / 1;
-  width: min(640px, 100%);
-  margin: 0 auto;
-  background: #ffffff;
   overflow: hidden;
+  background: #ffffff;
 }
 
-.menu-item-detail-image,
-.menu-item-detail-media img,
-.menu-item-detail-media video {
+.menu-item-detail-gallery-image,
+.menu-item-detail-gallery-cell img,
+.menu-item-detail-gallery-cell video {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center;
   background: #ffffff;
+}
+
+.menu-item-detail-gallery-image--detail {
+  object-position: 58% 42%;
+  transform: scale(1.08);
 }
 
 .menu-item-detail-intro {
   display: flex;
   flex-direction: column;
   align-items: center;
+  gap: 14px;
+  padding: clamp(36px, 6vw, 56px) 24px clamp(40px, 7vw, 64px);
   text-align: center;
-  gap: 12px;
+  background: #ffffff;
 }
 
-.menu-item-detail-category {
-  margin: 0;
-  color: rgba(0, 0, 0, 0.55);
-  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
-  font-size: 12px;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
+.menu-item-detail-mark {
+  width: 34px;
+  height: 34px;
+  color: #000000;
 }
 
 .menu-item-detail-title {
   margin: 0;
+  max-width: 16ch;
   color: #000000;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(34px, 7vw, 56px);
+  font-size: clamp(30px, 6.5vw, 52px);
   font-weight: 400;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.05em;
   line-height: 0.95;
   text-transform: uppercase;
 }
 
-.menu-item-detail-price {
-  margin: 0;
-  color: #000000;
-  font-family: var(--font-body);
-  font-size: clamp(18px, 2.4vw, 22px);
-  font-weight: 700;
-  letter-spacing: 0.02em;
-}
-
 .menu-item-detail-short {
-  margin: 4px 0 0;
+  margin: 0;
   max-width: 34em;
   color: #000000;
-  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
-  font-size: clamp(13px, 1.7vw, 15px);
+  font-family: var(--font-body);
+  font-size: clamp(14px, 1.8vw, 16px);
   font-weight: 400;
   letter-spacing: 0.01em;
   line-height: 1.45;
+}
+
+.menu-item-detail-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 18px 24px;
+  margin-top: 8px;
+  direction: ltr;
 }
 
 .menu-item-detail-order {
@@ -88,16 +98,15 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-width: 180px;
-  min-height: 48px;
-  margin-top: 10px;
-  padding: 12px 36px;
+  min-width: 148px;
+  min-height: 46px;
+  padding: 12px 28px;
   border: 1px solid #000000;
-  border-radius: 999px;
+  border-radius: 6px;
   background: #000000;
   color: #ffffff;
   font-family: var(--font-button);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.08em;
   line-height: 1.2;
@@ -105,12 +114,14 @@
   cursor: pointer;
   transition:
     transform 160ms var(--motion-ease),
-    box-shadow 160ms ease;
+    background-color 160ms ease,
+    color 160ms ease;
 }
 
 .menu-item-detail-order:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+  background: #ffffff;
+  color: #000000;
 }
 
 .menu-item-detail-order:focus-visible {
@@ -122,12 +133,11 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-top: 2px;
   color: #000000;
-  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
-  font-size: 12px;
-  font-weight: 400;
-  letter-spacing: 0.06em;
+  font-family: var(--font-button);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
   line-height: 1.2;
   text-decoration: none;
   text-transform: uppercase;
@@ -158,27 +168,62 @@
   line-height: 1;
 }
 
-.menu-item-detail-long {
-  width: min(720px, calc(100% - 32px));
-  margin: 48px auto 0;
-  padding: 28px 24px;
-  border-radius: 12px;
+.menu-item-detail-cards {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+.menu-item-detail-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 280px;
+  padding: clamp(28px, 5vw, 40px) clamp(22px, 4vw, 36px);
+  text-align: center;
+}
+
+.menu-item-detail-card--dark {
   background: #000000;
   color: #ffffff;
 }
 
-.menu-item-detail-long-text {
+.menu-item-detail-card--light {
+  background: #f2f2f2;
+  color: #000000;
+}
+
+.menu-item-detail-card-head {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: min(220px, 100%);
+  margin-bottom: clamp(20px, 4vw, 28px);
+}
+
+.menu-item-detail-card-rule {
+  flex: 1;
+  height: 1px;
+  background: currentColor;
+  opacity: 0.35;
+}
+
+.menu-item-detail-card-icon {
+  width: 34px;
+  height: 34px;
+  flex-shrink: 0;
+}
+
+.menu-item-detail-card-text {
   margin: 0;
-  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  max-width: 30ch;
+  font-family: var(--font-body);
   font-size: clamp(13px, 1.6vw, 15px);
   font-weight: 400;
   letter-spacing: 0.01em;
-  line-height: 1.6;
-  text-align: center;
-}
-
-.menu-item-detail-long-text + .menu-item-detail-long-text {
-  margin-top: 16px;
+  line-height: 1.65;
 }
 
 .menu-item-detail-footer {
@@ -202,29 +247,28 @@
   text-underline-offset: 3px;
 }
 
+@media (max-width: 767px) {
+  .menu-item-detail-gallery--dual {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-item-detail-cards {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (min-width: 900px) {
   .menu-item-detail {
-    padding-top: 40px;
+    padding-bottom: 72px;
   }
 
-  .menu-item-detail-hero {
-    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-    align-items: center;
-    gap: 48px;
+  .menu-item-detail-title {
+    max-width: none;
   }
+}
 
-  .menu-item-detail-media {
-    margin: 0;
-    width: 100%;
-  }
-
-  .menu-item-detail-intro {
-    align-items: flex-start;
-    text-align: start;
-  }
-
-  .menu-item-detail-long {
-    margin-top: 64px;
-    padding: 36px 40px;
+@media (prefers-reduced-motion: reduce) {
+  .menu-item-detail-order:hover {
+    transform: none;
   }
 }

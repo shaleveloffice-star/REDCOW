@@ -149,6 +149,49 @@ export function IconBurgerMark({ className }: IconProps) {
   );
 }
 
+/** Cow mark for product story cards */
+export function IconCowMark({ className }: IconProps) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 64 64"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <path d="M18 24c0-8 7-14 14-14s14 6 14 14" />
+      <path d="M14 24h36v20c0 8-7 14-14 14H28c-7 0-14-6-14-14V24z" />
+      <path d="M20 18l-4-6M44 18l4-6" />
+      <circle cx="26" cy="34" r="2" fill="currentColor" stroke="none" />
+      <circle cx="38" cy="34" r="2" fill="currentColor" stroke="none" />
+      <path d="M28 42h8" />
+    </svg>
+  );
+}
+
+/** Medal mark for product story cards */
+export function IconMedalMark({ className }: IconProps) {
+  return (
+    <svg
+      className={className}
+      viewBox="0 0 64 64"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <circle cx="32" cy="28" r="12" />
+      <path d="M24 40 20 54l12-6 12 6-4-14" />
+      <path d="M32 22v12M26 28h12" />
+    </svg>
+  );
+}
+
 /** Delivery scooter / bag mark for order modal */
 export function IconDeliveryMark({ className }: IconProps) {
   return (

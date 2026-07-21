@@ -49,7 +49,8 @@ export const fr: Messages = {
     orderNow: "Commander",
     galleryAria: "Photos du plat",
     backToMenu: "Retour à la carte",
-    longSectionAria: "Description complète"
+    longSectionAria: "Description complète",
+    allergyGuide: "Guide des allergènes"
   },
   locations: {
     findLocal: "Trouver un restaurant",

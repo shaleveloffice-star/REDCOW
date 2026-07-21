@@ -129,6 +129,31 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
       };
     }
 
+    let closeUpImageUrl = optionalTrim(input.closeUpImageUrl);
+    if (closeUpImageUrl) {
+      try {
+        closeUpImageUrl = assertSafeHttpUrl(closeUpImageUrl, "תמונה מקרוב מוצר");
+      } catch (err) {
+        return {
+          ok: false,
+          error: err instanceof Error ? err.message : "תמונה מקרוב מוצר לא תקינה"
+        };
+      }
+
+      const closeUpMaterialized = await materializeMenuImageUrl(closeUpImageUrl);
+      if (!closeUpMaterialized.ok) {
+        return { ok: false, error: closeUpMaterialized.error };
+      }
+      closeUpImageUrl = closeUpMaterialized.url;
+
+      if (closeUpImageUrl.startsWith("data:image/")) {
+        return {
+          ok: false,
+          error: "תמונת המקרוב לא הועלתה לשרת. העלו שוב את הקובץ ואז שמרו."
+        };
+      }
+    }
+
     const imageAlt =
       optionalTrim(input.imageAlt) ||
       (imageUrl ? name : undefined);
@@ -167,6 +192,7 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
       ...(primaryKeyword ? { primaryKeyword } : {}),
       ...(metaTitle ? { metaTitle } : {}),
       ...(metaDescription ? { metaDescription } : {}),
+      closeUpImageUrl: closeUpImageUrl ?? "",
       ...(galleryUrls && galleryUrls.length > 0 ? { galleryUrls } : {}),
       ...(detailNotes && detailNotes.length > 0 ? { detailNotes } : {}),
       isActive,

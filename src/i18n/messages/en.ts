@@ -49,7 +49,8 @@ export const en: Messages = {
     orderNow: "Order Now",
     galleryAria: "Dish photos",
     backToMenu: "Back to menu",
-    longSectionAria: "Full description"
+    longSectionAria: "Full description",
+    allergyGuide: "Allergy Guide"
   },
   locations: {
     findLocal: "FIND MY LOCAL",

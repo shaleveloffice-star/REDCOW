@@ -22,7 +22,10 @@ export type MenuItem = {
   longDescription?: string;
   price: number;
   categoryId: string;
+  /** Primary image — shown across the site (menu, homepage, etc.). */
   imageUrl: string;
+  /** Close-up image — shown only on the product detail page beside the primary image. */
+  closeUpImageUrl?: string;
   /** Public URL slug for /menu/[slug]. Generated from name when empty. */
   slug?: string;
   /** Image ALT text for accessibility and SEO. */

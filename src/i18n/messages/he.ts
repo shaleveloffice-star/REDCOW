@@ -49,7 +49,8 @@ export const he: Messages = {
     orderNow: "להזמנה",
     galleryAria: "תמונות המנה",
     backToMenu: "חזרה לתפריט",
-    longSectionAria: "תיאור מורחב"
+    longSectionAria: "תיאור מורחב",
+    allergyGuide: "מדריך אלרגנים"
   },
   locations: {
     findLocal: "מצא סניף",

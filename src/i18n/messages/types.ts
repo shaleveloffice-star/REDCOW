@@ -52,6 +52,7 @@ export type Messages = {
     galleryAria: string;
     backToMenu: string;
     longSectionAria: string;
+    allergyGuide: string;
   };
   locations: {
     findLocal: string;

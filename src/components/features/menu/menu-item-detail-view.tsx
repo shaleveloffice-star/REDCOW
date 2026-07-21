@@ -1,13 +1,18 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
 import { OrderModal } from "@/components/layout/order-modal";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
+import {
+  IconBurgerMark,
+  IconCowMark,
+  IconMedalMark
+} from "@/components/shared/site-icons";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
-import { getLocalizedMenuItem } from "@/i18n/menu-translations";
+import { getLocalizedMenuItem, getMenuItemCloseUpImageUrl } from "@/i18n/menu-translations";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import type { MenuItem } from "@/types/content";
 
@@ -20,56 +25,94 @@ type MenuItemDetailViewProps = {
 
 const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
 
-function formatPrice(price: number, locale: string) {
-  if (locale === "he") {
-    return `${price} ₪`;
+function resolveStoryCards(notes: string[], longDescription: string): string[] {
+  const trimmedNotes = notes.map((note) => note.trim()).filter(Boolean);
+  if (trimmedNotes.length >= 2) {
+    return trimmedNotes.slice(0, 2);
   }
-  return `${price}`;
+
+  const paragraphs = longDescription
+    .split(/\n+/)
+    .map((paragraph) => paragraph.trim())
+    .filter(Boolean);
+
+  if (trimmedNotes.length === 1) {
+    return [trimmedNotes[0], paragraphs[0] ?? ""].filter(Boolean);
+  }
+
+  return paragraphs.slice(0, 2);
 }
 
 export function MenuItemDetailView({
   item,
-  categoryName,
   pickupUrl,
   deliveryUrl
 }: MenuItemDetailViewProps) {
   const t = useTranslations();
   const { locale } = useLocale();
   const localized = getLocalizedMenuItem(item, locale);
-  const media = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
-  const isVideo = isVideoMediaUrl(media);
+  const primaryMedia = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
+  const closeUpMedia = getMenuItemCloseUpImageUrl(item);
+  const primaryIsVideo = isVideoMediaUrl(primaryMedia);
+  const closeUpIsVideo = closeUpMedia ? isVideoMediaUrl(closeUpMedia) : false;
   const [orderOpen, setOrderOpen] = useState(false);
-  const longCopy =
-    localized.longDescription.trim() ||
-    localized.detailNotes.join("\n\n").trim();
+
+  const storyCards = useMemo(
+    () => resolveStoryCards(localized.detailNotes, localized.longDescription),
+    [localized.detailNotes, localized.longDescription]
+  );
 
   return (
     <article className="menu-item-detail">
-      <div className="menu-item-detail-hero">
-        <div className="menu-item-detail-media">
-          {isVideo ? (
-            <MenuAutoplayMedia src={media} name={localized.imageAlt} />
+      <div
+        className={`menu-item-detail-gallery${closeUpMedia ? " menu-item-detail-gallery--dual" : ""}`}
+        aria-label={t.menuItemDetail.galleryAria}
+      >
+        <div className="menu-item-detail-gallery-cell menu-item-detail-gallery-cell--primary">
+          {primaryIsVideo ? (
+            <MenuAutoplayMedia src={primaryMedia} name={localized.imageAlt} />
           ) : (
             <MenuItemImage
-              src={media}
+              src={primaryMedia}
               alt={localized.imageAlt}
               width={1200}
               height={1200}
-              sizes="(max-width: 900px) 92vw, 640px"
+              sizes={closeUpMedia ? "50vw" : "100vw"}
               loading="eager"
-              className="menu-item-detail-image"
+              className="menu-item-detail-gallery-image"
             />
           )}
         </div>
 
-        <div className="menu-item-detail-intro">
-          {categoryName ? <p className="menu-item-detail-category">{categoryName}</p> : null}
-          <h1 className="menu-item-detail-title">{localized.name}</h1>
-          <p className="menu-item-detail-price">{formatPrice(item.price, locale)}</p>
-          {localized.description.trim() ? (
-            <p className="menu-item-detail-short">{localized.description}</p>
-          ) : null}
+        {closeUpMedia ? (
+          <div className="menu-item-detail-gallery-cell menu-item-detail-gallery-cell--secondary">
+            {closeUpIsVideo ? (
+              <MenuAutoplayMedia src={closeUpMedia} name={`${localized.imageAlt} — מקרוב`} />
+            ) : (
+              <MenuItemImage
+                src={closeUpMedia}
+                alt={`${localized.imageAlt} — מקרוב`}
+                width={1200}
+                height={1200}
+                sizes="50vw"
+                loading="eager"
+                className="menu-item-detail-gallery-image menu-item-detail-gallery-image--detail"
+              />
+            )}
+          </div>
+        ) : null}
+      </div>
 
+      <section className="menu-item-detail-intro" aria-labelledby="menu-item-detail-title">
+        <IconBurgerMark className="menu-item-detail-mark" />
+        <h1 id="menu-item-detail-title" className="menu-item-detail-title">
+          {localized.name}
+        </h1>
+        {localized.description.trim() ? (
+          <p className="menu-item-detail-short">{localized.description}</p>
+        ) : null}
+
+        <div className="menu-item-detail-actions">
           <button
             type="button"
             className="menu-item-detail-order"
@@ -77,16 +120,41 @@ export function MenuItemDetailView({
           >
             {t.menuItemDetail.orderNow}
           </button>
+          <Link className="menu-item-detail-allergy" href="/menu">
+            <span className="menu-item-detail-allergy-icon" aria-hidden="true">
+              i
+            </span>
+            {t.menuItemDetail.allergyGuide}
+          </Link>
         </div>
-      </div>
+      </section>
 
-      {longCopy ? (
-        <section className="menu-item-detail-long" aria-label={t.menuItemDetail.longSectionAria}>
-          {longCopy.split(/\n+/).map((paragraph) => (
-            <p key={paragraph} className="menu-item-detail-long-text">
-              {paragraph}
-            </p>
-          ))}
+      {storyCards.length > 0 ? (
+        <section
+          className="menu-item-detail-cards"
+          aria-label={t.menuItemDetail.longSectionAria}
+        >
+          {storyCards.map((copy, index) => {
+            const isDark = index === 0;
+
+            return (
+              <article
+                key={`${index}-${copy.slice(0, 24)}`}
+                className={`menu-item-detail-card${isDark ? " menu-item-detail-card--dark" : " menu-item-detail-card--light"}`}
+              >
+                <div className="menu-item-detail-card-head">
+                  <span className="menu-item-detail-card-rule" aria-hidden="true" />
+                  {isDark ? (
+                    <IconCowMark className="menu-item-detail-card-icon" />
+                  ) : (
+                    <IconMedalMark className="menu-item-detail-card-icon" />
+                  )}
+                  <span className="menu-item-detail-card-rule" aria-hidden="true" />
+                </div>
+                <p className="menu-item-detail-card-text">{copy}</p>
+              </article>
+            );
+          })}
         </section>
       ) : null}
 

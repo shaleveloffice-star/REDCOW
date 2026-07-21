@@ -103,6 +103,15 @@ const nextConfig: NextConfig = {
       ]
     };
   },
+  async redirects() {
+    return [
+      {
+        source: "/branches",
+        destination: "/locations",
+        permanent: true
+      }
+    ];
+  },
   async headers() {
     return [
       {

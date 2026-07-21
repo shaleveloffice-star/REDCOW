@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache";
 import { listBranches, removeBranch, upsertBranch } from "@/services/branches.service";
 import type { Branch } from "@/types/content";
 
-const paths = ["/admin/branches", "/branches", "/"];
+const paths = ["/admin/branches", "/locations", "/"];
 
 export async function getBranchesAdminData() {
   await requireAdmin();

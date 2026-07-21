@@ -44,8 +44,7 @@ export async function SiteFooter() {
     { label: t.nav.home, href: "/" },
     { label: t.nav.menu, href: "/menu" },
     { label: t.nav.location, href: "/locations" },
-    { label: t.nav.about, href: "/about" },
-    { label: t.nav.branches, href: "/branches" }
+    { label: t.nav.about, href: "/about" }
   ];
 
   const footerMenuItems = [{ label: t.footer.fullMenu, href: "/menu" }];

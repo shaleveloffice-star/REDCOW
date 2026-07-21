@@ -62,7 +62,7 @@ export function AboutPageView({ siteImages }: AboutPageViewProps) {
             <Link className="about-btn about-btn-primary" href="/menu">
               לתפריט
             </Link>
-            <a className="about-btn about-btn-ghost" href="/branches">
+            <a className="about-btn about-btn-ghost" href="/locations">
               סניפים
             </a>
           </div>

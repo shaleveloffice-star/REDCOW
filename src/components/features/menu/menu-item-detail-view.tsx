@@ -6,7 +6,7 @@ import { useMemo, useState } from "react";
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
 import { OrderModal } from "@/components/layout/order-modal";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
-import { IconBurgerMark, IconCowMark } from "@/components/shared/site-icons";
+import { IconBurgerMark } from "@/components/shared/site-icons";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedMenuItem, getMenuItemCloseUpImageUrl } from "@/i18n/menu-translations";
 import { isVideoMediaUrl } from "@/lib/menu-media";
@@ -20,6 +20,7 @@ type MenuItemDetailViewProps = {
 };
 
 const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
+const PRODUCT_LONG_ICON = "/images/menu/product-long-drool.gif";
 
 function splitLongDescription(longDescription: string): string[] {
   return longDescription
@@ -113,7 +114,15 @@ export function MenuItemDetailView({
         >
           <div className="menu-item-detail-card-head">
             <span className="menu-item-detail-card-rule" aria-hidden="true" />
-            <IconCowMark className="menu-item-detail-card-icon" />
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src={PRODUCT_LONG_ICON}
+              alt=""
+              aria-hidden="true"
+              className="menu-item-detail-card-icon menu-item-detail-card-icon-gif"
+              width={34}
+              height={34}
+            />
             <span className="menu-item-detail-card-rule" aria-hidden="true" />
           </div>
           {longParagraphs.map((paragraph) => (

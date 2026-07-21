@@ -171,13 +171,17 @@ body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
   background: rgb(30, 30, 30);
   color: #ffffff;
   --menu-showcase-gutter: 10px;
-  --menu-showcase-edge: 12px;
+  --menu-showcase-edge: 25px;
   --menu-showcase-media-inset: 10px;
 }
 
 .menu-showcase-header {
+  width: 100vw;
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
   margin-bottom: var(--ds-space-6);
-  padding: 0 var(--ds-space-4);
+  padding-inline: var(--menu-showcase-edge, 25px);
+  box-sizing: border-box;
   text-align: start;
 }
 
@@ -317,8 +321,12 @@ body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100vw;
+  max-width: 100vw;
+  margin-inline: calc(50% - 50vw);
   margin-top: var(--ds-space-6);
-  padding: 0 var(--ds-space-4);
+  padding-inline: var(--menu-showcase-edge, 25px);
+  box-sizing: border-box;
 }
 
 .menu-showcase-action .site-cta-btn,

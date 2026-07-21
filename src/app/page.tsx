@@ -13,46 +13,6 @@ import {
 import { buildPageMetadata } from "@/lib/seo";
 import { buildRestaurantJsonLd } from "@/lib/seo/json-ld";
 
-const AtmosphereSection = dynamic(
-  () =>
-    import("@/components/features/home/atmosphere-section").then((mod) => ({
-      default: mod.AtmosphereSection
-    })),
-  {
-    loading: () => (
-      <div
-        className="atmosphere-section atmosphere-section--intro"
-        style={{ minHeight: "70vh" }}
-        aria-hidden="true"
-      />
-    )
-  }
-);
-
-const PlanchaSection = dynamic(
-  () =>
-    import("@/components/features/home/plancha-section").then((mod) => ({
-      default: mod.PlanchaSection
-    })),
-  {
-    loading: () => (
-      <div className="plancha-section" style={{ minHeight: "60vh" }} aria-hidden="true" />
-    )
-  }
-);
-
-const CustomerClubSection = dynamic(
-  () =>
-    import("@/components/features/home/customer-club-section").then((mod) => ({
-      default: mod.CustomerClubSection
-    })),
-  {
-    loading: () => (
-      <div className="customer-club-section" style={{ minHeight: "50vh" }} aria-hidden="true" />
-    )
-  }
-);
-
 const LocationSection = dynamic(
   () =>
     import("@/components/features/home/location-section").then((mod) => ({
@@ -94,9 +54,6 @@ export default async function HomePage() {
       <main id="main-content">
         <HeroSection settings={settings} />
         <HomeMenuShowcaseSection items={homepageMenuItems} />
-        <AtmosphereSection siteImages={siteImages} />
-        <PlanchaSection siteImages={siteImages} />
-        <CustomerClubSection />
         <LocationSection siteImages={siteImages} />
       </main>
       <SiteFooter />

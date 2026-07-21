@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import L from "leaflet";
 import "leaflet/dist/leaflet.css";
 
@@ -43,6 +43,13 @@ function createBurgerPinIcon() {
 export function LocationsMap({ points }: LocationsMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
+  const pointsKey = useMemo(
+    () =>
+      JSON.stringify(
+        points?.map((point) => [point.id, point.lat, point.lng, point.name]) ?? []
+      ),
+    [points]
+  );
 
   useEffect(() => {
     if (!containerRef.current || mapRef.current) return;
@@ -105,7 +112,7 @@ export function LocationsMap({ points }: LocationsMapProps) {
       map.remove();
       mapRef.current = null;
     };
-  }, [points]);
+  }, [pointsKey]);
 
   return <div ref={containerRef} className="locations-map" role="presentation" />;
 }

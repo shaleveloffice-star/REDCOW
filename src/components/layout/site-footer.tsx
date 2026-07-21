@@ -41,11 +41,9 @@ export async function SiteFooter() {
   const mapsUrl = getBusinessMapsSearchUrl();
 
   const footerNavLinks = [
-    { label: t.nav.home, href: "/#hero" },
-    { label: t.nav.menu, href: "/#menu" },
-    { label: t.nav.plancha, href: "/#plancha" },
-    { label: t.nav.atmosphere, href: "/#atmosphere" },
-    { label: t.nav.location, href: "/#location" },
+    { label: t.nav.home, href: "/" },
+    { label: t.nav.menu, href: "/menu" },
+    { label: t.nav.location, href: "/locations" },
     { label: t.nav.about, href: "/about" },
     { label: t.nav.branches, href: "/branches" }
   ];

@@ -39,6 +39,7 @@ export function MenuItemDetailView({
   const localized = getLocalizedMenuItem(item, locale);
   const primaryMedia = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
   const closeUpMedia = getMenuItemCloseUpImageUrl(item);
+  const closeUpAlt = `${localized.imageAlt} — ${t.menuItemDetail.closeUpAlt}`;
   const primaryIsVideo = isVideoMediaUrl(primaryMedia);
   const closeUpIsVideo = closeUpMedia ? isVideoMediaUrl(closeUpMedia) : false;
   const [orderOpen, setOrderOpen] = useState(false);
@@ -73,11 +74,11 @@ export function MenuItemDetailView({
         {closeUpMedia ? (
           <div className="menu-item-detail-gallery-cell menu-item-detail-gallery-cell--secondary">
             {closeUpIsVideo ? (
-              <MenuAutoplayMedia src={closeUpMedia} name={`${localized.imageAlt} — מקרוב`} />
+              <MenuAutoplayMedia src={closeUpMedia} name={closeUpAlt} />
             ) : (
               <MenuItemImage
                 src={closeUpMedia}
-                alt={`${localized.imageAlt} — מקרוב`}
+                alt={closeUpAlt}
                 width={1200}
                 height={1200}
                 sizes="50vw"

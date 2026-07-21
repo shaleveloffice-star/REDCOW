@@ -2,12 +2,24 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import dynamic from "next/dynamic";
+import { useMemo } from "react";
 
-import { LocationsMap } from "@/components/features/locations/locations-map";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { PLANCHA_BURGERS_IMAGE } from "@/data/site-images.registry";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import type { Branch } from "@/types/content";
+
+const LocationsMap = dynamic(
+  () =>
+    import("@/components/features/locations/locations-map").then((mod) => ({
+      default: mod.LocationsMap
+    })),
+  {
+    ssr: false,
+    loading: () => <div className="locations-map locations-map--loading" aria-hidden="true" />
+  }
+);
 
 type LocationsPageViewProps = {
   branches: Branch[];
@@ -30,15 +42,15 @@ const DEFAULT_COORDS = { lat: 32.1849, lng: 34.8709 };
 
 function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "en" | "fr"): LocationCard[] {
   if (branches.length > 0) {
-    return branches.map((branch, index) => ({
+    return branches.map((branch) => ({
       id: branch.id,
       name: branch.name,
       address: `${branch.address}, ${branch.city}`,
       hours: branch.openingHours,
       mapsUrl: branch.wazeUrl || getBusinessMapsSearchUrl(),
       image: exteriorImage,
-      lat: DEFAULT_COORDS.lat + index * 0.008,
-      lng: DEFAULT_COORDS.lng + index * 0.008
+      lat: DEFAULT_COORDS.lat,
+      lng: DEFAULT_COORDS.lng
     }));
   }
 
@@ -69,13 +81,20 @@ function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "e
 export function LocationsPageView({ branches, exteriorImage }: LocationsPageViewProps) {
   const t = useTranslations();
   const { locale } = useLocale();
-  const cards = buildCards(branches, exteriorImage, locale);
-  const mapPoints = cards.map((card) => ({
-    id: card.id,
-    name: card.name,
-    lat: card.lat,
-    lng: card.lng
-  }));
+  const cards = useMemo(
+    () => buildCards(branches, exteriorImage, locale),
+    [branches, exteriorImage, locale]
+  );
+  const mapPoints = useMemo(
+    () =>
+      cards.map((card) => ({
+        id: card.id,
+        name: card.name,
+        lat: card.lat,
+        lng: card.lng
+      })),
+    [cards]
+  );
 
   return (
     <div className="locations-page">

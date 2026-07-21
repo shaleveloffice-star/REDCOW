@@ -48,6 +48,7 @@ export const he: Messages = {
   menuItemDetail: {
     orderNow: "להזמנה",
     galleryAria: "תמונות המנה",
+    closeUpAlt: "מקרוב",
     backToMenu: "חזרה לתפריט",
     longSectionAria: "תיאור מורחב",
     allergyGuide: "מדריך אלרגנים"

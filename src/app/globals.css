@@ -233,7 +233,8 @@ body:not(:has(.admin-layout)) .about-btn {
 }
 
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
+  scroll-padding-top: 72px;
 }
 
 body:not(:has(.admin-layout)) {
@@ -1389,11 +1390,18 @@ select {
   z-index: 0;
   width: 116%;
   height: 116%;
-  will-change: transform;
 }
 
 .hero-visual-media--alive {
   animation: hero-ken-burns 22s var(--motion-ease) infinite alternate;
+  will-change: transform;
+}
+
+@media (max-width: 767px) {
+  .hero-visual-media--alive {
+    animation: none;
+    will-change: auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -2348,21 +2356,21 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   padding: 85.62px 0 85.62px;
   background: rgb(30, 30, 30);
   color: #ffffff;
-  overflow: hidden;
+  overflow-x: clip;
   --menu-showcase-gutter: 10px;
   --menu-showcase-edge: 25px;
   --menu-showcase-media-inset: 10px;
 }
 
 .menu-showcase-shell {
-  width: min(1120px, 100%);
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
 }
 
 .menu-showcase-header {
-  width: 100vw;
-  max-width: 100vw;
-  margin-inline: calc(50% - 50vw);
+  width: 100%;
+  margin-inline: 0;
   margin-bottom: clamp(32px, 5vw, 48px);
   padding-inline: var(--menu-showcase-edge, 25px);
   box-sizing: border-box;
@@ -2386,14 +2394,13 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   -webkit-overflow-scrolling: touch;
   padding: 0 var(--menu-showcase-edge) 8px;
   scroll-padding-inline: var(--menu-showcase-edge);
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: x proximity;
   scrollbar-width: none;
 }
 
 .menu-showcase-carousel {
-  width: 100vw;
-  max-width: 100vw;
-  margin-inline: calc(50% - 50vw);
+  width: 100%;
+  margin-inline: 0;
 }
 
 .menu-showcase-controls {
@@ -2432,22 +2439,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   min-width: 100%;
 }
 
-@keyframes menu-showcase-nudge-hint {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0);
-  }
-
-  42%,
-  58% {
-    transform: translate3d(10px, 0, 0);
-  }
-}
-
-.menu-showcase-rail--nudge {
-  animation: menu-showcase-nudge-hint 1.15s cubic-bezier(0.45, 0.05, 0.25, 1) both;
-}
-
 .menu-showcase-card {
   display: flex;
   flex: 0 0 clamp(209px, 59vw, 266px);
@@ -2459,7 +2450,6 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   border-radius: 5px;
   background: #ffffff;
   box-shadow: none;
-  scroll-snap-align: start;
   transition: transform 140ms var(--motion-ease);
 }
 
@@ -2697,9 +2687,8 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   align-items: flex-start;
   justify-content: flex-start;
   gap: 10px;
-  width: 100vw;
-  max-width: 100vw;
-  margin-inline: calc(50% - 50vw);
+  width: 100%;
+  margin-inline: 0;
   margin-top: clamp(28px, 5vw, 40px);
   padding-inline: var(--menu-showcase-edge, 25px);
   box-sizing: border-box;
@@ -6093,42 +6082,6 @@ body:not(:has(.admin-layout)) .site-navbar {
   animation-delay: 0.02s;
 }
 
-body:not(:has(.admin-layout)) main > * {
-  animation: site-fade-rise 0.52s var(--motion-ease) both;
-}
-
-body:not(:has(.admin-layout)) main > *:nth-child(1) {
-  animation-delay: 0.04s;
-}
-
-body:not(:has(.admin-layout)) main > *:nth-child(2) {
-  animation-delay: 0.07s;
-}
-
-body:not(:has(.admin-layout)) main > *:nth-child(3) {
-  animation-delay: 0.1s;
-}
-
-body:not(:has(.admin-layout)) main > *:nth-child(4) {
-  animation-delay: 0.13s;
-}
-
-body:not(:has(.admin-layout)) main > *:nth-child(5) {
-  animation-delay: 0.16s;
-}
-
-body:not(:has(.admin-layout)) main > *:nth-child(6) {
-  animation-delay: 0.19s;
-}
-
-body:not(:has(.admin-layout)) main > *:nth-child(7) {
-  animation-delay: 0.21s;
-}
-
-body:not(:has(.admin-layout)) main > *:nth-child(8) {
-  animation-delay: 0.23s;
-}
-
 body:not(:has(.admin-layout)) .site-footer {
   animation: site-fade-rise var(--motion-medium) var(--motion-ease) both;
   animation-delay: 0.1s;
@@ -6368,46 +6321,6 @@ body:not(:has(.admin-layout)) .footer-bottom a {
   opacity: 1;
 }
 
-@supports (animation-timeline: view()) {
-  .css-reveal {
-    animation: css-reveal-up 0.75s var(--motion-ease) both;
-    animation-timeline: view();
-    animation-range: entry 0% cover 35%;
-  }
-
-  .css-reveal--media {
-    animation-name: css-reveal-media;
-  }
-
-  .css-reveal--0 {
-    animation-delay: 0s;
-  }
-
-  .css-reveal--1 {
-    animation-range: entry 5% cover 40%;
-  }
-
-  .css-reveal--2 {
-    animation-range: entry 10% cover 45%;
-  }
-
-  .css-reveal--3 {
-    animation-range: entry 15% cover 50%;
-  }
-
-  .css-reveal--panel-0 {
-    animation-range: entry 0% cover 35%;
-  }
-
-  .css-reveal--panel-1 {
-    animation-range: entry 8% cover 40%;
-  }
-
-  .css-reveal--panel-2 {
-    animation-range: entry 16% cover 45%;
-  }
-}
-
 @media (prefers-reduced-motion: reduce) {
   .css-reveal {
     animation: none !important;
@@ -6451,16 +6364,6 @@ body:not(:has(.admin-layout)) main::before {
 /* Section rhythm — cinematic breathing room */
 .plancha-intro {
   padding: clamp(80px, 12vh, 120px) 24px clamp(56px, 8vh, 72px);
-}
-
-.menu-showcase-header {
-  width: 100vw;
-  max-width: 100vw;
-  margin-inline: calc(50% - 50vw);
-  margin-bottom: clamp(32px, 5vw, 48px);
-  padding-inline: var(--menu-showcase-edge, 25px);
-  box-sizing: border-box;
-  text-align: start;
 }
 
 .location-copy {

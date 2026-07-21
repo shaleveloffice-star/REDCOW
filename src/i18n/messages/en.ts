@@ -48,6 +48,7 @@ export const en: Messages = {
   menuItemDetail: {
     orderNow: "Order Now",
     galleryAria: "Dish photos",
+    closeUpAlt: "close-up",
     backToMenu: "Back to menu",
     longSectionAria: "Full description",
     allergyGuide: "Allergy Guide"

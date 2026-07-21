@@ -50,6 +50,7 @@ export type Messages = {
   menuItemDetail: {
     orderNow: string;
     galleryAria: string;
+    closeUpAlt: string;
     backToMenu: string;
     longSectionAria: string;
     allergyGuide: string;

@@ -96,8 +96,8 @@ export function SiteNavbar({
 
   const navLinks = useMemo(
     () => [
-      { label: t.nav.home, href: "/#hero" },
-      { label: t.nav.menu, href: "/#menu" },
+      { label: t.nav.home, href: "/" },
+      { label: t.nav.menu, href: "/menu" },
       { label: t.nav.location, href: "/locations" },
       { label: t.nav.about, href: "/about" },
       { label: t.nav.branches, href: "/branches" }
@@ -184,7 +184,7 @@ export function SiteNavbar({
     <>
       <header className={navClass}>
         <nav className="site-navbar-inner" aria-label={t.nav.main}>
-          <Link href="/#hero" className="site-navbar-brand">
+          <Link href="/" className="site-navbar-brand">
             <picture>
               <source srcSet={SITE_WORDMARK_WEBP_SRC} type="image/webp" />
               <img

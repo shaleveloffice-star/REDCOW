@@ -48,6 +48,7 @@ export const fr: Messages = {
   menuItemDetail: {
     orderNow: "Commander",
     galleryAria: "Photos du plat",
+    closeUpAlt: "gros plan",
     backToMenu: "Retour à la carte",
     longSectionAria: "Description complète",
     allergyGuide: "Guide des allergènes"

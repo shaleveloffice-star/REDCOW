@@ -22,6 +22,8 @@ import { getMenuItemHref } from "@/lib/menu/product-slug";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
+const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
+
 type MenuGroup = MenuCategory & { items: MenuItem[] };
 
 type MenuPageViewProps = {
@@ -56,16 +58,17 @@ function MenuItemsGrid({
     <ul className={`menu-bleecker-grid${large ? " menu-bleecker-grid--burgers" : ""}`}>
       {items.map((item) => {
         const localized = getLocalizedMenuItem(item, locale);
+        const media = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
         return (
           <li key={item.id}>
             <Link href={getMenuItemHref(item)} className="menu-bleecker-card-link">
               <article className="menu-bleecker-card">
                 <div className="menu-bleecker-card-media">
-                  {isVideoMediaUrl(item.imageUrl) ? (
-                    <MenuAutoplayMedia src={item.imageUrl} name={localized.name} />
+                  {isVideoMediaUrl(media) ? (
+                    <MenuAutoplayMedia src={media} name={localized.name} />
                   ) : (
                     <MenuItemImage
-                      src={item.imageUrl}
+                      src={media}
                       alt={localized.imageAlt}
                       width={480}
                       height={480}

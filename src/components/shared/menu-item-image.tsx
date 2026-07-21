@@ -23,6 +23,8 @@ function shouldUsePlainImg(src: string) {
   );
 }
 
+const FALLBACK_IMAGE = "/images/menu/nb-menu-burger.png";
+
 /** Renders menu media; supports admin uploads (/api/media), data-URLs, and static paths. */
 export function MenuItemImage({
   src,
@@ -33,8 +35,7 @@ export function MenuItemImage({
   className,
   loading = "lazy"
 }: MenuItemImageProps) {
-  const media = src.trim();
-  if (!media) return null;
+  const media = src.trim() || FALLBACK_IMAGE;
 
   if (isVideoMediaUrl(media)) {
     return null;

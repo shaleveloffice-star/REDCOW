@@ -15,101 +15,27 @@ type HomeMenuShowcaseSectionProps = {
 };
 
 const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
-const NUDGE_INTERVAL_MS = 5000;
-const NUDGE_CLASS = "menu-showcase-rail--nudge";
-
-function canScrollHorizontally(track: HTMLElement): boolean {
-  return track.scrollWidth > track.clientWidth + 2;
-}
-
-function isCoarsePointer(): boolean {
-  return window.matchMedia("(hover: none), (pointer: coarse)").matches;
-}
-
-function scrollToStart(track: HTMLElement): void {
-  track.scrollLeft = 0;
-}
-
-function isAtScrollStart(track: HTMLElement): boolean {
-  return Math.abs(track.scrollLeft) <= 2;
-}
 
 export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps) {
   const { locale } = useLocale();
   const t = useTranslations();
   const trackRef = useRef<HTMLDivElement>(null);
-  const railRef = useRef<HTMLDivElement>(null);
-  const nudgePausedRef = useRef(false);
 
   useEffect(() => {
     const track = trackRef.current;
-    const rail = railRef.current;
-    if (!track || !rail || items.length < 2) {
+    if (!track) {
       return;
     }
 
     const alignScrollStart = () => {
-      scrollToStart(track);
-      requestAnimationFrame(() => {
-        scrollToStart(track);
-      });
+      track.scrollLeft = 0;
     };
 
     alignScrollStart();
-
-    const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-    const pauseNudge = () => {
-      nudgePausedRef.current = true;
-    };
-
-    const resumeNudge = () => {
-      window.setTimeout(() => {
-        nudgePausedRef.current = false;
-      }, 10000);
-    };
-
-    const onAnimationEnd = (event: AnimationEvent) => {
-      if (event.animationName === "menu-showcase-nudge-hint") {
-        rail.classList.remove(NUDGE_CLASS);
-      }
-    };
-
-    const runNudge = () => {
-      if (
-        motionQuery.matches ||
-        nudgePausedRef.current ||
-        !isCoarsePointer() ||
-        !canScrollHorizontally(track) ||
-        !isAtScrollStart(track) ||
-        rail.classList.contains(NUDGE_CLASS)
-      ) {
-        return;
-      }
-
-      rail.classList.add(NUDGE_CLASS);
-    };
-
-    track.addEventListener("touchstart", pauseNudge, { passive: true });
-    track.addEventListener("pointerdown", pauseNudge);
-    track.addEventListener("touchend", resumeNudge, { passive: true });
-    track.addEventListener("pointerup", resumeNudge);
-    rail.addEventListener("animationend", onAnimationEnd);
-
-    const intervalId = window.setInterval(runNudge, NUDGE_INTERVAL_MS);
-    const firstNudgeId = window.setTimeout(runNudge, 2000);
     window.addEventListener("resize", alignScrollStart);
 
     return () => {
       window.removeEventListener("resize", alignScrollStart);
-      window.clearInterval(intervalId);
-      window.clearTimeout(firstNudgeId);
-      track.removeEventListener("touchstart", pauseNudge);
-      track.removeEventListener("pointerdown", pauseNudge);
-      track.removeEventListener("touchend", resumeNudge);
-      track.removeEventListener("pointerup", resumeNudge);
-      rail.removeEventListener("animationend", onAnimationEnd);
-      rail.classList.remove(NUDGE_CLASS);
     };
   }, [items.length]);
 
@@ -148,7 +74,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
 
         <div className="menu-showcase-carousel" role="region" aria-label={t.menuShowcase.trackAria}>
           <div ref={trackRef} className="menu-showcase-track" tabIndex={0}>
-            <div ref={railRef} className="menu-showcase-rail" role="list">
+            <div className="menu-showcase-rail" role="list">
               {items.map((item) => {
                 const localized = getLocalizedMenuItem(item, locale);
                 const media = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
@@ -176,7 +102,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
                             width={640}
                             height={640}
                             sizes="(max-width: 767px) 67vw, 247px"
-                            loading="lazy"
+                            loading="eager"
                             className="menu-showcase-card-image"
                           />
                         )}

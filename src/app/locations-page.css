@@ -20,6 +20,10 @@
   background: #0a0a0a;
 }
 
+.locations-map--loading {
+  min-height: min(62vh, 640px);
+}
+
 .locations-map .leaflet-control-attribution {
   background: rgba(0, 0, 0, 0.55) !important;
   color: rgba(255, 255, 255, 0.55) !important;

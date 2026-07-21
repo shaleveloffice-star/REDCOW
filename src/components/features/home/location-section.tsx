@@ -22,12 +22,12 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
     <section id="location" className="location-section" aria-labelledby="location-title">
       <div className="location-shell">
         <div className="location-copy">
-          <h2 id="location-title" className="location-title css-reveal css-reveal--0" style={{ color: "#ffffff" }}>
+          <h2 id="location-title" className="location-title" style={{ color: "#ffffff" }}>
             {t.location.title}
           </h2>
 
           <div
-            className="location-block css-reveal css-reveal--1"
+            className="location-block"
             style={{ color: "rgba(255, 247, 237, 0.86)" }}
           >
             <div className="location-block-head">
@@ -41,7 +41,7 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
           </div>
 
           <div
-            className="location-block css-reveal css-reveal--2"
+            className="location-block"
             style={{ color: "rgba(255, 247, 237, 0.86)" }}
           >
             <div className="location-block-head">
@@ -70,20 +70,20 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
             href={mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="location-cta css-reveal css-reveal--3"
+            className="location-cta"
           >
             <IconMap className="location-cta-icon" />
             <span>{t.location.navigate}</span>
           </a>
         </div>
 
-        <div className="location-media css-reveal css-reveal--media">
+        <div className="location-media">
           <Image
             src={exteriorImage}
             alt={t.location.imageAlt}
             fill
             sizes="(max-width: 767px) 100vw, 50vw"
-            loading="lazy"
+            loading="eager"
             style={{ objectFit: "cover" }}
           />
         </div>

@@ -32,7 +32,11 @@ export function OrderModal({ open, onClose, pickupUrl, deliveryUrl }: OrderModal
     document.body.style.overflow = "hidden";
 
     const dialog = dialogRef.current;
-    if (!dialog) return;
+    if (!dialog) {
+      return () => {
+        document.body.style.overflow = previousOverflow;
+      };
+    }
 
     focusElement(closeRef.current ?? getFocusableElements(dialog)[0]);
     const releaseTrap = trapFocus(dialog);

@@ -1,7 +1,7 @@
 import { HOMEPAGE_MENU_ITEM_IDS } from "@/data/homepage-menu";
 import { mockMenuItems } from "@/data/mock/menu.mock";
 import { isFirebaseConfigured } from "@/lib/firebase";
-import { resolveMenuItemSlug } from "@/lib/menu/product-slug";
+import { getMenuItemSlugAliases } from "@/lib/menu/product-slug";
 import {
   deleteMenuCategory,
   deleteMenuItem,
@@ -86,14 +86,30 @@ export async function getMenuItemForDisplay(id: string): Promise<MenuItem | null
   return item;
 }
 
+function normalizeSlugParam(slug: string): string {
+  let value = slug.trim();
+
+  try {
+    while (/%[0-9A-Fa-f]{2}/.test(value)) {
+      const decoded = decodeURIComponent(value);
+      if (decoded === value) break;
+      value = decoded;
+    }
+  } catch {
+    // Keep the raw slug when decoding fails.
+  }
+
+  return value.toLowerCase();
+}
+
 export async function getMenuItemBySlugForDisplay(slug: string): Promise<MenuItem | null> {
-  const normalized = slug.trim().toLowerCase();
+  const normalized = normalizeSlugParam(slug);
   if (!normalized) return null;
 
   const items = await listMenuItems({ activeOnly: false });
   const match = items.find((item) => {
-    const itemSlug = resolveMenuItemSlug(item).toLowerCase();
-    return itemSlug === normalized || item.id.toLowerCase() === normalized;
+    const aliases = getMenuItemSlugAliases(item);
+    return aliases.includes(normalized);
   });
 
   if (!match || !match.isActive) {

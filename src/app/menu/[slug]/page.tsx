@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 
 import { MenuItemDetailView } from "@/components/features/menu/menu-item-detail-view";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -24,6 +24,22 @@ import type { OrderLink } from "@/types/content";
 type MenuItemPageProps = {
   params: Promise<{ slug: string }>;
 };
+
+function normalizeRequestedSlug(slug: string): string {
+  let value = slug.trim();
+
+  try {
+    while (/%[0-9A-Fa-f]{2}/.test(value)) {
+      const decoded = decodeURIComponent(value);
+      if (decoded === value) break;
+      value = decoded;
+    }
+  } catch {
+    // Keep the raw slug when decoding fails.
+  }
+
+  return value.toLowerCase();
+}
 
 function resolveOrderUrls(orderLinks: OrderLink[]) {
   const pickup =
@@ -88,6 +104,10 @@ export default async function MenuItemPage({ params }: MenuItemPageProps) {
   }
 
   const resolvedSlug = resolveMenuItemSlug(item);
+  if (normalizeRequestedSlug(slug) !== resolvedSlug.toLowerCase()) {
+    redirect(`/menu/${resolvedSlug}`);
+  }
+
   const categoryName = categories.find((category) => category.id === item.categoryId)?.name;
   const { pickupUrl, deliveryUrl } = resolveOrderUrls(orderLinks);
 

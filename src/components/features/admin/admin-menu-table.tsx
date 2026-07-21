@@ -13,7 +13,7 @@ import {
   compressMenuCloseUpImage,
   compressMenuPrimaryImage
 } from "@/lib/client/compress-image";
-import { getMenuItemHref, slugifyProductName } from "@/lib/menu/product-slug";
+import { getMenuItemHref, resolveMenuItemSlug, slugifyProductName } from "@/lib/menu/product-slug";
 import { deleteMenuItemAction } from "@/server/actions/menu.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
@@ -295,7 +295,9 @@ export function AdminMenuTable({
       if (!prev) return prev;
       const next: MenuItem = { ...prev, name };
       if (!slugTouched) {
-        next.slug = slugifyProductName(name);
+        next.slug =
+          slugifyProductName(name) ||
+          resolveMenuItemSlug({ id: prev.id, name, slug: undefined });
       }
       if (!prev.imageAlt?.trim()) {
         next.imageAlt = name;

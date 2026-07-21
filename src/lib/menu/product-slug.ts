@@ -1,13 +1,36 @@
 import type { MenuItem } from "@/types/content";
 
-/** Build a URL-safe slug from a product name (Latin + Hebrew letters allowed). */
+const ASCII_SLUG_PATTERN = /^[\x00-\x7F]+$/;
+
+/** Build a URL-safe ASCII slug from a product name. */
 export function slugifyProductName(name: string): string {
   const base = name
     .trim()
     .toLowerCase()
     .normalize("NFKD")
     .replace(/[\u0300-\u036f]/g, "")
-    .replace(/[''`ʼ]/g, "")
+    .replace(/[''`ʼ\u05F3]/g, "")
+    .replace(/[^a-z0-9]+/gi, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-+|-+$/g, "")
+    .slice(0, 80);
+
+  const hasNonAscii = /[^\x00-\x7F]/.test(name.trim());
+  if (!base || (hasNonAscii && base.length < 4)) {
+    return "";
+  }
+
+  return base;
+}
+
+/** Previous slug format (Hebrew allowed) — lookup only for old bookmarks. */
+export function legacySlugifyProductName(name: string): string {
+  const base = name
+    .trim()
+    .toLowerCase()
+    .normalize("NFKD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[''`ʼ\u05F3]/g, "")
     .replace(/[^a-z0-9\u0590-\u05ff]+/gi, "-")
     .replace(/-+/g, "-")
     .replace(/^-+|-+$/g, "")
@@ -16,11 +39,23 @@ export function slugifyProductName(name: string): string {
   return base;
 }
 
+function normalizeAsciiSlug(value: string | undefined): string {
+  const trimmed = value?.trim();
+  if (!trimmed || !ASCII_SLUG_PATTERN.test(trimmed)) {
+    return "";
+  }
+  return trimmed;
+}
+
+function slugFromItemId(id: string): string {
+  return id.replace(/^item-/, "") || id;
+}
+
 /** Resolve the public slug for a menu item (explicit slug → name → id). */
 export function resolveMenuItemSlug(
   item: Pick<MenuItem, "id" | "name" | "slug">
 ): string {
-  const explicit = item.slug?.trim();
+  const explicit = normalizeAsciiSlug(item.slug);
   if (explicit) {
     return explicit;
   }
@@ -30,7 +65,28 @@ export function resolveMenuItemSlug(
     return fromName;
   }
 
-  return item.id.replace(/^item-/, "") || item.id;
+  return slugFromItemId(item.id);
+}
+
+/** All slug variants that should resolve to this menu item. */
+export function getMenuItemSlugAliases(
+  item: Pick<MenuItem, "id" | "name" | "slug">
+): string[] {
+  const aliases = new Set<string>();
+  const add = (value: string | undefined) => {
+    const normalized = value?.trim().toLowerCase();
+    if (normalized) {
+      aliases.add(normalized);
+    }
+  };
+
+  add(resolveMenuItemSlug(item));
+  add(normalizeAsciiSlug(item.slug));
+  add(legacySlugifyProductName(item.name));
+  add(item.id);
+  add(slugFromItemId(item.id));
+
+  return [...aliases];
 }
 
 export function getMenuItemHref(item: Pick<MenuItem, "id" | "name" | "slug">): string {
@@ -55,7 +111,8 @@ export function ensureUniqueProductSlug(
     }
   }
 
-  const base = (desired.trim() || "item").toLowerCase().replace(/^-+|-+$/g, "") || "item";
+  const base =
+    (normalizeAsciiSlug(desired) || "item").toLowerCase().replace(/^-+|-+$/g, "") || "item";
   if (!taken.has(base)) {
     return base;
   }

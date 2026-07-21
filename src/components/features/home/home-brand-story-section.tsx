@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
+import { HOME_STORY_IMAGE } from "@/data/site-images.registry";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getMessages } from "@/i18n/messages";
 import { pickSiteImage } from "@/lib/site-image-url";
@@ -13,8 +13,8 @@ type HomeBrandStorySectionProps = {
 export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectionProps) {
   const t = getMessages(await getServerLocale());
   const story = t.homeStory;
-  const imageSrc = pickSiteImage(siteImages, "home-story", LOCATION_EXTERIOR_IMAGE);
-  const imageUrl = imageSrc.startsWith("/") ? imageSrc : LOCATION_EXTERIOR_IMAGE;
+  const imageSrc = pickSiteImage(siteImages, "home-story", HOME_STORY_IMAGE);
+  const imageUrl = imageSrc.startsWith("/") ? imageSrc : HOME_STORY_IMAGE;
 
   return (
     <section id="story" className="home-story-section" aria-labelledby="home-story-title">

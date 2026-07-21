@@ -73,10 +73,10 @@ export const en: Messages = {
   },
   homeStory: {
     title: "Not just another burger.",
-    imageAlt: "NB BURGER storefront in Ra'anana",
+    imageAlt: "NB BURGER hamburger",
     intro: "At NB BURGER, we believe quality doesn't need a long explanation.",
     punchLines: [
-      "Premium beef.",
+      "Premium beef, ground in-house every day.",
       "Fresh brioche buns.",
       "House-made sauces.",
       "Ingredients chosen with care."

@@ -402,11 +402,12 @@ a.menu-showcase-button.site-cta-btn {
   width: 100%;
   aspect-ratio: 4 / 3;
   overflow: hidden;
-  background: #f2f2f2;
+  background: #ffffff;
 }
 
 .home-story-image {
-  object-fit: cover;
+  object-fit: contain;
+  object-position: center bottom;
 }
 
 .home-story-copy {

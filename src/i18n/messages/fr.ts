@@ -73,10 +73,10 @@ export const fr: Messages = {
   },
   homeStory: {
     title: "Pas un burger de plus.",
-    imageAlt: "Façade NB BURGER à Ra'anana",
+    imageAlt: "Hamburger NB BURGER",
     intro: "Chez NB BURGER, nous croyons que la qualité n'a pas besoin de longs discours.",
     punchLines: [
-      "Bœuf de qualité.",
+      "Bœuf de qualité, haché sur place chaque jour.",
       "Pains briochés frais.",
       "Sauces préparées sur place.",
       "Des ingrédients choisis avec soin."

@@ -6,11 +6,7 @@ import { useMemo, useState } from "react";
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
 import { OrderModal } from "@/components/layout/order-modal";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
-import {
-  IconBurgerMark,
-  IconCowMark,
-  IconMedalMark
-} from "@/components/shared/site-icons";
+import { IconBurgerMark, IconCowMark } from "@/components/shared/site-icons";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedMenuItem, getMenuItemCloseUpImageUrl } from "@/i18n/menu-translations";
 import { isVideoMediaUrl } from "@/lib/menu-media";
@@ -25,22 +21,11 @@ type MenuItemDetailViewProps = {
 
 const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
 
-function resolveStoryCards(notes: string[], longDescription: string): string[] {
-  const trimmedNotes = notes.map((note) => note.trim()).filter(Boolean);
-  if (trimmedNotes.length >= 2) {
-    return trimmedNotes.slice(0, 2);
-  }
-
-  const paragraphs = longDescription
+function splitLongDescription(longDescription: string): string[] {
+  return longDescription
     .split(/\n+/)
     .map((paragraph) => paragraph.trim())
     .filter(Boolean);
-
-  if (trimmedNotes.length === 1) {
-    return [trimmedNotes[0], paragraphs[0] ?? ""].filter(Boolean);
-  }
-
-  return paragraphs.slice(0, 2);
 }
 
 export function MenuItemDetailView({
@@ -57,9 +42,9 @@ export function MenuItemDetailView({
   const closeUpIsVideo = closeUpMedia ? isVideoMediaUrl(closeUpMedia) : false;
   const [orderOpen, setOrderOpen] = useState(false);
 
-  const storyCards = useMemo(
-    () => resolveStoryCards(localized.detailNotes, localized.longDescription),
-    [localized.detailNotes, localized.longDescription]
+  const longParagraphs = useMemo(
+    () => splitLongDescription(localized.longDescription),
+    [localized.longDescription]
   );
 
   return (
@@ -112,49 +97,30 @@ export function MenuItemDetailView({
           <p className="menu-item-detail-short">{localized.description}</p>
         ) : null}
 
-        <div className="menu-item-detail-actions">
-          <button
-            type="button"
-            className="menu-item-detail-order"
-            onClick={() => setOrderOpen(true)}
-          >
-            {t.menuItemDetail.orderNow}
-          </button>
-          <Link className="menu-item-detail-allergy" href="/menu">
-            <span className="menu-item-detail-allergy-icon" aria-hidden="true">
-              i
-            </span>
-            {t.menuItemDetail.allergyGuide}
-          </Link>
-        </div>
+        <button
+          type="button"
+          className="menu-item-detail-order"
+          onClick={() => setOrderOpen(true)}
+        >
+          {t.menuItemDetail.orderNow}
+        </button>
       </section>
 
-      {storyCards.length > 0 ? (
+      {longParagraphs.length > 0 ? (
         <section
-          className="menu-item-detail-cards"
+          className="menu-item-detail-long menu-item-detail-card menu-item-detail-card--dark"
           aria-label={t.menuItemDetail.longSectionAria}
         >
-          {storyCards.map((copy, index) => {
-            const isDark = index === 0;
-
-            return (
-              <article
-                key={`${index}-${copy.slice(0, 24)}`}
-                className={`menu-item-detail-card${isDark ? " menu-item-detail-card--dark" : " menu-item-detail-card--light"}`}
-              >
-                <div className="menu-item-detail-card-head">
-                  <span className="menu-item-detail-card-rule" aria-hidden="true" />
-                  {isDark ? (
-                    <IconCowMark className="menu-item-detail-card-icon" />
-                  ) : (
-                    <IconMedalMark className="menu-item-detail-card-icon" />
-                  )}
-                  <span className="menu-item-detail-card-rule" aria-hidden="true" />
-                </div>
-                <p className="menu-item-detail-card-text">{copy}</p>
-              </article>
-            );
-          })}
+          <div className="menu-item-detail-card-head">
+            <span className="menu-item-detail-card-rule" aria-hidden="true" />
+            <IconCowMark className="menu-item-detail-card-icon" />
+            <span className="menu-item-detail-card-rule" aria-hidden="true" />
+          </div>
+          {longParagraphs.map((paragraph) => (
+            <p key={paragraph} className="menu-item-detail-card-text">
+              {paragraph}
+            </p>
+          ))}
         </section>
       ) : null}
 

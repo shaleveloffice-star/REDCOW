@@ -757,6 +757,10 @@ a.menu-showcase-button.site-cta-btn {
   transform-origin: top left;
 }
 
+.home-vibe-embed--secondary {
+  display: none;
+}
+
 .home-vibe-cta svg {
   width: 18px;
   height: 18px;
@@ -854,6 +858,82 @@ a.menu-showcase-button.site-cta-btn {
   outline-offset: 4px;
 }
 
+@media (min-width: 900px) {
+  .home-vibe-gallery {
+    padding-bottom: 66px;
+  }
+
+  .home-vibe-card {
+    --home-vibe-card-width: clamp(680px, 72vw, 920px);
+    height: clamp(560px, 56vw, 720px);
+    padding: 24px 18px 26px;
+    overflow: visible;
+    border-radius: 18px;
+    box-shadow:
+      0 32px 70px rgba(0, 0, 0, 0.2),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  }
+
+  .home-vibe-card::before {
+    content: "";
+    position: absolute;
+    bottom: -50px;
+    left: 50%;
+    width: 94px;
+    height: 52px;
+    background: #161616;
+    clip-path: polygon(27% 0, 73% 0, 100% 100%, 0 100%);
+    transform: translateX(-50%);
+  }
+
+  .home-vibe-card::after {
+    content: "";
+    position: absolute;
+    bottom: -61px;
+    left: 50%;
+    width: 230px;
+    height: 13px;
+    border-radius: 999px 999px 4px 4px;
+    background: #090909;
+    transform: translateX(-50%);
+  }
+
+  .home-vibe-phone-screen {
+    z-index: 1;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-radius: 8px;
+    background: #181818;
+  }
+
+  .home-vibe-phone-island {
+    top: 8px;
+    width: 9px;
+    height: 9px;
+    border: 1px solid #343434;
+    border-radius: 50%;
+    background: #050505;
+  }
+
+  .home-vibe-embed {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    height: 100%;
+    transform: none;
+    transform-origin: top center;
+  }
+
+  .home-vibe-embed--secondary {
+    display: block;
+    border-left: 1px solid #1e1e1e;
+  }
+
+  .home-vibe-controls {
+    margin-top: 30px;
+  }
+}
+
 @media (max-width: 899px) {
   .home-vibe-header {
     grid-template-columns: 1fr;
@@ -881,25 +961,25 @@ a.menu-showcase-button.site-cta-btn {
 
 @media (max-width: 640px) {
   .home-vibe-card {
-    --home-vibe-card-width: clamp(182px, 49.28vw, 235px);
-    height: calc(var(--home-vibe-card-width) + 154px);
-    padding: 19px 6px 6px;
-    border-radius: 29px;
+    --home-vibe-card-width: clamp(284px, 76.87vw, 367px);
+    height: calc(var(--home-vibe-card-width) + 240px);
+    padding: 30px 10px 10px;
+    border-radius: 46px;
   }
 
   .home-vibe-phone-screen {
-    border-radius: 22px;
+    border-radius: 35px;
   }
 
   .home-vibe-phone-island {
-    top: 6px;
-    height: 8px;
+    top: 10px;
+    height: 12px;
   }
 
   .home-vibe-embed {
-    width: 178.58%;
-    height: 178.58%;
-    transform: scale(0.56);
+    width: 114.47%;
+    height: 114.47%;
+    transform: scale(0.8736);
   }
 }
 

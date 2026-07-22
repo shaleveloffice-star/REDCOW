@@ -25,6 +25,8 @@ function InstagramIcon() {
 export function HomeSocialVibeSection() {
   const [activeReelIndex, setActiveReelIndex] = useState(0);
   const activeReelId = VIBE_REELS[activeReelIndex];
+  const secondaryReelIndex = (activeReelIndex + 1) % VIBE_REELS.length;
+  const secondaryReelId = VIBE_REELS[secondaryReelIndex];
 
   const showPreviousReel = () => {
     setActiveReelIndex((current) => (current - 1 + VIBE_REELS.length) % VIBE_REELS.length);
@@ -57,6 +59,15 @@ export function HomeSocialVibeSection() {
               src={`https://www.instagram.com/reel/${activeReelId}/embed/`}
               title={`Instagram Reel ${activeReelIndex + 1} של NB BURGER`}
               className="home-vibe-embed"
+              loading="lazy"
+              scrolling="no"
+              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+              allowFullScreen
+            />
+            <iframe
+              src={`https://www.instagram.com/reel/${secondaryReelId}/embed/`}
+              title={`Instagram Reel ${secondaryReelIndex + 1} של NB BURGER`}
+              className="home-vibe-embed home-vibe-embed--secondary"
               loading="lazy"
               scrolling="no"
               allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"

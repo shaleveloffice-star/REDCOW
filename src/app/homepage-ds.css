@@ -879,6 +879,30 @@ a.menu-showcase-button.site-cta-btn {
   }
 }
 
+@media (max-width: 640px) {
+  .home-vibe-card {
+    --home-vibe-card-width: clamp(182px, 49.28vw, 235px);
+    height: calc(var(--home-vibe-card-width) + 154px);
+    padding: 19px 6px 6px;
+    border-radius: 29px;
+  }
+
+  .home-vibe-phone-screen {
+    border-radius: 22px;
+  }
+
+  .home-vibe-phone-island {
+    top: 6px;
+    height: 8px;
+  }
+
+  .home-vibe-embed {
+    width: 178.58%;
+    height: 178.58%;
+    transform: scale(0.56);
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .home-vibe-controls button {
     transition: none;

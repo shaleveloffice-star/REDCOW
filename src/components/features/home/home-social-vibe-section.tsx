@@ -1,3 +1,7 @@
+"use client";
+
+import { useState } from "react";
+
 import { BUSINESS } from "@/data/business";
 
 const VIBE_REELS = [
@@ -19,6 +23,17 @@ function InstagramIcon() {
 }
 
 export function HomeSocialVibeSection() {
+  const [activeReelIndex, setActiveReelIndex] = useState(0);
+  const activeReelId = VIBE_REELS[activeReelIndex];
+
+  const showPreviousReel = () => {
+    setActiveReelIndex((current) => (current - 1 + VIBE_REELS.length) % VIBE_REELS.length);
+  };
+
+  const showNextReel = () => {
+    setActiveReelIndex((current) => (current + 1) % VIBE_REELS.length);
+  };
+
   return (
     <section className="home-vibe-section" aria-labelledby="home-vibe-title">
       <header className="home-vibe-header">
@@ -32,14 +47,15 @@ export function HomeSocialVibeSection() {
       </header>
 
       <div className="home-vibe-gallery">
-        {VIBE_REELS.map((reelId, index) => (
-          <div
-            key={reelId}
-            className={`home-vibe-card home-vibe-card--${index + 1} home-vibe-card--embed`}
-          >
+        <div
+          key={activeReelId}
+          className="home-vibe-card home-vibe-card--embed"
+        >
+          <span className="home-vibe-phone-island" aria-hidden="true" />
+          <div className="home-vibe-phone-screen">
             <iframe
-              src={`https://www.instagram.com/reel/${reelId}/embed/`}
-              title={`Instagram Reel ${index + 1} של NB BURGER`}
+              src={`https://www.instagram.com/reel/${activeReelId}/embed/`}
+              title={`Instagram Reel ${activeReelIndex + 1} של NB BURGER`}
               className="home-vibe-embed"
               loading="lazy"
               scrolling="no"
@@ -47,7 +63,19 @@ export function HomeSocialVibeSection() {
               allowFullScreen
             />
           </div>
-        ))}
+        </div>
+      </div>
+
+      <div className="home-vibe-controls" aria-label="ניווט בין סרטוני Instagram">
+        <button type="button" onClick={showPreviousReel} aria-label="הסרטון הקודם">
+          <span aria-hidden="true">←</span>
+        </button>
+        <span className="home-vibe-counter" aria-live="polite">
+          {String(activeReelIndex + 1).padStart(2, "0")} / {String(VIBE_REELS.length).padStart(2, "0")}
+        </span>
+        <button type="button" onClick={showNextReel} aria-label="הסרטון הבא">
+          <span aria-hidden="true">→</span>
+        </button>
       </div>
 
       <a

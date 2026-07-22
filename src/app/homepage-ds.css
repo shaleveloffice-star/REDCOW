@@ -537,6 +537,51 @@ a.menu-showcase-button.site-cta-btn {
   direction: rtl;
 }
 
+.home-atmosphere-divider-content {
+  display: flex;
+  align-items: center;
+  gap: clamp(8px, 1.4vw, 18px);
+  height: 100%;
+  margin-right: auto;
+  margin-left: 0;
+  direction: ltr;
+}
+
+.home-atmosphere-divider-content span {
+  margin: 0;
+}
+
+.home-atmosphere-divider-content--end {
+  margin-right: 0;
+  margin-left: auto;
+}
+
+.home-atmosphere-divider-content--end .home-atmosphere-lifter {
+  margin-right: 40px;
+  margin-left: 0;
+}
+
+.home-atmosphere-lifter {
+  flex: none;
+  width: clamp(34px, 4vw, 54px);
+  height: calc(100% - 6px);
+  margin-left: 30px;
+  overflow: visible;
+}
+
+.home-atmosphere-lifter circle,
+.home-atmosphere-lifter-torso {
+  fill: #1e1e1e;
+}
+
+.home-atmosphere-lifter-limbs {
+  fill: none;
+  stroke: #1e1e1e;
+  stroke-width: 7;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 .home-atmosphere-clip--2 {
   clip-path: polygon(
     0 0,
@@ -794,6 +839,14 @@ a.menu-showcase-button.site-cta-btn {
 .home-vibe-cta:hover {
   background: #ffffff;
   color: #1e1e1e;
+}
+
+.home-vibe-instagram-word {
+  background: linear-gradient(90deg, #feda75 0%, #fa7e1e 24%, #d62976 50%, #962fbf 74%, #4f5bd5 100%);
+  background-clip: text;
+  color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .home-vibe-cta:focus-visible {

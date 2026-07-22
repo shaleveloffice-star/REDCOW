@@ -85,7 +85,9 @@ export function HomeSocialVibeSection() {
         rel="noopener noreferrer"
       >
         <InstagramIcon />
-        <span>FOLLOW US ON INSTAGRAM</span>
+        <span>
+          FOLLOW US ON <span className="home-vibe-instagram-word">INSTAGRAM</span>
+        </span>
         <span aria-hidden="true">↗</span>
       </a>
     </section>

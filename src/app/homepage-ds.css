@@ -660,15 +660,20 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .home-vibe-header {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  gap: clamp(24px, 5vw, 72px);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   width: min(1440px, calc(100% - 50px));
   margin: 0 auto clamp(36px, 6vw, 72px);
+  text-align: left;
+}
+
+.home-vibe-header > div {
+  width: 100%;
 }
 
 .home-vibe-handle {
+  width: 100%;
   margin: 0 0 10px;
   font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
   font-size: clamp(12px, 1.2vw, 15px);
@@ -677,6 +682,7 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .home-vibe-title {
+  width: 100%;
   margin: 0;
   max-width: 10ch;
   font-family: var(--font-archivo-black-stack);
@@ -684,18 +690,21 @@ a.menu-showcase-button.site-cta-btn {
   font-weight: 400;
   letter-spacing: -0.055em;
   line-height: 0.82;
+  transform: translateX(-0.06em);
   text-wrap: balance;
 }
 
 .home-vibe-tagline {
-  max-width: 24ch;
-  margin: 0 0 4px;
+  width: 100%;
+  max-width: none;
+  margin: clamp(20px, 3vw, 34px) 0 0;
   font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
   font-size: clamp(12px, 1.3vw, 16px);
   font-weight: 700;
   letter-spacing: 0.06em;
   line-height: 1.45;
-  text-align: right;
+  text-align: left;
+  white-space: nowrap;
 }
 
 .home-vibe-gallery {
@@ -1139,6 +1148,104 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 /* —— Customer club —— */
+.customer-club-section--simple {
+  position: relative;
+  padding: clamp(72px, 9vw, 120px) 0 clamp(96px, 11vw, 150px);
+  overflow: hidden;
+  background: #000000;
+  color: #ffffff;
+}
+
+.customer-club-simple-shell {
+  width: min(900px, calc(100% - 50px));
+  margin: 0 auto;
+}
+
+.customer-club-simple-copy {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+  transform: translateY(-20px);
+}
+
+.customer-club-section--simple .customer-club-title {
+  margin: 0 0 16px;
+  color: #ffffff;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(42px, 7vw, 86px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.customer-club-section--simple .customer-club-lead {
+  max-width: 42ch;
+  margin: 0 auto;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.6;
+}
+
+.customer-club-simple-form-wrap {
+  position: relative;
+  width: min(520px, 100%);
+  margin: clamp(38px, 6vw, 64px) auto 0;
+}
+
+.customer-club-simple-form-col {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  direction: rtl;
+}
+
+.customer-club-section--simple .customer-club-panel {
+  padding: clamp(24px, 3vw, 34px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 12px;
+  background: #0b0b0b;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.42);
+}
+
+.customer-club-simple-burger {
+  position: absolute;
+  top: -95px;
+  right: -44px;
+  left: auto;
+  z-index: 3;
+  width: 117px;
+  height: auto;
+  pointer-events: none;
+}
+
+.customer-club-simple-burger-image {
+  display: block;
+  width: 117px;
+  height: auto;
+}
+
+@media (max-width: 700px) {
+  .customer-club-simple-shell {
+    width: calc(100% - 40px);
+  }
+
+  .customer-club-simple-form-wrap {
+    width: 100%;
+  }
+
+  .customer-club-simple-burger {
+    top: -88px;
+    right: -28px;
+    left: auto;
+    width: 109px;
+  }
+
+  .customer-club-simple-burger-image {
+    width: 109px;
+    height: auto;
+  }
+}
+
 .customer-club-section--mockup {
   padding: var(--ds-space-8) 0 0;
   background: var(--ds-surface);
@@ -1325,6 +1432,30 @@ a.menu-showcase-button.site-cta-btn {
 .site-footer-bar {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   background: rgba(0, 0, 0, 0.4);
+}
+
+.site-footer,
+.site-footer-logo,
+.site-footer-tagline,
+.site-footer-heading,
+.site-footer-contact-item,
+.site-footer-contact-link,
+.site-footer-social-label,
+.site-footer-social,
+.site-footer-links a,
+.site-footer-bar-inner p,
+.site-footer-est,
+.site-footer-est span,
+.site-footer-legal-link,
+.site-footer-legal-sep {
+  color: #ffffff;
+}
+
+.site-footer-links a:hover,
+.site-footer-contact-link:hover,
+.site-footer-legal-link:hover {
+  color: #ffffff;
+  opacity: 0.72;
 }
 
 /* —— Section transitions (hairline rhythm, not heavy glow) —— */

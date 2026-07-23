@@ -1198,6 +1198,10 @@ select {
   color: var(--cta-fg);
 }
 
+.site-navbar--scrolled .site-cta--desktop .site-cta-btn:hover {
+  color: var(--cta-fill-fg);
+}
+
 @media (prefers-reduced-motion: reduce) {
   .site-cta-btn,
   .site-cta-btn::before,
@@ -5688,6 +5692,100 @@ a.menu-showcase-button.site-cta-btn {
     radial-gradient(ellipse 40% 30% at 100% 40%, rgba(255, 225, 186, 0.05), transparent 50%),
     linear-gradient(180deg, #0a0806 0%, #070605 100%);
   padding-bottom: 0;
+}
+
+.about-simple {
+  position: relative;
+  display: grid;
+  place-items: center;
+  min-height: 100svh;
+  padding: 120px 24px 64px;
+  box-sizing: border-box;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+.about-simple-image {
+  z-index: -3;
+  object-fit: cover;
+  object-position: center;
+}
+
+.about-simple-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background: rgba(0, 0, 0, 0.8);
+}
+
+.about-simple-content {
+  width: min(680px, 100%);
+  color: #ffffff;
+  text-align: center;
+}
+
+.about-simple-content h1 {
+  margin: 0 0 24px;
+  color: #ffffff;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(44px, 8vw, 92px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.95;
+}
+
+.about-simple-content p {
+  max-width: 52ch;
+  margin: 0 auto 34px;
+  color: #ffffff;
+  font-size: clamp(17px, 2vw, 21px);
+  line-height: 1.7;
+}
+
+.about-simple-content .about-simple-subtitle {
+  margin-bottom: 14px;
+  font-size: clamp(18px, 2.2vw, 24px);
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.about-simple-content .about-simple-description {
+  max-width: 58ch;
+  margin-bottom: 34px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(14px, 1.4vw, 16px);
+  line-height: 1.65;
+}
+
+.about-simple-content .about-simple-description--first {
+  margin-bottom: 12px;
+}
+
+.about-simple-home {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 54px;
+  padding: 0 30px;
+  border: 1px solid #ffffff;
+  background: #ffffff;
+  color: #000000;
+  font-size: 15px;
+  font-weight: 800;
+  text-decoration: none;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease;
+}
+
+.about-simple-home:hover {
+  background: transparent;
+  color: #ffffff;
+}
+
+.about-simple-home:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
 }
 
 /* Hero */

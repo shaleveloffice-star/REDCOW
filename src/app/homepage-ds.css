@@ -1133,6 +1133,12 @@ a.menu-showcase-button.site-cta-btn {
   margin: 0 0 var(--ds-space-6);
 }
 
+.location-section :is(h2, h3, p, dt, dd),
+.location-section .location-block,
+.location-section .location-block-icon {
+  color: #ffffff !important;
+}
+
 .location-block {
   margin-bottom: var(--ds-space-6);
 }
@@ -1449,6 +1455,11 @@ a.menu-showcase-button.site-cta-btn {
 .site-footer-legal-link,
 .site-footer-legal-sep {
   color: #ffffff;
+}
+
+.site-footer,
+.site-footer * {
+  color: #ffffff !important;
 }
 
 .site-footer-links a:hover,

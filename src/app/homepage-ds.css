@@ -1002,6 +1002,128 @@ a.menu-showcase-button.site-cta-btn {
   }
 }
 
+/* —— Home: FAQ —— */
+.home-faq-section {
+  position: relative;
+  padding: clamp(72px, 10vw, 140px) 0 clamp(80px, 11vw, 150px);
+  background: #000000;
+  color: #ffffff;
+}
+
+.home-faq-shell {
+  width: min(920px, calc(100% - 50px));
+  margin: 0 auto;
+}
+
+.home-faq-header {
+  margin-bottom: clamp(32px, 5vw, 56px);
+  text-align: start;
+}
+
+.home-faq-kicker {
+  margin: 0 0 12px;
+  color: #ffffff;
+  font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
+  font-size: clamp(12px, 1.2vw, 15px);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.home-faq-title {
+  margin: 0 0 14px;
+  color: #ffffff;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(42px, 8vw, 92px);
+  font-weight: 400;
+  letter-spacing: -0.04em;
+  line-height: 0.92;
+  text-transform: uppercase;
+}
+
+.home-faq-lead {
+  max-width: 42ch;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(15px, 1.6vw, 18px);
+  line-height: 1.55;
+}
+
+.home-faq-list {
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.home-faq-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+.home-faq-question {
+  margin: 0;
+}
+
+.home-faq-trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  width: 100%;
+  min-height: 72px;
+  padding: 20px 0;
+  border: 0;
+  background: transparent;
+  color: #ffffff;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  text-align: start;
+  cursor: pointer;
+  transition: color var(--ds-motion-fast) ease;
+}
+
+.home-faq-trigger:hover {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.home-faq-trigger:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}
+
+.home-faq-icon {
+  flex: none;
+  width: 28px;
+  color: #ffffff;
+  font-family: Arial, sans-serif;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+}
+
+.home-faq-answer {
+  padding: 0 0 24px;
+}
+
+.home-faq-answer p {
+  max-width: 58ch;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(14px, 1.5vw, 17px);
+  line-height: 1.65;
+}
+
+@media (max-width: 640px) {
+  .home-faq-shell {
+    width: calc(100% - 40px);
+  }
+
+  .home-faq-trigger {
+    min-height: 64px;
+    padding: 16px 0;
+  }
+}
+
 /* —— Atmosphere / brand story + food —— */
 .atmosphere-section {
   padding: var(--ds-space-8) 0 var(--ds-space-8);

@@ -96,6 +96,12 @@ export type Messages = {
     burgerStackAlt: string;
     bottomAlt: string;
   };
+  faq: {
+    kicker: string;
+    title: string;
+    lead: string;
+    items: Array<{ question: string; answer: string }>;
+  };
   customerClub: {
     kicker: string;
     title: string;

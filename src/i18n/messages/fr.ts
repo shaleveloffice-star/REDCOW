@@ -116,6 +116,43 @@ export const fr: Messages = {
     burgerStackAlt: "Burger éclaté",
     bottomAlt: "Pain du bas"
   },
+  faq: {
+    kicker: "FAQ",
+    title: "Questions & Réponses",
+    lead: "Tout ce qu'il faut savoir avant la prochaine bouchée.",
+    items: [
+      {
+        question: "Où manger un burger casher à Ra'anana ?",
+        answer:
+          "NB BURGER propose une expérience burger casher à Ra'anana, avec des burgers juteux, des ingrédients de qualité et des plats préparés sur place. Vous pouvez manger sur place ou commander en livraison."
+      },
+      {
+        question: "Quelle supervision casher a NB BURGER ?",
+        answer:
+          "NB BURGER est un restaurant casher sous supervision rabbinique. Notre carte de viande convient aux personnes qui gardent la cacheroute et comprend une variété de burgers et d'autres plats."
+      },
+      {
+        question: "Qu'est-ce qui rend le smash burger de NB BURGER spécial ?",
+        answer:
+          "Notre smash burger repose sur une galette de bœuf saisie sur une plaque chaude pour une belle croûte et un goût riche, servie avec des garnitures et des sauces qui complètent la bouchée."
+      },
+      {
+        question: "Peut-on commander une livraison de burgers chez NB BURGER ?",
+        answer:
+          "Oui. Vous pouvez commander une livraison depuis NB BURGER à Ra'anana et dans les zones disponibles, et profiter de nos plats à la maison ou au travail."
+      },
+      {
+        question: "Quels sont les horaires de NB BURGER ?",
+        answer:
+          "Les horaires peuvent varier selon le jour et les fêtes. Nous recommandons de vérifier les horaires à jour sur le site avant de venir ou de commander."
+      },
+      {
+        question: "Que trouve-t-on sur la carte de NB BURGER ?",
+        answer:
+          "Vous y trouverez une variété de burgers, smash burgers, accompagnements, extras et sauces. Vous pouvez consulter la carte complète sur le site et choisir ce qui vous convient."
+      }
+    ]
+  },
   customerClub: {
     kicker: "NB CLUB",
     title: "Club client",

@@ -7,6 +7,7 @@ import { HomeBrandStorySection } from "@/components/features/home/home-brand-sto
 import { HeroSection } from "@/components/features/home/hero-section";
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
 import { HomeSocialVibeSection } from "@/components/features/home/home-social-vibe-section";
+import { HomeFaqSection } from "@/components/features/home/home-faq-section";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
@@ -61,6 +62,7 @@ export default async function HomePage() {
         <HomeBrandStorySection siteImages={siteImages} />
         <HomeAtmosphereSection siteImages={siteImages} />
         <HomeSocialVibeSection />
+        <HomeFaqSection />
         <LocationSection siteImages={siteImages} />
         <CustomerClubSection />
       </main>

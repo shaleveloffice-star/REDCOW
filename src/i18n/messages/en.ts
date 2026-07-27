@@ -116,6 +116,43 @@ export const en: Messages = {
     burgerStackAlt: "Deconstructed burger",
     bottomAlt: "Bottom bun"
   },
+  faq: {
+    kicker: "FAQ",
+    title: "Questions & Answers",
+    lead: "Everything worth knowing before your next bite.",
+    items: [
+      {
+        question: "Where can I eat a kosher burger in Ra'anana?",
+        answer:
+          "NB BURGER offers a kosher burger experience in Ra'anana, with juicy burgers, quality ingredients, and dishes prepared on site. You can dine in or order delivery."
+      },
+      {
+        question: "What kashrut certification does NB BURGER have?",
+        answer:
+          "NB BURGER is a kosher restaurant under rabbinical supervision. Our meat menu is suited for those who keep kosher and includes a variety of burgers and more."
+      },
+      {
+        question: "What makes the NB BURGER smash burger special?",
+        answer:
+          "Our smash burger is based on a beef patty seared on a hot surface for deep browning and rich flavor, served with toppings and sauces that complete the bite."
+      },
+      {
+        question: "Can I order burger delivery from NB BURGER?",
+        answer:
+          "Yes. You can order delivery from NB BURGER in Ra'anana and available delivery areas, and enjoy our dishes at home or at work."
+      },
+      {
+        question: "What are NB BURGER opening hours?",
+        answer:
+          "Opening hours may change by day and holidays. We recommend checking the updated hours on the website before arriving or placing an order."
+      },
+      {
+        question: "What's on the NB BURGER menu?",
+        answer:
+          "You'll find a variety of burgers, smash burgers, sides, extras, and sauces. You can view the full menu on the website and choose what suits you."
+      }
+    ]
+  },
   customerClub: {
     kicker: "NB CLUB",
     title: "Customer Club",

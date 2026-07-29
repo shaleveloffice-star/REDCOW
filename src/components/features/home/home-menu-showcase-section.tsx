@@ -29,7 +29,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
     }
 
     const alignScrollStart = () => {
-      track.scrollTo({ inline: "start", behavior: "auto" });
+      track.scrollLeft = 0;
     };
 
     alignScrollStart();

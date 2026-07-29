@@ -2525,6 +2525,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   min-width: 100%;
 }
 
+[dir="rtl"] .menu-showcase-track,
 [dir="rtl"] .menu-showcase-rail {
   direction: rtl;
 }

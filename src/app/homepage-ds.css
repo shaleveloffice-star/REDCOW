@@ -219,6 +219,7 @@ body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
   gap: var(--menu-showcase-gutter);
 }
 
+[dir="rtl"] .menu-showcase-track,
 [dir="rtl"] .menu-showcase-rail {
   direction: rtl;
 }

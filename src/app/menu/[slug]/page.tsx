@@ -81,13 +81,15 @@ export async function generateMetadata({ params }: MenuItemPageProps): Promise<M
     localized.description.trim() ||
     localized.longDescription.trim() ||
     `${localized.name} — NB BURGER רעננה`;
+  const imageUrl = String(item.imageUrl ?? "").trim();
 
   return buildPageMetadata({
     title,
     description,
     path: `/menu/${resolvedSlug}`,
-    image: absoluteUrl(item.imageUrl),
-    imageAlt: localized.imageAlt
+    ...(imageUrl
+      ? { image: absoluteUrl(imageUrl), imageAlt: localized.imageAlt }
+      : {})
   });
 }
 

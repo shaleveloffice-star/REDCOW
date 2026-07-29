@@ -7,8 +7,8 @@ import type { MenuCategory, MenuItem } from "@/types/content";
 export type JsonLdObject = Record<string, unknown>;
 
 /** Resolve site-relative paths to absolute URLs for Schema.org. */
-export function absoluteUrl(pathOrUrl: string): string {
-  const trimmed = pathOrUrl.trim();
+export function absoluteUrl(pathOrUrl?: string | null): string {
+  const trimmed = String(pathOrUrl ?? "").trim();
   if (!trimmed) {
     return SITE_URL;
   }
@@ -27,8 +27,8 @@ export function serializeJsonLd(data: JsonLdObject | JsonLdObject[]): string {
   return JSON.stringify(data).replace(/</g, "\\u003c");
 }
 
-function isStaticImageUrl(url: string): boolean {
-  const trimmed = url.trim();
+function isStaticImageUrl(url?: string | null): boolean {
+  const trimmed = String(url ?? "").trim();
   if (!trimmed || trimmed.startsWith("data:") || trimmed.startsWith("blob:")) {
     return false;
   }
@@ -83,7 +83,7 @@ export function buildMenuJsonLd(groups: MenuGroup[]): JsonLdObject {
         ? { description: category.description }
         : {}),
       hasMenuItem: category.items.map((item) => {
-        const description = item.description.trim();
+        const description = String(item.description ?? "").trim();
         const menuItem: JsonLdObject = {
           "@type": "MenuItem",
           name: item.name,
@@ -111,8 +111,8 @@ export function buildMenuJsonLd(groups: MenuGroup[]): JsonLdObject {
 export function buildProductJsonLd(item: MenuItem, options: { slug: string }): JsonLdObject {
   const description =
     item.metaDescription?.trim() ||
-    item.description.trim() ||
-    item.longDescription?.trim() ||
+    String(item.description ?? "").trim() ||
+    String(item.longDescription ?? "").trim() ||
     item.name;
 
   const product: JsonLdObject = {

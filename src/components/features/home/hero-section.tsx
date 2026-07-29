@@ -25,7 +25,7 @@ export function HeroSection() {
           priority
           unoptimized
           className="hero-burger-image"
-          sizes="(max-width: 768px) 90vw, min(82vw, 760px)"
+          sizes="(max-width: 768px) 98vw, min(98vw, 1064px)"
         />
       </div>
 

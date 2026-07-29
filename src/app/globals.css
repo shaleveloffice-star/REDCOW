@@ -1361,7 +1361,7 @@ select {
 
 .hero-burger-image {
   display: block;
-  width: min(82vw, 760px);
+  width: min(98vw, 1064px);
   height: auto;
 }
 
@@ -1383,7 +1383,7 @@ select {
 
   .hero-burger-image {
     width: auto;
-    max-width: min(94vw, 480px);
+    max-width: min(98vw, 672px);
     max-height: 100%;
     height: auto;
     object-fit: contain;

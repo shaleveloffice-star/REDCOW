@@ -1340,6 +1340,10 @@ select {
   background: var(--ds-surface);
 }
 
+.hero--solid {
+  background: #000000;
+}
+
 @media (min-width: 768px) {
   .hero--premier .hero-scrim {
     background:

@@ -12,7 +12,6 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   getCachedHomepageMenu,
-  getCachedSettings,
   getCachedSiteImagesMap
 } from "@/lib/cache/cached-data";
 import { buildPageMetadata } from "@/lib/seo";
@@ -38,11 +37,7 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function HomePage() {
-  const [settings, siteImages, homepageMenuItems] = await Promise.all([
-    getCachedSettings().catch((err) => {
-      console.error("[HomePage] settings failed", err instanceof Error ? err.message : err);
-      throw err;
-    }),
+  const [siteImages, homepageMenuItems] = await Promise.all([
     getCachedSiteImagesMap().catch((err) => {
       console.error("[HomePage] site images failed", err instanceof Error ? err.message : err);
       throw err;
@@ -57,7 +52,7 @@ export default async function HomePage() {
     <>
       <JsonLd data={buildRestaurantJsonLd()} />
       <main id="main-content">
-        <HeroSection settings={settings} />
+        <HeroSection />
         <HomeMenuShowcaseSection items={homepageMenuItems} />
         <HomeBrandStorySection siteImages={siteImages} />
         <HomeAtmosphereSection siteImages={siteImages} />

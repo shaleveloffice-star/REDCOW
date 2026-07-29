@@ -1366,8 +1366,24 @@ select {
 }
 
 @media (min-width: 768px) {
+  .hero-burger {
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: clamp(48px, 7vh, 88px);
+  }
+
   .hero-burger-image {
-    transform: translateY(-10px);
+    transform: translate(-11px, -28px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-burger {
+    padding-top: clamp(36px, 5.5vh, 72px);
+  }
+
+  .hero-burger-image {
+    transform: translate(-11px, -44px);
   }
 }
 
@@ -1393,7 +1409,7 @@ select {
     max-height: 100%;
     height: auto;
     object-fit: contain;
-    transform: scale(1.3) translateY(14px);
+    transform: scale(1.3) translate(-11px, 14px);
     transform-origin: center center;
   }
 

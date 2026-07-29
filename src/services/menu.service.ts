@@ -1,5 +1,3 @@
-import { mockMenuItems } from "@/data/mock/menu.mock";
-import { isFirebaseConfigured } from "@/lib/firebase";
 import { getMenuItemSlugAliases } from "@/lib/menu/product-slug";
 import {
   getHomepageMenuShowcaseConfig,
@@ -47,42 +45,42 @@ export async function getMenuForDisplay() {
 }
 
 export async function getHomepageMenuShowcase(): Promise<MenuItem[]> {
-  const [activeItems, allItems, config] = await Promise.all([
-    listMenuItems({ activeOnly: true }),
-    listMenuItems({ activeOnly: false }),
-    getHomepageMenuShowcaseConfig()
-  ]);
-  const activeById = new Map(activeItems.map((item) => [item.id, item]));
-  const allById = new Map(allItems.map((item) => [item.id, item]));
-  // Mock seed only when Firebase is not configured — never silent fallback in production.
-  const seedById = isFirebaseConfigured()
-    ? new Map<string, MenuItem>()
-    : new Map(mockMenuItems.map((item) => [item.id, item]));
+  const MAX_SHOWCASE = 8;
 
-  const curatedIds =
-    config.itemIds.length > 0 ? config.itemIds : activeItems.slice(0, 8).map((item) => item.id);
+  try {
+    const [activeItems, config] = await Promise.all([
+      listMenuItems({ activeOnly: true }),
+      getHomepageMenuShowcaseConfig()
+    ]);
 
-  const curated = curatedIds.flatMap((id) => {
-    const activeItem = activeById.get(id);
-    if (activeItem) {
-      return [activeItem];
-    }
-
-    if (allById.has(id)) {
+    if (activeItems.length === 0) {
       return [];
     }
 
-    const seedItem = seedById.get(id);
-    return seedItem?.isActive ? [seedItem] : [];
-  });
+    const activeById = new Map(activeItems.map((item) => [item.id, item]));
+    const curatedIds =
+      config.itemIds.length > 0
+        ? config.itemIds
+        : activeItems.slice(0, MAX_SHOWCASE).map((item) => item.id);
 
-  if (curated.length > 0) {
-    return curated;
+    const curated = curatedIds
+      .map((id) => activeById.get(id))
+      .filter((item): item is MenuItem => Boolean(item));
+
+    if (curated.length > 0) {
+      return curated;
+    }
+
+    return activeItems.slice(0, MAX_SHOWCASE);
+  } catch (error) {
+    console.error("[menu.service] getHomepageMenuShowcase failed", error);
+    try {
+      const activeItems = await listMenuItems({ activeOnly: true });
+      return activeItems.slice(0, MAX_SHOWCASE);
+    } catch {
+      return [];
+    }
   }
-
-  // Fallback: show the first active dishes so homepage section 2 is never empty black.
-  const MAX_SHOWCASE = 8;
-  return activeItems.slice(0, MAX_SHOWCASE);
 }
 
 export async function getHomepageMenuShowcaseSelection(): Promise<{

@@ -19,7 +19,7 @@ export async function getHomepageMenuShowcaseConfig(): Promise<HomepageMenuShowc
     };
   } catch (error) {
     console.error("[homepage-menu-showcase] read failed", error);
-    return localHomepageMenuShowcaseStore.get();
+    return { itemIds: [], updatedAt: new Date(0).toISOString() };
   }
 }
 

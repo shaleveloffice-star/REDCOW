@@ -41,6 +41,9 @@ export async function getMenuAdminData() {
 export async function saveHomepageMenuShowcaseAction(itemIds: string[]) {
   await requireAdmin();
   const cleaned = itemIds.filter((id) => typeof id === "string" && id.trim().length > 0);
+  if (cleaned.length === 0) {
+    throw new Error("יש לבחור לפחות מנה אחת לדף הבית.");
+  }
   await updateHomepageMenuShowcase(cleaned);
   menuPaths.forEach((path) => revalidatePath(path));
   revalidateMenuCache();

@@ -213,6 +213,7 @@ body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
 .menu-showcase-track {
   padding: 0 var(--menu-showcase-edge) var(--ds-space-3);
   scroll-padding-inline: var(--menu-showcase-edge);
+  direction: ltr;
 }
 
 .menu-showcase-rail {
@@ -314,6 +315,7 @@ body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
   line-height: 1.15;
   text-align: center;
   text-transform: uppercase;
+  direction: rtl;
 }
 
 .menu-showcase-action {

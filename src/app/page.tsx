@@ -42,9 +42,11 @@ export default async function HomePage() {
       console.error("[HomePage] site images failed", err instanceof Error ? err.message : err);
       throw err;
     }),
-    getCachedHomepageMenu().catch((err) => {
+    getCachedHomepageMenu().catch(async (err) => {
       console.error("[HomePage] menu showcase failed", err instanceof Error ? err.message : err);
-      return [] as Awaited<ReturnType<typeof getCachedHomepageMenu>>;
+      const { listMenuItems } = await import("@/services/menu.service");
+      const items = await listMenuItems({ activeOnly: true });
+      return items.slice(0, 8);
     })
   ]);
 

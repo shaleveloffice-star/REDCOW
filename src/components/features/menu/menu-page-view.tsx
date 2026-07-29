@@ -19,6 +19,7 @@ import {
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { getMenuItemHref } from "@/lib/menu/product-slug";
+import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
@@ -58,7 +59,7 @@ function MenuItemsGrid({
     <ul className={`menu-bleecker-grid${large ? " menu-bleecker-grid--burgers" : ""}`}>
       {items.map((item) => {
         const localized = getLocalizedMenuItem(item, locale);
-        const media = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
+        const media = resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
         return (
           <li key={item.id}>
             <Link href={getMenuItemHref(item)} className="menu-bleecker-card-link">

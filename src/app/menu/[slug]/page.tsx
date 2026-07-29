@@ -21,6 +21,8 @@ import {
 import { listMenuItems } from "@/services/menu.service";
 import type { OrderLink } from "@/types/content";
 
+export const dynamic = "force-dynamic";
+
 type MenuItemPageProps = {
   params: Promise<{ slug: string }>;
 };

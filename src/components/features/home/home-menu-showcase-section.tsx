@@ -4,6 +4,7 @@ import Link from "next/link";
 import type { MenuItem } from "@/types/content";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { getMenuItemHref } from "@/lib/menu/product-slug";
+import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
@@ -77,7 +78,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
             <div className="menu-showcase-rail" role="list">
               {items.map((item) => {
                 const localized = getLocalizedMenuItem(item, locale);
-                const media = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
+                const media = resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
                 const isVideo = isVideoMediaUrl(media);
 
                 return (

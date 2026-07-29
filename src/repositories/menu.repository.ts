@@ -6,6 +6,7 @@ import {
   localMenuCategoriesStore,
   localMenuItemsStore
 } from "@/lib/firebase/local-stores";
+import { normalizeMenuCategory, normalizeMenuItem } from "@/lib/menu/normalize-menu";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
 const menuItemsStore = createFirestoreCollectionStore("menuItems", localMenuItemsStore, {
@@ -22,19 +23,23 @@ const menuCategoriesStore = createFirestoreCollectionStore(
 );
 
 export async function getMenuItems(): Promise<MenuItem[]> {
-  return menuItemsStore.getAll();
+  const items = await menuItemsStore.getAll();
+  return items.map((item) => normalizeMenuItem(item));
 }
 
 export async function getMenuCategories(): Promise<MenuCategory[]> {
-  return menuCategoriesStore.getAll();
+  const categories = await menuCategoriesStore.getAll();
+  return categories.map((category) => normalizeMenuCategory(category));
 }
 
 export async function getMenuItemById(id: string): Promise<MenuItem | null> {
-  return menuItemsStore.getById(id);
+  const item = await menuItemsStore.getById(id);
+  return item ? normalizeMenuItem(item) : null;
 }
 
 export async function saveMenuItem(input: MenuItem): Promise<MenuItem> {
-  return menuItemsStore.save(input);
+  const normalized = normalizeMenuItem(input);
+  return menuItemsStore.save(normalized);
 }
 
 export async function deleteMenuItem(id: string): Promise<boolean> {
@@ -42,7 +47,8 @@ export async function deleteMenuItem(id: string): Promise<boolean> {
 }
 
 export async function saveMenuCategory(input: MenuCategory): Promise<MenuCategory> {
-  return menuCategoriesStore.save(input);
+  const normalized = normalizeMenuCategory(input);
+  return menuCategoriesStore.save(normalized);
 }
 
 export async function deleteMenuCategory(id: string): Promise<boolean> {

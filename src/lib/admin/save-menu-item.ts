@@ -105,28 +105,30 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
       return { ok: false, error: "תיאור SEO מומלץ עד 160 תווים" };
     }
 
-    const imageUrlRaw = String(input.imageUrl ?? "").trim() || "/images/menu/nb-menu-burger.png";
-    let imageUrl: string;
-    try {
-      imageUrl = assertSafeHttpUrl(imageUrlRaw, "תמונת מנה");
-    } catch (err) {
-      return {
-        ok: false,
-        error: err instanceof Error ? err.message : "תמונת מנה לא תקינה"
-      };
-    }
+    const imageUrlRaw = String(input.imageUrl ?? "").trim();
+    let imageUrl = "";
+    if (imageUrlRaw) {
+      try {
+        imageUrl = assertSafeHttpUrl(imageUrlRaw, "תמונת מנה");
+      } catch (err) {
+        return {
+          ok: false,
+          error: err instanceof Error ? err.message : "תמונת מנה לא תקינה"
+        };
+      }
 
-    const materialized = await materializeMenuImageUrl(imageUrl);
-    if (!materialized.ok) {
-      return { ok: false, error: materialized.error };
-    }
-    imageUrl = materialized.url;
+      const materialized = await materializeMenuImageUrl(imageUrl);
+      if (!materialized.ok) {
+        return { ok: false, error: materialized.error };
+      }
+      imageUrl = materialized.url;
 
-    if (imageUrl.startsWith("data:image/")) {
-      return {
-        ok: false,
-        error: "התמונה לא הועלתה לשרת (קישור זמני). העלו שוב את התמונה ואז שמרו."
-      };
+      if (imageUrl.startsWith("data:image/")) {
+        return {
+          ok: false,
+          error: "התמונה לא הועלתה לשרת (קישור זמני). העלו שוב את התמונה ואז שמרו."
+        };
+      }
     }
 
     let closeUpImageUrl = optionalTrim(input.closeUpImageUrl);

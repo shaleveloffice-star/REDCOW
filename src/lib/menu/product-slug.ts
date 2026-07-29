@@ -4,7 +4,8 @@ const ASCII_SLUG_PATTERN = /^[\x00-\x7F]+$/;
 
 /** Build a URL-safe ASCII slug from a product name. */
 export function slugifyProductName(name: string): string {
-  const base = name
+  const safeName = String(name ?? "");
+  const base = safeName
     .trim()
     .toLowerCase()
     .normalize("NFKD")
@@ -15,7 +16,7 @@ export function slugifyProductName(name: string): string {
     .replace(/^-+|-+$/g, "")
     .slice(0, 80);
 
-  const hasNonAscii = /[^\x00-\x7F]/.test(name.trim());
+  const hasNonAscii = /[^\x00-\x7F]/.test(safeName.trim());
   if (!base || (hasNonAscii && base.length < 4)) {
     return "";
   }
@@ -25,7 +26,8 @@ export function slugifyProductName(name: string): string {
 
 /** Previous slug format (Hebrew allowed) — lookup only for old bookmarks. */
 export function legacySlugifyProductName(name: string): string {
-  const base = name
+  const safeName = String(name ?? "");
+  const base = safeName
     .trim()
     .toLowerCase()
     .normalize("NFKD")

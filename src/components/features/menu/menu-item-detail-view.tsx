@@ -10,6 +10,7 @@ import { IconBurgerMark } from "@/components/shared/site-icons";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedMenuItem, getMenuItemCloseUpImageUrl } from "@/i18n/menu-translations";
 import { isVideoMediaUrl } from "@/lib/menu-media";
+import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
 import type { MenuItem } from "@/types/content";
 
 type MenuItemDetailViewProps = {
@@ -37,7 +38,7 @@ export function MenuItemDetailView({
   const t = useTranslations();
   const { locale } = useLocale();
   const localized = getLocalizedMenuItem(item, locale);
-  const primaryMedia = item.imageUrl.trim() || PLACEHOLDER_IMAGE;
+  const primaryMedia = resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
   const closeUpMedia = getMenuItemCloseUpImageUrl(item);
   const closeUpAlt = `${localized.imageAlt} — ${t.menuItemDetail.closeUpAlt}`;
   const primaryIsVideo = isVideoMediaUrl(primaryMedia);

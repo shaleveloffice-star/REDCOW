@@ -4939,6 +4939,116 @@ a.menu-showcase-button.site-cta-btn {
   margin-bottom: 16px;
 }
 
+.admin-homepage-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.admin-homepage-showcase-lead,
+.admin-homepage-showcase-note {
+  margin: 0;
+  color: var(--admin-muted);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.admin-homepage-showcase-note {
+  color: #b45309;
+}
+
+.admin-homepage-showcase-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-homepage-showcase-empty {
+  padding: 16px;
+  border: 1px dashed var(--admin-border);
+  border-radius: 12px;
+  color: var(--admin-muted);
+  text-align: center;
+}
+
+.admin-homepage-showcase-row {
+  display: grid;
+  grid-template-columns: 32px 56px minmax(0, 1fr) auto auto;
+  gap: 12px;
+  align-items: center;
+  padding: 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface);
+}
+
+.admin-homepage-showcase-order {
+  color: var(--admin-muted);
+  font-size: 14px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.admin-homepage-showcase-thumb {
+  overflow: hidden;
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  background: #111;
+}
+
+.admin-homepage-showcase-thumb img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-homepage-showcase-copy {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.admin-homepage-showcase-copy strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-homepage-showcase-copy span {
+  color: var(--admin-muted);
+  font-size: 13px;
+}
+
+.admin-homepage-showcase-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-homepage-showcase-add {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+}
+
+@media (max-width: 767px) {
+  .admin-homepage-showcase-row {
+    grid-template-columns: 28px 48px minmax(0, 1fr);
+  }
+
+  .admin-homepage-showcase-actions {
+    grid-column: 1 / -1;
+    justify-content: flex-end;
+  }
+}
+
 .admin-menu-category-chip {
   display: inline-flex;
   align-items: center;

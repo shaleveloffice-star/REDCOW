@@ -1,5 +1,7 @@
 import { createInMemoryStore } from "@/lib/admin/in-memory-store";
 import { createJsonFileStore } from "@/lib/admin/json-file-store";
+import { createJsonSingleDocStore } from "@/lib/admin/json-single-doc-store";
+import { DEFAULT_HOMEPAGE_MENU_ITEM_IDS } from "@/data/homepage-menu";
 import { mockCareerApplications, mockContactMessages, mockCustomerClubSignups } from "@/data/mock/contact.mock";
 import { mockBranches } from "@/data/mock/branches.mock";
 import { mockMenuCategories, mockMenuItems } from "@/data/mock/menu.mock";
@@ -10,6 +12,7 @@ import type {
   CareerApplication,
   ContactMessage,
   CustomerClubSignup,
+  HomepageMenuShowcaseConfig,
   MenuCategory,
   MenuItem,
   OrderLink,
@@ -39,6 +42,16 @@ export const localSiteImageOverridesStore = createJsonFileStore<SiteImageOverrid
 );
 
 let localSiteSettings: SiteSettings = { ...mockSiteSettings };
+
+const defaultHomepageMenuShowcase = (): HomepageMenuShowcaseConfig => ({
+  itemIds: [...DEFAULT_HOMEPAGE_MENU_ITEM_IDS],
+  updatedAt: new Date(0).toISOString()
+});
+
+export const localHomepageMenuShowcaseStore = createJsonSingleDocStore<HomepageMenuShowcaseConfig>(
+  "homepage-menu-showcase.json",
+  defaultHomepageMenuShowcase()
+);
 
 export const localSiteSettingsStore = {
   async get(): Promise<SiteSettings> {

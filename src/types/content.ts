@@ -135,3 +135,9 @@ export type OrderLink = {
   createdAt: ISODateString;
   updatedAt: ISODateString;
 };
+
+/** Ordered menu item IDs shown in homepage section "התפריט שלנו". */
+export type HomepageMenuShowcaseConfig = {
+  itemIds: string[];
+  updatedAt: ISODateString;
+};

@@ -64,7 +64,7 @@ export const he: Messages = {
   },
   menuShowcase: {
     title: "התפריט שלנו",
-    lead: "המבורגרים, צ'יפס, שייקים ועוד!",
+    lead: "המבורגרים, צ'יפס, נגטס ועוד!",
     trackAria: "מנות מהתפריט",
     bestSeller: "הכי נמכר",
     fullMenu: "לתפריט המלא",

@@ -38,6 +38,11 @@ service cloud.firestore {
       allow write: if false;
     }
 
+    match /homepageMenuShowcase/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     // --- Private (no Client access; Admin SDK only) ---
     match /customerClubSignups/{documentId} {
       allow read, write: if false;

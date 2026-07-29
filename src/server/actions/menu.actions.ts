@@ -6,10 +6,12 @@ import type { SaveMenuItemResult } from "@/lib/admin/save-menu-item";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
 import { revalidatePath, updateTag } from "next/cache";
 import {
+  getHomepageMenuShowcaseSelection,
   listMenuCategories,
   listMenuItems,
   removeMenuCategory,
   removeMenuItem,
+  updateHomepageMenuShowcase,
   upsertMenuCategory
 } from "@/services/menu.service";
 import type { MenuCategory, MenuItem } from "@/types/content";
@@ -28,8 +30,21 @@ function revalidateMenuCache() {
 
 export async function getMenuAdminData() {
   await requireAdmin();
-  const [items, categories] = await Promise.all([listMenuItems(), listMenuCategories()]);
-  return { items, categories };
+  const [items, categories, homepageShowcase] = await Promise.all([
+    listMenuItems(),
+    listMenuCategories(),
+    getHomepageMenuShowcaseSelection()
+  ]);
+  return { items, categories, homepageShowcase };
+}
+
+export async function saveHomepageMenuShowcaseAction(itemIds: string[]) {
+  await requireAdmin();
+  const cleaned = itemIds.filter((id) => typeof id === "string" && id.trim().length > 0);
+  await updateHomepageMenuShowcase(cleaned);
+  menuPaths.forEach((path) => revalidatePath(path));
+  revalidateMenuCache();
+  return cleaned;
 }
 
 export async function saveMenuItemAction(input: MenuItem): Promise<SaveMenuItemResult> {

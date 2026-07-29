@@ -9,4 +9,5 @@ export type FirebaseCollectionName =
   | "customerClubSignups"
   | "orderLinks"
   | "siteImageOverrides"
+  | "homepageMenuShowcase"
   | "adminUsers";

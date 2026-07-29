@@ -1,7 +1,10 @@
-import { HOMEPAGE_MENU_ITEM_IDS } from "@/data/homepage-menu";
 import { mockMenuItems } from "@/data/mock/menu.mock";
 import { isFirebaseConfigured } from "@/lib/firebase";
 import { getMenuItemSlugAliases } from "@/lib/menu/product-slug";
+import {
+  getHomepageMenuShowcaseConfig,
+  saveHomepageMenuShowcaseConfig
+} from "@/repositories/homepage-menu-showcase.repository";
 import {
   deleteMenuCategory,
   deleteMenuItem,
@@ -44,9 +47,10 @@ export async function getMenuForDisplay() {
 }
 
 export async function getHomepageMenuShowcase(): Promise<MenuItem[]> {
-  const [activeItems, allItems] = await Promise.all([
+  const [activeItems, allItems, config] = await Promise.all([
     listMenuItems({ activeOnly: true }),
-    listMenuItems({ activeOnly: false })
+    listMenuItems({ activeOnly: false }),
+    getHomepageMenuShowcaseConfig()
   ]);
   const activeById = new Map(activeItems.map((item) => [item.id, item]));
   const allById = new Map(allItems.map((item) => [item.id, item]));
@@ -55,7 +59,10 @@ export async function getHomepageMenuShowcase(): Promise<MenuItem[]> {
     ? new Map<string, MenuItem>()
     : new Map(mockMenuItems.map((item) => [item.id, item]));
 
-  const curated = HOMEPAGE_MENU_ITEM_IDS.flatMap((id) => {
+  const curatedIds =
+    config.itemIds.length > 0 ? config.itemIds : activeItems.slice(0, 8).map((item) => item.id);
+
+  const curated = curatedIds.flatMap((id) => {
     const activeItem = activeById.get(id);
     if (activeItem) {
       return [activeItem];
@@ -76,6 +83,25 @@ export async function getHomepageMenuShowcase(): Promise<MenuItem[]> {
   // Fallback: show the first active dishes so homepage section 2 is never empty black.
   const MAX_SHOWCASE = 8;
   return activeItems.slice(0, MAX_SHOWCASE);
+}
+
+export async function getHomepageMenuShowcaseSelection(): Promise<{
+  itemIds: string[];
+  isConfigured: boolean;
+}> {
+  const [config, showcase] = await Promise.all([
+    getHomepageMenuShowcaseConfig(),
+    getHomepageMenuShowcase()
+  ]);
+
+  return {
+    itemIds: config.itemIds.length > 0 ? config.itemIds : showcase.map((item) => item.id),
+    isConfigured: config.itemIds.length > 0
+  };
+}
+
+export async function updateHomepageMenuShowcase(itemIds: string[]) {
+  return saveHomepageMenuShowcaseConfig(itemIds);
 }
 
 export async function getMenuItemForDisplay(id: string): Promise<MenuItem | null> {

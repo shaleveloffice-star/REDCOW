@@ -1365,10 +1365,16 @@ select {
   height: auto;
 }
 
+@media (min-width: 768px) {
+  .hero-burger-image {
+    transform: translateY(-10px);
+  }
+}
+
 @media (max-width: 767px) {
   .hero-burger {
-    top: 54px;
-    bottom: clamp(210px, 34vh, 272px);
+    top: 58px;
+    bottom: clamp(188px, 30vh, 248px);
     left: 0;
     right: 0;
     height: auto;
@@ -1383,10 +1389,12 @@ select {
 
   .hero-burger-image {
     width: auto;
-    max-width: min(98vw, 672px);
+    max-width: min(98vw, 1364px);
     max-height: 100%;
     height: auto;
     object-fit: contain;
+    transform: scale(1.3) translateY(14px);
+    transform-origin: center center;
   }
 
   .hero-language-switcher {

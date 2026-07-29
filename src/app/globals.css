@@ -4976,13 +4976,38 @@ a.menu-showcase-button.site-cta-btn {
 
 .admin-homepage-showcase-row {
   display: grid;
-  grid-template-columns: 32px 56px minmax(0, 1fr) auto auto;
+  grid-template-columns: 28px 32px 56px minmax(0, 1fr) auto;
   gap: 12px;
   align-items: center;
   padding: 12px;
   border: 1px solid var(--admin-border);
   border-radius: 12px;
   background: var(--admin-surface);
+}
+
+.admin-homepage-showcase-row.is-dragging {
+  opacity: 0.72;
+  border-color: #1f2937;
+}
+
+.admin-homepage-showcase-drag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: var(--admin-muted);
+  font-size: 14px;
+  line-height: 1;
+  cursor: grab;
+}
+
+.admin-homepage-showcase-drag:active {
+  cursor: grabbing;
 }
 
 .admin-homepage-showcase-order {
@@ -5040,7 +5065,7 @@ a.menu-showcase-button.site-cta-btn {
 
 @media (max-width: 767px) {
   .admin-homepage-showcase-row {
-    grid-template-columns: 28px 48px minmax(0, 1fr);
+    grid-template-columns: 28px 28px 48px minmax(0, 1fr);
   }
 
   .admin-homepage-showcase-actions {

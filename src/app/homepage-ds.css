@@ -213,11 +213,14 @@ body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
 .menu-showcase-track {
   padding: 0 var(--menu-showcase-edge) var(--ds-space-3);
   scroll-padding-inline: var(--menu-showcase-edge);
-  direction: ltr;
 }
 
 .menu-showcase-rail {
   gap: var(--menu-showcase-gutter);
+}
+
+[dir="rtl"] .menu-showcase-rail {
+  direction: rtl;
 }
 
 .menu-showcase-card {

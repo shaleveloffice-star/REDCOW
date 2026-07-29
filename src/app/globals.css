@@ -2482,13 +2482,11 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   scroll-padding-inline: var(--menu-showcase-edge);
   scroll-snap-type: x proximity;
   scrollbar-width: none;
-  direction: ltr;
 }
 
 .menu-showcase-carousel {
   width: 100%;
   margin-inline: 0;
-  direction: ltr;
 }
 
 .menu-showcase-controls {
@@ -2525,6 +2523,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   gap: var(--menu-showcase-gutter);
   width: max-content;
   min-width: 100%;
+}
+
+[dir="rtl"] .menu-showcase-rail {
+  direction: rtl;
 }
 
 .menu-showcase-card {

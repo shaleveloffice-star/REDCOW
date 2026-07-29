@@ -1365,9 +1365,36 @@ select {
   height: auto;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
+  .hero-burger {
+    top: 54px;
+    bottom: clamp(210px, 34vh, 272px);
+    left: 0;
+    right: 0;
+    height: auto;
+  }
+
+  .hero-burger > span {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    max-height: 100%;
+  }
+
   .hero-burger-image {
-    width: min(90vw, 520px);
+    width: auto;
+    max-width: min(94vw, 480px);
+    max-height: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  .hero-language-switcher {
+    margin-bottom: 10px;
+  }
+
+  .hero-caption-kicker {
+    margin-bottom: 8px;
   }
 }
 

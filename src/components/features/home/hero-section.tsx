@@ -5,7 +5,7 @@ import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { BUSINESS } from "@/data/business";
 
-const HERO_BURGER_IMAGE = "/images/hero/nb-burger-hero.webp";
+const HERO_BURGER_IMAGE = "/images/hero/nb-burger-hero-current.webp";
 
 export function HeroSection() {
   const t = useTranslations();
@@ -23,6 +23,7 @@ export function HeroSection() {
           width={1024}
           height={682}
           priority
+          unoptimized
           className="hero-burger-image"
           sizes="(max-width: 768px) 90vw, min(82vw, 760px)"
         />

@@ -3,40 +3,70 @@
     "id": "cat-burgers",
     "name": "המבורגרים",
     "slug": "burgers",
-    "description": "הקלאסיקות של NB BURGER",
+    "description": "המבורגרים על הפלנצ׳ה — הבשר, הצריבה והביס.",
     "sortOrder": 1,
     "isActive": true,
-    "createdAt": "2026-05-17T07:00:00.000Z",
-    "updatedAt": "2026-05-17T07:00:00.000Z"
+    "createdAt": "2026-07-29T14:01:40.906Z",
+    "updatedAt": "2026-07-29T14:01:40.906Z"
   },
   {
-    "id": "cat-chicken",
-    "name": "עוף וצמחוני",
-    "slug": "chicken-veg",
-    "description": "חלופות קלילות ומנות ללא בקר",
+    "id": "cat-meals",
+    "name": "ארוחות",
+    "slug": "meals",
+    "description": "ארוחות מלאות עם תוספת ושתייה.",
     "sortOrder": 2,
     "isActive": true,
-    "createdAt": "2026-05-17T07:00:00.000Z",
-    "updatedAt": "2026-05-17T07:00:00.000Z"
+    "createdAt": "2026-07-29T14:01:40.906Z",
+    "updatedAt": "2026-07-29T14:01:40.906Z"
   },
   {
     "id": "cat-sides",
     "name": "תוספות",
     "slug": "sides",
-    "description": "ליד הבורגר",
+    "description": "תוספות ליד המנה או להמבורגר.",
     "sortOrder": 3,
     "isActive": true,
-    "createdAt": "2026-05-17T07:00:00.000Z",
-    "updatedAt": "2026-05-17T07:00:00.000Z"
+    "createdAt": "2026-07-29T14:01:40.906Z",
+    "updatedAt": "2026-07-29T14:01:40.906Z"
   },
   {
-    "id": "cat-drinks",
-    "name": "שתייה",
-    "slug": "drinks",
-    "description": "קר וחמים",
+    "id": "cat-salads",
+    "name": "סלטים",
+    "slug": "salads",
+    "description": "סלטים טריים מהמטבח.",
     "sortOrder": 4,
     "isActive": true,
-    "createdAt": "2026-05-17T07:00:00.000Z",
-    "updatedAt": "2026-05-17T07:00:00.000Z"
+    "createdAt": "2026-07-29T14:01:40.906Z",
+    "updatedAt": "2026-07-29T14:01:40.906Z"
+  },
+  {
+    "id": "cat-sauces",
+    "name": "רטבים",
+    "slug": "sauces",
+    "description": "רטבים ביתיים לבחירה.",
+    "sortOrder": 5,
+    "isActive": true,
+    "createdAt": "2026-07-29T14:01:40.906Z",
+    "updatedAt": "2026-07-29T14:01:40.906Z"
+  },
+  {
+    "id": "cat-soft-drinks",
+    "name": "שתייה קלה",
+    "slug": "soft-drinks",
+    "description": "שתייה קלה וקלה.",
+    "sortOrder": 6,
+    "isActive": true,
+    "createdAt": "2026-07-29T14:01:40.906Z",
+    "updatedAt": "2026-07-29T14:01:40.906Z"
+  },
+  {
+    "id": "cat-beers",
+    "name": "בירות",
+    "slug": "beers",
+    "description": "בירות בקבוק.",
+    "sortOrder": 7,
+    "isActive": true,
+    "createdAt": "2026-07-29T14:01:40.906Z",
+    "updatedAt": "2026-07-29T14:01:40.906Z"
   }
 ]

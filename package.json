@@ -11,7 +11,8 @@
     "start": "next start",
     "lint": "node -e \"console.log('Skipped: next lint was removed in Next.js 16. Use npm run typecheck for static checks.');\"",
     "typecheck": "tsc --noEmit",
-    "bootstrap:site-settings": "node scripts/bootstrap-site-settings.mjs"
+    "bootstrap:site-settings": "node scripts/bootstrap-site-settings.mjs",
+    "seed:menu": "node scripts/seed-menu.mjs"
   },
   "dependencies": {
     "@vercel/blob": "^2.6.1",

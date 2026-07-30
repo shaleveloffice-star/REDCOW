@@ -11,6 +11,9 @@ export type Messages = {
     label: string;
     switchTo: string;
   };
+  openingBanner: {
+    message: string;
+  };
   nav: {
     main: string;
     menuDialog: string;

@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
+import { SiteOpeningBanner } from "@/components/layout/site-opening-banner";
 import { SiteNavbar } from "@/components/layout/site-navbar";
 import type { OrderLink } from "@/types/content";
 
@@ -19,10 +20,13 @@ export function SiteHeaderClient({ orderLinks }: SiteHeaderClientProps) {
   }
 
   return (
-    <SiteNavbar
-      overlay={isHome}
-      orderUrl={orderLinks[0]?.url ?? "#location"}
-      orderLinks={orderLinks}
-    />
+    <>
+      <SiteOpeningBanner />
+      <SiteNavbar
+        overlay={isHome}
+        orderUrl={orderLinks[0]?.url ?? "#location"}
+        orderLinks={orderLinks}
+      />
+    </>
   );
 }

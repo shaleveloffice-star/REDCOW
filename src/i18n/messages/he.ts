@@ -9,6 +9,9 @@ export const he: Messages = {
     label: "שפה",
     switchTo: "החלף שפה"
   },
+  openingBanner: {
+    message: "בקרוב הפתיחה"
+  },
   nav: {
     main: "ניווט ראשי",
     menuDialog: "תפריט ניווט",

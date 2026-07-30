@@ -9,6 +9,9 @@ export const en: Messages = {
     label: "Language",
     switchTo: "Change language"
   },
+  openingBanner: {
+    message: "Opening soon"
+  },
   nav: {
     main: "Main navigation",
     menuDialog: "Navigation menu",

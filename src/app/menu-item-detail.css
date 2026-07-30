@@ -4,7 +4,7 @@
   background: #ffffff;
   color: #000000;
   min-height: 100svh;
-  padding-top: 72px;
+  padding-top: calc(72px + var(--site-opening-banner-height, 0px));
 }
 
 .menu-item-detail {

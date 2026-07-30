@@ -48,6 +48,7 @@
   --secondary-muted: rgba(255, 225, 186, 0.82);
   --secondary-border: rgba(255, 225, 186, 0.55);
   --secondary-border-strong: rgba(255, 225, 186, 0.72);
+  --site-opening-banner-height: 40px;
   --secondary-border-hover: rgba(255, 225, 186, 0.85);
   --secondary-glow: rgba(255, 225, 186, 0.35);
   --secondary-bg-soft: rgba(255, 225, 186, 0.1);
@@ -234,7 +235,32 @@ body:not(:has(.admin-layout)) .about-btn {
 
 html {
   scroll-behavior: auto;
-  scroll-padding-top: 72px;
+  scroll-padding-top: calc(72px + var(--site-opening-banner-height, 0px));
+}
+
+.site-opening-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 55;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: var(--site-opening-banner-height);
+  padding: 8px 16px;
+  background: var(--secondary);
+  color: #000000;
+  text-align: center;
+}
+
+.site-opening-banner-text {
+  margin: 0;
+  font-family: var(--font-assistant-stack);
+  font-size: clamp(13px, 1.6vw, 15px);
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
 }
 
 body:not(:has(.admin-layout)) {
@@ -471,7 +497,8 @@ select {
 
 .site-navbar {
   position: fixed;
-  inset: 0 0 auto;
+  inset: auto 0 auto;
+  top: var(--site-opening-banner-height, 0px);
   z-index: 50;
   border-bottom: 0;
   background: #000000;
@@ -808,7 +835,7 @@ select {
 
 .site-nav-overlay-close {
   position: absolute;
-  top: 28px;
+  top: calc(28px + var(--site-opening-banner-height, 0px));
   right: 28px;
   left: auto;
   display: grid;
@@ -1365,6 +1392,10 @@ select {
   height: auto;
 }
 
+.hero-burger-image--desktop {
+  display: none;
+}
+
 @media (min-width: 768px) {
   .hero-burger {
     align-items: flex-start;
@@ -1372,8 +1403,16 @@ select {
     padding-top: clamp(48px, 7vh, 88px);
   }
 
-  .hero-burger-image {
-    transform: translate(-11px, -28px);
+  .hero-burger-image--mobile {
+    display: none;
+  }
+
+  .hero-burger-image--desktop {
+    display: block;
+  }
+
+  .hero-burger-image--desktop {
+    transform: translateY(calc(22px + 15vh));
   }
 }
 
@@ -1382,8 +1421,8 @@ select {
     padding-top: clamp(36px, 5.5vh, 72px);
   }
 
-  .hero-burger-image {
-    transform: translate(-11px, -44px);
+  .hero-burger-image--desktop {
+    transform: translateY(calc(6px + 15vh));
   }
 }
 
@@ -1403,7 +1442,7 @@ select {
     max-height: 100%;
   }
 
-  .hero-burger-image {
+  .hero-burger-image--mobile {
     width: auto;
     max-width: min(98vw, 1364px);
     max-height: 100%;
@@ -5241,7 +5280,7 @@ a.menu-showcase-button.site-cta-btn {
   }
 
   .site-nav-overlay-close {
-    top: 18px;
+    top: calc(18px + var(--site-opening-banner-height, 0px));
     right: 20px;
     left: auto;
   }

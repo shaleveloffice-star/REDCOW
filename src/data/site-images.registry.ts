@@ -1,6 +1,6 @@
 import type { SiteImageCatalogItem, SiteImageGroup } from "@/types/site-images";
 
-export const SITE_LOGO_SRC = "/images/brand/nb-burger-logo.png";
+export const SITE_LOGO_SRC = "/images/brand/nb-burger-logo.png?v=5";
 
 export const HERO_DEFAULT_IMAGE_URL = "/images/hero/nb-burger-hero.jpg";
 export const HERO_DEFAULT_VIDEO_URL = "/videos/hero-nb-experience.mp4";

@@ -3817,12 +3817,12 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .site-footer-logo {
+  display: block;
+  width: auto;
+  height: clamp(72px, 10vw, 96px);
+  max-width: min(160px, 42vw);
   margin: 0 0 16px;
-  color: #ffffff;
-  font-family: var(--font-editorial);
-  font-size: clamp(1.75rem, 3vw, 1.875rem);
-  font-weight: 700;
-  line-height: 1.1;
+  object-fit: contain;
 }
 
 .site-footer-tagline {
@@ -6849,7 +6849,7 @@ body:not(:has(.admin-layout)) main::before {
 }
 
 .site-navbar--scrolled .site-navbar-logo {
-  filter: invert(1);
+  filter: none;
 }
 
 .site-navbar--scrolled .site-navbar-brand:hover {

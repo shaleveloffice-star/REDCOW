@@ -1,4 +1,5 @@
 import { IconMail, IconMapPin, IconPhone } from "@/components/shared/site-icons";
+import { SITE_LOGO_SRC } from "@/data/brand-assets";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getMessages } from "@/i18n/messages";
@@ -56,11 +57,15 @@ export async function SiteFooter() {
       <div className="site-footer-main">
         <div className="site-footer-grid">
           <section className="site-footer-brand" aria-label={BUSINESS.name}>
-            <p className="site-footer-logo">
-              NB
-              <br />
-              BURGER
-            </p>
+            <img
+              className="site-footer-logo"
+              src={SITE_LOGO_SRC}
+              alt="NB BURGER"
+              width={160}
+              height={160}
+              loading="lazy"
+              decoding="async"
+            />
             <p className="site-footer-tagline">
               {t.footer.taglineLine1}
               <br />

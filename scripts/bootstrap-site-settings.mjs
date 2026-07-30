@@ -79,7 +79,7 @@ function getDefaultSiteSettings() {
     tiktokUrl: "https://www.tiktok.com/@nb.burg",
     orderDeliveryUrl: "",
     orderPickupUrl: "",
-    ogImageUrl: "/images/hero/nb-burger-hero.jpg",
+    ogImageUrl: "/images/hero/nb-burger-hero-desktop.webp",
     updatedAt: now
   };
 }

@@ -6,7 +6,7 @@ const rawSiteUrl = process.env.NEXT_PUBLIC_APP_URL ?? BUSINESS.website;
 
 export const SITE_URL = rawSiteUrl.replace(/\/+$/, "");
 export const SITE_NAME = BUSINESS.name;
-export const DEFAULT_OG_IMAGE = "/images/hero/nb-burger-hero.jpg";
+export const DEFAULT_OG_IMAGE = "/images/hero/nb-burger-hero-desktop.webp";
 
 type PageMetadataInput = {
   title: string;

@@ -7,6 +7,7 @@ import {
   AdminToolbar,
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
+import { AdminMenuItemSmartPasteModal } from "@/components/features/admin/admin-menu-item-smart-paste-modal";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import {
@@ -17,7 +18,7 @@ import { getMenuItemHref, resolveMenuItemSlug, slugifyProductName } from "@/lib/
 import { resolveMenuItemCloseUpAlt, resolveMenuItemImageAlt } from "@/lib/image-alt";
 import { deleteMenuItemAction } from "@/server/actions/menu.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
-import { useEffect, useMemo, useState, type ChangeEvent } from "react";
+import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
 
 type SaveMenuItemApiResult =
   | { ok: true; item: MenuItem }
@@ -143,8 +144,11 @@ export function AdminMenuTable({
   const [categoryFilter, setCategoryFilter] = useState<string | null>(null);
   const [draft, setDraft] = useState<MenuItem | null>(null);
   const [slugTouched, setSlugTouched] = useState(false);
+  const [smartPasteOpen, setSmartPasteOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingCloseUpImage, setUploadingCloseUpImage] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
   const isNew = draft ? !rows.some((i) => i.id === draft.id) : false;
 
   const countByCategory = useMemo(() => {
@@ -175,9 +179,16 @@ export function AdminMenuTable({
     setRows(items);
   }, [items]);
 
+  useEffect(() => {
+    if (!toastMessage) return;
+    const timer = window.setTimeout(() => setToastMessage(null), 4000);
+    return () => window.clearTimeout(timer);
+  }, [toastMessage]);
+
   const close = () => {
     setDraft(null);
     setSlugTouched(false);
+    setSmartPasteOpen(false);
     setError(null);
   };
 
@@ -305,6 +316,12 @@ export function AdminMenuTable({
 
   return (
     <>
+      {toastMessage ? (
+        <div className="admin-toast" role="status">
+          {toastMessage}
+        </div>
+      ) : null}
+
       <nav className="admin-menu-category-nav" aria-label="סינון לפי קטגוריה">
         <button
           type="button"
@@ -405,6 +422,7 @@ export function AdminMenuTable({
       <AdminModal open={Boolean(draft)} title={isNew ? "הוספת מנה" : "עריכת מנה"} onClose={close}>
         {draft ? (
           <form
+            ref={formRef}
             className="admin-form"
             onSubmit={(e) => {
               e.preventDefault();
@@ -427,6 +445,16 @@ export function AdminMenuTable({
               }, close);
             }}
           >
+            <div className="admin-form-toolbar">
+              <button
+                type="button"
+                className="button secondary"
+                onClick={() => setSmartPasteOpen(true)}
+              >
+                הדבקה חכמה
+              </button>
+            </div>
+
             <label>
               שם המנה
               <input
@@ -610,6 +638,27 @@ export function AdminMenuTable({
           </form>
         ) : null}
       </AdminModal>
+
+      {draft ? (
+        <AdminMenuItemSmartPasteModal
+          open={smartPasteOpen}
+          draft={draft}
+          categories={sortedCategories}
+          onClose={() => setSmartPasteOpen(false)}
+          onApply={(nextDraft, nextSlugTouched, warnings) => {
+            setDraft(nextDraft);
+            if (nextSlugTouched) {
+              setSlugTouched(true);
+            }
+            setToastMessage(
+              warnings.length > 0
+                ? `השדות מולאו. ${warnings[0]}`
+                : "השדות מולאו בהצלחה. ניתן לעבור עליהם ולשמור."
+            );
+            formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+        />
+      ) : null}
     </>
   );
 }

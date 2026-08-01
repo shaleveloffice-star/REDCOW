@@ -146,6 +146,16 @@
   margin: 0 auto;
 }
 
+.menu-item-detail-long-title {
+  margin: 0 0 16px;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(18px, 3vw, 24px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
 .menu-item-detail-long .menu-item-detail-card-head {
   width: min(440px, 100%);
 }

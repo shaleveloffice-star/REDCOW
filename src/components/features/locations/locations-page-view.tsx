@@ -102,6 +102,10 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
 
   return (
     <div className="locations-page">
+      <header className="locations-page-head">
+        <h1 className="locations-page-title">{t.locations.pageTitle}</h1>
+      </header>
+
       <SeoContentBody text={seoContent.introduction} className="locations-seo-intro" />
 
       <div className="locations-map-wrap">

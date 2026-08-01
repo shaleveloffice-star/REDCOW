@@ -46,6 +46,7 @@ export type Messages = {
   };
   menuPage: {
     title: string;
+    categoryItemsHeading: string;
     filterAll: string;
     empty: string;
     viewLocations: string;
@@ -57,10 +58,15 @@ export type Messages = {
     galleryAria: string;
     closeUpAlt: string;
     backToMenu: string;
+    longSectionTitle: string;
     longSectionAria: string;
     allergyGuide: string;
   };
+  aboutPage: {
+    title: string;
+  };
   locations: {
+    pageTitle: string;
     findLocal: string;
     ourLocations: string;
     mapTitle: string;

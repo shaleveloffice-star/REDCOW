@@ -43,7 +43,8 @@ export const fr: Messages = {
     delivery: "Livraison"
   },
   menuPage: {
-    title: "Notre carte",
+    title: "Menu burgers casher à Raanana",
+    categoryItemsHeading: "Plats de la catégorie",
     filterAll: "Tout",
     empty: "Aucun plat à afficher pour le moment.",
     viewLocations: "Voir nos adresses",
@@ -55,10 +56,15 @@ export const fr: Messages = {
     galleryAria: "Photos du plat",
     closeUpAlt: "gros plan",
     backToMenu: "Retour à la carte",
+    longSectionTitle: "À propos du plat",
     longSectionAria: "Description complète",
     allergyGuide: "Guide des allergènes"
   },
+  aboutPage: {
+    title: "À propos de NB BURGER"
+  },
   locations: {
+    pageTitle: "Adresse et horaires — NB BURGER Raanana",
     findLocal: "Trouver un restaurant",
     ourLocations: "Nos restaurants",
     mapTitle: "Carte des restaurants NB BURGER",

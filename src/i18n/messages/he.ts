@@ -43,7 +43,8 @@ export const he: Messages = {
     delivery: "משלוח"
   },
   menuPage: {
-    title: "התפריט שלנו",
+    title: "תפריט המבורגרים ברעננה",
+    categoryItemsHeading: "מנות בקטגוריה",
     filterAll: "הכל",
     empty: "אין מנות להצגה כרגע.",
     viewLocations: "הסניפים שלנו",
@@ -55,10 +56,15 @@ export const he: Messages = {
     galleryAria: "תמונות המנה",
     closeUpAlt: "מקרוב",
     backToMenu: "חזרה לתפריט",
+    longSectionTitle: "על המנה",
     longSectionAria: "תיאור מורחב",
     allergyGuide: "מדריך אלרגנים"
   },
+  aboutPage: {
+    title: "אודות NB BURGER"
+  },
   locations: {
+    pageTitle: "מיקום ושעות — NB BURGER רעננה",
     findLocal: "מצא סניף",
     ourLocations: "הסניפים שלנו",
     mapTitle: "מפת סניפי NB BURGER",

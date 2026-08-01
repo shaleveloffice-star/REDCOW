@@ -4,6 +4,7 @@ import Link from "next/link";
 import { SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import { ABOUT_PAGE_IMAGES as IMG } from "@/data/site-images.registry";
 import { getServerLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/messages";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
@@ -18,7 +19,7 @@ export async function AboutPageView({ siteImages, seoContent }: AboutPageViewPro
   const locale = await getServerLocale();
   const hero = pickSiteImage(siteImages, "about-hero", IMG.hero);
   const imageAlt = resolveImageAlt({ kind: "about-hero", locale });
-  const [subtitle = "", ...introRest] = seoContent.introductionParagraphs;
+  const messages = getMessages(locale);
 
   return (
     <section className="about-simple" aria-labelledby="about-simple-title">
@@ -33,9 +34,11 @@ export async function AboutPageView({ siteImages, seoContent }: AboutPageViewPro
       <div className="about-simple-overlay" aria-hidden="true" />
 
       <div className="about-simple-content">
-        <h1 id="about-simple-title">{seoContent.sectionTitle}</h1>
-        {subtitle ? <p className="about-simple-subtitle">{subtitle}</p> : null}
-        {introRest.map((paragraph, index) => (
+        <h1 id="about-simple-title">{messages.aboutPage.title}</h1>
+        {seoContent.sectionTitle.trim() ? (
+          <p className="about-simple-subtitle">{seoContent.sectionTitle}</p>
+        ) : null}
+        {seoContent.introductionParagraphs.map((paragraph, index) => (
           <p
             key={paragraph.slice(0, 48)}
             className={`about-simple-description${index === 0 ? " about-simple-description--first" : ""}`}

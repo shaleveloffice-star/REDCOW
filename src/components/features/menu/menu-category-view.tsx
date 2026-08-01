@@ -71,12 +71,13 @@ export function MenuCategoryView({
         ) : (
           <div className="menu-bleecker-sections">
             <section className="menu-bleecker-category" aria-labelledby={`menu-category-${group.id}`}>
+              <h2 id={`menu-category-${group.id}`} className="sr-only">
+                {t.menuPage.categoryItemsHeading}
+              </h2>
               <MenuItemsGrid items={group.items} large={isBurgersCategory(group)} />
             </section>
           </div>
         )}
-
-        <MenuCategorySeoBlock content={categorySeo} categoryId={group.id} />
 
         {relatedGroups.length > 0 ? (
           <nav className="menu-bleecker-related" aria-label={t.menuPage.relatedCategories}>
@@ -92,6 +93,8 @@ export function MenuCategoryView({
             </ul>
           </nav>
         ) : null}
+
+        <MenuCategorySeoBlock content={categorySeo} categoryId={group.id} />
       </div>
 
       <MenuOrderCtas pickupUrl={pickupUrl} deliveryUrl={deliveryUrl} />

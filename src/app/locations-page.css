@@ -5,22 +5,36 @@
   color: #ffffff;
 }
 
+.locations-page-head {
+  width: min(1200px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: calc(var(--site-chrome-offset, 160px) + 24px) 0 0;
+}
+
+.locations-page-title {
+  margin: 0 0 8px;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(28px, 6vw, 48px);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  line-height: 1.05;
+  text-transform: uppercase;
+}
+
 .locations-map-wrap {
   position: relative;
   /* Contain Leaflet's internal z-indexes (400-1000) so the map never paints over the fixed navbar */
   z-index: 0;
   width: 100%;
   height: min(62vh, 640px);
-  /* Matches actual navbar height: 32px*2 padding + 64px logo */
-  margin-top: 128px;
+  margin-top: 24px;
   overflow: hidden;
   background: #0a0a0a;
 }
 
 @media (max-width: 1023px) {
   .locations-map-wrap {
-    /* Navbar: 28px*2 padding + 64px logo */
-    margin-top: 120px;
+    margin-top: 20px;
   }
 }
 

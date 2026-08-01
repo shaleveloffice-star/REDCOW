@@ -113,8 +113,11 @@ export function MenuItemDetailView({
       {longParagraphs.length > 0 ? (
         <section
           className="menu-item-detail-long menu-item-detail-card menu-item-detail-card--dark"
-          aria-label={t.menuItemDetail.longSectionAria}
+          aria-labelledby="menu-item-detail-long-title"
         >
+          <h2 id="menu-item-detail-long-title" className="menu-item-detail-long-title">
+            {t.menuItemDetail.longSectionTitle}
+          </h2>
           <div className="menu-item-detail-card-head">
             <span className="menu-item-detail-card-rule" aria-hidden="true" />
             {/* eslint-disable-next-line @next/next/no-img-element */}

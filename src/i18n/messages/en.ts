@@ -43,7 +43,8 @@ export const en: Messages = {
     delivery: "Delivery"
   },
   menuPage: {
-    title: "Our Menu",
+    title: "Kosher Burger Menu in Raanana",
+    categoryItemsHeading: "Dishes in this category",
     filterAll: "All",
     empty: "No dishes to show right now.",
     viewLocations: "View Our Locations",
@@ -55,10 +56,15 @@ export const en: Messages = {
     galleryAria: "Dish photos",
     closeUpAlt: "close-up",
     backToMenu: "Back to menu",
+    longSectionTitle: "About this dish",
     longSectionAria: "Full description",
     allergyGuide: "Allergy Guide"
   },
+  aboutPage: {
+    title: "About NB BURGER"
+  },
   locations: {
+    pageTitle: "Location & Hours — NB BURGER Raanana",
     findLocal: "FIND MY LOCAL",
     ourLocations: "OUR LOCATIONS",
     mapTitle: "NB BURGER locations map",

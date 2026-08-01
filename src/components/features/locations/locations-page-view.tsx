@@ -5,11 +5,13 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 
+import { SeoContentBody, SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { PLANCHA_BURGERS_IMAGE } from "@/data/site-images.registry";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { resolveImageAlt, DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 import type { Branch } from "@/types/content";
+import type { ResolvedSeoPageContent } from "@/types/seo-content";
 
 const LocationsMap = dynamic(
   () =>
@@ -25,6 +27,7 @@ const LocationsMap = dynamic(
 type LocationsPageViewProps = {
   branches: Branch[];
   exteriorImage: string;
+  seoContent: ResolvedSeoPageContent;
 };
 
 type LocationCard = {
@@ -79,7 +82,7 @@ function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "e
   ];
 }
 
-export function LocationsPageView({ branches, exteriorImage }: LocationsPageViewProps) {
+export function LocationsPageView({ branches, exteriorImage, seoContent }: LocationsPageViewProps) {
   const t = useTranslations();
   const { locale } = useLocale();
   const cards = useMemo(
@@ -99,6 +102,8 @@ export function LocationsPageView({ branches, exteriorImage }: LocationsPageView
 
   return (
     <div className="locations-page">
+      <SeoContentBody text={seoContent.introduction} className="locations-seo-intro" />
+
       <div className="locations-map-wrap">
         <LocationsMap points={mapPoints} />
       </div>
@@ -165,6 +170,9 @@ export function LocationsPageView({ branches, exteriorImage }: LocationsPageView
         <p className="locations-back">
           <Link href="/">{t.locations.backHome}</Link>
         </p>
+
+        <SeoContentBody text={seoContent.bottomContent} className="locations-seo-bottom" />
+        <SeoCtaBlockView {...seoContent.cta} className="locations-seo-cta seo-content-cta" />
       </section>
     </div>
   );

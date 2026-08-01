@@ -10,4 +10,5 @@ export type FirebaseCollectionName =
   | "orderLinks"
   | "siteImageOverrides"
   | "homepageMenuShowcase"
+  | "seoContent"
   | "adminUsers";

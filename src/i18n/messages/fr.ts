@@ -46,28 +46,7 @@ export const fr: Messages = {
     filterAll: "Tout",
     empty: "Aucun plat à afficher pour le moment.",
     viewLocations: "Voir nos adresses",
-    heroAlt: "Plats de la carte NB BURGER",
-    seoIntro: [
-      "Bienvenue sur la carte des burgers NB BURGER à Ra'anana — un restaurant de burgers casher où chaque plat naît sur une plancha brûlante. Ici, l'expérience burger casher est au centre : bœuf de qualité haché sur place chaque jour, pains moelleux, légumes frais et sauces maison. Chaque burger est saisi à la commande — juteux, précis, sans compromis.",
-      "Notre carte complète regroupe tout ce qu'il faut pour un repas entier : burgers du classique à l'aioli aux truffes ou à l'ail confit ; formules avec accompagnement et boisson ; frites croustillantes, ailes ou nuggets ; salades fraîches du kitchen ; sauces maison ; et boissons fraîches pour accompagner la bouchée. Une carte de burgers pensée autour du goût, de la qualité et de la simplicité.",
-      "Chez NB BURGER, un bon burger commence par les ingrédients et se termine par une expérience qui reste. Parcourez les catégories, choisissez votre plat et commandez à emporter ou en livraison — 96 rue Ahuza, Ra'anana."
-    ],
-    categoryIntros: {
-      "cat-burgers":
-        "Steaks hachés préparés sur place et saisis sur la plancha — là où naissent la croûte, le jus et la profondeur de saveur. Du classique à l'aioli aux truffes, au confit ou au fromage fondant : chaque burger est servi dans un pain moelleux, avec des légumes frais et une sauce qui relie toutes les couches.",
-      "cat-meals":
-        "Formules complètes qui condensent l'expérience NB BURGER dans une seule assiette — le burger choisi, un accompagnement et une boisson. Un déjeuner, un dîner ou un repas entre amis, sans renoncer à la qualité du bœuf ni à la cuisson à la plancha.",
-      "cat-sides":
-        "Accompagnements qui complètent la bouchée : frites croustillantes assaisonnées, home fries dorées, ailes juteuses ou nuggets croustillants. Idéal à côté du burger, à partager à table ou en plat léger — toujours frais, toujours précis.",
-      "cat-salads":
-        "Salades fraîches du kitchen — pousses, romaine, croûtons, parmesan et vinaigrettes préparées sur place. L'équilibre parfait à côté du burger : léger, rafraîchissant et savoureux, sans compromis sur la qualité des ingrédients.",
-      "cat-sauces":
-        "Sauces maison qui relèvent chaque plat — de l'aioli aux truffes au chipotle fumé, miel-moutarde, ail confit, ketchup et mayo classique. Chaque sauce est faite sur place et adaptée au pain, aux accompagnements et à votre goût.",
-      "cat-soft-drinks":
-        "Boissons fraîches pour compléter le repas — eau, soda, limonade, cola, Sprite, Fanta, jus de raisin et thé glacé. Un choix simple et rafraîchissant à côté de votre burger, formule ou accompagnement.",
-      "cat-beers":
-        "Bières en bouteille qui accompagnent bien un repas burger — Corona, Stella Artois, Heineken et Goldstar. À votre rythme, à côté du plat sur la table, dans l'ambiance décontractée de NB BURGER."
-    }
+    heroAlt: "Plats de la carte NB BURGER"
   },
   menuItemDetail: {
     orderNow: "Commander",
@@ -96,20 +75,7 @@ export const fr: Messages = {
     next: "Plats suivants"
   },
   homeStory: {
-    title: "Pas un burger de plus.",
-    imageAlt: "Hamburger NB BURGER",
-    intro: "Chez NB BURGER, nous croyons que la qualité n'a pas besoin de longs discours.",
-    punchLines: [
-      "Bœuf de qualité, haché sur place chaque jour.",
-      "Pains briochés frais.",
-      "Sauces préparées sur place.",
-      "Des ingrédients choisis avec soin."
-    ],
-    closing: [
-      "Chaque burger est saisi à la commande et servi exactement comme il doit l'être — juteux, précis, sans compromis.",
-      "Parce qu'au fond, il n'est pas nécessaire de réinventer le burger.",
-      "Il suffit de le préparer comme il se doit."
-    ]
+    imageAlt: "Hamburger NB BURGER"
   },
   plancha: {
     title: "Sur la Plancha",
@@ -139,43 +105,6 @@ export const fr: Messages = {
     droneAlt: "Vue drone",
     burgerStackAlt: "Burger éclaté",
     bottomAlt: "Pain du bas"
-  },
-  faq: {
-    kicker: "FAQ",
-    title: "Questions & Réponses",
-    lead: "Tout ce qu'il faut savoir avant la prochaine bouchée.",
-    items: [
-      {
-        question: "Où manger un burger casher à Ra'anana ?",
-        answer:
-          "NB BURGER propose une expérience burger casher à Ra'anana, avec des burgers juteux, des ingrédients de qualité et des plats préparés sur place. Vous pouvez manger sur place ou commander en livraison."
-      },
-      {
-        question: "Quelle supervision casher a NB BURGER ?",
-        answer:
-          "NB BURGER est un restaurant casher sous supervision rabbinique. Notre carte de viande convient aux personnes qui gardent la cacheroute et comprend une variété de burgers et d'autres plats."
-      },
-      {
-        question: "Qu'est-ce qui rend le smash burger de NB BURGER spécial ?",
-        answer:
-          "Notre smash burger repose sur une galette de bœuf saisie sur une plaque chaude pour une belle croûte et un goût riche, servie avec des garnitures et des sauces qui complètent la bouchée."
-      },
-      {
-        question: "Peut-on commander une livraison de burgers chez NB BURGER ?",
-        answer:
-          "Oui. Vous pouvez commander une livraison depuis NB BURGER à Ra'anana et dans les zones disponibles, et profiter de nos plats à la maison ou au travail."
-      },
-      {
-        question: "Quels sont les horaires de NB BURGER ?",
-        answer:
-          "Les horaires peuvent varier selon le jour et les fêtes. Nous recommandons de vérifier les horaires à jour sur le site avant de venir ou de commander."
-      },
-      {
-        question: "Que trouve-t-on sur la carte de NB BURGER ?",
-        answer:
-          "Vous y trouverez une variété de burgers, smash burgers, accompagnements, extras et sauces. Vous pouvez consulter la carte complète sur le site et choisir ce qui vous convient."
-      }
-    ]
   },
   customerClub: {
     kicker: "NB CLUB",

@@ -49,16 +49,6 @@ export type Messages = {
     empty: string;
     viewLocations: string;
     heroAlt: string;
-    seoIntro: string[];
-    categoryIntros: {
-      "cat-burgers": string;
-      "cat-meals": string;
-      "cat-sides": string;
-      "cat-salads": string;
-      "cat-sauces": string;
-      "cat-soft-drinks": string;
-      "cat-beers": string;
-    };
   };
   menuItemDetail: {
     orderNow: string;
@@ -87,11 +77,7 @@ export type Messages = {
     next: string;
   };
   homeStory: {
-    title: string;
     imageAlt: string;
-    intro: string;
-    punchLines: string[];
-    closing: string[];
   };
   plancha: {
     title: string;
@@ -108,12 +94,6 @@ export type Messages = {
     droneAlt: string;
     burgerStackAlt: string;
     bottomAlt: string;
-  };
-  faq: {
-    kicker: string;
-    title: string;
-    lead: string;
-    items: Array<{ question: string; answer: string }>;
   };
   customerClub: {
     kicker: string;

@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 
 import { SiteFooter } from "@/components/layout/site-footer";
+import { SeoContentBody } from "@/components/shared/seo-content-body";
+import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
+import { getServerLocale } from "@/i18n/get-locale";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -395,13 +398,18 @@ const termsSections: TermsSection[] = [
   }
 ];
 
-export default function TermsPage() {
+export default async function TermsPage() {
+  const locale = await getServerLocale();
+  const seoContent = await getCachedResolvedSeoPageContent(locale, "terms");
+
   return (
     <>
       <main id="main-content" className="legal-page">
         <article className="legal-document">
           <p className="legal-kicker">עודכן לאחרונה: 22/07/2026</p>
           <h1>תקנון אתר ותנאי שימוש – NB BURGER</h1>
+
+          <SeoContentBody text={seoContent.introduction} className="legal-seo-intro" />
 
           <section>
             {introParagraphs.map((paragraph) => (
@@ -430,6 +438,8 @@ export default function TermsPage() {
             לפרטים נוספים על איסוף ושימוש במידע אישי, ראו גם{" "}
             <a href="/privacy-policy">מדיניות הפרטיות</a>.
           </p>
+
+          <SeoContentBody text={seoContent.bottomContent} className="legal-seo-bottom" />
         </article>
       </main>
       <SiteFooter />

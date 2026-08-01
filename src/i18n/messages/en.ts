@@ -46,28 +46,7 @@ export const en: Messages = {
     filterAll: "All",
     empty: "No dishes to show right now.",
     viewLocations: "View Our Locations",
-    heroAlt: "Dishes from the NB BURGER menu",
-    seoIntro: [
-      "Welcome to the NB BURGER menu in Ra'anana — a kosher burger restaurant where every dish starts on a hot plancha. Here you'll find premium kosher burgers: quality beef ground in-house daily, soft buns, fresh vegetables, and house-made sauces. Every burger is seared to order — juicy, precise, and uncompromising.",
-      "Our full menu covers everything you need for a complete meal: burgers from the classic to truffle aioli and confit garlic; combo meals with a side and soft drink; crispy sides like fries, wings, and nuggets; fresh salads from the kitchen; house sauces; and cold drinks to finish the bite. A burger menu built around taste, quality, and ease.",
-      "At NB BURGER we believe a great burger starts with ingredients and ends with an experience that stays with you. Browse the categories, pick your dish, and order for pickup or delivery — 96 Ahuza St., Ra'anana."
-    ],
-    categoryIntros: {
-      "cat-burgers":
-        "Beef patties ground in-house and seared on the plancha — where the crust, juiciness, and depth of flavor come together. From the classic to truffle aioli, confit, or melted cheese: every burger is served on a soft bun with fresh vegetables and a sauce that ties it all together.",
-      "cat-meals":
-        "Complete meals that bring the NB BURGER experience onto one plate — your chosen burger, a side of your choice, and a soft drink. A satisfying lunch, dinner, or meal with friends without compromising on beef quality or plancha cooking.",
-      "cat-sides":
-        "Sides that complete the bite: crispy fries with house seasoning, golden home fries, juicy wings, or crunchy nuggets. Perfect alongside your burger, for sharing at the table, or as a lighter dish on their own — always fresh, always precise.",
-      "cat-salads":
-        "Fresh salads from the kitchen — baby leaves, romaine, croutons, parmesan, and dressings made in-house. A perfect balance next to your burger: light, refreshing, and full of flavor without compromising on ingredient quality.",
-      "cat-sauces":
-        "House sauces that elevate every dish — from truffle aioli to smoky chipotle, honey mustard, confit garlic, ketchup, and classic mayo. Each sauce is made on-site and suited to your bun, sides, and personal taste.",
-      "cat-soft-drinks":
-        "Cold soft drinks to round out your meal — water, soda, lemonade, cola, Sprite, Fanta, grape juice, and iced tea. A simple, refreshing choice alongside your burger, meal, or side.",
-      "cat-beers":
-        "Bottled beers that pair well with a burger meal — Corona, Stella Artois, Heineken, and Goldstar. Drink at your pace, next to the dish on your table, in the easy-going atmosphere of NB BURGER."
-    }
+    heroAlt: "Dishes from the NB BURGER menu"
   },
   menuItemDetail: {
     orderNow: "Order Now",
@@ -96,20 +75,7 @@ export const en: Messages = {
     next: "Next dishes"
   },
   homeStory: {
-    title: "Not just another burger.",
-    imageAlt: "NB BURGER hamburger",
-    intro: "At NB BURGER, we believe quality doesn't need a long explanation.",
-    punchLines: [
-      "Premium beef, ground in-house every day.",
-      "Fresh brioche buns.",
-      "House-made sauces.",
-      "Ingredients chosen with care."
-    ],
-    closing: [
-      "Every burger is seared to order and served exactly as it should be — juicy, precise, and uncompromising.",
-      "Because in the end, you don't need to reinvent the burger.",
-      "Just make it the way it should be."
-    ]
+    imageAlt: "NB BURGER hamburger"
   },
   plancha: {
     title: "On the Plancha",
@@ -139,43 +105,6 @@ export const en: Messages = {
     droneAlt: "Drone footage",
     burgerStackAlt: "Deconstructed burger",
     bottomAlt: "Bottom bun"
-  },
-  faq: {
-    kicker: "FAQ",
-    title: "Questions & Answers",
-    lead: "Everything worth knowing before your next bite.",
-    items: [
-      {
-        question: "Where can I eat a kosher burger in Ra'anana?",
-        answer:
-          "NB BURGER offers a kosher burger experience in Ra'anana, with juicy burgers, quality ingredients, and dishes prepared on site. You can dine in or order delivery."
-      },
-      {
-        question: "What kashrut certification does NB BURGER have?",
-        answer:
-          "NB BURGER is a kosher restaurant under rabbinical supervision. Our meat menu is suited for those who keep kosher and includes a variety of burgers and more."
-      },
-      {
-        question: "What makes the NB BURGER smash burger special?",
-        answer:
-          "Our smash burger is based on a beef patty seared on a hot surface for deep browning and rich flavor, served with toppings and sauces that complete the bite."
-      },
-      {
-        question: "Can I order burger delivery from NB BURGER?",
-        answer:
-          "Yes. You can order delivery from NB BURGER in Ra'anana and available delivery areas, and enjoy our dishes at home or at work."
-      },
-      {
-        question: "What are NB BURGER opening hours?",
-        answer:
-          "Opening hours may change by day and holidays. We recommend checking the updated hours on the website before arriving or placing an order."
-      },
-      {
-        question: "What's on the NB BURGER menu?",
-        answer:
-          "You'll find a variety of burgers, smash burgers, sides, extras, and sauces. You can view the full menu on the website and choose what suits you."
-      }
-    ]
   },
   customerClub: {
     kicker: "NB CLUB",

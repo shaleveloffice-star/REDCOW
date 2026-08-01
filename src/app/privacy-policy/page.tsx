@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { SeoContentBody } from "@/components/shared/seo-content-body";
 import { BUSINESS } from "@/data/business";
+import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
+import { getServerLocale } from "@/i18n/get-locale";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -345,13 +348,18 @@ const privacySections = [
   }
 ];
 
-export default function PrivacyPolicyPage() {
+export default async function PrivacyPolicyPage() {
+  const locale = await getServerLocale();
+  const seoContent = await getCachedResolvedSeoPageContent(locale, "privacy");
+
   return (
     <>
       <main id="main-content" className="legal-page">
         <article className="legal-document">
           <p className="legal-kicker">תאריך עדכון אחרון: מרץ 2026</p>
           <h1>מדיניות פרטיות - NB BURGER</h1>
+
+          <SeoContentBody text={seoContent.introduction} className="legal-seo-intro" />
 
           <section>
             <h2>מבוא</h2>
@@ -375,6 +383,8 @@ export default function PrivacyPolicyPage() {
               ) : null}
             </section>
           ))}
+
+          <SeoContentBody text={seoContent.bottomContent} className="legal-seo-bottom" />
         </article>
       </main>
       <SiteFooter />

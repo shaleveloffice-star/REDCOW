@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { AboutPageView } from "@/components/features/about/about-page-view";
-import { getCachedSiteImagesMap } from "@/lib/cache/cached-data";
+import { getCachedResolvedSeoPageContent, getCachedSiteImagesMap } from "@/lib/cache/cached-data";
+import { getServerLocale } from "@/i18n/get-locale";
 import { buildPageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = buildPageMetadata({
@@ -11,11 +12,15 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function AboutPage() {
-  const siteImages = await getCachedSiteImagesMap();
+  const locale = await getServerLocale();
+  const [siteImages, seoContent] = await Promise.all([
+    getCachedSiteImagesMap(),
+    getCachedResolvedSeoPageContent(locale, "about")
+  ]);
 
   return (
     <main id="main-content" className="about-page" dir="rtl">
-      <AboutPageView siteImages={siteImages} />
+      <AboutPageView siteImages={siteImages} seoContent={seoContent} />
     </main>
   );
 }

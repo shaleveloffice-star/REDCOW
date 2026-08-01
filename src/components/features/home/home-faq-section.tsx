@@ -2,26 +2,33 @@
 
 import { useId, useState } from "react";
 
-import { useTranslations } from "@/components/providers/locale-provider";
+import type { ResolvedSeoPageContent } from "@/types/seo-content";
 
-export function HomeFaqSection() {
-  const t = useTranslations();
+type HomeFaqSectionProps = {
+  faq: ResolvedSeoPageContent["faq"];
+};
+
+export function HomeFaqSection({ faq }: HomeFaqSectionProps) {
   const baseId = useId();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
+
+  if (faq.items.length === 0) {
+    return null;
+  }
 
   return (
     <section id="faq" className="home-faq-section" aria-labelledby="home-faq-title">
       <div className="home-faq-shell">
         <header className="home-faq-header">
-          <p className="home-faq-kicker">{t.faq.kicker}</p>
+          {faq.kicker ? <p className="home-faq-kicker">{faq.kicker}</p> : null}
           <h2 id="home-faq-title" className="home-faq-title">
-            {t.faq.title}
+            {faq.title}
           </h2>
-          <p className="home-faq-lead">{t.faq.lead}</p>
+          {faq.lead ? <p className="home-faq-lead">{faq.lead}</p> : null}
         </header>
 
         <div className="home-faq-list">
-          {t.faq.items.map((item, index) => {
+          {faq.items.map((item, index) => {
             const isOpen = openIndex === index;
             const panelId = `${baseId}-panel-${index}`;
             const buttonId = `${baseId}-button-${index}`;

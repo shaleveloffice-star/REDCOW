@@ -17,7 +17,8 @@ export const CACHE_TAGS = {
   siteImages: "site-images",
   homepageMenu: "homepage-menu",
   menuCategories: "menu-categories",
-  menuDisplay: "menu-display"
+  menuDisplay: "menu-display",
+  seoContent: "seo-content"
 } as const;
 
 export const getCachedSettings = unstable_cache(
@@ -77,6 +78,24 @@ export async function getCachedMenuItemBySlug(slug: string) {
     {
       revalidate: CACHE_REVALIDATE_SECONDS.menu,
       tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.homepageMenu]
+    }
+  )();
+}
+
+export function getCachedResolvedSeoPageContent(locale: string, pageId: string) {
+  return unstable_cache(
+    async () => {
+      const { getResolvedSeoPageContent } = await import("@/services/seo-content.service");
+      const { LOCALES } = await import("@/i18n/config");
+      const resolvedLocale = LOCALES.includes(locale as (typeof LOCALES)[number])
+        ? (locale as (typeof LOCALES)[number])
+        : "he";
+      return getResolvedSeoPageContent(resolvedLocale, pageId as import("@/types/seo-content").SeoPageId);
+    },
+    [CACHE_TAGS.seoContent, locale, pageId],
+    {
+      revalidate: CACHE_REVALIDATE_SECONDS.slow,
+      tags: [CACHE_TAGS.seoContent]
     }
   )();
 }

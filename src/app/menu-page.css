@@ -72,6 +72,51 @@
   margin-bottom: 0;
 }
 
+.menu-bleecker-seo-bottom {
+  width: min(720px, calc(100% - 32px));
+  margin: 28px auto 0;
+}
+
+.menu-bleecker-seo-bottom p {
+  margin: 0 0 14px;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(15px, 2.2vw, 17px);
+  line-height: 1.72;
+}
+
+.menu-bleecker-seo-bottom p:last-child {
+  margin-bottom: 0;
+}
+
+.menu-bleecker-seo-cta {
+  width: min(720px, calc(100% - 32px));
+  margin: 24px auto 0;
+}
+
+.seo-content-cta {
+  padding: 24px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.seo-content-cta-title {
+  margin: 0 0 12px;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(20px, 3vw, 28px);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.seo-content-cta-body {
+  margin: 0 0 10px;
+  line-height: 1.65;
+}
+
+.seo-content-cta-button {
+  margin-top: 12px;
+  display: inline-flex;
+}
+
 .menu-bleecker-filters {
   display: flex;
   flex-wrap: wrap;

@@ -5,8 +5,10 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   getCachedActiveOrderLinks,
-  getCachedMenuForDisplay
+  getCachedMenuForDisplay,
+  getCachedResolvedSeoPageContent
 } from "@/lib/cache/cached-data";
+import { getServerLocale } from "@/i18n/get-locale";
 import { buildPageMetadata } from "@/lib/seo";
 import { buildMenuJsonLd } from "@/lib/seo/json-ld";
 import type { OrderLink } from "@/types/content";
@@ -30,9 +32,11 @@ function resolveOrderUrls(orderLinks: OrderLink[]) {
 }
 
 export default async function MenuPage() {
-  const [groups, orderLinks] = await Promise.all([
+  const locale = await getServerLocale();
+  const [groups, orderLinks, seoContent] = await Promise.all([
     getCachedMenuForDisplay(),
-    getCachedActiveOrderLinks()
+    getCachedActiveOrderLinks(),
+    getCachedResolvedSeoPageContent(locale, "menu")
   ]);
   const { pickupUrl, deliveryUrl } = resolveOrderUrls(orderLinks);
 
@@ -41,7 +45,12 @@ export default async function MenuPage() {
       <JsonLd data={buildMenuJsonLd(groups)} />
       <main id="main-content" className="menu-page">
         <div className="menu-page-inner">
-          <MenuPageView groups={groups} pickupUrl={pickupUrl} deliveryUrl={deliveryUrl} />
+          <MenuPageView
+            groups={groups}
+            pickupUrl={pickupUrl}
+            deliveryUrl={deliveryUrl}
+            seoContent={seoContent}
+          />
         </div>
       </main>
       <SiteFooter />

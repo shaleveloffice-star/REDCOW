@@ -1,20 +1,24 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import { ABOUT_PAGE_IMAGES as IMG } from "@/data/site-images.registry";
 import { getServerLocale } from "@/i18n/get-locale";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
+import type { ResolvedSeoPageContent } from "@/types/seo-content";
 
 type AboutPageViewProps = {
   siteImages?: SiteImagesMap;
+  seoContent: ResolvedSeoPageContent;
 };
 
-export async function AboutPageView({ siteImages }: AboutPageViewProps) {
+export async function AboutPageView({ siteImages, seoContent }: AboutPageViewProps) {
   const locale = await getServerLocale();
   const hero = pickSiteImage(siteImages, "about-hero", IMG.hero);
   const imageAlt = resolveImageAlt({ kind: "about-hero", locale });
+  const [subtitle = "", ...introRest] = seoContent.introductionParagraphs;
 
   return (
     <section className="about-simple" aria-labelledby="about-simple-title">
@@ -29,25 +33,24 @@ export async function AboutPageView({ siteImages }: AboutPageViewProps) {
       <div className="about-simple-overlay" aria-hidden="true" />
 
       <div className="about-simple-content">
-        <h1 id="about-simple-title">NB BURGER המקום שבו כל ביס מרגיש אחרת</h1>
-        <p className="about-simple-subtitle">
-          המבורגרים כשרים מבשר איכותי, חומרי גלם טריים וחוויית אוכל שנבנתה מתוך
-          אהבה אמיתית להמבורגר.
-        </p>
-        <p className="about-simple-description about-simple-description--first">
-          ב-NB BURGER אנחנו מאמינים שהמבורגר טוב מתחיל בחומרי הגלם ומסתיים
-          בחוויה שנשארת איתכם גם אחרי הביס האחרון. כל מנה מוכנה במקום מבשר
-          איכותי, עם ירקות טריים, רטבים מיוחדים ולחמניות שנבחרו בקפידה כדי ליצור
-          את השילוב המושלם.
-        </p>
-        <p className="about-simple-description">
-          הקמנו את NB BURGER מתוך רצון להביא לרעננה חוויית המבורגר כשרה ברמה
-          הגבוהה ביותר - בלי להתפשר על איכות, טעם או שירות. בין אם הגעתם לארוחה
-          עם חברים, עם המשפחה או סתם כי התחשק לכם המבורגר אמיתי, אנחנו כאן כדי
-          להגיש לכם אוכל מצוין, אווירה טובה ושירות מכל הלב.
-        </p>
+        <h1 id="about-simple-title">{seoContent.sectionTitle}</h1>
+        {subtitle ? <p className="about-simple-subtitle">{subtitle}</p> : null}
+        {introRest.map((paragraph, index) => (
+          <p
+            key={paragraph.slice(0, 48)}
+            className={`about-simple-description${index === 0 ? " about-simple-description--first" : ""}`}
+          >
+            {paragraph}
+          </p>
+        ))}
+        {seoContent.bottomParagraphs.map((paragraph) => (
+          <p key={paragraph.slice(0, 48)} className="about-simple-description">
+            {paragraph}
+          </p>
+        ))}
+        <SeoCtaBlockView {...seoContent.cta} className="about-simple-seo-cta seo-content-cta" />
         <Link href="/" className="about-simple-home">
-          חזרה לדף הבית
+          {locale === "he" ? "חזרה לדף הבית" : locale === "fr" ? "Retour à l'accueil" : "Back to home"}
         </Link>
       </div>
     </section>

@@ -12,8 +12,10 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   getCachedHomepageMenu,
+  getCachedResolvedSeoPageContent,
   getCachedSiteImagesMap
 } from "@/lib/cache/cached-data";
+import { getServerLocale } from "@/i18n/get-locale";
 import { buildPageMetadata } from "@/lib/seo";
 import { buildRestaurantJsonLd } from "@/lib/seo/json-ld";
 
@@ -37,7 +39,8 @@ export const metadata: Metadata = buildPageMetadata({
 });
 
 export default async function HomePage() {
-  const [siteImages, homepageMenuItems] = await Promise.all([
+  const locale = await getServerLocale();
+  const [siteImages, homepageMenuItems, homeSeo] = await Promise.all([
     getCachedSiteImagesMap().catch((err) => {
       console.error("[HomePage] site images failed", err instanceof Error ? err.message : err);
       throw err;
@@ -47,7 +50,8 @@ export default async function HomePage() {
       const { listMenuItems } = await import("@/services/menu.service");
       const items = await listMenuItems({ activeOnly: true });
       return items.slice(0, 8);
-    })
+    }),
+    getCachedResolvedSeoPageContent(locale, "home")
   ]);
 
   return (
@@ -59,7 +63,7 @@ export default async function HomePage() {
         <HomeBrandStorySection siteImages={siteImages} />
         <HomeAtmosphereSection siteImages={siteImages} />
         <HomeSocialVibeSection />
-        <HomeFaqSection />
+        <HomeFaqSection faq={homeSeo.faq} />
         <LocationSection siteImages={siteImages} />
         <CustomerClubSection />
       </main>

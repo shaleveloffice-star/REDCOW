@@ -5,6 +5,7 @@ import { useMemo, useState } from "react";
 
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
 import { OrderModal } from "@/components/layout/order-modal";
+import { SeoContentBody, SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import {
   IconBurgerMark,
   IconDeliveryMark,
@@ -22,8 +23,9 @@ import { getMenuItemHref } from "@/lib/menu/product-slug";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
 import { isVideoMediaUrl } from "@/lib/menu-media";
+import { getCategoryIntro } from "@/lib/seo-content/resolve-seo-content";
 import type { MenuCategory, MenuItem } from "@/types/content";
-import type { Messages } from "@/i18n/messages/types";
+import type { ResolvedSeoPageContent } from "@/types/seo-content";
 
 const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
 
@@ -33,6 +35,7 @@ type MenuPageViewProps = {
   groups: MenuGroup[];
   pickupUrl: string;
   deliveryUrl: string;
+  seoContent: ResolvedSeoPageContent;
 };
 
 function formatPrice(price: number, locale: string) {
@@ -44,16 +47,6 @@ function formatPrice(price: number, locale: string) {
 
 function isBurgersGroup(group: MenuGroup) {
   return group.slug === "burgers" || group.id === "cat-burgers";
-}
-
-function getCategoryIntro(
-  categoryId: string,
-  intros: Messages["menuPage"]["categoryIntros"]
-): string | undefined {
-  if (categoryId in intros) {
-    return intros[categoryId as keyof Messages["menuPage"]["categoryIntros"]];
-  }
-  return undefined;
 }
 
 function MenuItemsGrid({
@@ -103,7 +96,7 @@ function MenuItemsGrid({
   );
 }
 
-export function MenuPageView({ groups, pickupUrl, deliveryUrl }: MenuPageViewProps) {
+export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: MenuPageViewProps) {
   const t = useTranslations();
   const { locale } = useLocale();
   const [activeCategoryId, setActiveCategoryId] = useState<string>("all");
@@ -139,11 +132,7 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl }: MenuPageViewPro
         <h1 className="menu-bleecker-title">{t.menuPage.title}</h1>
       </div>
 
-      <div className="menu-bleecker-seo-intro">
-        {t.menuPage.seoIntro.map((paragraph) => (
-          <p key={paragraph.slice(0, 48)}>{paragraph}</p>
-        ))}
-      </div>
+      <SeoContentBody text={seoContent.introduction} className="menu-bleecker-seo-intro" />
 
       <div className="menu-bleecker-filters" role="tablist" aria-label={t.menuPage.title}>
         <button
@@ -174,7 +163,7 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl }: MenuPageViewPro
       ) : (
         <div className="menu-bleecker-sections">
           {visibleGroups.map((group) => {
-            const categoryIntro = getCategoryIntro(group.id, t.menuPage.categoryIntros);
+            const categoryIntro = getCategoryIntro(seoContent, group.id);
 
             return (
               <section
@@ -200,6 +189,12 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl }: MenuPageViewPro
           })}
         </div>
       )}
+
+      <SeoContentBody text={seoContent.bottomContent} className="menu-bleecker-seo-bottom" />
+      <SeoCtaBlockView
+        {...seoContent.cta}
+        className="menu-bleecker-seo-cta seo-content-cta"
+      />
 
       <section className="menu-bleecker-ctas" aria-label={t.orderModal.title}>
         <button type="button" className="menu-bleecker-cta" onClick={() => setOrderOpen(true)}>

@@ -3,7 +3,9 @@ import Image from "next/image";
 import { HOME_STORY_IMAGE } from "@/data/site-images.registry";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getMessages } from "@/i18n/messages";
+import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
+import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -14,13 +16,14 @@ type HomeBrandStorySectionProps = {
 export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectionProps) {
   const locale = await getServerLocale();
   const t = getMessages(locale);
-  const story = t.homeStory;
+  const seoContent = await getCachedResolvedSeoPageContent(locale, "home");
+  const story = layoutHomeStoryContent(seoContent);
   const imageSrc = pickSiteImage(siteImages, "home-story", HOME_STORY_IMAGE);
   const imageUrl = imageSrc.startsWith("/") ? imageSrc : HOME_STORY_IMAGE;
   const imageAlt = resolveImageAlt({
     kind: "brand-story",
     locale,
-    customAlt: story.imageAlt
+    customAlt: t.homeStory.imageAlt
   });
 
   return (

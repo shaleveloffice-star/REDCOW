@@ -10,6 +10,7 @@ import {
   Mail,
   MapPin,
   Newspaper,
+  Search,
   Settings,
   UtensilsCrossed,
   Users
@@ -27,6 +28,7 @@ const navItems = [
   { href: "/admin/customer-club", label: "מועדון לקוחות", icon: Users },
   { href: "/admin/career-applications", label: "קורות חיים", icon: FileText },
   { href: "/admin/order-links", label: "קישורי הזמנה", icon: Link2 },
+  { href: "/admin/seo-content", label: "תוכן SEO", icon: Search },
   { href: "/admin/settings", label: "הגדרות", icon: Settings }
 ] as const;
 

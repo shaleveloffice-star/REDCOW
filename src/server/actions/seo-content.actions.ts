@@ -2,6 +2,12 @@
 
 import { requireAdmin } from "@/lib/auth/admin-guard";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
+import { buildCategorySeoMenuPatch } from "@/lib/seo-content/admin-category-seo";
+import {
+  mergeSeoPageFields,
+  sanitizeSeoLocaleBundle,
+  sanitizeSeoPageFields
+} from "@/lib/seo-content/sanitize-seo-storage";
 import type { Locale } from "@/i18n/config";
 import { revalidatePath, updateTag } from "next/cache";
 import { listMenuCategories } from "@/services/menu.service";
@@ -14,13 +20,39 @@ import type { SeoLocaleBundle, SeoPageFieldsInput, SeoPageId } from "@/types/seo
 
 const PUBLIC_PATHS = ["/", "/about", "/menu", "/locations", "/privacy-policy", "/terms"] as const;
 
+export type SeoSaveResult = {
+  ok: true;
+  updatedAt: string;
+};
+
 function revalidateSeoContentCache() {
   try {
     updateTag(CACHE_TAGS.seoContent);
     PUBLIC_PATHS.forEach((path) => revalidatePath(path));
   } catch {
-    // ignore
+    // ignore cache revalidation failures
   }
+}
+
+async function persistSeoPageFields(
+  locale: Locale,
+  pageId: SeoPageId,
+  fields: SeoPageFieldsInput
+): Promise<SeoSaveResult> {
+  const current = await getSeoLocaleBundleForAdmin(locale);
+  const mergedFields = mergeSeoPageFields(current.pages?.[pageId], fields);
+  const next: SeoLocaleBundle = sanitizeSeoLocaleBundle({
+    pages: {
+      ...(current.pages ?? {}),
+      [pageId]: mergedFields
+    },
+    updatedAt: new Date().toISOString()
+  });
+
+  await saveSeoLocaleBundleForAdmin(locale, next);
+  revalidateSeoContentCache();
+
+  return { ok: true, updatedAt: next.updatedAt };
 }
 
 export async function getSeoContentDocumentForAdmin() {
@@ -41,14 +73,11 @@ export async function saveCategorySeoFieldsAction(
   locale: Locale,
   categoryId: string,
   fields: SeoPageFieldsInput
-) {
+): Promise<SeoSaveResult> {
   await requireAdmin();
-  const { buildCategorySeoMenuPatch } = await import("@/lib/seo-content/admin-category-seo");
   const current = await getSeoLocaleBundleForAdmin(locale);
-  const currentMenu = current.pages?.menu;
-  const nextMenu = buildCategorySeoMenuPatch(currentMenu, categoryId, fields ?? {});
-
-  return saveSeoPageFieldsAction(locale, "menu", nextMenu);
+  const nextMenu = buildCategorySeoMenuPatch(current.pages?.menu, categoryId, sanitizeSeoPageFields(fields));
+  return persistSeoPageFields(locale, "menu", nextMenu);
 }
 
 export async function getSeoLocaleAdminBundleAction(locale: Locale) {
@@ -56,28 +85,22 @@ export async function getSeoLocaleAdminBundleAction(locale: Locale) {
   return getSeoLocaleBundleForAdmin(locale);
 }
 
-export async function saveSeoLocaleBundleAction(locale: Locale, bundle: SeoLocaleBundle) {
+export async function saveSeoLocaleBundleAction(locale: Locale, bundle: SeoLocaleBundle): Promise<SeoSaveResult> {
   await requireAdmin();
-  const saved = await saveSeoLocaleBundleForAdmin(locale, bundle);
+  const saved = sanitizeSeoLocaleBundle({
+    ...bundle,
+    updatedAt: new Date().toISOString()
+  });
+  await saveSeoLocaleBundleForAdmin(locale, saved);
   revalidateSeoContentCache();
-  return saved;
+  return { ok: true, updatedAt: saved.updatedAt };
 }
 
 export async function saveSeoPageFieldsAction(
   locale: Locale,
   pageId: SeoPageId,
-  fields: SeoLocaleBundle["pages"][SeoPageId]
-) {
+  fields: SeoPageFieldsInput
+): Promise<SeoSaveResult> {
   await requireAdmin();
-  const current = await getSeoLocaleBundleForAdmin(locale);
-  const next: SeoLocaleBundle = {
-    pages: {
-      ...(current.pages ?? {}),
-      [pageId]: fields ?? {}
-    },
-    updatedAt: new Date().toISOString()
-  };
-  const saved = await saveSeoLocaleBundleForAdmin(locale, next);
-  revalidateSeoContentCache();
-  return saved;
+  return persistSeoPageFields(locale, pageId, sanitizeSeoPageFields(fields ?? {}));
 }

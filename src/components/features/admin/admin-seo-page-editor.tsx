@@ -81,8 +81,17 @@ export function AdminSeoPageEditor({ pageId, initialDocument, fieldFlags }: Admi
         onSubmit={(event) => {
           event.preventDefault();
           run(async () => {
-            const saved = await saveSeoPageFieldsAction(locale, pageId, draft);
-            setDocument((current) => ({ ...current, [locale]: saved }));
+            const result = await saveSeoPageFieldsAction(locale, pageId, draft);
+            setDocument((current) => ({
+              ...current,
+              [locale]: {
+                pages: {
+                  ...(current[locale]?.pages ?? {}),
+                  [pageId]: draft
+                },
+                updatedAt: result.updatedAt
+              }
+            }));
           });
         }}
       >

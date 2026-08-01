@@ -1,5 +1,6 @@
 import type { Locale } from "@/i18n/config";
 import { getDefaultSeoPageFields } from "@/data/seo-content-defaults";
+import { sanitizeSeoPageFields } from "@/lib/seo-content/sanitize-seo-storage";
 import type { SeoContentDocument, SeoPageFieldsInput } from "@/types/seo-content";
 
 export function getStoredCategorySeoFields(
@@ -35,7 +36,7 @@ export function buildCategorySeoMenuPatch(
     cta: fields.cta
   };
 
-  return {
+  return sanitizeSeoPageFields({
     ...(currentMenu ?? {}),
     categoryIntros: {
       ...(currentMenu?.categoryIntros ?? {}),
@@ -45,5 +46,5 @@ export function buildCategorySeoMenuPatch(
       ...(currentMenu?.categoryPages ?? {}),
       [categoryId]: categoryFields
     }
-  };
+  });
 }

@@ -113,11 +113,9 @@ export function AdminMenuCategoriesManager({
               run(async () => {
                 await saveMenuCategoryAction(draft);
                 if (!isNew) {
-                  await Promise.all(
-                    LOCALES.map((locale) =>
-                      saveCategorySeoFieldsAction(locale, draft.id, seoByLocale[locale] ?? {})
-                    )
-                  );
+                  for (const locale of LOCALES) {
+                    await saveCategorySeoFieldsAction(locale, draft.id, seoByLocale[locale] ?? {});
+                  }
                 }
               }, close);
             }}

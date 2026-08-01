@@ -470,15 +470,60 @@ export function AdminMenuTable({
                 onChange={(e) => setDraft({ ...draft, description: e.target.value })}
               />
             </label>
-            <label>
-              תיאור ארוך
-              <textarea
-                rows={5}
-                maxLength={4000}
-                value={draft.longDescription ?? ""}
-                onChange={(e) => setDraft({ ...draft, longDescription: e.target.value })}
-              />
-            </label>
+
+            <fieldset className="admin-seo-fieldset">
+              <legend>תוכן SEO</legend>
+              <label>
+                תיאור ארוך (גוף העמוד)
+                <textarea
+                  rows={5}
+                  maxLength={4000}
+                  value={draft.longDescription ?? ""}
+                  onChange={(e) => setDraft({ ...draft, longDescription: e.target.value })}
+                />
+              </label>
+              <label>
+                טקסט ALT לתמונה (אופציונלי)
+                <input
+                  maxLength={160}
+                  placeholder="נוצר אוטומטית אם ריק"
+                  value={draft.imageAlt ?? ""}
+                  onChange={(e) => setDraft({ ...draft, imageAlt: e.target.value })}
+                />
+              </label>
+              <label>
+                מילת מפתח ראשית
+                <input
+                  maxLength={80}
+                  value={draft.primaryKeyword ?? ""}
+                  onChange={(e) => setDraft({ ...draft, primaryKeyword: e.target.value })}
+                />
+              </label>
+              <label>
+                כותרת מטא (עד 60)
+                <input
+                  maxLength={60}
+                  value={draft.metaTitle ?? ""}
+                  onChange={(e) => setDraft({ ...draft, metaTitle: e.target.value })}
+                />
+              </label>
+              <p className="muted" style={{ marginTop: -8 }}>
+                {(draft.metaTitle ?? "").length}/60
+              </p>
+              <label>
+                תיאור מטא (עד 160)
+                <textarea
+                  rows={3}
+                  maxLength={160}
+                  value={draft.metaDescription ?? ""}
+                  onChange={(e) => setDraft({ ...draft, metaDescription: e.target.value })}
+                />
+              </label>
+              <p className="muted" style={{ marginTop: -8 }}>
+                {(draft.metaDescription ?? "").length}/160
+              </p>
+            </fieldset>
+
             <label>
               סלאג (כתובת העמוד)
               <input
@@ -543,48 +588,6 @@ export function AdminMenuTable({
             ) : (
               <p className="muted">אופציונלי — תופיע לצד התמונה הראשית בעמוד המוצר בלבד.</p>
             )}
-
-            <label>
-              טקסט ALT לתמונה (אופציונלי)
-              <input
-                maxLength={160}
-                placeholder="נוצר אוטומטית אם ריק"
-                value={draft.imageAlt ?? ""}
-                onChange={(e) => setDraft({ ...draft, imageAlt: e.target.value })}
-              />
-            </label>
-
-            <label>
-              מילת מפתח ראשית (SEO)
-              <input
-                maxLength={80}
-                value={draft.primaryKeyword ?? ""}
-                onChange={(e) => setDraft({ ...draft, primaryKeyword: e.target.value })}
-              />
-            </label>
-            <label>
-              כותרת מטא (עד 60)
-              <input
-                maxLength={60}
-                value={draft.metaTitle ?? ""}
-                onChange={(e) => setDraft({ ...draft, metaTitle: e.target.value })}
-              />
-            </label>
-            <p className="muted" style={{ marginTop: -8 }}>
-              {(draft.metaTitle ?? "").length}/60
-            </p>
-            <label>
-              תיאור מטא (עד 160)
-              <textarea
-                rows={3}
-                maxLength={160}
-                value={draft.metaDescription ?? ""}
-                onChange={(e) => setDraft({ ...draft, metaDescription: e.target.value })}
-              />
-            </label>
-            <p className="muted" style={{ marginTop: -8 }}>
-              {(draft.metaDescription ?? "").length}/160
-            </p>
 
             <label>
               סדר תצוגה

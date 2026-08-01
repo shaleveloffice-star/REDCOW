@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import {
   AdminFormFooter,
   AdminModal,
@@ -7,11 +9,17 @@ import {
   AdminToolbar,
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
+import {
+  AdminCategorySeoSection,
+  buildInitialCategorySeoByLocale
+} from "@/components/features/admin/admin-category-seo-section";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
+import { LOCALES, type Locale } from "@/i18n/config";
 import { deleteMenuCategoryAction, saveMenuCategoryAction } from "@/server/actions/menu.actions";
+import { saveCategorySeoFieldsAction } from "@/server/actions/seo-content.actions";
 import type { MenuCategory } from "@/types/content";
-import { useState } from "react";
+import type { SeoContentDocument, SeoPageFieldsInput } from "@/types/seo-content";
 
 function newCategory(categories: MenuCategory[]): MenuCategory {
   const now = new Date().toISOString();
@@ -27,14 +35,34 @@ function newCategory(categories: MenuCategory[]): MenuCategory {
   };
 }
 
-export function AdminMenuCategoriesManager({ categories }: { categories: MenuCategory[] }) {
+export function AdminMenuCategoriesManager({
+  categories,
+  seoDocument
+}: {
+  categories: MenuCategory[];
+  seoDocument: SeoContentDocument;
+}) {
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<MenuCategory | null>(null);
+  const [seoByLocale, setSeoByLocale] = useState<Partial<Record<Locale, SeoPageFieldsInput>>>({});
   const isNew = draft ? !categories.some((c) => c.id === draft.id) : false;
+
+  useEffect(() => {
+    if (!draft || isNew) {
+      setSeoByLocale({});
+      return;
+    }
+    setSeoByLocale(buildInitialCategorySeoByLocale(seoDocument, draft.id));
+  }, [draft?.id, isNew, seoDocument]);
 
   const close = () => {
     setDraft(null);
+    setSeoByLocale({});
     setError(null);
+  };
+
+  const updateSeoLocale = (locale: Locale, fields: SeoPageFieldsInput) => {
+    setSeoByLocale((current) => ({ ...current, [locale]: fields }));
   };
 
   return (
@@ -84,6 +112,13 @@ export function AdminMenuCategoriesManager({ categories }: { categories: MenuCat
               e.preventDefault();
               run(async () => {
                 await saveMenuCategoryAction(draft);
+                if (!isNew) {
+                  await Promise.all(
+                    LOCALES.map((locale) =>
+                      saveCategorySeoFieldsAction(locale, draft.id, seoByLocale[locale] ?? {})
+                    )
+                  );
+                }
               }, close);
             }}
           >
@@ -116,6 +151,18 @@ export function AdminMenuCategoriesManager({ categories }: { categories: MenuCat
               />
               <span>קטגוריה פעילה</span>
             </label>
+
+            {!isNew ? (
+              <AdminCategorySeoSection
+                categoryId={draft.id}
+                seoDocument={seoDocument}
+                seoByLocale={seoByLocale}
+                onChange={updateSeoLocale}
+              />
+            ) : (
+              <p className="admin-field-hint">שמירת תוכן SEO זמינה לאחר יצירת הקטגוריה.</p>
+            )}
+
             <AdminFormFooter error={error} isPending={isPending} onCancel={close} />
           </form>
         ) : null}

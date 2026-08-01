@@ -10,7 +10,7 @@ import {
   getSeoLocaleBundleForAdmin,
   saveSeoLocaleBundleForAdmin
 } from "@/services/seo-content.service";
-import type { SeoLocaleBundle, SeoPageId } from "@/types/seo-content";
+import type { SeoLocaleBundle, SeoPageFieldsInput, SeoPageId } from "@/types/seo-content";
 
 const PUBLIC_PATHS = ["/", "/about", "/menu", "/locations", "/privacy-policy", "/terms"] as const;
 
@@ -23,6 +23,11 @@ function revalidateSeoContentCache() {
   }
 }
 
+export async function getSeoContentDocumentForAdmin() {
+  await requireAdmin();
+  return getSeoContentStore();
+}
+
 export async function getSeoContentAdminData() {
   await requireAdmin();
   const [document, categories] = await Promise.all([
@@ -30,6 +35,20 @@ export async function getSeoContentAdminData() {
     listMenuCategories({ activeOnly: false })
   ]);
   return { document, categories };
+}
+
+export async function saveCategorySeoFieldsAction(
+  locale: Locale,
+  categoryId: string,
+  fields: SeoPageFieldsInput
+) {
+  await requireAdmin();
+  const { buildCategorySeoMenuPatch } = await import("@/lib/seo-content/admin-category-seo");
+  const current = await getSeoLocaleBundleForAdmin(locale);
+  const currentMenu = current.pages?.menu;
+  const nextMenu = buildCategorySeoMenuPatch(currentMenu, categoryId, fields ?? {});
+
+  return saveSeoPageFieldsAction(locale, "menu", nextMenu);
 }
 
 export async function getSeoLocaleAdminBundleAction(locale: Locale) {

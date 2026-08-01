@@ -32,6 +32,8 @@ export type SeoPageFieldsInput = {
   faq?: SeoFaqBlock;
   cta?: SeoCtaBlock;
   categoryIntros?: Record<string, string>;
+  /** Per-category SEO body (intro/bottom/faq/cta) — stored under menu page bundle. */
+  categoryPages?: Record<string, SeoPageFieldsInput>;
 };
 
 /** Resolved page content after merging stored values with defaults. */

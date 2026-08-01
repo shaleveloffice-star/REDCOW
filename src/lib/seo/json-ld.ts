@@ -2,6 +2,7 @@ import { BUSINESS } from "@/data/business";
 import { HERO_DEFAULT_IMAGE_URL, SITE_LOGO_SRC } from "@/data/site-images.registry";
 import { getLocalizedCategoryName } from "@/i18n/category-translations";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
+import { resolveCategorySlug } from "@/lib/menu/category-slug";
 import { getMessages } from "@/i18n/messages";
 import type { Locale } from "@/i18n/config";
 import { isVideoMediaUrl } from "@/lib/menu-media";
@@ -85,6 +86,7 @@ export function buildMenuJsonLd(groups: MenuGroup[], locale: Locale = "he"): Jso
     hasMenuSection: groups.map((category) => ({
       "@type": "MenuSection",
       name: getLocalizedCategoryName(category, locale),
+      url: absoluteUrl(`/menu/${resolveCategorySlug(category)}`),
       ...(category.description
         ? { description: category.description }
         : {}),
@@ -184,6 +186,40 @@ export function buildProductBreadcrumbJsonLd(
         position: 3,
         name: localized.name,
         item: absoluteUrl(`/menu/${options.slug}`)
+      }
+    ]
+  };
+}
+
+export function buildCategoryBreadcrumbJsonLd(options: {
+  categoryName: string;
+  categorySlug: string;
+  locale?: Locale;
+}): JsonLdObject {
+  const locale = options.locale ?? "he";
+  const t = getMessages(locale);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t.nav.home,
+        item: absoluteUrl("/")
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t.nav.menu,
+        item: absoluteUrl("/menu")
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: options.categoryName,
+        item: absoluteUrl(`/menu/${options.categorySlug}`)
       }
     ]
   };

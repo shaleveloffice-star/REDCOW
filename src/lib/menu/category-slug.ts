@@ -10,7 +10,7 @@ export function resolveCategorySlug(category: Pick<MenuCategory, "id" | "slug">)
 }
 
 export function getMenuCategoryHref(category: Pick<MenuCategory, "id" | "slug">): string {
-  return `/menu/category/${resolveCategorySlug(category)}`;
+  return `/menu/${resolveCategorySlug(category)}`;
 }
 
 export function getCategorySlugAliases(category: Pick<MenuCategory, "id" | "slug">): string[] {

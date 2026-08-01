@@ -47,7 +47,8 @@ export const en: Messages = {
     filterAll: "All",
     empty: "No dishes to show right now.",
     viewLocations: "View Our Locations",
-    heroAlt: "Dishes from the NB BURGER menu"
+    heroAlt: "Dishes from the NB BURGER menu",
+    relatedCategories: "More categories"
   },
   menuItemDetail: {
     orderNow: "Order Now",

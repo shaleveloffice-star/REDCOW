@@ -50,6 +50,7 @@ export type Messages = {
     empty: string;
     viewLocations: string;
     heroAlt: string;
+    relatedCategories: string;
   };
   menuItemDetail: {
     orderNow: string;

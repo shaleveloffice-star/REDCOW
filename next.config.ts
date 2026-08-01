@@ -110,6 +110,11 @@ const nextConfig: NextConfig = {
         source: "/branches",
         destination: "/locations",
         permanent: true
+      },
+      {
+        source: "/menu/category/:slug",
+        destination: "/menu/:slug",
+        permanent: true
       }
     ];
   },

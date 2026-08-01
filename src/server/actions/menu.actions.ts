@@ -30,7 +30,7 @@ import type { SeoPageFieldsInput } from "@/types/seo-content";
 const menuPaths = ["/admin/menu", "/admin/menu-categories", "/", "/menu"];
 
 function revalidateCategoryPath(category: Pick<MenuCategory, "id" | "slug">) {
-  revalidatePath(`/menu/category/${resolveCategorySlug(category)}`);
+  revalidatePath(`/menu/${resolveCategorySlug(category)}`);
 }
 
 function revalidateMenuCache() {

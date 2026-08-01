@@ -47,7 +47,8 @@ export const fr: Messages = {
     filterAll: "Tout",
     empty: "Aucun plat à afficher pour le moment.",
     viewLocations: "Voir nos adresses",
-    heroAlt: "Plats de la carte NB BURGER"
+    heroAlt: "Plats de la carte NB BURGER",
+    relatedCategories: "Autres catégories"
   },
   menuItemDetail: {
     orderNow: "Commander",

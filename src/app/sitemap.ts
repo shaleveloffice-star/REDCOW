@@ -43,7 +43,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8
     }));
     const categoryEntries = categories.map((category) => ({
-      url: `${SITE_URL}/menu/category/${resolveCategorySlug(category)}`,
+      url: `${SITE_URL}/menu/${resolveCategorySlug(category)}`,
       lastModified,
       changeFrequency: "weekly" as const,
       priority: 0.85

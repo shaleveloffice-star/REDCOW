@@ -47,7 +47,8 @@ export const he: Messages = {
     filterAll: "הכל",
     empty: "אין מנות להצגה כרגע.",
     viewLocations: "הסניפים שלנו",
-    heroAlt: "מנות מתוך תפריט NB BURGER"
+    heroAlt: "מנות מתוך תפריט NB BURGER",
+    relatedCategories: "קטגוריות נוספות"
   },
   menuItemDetail: {
     orderNow: "להזמנה",

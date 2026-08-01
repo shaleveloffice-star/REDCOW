@@ -125,16 +125,17 @@ export function getMenuPageMetadata(locale: Locale) {
 
 export function getMenuCategoryPageMetadata(
   locale: Locale,
-  category: { name: string; description?: string; slug: string }
+  category: { name: string; description?: string; slug: string; seoIntro?: string }
 ) {
   const description =
     category.description?.trim() ||
+    category.seoIntro?.trim() ||
     MENU_META[locale].description;
 
   return buildPageMetadata({
     title: `${category.name} | NB BURGER`,
     description,
-    path: `/menu/category/${category.slug}`,
+    path: `/menu/${category.slug}`,
     locale
   });
 }

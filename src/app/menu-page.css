@@ -46,6 +46,123 @@
   margin: 28px auto 18px;
 }
 
+.menu-bleecker-toolbar--category {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 14px;
+}
+
+.menu-bleecker-breadcrumbs {
+  width: 100%;
+}
+
+.menu-bleecker-breadcrumbs-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  color: rgba(255, 255, 255, 0.62);
+  font-size: 14px;
+}
+
+.menu-bleecker-breadcrumbs-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.menu-bleecker-breadcrumbs-link {
+  color: rgba(255, 255, 255, 0.78);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.menu-bleecker-breadcrumbs-link:hover {
+  color: #ffffff;
+}
+
+.menu-bleecker-breadcrumbs-link:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.menu-bleecker-breadcrumbs-current {
+  color: #ffffff;
+}
+
+.menu-bleecker-breadcrumbs-separator {
+  color: rgba(255, 255, 255, 0.4);
+  user-select: none;
+}
+
+.menu-bleecker-title--category {
+  font-size: clamp(28px, 6vw, 52px);
+}
+
+.menu-bleecker-related {
+  width: min(1200px, calc(100% - 32px));
+  margin: 36px auto 0;
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.menu-bleecker-related-title {
+  margin: 0 0 16px;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(16px, 2.5vw, 20px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.menu-bleecker-related-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.menu-bleecker-related-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  color: #ffffff;
+  font-family: var(--font-archivo-black-stack);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.menu-bleecker-related-link:hover {
+  background: #ffffff;
+  color: #000000;
+}
+
+.menu-bleecker-related-link:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.menu-bleecker--category .menu-bleecker-category-seo {
+  width: min(1200px, calc(100% - 32px));
+  margin-inline: auto;
+}
+
+.menu-bleecker--category .menu-bleecker-seo-intro {
+  margin-bottom: 22px;
+}
+
 .menu-bleecker-title {
   margin: 0;
   font-family: var(--font-archivo-black-stack);

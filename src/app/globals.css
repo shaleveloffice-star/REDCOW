@@ -751,7 +751,6 @@ select {
   height: clamp(48px, 8vw, 64px);
   max-width: min(200px, 52vw);
   object-fit: contain;
-  transition: filter 0.25s ease;
 }
 
 @media (min-width: 640px) {
@@ -762,7 +761,7 @@ select {
 }
 
 .site-navbar-brand:hover .site-navbar-logo {
-  filter: none;
+  opacity: 0.85;
 }
 
 .site-navbar-brand:hover {
@@ -6911,10 +6910,6 @@ body:not(:has(.admin-layout)) main::before {
 .site-navbar--scrolled .site-navbar-social:focus-visible,
 .site-navbar--scrolled .site-navbar-toggle:focus-visible {
   outline-color: #000000;
-}
-
-.site-navbar--scrolled .site-navbar-logo {
-  filter: none;
 }
 
 .site-navbar--scrolled .site-navbar-brand:hover {

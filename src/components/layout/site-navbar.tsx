@@ -10,7 +10,12 @@ import {
   IconLocationPinFilled,
   IconShoppingBagFilled
 } from "@/components/shared/site-icons";
-import { SITE_WORDMARK_SRC, SITE_WORDMARK_WEBP_SRC } from "@/data/brand-assets";
+import {
+  SITE_WORDMARK_DARK_SRC,
+  SITE_WORDMARK_DARK_WEBP_SRC,
+  SITE_WORDMARK_LIGHT_SRC,
+  SITE_WORDMARK_LIGHT_WEBP_SRC
+} from "@/data/brand-assets";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { BUSINESS } from "@/data/business";
 import { useTranslations, useLocale } from "@/components/providers/locale-provider";
@@ -84,6 +89,8 @@ export function SiteNavbar({
   const stackLanguageSwitcher = locale === "fr";
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const wordmarkSrc = isScrolled ? SITE_WORDMARK_DARK_SRC : SITE_WORDMARK_LIGHT_SRC;
+  const wordmarkWebp = isScrolled ? SITE_WORDMARK_DARK_WEBP_SRC : SITE_WORDMARK_LIGHT_WEBP_SRC;
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const menuId = useId();
   const toggleRef = useRef<HTMLButtonElement>(null);
@@ -186,10 +193,10 @@ export function SiteNavbar({
         <nav className="site-navbar-inner" aria-label={t.nav.main}>
           <Link href="/" className="site-navbar-brand">
             <picture>
-              <source srcSet={SITE_WORDMARK_WEBP_SRC} type="image/webp" />
+              <source srcSet={wordmarkWebp} type="image/webp" />
               <img
                 className="site-navbar-logo"
-                src={SITE_WORDMARK_SRC}
+                src={wordmarkSrc}
                 alt={logoAlt}
                 width={160}
                 height={72}

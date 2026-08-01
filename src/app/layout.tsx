@@ -9,9 +9,11 @@ import "./menu-item-detail.css";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { SkipToContent } from "@/components/layout/skip-to-content";
+import { JsonLd } from "@/components/seo/json-ld";
 import { getDirection } from "@/i18n/config";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getCachedActiveOrderLinks } from "@/lib/cache/cached-data";
+import { buildOrganizationJsonLd } from "@/lib/seo/json-ld";
 import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 const assistant = Assistant({
@@ -74,6 +76,7 @@ export default async function RootLayout({
     <html lang={locale} dir={dir}>
       <body className={`${assistant.variable} ${archivoBlack.variable} ${assistant.className}`}>
         <LocaleProvider initialLocale={locale}>
+          <JsonLd data={buildOrganizationJsonLd()} />
           <SkipToContent />
           <SiteChrome orderLinks={orderLinks}>{children}</SiteChrome>
         </LocaleProvider>

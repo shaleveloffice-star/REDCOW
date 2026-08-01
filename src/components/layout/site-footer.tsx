@@ -1,6 +1,6 @@
 import { ContactFormSection } from "@/components/features/contact/contact-form-section";
 import { IconMail, IconMapPin, IconPhone } from "@/components/shared/site-icons";
-import { SITE_LOGO_SRC } from "@/data/brand-assets";
+import { SITE_WORDMARK_LIGHT_SRC, SITE_WORDMARK_LIGHT_WEBP_SRC } from "@/data/brand-assets";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getMessages } from "@/i18n/messages";
@@ -61,15 +61,18 @@ export async function SiteFooter() {
       <div className="site-footer-main">
         <div className="site-footer-grid">
           <section className="site-footer-brand" aria-label={BUSINESS.name}>
-            <img
-              className="site-footer-logo"
-              src={SITE_LOGO_SRC}
-              alt={logoAlt}
-              width={160}
-              height={160}
-              loading="lazy"
-              decoding="async"
-            />
+            <picture>
+              <source srcSet={SITE_WORDMARK_LIGHT_WEBP_SRC} type="image/webp" />
+              <img
+                className="site-footer-logo"
+                src={SITE_WORDMARK_LIGHT_SRC}
+                alt={logoAlt}
+                width={160}
+                height={72}
+                loading="lazy"
+                decoding="async"
+              />
+            </picture>
             <p className="site-footer-tagline">
               {t.footer.taglineLine1}
               <br />

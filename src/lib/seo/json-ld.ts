@@ -1,5 +1,6 @@
 import { BUSINESS } from "@/data/business";
-import { HERO_DEFAULT_IMAGE_URL, SITE_LOGO_SRC } from "@/data/site-images.registry";
+import { SITE_LOGO_SCHEMA_SRC } from "@/data/brand-assets";
+import { HERO_DEFAULT_IMAGE_URL } from "@/data/site-images.registry";
 import { getLocalizedCategoryName } from "@/i18n/category-translations";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { resolveCategorySlug } from "@/lib/menu/category-slug";
@@ -40,15 +41,41 @@ function isStaticImageUrl(url?: string | null): boolean {
   return !isVideoMediaUrl(trimmed);
 }
 
+export function buildOrganizationJsonLd(): JsonLdObject {
+  const logoUrl = absoluteUrl(SITE_LOGO_SCHEMA_SRC);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `${SITE_URL}/#organization`,
+    name: BUSINESS.name,
+    url: absoluteUrl("/"),
+    logo: {
+      "@type": "ImageObject",
+      url: logoUrl,
+      width: 512,
+      height: 512
+    },
+    image: logoUrl,
+    sameAs: [
+      BUSINESS.social.facebook,
+      BUSINESS.social.instagram,
+      BUSINESS.social.tiktok
+    ]
+  };
+}
+
 export function buildRestaurantJsonLd(): JsonLdObject {
   return {
     "@context": "https://schema.org",
     "@type": "Restaurant",
+    "@id": `${SITE_URL}/#restaurant`,
     name: BUSINESS.name,
     url: absoluteUrl("/"),
     email: BUSINESS.email,
     image: absoluteUrl(HERO_DEFAULT_IMAGE_URL),
-    logo: absoluteUrl(SITE_LOGO_SRC),
+    logo: absoluteUrl(SITE_LOGO_SCHEMA_SRC),
+    parentOrganization: { "@id": `${SITE_URL}/#organization` },
     servesCuisine: BUSINESS.cuisineHe,
     priceRange: "₪₪",
     acceptsReservations: false,

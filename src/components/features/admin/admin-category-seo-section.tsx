@@ -14,6 +14,8 @@ type AdminCategorySeoSectionProps = {
   categoryId: string;
   seoDocument: SeoContentDocument;
   seoByLocale: Partial<Record<Locale, SeoPageFieldsInput>>;
+  locale?: Locale;
+  onLocaleChange?: (locale: Locale) => void;
   onChange: (locale: Locale, fields: SeoPageFieldsInput) => void;
 };
 
@@ -21,9 +23,20 @@ export function AdminCategorySeoSection({
   categoryId,
   seoDocument,
   seoByLocale,
+  locale: controlledLocale,
+  onLocaleChange,
   onChange
 }: AdminCategorySeoSectionProps) {
-  const [locale, setLocale] = useState<Locale>("he");
+  const [internalLocale, setInternalLocale] = useState<Locale>("he");
+  const locale = controlledLocale ?? internalLocale;
+
+  const setLocale = (next: Locale) => {
+    if (onLocaleChange) {
+      onLocaleChange(next);
+      return;
+    }
+    setInternalLocale(next);
+  };
 
   const draft = seoByLocale[locale] ?? getStoredCategorySeoFields(seoDocument, locale, categoryId);
   const defaults = useMemo(
@@ -65,8 +78,8 @@ export function buildInitialCategorySeoByLocale(
   seoDocument: SeoContentDocument,
   categoryId: string
 ): Partial<Record<Locale, SeoPageFieldsInput>> {
-  return LOCALES.reduce<Partial<Record<Locale, SeoPageFieldsInput>>>((acc, locale) => {
-    acc[locale] = getStoredCategorySeoFields(seoDocument, locale, categoryId);
+  return LOCALES.reduce<Partial<Record<Locale, SeoPageFieldsInput>>>((acc, entry) => {
+    acc[entry] = getStoredCategorySeoFields(seoDocument, entry, categoryId);
     return acc;
   }, {});
 }

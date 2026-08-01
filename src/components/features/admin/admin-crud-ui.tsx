@@ -44,11 +44,13 @@ export function AdminModal({
   title,
   open,
   onClose,
+  stacked = false,
   children
 }: {
   title: string;
   open: boolean;
   onClose: () => void;
+  stacked?: boolean;
   children: ReactNode;
 }) {
   useEffect(() => {
@@ -64,7 +66,7 @@ export function AdminModal({
 
   return (
     <div
-      className="admin-modal-backdrop"
+      className={`admin-modal-backdrop${stacked ? " admin-modal-backdrop--stacked" : ""}`}
       role="presentation"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) onClose();

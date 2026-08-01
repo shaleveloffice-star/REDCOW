@@ -5222,6 +5222,11 @@ a.menu-showcase-button.site-cta-btn {
   background: rgba(0, 0, 0, 0.4);
 }
 
+.admin-modal-backdrop--stacked {
+  z-index: 110;
+  background: rgba(0, 0, 0, 0.55);
+}
+
 .admin-modal {
   width: min(520px, 100%);
   max-height: min(90vh, 900px);
@@ -7087,5 +7092,76 @@ body:not(:has(.admin-layout)) button:focus-visible {
 
 .about-simple-seo-cta {
   margin-top: 20px;
+}
+
+.admin-form-toolbar {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 8px;
+}
+
+.admin-smart-paste-modal {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.admin-smart-paste-textarea {
+  min-height: 280px;
+  resize: vertical;
+  font-family: inherit;
+  line-height: 1.55;
+}
+
+.admin-smart-paste-preview {
+  padding: 12px 14px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-smart-paste-preview-list {
+  margin: 0;
+  padding-inline-start: 18px;
+}
+
+.admin-smart-paste-preview-list li {
+  margin-bottom: 4px;
+}
+
+.admin-smart-paste-details {
+  margin-top: 10px;
+  font-size: 13px;
+}
+
+.admin-smart-paste-warnings {
+  margin-top: 10px;
+  color: #b45309;
+  font-size: 13px;
+}
+
+.admin-smart-paste-warnings p {
+  margin: 0 0 6px;
+}
+
+.admin-smart-paste-overwrite {
+  padding: 12px;
+  border: 1px dashed var(--admin-border);
+  border-radius: 10px;
+}
+
+.admin-toast {
+  position: fixed;
+  inset-inline: 16px;
+  bottom: 24px;
+  z-index: 1200;
+  max-width: 420px;
+  margin-inline: auto;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: #14532d;
+  color: #f0fdf4;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
+  text-align: center;
 }
 

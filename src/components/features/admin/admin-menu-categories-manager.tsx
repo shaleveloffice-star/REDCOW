@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
   AdminFormFooter,
@@ -13,8 +13,13 @@ import {
   AdminCategorySeoSection,
   buildInitialCategorySeoByLocale
 } from "@/components/features/admin/admin-category-seo-section";
+import { AdminCategorySmartPasteModal } from "@/components/features/admin/admin-category-smart-paste-modal";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
+import {
+  getStoredCategorySeoFields,
+  resolveCategorySeoFieldsForSave
+} from "@/lib/seo-content/admin-category-seo";
 import { LOCALES, type Locale } from "@/i18n/config";
 import { deleteMenuCategoryAction, saveMenuCategoryAction } from "@/server/actions/menu.actions";
 import { saveCategorySeoFieldsAction } from "@/server/actions/seo-content.actions";
@@ -45,6 +50,10 @@ export function AdminMenuCategoriesManager({
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<MenuCategory | null>(null);
   const [seoByLocale, setSeoByLocale] = useState<Partial<Record<Locale, SeoPageFieldsInput>>>({});
+  const [seoLocale, setSeoLocale] = useState<Locale>("he");
+  const [smartPasteOpen, setSmartPasteOpen] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const formRef = useRef<HTMLFormElement>(null);
   const isNew = draft ? !categories.some((c) => c.id === draft.id) : false;
 
   useEffect(() => {
@@ -53,11 +62,21 @@ export function AdminMenuCategoriesManager({
       return;
     }
     setSeoByLocale(buildInitialCategorySeoByLocale(seoDocument, draft.id));
-  }, [draft?.id, isNew, seoDocument]);
+    // Re-init only when opening a category, not when seoDocument refreshes in the background.
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- seoDocument read at open time
+  }, [draft?.id, isNew]);
+
+  useEffect(() => {
+    if (!toastMessage) return;
+    const timer = window.setTimeout(() => setToastMessage(null), 4000);
+    return () => window.clearTimeout(timer);
+  }, [toastMessage]);
 
   const close = () => {
     setDraft(null);
     setSeoByLocale({});
+    setSeoLocale("he");
+    setSmartPasteOpen(false);
     setError(null);
   };
 
@@ -65,8 +84,20 @@ export function AdminMenuCategoriesManager({
     setSeoByLocale((current) => ({ ...current, [locale]: fields }));
   };
 
+  const currentSeoFields =
+    draft && !isNew
+      ? (seoByLocale[seoLocale] ??
+        getStoredCategorySeoFields(seoDocument, seoLocale, draft.id))
+      : {};
+
   return (
     <>
+      {toastMessage ? (
+        <div className="admin-toast" role="status">
+          {toastMessage}
+        </div>
+      ) : null}
+
       <AdminToolbar label="הוסף קטגוריה" onAdd={() => setDraft(newCategory(categories))} />
       <table className="table">
         <thead>
@@ -107,6 +138,7 @@ export function AdminMenuCategoriesManager({
       <AdminModal open={Boolean(draft)} title={isNew ? "הוספת קטגוריה" : "עריכת קטגוריה"} onClose={close}>
         {draft ? (
           <form
+            ref={formRef}
             className="admin-form"
             onSubmit={(e) => {
               e.preventDefault();
@@ -114,12 +146,28 @@ export function AdminMenuCategoriesManager({
                 await saveMenuCategoryAction(draft);
                 if (!isNew) {
                   for (const locale of LOCALES) {
-                    await saveCategorySeoFieldsAction(locale, draft.id, seoByLocale[locale] ?? {});
+                    await saveCategorySeoFieldsAction(
+                      locale,
+                      draft.id,
+                      resolveCategorySeoFieldsForSave(seoByLocale, seoDocument, locale, draft.id)
+                    );
                   }
                 }
               }, close);
             }}
           >
+            {!isNew ? (
+              <div className="admin-form-toolbar">
+                <button
+                  type="button"
+                  className="button secondary"
+                  onClick={() => setSmartPasteOpen(true)}
+                >
+                  הדבקה חכמה
+                </button>
+              </div>
+            ) : null}
+
             <label>
               שם
               <input required value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />
@@ -130,7 +178,11 @@ export function AdminMenuCategoriesManager({
             </label>
             <label>
               תיאור
-              <textarea rows={3} value={draft.description ?? ""} onChange={(e) => setDraft({ ...draft, description: e.target.value })} />
+              <textarea
+                rows={3}
+                value={draft.description ?? ""}
+                onChange={(e) => setDraft({ ...draft, description: e.target.value })}
+              />
             </label>
             <label>
               סדר
@@ -155,6 +207,8 @@ export function AdminMenuCategoriesManager({
                 categoryId={draft.id}
                 seoDocument={seoDocument}
                 seoByLocale={seoByLocale}
+                locale={seoLocale}
+                onLocaleChange={setSeoLocale}
                 onChange={updateSeoLocale}
               />
             ) : (
@@ -165,6 +219,23 @@ export function AdminMenuCategoriesManager({
           </form>
         ) : null}
       </AdminModal>
+
+      {draft && !isNew ? (
+        <AdminCategorySmartPasteModal
+          open={smartPasteOpen}
+          draft={draft}
+          seoFields={currentSeoFields}
+          seoLocale={seoLocale}
+          onLocaleChange={setSeoLocale}
+          onClose={() => setSmartPasteOpen(false)}
+          onApply={(nextDraft, nextSeo) => {
+            setDraft(nextDraft);
+            updateSeoLocale(seoLocale, nextSeo);
+            setToastMessage("השדות מולאו בהצלחה. ניתן לעבור עליהם ולשמור.");
+            formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+          }}
+        />
+      ) : null}
     </>
   );
 }

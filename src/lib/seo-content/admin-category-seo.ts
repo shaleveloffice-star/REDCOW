@@ -24,27 +24,40 @@ export function getDefaultCategorySeoFields(locale: Locale, categoryId: string):
   return { introduction: intro };
 }
 
+export function resolveCategorySeoFieldsForSave(
+  seoByLocale: Partial<Record<Locale, SeoPageFieldsInput>>,
+  seoDocument: SeoContentDocument,
+  locale: Locale,
+  categoryId: string
+): SeoPageFieldsInput {
+  return seoByLocale[locale] ?? getStoredCategorySeoFields(seoDocument, locale, categoryId);
+}
+
 export function buildCategorySeoMenuPatch(
   currentMenu: SeoPageFieldsInput | undefined,
   categoryId: string,
   fields: SeoPageFieldsInput
 ): SeoPageFieldsInput {
-  const categoryFields: SeoPageFieldsInput = {
-    introduction: fields.introduction,
-    bottomContent: fields.bottomContent,
-    faq: fields.faq,
-    cta: fields.cta
+  const currentCategory = currentMenu?.categoryPages?.[categoryId] ?? {};
+  const mergedCategory: SeoPageFieldsInput = {
+    ...currentCategory,
+    ...(fields.introduction !== undefined ? { introduction: fields.introduction } : {}),
+    ...(fields.bottomContent !== undefined ? { bottomContent: fields.bottomContent } : {}),
+    ...(fields.faq !== undefined ? { faq: fields.faq } : {}),
+    ...(fields.cta !== undefined ? { cta: fields.cta } : {})
   };
+
+  const categoryIntros = { ...(currentMenu?.categoryIntros ?? {}) };
+  if (fields.introduction !== undefined) {
+    categoryIntros[categoryId] = fields.introduction;
+  }
 
   return sanitizeSeoPageFields({
     ...(currentMenu ?? {}),
-    categoryIntros: {
-      ...(currentMenu?.categoryIntros ?? {}),
-      [categoryId]: fields.introduction ?? ""
-    },
+    categoryIntros,
     categoryPages: {
       ...(currentMenu?.categoryPages ?? {}),
-      [categoryId]: categoryFields
+      [categoryId]: mergedCategory
     }
   });
 }

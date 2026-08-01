@@ -1,6 +1,7 @@
 import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 
+import { withJsonFileLock } from "@/lib/admin/json-file-lock";
 import { isReadOnlyServerless } from "@/lib/seo-content/local-seo-mirror";
 import type { SeoContentDocument } from "@/types/seo-content";
 
@@ -20,38 +21,42 @@ async function writePayload(input: SeoContentDocument): Promise<void> {
 
 export const localSeoContentStore = {
   async get(): Promise<SeoContentDocument> {
-    try {
-      const raw = await readFile(FILE_PATH, "utf8");
-      const parsed = JSON.parse(raw) as SeoContentDocument;
-      return parsed ?? {};
-    } catch {
-      return {};
-    }
+    return withJsonFileLock("seo-content.json", async () => {
+      try {
+        const raw = await readFile(FILE_PATH, "utf8");
+        const parsed = JSON.parse(raw) as SeoContentDocument;
+        return parsed ?? {};
+      } catch {
+        return {};
+      }
+    });
   },
 
-  /** Required persistence (local-only mode or Firestore fallback). */
   async save(input: SeoContentDocument): Promise<SeoContentDocument> {
-    try {
-      await writePayload(input);
-    } catch (error) {
-      const detail = error instanceof Error ? error.message : "write failed";
-      console.error("[seo-content] local save failed:", detail);
-      throw new Error(
-        "שמירת תוכן SEO לדיסק נכשלה. אם הפרויקט ב-OneDrive — סמנו Available offline או העתיקו מחוץ ל-OneDrive."
-      );
-    }
-    return { ...input };
+    return withJsonFileLock("seo-content.json", async () => {
+      try {
+        await writePayload(input);
+      } catch (error) {
+        const detail = error instanceof Error ? error.message : "write failed";
+        console.error("[seo-content] local save failed:", detail);
+        throw new Error(
+          "שמירת תוכן SEO לדיסק נכשלה. אם הפרויקט ב-OneDrive — סמנו Available offline או העתיקו מחוץ ל-OneDrive."
+        );
+      }
+      return { ...input };
+    });
   },
 
-  /** Best-effort dev mirror after Firestore — never throws. */
   async saveOptional(input: SeoContentDocument): Promise<void> {
     if (isReadOnlyServerless()) return;
 
-    try {
-      await writePayload(input);
-    } catch (error) {
-      const detail = error instanceof Error ? error.message : "write failed";
-      console.warn("[seo-content] local mirror skipped:", detail);
-    }
+    await withJsonFileLock("seo-content.json", async () => {
+      try {
+        await writePayload(input);
+      } catch (error) {
+        const detail = error instanceof Error ? error.message : "write failed";
+        console.warn("[seo-content] local mirror skipped:", detail);
+      }
+    });
   }
 };

@@ -35,7 +35,10 @@ export type LabelMatch =
   | { type: "unknown"; rawLabel: string };
 
 export function normalizePasteLine(line: string): string {
-  return line.replace(/\uFEFF/g, "").trim();
+  return line
+    .replace(/\uFEFF/g, "")
+    .replace(/\s*\([^)]*\)\s*$/u, "")
+    .trim();
 }
 
 export function matchSectionMarker(line: string): SmartPasteSection | null {

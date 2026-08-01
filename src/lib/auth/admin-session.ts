@@ -5,6 +5,7 @@ import {
   getAdminSessionSecret,
   getSessionMaxAgeSeconds
 } from "@/lib/auth/auth-config";
+import { getAdminSessionAuthVersion } from "@/lib/auth/session-version";
 import type { AdminRole, AdminSession } from "@/types/admin";
 
 type AdminSessionPayload = {
@@ -12,6 +13,7 @@ type AdminSessionPayload = {
   role: AdminRole;
   isMock: boolean;
   jti: string;
+  authVersion: string;
 };
 
 function getSecretKey() {
@@ -25,7 +27,8 @@ function getSecretKey() {
 
 export async function signAdminSessionToken(session: AdminSession): Promise<string | null> {
   const secretKey = getSecretKey();
-  if (!secretKey) {
+  const authVersion = getAdminSessionAuthVersion();
+  if (!secretKey || !authVersion) {
     return null;
   }
 
@@ -35,7 +38,8 @@ export async function signAdminSessionToken(session: AdminSession): Promise<stri
     email: session.email,
     role: session.role,
     isMock: session.isMock,
-    jti
+    jti,
+    authVersion
   } satisfies AdminSessionPayload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
@@ -58,8 +62,15 @@ export async function verifyAdminSessionToken(token: string): Promise<AdminSessi
     const email = typeof payload.email === "string" ? payload.email : "";
     const role = payload.role;
     const isMock = payload.isMock === true;
+    const authVersion = typeof payload.authVersion === "string" ? payload.authVersion : "";
+    const expectedVersion = getAdminSessionAuthVersion();
 
-    if (!email || (role !== "owner" && role !== "manager" && role !== "editor")) {
+    if (
+      !email ||
+      (role !== "owner" && role !== "manager" && role !== "editor") ||
+      !expectedVersion ||
+      authVersion !== expectedVersion
+    ) {
       return null;
     }
 

@@ -174,12 +174,11 @@ export function SiteNavbar({
     .filter(Boolean)
     .join(" ");
 
-  const languageSwitcher =
-    !overlay ? (
-      <div className="site-navbar-language">
-        <LanguageSwitcher />
-      </div>
-    ) : null;
+  const languageSwitcher = (
+    <div className="site-navbar-language">
+      <LanguageSwitcher />
+    </div>
+  );
 
   return (
     <>

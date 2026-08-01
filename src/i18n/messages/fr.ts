@@ -33,7 +33,8 @@ export const fr: Messages = {
     menuCta: "Voir la carte",
     orderCta: "Commander",
     scroll: "Défiler",
-    scrollAria: "Défiler vers le bas"
+    scrollAria: "Défiler vers le bas",
+    srTitle: `Burgers casher à ${BUSINESS.address.addressLocality}`
   },
   orderModal: {
     title: "Choisissez votre commande",
@@ -60,6 +61,7 @@ export const fr: Messages = {
     findLocal: "Trouver un restaurant",
     ourLocations: "Nos restaurants",
     mapTitle: "Carte des restaurants NB BURGER",
+    mapSummary: "Carte NB BURGER — Raanana, Ahuzah 96",
     navigate: "Itinéraire",
     deliveryZonesTitle: "Zones de livraison",
     deliveryZones: ["Hod Hasharon", "Kfar Saba", "Ra'anana"],
@@ -189,7 +191,36 @@ export const fr: Messages = {
       sat: BUSINESS.displayHours.saturday
     },
     navigate: "Itinéraire",
-    imageAlt: "Façade du restaurant"
+    imageAlt: "Façade du restaurant",
+    businessType: "Restaurant de burgers",
+    kosher: "Casher — sous supervision rabbinique locale"
+  },
+  notFound: {
+    title: "Page introuvable",
+    description: "L'adresse a peut-être changé ou le lien est invalide.",
+    backHome: "Retour à l'accueil"
+  },
+  contactForm: {
+    title: "Envoyez-nous un message",
+    lead: "Nous serons ravis de vous répondre — laissez vos coordonnées.",
+    fullName: "Nom complet",
+    phone: "Téléphone",
+    email: "E-mail (optionnel)",
+    message: "Message",
+    submit: "Envoyer",
+    submitting: "Envoi...",
+    successTitle: "Message envoyé",
+    successMessage: "Nous avons bien reçu votre message et reviendrons vers vous.",
+    errors: {
+      fullName: "Veuillez saisir votre nom complet.",
+      phone: "Veuillez saisir votre numéro de téléphone.",
+      email: "Veuillez saisir une adresse e-mail valide si renseignée.",
+      message: "Veuillez saisir un message.",
+      generic: "Une erreur est survenue. Veuillez réessayer."
+    }
+  },
+  legal: {
+    hebrewOnlyNotice: "Le texte juridique complet ci-dessous est en hébreu."
   },
   footer: {
     taglineLine1: "Viande hachée sur place,",

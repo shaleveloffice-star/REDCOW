@@ -7,7 +7,7 @@ const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7;
 const MIN_PASSWORD_LENGTH = 6;
 const MIN_SESSION_SECRET_LENGTH = 32;
 
-export type AdminAuthFailureCode = "invalid_credentials" | "config_error";
+export type AdminAuthFailureCode = "invalid_credentials" | "config_error" | "rate_limited";
 
 export type EnvVarCheck = {
   name: string;
@@ -20,8 +20,17 @@ export type EnvVarCheck = {
  * Prefers ADMIN_PASSWORD; falls back to ADMIN_DEV_PASSWORD for migration.
  */
 export function getAdminPassword(): string | null {
-  const password =
-    process.env.ADMIN_PASSWORD?.trim() || process.env.ADMIN_DEV_PASSWORD?.trim();
+  const productionPassword = process.env.ADMIN_PASSWORD?.trim();
+  const devPassword = process.env.ADMIN_DEV_PASSWORD?.trim();
+
+  if (process.env.NODE_ENV === "production") {
+    if (!productionPassword || productionPassword.length < MIN_PASSWORD_LENGTH) {
+      return null;
+    }
+    return productionPassword;
+  }
+
+  const password = productionPassword || devPassword;
   if (!password || password.length < MIN_PASSWORD_LENGTH) {
     return null;
   }
@@ -41,8 +50,7 @@ export function getSessionMaxAgeSeconds() {
 }
 
 export function getAdminAuthEnvDiagnostics(): EnvVarCheck[] {
-  const password =
-    process.env.ADMIN_PASSWORD?.trim() || process.env.ADMIN_DEV_PASSWORD?.trim() || "";
+  const password = getAdminPassword() || "";
   const secret = process.env.ADMIN_SESSION_SECRET?.trim() || "";
 
   return [

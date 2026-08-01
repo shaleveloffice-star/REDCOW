@@ -1,4 +1,5 @@
 import type { SeoContentDocument, SeoLocaleBundle, SeoPageFieldsInput } from "@/types/seo-content";
+import { sanitizePublicHref } from "@/lib/security/safe-url";
 
 function toIsoTimestamp(value: unknown): string {
   if (typeof value === "string" && value.trim()) {
@@ -41,7 +42,17 @@ export function sanitizeSeoStorageValue<T>(value: T): T {
 }
 
 export function sanitizeSeoPageFields(fields: SeoPageFieldsInput | undefined): SeoPageFieldsInput {
-  return sanitizeSeoStorageValue(fields ?? {});
+  const sanitized = sanitizeSeoStorageValue(fields ?? {});
+
+  if (sanitized.cta?.buttonHref !== undefined) {
+    const href = String(sanitized.cta.buttonHref ?? "").trim();
+    sanitized.cta = {
+      ...sanitized.cta,
+      buttonHref: href ? sanitizePublicHref(href) : ""
+    };
+  }
+
+  return sanitized;
 }
 
 export function sanitizeSeoLocaleBundle(bundle: SeoLocaleBundle): SeoLocaleBundle {

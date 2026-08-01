@@ -16,8 +16,9 @@ import {
   getCachedSiteImagesMap
 } from "@/lib/cache/cached-data";
 import { getServerLocale } from "@/i18n/get-locale";
-import { buildPageMetadata } from "@/lib/seo";
+import { getHomePageMetadata } from "@/lib/page-metadata";
 import { buildRestaurantJsonLd } from "@/lib/seo/json-ld";
+import type { SiteImagesMap } from "@/types/site-images";
 
 const LocationSection = dynamic(
   () =>
@@ -31,19 +32,17 @@ const LocationSection = dynamic(
   }
 );
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "NB BURGER | המבורגר רעננה",
-  description:
-    "מסעדת המבורגרים NB BURGER ברעננה — המבורגרים על הפלנצ׳ה, אווירה וטעם מדויק ברחוב אחוזה 96.",
-  path: "/"
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  return getHomePageMetadata(locale);
+}
 
 export default async function HomePage() {
   const locale = await getServerLocale();
   const [siteImages, homepageMenuItems, homeSeo] = await Promise.all([
     getCachedSiteImagesMap().catch((err) => {
       console.error("[HomePage] site images failed", err instanceof Error ? err.message : err);
-      throw err;
+      return {} as SiteImagesMap;
     }),
     getCachedHomepageMenu().catch(async (err) => {
       console.error("[HomePage] menu showcase failed", err instanceof Error ? err.message : err);

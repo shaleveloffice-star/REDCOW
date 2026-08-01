@@ -46,8 +46,8 @@ export async function getSeoContentDocument(): Promise<SeoContentDocument> {
 
     return sanitizeSeoContentDocument(document);
   } catch (error) {
-    console.error("[seo-content] Firestore read failed, falling back to local", error);
-    return sanitizeSeoContentDocument(await localSeoContentStore.get());
+    console.error("[seo-content] Firestore read failed", error);
+    throw error;
   }
 }
 

@@ -1,4 +1,5 @@
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
+import { isSafePublicHref } from "@/lib/security/safe-url";
 
 type SeoContentBodyProps = {
   text: string;
@@ -13,8 +14,8 @@ export function SeoContentBody({ text, className, paragraphClassName }: SeoConte
 
   return (
     <div className={className}>
-      {paragraphs.map((paragraph) => (
-        <p key={paragraph.slice(0, 48)} className={paragraphClassName}>
+      {paragraphs.map((paragraph, index) => (
+        <p key={`${index}-${paragraph.slice(0, 32)}`} className={paragraphClassName}>
           {paragraph}
         </p>
       ))}
@@ -28,6 +29,7 @@ type SeoCtaBlockProps = {
   buttonLabel?: string;
   buttonHref?: string;
   className?: string;
+  titleLevel?: "h2" | "h3";
 };
 
 export function SeoCtaBlockView({
@@ -35,19 +37,24 @@ export function SeoCtaBlockView({
   body,
   buttonLabel,
   buttonHref,
-  className
+  className,
+  titleLevel = "h2"
 }: SeoCtaBlockProps) {
   const hasContent = [title, body, buttonLabel].some((value) => value?.trim());
   if (!hasContent) return null;
 
-  const href = buttonHref?.trim() || "#";
+  const href = buttonHref?.trim();
+  const safeHref = href && isSafePublicHref(href) ? href : undefined;
+  const TitleTag = titleLevel;
 
   return (
     <aside className={className}>
-      {title?.trim() ? <h2 className="seo-content-cta-title">{title}</h2> : null}
+      {title?.trim() ? (
+        <TitleTag className="seo-content-cta-title">{title}</TitleTag>
+      ) : null}
       {body?.trim() ? <SeoContentBody text={body} paragraphClassName="seo-content-cta-body" /> : null}
-      {buttonLabel?.trim() ? (
-        <a className="seo-content-cta-button button" href={href}>
+      {buttonLabel?.trim() && safeHref ? (
+        <a className="seo-content-cta-button button" href={safeHref}>
           {buttonLabel}
         </a>
       ) : null}

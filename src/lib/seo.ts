@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { BUSINESS } from "@/data/business";
+import type { Locale } from "@/i18n/config";
 
 const rawSiteUrl = process.env.NEXT_PUBLIC_APP_URL ?? BUSINESS.website;
 
@@ -8,12 +9,19 @@ export const SITE_URL = rawSiteUrl.replace(/\/+$/, "");
 export const SITE_NAME = BUSINESS.name;
 export const DEFAULT_OG_IMAGE = "/images/hero/nb-burger-hero-desktop.webp";
 
+const OG_LOCALE: Record<Locale, string> = {
+  he: "he_IL",
+  en: "en_US",
+  fr: "fr_FR"
+};
+
 type PageMetadataInput = {
   title: string;
   description: string;
   path: string;
   image?: string;
   imageAlt?: string;
+  locale?: Locale;
 };
 
 export function buildPageMetadata({
@@ -21,7 +29,8 @@ export function buildPageMetadata({
   description,
   path,
   image,
-  imageAlt
+  imageAlt,
+  locale = "he"
 }: PageMetadataInput): Metadata {
   const ogImage = image?.trim() || DEFAULT_OG_IMAGE;
   const ogAlt = imageAlt?.trim() || SITE_NAME;
@@ -35,7 +44,7 @@ export function buildPageMetadata({
     openGraph: {
       type: "website",
       siteName: SITE_NAME,
-      locale: "he_IL",
+      locale: OG_LOCALE[locale],
       url: path,
       title,
       description,

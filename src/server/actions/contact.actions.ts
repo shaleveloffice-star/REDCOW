@@ -1,6 +1,8 @@
 "use server";
 
 import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
+import { RATE_LIMITS } from "@/lib/constants";
+import { consumeRateLimitAsync, getRequestClientIp } from "@/lib/security/rate-limit";
 import { revalidatePath } from "next/cache";
 import {
   createContactMessage,
@@ -12,9 +14,51 @@ import type { ContactMessage, RecordStatus } from "@/types/content";
 
 const paths = ["/admin/contact-messages"];
 
+export type ContactMessageErrorCode = "fullName" | "phone" | "email" | "message" | "generic";
+
+export type ContactMessageResult = { ok: true } | { ok: false; code: ContactMessageErrorCode };
+
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
 export async function getContactMessagesAdminData() {
   await requireAdmin();
   return listContactMessages();
+}
+
+export async function submitContactMessageAction(
+  formData: FormData
+): Promise<ContactMessageResult> {
+  const ip = await getRequestClientIp();
+  if (
+    !(await consumeRateLimitAsync(
+      `contact:${ip}`,
+      RATE_LIMITS.contact.maxAttempts,
+      RATE_LIMITS.contact.windowMs
+    ))
+  ) {
+    return { ok: false, code: "generic" };
+  }
+
+  const fullName = String(formData.get("fullName") ?? "").trim().slice(0, 120);
+  const phone = String(formData.get("phone") ?? "").trim().slice(0, 40);
+  const email = String(formData.get("email") ?? "").trim().slice(0, 254);
+  const message = String(formData.get("message") ?? "").trim().slice(0, 5000);
+
+  if (!fullName) return { ok: false, code: "fullName" };
+  if (!phone) return { ok: false, code: "phone" };
+  if (email && !emailPattern.test(email)) return { ok: false, code: "email" };
+  if (!message) return { ok: false, code: "message" };
+
+  try {
+    await createContactMessage({ fullName, phone, email, message });
+    return { ok: true };
+  } catch (error) {
+    console.error(
+      "[Contact] submitContactMessageAction failed",
+      error instanceof Error ? error.message : error
+    );
+    return { ok: false, code: "generic" };
+  }
 }
 
 export async function createContactMessageAction(formData: FormData) {

@@ -9,9 +9,20 @@ import {
 import { normalizeMenuCategory, normalizeMenuItem } from "@/lib/menu/normalize-menu";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
+const MENU_ITEM_DELETABLE_FIELDS = [
+  "longDescription",
+  "imageAlt",
+  "primaryKeyword",
+  "metaTitle",
+  "metaDescription",
+  "galleryUrls",
+  "detailNotes"
+] as const;
+
 const menuItemsStore = createFirestoreCollectionStore("menuItems", localMenuItemsStore, {
   access: "public",
-  seed: mockMenuItems
+  seed: mockMenuItems,
+  deletableFields: MENU_ITEM_DELETABLE_FIELDS
 });
 const menuCategoriesStore = createFirestoreCollectionStore(
   "menuCategories",

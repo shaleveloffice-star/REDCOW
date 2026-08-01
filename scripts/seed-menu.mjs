@@ -60,7 +60,15 @@ function hasFirebaseAdminEnv() {
 }
 
 
-async function writeLocalJson() {
+async function writeLocalJson(force) {
+  if (!force && existsSync(CATEGORIES_FILE) && existsSync(ITEMS_FILE)) {
+    console.error(
+      "[seed-menu] Local menu files already exist. Re-run with --force to overwrite data/local/menu-*.json"
+    );
+    process.exitCode = 1;
+    return null;
+  }
+
   await mkdir(LOCAL_DIR, { recursive: true });
 
   await writeFile(CATEGORIES_FILE, `${JSON.stringify(MENU_CATEGORIES, null, 2)}\n`, "utf8");
@@ -122,12 +130,14 @@ async function main() {
   console.info(`[seed-menu] categories=${MENU_CATEGORIES.length} items=${MENU_ITEMS.length}`);
 
   if (localOnly || !useFirestore) {
-    const result = await writeLocalJson();
-    console.info(
-      `[seed-menu] OK — local JSON: ${result.categories} categories, ${result.items} items`
-    );
-    console.info(`[seed-menu] → ${CATEGORIES_FILE}`);
-    console.info(`[seed-menu] → ${ITEMS_FILE}`);
+    const result = await writeLocalJson(force);
+    if (result) {
+      console.info(
+        `[seed-menu] OK — local JSON: ${result.categories} categories, ${result.items} items`
+      );
+      console.info(`[seed-menu] → ${CATEGORIES_FILE}`);
+      console.info(`[seed-menu] → ${ITEMS_FILE}`);
+    }
   }
 
   if (useFirestore) {

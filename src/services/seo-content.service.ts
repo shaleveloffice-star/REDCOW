@@ -123,3 +123,28 @@ export async function saveAllCategorySeoFieldsForAdmin(
 
   return { updatedAt: lastUpdated };
 }
+
+export async function removeCategorySeoForAdmin(categoryId: string): Promise<void> {
+  const id = categoryId.trim();
+  if (!id) return;
+
+  for (const locale of LOCALES) {
+    const current = await getSeoLocaleBundleForAdmin(locale);
+    const menu = current.pages?.menu;
+    if (!menu?.categoryIntros?.[id] && !menu?.categoryPages?.[id]) {
+      continue;
+    }
+
+    const categoryIntros = { ...(menu.categoryIntros ?? {}) };
+    delete categoryIntros[id];
+    const categoryPages = { ...(menu.categoryPages ?? {}) };
+    delete categoryPages[id];
+
+    await persistSeoPageFieldsForAdmin(locale, "menu", {
+      categoryIntros,
+      categoryPages
+    });
+  }
+
+  revalidateSeoContentCache();
+}

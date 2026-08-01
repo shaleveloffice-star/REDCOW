@@ -39,6 +39,6 @@ export async function POST(request: Request) {
   } catch (err) {
     const detail = err instanceof Error ? err.message : "unknown";
     console.error("[POST /api/admin/menu-item]", detail);
-    return jsonError(`שמירת המנה נכשלה: ${detail}`, 500);
+    return jsonError("שמירת המנה נכשלה. נסו שוב.", 500);
   }
 }

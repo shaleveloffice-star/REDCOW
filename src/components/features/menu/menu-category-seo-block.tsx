@@ -42,6 +42,7 @@ export function MenuCategorySeoBlock({ content, categoryId }: MenuCategorySeoBlo
         <SeoCtaBlockView
           {...content.cta}
           className="menu-bleecker-category-cta seo-content-cta"
+          titleLevel="h3"
         />
       ) : null}
     </div>

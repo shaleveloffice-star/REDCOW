@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
-import { BUSINESS } from "@/data/business";
 import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 
 const HERO_BURGER_IMAGE_MOBILE = "/images/hero/nb-burger-hero-current.webp";
@@ -16,7 +15,7 @@ export function HeroSection() {
 
   return (
     <section id="hero" className="hero hero--cinematic hero--premier hero--solid" aria-label="NB BURGER">
-      <h1 className="sr-only">{`המבורגר כשר ב${BUSINESS.address.addressLocality}`}</h1>
+      <h1 className="sr-only">{t.hero.srTitle}</h1>
 
       <div className="hero-burger" aria-hidden="true">
         <Image

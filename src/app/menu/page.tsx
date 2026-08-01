@@ -9,16 +9,14 @@ import {
   getCachedResolvedSeoPageContent
 } from "@/lib/cache/cached-data";
 import { getServerLocale } from "@/i18n/get-locale";
-import { buildPageMetadata } from "@/lib/seo";
+import { getMenuPageMetadata } from "@/lib/page-metadata";
 import { buildMenuJsonLd } from "@/lib/seo/json-ld";
 import type { OrderLink } from "@/types/content";
 
-export const metadata: Metadata = buildPageMetadata({
-  title: "תפריט המבורגרים ברעננה | NB BURGER",
-  description:
-    "גלו את תפריט ההמבורגרים של NB BURGER ברעננה — המבורגרים על הפלנצ׳ה, תוספות ומנות ממסעדה כשרה ברחוב אחוזה 96.",
-  path: "/menu"
-});
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+  return getMenuPageMetadata(locale);
+}
 
 function resolveOrderUrls(orderLinks: OrderLink[]) {
   const pickup =
@@ -42,7 +40,7 @@ export default async function MenuPage() {
 
   return (
     <>
-      <JsonLd data={buildMenuJsonLd(groups)} />
+      <JsonLd data={buildMenuJsonLd(groups, locale)} />
       <main id="main-content" className="menu-page">
         <div className="menu-page-inner">
           <MenuPageView

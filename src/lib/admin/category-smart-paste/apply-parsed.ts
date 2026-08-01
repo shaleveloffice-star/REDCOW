@@ -92,7 +92,7 @@ function mergeFaqItems(
 
   return {
     ...(existing ?? {}),
-    items: baseItems.filter((entry) => entry.question.trim() || entry.answer.trim())
+    items: baseItems
   };
 }
 

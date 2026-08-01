@@ -36,6 +36,7 @@ export type Messages = {
     orderCta: string;
     scroll: string;
     scrollAria: string;
+    srTitle: string;
   };
   orderModal: {
     title: string;
@@ -62,10 +63,38 @@ export type Messages = {
     findLocal: string;
     ourLocations: string;
     mapTitle: string;
+    mapSummary: string;
     navigate: string;
     deliveryZonesTitle: string;
     deliveryZones: string[];
     backHome: string;
+  };
+  notFound: {
+    title: string;
+    description: string;
+    backHome: string;
+  };
+  contactForm: {
+    title: string;
+    lead: string;
+    fullName: string;
+    phone: string;
+    email: string;
+    message: string;
+    submit: string;
+    submitting: string;
+    successTitle: string;
+    successMessage: string;
+    errors: {
+      fullName: string;
+      phone: string;
+      email: string;
+      message: string;
+      generic: string;
+    };
+  };
+  legal: {
+    hebrewOnlyNotice: string;
   };
   menuShowcase: {
     title: string;
@@ -169,6 +198,8 @@ export type Messages = {
     };
     navigate: string;
     imageAlt: string;
+    businessType: string;
+    kosher: string;
   };
   footer: {
     taglineLine1: string;

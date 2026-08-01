@@ -7,7 +7,7 @@ import { pickCategorySeoFields } from "@/lib/seo-content/admin-category-seo";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
 import type { Locale } from "@/i18n/config";
 import { revalidatePath, updateTag } from "next/cache";
-import { saveAllCategorySeoFieldsForAdmin } from "@/services/seo-content.service";
+import { saveAllCategorySeoFieldsForAdmin, removeCategorySeoForAdmin } from "@/services/seo-content.service";
 import {
   getHomepageMenuShowcaseSelection,
   listMenuCategories,
@@ -107,14 +107,6 @@ export async function saveMenuCategoryWithSeoAction(
   if (!name) throw new Error("שם הקטגוריה נדרש");
   if (!slug) throw new Error("Slug נדרש");
 
-  const saved = await upsertMenuCategory({
-    ...input,
-    name,
-    slug,
-    description: input.description?.trim() ?? "",
-    isActive: Boolean(input.isActive)
-  });
-
   const sanitizedSeo = Object.fromEntries(
     Object.entries(seoByLocale)
       .filter((entry): entry is [Locale, SeoPageFieldsInput] => Boolean(entry[1]))
@@ -122,11 +114,19 @@ export async function saveMenuCategoryWithSeoAction(
   ) as Partial<Record<Locale, SeoPageFieldsInput>>;
 
   try {
-    await saveAllCategorySeoFieldsForAdmin(saved.id, sanitizedSeo);
+    await saveAllCategorySeoFieldsForAdmin(input.id.trim(), sanitizedSeo);
   } catch (error) {
     const detail = error instanceof Error ? error.message : "שמירת תוכן SEO נכשלה";
     throw new Error(/[\u0590-\u05FF]/.test(detail) ? detail : "שמירת תוכן SEO לקטגוריה נכשלה.");
   }
+
+  const saved = await upsertMenuCategory({
+    ...input,
+    name,
+    slug,
+    description: input.description?.trim() ?? "",
+    isActive: Boolean(input.isActive)
+  });
 
   menuPaths.forEach((path) => revalidatePath(path));
   revalidateMenuCache();
@@ -141,6 +141,7 @@ export async function deleteMenuCategoryAction(id: string) {
   }
   const ok = await removeMenuCategory(id);
   if (!ok) throw new Error("הקטגוריה לא נמצאה");
+  await removeCategorySeoForAdmin(id);
   menuPaths.forEach((path) => revalidatePath(path));
   revalidateMenuCache();
 }

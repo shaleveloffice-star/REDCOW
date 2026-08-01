@@ -42,8 +42,8 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
               <h3>{t.location.locationHeading}</h3>
             </div>
             <p className="location-block-text">{t.location.address}</p>
-            <p className="location-block-text">{BUSINESS.businessTypeHe}</p>
-            <p className="location-block-text">{BUSINESS.kosherHe}</p>
+            <p className="location-block-text">{t.location.businessType}</p>
+            <p className="location-block-text">{t.location.kosher}</p>
             <p className="location-block-text">{t.location.parking}</p>
           </div>
 

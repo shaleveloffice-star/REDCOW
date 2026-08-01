@@ -43,3 +43,35 @@ export function assertSafeHttpUrl(value: string, fieldLabel: string): string {
 
   return trimmed;
 }
+
+/** Safe href for public `<a>` tags — http(s) or same-origin relative paths only. */
+export function isSafePublicHref(value: string | undefined | null): boolean {
+  const trimmed = String(value ?? "").trim();
+  if (!trimmed || trimmed === "#") {
+    return false;
+  }
+
+  if (trimmed.startsWith("/") && !trimmed.startsWith("//")) {
+    return !trimmed.includes("\\") && !trimmed.includes("\0");
+  }
+
+  try {
+    const parsed = new URL(trimmed);
+    return parsed.protocol === "https:" || parsed.protocol === "http:";
+  } catch {
+    return false;
+  }
+}
+
+export function sanitizePublicHref(value: string | undefined | null): string | undefined {
+  const trimmed = String(value ?? "").trim();
+  if (!trimmed) {
+    return undefined;
+  }
+
+  if (!isSafePublicHref(trimmed)) {
+    throw new Error("קישור לא תקין — מותר רק http/https או נתיב יחסי באתר");
+  }
+
+  return trimmed;
+}

@@ -1,6 +1,12 @@
 import Link from "next/link";
 
-export default function NotFoundPage() {
+import { getServerLocale } from "@/i18n/get-locale";
+import { getMessages } from "@/i18n/messages";
+
+export default async function NotFoundPage() {
+  const locale = await getServerLocale();
+  const t = getMessages(locale);
+
   return (
     <main
       id="main-content"
@@ -13,10 +19,10 @@ export default function NotFoundPage() {
         textAlign: "center"
       }}
     >
-      <h1 style={{ fontSize: "1.5rem", margin: 0 }}>העמוד לא נמצא</h1>
-      <p style={{ margin: 0, opacity: 0.8 }}>ייתכן שהכתובת השתנתה או שהקישור אינו תקין.</p>
+      <h1 style={{ fontSize: "1.5rem", margin: 0 }}>{t.notFound.title}</h1>
+      <p style={{ margin: 0, opacity: 0.8 }}>{t.notFound.description}</p>
       <Link className="button" href="/">
-        חזרה לדף הבית
+        {t.notFound.backHome}
       </Link>
     </main>
   );

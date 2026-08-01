@@ -1,5 +1,7 @@
 import { headers } from "next/headers";
 
+import { consumePersistentRateLimit } from "@/lib/security/persistent-rate-limit";
+
 type Bucket = {
   count: number;
   resetAt: number;
@@ -7,7 +9,7 @@ type Bucket = {
 
 const buckets = new Map<string, Bucket>();
 
-/** Returns true when the request is allowed; false when the limit was exceeded. */
+/** In-memory fallback when persistent store is unavailable. */
 export function consumeRateLimit(key: string, limit: number, windowMs: number): boolean {
   const now = Date.now();
   const existing = buckets.get(key);
@@ -23,6 +25,15 @@ export function consumeRateLimit(key: string, limit: number, windowMs: number): 
 
   existing.count += 1;
   return true;
+}
+
+/** Preferred entry point — persists buckets to disk (/tmp on Vercel, data/local locally). */
+export async function consumeRateLimitAsync(
+  key: string,
+  limit: number,
+  windowMs: number
+): Promise<boolean> {
+  return consumePersistentRateLimit(key, limit, windowMs);
 }
 
 export async function getRequestClientIp(): Promise<string> {

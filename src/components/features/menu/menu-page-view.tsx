@@ -24,7 +24,9 @@ import { getMenuItemHref } from "@/lib/menu/product-slug";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
 import { isVideoMediaUrl } from "@/lib/menu-media";
+import { getLocalizedCategoryName } from "@/i18n/category-translations";
 import { getResolvedCategorySeo } from "@/lib/seo-content/resolve-seo-content";
+import { hasSeoFaqContent } from "@/components/shared/seo-faq-section";
 import type { MenuCategory, MenuItem } from "@/types/content";
 import type { ResolvedSeoPageContent } from "@/types/seo-content";
 
@@ -97,6 +99,20 @@ function MenuItemsGrid({
   );
 }
 
+function groupHasVisibleContent(group: MenuGroup, seoContent: ResolvedSeoPageContent): boolean {
+  if (group.items.length > 0) return true;
+
+  const categorySeo = getResolvedCategorySeo(seoContent, group.id);
+  return Boolean(
+    categorySeo.introduction.trim() ||
+      categorySeo.bottomContent.trim() ||
+      hasSeoFaqContent(categorySeo.faq) ||
+      categorySeo.cta.title?.trim() ||
+      categorySeo.cta.body?.trim() ||
+      categorySeo.cta.buttonLabel?.trim()
+  );
+}
+
 export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: MenuPageViewProps) {
   const t = useTranslations();
   const { locale } = useLocale();
@@ -104,12 +120,15 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
   const [orderOpen, setOrderOpen] = useState(false);
 
   const visibleGroups = useMemo(() => {
+    const withContent = groups.filter((group) => groupHasVisibleContent(group, seoContent));
+
     if (activeCategoryId === "all") {
-      return groups.filter((group) => group.items.length > 0);
+      return withContent;
     }
-    const group = groups.find((entry) => entry.id === activeCategoryId);
-    return group && group.items.length > 0 ? [group] : [];
-  }, [activeCategoryId, groups]);
+
+    const group = withContent.find((entry) => entry.id === activeCategoryId);
+    return group ? [group] : [];
+  }, [activeCategoryId, groups, seoContent]);
 
   const deliveryExternal = deliveryUrl.startsWith("http");
   const isEmpty = visibleGroups.length === 0;
@@ -135,11 +154,10 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
 
       <SeoContentBody text={seoContent.introduction} className="menu-bleecker-seo-intro" />
 
-      <div className="menu-bleecker-filters" role="tablist" aria-label={t.menuPage.title}>
+      <div className="menu-bleecker-filters" role="group" aria-label={t.menuPage.title}>
         <button
           type="button"
-          role="tab"
-          aria-selected={activeCategoryId === "all"}
+          aria-pressed={activeCategoryId === "all"}
           className={`menu-bleecker-filter${activeCategoryId === "all" ? " is-active" : ""}`}
           onClick={() => setActiveCategoryId("all")}
         >
@@ -149,12 +167,11 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
           <button
             key={group.id}
             type="button"
-            role="tab"
-            aria-selected={activeCategoryId === group.id}
+            aria-pressed={activeCategoryId === group.id}
             className={`menu-bleecker-filter${activeCategoryId === group.id ? " is-active" : ""}`}
             onClick={() => setActiveCategoryId(group.id)}
           >
-            {group.name}
+            {getLocalizedCategoryName(group, locale)}
           </button>
         ))}
       </div>
@@ -174,7 +191,7 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
               >
                 <header className="menu-bleecker-category-head">
                   <h2 id={`menu-category-${group.id}`} className="menu-bleecker-category-title">
-                    {group.name}
+                    {getLocalizedCategoryName(group, locale)}
                   </h2>
                   {categorySeo.introduction.trim() ? (
                     <SeoContentBody

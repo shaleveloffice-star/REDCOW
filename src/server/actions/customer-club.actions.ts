@@ -2,7 +2,7 @@
 
 import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
 import { RATE_LIMITS } from "@/lib/constants";
-import { consumeRateLimit, getRequestClientIp } from "@/lib/security/rate-limit";
+import { consumeRateLimitAsync, getRequestClientIp } from "@/lib/security/rate-limit";
 import { revalidatePath } from "next/cache";
 import {
   createCustomerClubSignup,
@@ -40,11 +40,11 @@ export async function submitCustomerClubSignupAction(
 ): Promise<CustomerClubSignupResult> {
   const ip = await getRequestClientIp();
   if (
-    !consumeRateLimit(
+    !(await consumeRateLimitAsync(
       `customer-club:${ip}`,
       RATE_LIMITS.customerClub.maxAttempts,
       RATE_LIMITS.customerClub.windowMs
-    )
+    ))
   ) {
     return { ok: false, code: "generic" };
   }

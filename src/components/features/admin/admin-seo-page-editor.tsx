@@ -89,7 +89,10 @@ export function AdminSeoPageEditor({ pageId, initialDocument, fieldFlags }: Admi
               [locale]: {
                 pages: {
                   ...(current[locale]?.pages ?? {}),
-                  [pageId]: payload
+                  [pageId]: {
+                    ...(current[locale]?.pages?.[pageId] ?? {}),
+                    ...payload
+                  }
                 },
                 updatedAt: result.updatedAt
               }

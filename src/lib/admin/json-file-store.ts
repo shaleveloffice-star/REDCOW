@@ -1,10 +1,13 @@
 import { mkdir, readFile, writeFile } from "fs/promises";
 import path from "path";
 
+import { withJsonFileLock } from "@/lib/admin/json-file-lock";
+
 const LOCAL_DATA_DIR = path.join(process.cwd(), "data", "local");
 
 export function createJsonFileStore<T extends { id: string }>(fileName: string, seed: readonly T[]) {
   const filePath = path.join(LOCAL_DATA_DIR, fileName);
+  const lockKey = fileName;
 
   async function ensureDir() {
     await mkdir(LOCAL_DATA_DIR, { recursive: true });
@@ -34,7 +37,6 @@ export function createJsonFileStore<T extends { id: string }>(fileName: string, 
     const payload = `${JSON.stringify(items, null, 2)}\n`;
     await writeFile(filePath, payload, "utf8");
 
-    // Verify — OneDrive / ReadOnly can pretend to succeed or leave stale files.
     const verify = await readFile(filePath, "utf8");
     if (verify !== payload) {
       throw new Error(`אימות כתיבה נכשל עבור ${fileName}`);
@@ -43,46 +45,54 @@ export function createJsonFileStore<T extends { id: string }>(fileName: string, 
 
   return {
     async getAll(): Promise<T[]> {
-      const items = await readAll();
-      return items.map((item) => ({ ...item }));
+      return withJsonFileLock(lockKey, async () => {
+        const items = await readAll();
+        return items.map((item) => ({ ...item }));
+      });
     },
     async getById(id: string): Promise<T | null> {
-      const found = (await readAll()).find((item) => item.id === id);
-      return found ? { ...found } : null;
+      return withJsonFileLock(lockKey, async () => {
+        const found = (await readAll()).find((item) => item.id === id);
+        return found ? { ...found } : null;
+      });
     },
     async save(input: T): Promise<T> {
-      const items = await readAll();
-      const idx = items.findIndex((item) => item.id === input.id);
-      const saved = { ...input };
-      if (idx >= 0) {
-        items[idx] = saved;
-      } else {
-        items.push(saved);
-      }
-      try {
-        await writeAll(items);
-      } catch (err) {
-        const detail = err instanceof Error ? err.message : "write failed";
-        console.error(`[json-file-store] save failed for ${fileName}:`, detail);
-        throw new Error(
-          `שמירה לדיסק נכשלה (${fileName}). אם הפרויקט ב-OneDrive — סמנו את התיקייה Available offline או העתיקו מחוץ ל-OneDrive.`
-        );
-      }
-      return { ...saved };
+      return withJsonFileLock(lockKey, async () => {
+        const items = await readAll();
+        const idx = items.findIndex((item) => item.id === input.id);
+        const saved = { ...input };
+        if (idx >= 0) {
+          items[idx] = saved;
+        } else {
+          items.push(saved);
+        }
+        try {
+          await writeAll(items);
+        } catch (err) {
+          const detail = err instanceof Error ? err.message : "write failed";
+          console.error(`[json-file-store] save failed for ${fileName}:`, detail);
+          throw new Error(
+            `שמירה לדיסק נכשלה (${fileName}). אם הפרויקט ב-OneDrive — סמנו את התיקייה Available offline או העתיקו מחוץ ל-OneDrive.`
+          );
+        }
+        return { ...saved };
+      });
     },
     async remove(id: string): Promise<boolean> {
-      const items = await readAll();
-      const idx = items.findIndex((item) => item.id === id);
-      if (idx < 0) return false;
-      items.splice(idx, 1);
-      try {
-        await writeAll(items);
-      } catch (err) {
-        const detail = err instanceof Error ? err.message : "write failed";
-        console.error(`[json-file-store] remove failed for ${fileName}:`, detail);
-        throw new Error(`מחיקה מהדיסק נכשלה (${fileName}).`);
-      }
-      return true;
+      return withJsonFileLock(lockKey, async () => {
+        const items = await readAll();
+        const idx = items.findIndex((item) => item.id === id);
+        if (idx < 0) return false;
+        items.splice(idx, 1);
+        try {
+          await writeAll(items);
+        } catch (err) {
+          const detail = err instanceof Error ? err.message : "write failed";
+          console.error(`[json-file-store] remove failed for ${fileName}:`, detail);
+          throw new Error(`מחיקה מהדיסק נכשלה (${fileName}).`);
+        }
+        return true;
+      });
     }
   };
 }

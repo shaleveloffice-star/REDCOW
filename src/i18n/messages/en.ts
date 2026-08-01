@@ -33,7 +33,8 @@ export const en: Messages = {
     menuCta: "View Menu",
     orderCta: "Order Now",
     scroll: "Scroll",
-    scrollAria: "Scroll down"
+    scrollAria: "Scroll down",
+    srTitle: `Kosher burgers in ${BUSINESS.address.addressLocality}`
   },
   orderModal: {
     title: "Choose how to order",
@@ -60,6 +61,7 @@ export const en: Messages = {
     findLocal: "FIND MY LOCAL",
     ourLocations: "OUR LOCATIONS",
     mapTitle: "NB BURGER locations map",
+    mapSummary: "NB BURGER branch map — Raanana, Ahuzah 96",
     navigate: "Navigate",
     deliveryZonesTitle: "Delivery areas",
     deliveryZones: ["Hod Hasharon", "Kfar Saba", "Ra'anana"],
@@ -189,7 +191,36 @@ export const en: Messages = {
       sat: BUSINESS.displayHours.saturday
     },
     navigate: "Get Directions",
-    imageAlt: "Restaurant exterior"
+    imageAlt: "Restaurant exterior",
+    businessType: "Burger restaurant",
+    kosher: "Kosher — local rabbinate supervision"
+  },
+  notFound: {
+    title: "Page not found",
+    description: "The address may have changed or the link is invalid.",
+    backHome: "Back to home"
+  },
+  contactForm: {
+    title: "Send us a message",
+    lead: "We'd love to help — leave your details and we'll get back to you.",
+    fullName: "Full name",
+    phone: "Phone",
+    email: "Email (optional)",
+    message: "Message",
+    submit: "Send",
+    submitting: "Sending...",
+    successTitle: "Message sent",
+    successMessage: "We received your message and will reply soon.",
+    errors: {
+      fullName: "Please enter your full name.",
+      phone: "Please enter your phone number.",
+      email: "Please enter a valid email address if provided.",
+      message: "Please enter a message.",
+      generic: "Something went wrong. Please try again."
+    }
+  },
+  legal: {
+    hebrewOnlyNotice: "The full legal text below is provided in Hebrew."
   },
   footer: {
     taglineLine1: "Beef ground in-house,",

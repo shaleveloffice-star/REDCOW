@@ -18,6 +18,7 @@ type MapPoint = {
 
 type LocationsMapProps = {
   points?: MapPoint[];
+  ariaLabel?: string;
 };
 
 function createBurgerPinIcon() {
@@ -40,7 +41,7 @@ function createBurgerPinIcon() {
   });
 }
 
-export function LocationsMap({ points }: LocationsMapProps) {
+export function LocationsMap({ points, ariaLabel }: LocationsMapProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const pointsKey = useMemo(
@@ -114,5 +115,12 @@ export function LocationsMap({ points }: LocationsMapProps) {
     };
   }, [pointsKey]);
 
-  return <div ref={containerRef} className="locations-map" role="presentation" />;
+  return (
+    <div
+      ref={containerRef}
+      className="locations-map"
+      role="img"
+      aria-label={ariaLabel ?? "NB BURGER locations map"}
+    />
+  );
 }

@@ -105,7 +105,7 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
       <SeoContentBody text={seoContent.introduction} className="locations-seo-intro" />
 
       <div className="locations-map-wrap">
-        <LocationsMap points={mapPoints} />
+        <LocationsMap points={mapPoints} ariaLabel={t.locations.mapSummary} />
       </div>
 
       <section className="locations-list" aria-labelledby="locations-heading">

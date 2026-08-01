@@ -73,7 +73,11 @@ function resolveCategorySeoFields(
   categoryIntros: Record<string, string>
 ): ResolvedCategorySeoContent {
   const stored = source.categoryPages?.[categoryId];
-  const introduction = pickText(stored?.introduction, categoryIntros[categoryId]);
+  const storedIntro = stored?.introduction;
+  const introduction =
+    storedIntro !== undefined
+      ? storedIntro.trim()
+      : pickText(undefined, categoryIntros[categoryId]);
   const bottomContent = pickText(stored?.bottomContent, "");
 
   return {

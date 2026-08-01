@@ -1,5 +1,9 @@
 import { BUSINESS } from "@/data/business";
 import { HERO_DEFAULT_IMAGE_URL, SITE_LOGO_SRC } from "@/data/site-images.registry";
+import { getLocalizedCategoryName } from "@/i18n/category-translations";
+import { getLocalizedMenuItem } from "@/i18n/menu-translations";
+import { getMessages } from "@/i18n/messages";
+import type { Locale } from "@/i18n/config";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { SITE_URL } from "@/lib/seo";
 import type { MenuCategory, MenuItem } from "@/types/content";
@@ -70,23 +74,26 @@ export function buildRestaurantJsonLd(): JsonLdObject {
 
 type MenuGroup = MenuCategory & { items: MenuItem[] };
 
-export function buildMenuJsonLd(groups: MenuGroup[]): JsonLdObject {
+export function buildMenuJsonLd(groups: MenuGroup[], locale: Locale = "he"): JsonLdObject {
+  const t = getMessages(locale);
+
   return {
     "@context": "https://schema.org",
     "@type": "Menu",
-    name: `תפריט | ${BUSINESS.name}`,
+    name: `${t.nav.menu} | ${BUSINESS.name}`,
     url: absoluteUrl("/menu"),
     hasMenuSection: groups.map((category) => ({
       "@type": "MenuSection",
-      name: category.name,
+      name: getLocalizedCategoryName(category, locale),
       ...(category.description
         ? { description: category.description }
         : {}),
       hasMenuItem: category.items.map((item) => {
-        const description = String(item.description ?? "").trim();
+        const localized = getLocalizedMenuItem(item, locale);
+        const description = String(localized.description ?? "").trim();
         const menuItem: JsonLdObject = {
           "@type": "MenuItem",
-          name: item.name,
+          name: localized.name,
           offers: {
             "@type": "Offer",
             price: String(item.price),
@@ -108,17 +115,22 @@ export function buildMenuJsonLd(groups: MenuGroup[]): JsonLdObject {
   };
 }
 
-export function buildProductJsonLd(item: MenuItem, options: { slug: string }): JsonLdObject {
+export function buildProductJsonLd(
+  item: MenuItem,
+  options: { slug: string; locale?: Locale }
+): JsonLdObject {
+  const locale = options.locale ?? "he";
+  const localized = getLocalizedMenuItem(item, locale);
   const description =
     item.metaDescription?.trim() ||
-    String(item.description ?? "").trim() ||
+    String(localized.description ?? "").trim() ||
     String(item.longDescription ?? "").trim() ||
-    item.name;
+    localized.name;
 
   const product: JsonLdObject = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: item.name,
+    name: localized.name,
     description,
     brand: {
       "@type": "Brand",
@@ -143,7 +155,14 @@ export function buildProductJsonLd(item: MenuItem, options: { slug: string }): J
   return product;
 }
 
-export function buildProductBreadcrumbJsonLd(item: MenuItem, options: { slug: string }): JsonLdObject {
+export function buildProductBreadcrumbJsonLd(
+  item: MenuItem,
+  options: { slug: string; locale?: Locale }
+): JsonLdObject {
+  const locale = options.locale ?? "he";
+  const t = getMessages(locale);
+  const localized = getLocalizedMenuItem(item, locale);
+
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -151,19 +170,19 @@ export function buildProductBreadcrumbJsonLd(item: MenuItem, options: { slug: st
       {
         "@type": "ListItem",
         position: 1,
-        name: "דף הבית",
+        name: t.nav.home,
         item: absoluteUrl("/")
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "תפריט",
+        name: t.nav.menu,
         item: absoluteUrl("/menu")
       },
       {
         "@type": "ListItem",
         position: 3,
-        name: item.name,
+        name: localized.name,
         item: absoluteUrl(`/menu/${options.slug}`)
       }
     ]

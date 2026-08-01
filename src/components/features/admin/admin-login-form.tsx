@@ -5,7 +5,8 @@ const ERROR_MESSAGES: Record<string, string> = {
   invalid_credentials: "הסיסמה אינה נכונה.",
   config_error: "הגדרות האימות בשרת חסרות או לא תקינות.",
   invalid: "הסיסמה אינה נכונה.",
-  config: "הגדרות האימות בשרת חסרות או לא תקינות."
+  config: "הגדרות האימות בשרת חסרות או לא תקינות.",
+  rate_limited: "יותר מדי ניסיונות כניסה. נסו שוב בעוד כמה דקות."
 };
 
 type AdminLoginFormProps = {

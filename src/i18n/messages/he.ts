@@ -33,7 +33,8 @@ export const he: Messages = {
     menuCta: "לתפריט",
     orderCta: "להזמנה",
     scroll: "גלול",
-    scrollAria: "גלול למטה"
+    scrollAria: "גלול למטה",
+    srTitle: `המבורגר כשר ב${BUSINESS.address.addressLocality}`
   },
   orderModal: {
     title: "בחרו אופן הזמנה",
@@ -60,6 +61,7 @@ export const he: Messages = {
     findLocal: "מצא סניף",
     ourLocations: "הסניפים שלנו",
     mapTitle: "מפת סניפי NB BURGER",
+    mapSummary: "מפת סניפי NB BURGER — רעננה, אחוזה 96",
     navigate: "ניווט",
     deliveryZonesTitle: "מיקומי משלוחים",
     deliveryZones: ["הוד השרון", "כפר סבא", "רעננה"],
@@ -189,7 +191,36 @@ export const he: Messages = {
       sat: BUSINESS.displayHours.saturday
     },
     navigate: "נווטו אלינו",
-    imageAlt: "חזית המסעדה"
+    imageAlt: "חזית המסעדה",
+    businessType: BUSINESS.businessTypeHe,
+    kosher: BUSINESS.kosherHe
+  },
+  notFound: {
+    title: "העמוד לא נמצא",
+    description: "ייתכן שהכתובת השתנתה או שהקישור אינו תקין.",
+    backHome: "חזרה לדף הבית"
+  },
+  contactForm: {
+    title: "שלחו לנו הודעה",
+    lead: "נשמח לעזור — השאירו פרטים ונחזור אליכם.",
+    fullName: "שם מלא",
+    phone: "טלפון",
+    email: "אימייל (אופציונלי)",
+    message: "הודעה",
+    submit: "שליחה",
+    submitting: "שולחים...",
+    successTitle: "ההודעה נשלחה",
+    successMessage: "קיבלנו את הפנייה ונחזור אליכם בהקדם.",
+    errors: {
+      fullName: "נא למלא שם מלא.",
+      phone: "נא למלא מספר טלפון.",
+      email: "נא למלא כתובת אימייל תקינה, אם הוזנה.",
+      message: "נא לכתוב הודעה.",
+      generic: "משהו השתבש. נסו שוב בעוד רגע."
+    }
+  },
+  legal: {
+    hebrewOnlyNotice: ""
   },
   footer: {
     taglineLine1: "בשר שנטחן במקום,",

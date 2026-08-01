@@ -40,8 +40,6 @@ export const localSiteImageOverridesStore = createJsonFileStore<SiteImageOverrid
   []
 );
 
-let localSiteSettings: SiteSettings = { ...mockSiteSettings };
-
 const defaultHomepageMenuShowcase = (): HomepageMenuShowcaseConfig => ({
   itemIds: [],
   updatedAt: new Date(0).toISOString()
@@ -52,12 +50,7 @@ export const localHomepageMenuShowcaseStore = createJsonSingleDocStore<HomepageM
   defaultHomepageMenuShowcase()
 );
 
-export const localSiteSettingsStore = {
-  async get(): Promise<SiteSettings> {
-    return { ...localSiteSettings };
-  },
-  async save(input: SiteSettings): Promise<SiteSettings> {
-    localSiteSettings = { ...input };
-    return localSiteSettings;
-  }
-};
+export const localSiteSettingsStore = createJsonSingleDocStore<SiteSettings>(
+  "site-settings.json",
+  mockSiteSettings
+);

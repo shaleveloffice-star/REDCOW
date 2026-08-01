@@ -5,7 +5,7 @@ import {
   getDocs,
   type Firestore
 } from "firebase/firestore";
-import type { Firestore as AdminFirestore } from "firebase-admin/firestore";
+import { FieldValue, type Firestore as AdminFirestore } from "firebase-admin/firestore";
 
 import {
   formatFirebaseAdminInitError,
@@ -22,6 +22,8 @@ export type FirestoreCollectionStoreOptions<T extends { id: string }> = {
   access?: FirestoreAccess;
   /** Used only when Firebase client env is not configured (local/dev). Never written to Firestore. */
   seed?: readonly T[];
+  /** Optional fields omitted on save are deleted from Firestore (merge cleanup). */
+  deletableFields?: readonly string[];
 };
 
 export type DocumentStore<T extends { id: string }> = {
@@ -55,6 +57,24 @@ function toStoredData<T extends { id: string }>(input: T) {
   return Object.fromEntries(
     Object.entries(data).filter(([, value]) => value !== undefined)
   );
+}
+
+function applyDeletableFieldCleanup(
+  storedData: Record<string, unknown>,
+  existing: Record<string, unknown> | undefined,
+  deletableFields: readonly string[] | undefined
+): Record<string, unknown> {
+  if (!existing || !deletableFields?.length) {
+    return storedData;
+  }
+
+  const payload = { ...storedData };
+  for (const key of deletableFields) {
+    if (!(key in payload) && key in existing) {
+      payload[key] = FieldValue.delete();
+    }
+  }
+  return payload;
 }
 
 function fromSnapshot<T extends { id: string }>(id: string, data: Record<string, unknown>) {
@@ -104,6 +124,7 @@ export function createFirestoreCollectionStore<T extends { id: string }>(
 ): DocumentStore<T> {
   const access: FirestoreAccess = options.access ?? "public";
   const seed = options.seed;
+  const deletableFields = options.deletableFields;
 
   return {
     async getAll() {
@@ -172,8 +193,15 @@ export function createFirestoreCollectionStore<T extends { id: string }>(
       const adminDb = await requireAdminDb(collectionName);
 
       try {
+        const existingSnap = await adminDb.collection(collectionName).doc(input.id).get();
+        const payload = applyDeletableFieldCleanup(
+          storedData,
+          existingSnap.exists ? (existingSnap.data() as Record<string, unknown>) : undefined,
+          deletableFields
+        );
+
         console.info(`[Firestore Admin] set "${collectionName}/${input.id}"`);
-        await adminDb.collection(collectionName).doc(input.id).set(storedData, { merge: true });
+        await adminDb.collection(collectionName).doc(input.id).set(payload, { merge: true });
         console.info(`[Firestore Admin] set OK for "${collectionName}/${input.id}"`);
         return { ...input };
       } catch (error) {
@@ -223,12 +251,10 @@ export function createFirestoreDocumentStore<T extends Record<string, unknown>>(
         const db = requireClientDb(collectionName);
         const snapshot = await getDoc(doc(db, collectionName, documentId));
         if (!snapshot.exists()) {
-          console.error(
-            `[Firestore] Missing document "${collectionName}/${documentId}". Create it via Admin — client seed is disabled.`
+          console.warn(
+            `[Firestore] Missing document "${collectionName}/${documentId}" — using local defaults.`
           );
-          throw new Error(
-            `Firestore document "${collectionName}/${documentId}" is missing. Seed via Admin SDK, not the client.`
-          );
+          return localStore.get();
         }
         return snapshot.data() as T;
       } catch (error) {

@@ -19,7 +19,6 @@ export async function getCustomerClubSignups(): Promise<CustomerClubSignup[]> {
 export async function saveCustomerClubSignup(input: CustomerClubSignup): Promise<CustomerClubSignup> {
   console.info("[CustomerClub] saveCustomerClubSignup called", {
     id: input.id,
-    phone: input.phone,
     collection: "customerClubSignups"
   });
   const saved = await customerClubStore.save(input);

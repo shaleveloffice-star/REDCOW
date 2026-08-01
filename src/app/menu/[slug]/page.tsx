@@ -89,6 +89,7 @@ export async function generateMetadata({ params }: MenuItemPageProps): Promise<M
     title,
     description,
     path: `/menu/${resolvedSlug}`,
+    locale,
     ...(imageUrl
       ? { image: absoluteUrl(imageUrl), imageAlt: localized.imageAlt }
       : {})
@@ -97,6 +98,7 @@ export async function generateMetadata({ params }: MenuItemPageProps): Promise<M
 
 export default async function MenuItemPage({ params }: MenuItemPageProps) {
   const { slug } = await params;
+  const locale = await getServerLocale();
   const [item, orderLinks, categories] = await Promise.all([
     getCachedMenuItemBySlug(slug),
     getCachedActiveOrderLinks(),
@@ -117,8 +119,8 @@ export default async function MenuItemPage({ params }: MenuItemPageProps) {
 
   return (
     <>
-      <JsonLd data={buildProductJsonLd(item, { slug: resolvedSlug })} />
-      <JsonLd data={buildProductBreadcrumbJsonLd(item, { slug: resolvedSlug })} />
+      <JsonLd data={buildProductJsonLd(item, { slug: resolvedSlug, locale })} />
+      <JsonLd data={buildProductBreadcrumbJsonLd(item, { slug: resolvedSlug, locale })} />
       <main id="main-content" className="menu-item-detail-page">
         <MenuItemDetailView
           item={item}

@@ -120,8 +120,8 @@ export function useAdminMutation() {
     startTransition(async () => {
       try {
         await task();
+        await router.refresh();
         onSuccess?.();
-        router.refresh();
       } catch (err) {
         const raw = err instanceof Error ? err.message : "פעולה נכשלה";
         const message =

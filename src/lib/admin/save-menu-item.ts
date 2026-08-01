@@ -170,7 +170,11 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
 
     const now = new Date().toISOString();
     const galleryUrls = Array.isArray(input.galleryUrls)
-      ? input.galleryUrls.map(String).map((url) => url.trim()).filter(Boolean)
+      ? input.galleryUrls
+          .map(String)
+          .map((url) => url.trim())
+          .filter(Boolean)
+          .map((url) => assertSafeHttpUrl(url, "גלריית מנה"))
       : undefined;
     const detailNotes = Array.isArray(input.detailNotes)
       ? input.detailNotes.map(String).map((note) => note.trim()).filter(Boolean)

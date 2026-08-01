@@ -3,6 +3,8 @@
 import { redirect } from "next/navigation";
 
 import { logAdminAuthEnvDiagnostics, type AdminAuthFailureCode } from "@/lib/auth/auth-config";
+import { RATE_LIMITS } from "@/lib/constants";
+import { consumeRateLimitAsync, getRequestClientIp } from "@/lib/security/rate-limit";
 import {
   clearAdminSessionCookie,
   createAdminSessionCookie,
@@ -15,6 +17,17 @@ function redirectLoginError(code: AdminAuthFailureCode): never {
 
 export async function loginAdminAction(formData: FormData) {
   const password = String(formData.get("password") ?? "");
+
+  const ip = await getRequestClientIp();
+  if (
+    !(await consumeRateLimitAsync(
+      `admin-login:${ip}`,
+      RATE_LIMITS.adminLogin.maxAttempts,
+      RATE_LIMITS.adminLogin.windowMs
+    ))
+  ) {
+    redirectLoginError("rate_limited");
+  }
 
   let result;
   try {

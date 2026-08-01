@@ -38,59 +38,61 @@ export function MenuCategoryView({
 
   return (
     <div className="menu-bleecker menu-bleecker--category">
-      <div className="menu-bleecker-toolbar menu-bleecker-toolbar--category">
-        <MenuBreadcrumbs
-          items={[
-            { label: t.nav.home, href: "/" },
-            { label: t.nav.menu, href: "/menu" },
-            { label: categoryName }
-          ]}
-        />
-        <h1 className="menu-bleecker-title menu-bleecker-title--category">{categoryName}</h1>
-      </div>
-
-      <MenuFilters
-        groups={allGroups}
-        activeCategoryId={group.id}
-        filterAllLabel={t.menuPage.filterAll}
-        ariaLabel={t.menuPage.title}
-        locale={locale}
-      />
-
-      {categorySeo.introduction.trim() ? (
-        <SeoContentBody
-          text={categorySeo.introduction}
-          className="menu-bleecker-seo-intro menu-bleecker-category-intro"
-          paragraphClassName="menu-bleecker-category-intro-p"
-        />
-      ) : null}
-
-      {group.items.length === 0 ? (
-        <p className="menu-bleecker-empty">{t.menuPage.empty}</p>
-      ) : (
-        <div className="menu-bleecker-sections">
-          <section className="menu-bleecker-category" aria-labelledby={`menu-category-${group.id}`}>
-            <MenuItemsGrid items={group.items} large={isBurgersCategory(group)} />
-          </section>
+      <div className="menu-bleecker-content-shell">
+        <div className="menu-bleecker-toolbar menu-bleecker-toolbar--category">
+          <MenuBreadcrumbs
+            items={[
+              { label: t.nav.home, href: "/" },
+              { label: t.nav.menu, href: "/menu" },
+              { label: categoryName }
+            ]}
+          />
+          <h1 className="menu-bleecker-title menu-bleecker-title--category">{categoryName}</h1>
         </div>
-      )}
 
-      <MenuCategorySeoBlock content={categorySeo} categoryId={group.id} />
+        <MenuFilters
+          groups={allGroups}
+          activeCategoryId={group.id}
+          filterAllLabel={t.menuPage.filterAll}
+          ariaLabel={t.menuPage.title}
+          locale={locale}
+        />
 
-      {relatedGroups.length > 0 ? (
-        <nav className="menu-bleecker-related" aria-label={t.menuPage.relatedCategories}>
-          <h2 className="menu-bleecker-related-title">{t.menuPage.relatedCategories}</h2>
-          <ul className="menu-bleecker-related-list">
-            {relatedGroups.map((entry) => (
-              <li key={entry.id}>
-                <Link href={getMenuCategoryHref(entry)} className="menu-bleecker-related-link">
-                  {getLocalizedCategoryName(entry, locale)}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </nav>
-      ) : null}
+        {categorySeo.introduction.trim() ? (
+          <SeoContentBody
+            text={categorySeo.introduction}
+            className="menu-bleecker-category-intro-block"
+            paragraphClassName="menu-bleecker-prose menu-bleecker-category-intro-p"
+          />
+        ) : null}
+
+        {group.items.length === 0 ? (
+          <p className="menu-bleecker-empty">{t.menuPage.empty}</p>
+        ) : (
+          <div className="menu-bleecker-sections">
+            <section className="menu-bleecker-category" aria-labelledby={`menu-category-${group.id}`}>
+              <MenuItemsGrid items={group.items} large={isBurgersCategory(group)} />
+            </section>
+          </div>
+        )}
+
+        <MenuCategorySeoBlock content={categorySeo} categoryId={group.id} />
+
+        {relatedGroups.length > 0 ? (
+          <nav className="menu-bleecker-related" aria-label={t.menuPage.relatedCategories}>
+            <h2 className="menu-bleecker-related-title">{t.menuPage.relatedCategories}</h2>
+            <ul className="menu-bleecker-related-list">
+              {relatedGroups.map((entry) => (
+                <li key={entry.id}>
+                  <Link href={getMenuCategoryHref(entry)} className="menu-bleecker-related-link">
+                    {getLocalizedCategoryName(entry, locale)}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        ) : null}
+      </div>
 
       <MenuOrderCtas pickupUrl={pickupUrl} deliveryUrl={deliveryUrl} />
     </div>

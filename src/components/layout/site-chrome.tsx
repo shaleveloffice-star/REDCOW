@@ -1,3 +1,4 @@
+import { SiteChromeOffsetSync } from "@/components/layout/site-chrome-offset-sync";
 import { SiteHeaderClient } from "@/components/layout/site-header-client";
 import type { OrderLink } from "@/types/content";
 
@@ -11,6 +12,7 @@ export function SiteChrome({ orderLinks, children }: SiteChromeProps) {
   return (
     <>
       <SiteHeaderClient orderLinks={orderLinks} />
+      <SiteChromeOffsetSync />
       {children}
     </>
   );

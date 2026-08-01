@@ -49,6 +49,8 @@
   --secondary-border: rgba(255, 225, 186, 0.55);
   --secondary-border-strong: rgba(255, 225, 186, 0.72);
   --site-opening-banner-height: 40px;
+  --site-navbar-height: 120px;
+  --site-chrome-offset: calc(var(--site-opening-banner-height) + var(--site-navbar-height));
   --secondary-border-hover: rgba(255, 225, 186, 0.85);
   --secondary-glow: rgba(255, 225, 186, 0.35);
   --secondary-bg-soft: rgba(255, 225, 186, 0.1);
@@ -235,7 +237,7 @@ body:not(:has(.admin-layout)) .about-btn {
 
 html {
   scroll-behavior: auto;
-  scroll-padding-top: calc(72px + var(--site-opening-banner-height, 0px));
+  scroll-padding-top: calc(var(--site-chrome-offset, 160px) + 12px);
 }
 
 .site-opening-banner {
@@ -819,6 +821,10 @@ select {
   .site-navbar-inner {
     padding: 32px 0;
   }
+
+  :root {
+    --site-navbar-height: 128px;
+  }
 }
 
 .site-nav-overlay {
@@ -1063,6 +1069,11 @@ select {
   justify-content: center;
   width: 100%;
   margin: 0;
+}
+
+/* FR locale stacks language row under navbar — increase chrome offset */
+html[lang="fr"] {
+  --site-navbar-height: 168px;
 }
 
 .site-cta--mobile {

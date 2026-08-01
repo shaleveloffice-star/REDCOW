@@ -26,7 +26,7 @@ export function MenuCategorySeoBlock({ content, categoryId }: MenuCategorySeoBlo
         <SeoContentBody
           text={content.bottomContent}
           className="menu-bleecker-category-bottom"
-          paragraphClassName="menu-bleecker-category-bottom-p"
+          paragraphClassName="menu-bleecker-prose menu-bleecker-category-bottom-p"
         />
       ) : null}
 

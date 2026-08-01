@@ -7,6 +7,7 @@ import {
 } from "@/data/site-images.registry";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getMessages } from "@/i18n/messages";
+import { resolveImageAlt } from "@/lib/image-alt";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -18,7 +19,8 @@ type PlanchaSectionProps = {
 };
 
 export async function PlanchaSection({ siteImages }: PlanchaSectionProps) {
-  const t = getMessages(await getServerLocale());
+  const locale = await getServerLocale();
+  const t = getMessages(locale);
 
   const steps = stepIds.map((id, index) => ({
     id,
@@ -56,7 +58,7 @@ export async function PlanchaSection({ siteImages }: PlanchaSectionProps) {
                   <div className="plancha-panel-media">
                     <Image
                       src={src}
-                      alt={item.title}
+                      alt={resolveImageAlt({ kind: "plancha", locale, name: item.title })}
                       width={900}
                       height={1200}
                       sizes="(max-width: 767px) 100vw, 50vw"

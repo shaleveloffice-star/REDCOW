@@ -7,6 +7,8 @@ import type { MenuCategory, MenuItem } from "@/types/content";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
+import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
+
 const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
 
 type AdminHomepageMenuShowcaseProps = {
@@ -170,7 +172,14 @@ export function AdminHomepageMenuShowcase({
                 </button>
                 <span className="admin-homepage-showcase-order">{index + 1}</span>
                 <div className="admin-homepage-showcase-thumb">
-                  <Image src={imageSrc} alt="" width={56} height={56} unoptimized />
+                  <Image
+                    src={imageSrc}
+                    alt={DECORATIVE_IMAGE_ALT}
+                    aria-hidden
+                    width={56}
+                    height={56}
+                    unoptimized
+                  />
                 </div>
                 <div className="admin-homepage-showcase-copy">
                   <strong>{item.name}</strong>

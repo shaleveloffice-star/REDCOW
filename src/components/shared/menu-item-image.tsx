@@ -1,11 +1,14 @@
 "use client";
 
 import Image from "next/image";
+import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 
 type MenuItemImageProps = {
   src: string;
   alt: string;
+  /** When true, image is hidden from AT (redundant with adjacent link text). */
+  decorative?: boolean;
   width?: number;
   height?: number;
   sizes?: string;
@@ -29,6 +32,7 @@ const FALLBACK_IMAGE = "/images/menu/nb-menu-burger.png";
 export function MenuItemImage({
   src,
   alt,
+  decorative = false,
   width = 480,
   height = 480,
   sizes,
@@ -36,6 +40,7 @@ export function MenuItemImage({
   loading = "lazy"
 }: MenuItemImageProps) {
   const media = src.trim() || FALLBACK_IMAGE;
+  const resolvedAlt = decorative ? DECORATIVE_IMAGE_ALT : alt;
 
   if (isVideoMediaUrl(media)) {
     return null;
@@ -47,7 +52,8 @@ export function MenuItemImage({
       // eslint-disable-next-line @next/next/no-img-element
       <img
         src={media}
-        alt={alt}
+        alt={resolvedAlt}
+        aria-hidden={decorative ? true : undefined}
         width={width}
         height={height}
         loading={loading}
@@ -60,7 +66,8 @@ export function MenuItemImage({
   return (
     <Image
       src={media}
-      alt={alt}
+      alt={resolvedAlt}
+      aria-hidden={decorative ? true : undefined}
       width={width}
       height={height}
       sizes={sizes}

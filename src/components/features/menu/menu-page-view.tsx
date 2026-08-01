@@ -19,9 +19,11 @@ import {
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { getMenuItemHref } from "@/lib/menu/product-slug";
+import { resolveImageAlt } from "@/lib/image-alt";
 import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import type { MenuCategory, MenuItem } from "@/types/content";
+import type { Messages } from "@/i18n/messages/types";
 
 const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
 
@@ -42,6 +44,16 @@ function formatPrice(price: number, locale: string) {
 
 function isBurgersGroup(group: MenuGroup) {
   return group.slug === "burgers" || group.id === "cat-burgers";
+}
+
+function getCategoryIntro(
+  categoryId: string,
+  intros: Messages["menuPage"]["categoryIntros"]
+): string | undefined {
+  if (categoryId in intros) {
+    return intros[categoryId as keyof Messages["menuPage"]["categoryIntros"]];
+  }
+  return undefined;
 }
 
 function MenuItemsGrid({
@@ -66,9 +78,10 @@ function MenuItemsGrid({
               <article className="menu-bleecker-card">
                 <div className="menu-bleecker-card-media">
                   {isVideoMediaUrl(media) ? (
-                    <MenuAutoplayMedia src={media} name={localized.name} />
+                    <MenuAutoplayMedia decorative src={media} name={localized.name} />
                   ) : (
                     <MenuItemImage
+                      decorative
                       src={media}
                       alt={localized.imageAlt}
                       width={480}
@@ -79,7 +92,7 @@ function MenuItemsGrid({
                     />
                   )}
                 </div>
-                <h2 className="menu-bleecker-card-name">{localized.name}</h2>
+                <h3 className="menu-bleecker-card-name">{localized.name}</h3>
                 <p className="menu-bleecker-card-price">{formatPrice(item.price, locale)}</p>
               </article>
             </Link>
@@ -114,12 +127,22 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl }: MenuPageViewPro
           className="menu-bleecker-hero-video"
           src={HERO_DEFAULT_VIDEO_URL}
           poster={HERO_DEFAULT_POSTER_URL}
-          aria-label={t.menuPage.heroAlt}
+          aria-label={resolveImageAlt({
+            kind: "menu-page-hero",
+            locale,
+            customAlt: t.menuPage.heroAlt
+          })}
         />
       </div>
 
       <div className="menu-bleecker-toolbar">
         <h1 className="menu-bleecker-title">{t.menuPage.title}</h1>
+      </div>
+
+      <div className="menu-bleecker-seo-intro">
+        {t.menuPage.seoIntro.map((paragraph) => (
+          <p key={paragraph.slice(0, 48)}>{paragraph}</p>
+        ))}
       </div>
 
       <div className="menu-bleecker-filters" role="tablist" aria-label={t.menuPage.title}>
@@ -150,14 +173,31 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl }: MenuPageViewPro
         <p className="menu-bleecker-empty">{t.menuPage.empty}</p>
       ) : (
         <div className="menu-bleecker-sections">
-          {visibleGroups.map((group) => (
-            <MenuItemsGrid
-              key={group.id}
-              items={group.items}
-              large={isBurgersGroup(group)}
-              locale={locale}
-            />
-          ))}
+          {visibleGroups.map((group) => {
+            const categoryIntro = getCategoryIntro(group.id, t.menuPage.categoryIntros);
+
+            return (
+              <section
+                key={group.id}
+                className="menu-bleecker-category"
+                aria-labelledby={`menu-category-${group.id}`}
+              >
+                <header className="menu-bleecker-category-head">
+                  <h2 id={`menu-category-${group.id}`} className="menu-bleecker-category-title">
+                    {group.name}
+                  </h2>
+                  {categoryIntro ? (
+                    <p className="menu-bleecker-category-intro">{categoryIntro}</p>
+                  ) : null}
+                </header>
+                <MenuItemsGrid
+                  items={group.items}
+                  large={isBurgersGroup(group)}
+                  locale={locale}
+                />
+              </section>
+            );
+          })}
         </div>
       )}
 

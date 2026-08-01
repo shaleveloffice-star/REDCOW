@@ -10,6 +10,7 @@ type AutoplayVideoProps = {
   poster?: string;
   preload?: "auto" | "metadata" | "none";
   "aria-label"?: string;
+  "aria-hidden"?: boolean;
 };
 
 export function AutoplayVideo({
@@ -17,7 +18,8 @@ export function AutoplayVideo({
   className,
   poster,
   preload = "none",
-  "aria-label": ariaLabel
+  "aria-label": ariaLabel,
+  "aria-hidden": ariaHidden
 }: AutoplayVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -85,7 +87,8 @@ export function AutoplayVideo({
       controls={false}
       preload={preload}
       poster={poster}
-      aria-label={ariaLabel}
+      aria-label={ariaHidden ? undefined : ariaLabel}
+      aria-hidden={ariaHidden ? true : undefined}
       data-autoplay-video=""
       disablePictureInPicture
       controlsList="nodownload noplaybackrate noremoteplayback"

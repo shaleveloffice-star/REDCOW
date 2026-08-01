@@ -93,11 +93,12 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
                               className="menu-showcase-card-video"
                               src={media}
                               poster={PLACEHOLDER_IMAGE}
-                              aria-label={localized.name}
+                              aria-hidden
                             />
                           </div>
                         ) : (
                           <MenuItemImage
+                            decorative
                             src={media}
                             alt={localized.imageAlt}
                             width={640}

@@ -16,8 +16,9 @@ import {
   ATMOSPHERE_WIDE_IMAGE
 } from "@/data/site-images.registry";
 import { pickSiteImage } from "@/lib/site-image-url";
+import { resolveImageAlt } from "@/lib/image-alt";
 import { isVideoMediaUrl } from "@/lib/menu-media";
-import { useTranslations } from "@/components/providers/locale-provider";
+import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import type { SiteImagesMap } from "@/types/site-images";
 
 type AtmosphereSectionProps = {
@@ -82,6 +83,7 @@ export function AtmosphereSection({
   sectionId = "atmosphere"
 }: AtmosphereSectionProps) {
   const t = useTranslations();
+  const { locale } = useLocale();
   const reduceMotion = useReducedMotion();
   const titleId = `${sectionId}-title`;
   const isIntroSection = sectionId === "atmosphere";
@@ -161,7 +163,14 @@ export function AtmosphereSection({
               <AtmosphereBurgerStack reduceMotion={reduceMotion}>
                 <div className="atmosphere-gallery-grid">
                   <div className="atmosphere-gallery-item atmosphere-gallery-item--wide atmosphere-gallery-item--bun-top">
-                    <img src={atmosphereTopImage} alt="לחמנייה עליונה" />
+                    <img
+                      src={atmosphereTopImage}
+                      alt={resolveImageAlt({
+                        kind: "atmosphere-bun-top",
+                        locale,
+                        customAlt: t.atmosphere.burgerStackAlt
+                      })}
+                    />
                   </div>
                   <div
                     className={`atmosphere-gallery-item atmosphere-gallery-item--bottom-panel atmosphere-gallery-item--bottom-video${atmosphereFoodIsVideo ? " atmosphere-gallery-item--video" : ""}`}
@@ -171,14 +180,32 @@ export function AtmosphereSection({
                         className="atmosphere-gallery-video"
                         src={atmosphereFoodMedia}
                         poster={atmosphereTopImage}
-                        aria-label={t.atmosphere.droneAlt}
+                        aria-label={resolveImageAlt({
+                          kind: "atmosphere-drone",
+                          locale,
+                          customAlt: t.atmosphere.droneAlt
+                        })}
                       />
                     ) : (
-                      <img src={atmosphereFoodMedia} alt={t.atmosphere.droneAlt} />
+                      <img
+                        src={atmosphereFoodMedia}
+                        alt={resolveImageAlt({
+                          kind: "atmosphere-drone",
+                          locale,
+                          customAlt: t.atmosphere.droneAlt
+                        })}
+                      />
                     )}
                   </div>
                   <div className="atmosphere-gallery-item atmosphere-gallery-item--wide atmosphere-gallery-item--bun-bottom">
-                    <img src={atmosphereTopImage} alt={t.atmosphere.bottomAlt} />
+                    <img
+                      src={atmosphereTopImage}
+                      alt={resolveImageAlt({
+                        kind: "atmosphere-bun-bottom",
+                        locale,
+                        customAlt: t.atmosphere.bottomAlt
+                      })}
+                    />
                   </div>
                 </div>
               </AtmosphereBurgerStack>

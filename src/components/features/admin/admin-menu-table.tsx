@@ -14,6 +14,7 @@ import {
   compressMenuPrimaryImage
 } from "@/lib/client/compress-image";
 import { getMenuItemHref, resolveMenuItemSlug, slugifyProductName } from "@/lib/menu/product-slug";
+import { resolveMenuItemCloseUpAlt, resolveMenuItemImageAlt } from "@/lib/image-alt";
 import { deleteMenuItemAction } from "@/server/actions/menu.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
 import { useEffect, useMemo, useState, type ChangeEvent } from "react";
@@ -238,8 +239,7 @@ export function AdminMenuTable({
           return { ...prev, closeUpImageUrl: uploadedUrl };
         }
 
-        const nextAlt = prev.imageAlt?.trim() ? prev.imageAlt : prev.name.trim() || prev.imageAlt;
-        return { ...prev, imageUrl: uploadedUrl, imageAlt: nextAlt ?? "" };
+        return { ...prev, imageUrl: uploadedUrl };
       });
     } catch (err) {
       console.error("[AdminMenuTable] image upload failed:", err);
@@ -298,9 +298,6 @@ export function AdminMenuTable({
         next.slug =
           slugifyProductName(name) ||
           resolveMenuItemSlug({ id: prev.id, name, slug: undefined });
-      }
-      if (!prev.imageAlt?.trim()) {
-        next.imageAlt = name;
       }
       return next;
     });
@@ -370,7 +367,7 @@ export function AdminMenuTable({
                 <td className="admin-menu-sort">{item.sortOrder}</td>
                 <td>
                   <img
-                    alt={item.imageAlt || item.name}
+                    alt={resolveMenuItemImageAlt(item, "he")}
                     className="admin-menu-thumb"
                     height={56}
                     src={menuImageSrc(item.imageUrl, item.updatedAt)}
@@ -507,7 +504,7 @@ export function AdminMenuTable({
               <div className="admin-image-preview">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  alt={draft.imageAlt || draft.name || ""}
+                  alt={resolveMenuItemImageAlt(draft, "he")}
                   height={120}
                   src={menuImageSrc(draft.imageUrl, draft.updatedAt)}
                   width={120}
@@ -530,7 +527,7 @@ export function AdminMenuTable({
               <div className="admin-image-preview">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
                 <img
-                  alt={`${draft.imageAlt || draft.name || "מנה"} — מקרוב`}
+                  alt={resolveMenuItemCloseUpAlt(draft, "he")}
                   height={120}
                   src={menuImageSrc(draft.closeUpImageUrl, draft.updatedAt)}
                   width={120}
@@ -548,10 +545,10 @@ export function AdminMenuTable({
             )}
 
             <label>
-              טקסט ALT לתמונה
+              טקסט ALT לתמונה (אופציונלי)
               <input
-                required={Boolean(draft.imageUrl)}
                 maxLength={160}
+                placeholder="נוצר אוטומטית אם ריק"
                 value={draft.imageAlt ?? ""}
                 onChange={(e) => setDraft({ ...draft, imageAlt: e.target.value })}
               />

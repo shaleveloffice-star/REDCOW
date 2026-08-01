@@ -13,10 +13,10 @@ import { useEffect, useId, useRef, useState, useTransition } from "react";
 
 import { BirthDatePicker } from "@/components/features/home/birth-date-picker";
 import { useTranslations } from "@/components/providers/locale-provider";
-import {
-  submitCustomerClubSignupAction,
+import { submitCustomerClubSignupAction,
   type CustomerClubSignupErrorCode
 } from "@/server/actions/customer-club.actions";
+import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 
 import "./customer-club.css";
 
@@ -98,7 +98,8 @@ export function CustomerClubSection() {
             <Image
               className="customer-club-simple-burger-image"
               src={CLUB_HERO_IMAGE}
-              alt=""
+              alt={DECORATIVE_IMAGE_ALT}
+              aria-hidden
               width={1024}
               height={1024}
               sizes="(max-width: 700px) 150px, 230px"

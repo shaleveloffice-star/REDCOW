@@ -3,6 +3,7 @@ import Image from "next/image";
 import { HOME_STORY_IMAGE } from "@/data/site-images.registry";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getMessages } from "@/i18n/messages";
+import { resolveImageAlt } from "@/lib/image-alt";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -11,10 +12,16 @@ type HomeBrandStorySectionProps = {
 };
 
 export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectionProps) {
-  const t = getMessages(await getServerLocale());
+  const locale = await getServerLocale();
+  const t = getMessages(locale);
   const story = t.homeStory;
   const imageSrc = pickSiteImage(siteImages, "home-story", HOME_STORY_IMAGE);
   const imageUrl = imageSrc.startsWith("/") ? imageSrc : HOME_STORY_IMAGE;
+  const imageAlt = resolveImageAlt({
+    kind: "brand-story",
+    locale,
+    customAlt: story.imageAlt
+  });
 
   return (
     <section id="story" className="home-story-section" aria-labelledby="home-story-title">
@@ -28,7 +35,7 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
         <div className="home-story-media">
           <Image
             src={imageUrl}
-            alt={story.imageAlt}
+            alt={imageAlt}
             fill
             sizes="(max-width: 900px) 100vw, 45vw"
             className="home-story-image"

@@ -4,6 +4,7 @@ import Image from "next/image";
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { BUSINESS } from "@/data/business";
+import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 
 const HERO_BURGER_IMAGE_MOBILE = "/images/hero/nb-burger-hero-current.webp";
 const HERO_BURGER_IMAGE_DESKTOP = "/images/hero/nb-burger-hero-desktop.webp";
@@ -20,7 +21,8 @@ export function HeroSection() {
       <div className="hero-burger" aria-hidden="true">
         <Image
           src={HERO_BURGER_IMAGE_MOBILE}
-          alt=""
+          alt={DECORATIVE_IMAGE_ALT}
+          aria-hidden
           width={1024}
           height={682}
           priority
@@ -30,7 +32,8 @@ export function HeroSection() {
         />
         <Image
           src={HERO_BURGER_IMAGE_DESKTOP}
-          alt=""
+          alt={DECORATIVE_IMAGE_ALT}
+          aria-hidden
           width={1024}
           height={682}
           priority

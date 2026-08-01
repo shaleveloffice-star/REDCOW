@@ -8,6 +8,7 @@ import { useMemo } from "react";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { PLANCHA_BURGERS_IMAGE } from "@/data/site-images.registry";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
+import { resolveImageAlt, DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 import type { Branch } from "@/types/content";
 
 const LocationsMap = dynamic(
@@ -113,7 +114,11 @@ export function LocationsPageView({ branches, exteriorImage }: LocationsPageView
                 <div className="locations-card-media">
                   <Image
                     src={card.image}
-                    alt={card.name}
+                    alt={resolveImageAlt({
+                      kind: "branch",
+                      locale,
+                      branchName: card.name
+                    })}
                     fill
                     sizes="(max-width: 768px) 100vw, 33vw"
                     className="locations-card-image"
@@ -143,7 +148,8 @@ export function LocationsPageView({ branches, exteriorImage }: LocationsPageView
                 <article className="locations-delivery-tile">
                   <Image
                     src={PLANCHA_BURGERS_IMAGE}
-                    alt=""
+                    alt={DECORATIVE_IMAGE_ALT}
+                    aria-hidden="true"
                     fill
                     sizes="(max-width: 900px) 100vw, 33vw"
                     className="locations-delivery-tile-image"

@@ -11,6 +11,7 @@ import {
   IconShoppingBagFilled
 } from "@/components/shared/site-icons";
 import { SITE_WORDMARK_SRC, SITE_WORDMARK_WEBP_SRC } from "@/data/brand-assets";
+import { resolveImageAlt } from "@/lib/image-alt";
 import { BUSINESS } from "@/data/business";
 import { useTranslations, useLocale } from "@/components/providers/locale-provider";
 import { focusElement, getFocusableElements, trapFocus } from "@/lib/a11y/focus-trap";
@@ -79,6 +80,7 @@ export function SiteNavbar({
 }: SiteNavbarProps) {
   const t = useTranslations();
   const { locale } = useLocale();
+  const logoAlt = resolveImageAlt({ kind: "logo", locale });
   const stackLanguageSwitcher = locale === "fr";
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -189,7 +191,7 @@ export function SiteNavbar({
               <img
                 className="site-navbar-logo"
                 src={SITE_WORDMARK_SRC}
-                alt="NB BURGER"
+                alt={logoAlt}
                 width={160}
                 height={72}
                 decoding="async"

@@ -5,6 +5,7 @@ import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getMessages } from "@/i18n/messages";
+import { resolveImageAlt } from "@/lib/image-alt";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -13,9 +14,15 @@ type LocationSectionProps = {
 };
 
 export async function LocationSection({ siteImages }: LocationSectionProps) {
-  const t = getMessages(await getServerLocale());
+  const locale = await getServerLocale();
+  const t = getMessages(locale);
   const pickedExterior = pickSiteImage(siteImages, "location-exterior", LOCATION_EXTERIOR_IMAGE);
   const exteriorImage = pickedExterior.startsWith("/") ? pickedExterior : LOCATION_EXTERIOR_IMAGE;
+  const imageAlt = resolveImageAlt({
+    kind: "location",
+    locale,
+    customAlt: t.location.imageAlt
+  });
   const mapsUrl = getBusinessMapsSearchUrl();
 
   return (
@@ -80,7 +87,7 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
         <div className="location-media">
           <Image
             src={exteriorImage}
-            alt={t.location.imageAlt}
+            alt={imageAlt}
             fill
             sizes="(max-width: 767px) 100vw, 50vw"
             loading="eager"

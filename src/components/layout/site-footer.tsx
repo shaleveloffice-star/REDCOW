@@ -3,6 +3,7 @@ import { SITE_LOGO_SRC } from "@/data/brand-assets";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getMessages } from "@/i18n/messages";
+import { resolveImageAlt } from "@/lib/image-alt";
 
 function InstagramIcon() {
   return (
@@ -37,7 +38,9 @@ function TikTokIcon() {
 }
 
 export async function SiteFooter() {
-  const t = getMessages(await getServerLocale());
+  const locale = await getServerLocale();
+  const t = getMessages(locale);
+  const logoAlt = resolveImageAlt({ kind: "logo", locale });
   const phone = BUSINESS.phone;
   const mapsUrl = getBusinessMapsSearchUrl();
 
@@ -60,7 +63,7 @@ export async function SiteFooter() {
             <img
               className="site-footer-logo"
               src={SITE_LOGO_SRC}
-              alt="NB BURGER"
+              alt={logoAlt}
               width={160}
               height={160}
               loading="lazy"

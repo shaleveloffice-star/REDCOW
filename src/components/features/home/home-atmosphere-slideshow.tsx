@@ -2,6 +2,8 @@
 
 import { useEffect, useState } from "react";
 
+import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
+
 const SLIDE_INTERVAL_MS = 3000;
 const CROSS_FADE_MS = 1200;
 
@@ -136,7 +138,8 @@ export function HomeAtmosphereSlideshow({ slides }: HomeAtmosphereSlideshowProps
       <img
         className="home-atmosphere-slide home-atmosphere-slide--base"
         src={slides[baseIndex]}
-        alt=""
+        alt={DECORATIVE_IMAGE_ALT}
+        aria-hidden
         draggable={false}
       />
       <img
@@ -144,7 +147,8 @@ export function HomeAtmosphereSlideshow({ slides }: HomeAtmosphereSlideshowProps
           overlayVisible ? " is-visible" : ""
         }${overlayResetting ? " is-resetting" : ""}`}
         src={slides[overlayIndex]}
-        alt=""
+        alt={DECORATIVE_IMAGE_ALT}
+        aria-hidden
         draggable={false}
       />
     </div>

@@ -9,6 +9,7 @@ import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { IconBurgerMark } from "@/components/shared/site-icons";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedMenuItem, getMenuItemCloseUpImageUrl } from "@/i18n/menu-translations";
+import { resolveMenuItemCloseUpAlt, DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
 import type { MenuItem } from "@/types/content";
@@ -40,7 +41,7 @@ export function MenuItemDetailView({
   const localized = getLocalizedMenuItem(item, locale);
   const primaryMedia = resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
   const closeUpMedia = getMenuItemCloseUpImageUrl(item);
-  const closeUpAlt = `${localized.imageAlt} — ${t.menuItemDetail.closeUpAlt}`;
+  const closeUpAlt = resolveMenuItemCloseUpAlt(item, locale, localized.name);
   const primaryIsVideo = isVideoMediaUrl(primaryMedia);
   const closeUpIsVideo = closeUpMedia ? isVideoMediaUrl(closeUpMedia) : false;
   const [orderOpen, setOrderOpen] = useState(false);
@@ -119,7 +120,7 @@ export function MenuItemDetailView({
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
               src={PRODUCT_LONG_ICON}
-              alt=""
+              alt={DECORATIVE_IMAGE_ALT}
               aria-hidden="true"
               className="menu-item-detail-card-icon menu-item-detail-card-icon-gif"
               width={34}

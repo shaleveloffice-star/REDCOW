@@ -1,4 +1,5 @@
 import type { MenuItem } from "@/types/content";
+import { resolveMenuItemImageAlt } from "@/lib/image-alt";
 
 import type { Locale } from "./config";
 
@@ -79,7 +80,6 @@ export function getLocalizedMenuItem(item: MenuItem, locale: Locale): LocalizedM
   const hebrewLong = String(item.longDescription ?? "").trim();
   const name = String(item.name ?? "").trim() || "NB BURGER";
   const description = String(item.description ?? "").trim();
-  const fallbackAlt = String(item.imageAlt ?? "").trim() || name;
 
   if (locale === "he") {
     return {
@@ -87,20 +87,21 @@ export function getLocalizedMenuItem(item: MenuItem, locale: Locale): LocalizedM
       description,
       longDescription: hebrewLong,
       detailNotes: hebrewNotes.map(String),
-      imageAlt: fallbackAlt
+      imageAlt: resolveMenuItemImageAlt(item, locale, name)
     };
   }
 
   const translation = MENU_ITEM_TRANSLATIONS[item.id]?.[locale];
+  const localizedName = translation?.name ?? name;
 
   return {
-    name: translation?.name ?? name,
+    name: localizedName,
     description: translation?.description ?? description,
     longDescription: translation?.longDescription?.trim() || hebrewLong,
     detailNotes:
       translation?.detailNotes?.filter((note) => note.trim().length > 0) ??
       hebrewNotes.map(String),
-    imageAlt: fallbackAlt
+    imageAlt: resolveMenuItemImageAlt(item, locale, localizedName)
   };
 }
 

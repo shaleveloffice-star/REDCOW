@@ -49,6 +49,16 @@ export type Messages = {
     empty: string;
     viewLocations: string;
     heroAlt: string;
+    seoIntro: string[];
+    categoryIntros: {
+      "cat-burgers": string;
+      "cat-meals": string;
+      "cat-sides": string;
+      "cat-salads": string;
+      "cat-sauces": string;
+      "cat-soft-drinks": string;
+      "cat-beers": string;
+    };
   };
   menuItemDetail: {
     orderNow: string;

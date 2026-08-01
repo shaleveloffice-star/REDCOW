@@ -156,12 +156,7 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
       }
     }
 
-    const imageAlt =
-      optionalTrim(input.imageAlt) ||
-      (imageUrl ? name : undefined);
-    if (imageUrl && !imageAlt) {
-      return { ok: false, error: "יש למלא טקסט ALT לתמונת המנה" };
-    }
+    const imageAlt = optionalTrim(input.imageAlt);
 
     const allItems = await listMenuItems({ activeOnly: false });
     const desiredSlug =

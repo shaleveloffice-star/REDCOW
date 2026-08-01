@@ -1,5 +1,7 @@
 import type { MenuItem } from "@/types/content";
 
+import { getMenuItemLegacySlugs } from "@/lib/menu/legacy-slugs";
+
 const ASCII_SLUG_PATTERN = /^[\x00-\x7F]+$/;
 
 /** Build a URL-safe ASCII slug from a product name. */
@@ -87,6 +89,10 @@ export function getMenuItemSlugAliases(
   add(legacySlugifyProductName(item.name));
   add(item.id);
   add(slugFromItemId(item.id));
+
+  for (const legacy of getMenuItemLegacySlugs(item.id)) {
+    add(legacy);
+  }
 
   return [...aliases];
 }

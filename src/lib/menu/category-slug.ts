@@ -1,5 +1,7 @@
 import type { MenuCategory } from "@/types/content";
 
+import { getCategoryLegacySlugs } from "@/lib/menu/legacy-slugs";
+
 export function resolveCategorySlug(category: Pick<MenuCategory, "id" | "slug">): string {
   const explicit = category.slug?.trim().toLowerCase();
   if (explicit) {
@@ -26,6 +28,10 @@ export function getCategorySlugAliases(category: Pick<MenuCategory, "id" | "slug
   add(category.slug);
   add(category.id);
   add(category.id.replace(/^cat-/, ""));
+
+  for (const legacy of getCategoryLegacySlugs(category.id)) {
+    add(legacy);
+  }
 
   return [...aliases];
 }

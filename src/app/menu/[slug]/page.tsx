@@ -16,9 +16,9 @@ import {
   getCachedMenuItemBySlug,
   getCachedResolvedSeoPageContent
 } from "@/lib/cache/cached-data";
-import { resolveCategorySlug } from "@/lib/menu/category-slug";
+import { resolveCategorySlug, getCategorySlugAliases } from "@/lib/menu/category-slug";
 import { normalizeMenuSlugParam, resolveMenuOrderUrls } from "@/lib/menu/menu-page-utils";
-import { resolveMenuItemSlug } from "@/lib/menu/product-slug";
+import { resolveMenuItemSlug, getMenuItemSlugAliases } from "@/lib/menu/product-slug";
 import { getMenuCategoryPageMetadata } from "@/lib/page-metadata";
 import { buildPageMetadata } from "@/lib/seo";
 import {
@@ -35,28 +35,29 @@ type MenuSlugPageProps = {
   params: Promise<{ slug: string }>;
 };
 
+export const dynamicParams = true;
+
 export async function generateStaticParams() {
   const [categories, items] = await Promise.all([
     listMenuCategories({ activeOnly: true }),
     listMenuItems({ activeOnly: true })
   ]);
 
-  const reserved = new Set(
-    categories.map((category) => resolveCategorySlug(category).toLowerCase())
-  );
+  const slugParams = new Set<string>();
 
-  const params = categories.map((category) => ({
-    slug: resolveCategorySlug(category)
-  }));
-
-  for (const item of items) {
-    const itemSlug = resolveMenuItemSlug(item).toLowerCase();
-    if (!reserved.has(itemSlug)) {
-      params.push({ slug: resolveMenuItemSlug(item) });
+  for (const category of categories) {
+    for (const alias of getCategorySlugAliases(category)) {
+      slugParams.add(alias);
     }
   }
 
-  return params;
+  for (const item of items) {
+    for (const alias of getMenuItemSlugAliases(item)) {
+      slugParams.add(alias);
+    }
+  }
+
+  return [...slugParams].map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({ params }: MenuSlugPageProps): Promise<Metadata> {

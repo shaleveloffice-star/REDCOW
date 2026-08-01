@@ -75,7 +75,7 @@ export async function getCachedMenuItemById(id: string) {
 export async function getCachedMenuItemBySlug(slug: string) {
   return unstable_cache(
     () => getMenuItemBySlugForDisplay(slug),
-    [CACHE_TAGS.menuDisplay, "menu-item-slug", slug],
+    [CACHE_TAGS.menuDisplay, "menu-item-slug-v2", slug],
     {
       revalidate: CACHE_REVALIDATE_SECONDS.menu,
       tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.homepageMenu]
@@ -86,7 +86,7 @@ export async function getCachedMenuItemBySlug(slug: string) {
 export async function getCachedMenuCategoryBySlug(slug: string) {
   return unstable_cache(
     () => getMenuCategoryBySlugForDisplay(slug),
-    [CACHE_TAGS.menuDisplay, "menu-category-slug", slug],
+    [CACHE_TAGS.menuDisplay, "menu-category-slug-v2", slug],
     {
       revalidate: CACHE_REVALIDATE_SECONDS.menu,
       tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.menuCategories]

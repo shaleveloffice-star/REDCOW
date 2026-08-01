@@ -182,6 +182,7 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
         <div className="menu-bleecker-sections">
           {visibleGroups.map((group) => {
             const categorySeo = getResolvedCategorySeo(seoContent, group.id);
+            const isCategoryDetailView = activeCategoryId !== "all";
 
             return (
               <section
@@ -193,7 +194,7 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
                   <h2 id={`menu-category-${group.id}`} className="menu-bleecker-category-title">
                     {getLocalizedCategoryName(group, locale)}
                   </h2>
-                  {categorySeo.introduction.trim() ? (
+                  {isCategoryDetailView && categorySeo.introduction.trim() ? (
                     <SeoContentBody
                       text={categorySeo.introduction}
                       className="menu-bleecker-category-intro"
@@ -206,7 +207,9 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
                   large={isBurgersGroup(group)}
                   locale={locale}
                 />
-                <MenuCategorySeoBlock content={categorySeo} categoryId={group.id} />
+                {isCategoryDetailView ? (
+                  <MenuCategorySeoBlock content={categorySeo} categoryId={group.id} />
+                ) : null}
               </section>
             );
           })}

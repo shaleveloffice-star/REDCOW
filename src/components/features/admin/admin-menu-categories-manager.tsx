@@ -18,10 +18,11 @@ import { adminFieldLabel } from "@/components/features/admin/admin-field-label";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import {
+  buildCategorySeoSavePayload,
   getStoredCategorySeoFields,
   pickCategorySeoFields
 } from "@/lib/seo-content/admin-category-seo";
-import { LOCALES, type Locale } from "@/i18n/config";
+import { type Locale } from "@/i18n/config";
 import { deleteMenuCategoryAction, saveMenuCategoryAction, saveMenuCategoryWithSeoAction } from "@/server/actions/menu.actions";
 import type { MenuCategory } from "@/types/content";
 import type { SeoContentDocument, SeoPageFieldsInput } from "@/types/seo-content";
@@ -127,7 +128,11 @@ export function AdminMenuCategoriesManager({
                       await deleteMenuCategoryAction(category.id);
                     });
                   }}
-                  onEdit={() => setDraft({ ...category })}
+                  onEdit={() => {
+                    setDraft({ ...category });
+                    setSeoByLocale(buildInitialCategorySeoByLocale(seoDocument, category.id));
+                    setSeoLocale("he");
+                  }}
                 />
               </td>
             </tr>
@@ -148,12 +153,7 @@ export function AdminMenuCategoriesManager({
                   return;
                 }
 
-                const payload = LOCALES.reduce<Partial<Record<Locale, SeoPageFieldsInput>>>((acc, locale) => {
-                  if (seoByLocale[locale]) {
-                    acc[locale] = pickCategorySeoFields(seoByLocale[locale]);
-                  }
-                  return acc;
-                }, {});
+                const payload = buildCategorySeoSavePayload(seoDocument, draft.id, seoByLocale);
 
                 await saveMenuCategoryWithSeoAction(draft, payload);
               }, close);

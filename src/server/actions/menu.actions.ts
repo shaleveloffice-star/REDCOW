@@ -3,11 +3,17 @@
 import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
 import { saveMenuItemCore } from "@/lib/admin/save-menu-item";
 import type { SaveMenuItemResult } from "@/lib/admin/save-menu-item";
-import { pickCategorySeoFields } from "@/lib/seo-content/admin-category-seo";
+import {
+  buildCategorySeoSavePayload
+} from "@/lib/seo-content/admin-category-seo";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
 import type { Locale } from "@/i18n/config";
 import { revalidatePath, updateTag } from "next/cache";
-import { saveAllCategorySeoFieldsForAdmin, removeCategorySeoForAdmin } from "@/services/seo-content.service";
+import {
+  getSeoContentStore,
+  saveAllCategorySeoFieldsForAdmin,
+  removeCategorySeoForAdmin
+} from "@/services/seo-content.service";
 import {
   getHomepageMenuShowcaseSelection,
   listMenuCategories,
@@ -27,6 +33,7 @@ function revalidateMenuCache() {
     updateTag(CACHE_TAGS.homepageMenu);
     updateTag(CACHE_TAGS.menuCategories);
     updateTag(CACHE_TAGS.menuDisplay);
+    updateTag(CACHE_TAGS.seoContent);
   } catch {
     // ignore cache errors — data already saved
   }
@@ -107,11 +114,11 @@ export async function saveMenuCategoryWithSeoAction(
   if (!name) throw new Error("שם הקטגוריה נדרש");
   if (!slug) throw new Error("Slug נדרש");
 
-  const sanitizedSeo = Object.fromEntries(
-    Object.entries(seoByLocale)
-      .filter((entry): entry is [Locale, SeoPageFieldsInput] => Boolean(entry[1]))
-      .map(([locale, fields]) => [locale, pickCategorySeoFields(fields)])
-  ) as Partial<Record<Locale, SeoPageFieldsInput>>;
+  const sanitizedSeo = buildCategorySeoSavePayload(
+    await getSeoContentStore(),
+    input.id.trim(),
+    seoByLocale
+  );
 
   try {
     await saveAllCategorySeoFieldsForAdmin(input.id.trim(), sanitizedSeo);

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
+import { MenuCategorySeoBlock } from "@/components/features/menu/menu-category-seo-block";
 import { OrderModal } from "@/components/layout/order-modal";
 import { SeoContentBody, SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import {
@@ -23,7 +24,7 @@ import { getMenuItemHref } from "@/lib/menu/product-slug";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
 import { isVideoMediaUrl } from "@/lib/menu-media";
-import { getCategoryIntro } from "@/lib/seo-content/resolve-seo-content";
+import { getResolvedCategorySeo } from "@/lib/seo-content/resolve-seo-content";
 import type { MenuCategory, MenuItem } from "@/types/content";
 import type { ResolvedSeoPageContent } from "@/types/seo-content";
 
@@ -163,7 +164,7 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
       ) : (
         <div className="menu-bleecker-sections">
           {visibleGroups.map((group) => {
-            const categoryIntro = getCategoryIntro(seoContent, group.id);
+            const categorySeo = getResolvedCategorySeo(seoContent, group.id);
 
             return (
               <section
@@ -175,8 +176,12 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
                   <h2 id={`menu-category-${group.id}`} className="menu-bleecker-category-title">
                     {group.name}
                   </h2>
-                  {categoryIntro ? (
-                    <p className="menu-bleecker-category-intro">{categoryIntro}</p>
+                  {categorySeo.introduction.trim() ? (
+                    <SeoContentBody
+                      text={categorySeo.introduction}
+                      className="menu-bleecker-category-intro"
+                      paragraphClassName="menu-bleecker-category-intro-p"
+                    />
                   ) : null}
                 </header>
                 <MenuItemsGrid
@@ -184,6 +189,7 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
                   large={isBurgersGroup(group)}
                   locale={locale}
                 />
+                <MenuCategorySeoBlock content={categorySeo} categoryId={group.id} />
               </section>
             );
           })}

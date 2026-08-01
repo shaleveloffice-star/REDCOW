@@ -2,6 +2,7 @@ import type { Locale } from "@/i18n/config";
 import { getDefaultSeoPageFields } from "@/data/seo-content-defaults";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
 import type {
+  ResolvedCategorySeoContent,
   ResolvedSeoPageContent,
   SeoCtaBlock,
   SeoFaqBlock,
@@ -9,6 +10,13 @@ import type {
   SeoPageFieldsInput,
   SeoPageId
 } from "@/types/seo-content";
+
+const EMPTY_FAQ: Required<SeoFaqBlock> & { items: SeoFaqItem[] } = {
+  kicker: "",
+  title: "",
+  lead: "",
+  items: []
+};
 
 function pickText(stored?: string | null, fallback?: string): string {
   const value = stored?.trim();
@@ -59,6 +67,39 @@ function pickCategoryIntros(
   return merged;
 }
 
+function resolveCategorySeoFields(
+  categoryId: string,
+  source: SeoPageFieldsInput,
+  categoryIntros: Record<string, string>
+): ResolvedCategorySeoContent {
+  const stored = source.categoryPages?.[categoryId];
+  const introduction = pickText(stored?.introduction, categoryIntros[categoryId]);
+  const bottomContent = pickText(stored?.bottomContent, "");
+
+  return {
+    introduction,
+    bottomContent,
+    faq: pickFaqBlock(stored?.faq, EMPTY_FAQ),
+    cta: pickCta(stored?.cta, {})
+  };
+}
+
+function buildCategoryPagesMap(
+  source: SeoPageFieldsInput,
+  categoryIntros: Record<string, string>
+): Record<string, ResolvedCategorySeoContent> {
+  const ids = new Set([
+    ...Object.keys(source.categoryPages ?? {}),
+    ...Object.keys(categoryIntros)
+  ]);
+
+  const result: Record<string, ResolvedCategorySeoContent> = {};
+  for (const categoryId of ids) {
+    result[categoryId] = resolveCategorySeoFields(categoryId, source, categoryIntros);
+  }
+  return result;
+}
+
 /** Merge stored CMS fields with built-in defaults. Empty stored values fall back. */
 export function resolveSeoPageContent(
   locale: Locale,
@@ -70,6 +111,7 @@ export function resolveSeoPageContent(
 
   const introduction = pickText(source.introduction, defaults.introduction);
   const bottomContent = pickText(source.bottomContent, defaults.bottomContent);
+  const categoryIntros = pickCategoryIntros(source.categoryIntros, defaults.categoryIntros);
 
   return {
     sectionTitle: pickText(source.sectionTitle, defaults.sectionTitle),
@@ -79,15 +121,30 @@ export function resolveSeoPageContent(
     bottomParagraphs: splitParagraphs(bottomContent),
     faq: pickFaqBlock(source.faq, defaults.faq),
     cta: pickCta(source.cta, defaults.cta),
-    categoryIntros: pickCategoryIntros(source.categoryIntros, defaults.categoryIntros)
+    categoryIntros,
+    categoryPages: buildCategoryPagesMap(source, categoryIntros)
   };
+}
+
+export function getResolvedCategorySeo(
+  content: ResolvedSeoPageContent,
+  categoryId: string
+): ResolvedCategorySeoContent {
+  return (
+    content.categoryPages[categoryId] ?? {
+      introduction: content.categoryIntros[categoryId]?.trim() ?? "",
+      bottomContent: "",
+      faq: EMPTY_FAQ,
+      cta: {}
+    }
+  );
 }
 
 export function getCategoryIntro(
   content: ResolvedSeoPageContent,
   categoryId: string
 ): string | undefined {
-  const intro = content.categoryIntros[categoryId]?.trim();
+  const intro = getResolvedCategorySeo(content, categoryId).introduction.trim();
   return intro || undefined;
 }
 

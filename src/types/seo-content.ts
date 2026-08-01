@@ -36,6 +36,14 @@ export type SeoPageFieldsInput = {
   categoryPages?: Record<string, SeoPageFieldsInput>;
 };
 
+/** Resolved SEO body for a single menu category. */
+export type ResolvedCategorySeoContent = {
+  introduction: string;
+  bottomContent: string;
+  faq: Required<SeoFaqBlock> & { items: SeoFaqItem[] };
+  cta: SeoCtaBlock;
+};
+
 /** Resolved page content after merging stored values with defaults. */
 export type ResolvedSeoPageContent = {
   sectionTitle: string;
@@ -46,6 +54,7 @@ export type ResolvedSeoPageContent = {
   faq: Required<SeoFaqBlock> & { items: SeoFaqItem[] };
   cta: SeoCtaBlock;
   categoryIntros: Record<string, string>;
+  categoryPages: Record<string, ResolvedCategorySeoContent>;
 };
 
 export type SeoLocaleBundle = {

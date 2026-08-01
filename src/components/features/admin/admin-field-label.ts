@@ -22,16 +22,16 @@ export type AdminSeoFieldWhere = {
 
 export const CATEGORY_SEO_FIELD_WHERE: AdminSeoFieldWhere = {
   introduction: "מתחת לשם הקטגוריה ב-/menu",
-  bottomContent: "עדיין לא מוצג באתר",
-  faqLegend: "עדיין לא מוצג באתר",
-  faqKicker: "עדיין לא מוצג באתר",
-  faqTitle: "עדיין לא מוצג באתר",
-  faqLead: "עדיין לא מוצג באתר",
-  faqQuestion: "עדיין לא מוצג באתר",
-  faqAnswer: "עדיין לא מוצג באתר",
-  ctaLegend: "עדיין לא מוצג באתר",
-  ctaTitle: "עדיין לא מוצג באתר",
-  ctaBody: "עדיין לא מוצג באתר",
-  ctaButtonLabel: "עדיין לא מוצג באתר",
-  ctaButtonHref: "עדיין לא מוצג באתר"
+  bottomContent: "מתחת למנות בקטגוריה ב-/menu",
+  faqLegend: "מתחת למנות בקטגוריה ב-/menu",
+  faqKicker: "מתחת למנות בקטגוריה ב-/menu",
+  faqTitle: "מתחת למנות בקטגוריה ב-/menu",
+  faqLead: "פסקת פתיחה ל-FAQ — מתחת למנות ב-/menu",
+  faqQuestion: "מתחת למנות בקטגוריה ב-/menu",
+  faqAnswer: "מתחת למנות בקטגוריה ב-/menu",
+  ctaLegend: "מתחת למנות בקטגוריה ב-/menu",
+  ctaTitle: "מתחת למנות בקטגוריה ב-/menu",
+  ctaBody: "מתחת למנות בקטגוריה ב-/menu",
+  ctaButtonLabel: "מתחת למנות בקטגוריה ב-/menu",
+  ctaButtonHref: "מתחת למנות בקטגוריה ב-/menu"
 };

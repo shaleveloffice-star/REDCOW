@@ -123,6 +123,22 @@ export function getMenuPageMetadata(locale: Locale) {
   return buildLocalizedPageMetadata(locale, "/menu", MENU_META);
 }
 
+export function getMenuCategoryPageMetadata(
+  locale: Locale,
+  category: { name: string; description?: string; slug: string }
+) {
+  const description =
+    category.description?.trim() ||
+    MENU_META[locale].description;
+
+  return buildPageMetadata({
+    title: `${category.name} | NB BURGER`,
+    description,
+    path: `/menu/category/${category.slug}`,
+    locale
+  });
+}
+
 export function getLocationsPageMetadata(locale: Locale) {
   return buildLocalizedPageMetadata(locale, "/locations", LOCATIONS_META);
 }

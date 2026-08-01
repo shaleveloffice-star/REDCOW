@@ -1,4 +1,5 @@
 import { getMenuItemSlugAliases } from "@/lib/menu/product-slug";
+import { getCategorySlugAliases } from "@/lib/menu/category-slug";
 import {
   getHomepageMenuShowcaseConfig,
   saveHomepageMenuShowcaseConfig
@@ -140,6 +141,16 @@ export async function getMenuItemBySlugForDisplay(slug: string): Promise<MenuIte
     return null;
   }
   return match;
+}
+
+export async function getMenuCategoryBySlugForDisplay(slug: string): Promise<MenuCategory | null> {
+  const normalized = normalizeSlugParam(slug);
+  if (!normalized) return null;
+
+  const categories = await listMenuCategories({ activeOnly: true });
+  const match = categories.find((category) => getCategorySlugAliases(category).includes(normalized));
+
+  return match ?? null;
 }
 
 export async function upsertMenuItem(input: MenuItem): Promise<MenuItem> {

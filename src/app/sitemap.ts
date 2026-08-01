@@ -1,8 +1,9 @@
 import type { MetadataRoute } from "next";
 
 import { resolveMenuItemSlug } from "@/lib/menu/product-slug";
+import { resolveCategorySlug } from "@/lib/menu/category-slug";
 import { SITE_URL } from "@/lib/seo";
-import { listMenuItems } from "@/services/menu.service";
+import { listMenuItems, listMenuCategories } from "@/services/menu.service";
 
 type SitemapEntryInput = {
   path: string;
@@ -31,13 +32,23 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   let menuEntries: MetadataRoute.Sitemap = [];
   try {
-    const items = await listMenuItems({ activeOnly: true });
-    menuEntries = items.map((item) => ({
+    const [items, categories] = await Promise.all([
+      listMenuItems({ activeOnly: true }),
+      listMenuCategories({ activeOnly: true })
+    ]);
+    const itemEntries = items.map((item) => ({
       url: `${SITE_URL}/menu/${resolveMenuItemSlug(item)}`,
       lastModified,
       changeFrequency: "weekly" as const,
       priority: 0.8
     }));
+    const categoryEntries = categories.map((category) => ({
+      url: `${SITE_URL}/menu/category/${resolveCategorySlug(category)}`,
+      lastModified,
+      changeFrequency: "weekly" as const,
+      priority: 0.85
+    }));
+    menuEntries = [...categoryEntries, ...itemEntries];
   } catch {
     menuEntries = [];
   }

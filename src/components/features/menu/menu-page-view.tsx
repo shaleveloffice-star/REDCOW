@@ -21,6 +21,7 @@ import {
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { getMenuItemHref } from "@/lib/menu/product-slug";
+import { getMenuCategoryHref } from "@/lib/menu/category-slug";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
 import { isVideoMediaUrl } from "@/lib/menu-media";
@@ -39,6 +40,7 @@ type MenuPageViewProps = {
   pickupUrl: string;
   deliveryUrl: string;
   seoContent: ResolvedSeoPageContent;
+  activeCategoryId?: string;
 };
 
 function formatPrice(price: number, locale: string) {
@@ -113,10 +115,15 @@ function groupHasVisibleContent(group: MenuGroup, seoContent: ResolvedSeoPageCon
   );
 }
 
-export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: MenuPageViewProps) {
+export function MenuPageView({
+  groups,
+  pickupUrl,
+  deliveryUrl,
+  seoContent,
+  activeCategoryId = "all"
+}: MenuPageViewProps) {
   const t = useTranslations();
   const { locale } = useLocale();
-  const [activeCategoryId, setActiveCategoryId] = useState<string>("all");
   const [orderOpen, setOrderOpen] = useState(false);
 
   const visibleGroups = useMemo(() => {
@@ -155,24 +162,22 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
       <SeoContentBody text={seoContent.introduction} className="menu-bleecker-seo-intro" />
 
       <div className="menu-bleecker-filters" role="group" aria-label={t.menuPage.title}>
-        <button
-          type="button"
-          aria-pressed={activeCategoryId === "all"}
+        <Link
+          href="/menu"
+          aria-current={activeCategoryId === "all" ? "page" : undefined}
           className={`menu-bleecker-filter${activeCategoryId === "all" ? " is-active" : ""}`}
-          onClick={() => setActiveCategoryId("all")}
         >
           {t.menuPage.filterAll}
-        </button>
+        </Link>
         {groups.map((group) => (
-          <button
+          <Link
             key={group.id}
-            type="button"
-            aria-pressed={activeCategoryId === group.id}
+            href={getMenuCategoryHref(group)}
+            aria-current={activeCategoryId === group.id ? "page" : undefined}
             className={`menu-bleecker-filter${activeCategoryId === group.id ? " is-active" : ""}`}
-            onClick={() => setActiveCategoryId(group.id)}
           >
             {getLocalizedCategoryName(group, locale)}
-          </button>
+          </Link>
         ))}
       </div>
 
@@ -191,9 +196,20 @@ export function MenuPageView({ groups, pickupUrl, deliveryUrl, seoContent }: Men
                 aria-labelledby={`menu-category-${group.id}`}
               >
                 <header className="menu-bleecker-category-head">
-                  <h2 id={`menu-category-${group.id}`} className="menu-bleecker-category-title">
-                    {getLocalizedCategoryName(group, locale)}
-                  </h2>
+                  {isCategoryDetailView ? (
+                    <h2 id={`menu-category-${group.id}`} className="menu-bleecker-category-title">
+                      {getLocalizedCategoryName(group, locale)}
+                    </h2>
+                  ) : (
+                    <h2 id={`menu-category-${group.id}`} className="menu-bleecker-category-title">
+                      <Link
+                        href={getMenuCategoryHref(group)}
+                        className="menu-bleecker-category-title-link"
+                      >
+                        {getLocalizedCategoryName(group, locale)}
+                      </Link>
+                    </h2>
+                  )}
                   {isCategoryDetailView && categorySeo.introduction.trim() ? (
                     <SeoContentBody
                       text={categorySeo.introduction}

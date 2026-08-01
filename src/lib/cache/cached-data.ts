@@ -5,6 +5,7 @@ import {
   getHomepageMenuShowcase,
   getMenuForDisplay,
   getMenuItemBySlugForDisplay,
+  getMenuCategoryBySlugForDisplay,
   getMenuItemForDisplay,
   listMenuCategories
 } from "@/services/menu.service";
@@ -78,6 +79,17 @@ export async function getCachedMenuItemBySlug(slug: string) {
     {
       revalidate: CACHE_REVALIDATE_SECONDS.menu,
       tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.homepageMenu]
+    }
+  )();
+}
+
+export async function getCachedMenuCategoryBySlug(slug: string) {
+  return unstable_cache(
+    () => getMenuCategoryBySlugForDisplay(slug),
+    [CACHE_TAGS.menuDisplay, "menu-category-slug", slug],
+    {
+      revalidate: CACHE_REVALIDATE_SECONDS.menu,
+      tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.menuCategories]
     }
   )();
 }

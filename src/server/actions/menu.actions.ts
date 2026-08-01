@@ -7,6 +7,7 @@ import {
   buildCategorySeoSavePayload
 } from "@/lib/seo-content/admin-category-seo";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
+import { resolveCategorySlug } from "@/lib/menu/category-slug";
 import type { Locale } from "@/i18n/config";
 import { revalidatePath, updateTag } from "next/cache";
 import {
@@ -27,6 +28,10 @@ import type { MenuCategory, MenuItem } from "@/types/content";
 import type { SeoPageFieldsInput } from "@/types/seo-content";
 
 const menuPaths = ["/admin/menu", "/admin/menu-categories", "/", "/menu"];
+
+function revalidateCategoryPath(category: Pick<MenuCategory, "id" | "slug">) {
+  revalidatePath(`/menu/category/${resolveCategorySlug(category)}`);
+}
 
 function revalidateMenuCache() {
   try {
@@ -95,6 +100,7 @@ export async function saveMenuCategoryAction(input: MenuCategory) {
   });
 
   menuPaths.forEach((path) => revalidatePath(path));
+  revalidateCategoryPath(saved);
   revalidateMenuCache();
   return saved;
 }
@@ -136,6 +142,7 @@ export async function saveMenuCategoryWithSeoAction(
   });
 
   menuPaths.forEach((path) => revalidatePath(path));
+  revalidateCategoryPath(saved);
   revalidateMenuCache();
   return saved;
 }

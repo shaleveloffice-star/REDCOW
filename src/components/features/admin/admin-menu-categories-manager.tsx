@@ -14,6 +14,7 @@ import {
   buildInitialCategorySeoByLocale
 } from "@/components/features/admin/admin-category-seo-section";
 import { AdminCategorySmartPasteModal } from "@/components/features/admin/admin-category-smart-paste-modal";
+import { adminFieldLabel } from "@/components/features/admin/admin-field-label";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import {
@@ -171,15 +172,15 @@ export function AdminMenuCategoriesManager({
             ) : null}
 
             <label>
-              שם
+              {adminFieldLabel("שם", "כותרת הקטגוריה ב-/menu")}
               <input required value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />
             </label>
             <label>
-              Slug (באנגלית, לקישור)
+              {adminFieldLabel("Slug (באנגלית, לקישור)", "זיהוי פנימי — לא מוצג למבקרים")}
               <input required value={draft.slug} onChange={(e) => setDraft({ ...draft, slug: e.target.value })} />
             </label>
             <label>
-              תיאור
+              {adminFieldLabel("תיאור", "Google / Schema בלבד — לא מוצג בדף")}
               <textarea
                 rows={3}
                 value={draft.description ?? ""}
@@ -187,7 +188,7 @@ export function AdminMenuCategoriesManager({
               />
             </label>
             <label>
-              סדר
+              {adminFieldLabel("סדר", "סדר הקטגוריה ב-/menu")}
               <input
                 min={0}
                 type="number"
@@ -201,7 +202,7 @@ export function AdminMenuCategoriesManager({
                 type="checkbox"
                 onChange={(e) => setDraft({ ...draft, isActive: e.target.checked })}
               />
-              <span>קטגוריה פעילה</span>
+              <span>{adminFieldLabel("קטגוריה פעילה", "הצגה / הסתרה ב-/menu")}</span>
             </label>
 
             {!isNew ? (

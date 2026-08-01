@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 
 import { AdminSeoFieldsForm } from "@/components/features/admin/admin-seo-fields-form";
+import { CATEGORY_SEO_FIELD_WHERE } from "@/components/features/admin/admin-field-label";
 import { LOCALE_LABELS, LOCALES, type Locale } from "@/i18n/config";
 import {
   getDefaultCategorySeoFields,
@@ -69,6 +70,7 @@ export function AdminCategorySeoSection({
         defaults={defaults}
         flags={{ introduction: true, bottomContent: true, faq: true, cta: true }}
         idPrefix={`cat-${categoryId}-${locale}`}
+        fieldWhere={CATEGORY_SEO_FIELD_WHERE}
         onChange={(next) => onChange(locale, pickCategorySeoFields(next))}
       />
     </fieldset>

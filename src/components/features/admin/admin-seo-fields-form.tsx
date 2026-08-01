@@ -3,6 +3,8 @@
 import type { SeoFaqItem, SeoPageFieldsInput, SeoPageId } from "@/types/seo-content";
 import { SEO_PAGE_DEFINITIONS } from "@/types/seo-content";
 
+import { adminFieldLabel, type AdminSeoFieldWhere } from "@/components/features/admin/admin-field-label";
+
 export const SEO_PARAGRAPH_HINT = "פסקאות מופרדות בשורה ריקה. שדה ריק = ברירת מחדל מהאתר.";
 
 export type AdminSeoFieldsFlags = {
@@ -19,6 +21,7 @@ type AdminSeoFieldsFormProps = {
   flags: AdminSeoFieldsFlags;
   onChange: (next: SeoPageFieldsInput) => void;
   idPrefix?: string;
+  fieldWhere?: AdminSeoFieldWhere;
 };
 
 export function AdminSeoFieldsForm({
@@ -26,7 +29,8 @@ export function AdminSeoFieldsForm({
   defaults,
   flags,
   onChange,
-  idPrefix = "seo"
+  idPrefix = "seo",
+  fieldWhere
 }: AdminSeoFieldsFormProps) {
   const update = (patch: Partial<SeoPageFieldsInput>) => onChange({ ...draft, ...patch });
 
@@ -46,7 +50,9 @@ export function AdminSeoFieldsForm({
     <div className="admin-seo-fields">
       {flags.sectionTitle ? (
         <label>
-          כותרת מקטע
+          {fieldWhere?.sectionTitle
+            ? adminFieldLabel("כותרת מקטע", fieldWhere.sectionTitle)
+            : "כותרת מקטע"}
           <input
             value={draft.sectionTitle ?? ""}
             placeholder={defaults.sectionTitle ?? ""}
@@ -57,7 +63,9 @@ export function AdminSeoFieldsForm({
 
       {flags.introduction !== false ? (
         <label>
-          מבוא SEO
+          {fieldWhere?.introduction
+            ? adminFieldLabel("מבוא SEO", fieldWhere.introduction)
+            : "מבוא SEO"}
           <textarea
             rows={6}
             value={draft.introduction ?? ""}
@@ -70,7 +78,9 @@ export function AdminSeoFieldsForm({
 
       {flags.bottomContent !== false ? (
         <label>
-          תוכן תחתון
+          {fieldWhere?.bottomContent
+            ? adminFieldLabel("תוכן תחתון", fieldWhere.bottomContent)
+            : "תוכן תחתון"}
           <textarea
             rows={5}
             value={draft.bottomContent ?? ""}
@@ -83,9 +93,15 @@ export function AdminSeoFieldsForm({
 
       {flags.faq ? (
         <fieldset className="admin-seo-fieldset">
-          <legend>שאלות ותשובות (FAQ)</legend>
+          <legend>
+            {fieldWhere?.faqLegend
+              ? adminFieldLabel("שאלות ותשובות (FAQ)", fieldWhere.faqLegend)
+              : "שאלות ותשובות (FAQ)"}
+          </legend>
           <label>
-            כותרת עליונה
+            {fieldWhere?.faqKicker
+              ? adminFieldLabel("כותרת עליונה", fieldWhere.faqKicker)
+              : "כותרת עליונה"}
             <input
               value={draft.faq?.kicker ?? ""}
               placeholder={defaults.faq?.kicker ?? ""}
@@ -93,7 +109,7 @@ export function AdminSeoFieldsForm({
             />
           </label>
           <label>
-            כותרת
+            {fieldWhere?.faqTitle ? adminFieldLabel("כותרת", fieldWhere.faqTitle) : "כותרת"}
             <input
               value={draft.faq?.title ?? ""}
               placeholder={defaults.faq?.title ?? ""}
@@ -101,7 +117,7 @@ export function AdminSeoFieldsForm({
             />
           </label>
           <label>
-            פסקת פתיחה
+            {fieldWhere?.faqLead ? adminFieldLabel("פסקת פתיחה", fieldWhere.faqLead) : "פסקת פתיחה"}
             <textarea
               rows={2}
               value={draft.faq?.lead ?? ""}
@@ -113,14 +129,18 @@ export function AdminSeoFieldsForm({
           {(draft.faq?.items ?? defaults.faq?.items ?? []).map((item, index) => (
             <div key={`${idPrefix}-faq-${index}`} className="admin-seo-faq-item">
               <label>
-                שאלה {index + 1}
+                {fieldWhere?.faqQuestion
+                  ? adminFieldLabel(`שאלה ${index + 1}`, fieldWhere.faqQuestion)
+                  : `שאלה ${index + 1}`}
                 <input
                   value={draft.faq?.items?.[index]?.question ?? item.question}
                   onChange={(event) => updateFaqItem(index, { question: event.target.value })}
                 />
               </label>
               <label>
-                תשובה
+                {fieldWhere?.faqAnswer
+                  ? adminFieldLabel("תשובה", fieldWhere.faqAnswer)
+                  : "תשובה"}
                 <textarea
                   rows={3}
                   value={draft.faq?.items?.[index]?.answer ?? item.answer}
@@ -165,9 +185,13 @@ export function AdminSeoFieldsForm({
 
       {flags.cta ? (
         <fieldset className="admin-seo-fieldset">
-          <legend>בלוק CTA (אופציונלי)</legend>
+          <legend>
+            {fieldWhere?.ctaLegend
+              ? adminFieldLabel("בלוק CTA (אופציונלי)", fieldWhere.ctaLegend)
+              : "בלוק CTA (אופציונלי)"}
+          </legend>
           <label>
-            כותרת
+            {fieldWhere?.ctaTitle ? adminFieldLabel("כותרת", fieldWhere.ctaTitle) : "כותרת"}
             <input
               value={draft.cta?.title ?? ""}
               placeholder={defaults.cta?.title ?? ""}
@@ -175,7 +199,7 @@ export function AdminSeoFieldsForm({
             />
           </label>
           <label>
-            טקסט
+            {fieldWhere?.ctaBody ? adminFieldLabel("טקסט", fieldWhere.ctaBody) : "טקסט"}
             <textarea
               rows={3}
               value={draft.cta?.body ?? ""}
@@ -184,7 +208,9 @@ export function AdminSeoFieldsForm({
             />
           </label>
           <label>
-            טקסט כפתור
+            {fieldWhere?.ctaButtonLabel
+              ? adminFieldLabel("טקסט כפתור", fieldWhere.ctaButtonLabel)
+              : "טקסט כפתור"}
             <input
               value={draft.cta?.buttonLabel ?? ""}
               placeholder={defaults.cta?.buttonLabel ?? ""}
@@ -192,7 +218,9 @@ export function AdminSeoFieldsForm({
             />
           </label>
           <label>
-            קישור כפתור
+            {fieldWhere?.ctaButtonHref
+              ? adminFieldLabel("קישור כפתור", fieldWhere.ctaButtonHref)
+              : "קישור כפתור"}
             <input
               value={draft.cta?.buttonHref ?? ""}
               placeholder={defaults.cta?.buttonHref ?? "/menu"}

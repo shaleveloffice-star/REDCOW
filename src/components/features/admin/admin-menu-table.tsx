@@ -8,6 +8,7 @@ import {
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
 import { AdminMenuItemSmartPasteModal } from "@/components/features/admin/admin-menu-item-smart-paste-modal";
+import { adminFieldLabel } from "@/components/features/admin/admin-field-label";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import {
@@ -456,7 +457,7 @@ export function AdminMenuTable({
             </div>
 
             <label>
-              שם המנה
+              {adminFieldLabel("שם המנה", "כותרת בעמוד המוצר + שם בכרטיס ב-/menu")}
               <input
                 required
                 maxLength={120}
@@ -465,7 +466,7 @@ export function AdminMenuTable({
               />
             </label>
             <label>
-              קטגוריה
+              {adminFieldLabel("קטגוריה", "מיקום וסינון ב-/menu — לא טקסט גלוי")}
               <select
                 required
                 value={draft.categoryId}
@@ -479,7 +480,7 @@ export function AdminMenuTable({
               </select>
             </label>
             <label>
-              מחיר (ש&quot;ח)
+              {adminFieldLabel('מחיר (ש"ח)', "מחיר בכרטיס ב-/menu")}
               <input
                 min={0}
                 step={0.01}
@@ -490,7 +491,7 @@ export function AdminMenuTable({
               />
             </label>
             <label>
-              תיאור קצר
+              {adminFieldLabel("תיאור קצר", "מתחת לכותרת בעמוד המוצר /menu/[slug]")}
               <textarea
                 rows={3}
                 maxLength={500}
@@ -502,7 +503,7 @@ export function AdminMenuTable({
             <fieldset className="admin-seo-fieldset">
               <legend>תוכן SEO</legend>
               <label>
-                תיאור ארוך (גוף העמוד)
+                {adminFieldLabel("תיאור ארוך (גוף העמוד)", "גוף העמוד /menu/[slug]")}
                 <textarea
                   rows={5}
                   maxLength={4000}
@@ -511,7 +512,7 @@ export function AdminMenuTable({
                 />
               </label>
               <label>
-                טקסט ALT לתמונה (אופציונלי)
+                {adminFieldLabel("טקסט ALT לתמונה (אופציונלי)", "תיאור תמונה לנגישות — בכל האתר")}
                 <input
                   maxLength={160}
                   placeholder="נוצר אוטומטית אם ריק"
@@ -520,7 +521,7 @@ export function AdminMenuTable({
                 />
               </label>
               <label>
-                מילת מפתח ראשית
+                {adminFieldLabel("מילת מפתח ראשית", "שמירה פנימית — לא מוצג באתר")}
                 <input
                   maxLength={80}
                   value={draft.primaryKeyword ?? ""}
@@ -528,7 +529,7 @@ export function AdminMenuTable({
                 />
               </label>
               <label>
-                כותרת מטא (עד 60)
+                {adminFieldLabel("כותרת מטא (עד 60)", "כותרת ב-Google + לשונית הדפדפן")}
                 <input
                   maxLength={60}
                   value={draft.metaTitle ?? ""}
@@ -539,7 +540,7 @@ export function AdminMenuTable({
                 {(draft.metaTitle ?? "").length}/60
               </p>
               <label>
-                תיאור מטא (עד 160)
+                {adminFieldLabel("תיאור מטא (עד 160)", "תיאור ב-Google")}
                 <textarea
                   rows={3}
                   maxLength={160}
@@ -553,7 +554,7 @@ export function AdminMenuTable({
             </fieldset>
 
             <label>
-              סלאג (כתובת העמוד)
+              {adminFieldLabel("סלאג (כתובת העמוד)", "כתובת /menu/[slug]")}
               <input
                 maxLength={80}
                 value={draft.slug ?? ""}
@@ -569,7 +570,7 @@ export function AdminMenuTable({
             </p>
 
             <label>
-              תמונה ראשית (מוצגת בכל האתר)
+              {adminFieldLabel("תמונה ראשית (מוצגת בכל האתר)", "/menu, דף הבית, עמוד המוצר")}
               <input accept="image/*" disabled={uploadingImage} type="file" onChange={handleImageUpload} />
             </label>
             {uploadingImage ? <p className="muted">דוחס תמונה ראשית עד 80KB…</p> : null}
@@ -587,7 +588,7 @@ export function AdminMenuTable({
             ) : null}
 
             <label>
-              תמונה מקרוב מוצר (מוצגת רק בעמוד המוצר)
+              {adminFieldLabel("תמונה מקרוב מוצר (מוצגת רק בעמוד המוצר)", "עמוד המוצר /menu/[slug] בלבד")}
               <input
                 accept="image/*"
                 disabled={uploadingCloseUpImage}
@@ -618,7 +619,7 @@ export function AdminMenuTable({
             )}
 
             <label>
-              סדר תצוגה
+              {adminFieldLabel("סדר תצוגה", "סדר המנה בתוך הקטגוריה ב-/menu")}
               <input
                 min={0}
                 type="number"
@@ -632,7 +633,7 @@ export function AdminMenuTable({
                 type="checkbox"
                 onChange={(e) => setDraft({ ...draft, isActive: e.target.checked })}
               />
-              <span>מנה פעילה</span>
+              <span>{adminFieldLabel("מנה פעילה", "הצגה / הסתרה באתר")}</span>
             </label>
             <AdminFormFooter error={error} isPending={isPending} onCancel={close} />
           </form>

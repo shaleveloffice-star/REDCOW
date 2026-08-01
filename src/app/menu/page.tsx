@@ -3,7 +3,11 @@ import type { Metadata } from "next";
 import { MenuIndexView } from "@/components/features/menu/menu-index-view";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getCachedActiveOrderLinks, getCachedMenuForDisplay } from "@/lib/cache/cached-data";
+import {
+  getCachedActiveOrderLinks,
+  getCachedMenuForDisplay,
+  getCachedResolvedSeoPageContent
+} from "@/lib/cache/cached-data";
 import { getServerLocale } from "@/i18n/get-locale";
 import { resolveMenuOrderUrls } from "@/lib/menu/menu-page-utils";
 import { getMenuPageMetadata } from "@/lib/page-metadata";
@@ -16,9 +20,10 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function MenuPage() {
   const locale = await getServerLocale();
-  const [groups, orderLinks] = await Promise.all([
+  const [groups, orderLinks, menuSeo] = await Promise.all([
     getCachedMenuForDisplay(),
-    getCachedActiveOrderLinks()
+    getCachedActiveOrderLinks(),
+    getCachedResolvedSeoPageContent(locale, "menu")
   ]);
   const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
 
@@ -27,7 +32,16 @@ export default async function MenuPage() {
       <JsonLd data={buildMenuJsonLd(groups, locale)} />
       <main id="main-content" className="menu-page">
         <div className="menu-page-inner">
-          <MenuIndexView groups={groups} pickupUrl={pickupUrl} deliveryUrl={deliveryUrl} />
+          <MenuIndexView
+            groups={groups}
+            menuSeo={{
+              introduction: menuSeo.introduction,
+              bottomContent: menuSeo.bottomContent,
+              cta: menuSeo.cta
+            }}
+            pickupUrl={pickupUrl}
+            deliveryUrl={deliveryUrl}
+          />
         </div>
       </main>
       <SiteFooter />

@@ -5,6 +5,11 @@ import Link from "next/link";
 import { MenuFilters } from "@/components/features/menu/menu-filters";
 import { MenuHero } from "@/components/features/menu/menu-hero";
 import { isBurgersCategory, MenuItemsGrid } from "@/components/features/menu/menu-items-grid";
+import {
+  MenuPageSeoFooter,
+  MenuPageSeoIntro,
+  type MenuPageSeoContent
+} from "@/components/features/menu/menu-page-seo-block";
 import { MenuOrderCtas } from "@/components/features/menu/menu-order-ctas";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedCategoryName } from "@/i18n/category-translations";
@@ -15,11 +20,12 @@ type MenuGroup = MenuCategory & { items: MenuItem[] };
 
 type MenuIndexViewProps = {
   groups: MenuGroup[];
+  menuSeo: MenuPageSeoContent;
   pickupUrl: string;
   deliveryUrl: string;
 };
 
-export function MenuIndexView({ groups, pickupUrl, deliveryUrl }: MenuIndexViewProps) {
+export function MenuIndexView({ groups, menuSeo, pickupUrl, deliveryUrl }: MenuIndexViewProps) {
   const t = useTranslations();
   const { locale } = useLocale();
 
@@ -41,6 +47,8 @@ export function MenuIndexView({ groups, pickupUrl, deliveryUrl }: MenuIndexViewP
         ariaLabel={t.menuPage.title}
         locale={locale}
       />
+
+      <MenuPageSeoIntro content={menuSeo} />
 
       {isEmpty ? (
         <p className="menu-bleecker-empty">{t.menuPage.empty}</p>
@@ -64,6 +72,8 @@ export function MenuIndexView({ groups, pickupUrl, deliveryUrl }: MenuIndexViewP
           ))}
         </div>
       )}
+
+      <MenuPageSeoFooter content={menuSeo} />
 
       <MenuOrderCtas pickupUrl={pickupUrl} deliveryUrl={deliveryUrl} />
     </div>

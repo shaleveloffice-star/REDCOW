@@ -86,7 +86,6 @@ export function SiteNavbar({
   const t = useTranslations();
   const { locale } = useLocale();
   const logoAlt = resolveImageAlt({ kind: "logo", locale });
-  const stackLanguageSwitcher = locale === "fr";
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const wordmarkSrc = isScrolled ? SITE_WORDMARK_DARK_SRC : SITE_WORDMARK_LIGHT_SRC;
@@ -175,8 +174,7 @@ export function SiteNavbar({
   const navClass = [
     "site-navbar",
     overlay ? "site-navbar--overlay" : "",
-    isScrolled ? "site-navbar--scrolled" : "",
-    stackLanguageSwitcher ? "site-navbar--lang-stack" : ""
+    isScrolled ? "site-navbar--scrolled" : ""
   ]
     .filter(Boolean)
     .join(" ");
@@ -254,8 +252,9 @@ export function SiteNavbar({
               menuLabel={t.hero.menuCta}
             />
 
+            {languageSwitcher}
+
             <div className="site-navbar-actions">
-              {!stackLanguageSwitcher ? languageSwitcher : null}
               <button
                 ref={toggleRef}
                 type="button"
@@ -277,8 +276,6 @@ export function SiteNavbar({
               </button>
             </div>
           </div>
-
-          {stackLanguageSwitcher ? languageSwitcher : null}
         </nav>
       </header>
 

@@ -1,4 +1,3 @@
-import { ContactFormSection } from "@/components/features/contact/contact-form-section";
 import { IconMail, IconMapPin, IconPhone } from "@/components/shared/site-icons";
 import { SITE_WORDMARK_LIGHT_SRC, SITE_WORDMARK_LIGHT_WEBP_SRC } from "@/data/brand-assets";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
@@ -100,7 +99,6 @@ export async function SiteFooter() {
                 <span>{BUSINESS.email}</span>
               </a>
             </div>
-            <ContactFormSection />
             <div className="site-footer-social-wrap">
               <p className="site-footer-social-label">{t.footer.followUs}</p>
               <div className="site-footer-socials">

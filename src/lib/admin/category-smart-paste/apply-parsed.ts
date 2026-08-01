@@ -1,5 +1,6 @@
 import type { MenuCategory } from "@/types/content";
 import type { SeoPageFieldsInput } from "@/types/seo-content";
+import { pickCategorySeoFields } from "@/lib/seo-content/admin-category-seo";
 
 import type { CategorySmartPastePreview, ParsedFaqItem } from "./types";
 
@@ -142,5 +143,5 @@ export function applyCategorySmartPaste(
     };
   }
 
-  return { draft: nextDraft, seoFields: nextSeo };
+  return { draft: nextDraft, seoFields: pickCategorySeoFields(nextSeo) };
 }

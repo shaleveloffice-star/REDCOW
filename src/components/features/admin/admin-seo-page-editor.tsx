@@ -10,17 +10,18 @@ import {
 import { useAdminMutation } from "@/components/features/admin/admin-crud-ui";
 import { LOCALE_LABELS, LOCALES, type Locale } from "@/i18n/config";
 import { getDefaultSeoPageFields } from "@/data/seo-content-defaults";
+import { sanitizeSeoPageFields } from "@/lib/seo-content/sanitize-seo-storage";
 import { saveSeoPageFieldsAction } from "@/server/actions/seo-content.actions";
 import type { SeoContentDocument, SeoPageFieldsInput, SeoPageId } from "@/types/seo-content";
 
 function cloneFields(fields: SeoPageFieldsInput | undefined): SeoPageFieldsInput {
-  return {
+  return sanitizeSeoPageFields({
     ...fields,
     faq: fields?.faq
       ? { ...fields.faq, items: fields.faq.items?.map((item) => ({ ...item })) ?? [] }
       : undefined,
     cta: fields?.cta ? { ...fields.cta } : undefined
-  };
+  });
 }
 
 type AdminSeoPageEditorProps = {
@@ -81,13 +82,14 @@ export function AdminSeoPageEditor({ pageId, initialDocument, fieldFlags }: Admi
         onSubmit={(event) => {
           event.preventDefault();
           run(async () => {
-            const result = await saveSeoPageFieldsAction(locale, pageId, draft);
+            const payload = sanitizeSeoPageFields(draft);
+            const result = await saveSeoPageFieldsAction(locale, pageId, payload);
             setDocument((current) => ({
               ...current,
               [locale]: {
                 pages: {
                   ...(current[locale]?.pages ?? {}),
-                  [pageId]: draft
+                  [pageId]: payload
                 },
                 updatedAt: result.updatedAt
               }

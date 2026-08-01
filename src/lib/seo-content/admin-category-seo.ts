@@ -3,6 +3,16 @@ import { getDefaultSeoPageFields } from "@/data/seo-content-defaults";
 import { sanitizeSeoPageFields } from "@/lib/seo-content/sanitize-seo-storage";
 import type { SeoContentDocument, SeoPageFieldsInput } from "@/types/seo-content";
 
+/** Category SEO uses only these body fields — strips nested menu keys and undefined (Server Actions safe). */
+export function pickCategorySeoFields(fields: SeoPageFieldsInput | undefined): SeoPageFieldsInput {
+  return sanitizeSeoPageFields({
+    introduction: fields?.introduction,
+    bottomContent: fields?.bottomContent,
+    faq: fields?.faq,
+    cta: fields?.cta
+  });
+}
+
 export function getStoredCategorySeoFields(
   document: SeoContentDocument,
   locale: Locale,
@@ -11,12 +21,12 @@ export function getStoredCategorySeoFields(
   const menuPage = document[locale]?.pages?.menu;
   const stored = menuPage?.categoryPages?.[categoryId];
 
-  return {
+  return pickCategorySeoFields({
     introduction: stored?.introduction ?? menuPage?.categoryIntros?.[categoryId] ?? "",
     bottomContent: stored?.bottomContent ?? "",
     faq: stored?.faq,
     cta: stored?.cta
-  };
+  });
 }
 
 export function getDefaultCategorySeoFields(locale: Locale, categoryId: string): SeoPageFieldsInput {
@@ -30,7 +40,8 @@ export function resolveCategorySeoFieldsForSave(
   locale: Locale,
   categoryId: string
 ): SeoPageFieldsInput {
-  return seoByLocale[locale] ?? getStoredCategorySeoFields(seoDocument, locale, categoryId);
+  const fields = seoByLocale[locale] ?? getStoredCategorySeoFields(seoDocument, locale, categoryId);
+  return pickCategorySeoFields(fields);
 }
 
 export function buildCategorySeoMenuPatch(
@@ -38,18 +49,19 @@ export function buildCategorySeoMenuPatch(
   categoryId: string,
   fields: SeoPageFieldsInput
 ): SeoPageFieldsInput {
-  const currentCategory = currentMenu?.categoryPages?.[categoryId] ?? {};
+  const currentCategory = pickCategorySeoFields(currentMenu?.categoryPages?.[categoryId]);
+  const incoming = pickCategorySeoFields(fields);
   const mergedCategory: SeoPageFieldsInput = {
     ...currentCategory,
-    ...(fields.introduction !== undefined ? { introduction: fields.introduction } : {}),
-    ...(fields.bottomContent !== undefined ? { bottomContent: fields.bottomContent } : {}),
-    ...(fields.faq !== undefined ? { faq: fields.faq } : {}),
-    ...(fields.cta !== undefined ? { cta: fields.cta } : {})
+    ...(incoming.introduction !== undefined ? { introduction: incoming.introduction } : {}),
+    ...(incoming.bottomContent !== undefined ? { bottomContent: incoming.bottomContent } : {}),
+    ...(incoming.faq !== undefined ? { faq: incoming.faq } : {}),
+    ...(incoming.cta !== undefined ? { cta: incoming.cta } : {})
   };
 
   const categoryIntros = { ...(currentMenu?.categoryIntros ?? {}) };
-  if (fields.introduction !== undefined) {
-    categoryIntros[categoryId] = fields.introduction;
+  if (incoming.introduction !== undefined) {
+    categoryIntros[categoryId] = incoming.introduction;
   }
 
   return sanitizeSeoPageFields({

@@ -1,58 +1,43 @@
 "use server";
 
 import { requireAdmin } from "@/lib/auth/admin-guard";
-import { CACHE_TAGS } from "@/lib/cache/cached-data";
-import { buildCategorySeoMenuPatch } from "@/lib/seo-content/admin-category-seo";
 import {
-  mergeSeoPageFields,
-  sanitizeSeoLocaleBundle,
-  sanitizeSeoPageFields
-} from "@/lib/seo-content/sanitize-seo-storage";
+  buildCategorySeoMenuPatch,
+  pickCategorySeoFields
+} from "@/lib/seo-content/admin-category-seo";
+import { sanitizeSeoLocaleBundle, sanitizeSeoPageFields } from "@/lib/seo-content/sanitize-seo-storage";
+import { revalidateSeoContentCache } from "@/lib/seo-content/revalidate-seo-cache";
 import type { Locale } from "@/i18n/config";
-import { revalidatePath, updateTag } from "next/cache";
 import { listMenuCategories } from "@/services/menu.service";
 import {
   getSeoContentStore,
   getSeoLocaleBundleForAdmin,
+  persistSeoPageFieldsForAdmin,
+  saveAllCategorySeoFieldsForAdmin,
   saveSeoLocaleBundleForAdmin
 } from "@/services/seo-content.service";
 import type { SeoLocaleBundle, SeoPageFieldsInput, SeoPageId } from "@/types/seo-content";
-
-const PUBLIC_PATHS = ["/", "/about", "/menu", "/locations", "/privacy-policy", "/terms"] as const;
 
 export type SeoSaveResult = {
   ok: true;
   updatedAt: string;
 };
 
-function revalidateSeoContentCache() {
-  try {
-    updateTag(CACHE_TAGS.seoContent);
-    PUBLIC_PATHS.forEach((path) => revalidatePath(path));
-  } catch {
-    // ignore cache revalidation failures
+function seoActionError(error: unknown, fallback: string): Error {
+  const detail = error instanceof Error ? error.message : fallback;
+  if (/[\u0590-\u05FF]/.test(detail)) {
+    return new Error(detail);
   }
+  console.error("[seo-content]", detail);
+  return new Error(fallback);
 }
 
-async function persistSeoPageFields(
-  locale: Locale,
-  pageId: SeoPageId,
-  fields: SeoPageFieldsInput
-): Promise<SeoSaveResult> {
-  const current = await getSeoLocaleBundleForAdmin(locale);
-  const mergedFields = mergeSeoPageFields(current.pages?.[pageId], fields);
-  const next: SeoLocaleBundle = sanitizeSeoLocaleBundle({
-    pages: {
-      ...(current.pages ?? {}),
-      [pageId]: mergedFields
-    },
-    updatedAt: new Date().toISOString()
-  });
-
-  await saveSeoLocaleBundleForAdmin(locale, next);
-  revalidateSeoContentCache();
-
-  return { ok: true, updatedAt: next.updatedAt };
+async function requireAdminOrThrow() {
+  try {
+    await requireAdmin();
+  } catch {
+    throw new Error("אין הרשאת אדמין. התחברו מחדש ל־/admin/login");
+  }
 }
 
 export async function getSeoContentDocumentForAdmin() {
@@ -74,10 +59,35 @@ export async function saveCategorySeoFieldsAction(
   categoryId: string,
   fields: SeoPageFieldsInput
 ): Promise<SeoSaveResult> {
-  await requireAdmin();
-  const current = await getSeoLocaleBundleForAdmin(locale);
-  const nextMenu = buildCategorySeoMenuPatch(current.pages?.menu, categoryId, sanitizeSeoPageFields(fields));
-  return persistSeoPageFields(locale, "menu", nextMenu);
+  await requireAdminOrThrow();
+
+  try {
+    const current = await getSeoLocaleBundleForAdmin(locale);
+    const nextMenu = buildCategorySeoMenuPatch(
+      current.pages?.menu,
+      categoryId,
+      pickCategorySeoFields(fields)
+    );
+    const result = await persistSeoPageFieldsForAdmin(locale, "menu", nextMenu);
+    return { ok: true, updatedAt: result.updatedAt };
+  } catch (error) {
+    throw seoActionError(error, "שמירת תוכן SEO לקטגוריה נכשלה.");
+  }
+}
+
+/** Saves SEO for all locales in one server round-trip (resolves missing locales from DB). */
+export async function saveAllCategorySeoFieldsAction(
+  categoryId: string,
+  seoByLocale: Partial<Record<Locale, SeoPageFieldsInput>>
+): Promise<SeoSaveResult> {
+  await requireAdminOrThrow();
+
+  try {
+    const result = await saveAllCategorySeoFieldsForAdmin(categoryId, seoByLocale);
+    return { ok: true, updatedAt: result.updatedAt };
+  } catch (error) {
+    throw seoActionError(error, "שמירת תוכן SEO לקטגוריה נכשלה.");
+  }
 }
 
 export async function getSeoLocaleAdminBundleAction(locale: Locale) {
@@ -101,6 +111,12 @@ export async function saveSeoPageFieldsAction(
   pageId: SeoPageId,
   fields: SeoPageFieldsInput
 ): Promise<SeoSaveResult> {
-  await requireAdmin();
-  return persistSeoPageFields(locale, pageId, sanitizeSeoPageFields(fields ?? {}));
+  await requireAdminOrThrow();
+
+  try {
+    const result = await persistSeoPageFieldsForAdmin(locale, pageId, sanitizeSeoPageFields(fields ?? {}));
+    return { ok: true, updatedAt: result.updatedAt };
+  } catch (error) {
+    throw seoActionError(error, "שמירת תוכן SEO נכשלה.");
+  }
 }

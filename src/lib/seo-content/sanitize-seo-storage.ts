@@ -1,5 +1,22 @@
 import type { SeoContentDocument, SeoLocaleBundle, SeoPageFieldsInput } from "@/types/seo-content";
 
+function toIsoTimestamp(value: unknown): string {
+  if (typeof value === "string" && value.trim()) {
+    return value;
+  }
+
+  if (
+    value &&
+    typeof value === "object" &&
+    "toDate" in value &&
+    typeof (value as { toDate: () => Date }).toDate === "function"
+  ) {
+    return (value as { toDate: () => Date }).toDate().toISOString();
+  }
+
+  return new Date().toISOString();
+}
+
 /** Remove undefined values so Firestore + Server Action responses stay serializable. */
 export function sanitizeSeoStorageValue<T>(value: T): T {
   if (value === undefined) {
@@ -35,7 +52,7 @@ export function sanitizeSeoLocaleBundle(bundle: SeoLocaleBundle): SeoLocaleBundl
 
   return {
     pages: sanitizedPages,
-    updatedAt: bundle.updatedAt
+    updatedAt: toIsoTimestamp(bundle.updatedAt)
   };
 }
 

@@ -10,15 +10,26 @@ function useLocalOnly() {
   return !isFirebaseConfigured();
 }
 
+function mergeLocaleIntoDocument(
+  current: SeoContentDocument,
+  locale: Locale,
+  bundle: SeoLocaleBundle
+): SeoContentDocument {
+  return sanitizeSeoContentDocument({
+    ...current,
+    [locale]: bundle
+  });
+}
+
 export async function getSeoContentDocument(): Promise<SeoContentDocument> {
   if (useLocalOnly()) {
-    return localSeoContentStore.get();
+    return sanitizeSeoContentDocument(await localSeoContentStore.get());
   }
 
   try {
     const db = getFirestoreDb();
     if (!db) {
-      return localSeoContentStore.get();
+      return sanitizeSeoContentDocument(await localSeoContentStore.get());
     }
 
     const locales: Locale[] = ["he", "en", "fr"];
@@ -28,15 +39,15 @@ export async function getSeoContentDocument(): Promise<SeoContentDocument> {
       locales.map(async (locale) => {
         const snapshot = await getDoc(doc(db, "seoContent", locale));
         if (snapshot.exists()) {
-          document[locale] = snapshot.data() as SeoLocaleBundle;
+          document[locale] = sanitizeSeoLocaleBundle(snapshot.data() as SeoLocaleBundle);
         }
       })
     );
 
-    return document;
+    return sanitizeSeoContentDocument(document);
   } catch (error) {
     console.error("[seo-content] Firestore read failed, falling back to local", error);
-    return localSeoContentStore.get();
+    return sanitizeSeoContentDocument(await localSeoContentStore.get());
   }
 }
 
@@ -45,35 +56,33 @@ export async function saveSeoLocaleBundle(locale: Locale, bundle: SeoLocaleBundl
 
   if (useLocalOnly()) {
     const current = await localSeoContentStore.get();
-    const next: SeoContentDocument = sanitizeSeoContentDocument({
-      ...current,
-      [locale]: sanitizedBundle
-    });
-    await localSeoContentStore.save(next);
+    await localSeoContentStore.save(mergeLocaleIntoDocument(current, locale, sanitizedBundle));
     return sanitizedBundle;
   }
 
   const adminDb = await getAdminFirestore();
   if (!adminDb) {
     const current = await localSeoContentStore.get();
-    const next: SeoContentDocument = sanitizeSeoContentDocument({
-      ...current,
-      [locale]: sanitizedBundle
-    });
-    await localSeoContentStore.save(next);
+    await localSeoContentStore.save(mergeLocaleIntoDocument(current, locale, sanitizedBundle));
     return sanitizedBundle;
   }
 
+  let firestoreOk = false;
   try {
     await adminDb.collection("seoContent").doc(locale).set(sanitizedBundle, { merge: true });
+    firestoreOk = true;
   } catch (error) {
     console.error("[seo-content] Firestore write failed, falling back to local", error);
   }
 
   const current = await localSeoContentStore.get();
-  await localSeoContentStore.save(
-    sanitizeSeoContentDocument({ ...current, [locale]: sanitizedBundle })
-  );
+  const nextDocument = mergeLocaleIntoDocument(current, locale, sanitizedBundle);
 
+  if (firestoreOk) {
+    await localSeoContentStore.saveOptional(nextDocument);
+    return sanitizedBundle;
+  }
+
+  await localSeoContentStore.save(nextDocument);
   return sanitizedBundle;
 }

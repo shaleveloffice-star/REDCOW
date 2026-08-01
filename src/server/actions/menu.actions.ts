@@ -3,8 +3,11 @@
 import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
 import { saveMenuItemCore } from "@/lib/admin/save-menu-item";
 import type { SaveMenuItemResult } from "@/lib/admin/save-menu-item";
+import { pickCategorySeoFields } from "@/lib/seo-content/admin-category-seo";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
+import type { Locale } from "@/i18n/config";
 import { revalidatePath, updateTag } from "next/cache";
+import { saveAllCategorySeoFieldsForAdmin } from "@/services/seo-content.service";
 import {
   getHomepageMenuShowcaseSelection,
   listMenuCategories,
@@ -15,6 +18,7 @@ import {
   upsertMenuCategory
 } from "@/services/menu.service";
 import type { MenuCategory, MenuItem } from "@/types/content";
+import type { SeoPageFieldsInput } from "@/types/seo-content";
 
 const menuPaths = ["/admin/menu", "/admin/menu-categories", "/", "/menu"];
 
@@ -82,6 +86,47 @@ export async function saveMenuCategoryAction(input: MenuCategory) {
     description: input.description?.trim() ?? "",
     isActive: Boolean(input.isActive)
   });
+
+  menuPaths.forEach((path) => revalidatePath(path));
+  revalidateMenuCache();
+  return saved;
+}
+
+export async function saveMenuCategoryWithSeoAction(
+  input: MenuCategory,
+  seoByLocale: Partial<Record<Locale, SeoPageFieldsInput>>
+) {
+  try {
+    await requireAdmin();
+  } catch {
+    throw new Error("אין הרשאת אדמין. התחברו מחדש ל־/admin/login");
+  }
+
+  const name = input.name.trim();
+  const slug = input.slug.trim();
+  if (!name) throw new Error("שם הקטגוריה נדרש");
+  if (!slug) throw new Error("Slug נדרש");
+
+  const saved = await upsertMenuCategory({
+    ...input,
+    name,
+    slug,
+    description: input.description?.trim() ?? "",
+    isActive: Boolean(input.isActive)
+  });
+
+  const sanitizedSeo = Object.fromEntries(
+    Object.entries(seoByLocale)
+      .filter((entry): entry is [Locale, SeoPageFieldsInput] => Boolean(entry[1]))
+      .map(([locale, fields]) => [locale, pickCategorySeoFields(fields)])
+  ) as Partial<Record<Locale, SeoPageFieldsInput>>;
+
+  try {
+    await saveAllCategorySeoFieldsForAdmin(saved.id, sanitizedSeo);
+  } catch (error) {
+    const detail = error instanceof Error ? error.message : "שמירת תוכן SEO נכשלה";
+    throw new Error(/[\u0590-\u05FF]/.test(detail) ? detail : "שמירת תוכן SEO לקטגוריה נכשלה.");
+  }
 
   menuPaths.forEach((path) => revalidatePath(path));
   revalidateMenuCache();

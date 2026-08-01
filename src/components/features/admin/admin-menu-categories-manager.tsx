@@ -18,11 +18,10 @@ import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import {
   getStoredCategorySeoFields,
-  resolveCategorySeoFieldsForSave
+  pickCategorySeoFields
 } from "@/lib/seo-content/admin-category-seo";
 import { LOCALES, type Locale } from "@/i18n/config";
-import { deleteMenuCategoryAction, saveMenuCategoryAction } from "@/server/actions/menu.actions";
-import { saveCategorySeoFieldsAction } from "@/server/actions/seo-content.actions";
+import { deleteMenuCategoryAction, saveMenuCategoryAction, saveMenuCategoryWithSeoAction } from "@/server/actions/menu.actions";
 import type { MenuCategory } from "@/types/content";
 import type { SeoContentDocument, SeoPageFieldsInput } from "@/types/seo-content";
 
@@ -81,7 +80,7 @@ export function AdminMenuCategoriesManager({
   };
 
   const updateSeoLocale = (locale: Locale, fields: SeoPageFieldsInput) => {
-    setSeoByLocale((current) => ({ ...current, [locale]: fields }));
+    setSeoByLocale((current) => ({ ...current, [locale]: pickCategorySeoFields(fields) }));
   };
 
   const currentSeoFields =
@@ -143,16 +142,19 @@ export function AdminMenuCategoriesManager({
             onSubmit={(e) => {
               e.preventDefault();
               run(async () => {
-                await saveMenuCategoryAction(draft);
-                if (!isNew) {
-                  for (const locale of LOCALES) {
-                    await saveCategorySeoFieldsAction(
-                      locale,
-                      draft.id,
-                      resolveCategorySeoFieldsForSave(seoByLocale, seoDocument, locale, draft.id)
-                    );
-                  }
+                if (isNew) {
+                  await saveMenuCategoryAction(draft);
+                  return;
                 }
+
+                const payload = LOCALES.reduce<Partial<Record<Locale, SeoPageFieldsInput>>>((acc, locale) => {
+                  if (seoByLocale[locale]) {
+                    acc[locale] = pickCategorySeoFields(seoByLocale[locale]);
+                  }
+                  return acc;
+                }, {});
+
+                await saveMenuCategoryWithSeoAction(draft, payload);
               }, close);
             }}
           >

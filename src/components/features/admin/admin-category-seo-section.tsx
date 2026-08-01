@@ -6,7 +6,8 @@ import { AdminSeoFieldsForm } from "@/components/features/admin/admin-seo-fields
 import { LOCALE_LABELS, LOCALES, type Locale } from "@/i18n/config";
 import {
   getDefaultCategorySeoFields,
-  getStoredCategorySeoFields
+  getStoredCategorySeoFields,
+  pickCategorySeoFields
 } from "@/lib/seo-content/admin-category-seo";
 import type { SeoContentDocument, SeoPageFieldsInput } from "@/types/seo-content";
 
@@ -68,7 +69,7 @@ export function AdminCategorySeoSection({
         defaults={defaults}
         flags={{ introduction: true, bottomContent: true, faq: true, cta: true }}
         idPrefix={`cat-${categoryId}-${locale}`}
-        onChange={(next) => onChange(locale, next)}
+        onChange={(next) => onChange(locale, pickCategorySeoFields(next))}
       />
     </fieldset>
   );

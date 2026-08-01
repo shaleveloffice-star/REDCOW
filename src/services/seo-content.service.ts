@@ -1,5 +1,17 @@
 import type { Locale } from "@/i18n/config";
+import { LOCALES } from "@/i18n/config";
+import {
+  buildCategorySeoMenuPatch,
+  getStoredCategorySeoFields,
+  pickCategorySeoFields
+} from "@/lib/seo-content/admin-category-seo";
 import { resolveSeoPageContent } from "@/lib/seo-content/resolve-seo-content";
+import {
+  mergeSeoPageFields,
+  sanitizeSeoLocaleBundle,
+  sanitizeSeoPageFields
+} from "@/lib/seo-content/sanitize-seo-storage";
+import { revalidateSeoContentCache } from "@/lib/seo-content/revalidate-seo-cache";
 import {
   getSeoContentDocument,
   saveSeoLocaleBundle
@@ -64,4 +76,50 @@ export async function saveSeoLocaleBundleForAdmin(
     ...bundle,
     updatedAt: new Date().toISOString()
   });
+}
+
+export async function persistSeoPageFieldsForAdmin(
+  locale: Locale,
+  pageId: SeoPageId,
+  fields: SeoPageFieldsInput
+): Promise<{ updatedAt: string }> {
+  const current = await getSeoLocaleBundleForAdmin(locale);
+  const mergedFields = mergeSeoPageFields(current.pages?.[pageId], fields);
+  const next: SeoLocaleBundle = sanitizeSeoLocaleBundle({
+    pages: {
+      ...(current.pages ?? {}),
+      [pageId]: mergedFields
+    },
+    updatedAt: new Date().toISOString()
+  });
+
+  await saveSeoLocaleBundleForAdmin(locale, next);
+  revalidateSeoContentCache();
+
+  return { updatedAt: next.updatedAt };
+}
+
+export async function saveAllCategorySeoFieldsForAdmin(
+  categoryId: string,
+  seoByLocale: Partial<Record<Locale, SeoPageFieldsInput>>
+): Promise<{ updatedAt: string }> {
+  const id = categoryId.trim();
+  if (!id) {
+    throw new Error("מזהה קטגוריה חסר.");
+  }
+
+  const document = await getSeoContentDocument();
+  let lastUpdated = new Date().toISOString();
+
+  for (const locale of LOCALES) {
+    const fields = pickCategorySeoFields(
+      seoByLocale[locale] ?? getStoredCategorySeoFields(document, locale, id)
+    );
+    const current = await getSeoLocaleBundleForAdmin(locale);
+    const nextMenu = buildCategorySeoMenuPatch(current.pages?.menu, id, fields);
+    const result = await persistSeoPageFieldsForAdmin(locale, "menu", nextMenu);
+    lastUpdated = result.updatedAt;
+  }
+
+  return { updatedAt: lastUpdated };
 }

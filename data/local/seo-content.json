@@ -1,1 +1,12 @@
-{}
+{
+  "he": {
+    "pages": {
+      "menu": {
+        "categoryIntros": {
+          "cat-test": "hello"
+        }
+      }
+    },
+    "updatedAt": "2026-08-01T08:06:50.052Z"
+  }
+}

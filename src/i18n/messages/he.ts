@@ -58,7 +58,10 @@ export const he: Messages = {
     backToMenu: "חזרה לתפריט",
     longSectionTitle: "על המנה",
     longSectionAria: "תיאור מורחב",
-    allergyGuide: "מדריך אלרגנים"
+    allergyGuide: "מדריך אלרגנים",
+    relatedItemsTitle: "מנות נוספות",
+    relatedItemsLead: "עוד מהקטגוריה - מנות ששוות את הביס הבא שלכם.",
+    relatedItemsAria: "מנות נוספות מהקטגוריה"
   },
   aboutPage: {
     title: "אודות NB BURGER"

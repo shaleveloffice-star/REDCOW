@@ -168,13 +168,18 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
     redirect(`/menu/${resolvedSlug}`);
   }
 
-  const [orderLinks, categories] = await Promise.all([
+  const [orderLinks, categories, groups] = await Promise.all([
     getCachedActiveOrderLinks(),
-    getCachedMenuCategories()
+    getCachedMenuCategories(),
+    getCachedMenuForDisplay()
   ]);
   const itemCategory = categories.find((entry) => entry.id === item.categoryId);
   const categoryName = itemCategory ? getLocalizedCategoryName(itemCategory, locale) : undefined;
   const categorySlug = itemCategory ? resolveCategorySlug(itemCategory) : undefined;
+  const relatedItems =
+    groups.find((group) => group.id === item.categoryId)?.items.filter(
+      (entry) => entry.id !== item.id && entry.isActive
+    ) ?? [];
   const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
 
   return (
@@ -192,6 +197,7 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
         <MenuItemDetailView
           item={item}
           category={itemCategory}
+          relatedItems={relatedItems}
           pickupUrl={pickupUrl}
           deliveryUrl={deliveryUrl}
         />

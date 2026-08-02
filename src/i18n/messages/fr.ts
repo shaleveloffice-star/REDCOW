@@ -58,7 +58,10 @@ export const fr: Messages = {
     backToMenu: "Retour à la carte",
     longSectionTitle: "À propos du plat",
     longSectionAria: "Description complète",
-    allergyGuide: "Guide des allergènes"
+    allergyGuide: "Guide des allergènes",
+    relatedItemsTitle: "Autres plats",
+    relatedItemsLead: "De cette catégorie — trouvez votre prochaine bouchée.",
+    relatedItemsAria: "Autres plats de la catégorie"
   },
   aboutPage: {
     title: "À propos de NB BURGER"

@@ -261,6 +261,51 @@
   margin-top: 16px;
 }
 
+.menu-item-detail-related {
+  width: 100%;
+  max-width: none;
+  margin: clamp(40px, 7vw, 64px) 0 0;
+  padding: clamp(36px, 6vw, 48px) 16px clamp(40px, 7vw, 56px);
+  background: #000000;
+  border-top: none;
+}
+
+.menu-item-detail-related-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: min(1120px, calc(100% - 32px));
+  margin: 0 auto clamp(24px, 4vw, 36px);
+  text-align: center;
+}
+
+.menu-item-detail-related-title {
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(20px, 3.5vw, 28px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 1.15;
+  text-transform: uppercase;
+}
+
+.menu-item-detail-related-lead {
+  margin: 0;
+  max-width: 36ch;
+  color: rgba(255, 255, 255, 0.72);
+  font-family: var(--font-body);
+  font-size: clamp(14px, 1.8vw, 16px);
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 1.45;
+}
+
+.menu-item-detail-related .menu-bleecker-card-link:focus-visible {
+  outline-color: #ffffff;
+}
+
 .menu-item-detail-footer {
   display: flex;
   justify-content: center;

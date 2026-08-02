@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { OrderModal } from "@/components/layout/order-modal";
+import { isBurgersCategory, MenuItemsGrid } from "@/components/features/menu/menu-items-grid";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { IconBurgerMark } from "@/components/shared/site-icons";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
@@ -20,6 +21,7 @@ import type { MenuCategory, MenuItem } from "@/types/content";
 type MenuItemDetailViewProps = {
   item: MenuItem;
   category?: Pick<MenuCategory, "id" | "name" | "slug">;
+  relatedItems?: MenuItem[];
   pickupUrl: string;
   deliveryUrl: string;
 };
@@ -37,6 +39,7 @@ function splitLongDescription(longDescription: string): string[] {
 export function MenuItemDetailView({
   item,
   category,
+  relatedItems = [],
   pickupUrl,
   deliveryUrl
 }: MenuItemDetailViewProps) {
@@ -151,6 +154,24 @@ export function MenuItemDetailView({
               {paragraph}
             </p>
           ))}
+        </section>
+      ) : null}
+
+      {relatedItems.length > 0 ? (
+        <section
+          className="menu-item-detail-related"
+          aria-labelledby="menu-item-detail-related-title"
+        >
+          <div className="menu-item-detail-related-head">
+            <h2 id="menu-item-detail-related-title" className="menu-item-detail-related-title">
+              {t.menuItemDetail.relatedItemsTitle}
+            </h2>
+            <p className="menu-item-detail-related-lead">{t.menuItemDetail.relatedItemsLead}</p>
+          </div>
+          <MenuItemsGrid
+            items={relatedItems}
+            large={category ? isBurgersCategory(category) : false}
+          />
         </section>
       ) : null}
 

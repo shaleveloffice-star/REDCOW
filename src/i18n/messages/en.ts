@@ -58,7 +58,10 @@ export const en: Messages = {
     backToMenu: "Back to menu",
     longSectionTitle: "About this dish",
     longSectionAria: "Full description",
-    allergyGuide: "Allergy Guide"
+    allergyGuide: "Allergy Guide",
+    relatedItemsTitle: "More dishes",
+    relatedItemsLead: "From this category — discover your next bite.",
+    relatedItemsAria: "More dishes from this category"
   },
   aboutPage: {
     title: "About NB BURGER"

@@ -61,6 +61,9 @@ export type Messages = {
     longSectionTitle: string;
     longSectionAria: string;
     allergyGuide: string;
+    relatedItemsTitle: string;
+    relatedItemsLead: string;
+    relatedItemsAria: string;
   };
   aboutPage: {
     title: string;

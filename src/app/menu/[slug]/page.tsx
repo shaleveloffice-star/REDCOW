@@ -75,7 +75,9 @@ export async function generateMetadata({ params }: MenuSlugPageProps): Promise<M
       name: getLocalizedCategoryName(category, locale),
       slug: resolveCategorySlug(category),
       description: category.description,
-      seoIntro: introLead
+      seoIntro: introLead,
+      metaTitle: categorySeo.metaTitle,
+      metaDescription: categorySeo.metaDescription
     });
   }
 

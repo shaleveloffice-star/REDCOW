@@ -6,14 +6,17 @@ import { AdminSeoFieldsForm } from "@/components/features/admin/admin-seo-fields
 import { CATEGORY_SEO_FIELD_WHERE } from "@/components/features/admin/admin-field-label";
 import { LOCALE_LABELS, LOCALES, type Locale } from "@/i18n/config";
 import {
+  getCategoryMetaPlaceholders,
   getDefaultCategorySeoFields,
   getStoredCategorySeoFields,
   pickCategorySeoFields
 } from "@/lib/seo-content/admin-category-seo";
+import type { MenuCategory } from "@/types/content";
 import type { SeoContentDocument, SeoPageFieldsInput } from "@/types/seo-content";
 
 type AdminCategorySeoSectionProps = {
   categoryId: string;
+  category: Pick<MenuCategory, "id" | "name" | "description">;
   seoDocument: SeoContentDocument;
   seoByLocale: Partial<Record<Locale, SeoPageFieldsInput>>;
   locale?: Locale;
@@ -23,6 +26,7 @@ type AdminCategorySeoSectionProps = {
 
 export function AdminCategorySeoSection({
   categoryId,
+  category,
   seoDocument,
   seoByLocale,
   locale: controlledLocale,
@@ -41,9 +45,16 @@ export function AdminCategorySeoSection({
   };
 
   const draft = seoByLocale[locale] ?? getStoredCategorySeoFields(seoDocument, locale, categoryId);
-  const defaults = useMemo(
+  const bodyDefaults = useMemo(
     () => getDefaultCategorySeoFields(locale, categoryId),
     [locale, categoryId]
+  );
+  const defaults = useMemo(
+    () => ({
+      ...bodyDefaults,
+      ...getCategoryMetaPlaceholders(locale, category, draft)
+    }),
+    [bodyDefaults, locale, category, draft]
   );
 
   return (
@@ -68,7 +79,7 @@ export function AdminCategorySeoSection({
       <AdminSeoFieldsForm
         draft={draft}
         defaults={defaults}
-        flags={{ meta: false, introduction: true, bottomContent: true, faq: true, cta: true }}
+        flags={{ meta: true, introduction: true, bottomContent: true, faq: true, cta: true }}
         idPrefix={`cat-${categoryId}-${locale}`}
         fieldWhere={CATEGORY_SEO_FIELD_WHERE}
         onChange={(next) => onChange(locale, pickCategorySeoFields(next))}

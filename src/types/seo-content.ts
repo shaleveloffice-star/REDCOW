@@ -40,6 +40,8 @@ export type SeoPageFieldsInput = {
 
 /** Resolved SEO body for a single menu category. */
 export type ResolvedCategorySeoContent = {
+  metaTitle: string;
+  metaDescription: string;
   introduction: string;
   bottomContent: string;
   faq: Required<SeoFaqBlock> & { items: SeoFaqItem[] };

@@ -37,16 +37,26 @@ export async function getMenuPageMetadata(locale: Locale) {
 
 export function getMenuCategoryPageMetadata(
   locale: Locale,
-  category: { name: string; description?: string; slug: string; seoIntro?: string }
+  category: {
+    name: string;
+    description?: string;
+    slug: string;
+    seoIntro?: string;
+    metaTitle?: string;
+    metaDescription?: string;
+  }
 ) {
   const menuMeta = getDefaultPageMeta(locale, "menu");
+  const generatedTitle = `${category.name} | NB BURGER`;
+  const title = category.metaTitle?.trim() || generatedTitle;
   const description =
+    category.metaDescription?.trim() ||
     category.description?.trim() ||
     category.seoIntro?.trim() ||
     menuMeta.description;
 
   return buildPageMetadata({
-    title: `${category.name} | NB BURGER`,
+    title,
     description,
     path: `/menu/${category.slug}`,
     locale

@@ -81,6 +81,8 @@ function resolveCategorySeoFields(
   const bottomContent = pickText(stored?.bottomContent, "");
 
   return {
+    metaTitle: stored?.metaTitle?.trim() ?? "",
+    metaDescription: stored?.metaDescription?.trim() ?? "",
     introduction,
     bottomContent,
     faq: pickFaqBlock(stored?.faq, EMPTY_FAQ),
@@ -138,6 +140,8 @@ export function getResolvedCategorySeo(
 ): ResolvedCategorySeoContent {
   return (
     content.categoryPages[categoryId] ?? {
+      metaTitle: "",
+      metaDescription: "",
       introduction: content.categoryIntros[categoryId]?.trim() ?? "",
       bottomContent: "",
       faq: EMPTY_FAQ,

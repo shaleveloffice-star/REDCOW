@@ -3,7 +3,7 @@ import { resolveMenuItemImageAlt } from "@/lib/image-alt";
 import {
   resolveMenuItemDisplay,
   type MenuItemWithDisplay
-} from "@/lib/translation/localize-menu";
+} from "@/lib/translation/menu-display";
 
 import type { Locale } from "./config";
 

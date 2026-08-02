@@ -3,7 +3,7 @@ import {
   resolveCategoryDisplayDescription,
   resolveCategoryDisplayName,
   type MenuCategoryWithDisplay
-} from "@/lib/translation/localize-menu";
+} from "@/lib/translation/menu-display";
 
 /** Legacy static translations kept for backward compatibility; public site uses auto-translation. */
 const CATEGORY_TRANSLATIONS: Record<string, Partial<Record<Locale, string>>> = {

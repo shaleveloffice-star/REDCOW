@@ -8,7 +8,7 @@ import { getMessages, type Messages } from "@/i18n/messages";
 import type { Locale } from "@/i18n/config";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { SITE_URL } from "@/lib/seo";
-import type { MenuGroupWithDisplay, MenuItemWithDisplay } from "@/lib/translation/localize-menu";
+import type { MenuGroupWithDisplay, MenuItemWithDisplay } from "@/lib/translation/menu-display";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
 export type JsonLdObject = Record<string, unknown>;

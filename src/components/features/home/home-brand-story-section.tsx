@@ -1,8 +1,8 @@
 import Image from "next/image";
 
 import { HOME_STORY_IMAGE } from "@/data/site-images.registry";
+import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
-import { getMessages } from "@/i18n/messages";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
@@ -15,7 +15,7 @@ type HomeBrandStorySectionProps = {
 
 export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectionProps) {
   const locale = await getServerLocale();
-  const t = getMessages(locale);
+  const t = await getLocalizedMessages(locale);
   const seoContent = await getCachedResolvedSeoPageContent(locale, "home");
   const story = layoutHomeStoryContent(seoContent);
   const imageSrc = pickSiteImage(siteImages, "home-story", HOME_STORY_IMAGE);

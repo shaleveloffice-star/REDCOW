@@ -27,5 +27,6 @@ pnpm-debug.log*
 # Admin-uploaded menu images (local durable store)
 data/local/uploads/
 data/local/rate-limits.json
+data/local/translation-cache.json
 .vercel
 .env*

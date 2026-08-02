@@ -1,8 +1,8 @@
 import { IconMail, IconMapPin, IconPhone } from "@/components/shared/site-icons";
 import { SITE_WORDMARK_LIGHT_SRC, SITE_WORDMARK_LIGHT_WEBP_SRC } from "@/data/brand-assets";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
+import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
-import { getMessages } from "@/i18n/messages";
 import { resolveImageAlt } from "@/lib/image-alt";
 
 function InstagramIcon() {
@@ -39,7 +39,7 @@ function TikTokIcon() {
 
 export async function SiteFooter() {
   const locale = await getServerLocale();
-  const t = getMessages(locale);
+  const t = await getLocalizedMessages(locale);
   const logoAlt = resolveImageAlt({ kind: "logo", locale });
   const phone = BUSINESS.phone;
   const mapsUrl = getBusinessMapsSearchUrl();

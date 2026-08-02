@@ -3,7 +3,7 @@ import { LegalDocumentView } from "@/components/features/legal/legal-document-vi
 import { SiteFooter } from "@/components/layout/site-footer";
 import { getDirection } from "@/i18n/config";
 import { getServerLocale } from "@/i18n/get-locale";
-import { getPrivacyContent } from "@/i18n/legal";
+import { getLocalizedPrivacyContent, getLocalizedTermsContent } from "@/i18n/legal/get-localized-legal";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { getPrivacyPageMetadata } from "@/lib/page-metadata";
 
@@ -16,7 +16,7 @@ export default async function PrivacyPolicyPage() {
   const locale = await getServerLocale();
   const [seoContent, document] = await Promise.all([
     getCachedResolvedSeoPageContent(locale, "privacy"),
-    Promise.resolve(getPrivacyContent(locale))
+    getLocalizedPrivacyContent(locale)
   ]);
 
   return (

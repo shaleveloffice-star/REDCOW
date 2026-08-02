@@ -1,5 +1,11 @@
 import type { Locale } from "@/i18n/config";
+import {
+  resolveCategoryDisplayDescription,
+  resolveCategoryDisplayName,
+  type MenuCategoryWithDisplay
+} from "@/lib/translation/localize-menu";
 
+/** Legacy static translations kept for backward compatibility; public site uses auto-translation. */
 const CATEGORY_TRANSLATIONS: Record<string, Partial<Record<Locale, string>>> = {
   "cat-burgers": { en: "Burgers", fr: "Burgers" },
   "cat-meals": { en: "Meals", fr: "Formules" },
@@ -11,12 +17,28 @@ const CATEGORY_TRANSLATIONS: Record<string, Partial<Record<Locale, string>>> = {
 };
 
 export function getLocalizedCategoryName(
-  category: { id: string; name: string; slug?: string },
-  locale: Locale
+  category: MenuCategoryWithDisplay | { id: string; name: string; slug?: string },
+  _locale: Locale
 ): string {
-  if (locale === "he") {
-    return category.name;
+  if ("displayName" in category && category.displayName) {
+    return resolveCategoryDisplayName(category);
   }
 
-  return CATEGORY_TRANSLATIONS[category.id]?.[locale] ?? category.name;
+  return category.name;
+}
+
+export function getLocalizedCategoryDescription(
+  category: MenuCategoryWithDisplay | { description?: string },
+  _locale: Locale
+): string {
+  if ("displayDescription" in category && category.displayDescription) {
+    return resolveCategoryDisplayDescription(category);
+  }
+
+  return String(category.description ?? "").trim();
+}
+
+/** @deprecated Legacy static map — retained for compatibility only. */
+export function getLegacyCategoryTranslation(categoryId: string, locale: Locale): string | undefined {
+  return CATEGORY_TRANSLATIONS[categoryId]?.[locale];
 }

@@ -4,8 +4,8 @@ import {
   HOME_ATMOSPHERE_SLIDE_3,
   HOME_ATMOSPHERE_SLIDE_4
 } from "@/data/site-images.registry";
+import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
-import { getMessages } from "@/i18n/messages";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -45,7 +45,7 @@ function AtmosphereLifter() {
 }
 
 export async function HomeAtmosphereSection({ siteImages }: HomeAtmosphereSectionProps) {
-  const t = getMessages(await getServerLocale());
+  const t = await getLocalizedMessages(await getServerLocale());
   const slides = SLIDE_KEYS.map((key, index) =>
     pickSiteImage(siteImages, key, SLIDE_DEFAULTS[index])
   );

@@ -1,11 +1,11 @@
 import Link from "next/link";
 
+import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
-import { getMessages } from "@/i18n/messages";
 
 export default async function NotFoundPage() {
   const locale = await getServerLocale();
-  const t = getMessages(locale);
+  const t = await getLocalizedMessages(locale);
 
   return (
     <main

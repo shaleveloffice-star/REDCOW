@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { MenuIndexView } from "@/components/features/menu/menu-index-view";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
+import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import {
   getCachedActiveOrderLinks,
   getCachedMenuForDisplay,
@@ -12,6 +13,7 @@ import { getServerLocale } from "@/i18n/get-locale";
 import { resolveMenuOrderUrls } from "@/lib/menu/menu-page-utils";
 import { getMenuPageMetadata } from "@/lib/page-metadata";
 import { buildMenuJsonLd } from "@/lib/seo/json-ld";
+import { localizeMenuGroups } from "@/lib/translation/localize-menu";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -20,20 +22,22 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function MenuPage() {
   const locale = await getServerLocale();
-  const [groups, orderLinks, menuSeo] = await Promise.all([
+  const [groups, orderLinks, menuSeo, messages] = await Promise.all([
     getCachedMenuForDisplay(),
     getCachedActiveOrderLinks(),
-    getCachedResolvedSeoPageContent(locale, "menu")
+    getCachedResolvedSeoPageContent(locale, "menu"),
+    getLocalizedMessages(locale)
   ]);
+  const localizedGroups = await localizeMenuGroups(groups, locale);
   const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
 
   return (
     <>
-      <JsonLd data={buildMenuJsonLd(groups, locale)} />
+      <JsonLd data={buildMenuJsonLd(localizedGroups, locale, messages)} />
       <main id="main-content" className="menu-page">
         <div className="menu-page-inner">
           <MenuIndexView
-            groups={groups}
+            groups={localizedGroups}
             menuSeo={{
               introduction: menuSeo.introduction,
               bottomContent: menuSeo.bottomContent,

@@ -3,7 +3,7 @@ import { LegalDocumentView } from "@/components/features/legal/legal-document-vi
 import { SiteFooter } from "@/components/layout/site-footer";
 import { getDirection } from "@/i18n/config";
 import { getServerLocale } from "@/i18n/get-locale";
-import { getTermsContent } from "@/i18n/legal";
+import { getLocalizedTermsContent } from "@/i18n/legal/get-localized-legal";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { getTermsPageMetadata } from "@/lib/page-metadata";
 
@@ -16,7 +16,7 @@ export default async function TermsPage() {
   const locale = await getServerLocale();
   const [seoContent, document] = await Promise.all([
     getCachedResolvedSeoPageContent(locale, "terms"),
-    Promise.resolve(getTermsContent(locale))
+    getLocalizedTermsContent(locale)
   ]);
 
   return (

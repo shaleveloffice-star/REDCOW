@@ -3,8 +3,8 @@ import Link from "next/link";
 
 import { SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import { ABOUT_PAGE_IMAGES as IMG } from "@/data/site-images.registry";
+import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
-import { getMessages } from "@/i18n/messages";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
@@ -19,7 +19,7 @@ export async function AboutPageView({ siteImages, seoContent }: AboutPageViewPro
   const locale = await getServerLocale();
   const hero = pickSiteImage(siteImages, "about-hero", IMG.hero);
   const imageAlt = resolveImageAlt({ kind: "about-hero", locale });
-  const messages = getMessages(locale);
+  const messages = await getLocalizedMessages(locale);
 
   return (
     <section className="about-simple" aria-labelledby="about-simple-title">

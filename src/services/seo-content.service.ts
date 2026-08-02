@@ -1,5 +1,5 @@
 import type { Locale } from "@/i18n/config";
-import { LOCALES } from "@/i18n/config";
+import { localizeResolvedSeoPageContent } from "@/lib/translation/localize-seo";
 import {
   buildCategorySeoMenuPatch,
   getStoredCategorySeoFields,
@@ -40,8 +40,9 @@ export async function getResolvedSeoPageContent(
   locale: Locale,
   pageId: SeoPageId
 ): Promise<ResolvedSeoPageContent> {
-  const stored = await getStoredSeoPageFields(locale, pageId);
-  return resolveSeoPageContent(locale, pageId, stored);
+  const stored = await getStoredSeoPageFields("he", pageId);
+  const hebrewContent = resolveSeoPageContent("he", pageId, stored);
+  return localizeResolvedSeoPageContent(hebrewContent, locale);
 }
 
 export async function saveSeoPageFields(
@@ -101,50 +102,40 @@ export async function persistSeoPageFieldsForAdmin(
 
 export async function saveAllCategorySeoFieldsForAdmin(
   categoryId: string,
-  seoByLocale: Partial<Record<Locale, SeoPageFieldsInput>>
+  seoFields: SeoPageFieldsInput
 ): Promise<{ updatedAt: string }> {
   const id = categoryId.trim();
   if (!id) {
     throw new Error("מזהה קטגוריה חסר.");
   }
 
-  const document = await getSeoContentDocument();
-  let lastUpdated = new Date().toISOString();
+  const fields = pickCategorySeoFields(seoFields);
+  const current = await getSeoLocaleBundleForAdmin("he");
+  const nextMenu = buildCategorySeoMenuPatch(current.pages?.menu, id, fields);
+  const result = await persistSeoPageFieldsForAdmin("he", "menu", nextMenu);
 
-  for (const locale of LOCALES) {
-    const fields = pickCategorySeoFields(
-      seoByLocale[locale] ?? getStoredCategorySeoFields(document, locale, id)
-    );
-    const current = await getSeoLocaleBundleForAdmin(locale);
-    const nextMenu = buildCategorySeoMenuPatch(current.pages?.menu, id, fields);
-    const result = await persistSeoPageFieldsForAdmin(locale, "menu", nextMenu);
-    lastUpdated = result.updatedAt;
-  }
-
-  return { updatedAt: lastUpdated };
+  return { updatedAt: result.updatedAt };
 }
 
 export async function removeCategorySeoForAdmin(categoryId: string): Promise<void> {
   const id = categoryId.trim();
   if (!id) return;
 
-  for (const locale of LOCALES) {
-    const current = await getSeoLocaleBundleForAdmin(locale);
-    const menu = current.pages?.menu;
-    if (!menu?.categoryIntros?.[id] && !menu?.categoryPages?.[id]) {
-      continue;
-    }
-
-    const categoryIntros = { ...(menu.categoryIntros ?? {}) };
-    delete categoryIntros[id];
-    const categoryPages = { ...(menu.categoryPages ?? {}) };
-    delete categoryPages[id];
-
-    await persistSeoPageFieldsForAdmin(locale, "menu", {
-      categoryIntros,
-      categoryPages
-    });
+  const current = await getSeoLocaleBundleForAdmin("he");
+  const menu = current.pages?.menu;
+  if (!menu?.categoryIntros?.[id] && !menu?.categoryPages?.[id]) {
+    return;
   }
+
+  const categoryIntros = { ...(menu.categoryIntros ?? {}) };
+  delete categoryIntros[id];
+  const categoryPages = { ...(menu.categoryPages ?? {}) };
+  delete categoryPages[id];
+
+  await persistSeoPageFieldsForAdmin("he", "menu", {
+    categoryIntros,
+    categoryPages
+  });
 
   revalidateSeoContentCache();
 }

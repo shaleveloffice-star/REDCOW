@@ -75,15 +75,15 @@ export async function saveCategorySeoFieldsAction(
   }
 }
 
-/** Saves SEO for all locales in one server round-trip (resolves missing locales from DB). */
+/** Saves Hebrew category SEO in one server round-trip. */
 export async function saveAllCategorySeoFieldsAction(
   categoryId: string,
-  seoByLocale: Partial<Record<Locale, SeoPageFieldsInput>>
+  seoFields: SeoPageFieldsInput
 ): Promise<SeoSaveResult> {
   await requireAdminOrThrow();
 
   try {
-    const result = await saveAllCategorySeoFieldsForAdmin(categoryId, seoByLocale);
+    const result = await saveAllCategorySeoFieldsForAdmin(categoryId, seoFields);
     return { ok: true, updatedAt: result.updatedAt };
   } catch (error) {
     throw seoActionError(error, "שמירת תוכן SEO לקטגוריה נכשלה.");

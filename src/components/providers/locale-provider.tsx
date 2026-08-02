@@ -1,10 +1,10 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from "react";
+import { createContext, useCallback, useContext, useEffect, useMemo, useState, type ReactNode } from "react";
 
 import { getDirection, LOCALE_COOKIE, type Locale } from "@/i18n/config";
-import { getMessages, type Messages } from "@/i18n/messages";
+import type { Messages } from "@/i18n/messages";
 
 type LocaleContextValue = {
   locale: Locale;
@@ -16,12 +16,19 @@ const LocaleContext = createContext<LocaleContextValue | null>(null);
 
 type LocaleProviderProps = {
   initialLocale: Locale;
+  initialMessages: Messages;
   children: ReactNode;
 };
 
-export function LocaleProvider({ initialLocale, children }: LocaleProviderProps) {
+export function LocaleProvider({ initialLocale, initialMessages, children }: LocaleProviderProps) {
   const router = useRouter();
   const [locale, setLocaleState] = useState<Locale>(initialLocale);
+  const [messages, setMessages] = useState<Messages>(initialMessages);
+
+  useEffect(() => {
+    setLocaleState(initialLocale);
+    setMessages(initialMessages);
+  }, [initialLocale, initialMessages]);
 
   const setLocale = useCallback(
     (nextLocale: Locale) => {
@@ -43,10 +50,10 @@ export function LocaleProvider({ initialLocale, children }: LocaleProviderProps)
   const value = useMemo<LocaleContextValue>(
     () => ({
       locale,
-      messages: getMessages(locale),
+      messages,
       setLocale
     }),
-    [locale, setLocale]
+    [locale, messages, setLocale]
   );
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>;

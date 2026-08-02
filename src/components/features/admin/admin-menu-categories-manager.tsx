@@ -11,7 +11,7 @@ import {
 } from "@/components/features/admin/admin-crud-ui";
 import {
   AdminCategorySeoSection,
-  buildInitialCategorySeoByLocale
+  buildInitialCategorySeoFields
 } from "@/components/features/admin/admin-category-seo-section";
 import { AdminCategorySmartPasteModal } from "@/components/features/admin/admin-category-smart-paste-modal";
 import { adminFieldLabel } from "@/components/features/admin/admin-field-label";
@@ -19,10 +19,8 @@ import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import {
   buildCategorySeoSavePayload,
-  getStoredCategorySeoFields,
   pickCategorySeoFields
 } from "@/lib/seo-content/admin-category-seo";
-import { type Locale } from "@/i18n/config";
 import { deleteMenuCategoryAction, saveMenuCategoryAction, saveMenuCategoryWithSeoAction } from "@/server/actions/menu.actions";
 import type { MenuCategory } from "@/types/content";
 import type { SeoContentDocument, SeoPageFieldsInput } from "@/types/seo-content";
@@ -50,8 +48,7 @@ export function AdminMenuCategoriesManager({
 }) {
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<MenuCategory | null>(null);
-  const [seoByLocale, setSeoByLocale] = useState<Partial<Record<Locale, SeoPageFieldsInput>>>({});
-  const [seoLocale, setSeoLocale] = useState<Locale>("he");
+  const [seoFields, setSeoFields] = useState<SeoPageFieldsInput>({});
   const [smartPasteOpen, setSmartPasteOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
@@ -59,10 +56,10 @@ export function AdminMenuCategoriesManager({
 
   useEffect(() => {
     if (!draft || isNew) {
-      setSeoByLocale({});
+      setSeoFields({});
       return;
     }
-    setSeoByLocale(buildInitialCategorySeoByLocale(seoDocument, draft.id));
+    setSeoFields(buildInitialCategorySeoFields(seoDocument, draft.id));
     // Re-init only when opening a category, not when seoDocument refreshes in the background.
     // eslint-disable-next-line react-hooks/exhaustive-deps -- seoDocument read at open time
   }, [draft?.id, isNew]);
@@ -75,21 +72,10 @@ export function AdminMenuCategoriesManager({
 
   const close = () => {
     setDraft(null);
-    setSeoByLocale({});
-    setSeoLocale("he");
+    setSeoFields({});
     setSmartPasteOpen(false);
     setError(null);
   };
-
-  const updateSeoLocale = (locale: Locale, fields: SeoPageFieldsInput) => {
-    setSeoByLocale((current) => ({ ...current, [locale]: pickCategorySeoFields(fields) }));
-  };
-
-  const currentSeoFields =
-    draft && !isNew
-      ? (seoByLocale[seoLocale] ??
-        getStoredCategorySeoFields(seoDocument, seoLocale, draft.id))
-      : {};
 
   return (
     <>
@@ -130,8 +116,7 @@ export function AdminMenuCategoriesManager({
                   }}
                   onEdit={() => {
                     setDraft({ ...category });
-                    setSeoByLocale(buildInitialCategorySeoByLocale(seoDocument, category.id));
-                    setSeoLocale("he");
+                    setSeoFields(buildInitialCategorySeoFields(seoDocument, category.id));
                   }}
                 />
               </td>
@@ -153,7 +138,7 @@ export function AdminMenuCategoriesManager({
                   return;
                 }
 
-                const payload = buildCategorySeoSavePayload(seoDocument, draft.id, seoByLocale);
+                const payload = buildCategorySeoSavePayload(seoDocument, draft.id, seoFields);
 
                 await saveMenuCategoryWithSeoAction(draft, payload);
               }, close);
@@ -214,10 +199,8 @@ export function AdminMenuCategoriesManager({
                 categoryId={draft.id}
                 category={draft}
                 seoDocument={seoDocument}
-                seoByLocale={seoByLocale}
-                locale={seoLocale}
-                onLocaleChange={setSeoLocale}
-                onChange={updateSeoLocale}
+                seoFields={seoFields}
+                onChange={(next) => setSeoFields(pickCategorySeoFields(next))}
               />
             ) : (
               <p className="admin-field-hint">שמירת תוכן SEO זמינה לאחר יצירת הקטגוריה.</p>
@@ -232,13 +215,11 @@ export function AdminMenuCategoriesManager({
         <AdminCategorySmartPasteModal
           open={smartPasteOpen}
           draft={draft}
-          seoFields={currentSeoFields}
-          seoLocale={seoLocale}
-          onLocaleChange={setSeoLocale}
+          seoFields={seoFields}
           onClose={() => setSmartPasteOpen(false)}
           onApply={(nextDraft, nextSeo) => {
             setDraft(nextDraft);
-            updateSeoLocale(seoLocale, nextSeo);
+            setSeoFields(pickCategorySeoFields(nextSeo));
             setToastMessage("השדות מולאו בהצלחה. ניתן לעבור עליהם ולשמור.");
             formRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
           }}

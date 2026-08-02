@@ -8,7 +8,6 @@ import {
   type AdminSeoFieldsFlags
 } from "@/components/features/admin/admin-seo-fields-form";
 import { useAdminMutation } from "@/components/features/admin/admin-crud-ui";
-import { LOCALE_LABELS, LOCALES, type Locale } from "@/i18n/config";
 import { getDefaultSeoPageFields } from "@/data/seo-content-defaults";
 import { sanitizeSeoPageFields } from "@/lib/seo-content/sanitize-seo-storage";
 import { saveSeoPageFieldsAction } from "@/server/actions/seo-content.actions";
@@ -32,7 +31,6 @@ type AdminSeoPageEditorProps = {
 
 export function AdminSeoPageEditor({ pageId, initialDocument, fieldFlags }: AdminSeoPageEditorProps) {
   const { isPending, error, run } = useAdminMutation();
-  const [locale, setLocale] = useState<Locale>("he");
   const [document, setDocument] = useState(initialDocument);
   const [draft, setDraft] = useState<SeoPageFieldsInput>(() =>
     cloneFields(initialDocument.he?.pages?.[pageId] ?? {})
@@ -42,40 +40,19 @@ export function AdminSeoPageEditor({ pageId, initialDocument, fieldFlags }: Admi
     () => ({ ...flagsFromPageDefinition(pageId), ...fieldFlags }),
     [pageId, fieldFlags]
   );
-  const defaults = useMemo(() => getDefaultSeoPageFields(locale, pageId), [locale, pageId]);
-  const lastUpdated = document[locale]?.updatedAt;
-
-  const switchLocale = (nextLocale: Locale) => {
-    setLocale(nextLocale);
-    setDraft(cloneFields(document[nextLocale]?.pages?.[pageId] ?? {}));
-  };
+  const defaults = useMemo(() => getDefaultSeoPageFields("he", pageId), [pageId]);
+  const lastUpdated = document.he?.updatedAt;
 
   return (
     <div className="admin-seo-content">
-      <div className="admin-seo-toolbar">
-        <div className="admin-seo-tabs" role="tablist" aria-label="שפה">
-          {LOCALES.map((entry) => (
-            <button
-              key={entry}
-              type="button"
-              role="tab"
-              aria-selected={locale === entry}
-              className={`admin-seo-tab${locale === entry ? " is-active" : ""}`}
-              onClick={() => switchLocale(entry)}
-            >
-              {LOCALE_LABELS[entry]}
-            </button>
-          ))}
-        </div>
-      </div>
-
-      {lastUpdated ? (
-        <p className="admin-seo-meta">
-          עודכן לאחרונה ({locale}): {new Date(lastUpdated).toLocaleString("he-IL")}
-        </p>
-      ) : (
-        <p className="admin-seo-meta">שדות ריקים משתמשים בברירת המחדל המובנית באתר.</p>
-      )}
+      <p className="admin-seo-meta">
+        {lastUpdated
+          ? `עודכן לאחרונה: ${new Date(lastUpdated).toLocaleString("he-IL")}`
+          : "שדות ריקים משתמשים בברירת המחדל המובנית באתר."}
+      </p>
+      <p className="admin-field-hint">
+        ניהול תוכן בעברית בלבד. תרגום לאנגלית ולצרפתית מוצג אוטומטית למבקרים באתר.
+      </p>
 
       <form
         className="admin-form admin-seo-form"
@@ -83,14 +60,14 @@ export function AdminSeoPageEditor({ pageId, initialDocument, fieldFlags }: Admi
           event.preventDefault();
           run(async () => {
             const payload = sanitizeSeoPageFields(draft);
-            const result = await saveSeoPageFieldsAction(locale, pageId, payload);
+            const result = await saveSeoPageFieldsAction("he", pageId, payload);
             setDocument((current) => ({
               ...current,
-              [locale]: {
+              he: {
                 pages: {
-                  ...(current[locale]?.pages ?? {}),
+                  ...(current.he?.pages ?? {}),
                   [pageId]: {
-                    ...(current[locale]?.pages?.[pageId] ?? {}),
+                    ...(current.he?.pages?.[pageId] ?? {}),
                     ...payload
                   }
                 },

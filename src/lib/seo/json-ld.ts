@@ -1,13 +1,14 @@
 import { BUSINESS } from "@/data/business";
 import { SITE_LOGO_SCHEMA_SRC } from "@/data/brand-assets";
 import { HERO_DEFAULT_IMAGE_URL } from "@/data/site-images.registry";
-import { getLocalizedCategoryName } from "@/i18n/category-translations";
+import { getLocalizedCategoryName, getLocalizedCategoryDescription } from "@/i18n/category-translations";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { resolveCategorySlug } from "@/lib/menu/category-slug";
-import { getMessages } from "@/i18n/messages";
+import { getMessages, type Messages } from "@/i18n/messages";
 import type { Locale } from "@/i18n/config";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { SITE_URL } from "@/lib/seo";
+import type { MenuGroupWithDisplay, MenuItemWithDisplay } from "@/lib/translation/localize-menu";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
 export type JsonLdObject = Record<string, unknown>;
@@ -102,8 +103,12 @@ export function buildRestaurantJsonLd(): JsonLdObject {
 
 type MenuGroup = MenuCategory & { items: MenuItem[] };
 
-export function buildMenuJsonLd(groups: MenuGroup[], locale: Locale = "he"): JsonLdObject {
-  const t = getMessages(locale);
+export function buildMenuJsonLd(
+  groups: MenuGroupWithDisplay[] | MenuGroup[],
+  locale: Locale = "he",
+  messages?: Messages
+): JsonLdObject {
+  const t = messages ?? getMessages(locale);
 
   return {
     "@context": "https://schema.org",
@@ -115,7 +120,7 @@ export function buildMenuJsonLd(groups: MenuGroup[], locale: Locale = "he"): Jso
       name: getLocalizedCategoryName(category, locale),
       url: absoluteUrl(`/menu/${resolveCategorySlug(category)}`),
       ...(category.description
-        ? { description: category.description }
+        ? { description: getLocalizedCategoryDescription(category, locale) || category.description }
         : {}),
       hasMenuItem: category.items.map((item) => {
         const localized = getLocalizedMenuItem(item, locale);
@@ -145,7 +150,7 @@ export function buildMenuJsonLd(groups: MenuGroup[], locale: Locale = "he"): Jso
 }
 
 export function buildProductJsonLd(
-  item: MenuItem,
+  item: MenuItemWithDisplay | MenuItem,
   options: { slug: string; locale?: Locale }
 ): JsonLdObject {
   const locale = options.locale ?? "he";
@@ -185,16 +190,17 @@ export function buildProductJsonLd(
 }
 
 export function buildProductBreadcrumbJsonLd(
-  item: MenuItem,
+  item: MenuItemWithDisplay | MenuItem,
   options: {
     slug: string;
     locale?: Locale;
     categoryName?: string;
     categorySlug?: string;
+    messages?: Messages;
   }
 ): JsonLdObject {
   const locale = options.locale ?? "he";
-  const t = getMessages(locale);
+  const t = options.messages ?? getMessages(locale);
   const localized = getLocalizedMenuItem(item, locale);
   const categoryName = options.categoryName?.trim();
   const categorySlug = options.categorySlug?.trim();
@@ -241,9 +247,10 @@ export function buildCategoryBreadcrumbJsonLd(options: {
   categoryName: string;
   categorySlug: string;
   locale?: Locale;
+  messages?: Messages;
 }): JsonLdObject {
   const locale = options.locale ?? "he";
-  const t = getMessages(locale);
+  const t = options.messages ?? getMessages(locale);
 
   return {
     "@context": "https://schema.org",

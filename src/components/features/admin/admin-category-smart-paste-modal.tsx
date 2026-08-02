@@ -3,7 +3,6 @@
 import { useMemo, useState } from "react";
 
 import { AdminModal } from "@/components/features/admin/admin-crud-ui";
-import { LOCALE_LABELS, LOCALES, type Locale } from "@/i18n/config";
 import {
   applyCategorySmartPaste,
   wouldOverwriteExistingContent
@@ -16,8 +15,6 @@ import type { SeoPageFieldsInput } from "@/types/seo-content";
 type AdminCategorySmartPasteModalProps = {
   open: boolean;
   onClose: () => void;
-  seoLocale: Locale;
-  onLocaleChange: (locale: Locale) => void;
   draft: MenuCategory;
   seoFields: SeoPageFieldsInput;
   onApply: (nextDraft: MenuCategory, nextSeo: SeoPageFieldsInput) => void;
@@ -68,8 +65,6 @@ function SmartPastePreview({ preview }: { preview: CategorySmartPastePreview }) 
 export function AdminCategorySmartPasteModal({
   open,
   onClose,
-  seoLocale,
-  onLocaleChange,
   draft,
   seoFields,
   onApply
@@ -111,24 +106,8 @@ export function AdminCategorySmartPasteModal({
     <AdminModal open={open} stacked title="הדבקה חכמה" onClose={handleClose}>
       <div className="admin-smart-paste-modal">
         <p className="admin-field-hint">
-          הדביקו טקסט עם כותרות שדות (שם, Slug, מבוא SEO, FAQ, CTA). תוכן SEO ימולא לשפת:{" "}
-          {LOCALE_LABELS[seoLocale]}.
+          הדביקו טקסט עם כותרות שדות (שם, Slug, מבוא SEO, FAQ, CTA). התוכן ימולא לעברית בלבד.
         </p>
-
-        <div className="admin-seo-tabs" role="tablist" aria-label="שפת מילוי SEO">
-          {LOCALES.map((entry) => (
-            <button
-              key={entry}
-              type="button"
-              role="tab"
-              aria-selected={seoLocale === entry}
-              className={`admin-seo-tab${seoLocale === entry ? " is-active" : ""}`}
-              onClick={() => onLocaleChange(entry)}
-            >
-              {LOCALE_LABELS[entry]}
-            </button>
-          ))}
-        </div>
 
         <label>
           טקסט מלא

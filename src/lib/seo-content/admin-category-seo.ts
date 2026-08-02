@@ -1,7 +1,5 @@
 import type { Locale } from "@/i18n/config";
-import { LOCALES } from "@/i18n/config";
 import { getDefaultPageMeta, getDefaultSeoPageFields } from "@/data/seo-content-defaults";
-import { getLocalizedCategoryName } from "@/i18n/category-translations";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
 import { sanitizeSeoPageFields } from "@/lib/seo-content/sanitize-seo-storage";
 import type { SeoContentDocument, SeoPageFieldsInput } from "@/types/seo-content";
@@ -51,48 +49,30 @@ export function getDefaultCategorySeoFields(locale: Locale, categoryId: string):
   return { introduction: intro };
 }
 
-/** Placeholder hints for empty category meta fields in admin (per locale). */
+/** Placeholder hints for empty category meta fields in admin (Hebrew only). */
 export function getCategoryMetaPlaceholders(
-  locale: Locale,
   category: { id: string; name: string; description?: string },
   seoFields: SeoPageFieldsInput
 ): Pick<SeoPageFieldsInput, "metaTitle" | "metaDescription"> {
-  const localizedName = getLocalizedCategoryName(category, locale);
   const introLead = splitParagraphs(seoFields.introduction ?? "")[0] ?? "";
-  const menuMeta = getDefaultPageMeta(locale, "menu");
+  const menuMeta = getDefaultPageMeta("he", "menu");
 
   return {
-    metaTitle: `${localizedName} | NB BURGER`,
-    metaDescription:
-      category.description?.trim() || introLead || menuMeta.description
+    metaTitle: `${category.name} | NB BURGER`,
+    metaDescription: category.description?.trim() || introLead || menuMeta.description
   };
 }
 
-export function resolveCategorySeoFieldsForSave(
-  seoByLocale: Partial<Record<Locale, SeoPageFieldsInput>>,
-  seoDocument: SeoContentDocument,
-  locale: Locale,
-  categoryId: string
-): SeoPageFieldsInput {
-  const fields = seoByLocale[locale] ?? getStoredCategorySeoFields(seoDocument, locale, categoryId);
-  return pickCategorySeoFields(fields);
-}
-
-/** Merge stored category SEO with in-form edits for every locale before save. */
+/** Merge stored Hebrew category SEO with in-form edits before save. */
 export function buildCategorySeoSavePayload(
   seoDocument: SeoContentDocument,
   categoryId: string,
-  seoByLocale: Partial<Record<Locale, SeoPageFieldsInput>>
-): Partial<Record<Locale, SeoPageFieldsInput>> {
-  return Object.fromEntries(
-    LOCALES.map((locale) => [
-      locale,
-      pickCategorySeoFields({
-        ...getStoredCategorySeoFields(seoDocument, locale, categoryId),
-        ...(seoByLocale[locale] ?? {})
-      })
-    ])
-  ) as Partial<Record<Locale, SeoPageFieldsInput>>;
+  seoFields: SeoPageFieldsInput
+): SeoPageFieldsInput {
+  return pickCategorySeoFields({
+    ...getStoredCategorySeoFields(seoDocument, "he", categoryId),
+    ...seoFields
+  });
 }
 
 export function buildCategorySeoMenuPatch(

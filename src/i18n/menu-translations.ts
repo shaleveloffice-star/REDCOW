@@ -1,6 +1,9 @@
 import type { MenuItem } from "@/types/content";
-import { MENU_ITEM_TRANSLATIONS } from "@/data/menu-item-translations";
 import { resolveMenuItemImageAlt } from "@/lib/image-alt";
+import {
+  resolveMenuItemDisplay,
+  type MenuItemWithDisplay
+} from "@/lib/translation/localize-menu";
 
 import type { Locale } from "./config";
 
@@ -12,31 +15,25 @@ export type LocalizedMenuItem = {
   imageAlt: string;
 };
 
-export function getLocalizedMenuItem(item: MenuItem, locale: Locale): LocalizedMenuItem {
-  const hebrewNotes = (item.detailNotes ?? []).filter((note) => String(note).trim().length > 0);
-  const hebrewLong = String(item.longDescription ?? "").trim();
-  const name = String(item.name ?? "").trim() || "NB BURGER";
-  const description = String(item.description ?? "").trim();
-
-  if (locale === "he") {
-    return {
-      name,
-      description,
-      longDescription: hebrewLong,
-      detailNotes: hebrewNotes.map(String),
-      imageAlt: resolveMenuItemImageAlt(item, locale, name)
-    };
+export function getLocalizedMenuItem(
+  item: MenuItem | MenuItemWithDisplay,
+  _locale: Locale
+): LocalizedMenuItem {
+  if ("displayName" in item && item.displayName) {
+    return resolveMenuItemDisplay(item);
   }
 
-  const translation = MENU_ITEM_TRANSLATIONS[item.id]?.[locale];
-  const localizedName = translation?.name ?? name;
+  const name = String(item.name ?? "").trim() || "NB BURGER";
+  const description = String(item.description ?? "").trim();
+  const hebrewNotes = (item.detailNotes ?? []).filter((note) => String(note).trim().length > 0);
+  const hebrewLong = String(item.longDescription ?? "").trim();
 
   return {
-    name: localizedName,
-    description: translation?.description ?? description,
-    longDescription: translation?.longDescription?.trim() || hebrewLong,
+    name,
+    description,
+    longDescription: hebrewLong,
     detailNotes: hebrewNotes.map(String),
-    imageAlt: resolveMenuItemImageAlt(item, locale, localizedName)
+    imageAlt: resolveMenuItemImageAlt(item, "he", name)
   };
 }
 

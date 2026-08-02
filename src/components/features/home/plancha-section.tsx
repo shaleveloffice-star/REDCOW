@@ -5,8 +5,8 @@ import {
   PLANCHA_MEAT_IMAGE,
   PLANCHA_SEAR_IMAGE
 } from "@/data/site-images.registry";
+import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
-import { getMessages } from "@/i18n/messages";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
@@ -20,7 +20,7 @@ type PlanchaSectionProps = {
 
 export async function PlanchaSection({ siteImages }: PlanchaSectionProps) {
   const locale = await getServerLocale();
-  const t = getMessages(locale);
+  const t = await getLocalizedMessages(locale);
 
   const steps = stepIds.map((id, index) => ({
     id,

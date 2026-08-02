@@ -107,7 +107,7 @@ export async function saveMenuCategoryAction(input: MenuCategory) {
 
 export async function saveMenuCategoryWithSeoAction(
   input: MenuCategory,
-  seoByLocale: Partial<Record<Locale, SeoPageFieldsInput>>
+  seoFields: SeoPageFieldsInput
 ) {
   try {
     await requireAdmin();
@@ -123,7 +123,7 @@ export async function saveMenuCategoryWithSeoAction(
   const sanitizedSeo = buildCategorySeoSavePayload(
     await getSeoContentStore(),
     input.id.trim(),
-    seoByLocale
+    seoFields
   );
 
   try {

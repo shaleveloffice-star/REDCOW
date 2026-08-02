@@ -18,6 +18,7 @@ import {
 import { getServerLocale } from "@/i18n/get-locale";
 import { getHomePageMetadata } from "@/lib/page-metadata";
 import { buildRestaurantJsonLd } from "@/lib/seo/json-ld";
+import { localizeMenuItems } from "@/lib/translation/localize-menu";
 import type { SiteImagesMap } from "@/types/site-images";
 
 const LocationSection = dynamic(
@@ -52,13 +53,14 @@ export default async function HomePage() {
     }),
     getCachedResolvedSeoPageContent(locale, "home")
   ]);
+  const localizedHomepageItems = await localizeMenuItems(homepageMenuItems, locale);
 
   return (
     <>
       <JsonLd data={buildRestaurantJsonLd()} />
       <main id="main-content">
         <HeroSection />
-        <HomeMenuShowcaseSection items={homepageMenuItems} />
+        <HomeMenuShowcaseSection items={localizedHomepageItems} />
         <HomeBrandStorySection siteImages={siteImages} />
         <HomeAtmosphereSection siteImages={siteImages} />
         <HomeSocialVibeSection />

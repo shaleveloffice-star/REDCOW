@@ -3,8 +3,8 @@ import Image from "next/image";
 import { IconClock, IconMap, IconMapPin } from "@/components/shared/site-icons";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
+import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
-import { getMessages } from "@/i18n/messages";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
@@ -15,7 +15,7 @@ type LocationSectionProps = {
 
 export async function LocationSection({ siteImages }: LocationSectionProps) {
   const locale = await getServerLocale();
-  const t = getMessages(locale);
+  const t = await getLocalizedMessages(locale);
   const pickedExterior = pickSiteImage(siteImages, "location-exterior", LOCATION_EXTERIOR_IMAGE);
   const exteriorImage = pickedExterior.startsWith("/") ? pickedExterior : LOCATION_EXTERIOR_IMAGE;
   const imageAlt = resolveImageAlt({

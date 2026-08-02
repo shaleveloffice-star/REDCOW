@@ -30,14 +30,6 @@ import {
 } from "@/lib/seo/json-ld";
 import { getResolvedCategorySeo } from "@/lib/seo-content/resolve-seo-content";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
-import {
-  localizeCategory,
-  localizeMenuGroups,
-  localizeMenuItem,
-  localizeMenuItems
-} from "@/lib/translation/localize-menu";
-import { localizeResolvedCategorySeoContent } from "@/lib/translation/localize-seo";
-import { translateTextsForLocale } from "@/lib/translation/translate-texts";
 import { listMenuCategories, listMenuItems } from "@/services/menu.service";
 
 type MenuSlugPageProps = {
@@ -76,17 +68,14 @@ export async function generateMetadata({ params }: MenuSlugPageProps): Promise<M
 
   const category = await getCachedMenuCategoryBySlug(normalized);
   if (category) {
-    const [seoContent, localizedCategory] = await Promise.all([
-      getCachedResolvedSeoPageContent(locale, "menu"),
-      localizeCategory(category, locale)
-    ]);
+    const seoContent = await getCachedResolvedSeoPageContent(locale, "menu");
     const categorySeo = getResolvedCategorySeo(seoContent, category.id);
     const introLead = splitParagraphs(categorySeo.introduction)[0] ?? "";
 
     return getMenuCategoryPageMetadata(locale, {
-      name: getLocalizedCategoryName(localizedCategory, locale),
+      name: getLocalizedCategoryName(category, locale),
       slug: resolveCategorySlug(category),
-      description: localizedCategory.displayDescription ?? category.description,
+      description: category.description,
       seoIntro: introLead,
       metaTitle: categorySeo.metaTitle,
       metaDescription: categorySeo.metaDescription
@@ -102,29 +91,14 @@ export async function generateMetadata({ params }: MenuSlugPageProps): Promise<M
     });
   }
 
-  const localizedItem = await localizeMenuItem(item, locale);
-  const localized = getLocalizedMenuItem(localizedItem, locale);
+  const localized = getLocalizedMenuItem(item, locale);
   const resolvedSlug = resolveMenuItemSlug(item);
-  const cmsMetaTitle = item.metaTitle?.trim() ?? "";
-  const cmsMetaDescription = item.metaDescription?.trim() ?? "";
-  let title = cmsMetaTitle || `${localized.name} | NB BURGER רעננה`;
-  let description =
-    cmsMetaDescription ||
+  const title = item.metaTitle?.trim() || `${localized.name} | NB BURGER רעננה`;
+  const description =
+    item.metaDescription?.trim() ||
     localized.description.trim() ||
     localized.longDescription.trim() ||
     `${localized.name} — NB BURGER רעננה`;
-
-  if (locale !== "he" && (cmsMetaTitle || cmsMetaDescription)) {
-    const metaSource = [cmsMetaTitle, cmsMetaDescription].filter(Boolean);
-    const metaTranslated = await translateTextsForLocale(metaSource, locale);
-    if (cmsMetaTitle) {
-      title = metaTranslated[0] ?? title;
-    }
-    if (cmsMetaDescription) {
-      description = metaTranslated[cmsMetaTitle ? 1 : 0] ?? description;
-    }
-  }
-
   const imageUrl = String(item.imageUrl ?? "").trim();
 
   return buildPageMetadata({
@@ -152,18 +126,16 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
       getCachedMenuForDisplay(),
       getCachedActiveOrderLinks(),
       getCachedResolvedSeoPageContent(locale, "menu"),
-      getLocalizedMessages(locale)
+      Promise.resolve(getLocalizedMessages(locale))
     ]);
-    const localizedGroups = await localizeMenuGroups(groups, locale);
-    const group = localizedGroups.find((entry) => entry.id === category.id);
+    const group = groups.find((entry) => entry.id === category.id);
     if (!group) {
       notFound();
     }
 
-    const rawCategorySeo = getResolvedCategorySeo(seoContent, category.id);
-    const categorySeo = await localizeResolvedCategorySeoContent(rawCategorySeo, locale);
+    const categorySeo = getResolvedCategorySeo(seoContent, category.id);
     const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
-    const categoryName = getLocalizedCategoryName(group, locale);
+    const categoryName = getLocalizedCategoryName(category, locale);
 
     return (
       <>
@@ -179,7 +151,7 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
           <div className="menu-page-inner">
             <MenuCategoryView
               group={group}
-              allGroups={localizedGroups}
+              allGroups={groups}
               categorySeo={categorySeo}
               pickupUrl={pickupUrl}
               deliveryUrl={deliveryUrl}
@@ -205,30 +177,22 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
     getCachedActiveOrderLinks(),
     getCachedMenuCategories(),
     getCachedMenuForDisplay(),
-    getLocalizedMessages(locale)
+    Promise.resolve(getLocalizedMessages(locale))
   ]);
   const itemCategory = categories.find((entry) => entry.id === item.categoryId);
-  const [localizedItem, localizedCategory, localizedRelatedItems] = await Promise.all([
-    localizeMenuItem(item, locale),
-    itemCategory ? localizeCategory(itemCategory, locale) : Promise.resolve(undefined),
-    localizeMenuItems(
-      groups.find((group) => group.id === item.categoryId)?.items.filter(
-        (entry) => entry.id !== item.id && entry.isActive
-      ) ?? [],
-      locale
-    )
-  ]);
-  const categoryName = localizedCategory
-    ? getLocalizedCategoryName(localizedCategory, locale)
-    : undefined;
+  const categoryName = itemCategory ? getLocalizedCategoryName(itemCategory, locale) : undefined;
   const categorySlug = itemCategory ? resolveCategorySlug(itemCategory) : undefined;
+  const relatedItems =
+    groups.find((group) => group.id === item.categoryId)?.items.filter(
+      (entry) => entry.id !== item.id && entry.isActive
+    ) ?? [];
   const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
 
   return (
     <>
-      <JsonLd data={buildProductJsonLd(localizedItem, { slug: resolvedSlug, locale })} />
+      <JsonLd data={buildProductJsonLd(item, { slug: resolvedSlug, locale })} />
       <JsonLd
-        data={buildProductBreadcrumbJsonLd(localizedItem, {
+        data={buildProductBreadcrumbJsonLd(item, {
           slug: resolvedSlug,
           locale,
           categoryName,
@@ -238,9 +202,9 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
       />
       <main id="main-content" className="menu-item-detail-page">
         <MenuItemDetailView
-          item={localizedItem}
-          category={localizedCategory}
-          relatedItems={localizedRelatedItems}
+          item={item}
+          category={itemCategory}
+          relatedItems={relatedItems}
           pickupUrl={pickupUrl}
           deliveryUrl={deliveryUrl}
         />

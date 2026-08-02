@@ -3,6 +3,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 
 import { getAdminFirestore } from "@/lib/firebase/admin-runtime";
+import { AUTO_TRANSLATION_ENABLED } from "@/lib/translation/config";
 import type { TranslationTargetLocale } from "@/lib/translation/types";
 
 const COLLECTION = "translationCache";
@@ -128,6 +129,9 @@ export async function readCachedTranslations(
   sourceTexts: string[],
   targetLocale: TranslationTargetLocale
 ): Promise<Map<string, string>> {
+  if (!AUTO_TRANSLATION_ENABLED) {
+    return new Map();
+  }
   const uniqueTexts = [...new Set(sourceTexts.filter((text) => text.trim()))];
   if (uniqueTexts.length === 0) {
     return new Map();
@@ -159,6 +163,9 @@ export async function writeCachedTranslations(
   entries: Array<{ sourceText: string; translatedText: string }>,
   targetLocale: TranslationTargetLocale
 ): Promise<void> {
+  if (!AUTO_TRANSLATION_ENABLED) {
+    return;
+  }
   if (entries.length === 0) {
     return;
   }

@@ -11,7 +11,6 @@ import { LocaleProvider } from "@/components/providers/locale-provider";
 import { SkipToContent } from "@/components/layout/skip-to-content";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getDirection } from "@/i18n/config";
-import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getCachedActiveOrderLinks } from "@/lib/cache/cached-data";
 import { buildOrganizationJsonLd } from "@/lib/seo/json-ld";
@@ -70,17 +69,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const locale = await getServerLocale();
-  const [orderLinks, messages] = await Promise.all([
-    getCachedActiveOrderLinks(),
-    getLocalizedMessages(locale)
-  ]);
+  const [locale, orderLinks] = await Promise.all([getServerLocale(), getCachedActiveOrderLinks()]);
   const dir = getDirection(locale);
 
   return (
     <html lang={locale} dir={dir}>
       <body className={`${assistant.variable} ${archivoBlack.variable} ${assistant.className}`}>
-        <LocaleProvider initialLocale={locale} initialMessages={messages}>
+        <LocaleProvider initialLocale={locale}>
           <JsonLd data={buildOrganizationJsonLd()} />
           <SkipToContent />
           <SiteChrome orderLinks={orderLinks}>{children}</SiteChrome>

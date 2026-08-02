@@ -1,5 +1,4 @@
 import type { Locale } from "@/i18n/config";
-import { localizeResolvedSeoPageContent } from "@/lib/translation/localize-seo";
 import {
   buildCategorySeoMenuPatch,
   getStoredCategorySeoFields,
@@ -40,9 +39,8 @@ export async function getResolvedSeoPageContent(
   locale: Locale,
   pageId: SeoPageId
 ): Promise<ResolvedSeoPageContent> {
-  const stored = await getStoredSeoPageFields("he", pageId);
-  const hebrewContent = resolveSeoPageContent("he", pageId, stored);
-  return localizeResolvedSeoPageContent(hebrewContent, locale);
+  const stored = await getStoredSeoPageFields(locale, pageId);
+  return resolveSeoPageContent(locale, pageId, stored);
 }
 
 export async function saveSeoPageFields(

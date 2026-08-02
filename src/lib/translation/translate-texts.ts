@@ -6,6 +6,7 @@ import {
   collectTranslatableStrings
 } from "@/lib/translation/collect-translatable";
 import { readCachedTranslations, writeCachedTranslations } from "@/lib/translation/cache";
+import { AUTO_TRANSLATION_ENABLED } from "@/lib/translation/config";
 import { translateProtectedTexts } from "@/lib/translation/google-translate";
 import type { TranslationTargetLocale } from "@/lib/translation/types";
 
@@ -55,6 +56,9 @@ async function translateMissingTexts(
 }
 
 export async function translateTextsForLocale(texts: string[], locale: Locale): Promise<string[]> {
+  if (!AUTO_TRANSLATION_ENABLED) {
+    return texts;
+  }
   const targetLocale = asTargetLocale(locale);
   if (!targetLocale) {
     return texts;
@@ -76,6 +80,9 @@ export async function translateTextForLocale(text: string, locale: Locale): Prom
 }
 
 export async function translateValueForLocale<T>(value: T, locale: Locale): Promise<T> {
+  if (!AUTO_TRANSLATION_ENABLED) {
+    return value;
+  }
   const targetLocale = asTargetLocale(locale);
   if (!targetLocale) {
     return value;

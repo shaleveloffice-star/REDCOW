@@ -1,5 +1,6 @@
 import "server-only";
 
+import { AUTO_TRANSLATION_ENABLED } from "@/lib/translation/config";
 import type { TranslationTargetLocale } from "@/lib/translation/types";
 import {
   protectTranslatableText,
@@ -74,6 +75,10 @@ export async function translateProtectedTexts(
   sourceTexts: string[],
   targetLocale: TranslationTargetLocale
 ): Promise<string[] | null> {
+  if (!AUTO_TRANSLATION_ENABLED) {
+    return null;
+  }
+
   const prepared = sourceTexts.map((sourceText) => {
     if (shouldSkipTranslation(sourceText)) {
       return { sourceText, skip: true as const, protectedText: sourceText, segments: [] };

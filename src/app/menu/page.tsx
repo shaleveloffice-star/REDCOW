@@ -13,8 +13,6 @@ import { getServerLocale } from "@/i18n/get-locale";
 import { resolveMenuOrderUrls } from "@/lib/menu/menu-page-utils";
 import { getMenuPageMetadata } from "@/lib/page-metadata";
 import { buildMenuJsonLd } from "@/lib/seo/json-ld";
-import { localizeMenuGroups } from "@/lib/translation/localize-menu";
-
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return await getMenuPageMetadata(locale);
@@ -28,16 +26,15 @@ export default async function MenuPage() {
     getCachedResolvedSeoPageContent(locale, "menu"),
     getLocalizedMessages(locale)
   ]);
-  const localizedGroups = await localizeMenuGroups(groups, locale);
   const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
 
   return (
     <>
-      <JsonLd data={buildMenuJsonLd(localizedGroups, locale, messages)} />
+      <JsonLd data={buildMenuJsonLd(groups, locale, messages)} />
       <main id="main-content" className="menu-page">
         <div className="menu-page-inner">
           <MenuIndexView
-            groups={localizedGroups}
+            groups={groups}
             menuSeo={{
               introduction: menuSeo.introduction,
               bottomContent: menuSeo.bottomContent,

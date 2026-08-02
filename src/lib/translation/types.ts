@@ -5,7 +5,7 @@ export type TranslationTargetLocale = Exclude<Locale, "he">;
 export type TranslationCacheEntry = {
   sourceHash: string;
   targetLocale: TranslationTargetLocale;
-  sourceText: string;
   translatedText: string;
+  createdAt: string;
   updatedAt: string;
 };

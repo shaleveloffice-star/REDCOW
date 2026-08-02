@@ -1,10 +1,12 @@
 import "server-only";
 
+import { cache } from "react";
+
 import type { Locale } from "@/i18n/config";
 import { getMessages, type Messages } from "@/i18n/messages";
 import { translateValueForLocale } from "@/lib/translation/translate-texts";
 
-export async function getLocalizedMessages(locale: Locale): Promise<Messages> {
+export const getLocalizedMessages = cache(async (locale: Locale): Promise<Messages> => {
   if (locale === "he") {
     return getMessages("he");
   }
@@ -15,4 +17,4 @@ export async function getLocalizedMessages(locale: Locale): Promise<Messages> {
     console.error("[translation] Failed to localize UI messages", error);
     return getMessages("he");
   }
-}
+});

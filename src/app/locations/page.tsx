@@ -6,6 +6,7 @@ import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getLocationsPageMetadata } from "@/lib/page-metadata";
+import { localizeBranches } from "@/lib/translation/localize-branches";
 import { listBranches } from "@/services/branches.service";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -19,11 +20,16 @@ export default async function LocationsPage() {
     listBranches({ activeOnly: true }),
     getCachedResolvedSeoPageContent(locale, "locations")
   ]);
+  const localizedBranches = await localizeBranches(branches, locale);
 
   return (
     <>
       <main id="main-content">
-        <LocationsPageView branches={branches} exteriorImage={LOCATION_EXTERIOR_IMAGE} seoContent={seoContent} />
+        <LocationsPageView
+          branches={localizedBranches}
+          exteriorImage={LOCATION_EXTERIOR_IMAGE}
+          seoContent={seoContent}
+        />
       </main>
       <SiteFooter />
     </>

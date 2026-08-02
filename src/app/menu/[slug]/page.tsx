@@ -37,6 +37,7 @@ import {
   localizeMenuItems
 } from "@/lib/translation/localize-menu";
 import { localizeResolvedCategorySeoContent } from "@/lib/translation/localize-seo";
+import { translateTextsForLocale } from "@/lib/translation/translate-texts";
 import { listMenuCategories, listMenuItems } from "@/services/menu.service";
 
 type MenuSlugPageProps = {
@@ -104,12 +105,26 @@ export async function generateMetadata({ params }: MenuSlugPageProps): Promise<M
   const localizedItem = await localizeMenuItem(item, locale);
   const localized = getLocalizedMenuItem(localizedItem, locale);
   const resolvedSlug = resolveMenuItemSlug(item);
-  const title = item.metaTitle?.trim() || `${localized.name} | NB BURGER רעננה`;
-  const description =
-    item.metaDescription?.trim() ||
+  const cmsMetaTitle = item.metaTitle?.trim() ?? "";
+  const cmsMetaDescription = item.metaDescription?.trim() ?? "";
+  let title = cmsMetaTitle || `${localized.name} | NB BURGER רעננה`;
+  let description =
+    cmsMetaDescription ||
     localized.description.trim() ||
     localized.longDescription.trim() ||
     `${localized.name} — NB BURGER רעננה`;
+
+  if (locale !== "he" && (cmsMetaTitle || cmsMetaDescription)) {
+    const metaSource = [cmsMetaTitle, cmsMetaDescription].filter(Boolean);
+    const metaTranslated = await translateTextsForLocale(metaSource, locale);
+    if (cmsMetaTitle) {
+      title = metaTranslated[0] ?? title;
+    }
+    if (cmsMetaDescription) {
+      description = metaTranslated[cmsMetaTitle ? 1 : 0] ?? description;
+    }
+  }
+
   const imageUrl = String(item.imageUrl ?? "").trim();
 
   return buildPageMetadata({

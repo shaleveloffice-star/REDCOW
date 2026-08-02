@@ -1,14 +1,11 @@
 import "server-only";
 
-import { unstable_cache } from "next/cache";
-
 import type { Locale } from "@/i18n/config";
 import {
-  readCachedTranslation,
-  readCachedTranslations,
-  writeCachedTranslation,
-  writeCachedTranslations
-} from "@/lib/translation/cache";
+  applyTranslatedStrings,
+  collectTranslatableStrings
+} from "@/lib/translation/collect-translatable";
+import { readCachedTranslations, writeCachedTranslations } from "@/lib/translation/cache";
 import { translateProtectedTexts } from "@/lib/translation/google-translate";
 import type { TranslationTargetLocale } from "@/lib/translation/types";
 
@@ -23,20 +20,29 @@ async function translateMissingTexts(
   sourceTexts: string[],
   targetLocale: TranslationTargetLocale
 ): Promise<string[]> {
-  const uniqueTexts = [...new Set(sourceTexts)];
+  const uniqueTexts = [...new Set(sourceTexts.filter((text) => text.trim()))];
+  if (uniqueTexts.length === 0) {
+    return sourceTexts;
+  }
+
   const cached = await readCachedTranslations(uniqueTexts, targetLocale);
   const missing = uniqueTexts.filter((text) => !cached.has(text));
 
   if (missing.length > 0) {
     const translated = await translateProtectedTexts(missing, targetLocale);
     if (translated) {
-      await writeCachedTranslations(
-        missing.map((sourceText, index) => ({
-          sourceText,
-          translatedText: translated[index] ?? sourceText
-        })),
-        targetLocale
-      );
+      try {
+        await writeCachedTranslations(
+          missing.map((sourceText, index) => ({
+            sourceText,
+            translatedText: translated[index] ?? sourceText
+          })),
+          targetLocale
+        );
+      } catch (error) {
+        console.error("[translation] Cache persistence failed after API success", error);
+      }
+
       missing.forEach((sourceText, index) => {
         cached.set(sourceText, translated[index] ?? sourceText);
       });
@@ -46,24 +52,6 @@ async function translateMissingTexts(
   }
 
   return sourceTexts.map((text) => cached.get(text) ?? text);
-}
-
-export async function translateTextForLocale(text: string, locale: Locale): Promise<string> {
-  const targetLocale = asTargetLocale(locale);
-  if (!targetLocale || !text.trim()) {
-    return text;
-  }
-
-  const cached = await readCachedTranslation(text, targetLocale);
-  if (cached) {
-    return cached;
-  }
-
-  const [translated] = await translateMissingTexts([text], targetLocale);
-  if (translated && translated !== text) {
-    await writeCachedTranslation(text, targetLocale, translated);
-  }
-  return translated ?? text;
 }
 
 export async function translateTextsForLocale(texts: string[], locale: Locale): Promise<string[]> {
@@ -77,64 +65,29 @@ export async function translateTextsForLocale(texts: string[], locale: Locale): 
   return translateMissingTexts(texts, targetLocale);
 }
 
-export function getCachedTranslatedTexts(texts: string[], locale: Locale) {
-  const joinedKey = texts.join("\u0001");
-  return unstable_cache(
-    () => translateTextsForLocale(texts, locale),
-    ["translation-batch", locale, joinedKey],
-    { revalidate: false }
-  )();
+export async function translateTextForLocale(text: string, locale: Locale): Promise<string> {
+  const targetLocale = asTargetLocale(locale);
+  if (!targetLocale || !text.trim()) {
+    return text;
+  }
+
+  const [translated] = await translateTextsForLocale([text], locale);
+  return translated ?? text;
 }
 
-const SKIP_OBJECT_KEYS = new Set([
-  "buttonHref",
-  "href",
-  "slug",
-  "id",
-  "categoryId",
-  "imageUrl",
-  "closeUpImageUrl",
-  "galleryUrls",
-  "imageAlt",
-  "path",
-  "url",
-  "price",
-  "sortOrder",
-  "isActive",
-  "createdAt",
-  "updatedAt",
-  "tags",
-  "primaryKeyword"
-]);
-
-export async function translateValueForLocale<T>(value: T, locale: Locale, key?: string): Promise<T> {
+export async function translateValueForLocale<T>(value: T, locale: Locale): Promise<T> {
   const targetLocale = asTargetLocale(locale);
   if (!targetLocale) {
     return value;
   }
 
-  if (typeof value === "string") {
-    if (key && SKIP_OBJECT_KEYS.has(key)) {
-      return value;
-    }
-    return (await translateTextForLocale(value, locale)) as T;
+  const strings = [...collectTranslatableStrings(value)];
+  if (strings.length === 0) {
+    return value;
   }
 
-  if (Array.isArray(value)) {
-    return (await Promise.all(value.map((entry) => translateValueForLocale(entry, locale)))) as T;
-  }
+  const translatedStrings = await translateTextsForLocale(strings, locale);
+  const translationMap = new Map(strings.map((source, index) => [source, translatedStrings[index] ?? source]));
 
-  if (value && typeof value === "object") {
-    const entries = await Promise.all(
-      Object.entries(value as Record<string, unknown>).map(async ([entryKey, entryValue]) => [
-        entryKey,
-        SKIP_OBJECT_KEYS.has(entryKey)
-          ? entryValue
-          : await translateValueForLocale(entryValue, locale, entryKey)
-      ])
-    );
-    return Object.fromEntries(entries) as T;
-  }
-
-  return value;
+  return applyTranslatedStrings(value, translationMap);
 }

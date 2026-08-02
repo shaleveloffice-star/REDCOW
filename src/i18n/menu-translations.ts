@@ -1,5 +1,5 @@
 import type { MenuItem } from "@/types/content";
-import { MENU_ITEM_TRANSLATIONS } from "@/data/menu-item-translations";
+import { getMenuItemTranslationFields } from "@/data/menu-item-translation-lookup";
 import { resolveMenuItemImageAlt } from "@/lib/image-alt";
 
 import type { Locale } from "./config";
@@ -28,7 +28,7 @@ export function getLocalizedMenuItem(item: MenuItem, locale: Locale): LocalizedM
     };
   }
 
-  const translation = MENU_ITEM_TRANSLATIONS[item.id]?.[locale];
+  const translation = getMenuItemTranslationFields(item, locale);
   const localizedName = translation?.name ?? name;
 
   return {

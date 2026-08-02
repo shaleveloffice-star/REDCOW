@@ -57,7 +57,7 @@ export default async function HomePage() {
       <JsonLd data={buildRestaurantJsonLd()} />
       <main id="main-content">
         <HeroSection />
-        <HomeMenuShowcaseSection items={homepageMenuItems} />
+        <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
         <HomeBrandStorySection siteImages={siteImages} />
         <HomeAtmosphereSection siteImages={siteImages} />
         <HomeSocialVibeSection />

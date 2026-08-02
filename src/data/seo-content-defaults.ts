@@ -12,6 +12,101 @@ const MENU_CATEGORY_IDS = [
   "cat-beers"
 ] as const;
 
+/** Canonical meta defaults — single source of truth for static page SERP fields. */
+const PAGE_META_DEFAULTS: Record<
+  Locale,
+  Record<SeoPageId, Pick<SeoPageFieldsInput, "metaTitle" | "metaDescription">>
+> = {
+  he: {
+    home: {
+      metaTitle: "NB BURGER | המבורגר רעננה",
+      metaDescription:
+        "מסעדת המבורגרים NB BURGER ברעננה — המבורגרים על הפלנצ׳ה, אווירה וטעם מדויק ברחוב אחוזה 96."
+    },
+    menu: {
+      metaTitle: "תפריט המבורגרים ברעננה | NB BURGER",
+      metaDescription:
+        "גלו את תפריט ההמבורגרים של NB BURGER ברעננה — המבורגרים על הפלנצ׳ה, תוספות ומנות ממסעדה כשרה ברחוב אחוזה 96."
+    },
+    locations: {
+      metaTitle: "מיקום ושעות | NB BURGER רעננה",
+      metaDescription: "NB BURGER ברעננה — כתובת, שעות פתיחה, ניווט ומשלוח."
+    },
+    about: {
+      metaTitle: "אודות | NB BURGER רעננה",
+      metaDescription:
+        "הכירו את NB BURGER — מסעדת המבורגרים ברעננה. בשר טוב, לחמנייה רכה וחוויה מדויקת על הפלנצ׳ה."
+    },
+    privacy: {
+      metaTitle: "מדיניות פרטיות | NB BURGER",
+      metaDescription: "מדיניות הפרטיות של NB BURGER — איסוף מידע, שימוש בנתונים וזכויות המשתמש."
+    },
+    terms: {
+      metaTitle: "תקנון האתר | NB BURGER",
+      metaDescription: "תקנון השימוש באתר NB BURGER."
+    }
+  },
+  en: {
+    home: {
+      metaTitle: "NB BURGER | Kosher Burgers Raanana",
+      metaDescription:
+        "NB BURGER in Raanana — smash burgers on the plancha, fresh ingredients and bold flavor at Ahuzah 96."
+    },
+    menu: {
+      metaTitle: "Burger Menu Raanana | NB BURGER",
+      metaDescription:
+        "Explore the NB BURGER menu in Raanana — plancha burgers, sides and full meals at our kosher restaurant."
+    },
+    locations: {
+      metaTitle: "Location & Hours | NB BURGER Raanana",
+      metaDescription: "Find NB BURGER in Raanana — address, opening hours, directions and delivery."
+    },
+    about: {
+      metaTitle: "About | NB BURGER Raanana",
+      metaDescription:
+        "Meet NB BURGER — Raanana's smash-burger spot. Quality beef, soft buns, plancha perfection."
+    },
+    privacy: {
+      metaTitle: "Privacy Policy | NB BURGER",
+      metaDescription: "NB BURGER privacy policy — data collection, usage and your rights."
+    },
+    terms: {
+      metaTitle: "Terms of Use | NB BURGER",
+      metaDescription: "Terms of use for the NB BURGER website."
+    }
+  },
+  fr: {
+    home: {
+      metaTitle: "NB BURGER | Burgers casher Raanana",
+      metaDescription:
+        "NB BURGER à Raanana — burgers sur plancha, ingrédients frais et saveur intense, Ahuzah 96."
+    },
+    menu: {
+      metaTitle: "Menu burgers Raanana | NB BURGER",
+      metaDescription:
+        "Découvrez le menu NB BURGER à Raanana — burgers plancha, accompagnements et formules dans un restaurant casher."
+    },
+    locations: {
+      metaTitle: "Adresse & horaires | NB BURGER Raanana",
+      metaDescription: "NB BURGER à Raanana — adresse, horaires, itinéraire et livraison."
+    },
+    about: {
+      metaTitle: "À propos | NB BURGER Raanana",
+      metaDescription:
+        "Découvrez NB BURGER — burgers smash à Raanana. Viande de qualité, buns moelleux, plancha maîtrisée."
+    },
+    privacy: {
+      metaTitle: "Politique de confidentialité | NB BURGER",
+      metaDescription:
+        "Politique de confidentialité NB BURGER — collecte, usage des données et vos droits."
+    },
+    terms: {
+      metaTitle: "Conditions d'utilisation | NB BURGER",
+      metaDescription: "Conditions d'utilisation du site NB BURGER."
+    }
+  }
+};
+
 function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
   if (locale === "he") {
     return {
@@ -301,7 +396,25 @@ export function getDefaultSeoPageFields(
   locale: Locale,
   pageId: SeoPageId
 ): SeoPageFieldsInput {
-  return pagesForLocale(locale)[pageId] ?? {};
+  const metaDefaults =
+    PAGE_META_DEFAULTS[locale]?.[pageId] ?? PAGE_META_DEFAULTS.he[pageId] ?? {};
+  const pageDefaults = pagesForLocale(locale)[pageId] ?? {};
+
+  return {
+    ...metaDefaults,
+    ...pageDefaults
+  };
+}
+
+export function getDefaultPageMeta(
+  locale: Locale,
+  pageId: SeoPageId
+): { title: string; description: string } {
+  const fields = getDefaultSeoPageFields(locale, pageId);
+  return {
+    title: fields.metaTitle?.trim() ?? "",
+    description: fields.metaDescription?.trim() ?? ""
+  };
 }
 
 export function getDefaultSeoCategoryIntroIds(): readonly string[] {

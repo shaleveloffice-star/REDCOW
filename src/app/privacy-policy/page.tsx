@@ -9,7 +9,7 @@ import { getPrivacyPageMetadata } from "@/lib/page-metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
-  return getPrivacyPageMetadata(locale);
+  return await getPrivacyPageMetadata(locale);
 }
 
 export default async function PrivacyPolicyPage() {

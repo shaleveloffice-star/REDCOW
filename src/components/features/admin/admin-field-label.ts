@@ -4,6 +4,8 @@ export function adminFieldLabel(label: string, where: string): string {
 }
 
 export type AdminSeoFieldWhere = {
+  metaTitle?: string;
+  metaDescription?: string;
   sectionTitle?: string;
   introduction?: string;
   bottomContent?: string;
@@ -21,6 +23,8 @@ export type AdminSeoFieldWhere = {
 };
 
 export const CATEGORY_SEO_FIELD_WHERE: AdminSeoFieldWhere = {
+  metaTitle: "כותרת ב-Google + לשונית הדפדפן",
+  metaDescription: "תיאור ב-Google — לא מופיע בגוף הדף",
   introduction: "מתחת לשם הקטגוריה ב-/menu",
   bottomContent: "מתחת למנות בקטגוריה ב-/menu",
   faqLegend: "מתחת למנות בקטגוריה ב-/menu",

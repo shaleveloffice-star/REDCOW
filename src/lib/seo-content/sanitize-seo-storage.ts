@@ -44,6 +44,13 @@ export function sanitizeSeoStorageValue<T>(value: T): T {
 export function sanitizeSeoPageFields(fields: SeoPageFieldsInput | undefined): SeoPageFieldsInput {
   const sanitized = sanitizeSeoStorageValue(fields ?? {});
 
+  if (sanitized.metaTitle !== undefined) {
+    sanitized.metaTitle = String(sanitized.metaTitle).trim();
+  }
+  if (sanitized.metaDescription !== undefined) {
+    sanitized.metaDescription = String(sanitized.metaDescription).trim();
+  }
+
   if (sanitized.cta?.buttonHref !== undefined) {
     const href = String(sanitized.cta.buttonHref ?? "").trim();
     sanitized.cta = {

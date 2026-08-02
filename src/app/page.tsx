@@ -34,7 +34,7 @@ const LocationSection = dynamic(
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
-  return getHomePageMetadata(locale);
+  return await getHomePageMetadata(locale);
 }
 
 export default async function HomePage() {

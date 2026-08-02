@@ -68,7 +68,7 @@ export function AdminCategorySeoSection({
       <AdminSeoFieldsForm
         draft={draft}
         defaults={defaults}
-        flags={{ introduction: true, bottomContent: true, faq: true, cta: true }}
+        flags={{ meta: false, introduction: true, bottomContent: true, faq: true, cta: true }}
         idPrefix={`cat-${categoryId}-${locale}`}
         fieldWhere={CATEGORY_SEO_FIELD_WHERE}
         onChange={(next) => onChange(locale, pickCategorySeoFields(next))}

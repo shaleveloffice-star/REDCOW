@@ -7188,6 +7188,15 @@ body:not(:has(.admin-layout)) button:focus-visible {
   font-size: 12px;
 }
 
+.admin-field-warning {
+  color: #b45309;
+  font-size: 12px;
+}
+
+.admin-seo-fieldset--nested {
+  margin-top: 8px;
+}
+
 .locations-seo-intro,
 .locations-seo-bottom {
   width: min(920px, calc(100% - 32px));

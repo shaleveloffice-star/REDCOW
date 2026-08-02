@@ -26,6 +26,8 @@ export type SeoCtaBlock = {
 
 /** Editable SEO body fields for a single page (stored values may be partial). */
 export type SeoPageFieldsInput = {
+  metaTitle?: string;
+  metaDescription?: string;
   sectionTitle?: string;
   introduction?: string;
   bottomContent?: string;
@@ -46,6 +48,8 @@ export type ResolvedCategorySeoContent = {
 
 /** Resolved page content after merging stored values with defaults. */
 export type ResolvedSeoPageContent = {
+  metaTitle: string;
+  metaDescription: string;
   sectionTitle: string;
   introduction: string;
   introductionParagraphs: string[];

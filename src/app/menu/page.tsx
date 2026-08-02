@@ -15,7 +15,7 @@ import { buildMenuJsonLd } from "@/lib/seo/json-ld";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
-  return getMenuPageMetadata(locale);
+  return await getMenuPageMetadata(locale);
 }
 
 export default async function MenuPage() {

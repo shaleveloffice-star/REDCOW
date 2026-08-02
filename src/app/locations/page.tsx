@@ -10,7 +10,7 @@ import { listBranches } from "@/services/branches.service";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
-  return getLocationsPageMetadata(locale);
+  return await getLocationsPageMetadata(locale);
 }
 
 export default async function LocationsPage() {

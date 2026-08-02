@@ -118,6 +118,8 @@ export function resolveSeoPageContent(
   const categoryIntros = pickCategoryIntros(source.categoryIntros, defaults.categoryIntros);
 
   return {
+    metaTitle: pickText(source.metaTitle, defaults.metaTitle),
+    metaDescription: pickText(source.metaDescription, defaults.metaDescription),
     sectionTitle: pickText(source.sectionTitle, defaults.sectionTitle),
     introduction,
     introductionParagraphs: splitParagraphs(introduction),

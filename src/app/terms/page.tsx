@@ -9,7 +9,7 @@ import { getTermsPageMetadata } from "@/lib/page-metadata";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
-  return getTermsPageMetadata(locale);
+  return await getTermsPageMetadata(locale);
 }
 
 export default async function TermsPage() {

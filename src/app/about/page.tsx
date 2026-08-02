@@ -10,7 +10,7 @@ import type { SiteImagesMap } from "@/types/site-images";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
-  return getAboutPageMetadata(locale);
+  return await getAboutPageMetadata(locale);
 }
 
 export default async function AboutPage() {

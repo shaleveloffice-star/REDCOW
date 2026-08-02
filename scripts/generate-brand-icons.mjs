@@ -4,7 +4,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(__dirname, "..");
-const source = path.join(root, "public/images/brand/nb-burger-logo-source.png");
+const source = path.join(root, "brand-sources/nb-burger-icon-source.png");
 
 async function squareLogo(inputBuffer, size) {
   return sharp(inputBuffer)

@@ -1,4 +1,4 @@
-export const BRAND_ASSET_VERSION = "6";
+export const BRAND_ASSET_VERSION = "7";
 
 const withVersion = (path: string) => `${path}?v=${BRAND_ASSET_VERSION}`;
 

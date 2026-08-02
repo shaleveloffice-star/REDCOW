@@ -16,7 +16,7 @@ import {
   getCachedMenuItemBySlug,
   getCachedResolvedSeoPageContent
 } from "@/lib/cache/cached-data";
-import { resolveCategorySlug, getCategorySlugAliases } from "@/lib/menu/category-slug";
+import { getCategorySlugAliases, resolveCategorySlug } from "@/lib/menu/category-slug";
 import { normalizeMenuSlugParam, resolveMenuOrderUrls } from "@/lib/menu/menu-page-utils";
 import { resolveMenuItemSlug, getMenuItemSlugAliases } from "@/lib/menu/product-slug";
 import { getMenuCategoryPageMetadata } from "@/lib/page-metadata";
@@ -172,17 +172,26 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
     getCachedActiveOrderLinks(),
     getCachedMenuCategories()
   ]);
-  const categoryName = categories.find((entry) => entry.id === item.categoryId)?.name;
+  const itemCategory = categories.find((entry) => entry.id === item.categoryId);
+  const categoryName = itemCategory ? getLocalizedCategoryName(itemCategory, locale) : undefined;
+  const categorySlug = itemCategory ? resolveCategorySlug(itemCategory) : undefined;
   const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
 
   return (
     <>
       <JsonLd data={buildProductJsonLd(item, { slug: resolvedSlug, locale })} />
-      <JsonLd data={buildProductBreadcrumbJsonLd(item, { slug: resolvedSlug, locale })} />
+      <JsonLd
+        data={buildProductBreadcrumbJsonLd(item, {
+          slug: resolvedSlug,
+          locale,
+          categoryName,
+          categorySlug
+        })}
+      />
       <main id="main-content" className="menu-item-detail-page">
         <MenuItemDetailView
           item={item}
-          categoryName={categoryName}
+          category={itemCategory}
           pickupUrl={pickupUrl}
           deliveryUrl={deliveryUrl}
         />

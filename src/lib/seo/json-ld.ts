@@ -186,35 +186,54 @@ export function buildProductJsonLd(
 
 export function buildProductBreadcrumbJsonLd(
   item: MenuItem,
-  options: { slug: string; locale?: Locale }
+  options: {
+    slug: string;
+    locale?: Locale;
+    categoryName?: string;
+    categorySlug?: string;
+  }
 ): JsonLdObject {
   const locale = options.locale ?? "he";
   const t = getMessages(locale);
   const localized = getLocalizedMenuItem(item, locale);
+  const categoryName = options.categoryName?.trim();
+  const categorySlug = options.categorySlug?.trim();
+
+  const itemListElement: JsonLdObject[] = [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: t.nav.home,
+      item: absoluteUrl("/")
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: t.nav.menu,
+      item: absoluteUrl("/menu")
+    }
+  ];
+
+  if (categoryName && categorySlug) {
+    itemListElement.push({
+      "@type": "ListItem",
+      position: 3,
+      name: categoryName,
+      item: absoluteUrl(`/menu/${categorySlug}`)
+    });
+  }
+
+  itemListElement.push({
+    "@type": "ListItem",
+    position: itemListElement.length + 1,
+    name: localized.name,
+    item: absoluteUrl(`/menu/${options.slug}`)
+  });
 
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    itemListElement: [
-      {
-        "@type": "ListItem",
-        position: 1,
-        name: t.nav.home,
-        item: absoluteUrl("/")
-      },
-      {
-        "@type": "ListItem",
-        position: 2,
-        name: t.nav.menu,
-        item: absoluteUrl("/menu")
-      },
-      {
-        "@type": "ListItem",
-        position: 3,
-        name: localized.name,
-        item: absoluteUrl(`/menu/${options.slug}`)
-      }
-    ]
+    itemListElement
   };
 }
 

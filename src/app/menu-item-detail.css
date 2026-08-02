@@ -75,6 +75,36 @@
   background: #ffffff;
 }
 
+.menu-item-detail-intro .menu-bleecker-breadcrumbs {
+  width: 100%;
+  max-width: 100%;
+}
+
+.menu-item-detail-intro .menu-bleecker-breadcrumbs-list {
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.55);
+}
+
+.menu-item-detail-intro .menu-bleecker-breadcrumbs-link {
+  color: rgba(0, 0, 0, 0.72);
+}
+
+.menu-item-detail-intro .menu-bleecker-breadcrumbs-link:hover {
+  color: #000000;
+}
+
+.menu-item-detail-intro .menu-bleecker-breadcrumbs-link:focus-visible {
+  outline-color: #000000;
+}
+
+.menu-item-detail-intro .menu-bleecker-breadcrumbs-current {
+  color: #000000;
+}
+
+.menu-item-detail-intro .menu-bleecker-breadcrumbs-separator {
+  color: rgba(0, 0, 0, 0.35);
+}
+
 .menu-item-detail-mark {
   width: 34px;
   height: 34px;

@@ -4,19 +4,22 @@ import Link from "next/link";
 import { useMemo, useState } from "react";
 
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
+import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { OrderModal } from "@/components/layout/order-modal";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { IconBurgerMark } from "@/components/shared/site-icons";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
+import { getLocalizedCategoryName } from "@/i18n/category-translations";
 import { getLocalizedMenuItem, getMenuItemCloseUpImageUrl } from "@/i18n/menu-translations";
 import { resolveMenuItemCloseUpAlt, DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
+import { getMenuCategoryHref } from "@/lib/menu/category-slug";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
-import type { MenuItem } from "@/types/content";
+import type { MenuCategory, MenuItem } from "@/types/content";
 
 type MenuItemDetailViewProps = {
   item: MenuItem;
-  categoryName?: string;
+  category?: Pick<MenuCategory, "id" | "name" | "slug">;
   pickupUrl: string;
   deliveryUrl: string;
 };
@@ -33,12 +36,14 @@ function splitLongDescription(longDescription: string): string[] {
 
 export function MenuItemDetailView({
   item,
+  category,
   pickupUrl,
   deliveryUrl
 }: MenuItemDetailViewProps) {
   const t = useTranslations();
   const { locale } = useLocale();
   const localized = getLocalizedMenuItem(item, locale);
+  const categoryName = category ? getLocalizedCategoryName(category, locale) : undefined;
   const primaryMedia = resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
   const closeUpMedia = getMenuItemCloseUpImageUrl(item);
   const closeUpAlt = resolveMenuItemCloseUpAlt(item, locale, localized.name);
@@ -93,6 +98,16 @@ export function MenuItemDetailView({
       </div>
 
       <section className="menu-item-detail-intro" aria-labelledby="menu-item-detail-title">
+        <MenuBreadcrumbs
+          items={[
+            { label: t.nav.home, href: "/" },
+            { label: t.nav.menu, href: "/menu" },
+            ...(category && categoryName
+              ? [{ label: categoryName, href: getMenuCategoryHref(category) }]
+              : []),
+            { label: localized.name }
+          ]}
+        />
         <IconBurgerMark className="menu-item-detail-mark" />
         <h1 id="menu-item-detail-title" className="menu-item-detail-title">
           {localized.name}

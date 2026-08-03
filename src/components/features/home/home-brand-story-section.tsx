@@ -6,7 +6,7 @@ import { resolveImageAlt } from "@/lib/image-alt";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
 
 /** Bump when replacing public/images/home/story-section-burger.webp */
-const HOME_STORY_IMAGE_VERSION = "1";
+const HOME_STORY_IMAGE_VERSION = "2";
 const HOME_STORY_IMAGE_URL = `${HOME_STORY_IMAGE}?v=${HOME_STORY_IMAGE_VERSION}`;
 
 export async function HomeBrandStorySection() {

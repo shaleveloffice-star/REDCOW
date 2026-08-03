@@ -1488,6 +1488,7 @@ select {
 
 @media (max-width: 767px) {
   .hero-burger {
+    --hero-burger-scale: 1.3;
     top: var(--site-chrome-offset, 160px);
     bottom: calc(
       var(--hero-caption-reserve, clamp(160px, 28vh, 220px)) + env(safe-area-inset-bottom, 0px)
@@ -1507,7 +1508,8 @@ select {
   }
 
   .hero-burger-image {
-    transform: none;
+    transform: scale(var(--hero-burger-scale, 1));
+    transform-origin: center center;
     width: auto;
     height: auto;
     max-width: min(92vw, 100%);

@@ -6,20 +6,16 @@ import { getServerLocale } from "@/i18n/get-locale";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
-import { pickSiteImage } from "@/lib/site-image-url";
-import type { SiteImagesMap } from "@/types/site-images";
 
-type HomeBrandStorySectionProps = {
-  siteImages?: SiteImagesMap;
-};
+/** Bump when replacing public/images/home/home-story-burger.webp */
+const HOME_STORY_IMAGE_VERSION = "20260803b";
+const HOME_STORY_IMAGE_URL = `${HOME_STORY_IMAGE}?v=${HOME_STORY_IMAGE_VERSION}`;
 
-export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectionProps) {
+export async function HomeBrandStorySection() {
   const locale = await getServerLocale();
   const t = await getLocalizedMessages(locale);
   const seoContent = await getCachedResolvedSeoPageContent(locale, "home");
   const story = layoutHomeStoryContent(seoContent);
-  const imageSrc = pickSiteImage(siteImages, "home-story", HOME_STORY_IMAGE);
-  const imageUrl = imageSrc.startsWith("/") ? imageSrc : HOME_STORY_IMAGE;
   const imageAlt = resolveImageAlt({
     kind: "brand-story",
     locale,
@@ -37,11 +33,13 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
       <div className="home-story-shell">
         <div className="home-story-media">
           <Image
-            src={imageUrl}
+            src={HOME_STORY_IMAGE_URL}
             alt={imageAlt}
-            fill
+            width={637}
+            height={500}
             sizes="(max-width: 900px) 100vw, 45vw"
             className="home-story-image"
+            unoptimized
           />
         </div>
 

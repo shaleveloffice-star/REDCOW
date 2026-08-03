@@ -415,16 +415,15 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .home-story-media {
-  position: relative;
   width: 100%;
-  aspect-ratio: 4 / 3;
-  overflow: hidden;
+  line-height: 0;
   background: #ffffff;
 }
 
 .home-story-image {
-  object-fit: contain;
-  object-position: center bottom;
+  display: block;
+  width: 100%;
+  height: auto;
 }
 
 .home-story-copy {

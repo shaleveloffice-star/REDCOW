@@ -58,7 +58,7 @@ export default async function HomePage() {
       <main id="main-content">
         <HeroSection />
         <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
-        <HomeBrandStorySection siteImages={siteImages} />
+        <HomeBrandStorySection />
         <HomeAtmosphereSection siteImages={siteImages} />
         <HomeSocialVibeSection />
         <HomeFaqSection faq={homeSeo.faq} />

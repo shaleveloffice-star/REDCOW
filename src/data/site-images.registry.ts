@@ -47,7 +47,7 @@ export const BURGER_ASSEMBLY_IMAGES = {
 } as const;
 
 export const LOCATION_EXTERIOR_IMAGE = "/images/location/exterior.jpg";
-export const HOME_STORY_IMAGE = "/images/home/home-story-burger.png";
+export const HOME_STORY_IMAGE = "/images/home/home-story-burger.webp";
 
 export const ABOUT_PAGE_IMAGES = {
   hero: "/images/hero/burger-hero.png",

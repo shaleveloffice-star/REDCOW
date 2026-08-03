@@ -1,5 +1,3 @@
-import Image from "next/image";
-
 import { HOME_STORY_IMAGE } from "@/data/site-images.registry";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
@@ -7,8 +5,8 @@ import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
 
-/** Bump when replacing public/images/home/home-story-burger.webp */
-const HOME_STORY_IMAGE_VERSION = "20260803f";
+/** Bump when replacing public/images/home/story-section-burger.webp */
+const HOME_STORY_IMAGE_VERSION = "1";
 const HOME_STORY_IMAGE_URL = `${HOME_STORY_IMAGE}?v=${HOME_STORY_IMAGE_VERSION}`;
 
 export async function HomeBrandStorySection() {
@@ -32,14 +30,14 @@ export async function HomeBrandStorySection() {
 
       <div className="home-story-shell">
         <div className="home-story-media">
-          <Image
+          {/* Native img — avoids Next.js image cache; same pattern as hero unoptimized */}
+          <img
             src={HOME_STORY_IMAGE_URL}
             alt={imageAlt}
             width={900}
             height={600}
-            sizes="(max-width: 900px) 100vw, 45vw"
             className="home-story-image"
-            unoptimized
+            decoding="async"
           />
         </div>
 

@@ -418,12 +418,16 @@ a.menu-showcase-button.site-cta-btn {
   width: 100%;
   line-height: 0;
   background: #ffffff;
+  overflow: visible;
 }
 
 .home-story-image {
+  --home-story-image-scale: 1.15;
   display: block;
   width: 100%;
   height: auto;
+  transform: scale(var(--home-story-image-scale));
+  transform-origin: center center;
 }
 
 .home-story-copy {

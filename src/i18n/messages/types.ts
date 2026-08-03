@@ -133,6 +133,7 @@ export type Messages = {
     droneAlt: string;
     burgerStackAlt: string;
     bottomAlt: string;
+    carouselSlideAlts: [string, string, string];
   };
   customerClub: {
     kicker: string;

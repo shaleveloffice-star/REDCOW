@@ -116,7 +116,12 @@ export const fr: Messages = {
     introLead: "Une galette premium de bouchers sélectionnés, hachée sur place chaque jour.",
     droneAlt: "Vue drone",
     burgerStackAlt: "Burger éclaté",
-    bottomAlt: "Pain du bas"
+    bottomAlt: "Pain du bas",
+    carouselSlideAlts: [
+      "Burger NB BURGER sur papier brandé",
+      "Burger NB BURGER juteux sur fond sombre",
+      "Gros plan d'un burger NB BURGER avec sauce, cornichons et tomate"
+    ]
   },
   customerClub: {
     kicker: "NB CLUB",

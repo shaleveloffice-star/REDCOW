@@ -116,7 +116,12 @@ export const en: Messages = {
     introLead: "A premium patty from selected butchers, ground fresh on site every day.",
     droneAlt: "Drone footage",
     burgerStackAlt: "Deconstructed burger",
-    bottomAlt: "Bottom bun"
+    bottomAlt: "Bottom bun",
+    carouselSlideAlts: [
+      "NB BURGER burger on branded paper",
+      "Juicy NB BURGER burger on a dark background",
+      "Close-up of an NB BURGER burger with sauce, pickles and tomato"
+    ]
   },
   customerClub: {
     kicker: "NB CLUB",

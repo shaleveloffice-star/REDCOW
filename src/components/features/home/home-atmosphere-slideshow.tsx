@@ -9,9 +9,10 @@ const CROSS_FADE_MS = 1200;
 
 type HomeAtmosphereSlideshowProps = {
   slides: string[];
+  slideAlts?: string[];
 };
 
-export function HomeAtmosphereSlideshow({ slides }: HomeAtmosphereSlideshowProps) {
+export function HomeAtmosphereSlideshow({ slides, slideAlts }: HomeAtmosphereSlideshowProps) {
   const [baseIndex, setBaseIndex] = useState(0);
   const [overlayIndex, setOverlayIndex] = useState(slides.length > 1 ? 1 : 0);
   const [overlayVisible, setOverlayVisible] = useState(false);
@@ -133,13 +134,21 @@ export function HomeAtmosphereSlideshow({ slides }: HomeAtmosphereSlideshowProps
 
   if (slides.length === 0) return null;
 
+  const altFor = (index: number) => slideAlts?.[index] ?? DECORATIVE_IMAGE_ALT;
+  const hasMeaningfulAlt = Boolean(slideAlts?.some((alt) => alt.trim().length > 0));
+
   return (
-    <div className="home-atmosphere-slideshow" aria-hidden="true">
+    <div
+      className="home-atmosphere-slideshow"
+      aria-hidden={hasMeaningfulAlt ? undefined : true}
+      role={hasMeaningfulAlt ? "group" : undefined}
+      aria-roledescription={hasMeaningfulAlt ? "carousel" : undefined}
+    >
       <img
         className="home-atmosphere-slide home-atmosphere-slide--base"
         src={slides[baseIndex]}
-        alt={DECORATIVE_IMAGE_ALT}
-        aria-hidden
+        alt={altFor(baseIndex)}
+        aria-hidden={hasMeaningfulAlt ? undefined : true}
         draggable={false}
       />
       <img
@@ -147,7 +156,7 @@ export function HomeAtmosphereSlideshow({ slides }: HomeAtmosphereSlideshowProps
           overlayVisible ? " is-visible" : ""
         }${overlayResetting ? " is-resetting" : ""}`}
         src={slides[overlayIndex]}
-        alt={DECORATIVE_IMAGE_ALT}
+        alt={hasMeaningfulAlt ? "" : altFor(overlayIndex)}
         aria-hidden
         draggable={false}
       />

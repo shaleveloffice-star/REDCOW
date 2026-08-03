@@ -32,10 +32,9 @@ export const ATMOSPHERE_BURGER_STACK_IMAGE =
   "/images/atmosphere/atmosphere-burger-stack.png";
 export const ATMOSPHERE_BOTTOM_IMAGE = ATMOSPHERE_WIDE_IMAGE;
 
-export const HOME_ATMOSPHERE_SLIDE_1 = "/images/atmosphere/atmosphere-slide-1.png";
-export const HOME_ATMOSPHERE_SLIDE_2 = "/images/atmosphere/atmosphere-slide-2.png";
-export const HOME_ATMOSPHERE_SLIDE_3 = "/images/atmosphere/atmosphere-slide-3.png";
-export const HOME_ATMOSPHERE_SLIDE_4 = "/images/atmosphere/atmosphere-slide-4.png";
+export const HOME_ATMOSPHERE_SLIDE_1 = "/images/atmosphere/atmosphere-slide-1.webp";
+export const HOME_ATMOSPHERE_SLIDE_2 = "/images/atmosphere/atmosphere-slide-2.webp";
+export const HOME_ATMOSPHERE_SLIDE_3 = "/images/atmosphere/atmosphere-slide-3.webp";
 
 export const BURGER_ASSEMBLY_IMAGES = {
   bunTop: "/burger/bun-top.png",
@@ -128,12 +127,6 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
         "סלייד 3 — האווירה",
         "סקשן האווירה (דף הבית)",
         HOME_ATMOSPHERE_SLIDE_3
-      ),
-      item(
-        "atmosphere-slide-4",
-        "סלייד 4 — האווירה",
-        "סקשן האווירה (דף הבית)",
-        HOME_ATMOSPHERE_SLIDE_4
       )
     ]
   },

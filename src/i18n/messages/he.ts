@@ -116,7 +116,12 @@ export const he: Messages = {
     introLead: "קציצת פרימיום מנתחים מובחרים, שנטחנת במקום בכל יום.",
     droneAlt: "צילום מהרחפן",
     burgerStackAlt: "מבורגר מפורק",
-    bottomAlt: "לחמנייה תחתונה"
+    bottomAlt: "לחמנייה תחתונה",
+    carouselSlideAlts: [
+      "המבורגר NB BURGER על נייר ממותג",
+      "המבורגר NB BURGER עסיסי על רקע כהה",
+      "תקריב המבורגר NB BURGER עם רוטב, חמוצים ועגבנייה"
+    ]
   },
   customerClub: {
     kicker: "NB CLUB",

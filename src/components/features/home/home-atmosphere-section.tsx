@@ -1,8 +1,7 @@
 import {
   HOME_ATMOSPHERE_SLIDE_1,
   HOME_ATMOSPHERE_SLIDE_2,
-  HOME_ATMOSPHERE_SLIDE_3,
-  HOME_ATMOSPHERE_SLIDE_4
+  HOME_ATMOSPHERE_SLIDE_3
 } from "@/data/site-images.registry";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
@@ -11,17 +10,11 @@ import type { SiteImagesMap } from "@/types/site-images";
 
 import { HomeAtmosphereSlideshow } from "./home-atmosphere-slideshow";
 
-const SLIDE_KEYS = [
-  "atmosphere-slide-1",
-  "atmosphere-slide-2",
-  "atmosphere-slide-3",
-  "atmosphere-slide-4"
-] as const;
+const SLIDE_KEYS = ["atmosphere-slide-1", "atmosphere-slide-2", "atmosphere-slide-3"] as const;
 const SLIDE_DEFAULTS = [
   HOME_ATMOSPHERE_SLIDE_1,
   HOME_ATMOSPHERE_SLIDE_2,
-  HOME_ATMOSPHERE_SLIDE_3,
-  HOME_ATMOSPHERE_SLIDE_4
+  HOME_ATMOSPHERE_SLIDE_3
 ] as const;
 const THIRD_CAROUSEL_SLIDES = [
   "/images/atmosphere/atmosphere-third-1.png",
@@ -29,8 +22,19 @@ const THIRD_CAROUSEL_SLIDES = [
   "/images/atmosphere/atmosphere-third-3.png"
 ] as const;
 
-/** Slides 1–3 only; slide 4 is unused on the homepage carousels. */
-const HOME_CAROUSEL_SLIDE_COUNT = 3;
+/** Bump when replacing carousel-1 slides in public/images/atmosphere/ */
+const ATMOSPHERE_CAROUSEL_1_VERSION = "20260803d";
+
+function withAssetVersion(url: string): string {
+  if (!url.startsWith("/") || url.includes("?")) {
+    return url;
+  }
+  return `${url}?v=${ATMOSPHERE_CAROUSEL_1_VERSION}`;
+}
+
+function rotateItems<T>(items: readonly T[], offset: number): T[] {
+  return [...items.slice(offset), ...items.slice(0, offset)];
+}
 
 type HomeAtmosphereSectionProps = {
   siteImages?: SiteImagesMap;
@@ -50,19 +54,18 @@ function AtmosphereLifter() {
 export async function HomeAtmosphereSection({ siteImages }: HomeAtmosphereSectionProps) {
   const t = await getLocalizedMessages(await getServerLocale());
   const slides = SLIDE_KEYS.map((key, index) =>
-    pickSiteImage(siteImages, key, SLIDE_DEFAULTS[index])
+    withAssetVersion(pickSiteImage(siteImages, key, SLIDE_DEFAULTS[index]))
   );
-  const activeSlides = slides.slice(0, HOME_CAROUSEL_SLIDE_COUNT);
-  const slideGroups = [0, 1, 2].map((offset) => [
-    ...activeSlides.slice(offset),
-    ...activeSlides.slice(0, offset)
-  ]);
+  const slideAlts = [...t.atmosphere.carouselSlideAlts];
+  const carousel1Slides = slides;
+  const carousel2Slides = rotateItems(slides, 1);
+  const carousel2Alts = rotateItems(slideAlts, 1);
 
   return (
     <section id="atmosphere" className="home-atmosphere-section" aria-label={t.nav.atmosphere}>
       <div className="home-atmosphere-stack">
         <div className="home-atmosphere-clip home-atmosphere-clip--1">
-          <HomeAtmosphereSlideshow slides={slideGroups[0]} />
+          <HomeAtmosphereSlideshow slides={carousel1Slides} slideAlts={slideAlts} />
         </div>
         <div className="home-atmosphere-divider" aria-hidden="true">
           <div className="home-atmosphere-divider-content home-atmosphere-divider-content--end">
@@ -71,7 +74,7 @@ export async function HomeAtmosphereSection({ siteImages }: HomeAtmosphereSectio
           </div>
         </div>
         <div className="home-atmosphere-clip home-atmosphere-clip--2">
-          <HomeAtmosphereSlideshow slides={slideGroups[1]} />
+          <HomeAtmosphereSlideshow slides={carousel2Slides} slideAlts={carousel2Alts} />
         </div>
         <div
           className="home-atmosphere-divider home-atmosphere-divider--reverse"

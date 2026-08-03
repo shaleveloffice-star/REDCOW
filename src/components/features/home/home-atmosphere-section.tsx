@@ -29,6 +29,9 @@ const THIRD_CAROUSEL_SLIDES = [
   "/images/atmosphere/atmosphere-third-3.png"
 ] as const;
 
+/** Slides 1–3 only; slide 4 is unused on the homepage carousels. */
+const HOME_CAROUSEL_SLIDE_COUNT = 3;
+
 type HomeAtmosphereSectionProps = {
   siteImages?: SiteImagesMap;
 };
@@ -49,9 +52,10 @@ export async function HomeAtmosphereSection({ siteImages }: HomeAtmosphereSectio
   const slides = SLIDE_KEYS.map((key, index) =>
     pickSiteImage(siteImages, key, SLIDE_DEFAULTS[index])
   );
+  const activeSlides = slides.slice(0, HOME_CAROUSEL_SLIDE_COUNT);
   const slideGroups = [0, 1, 2].map((offset) => [
-    ...slides.slice(offset),
-    ...slides.slice(0, offset)
+    ...activeSlides.slice(offset),
+    ...activeSlides.slice(0, offset)
   ]);
 
   return (

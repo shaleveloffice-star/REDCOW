@@ -51,6 +51,7 @@
   --site-opening-banner-height: 40px;
   --site-navbar-height: 120px;
   --site-chrome-offset: calc(var(--site-opening-banner-height) + var(--site-navbar-height));
+  --hero-caption-reserve: clamp(160px, 28vh, 220px);
   --secondary-border-hover: rgba(255, 225, 186, 0.85);
   --secondary-glow: rgba(255, 225, 186, 0.35);
   --secondary-bg-soft: rgba(255, 225, 186, 0.1);
@@ -1332,11 +1333,6 @@ select {
     font-size: clamp(32px, 11vw, 48px);
   }
 
-  .hero-burger-image--mobile {
-    transform: scale(1.05) translate(0, 10px);
-    max-width: 92vw;
-  }
-
   .site-cta--mobile {
     gap: 8px;
     padding-inline: 12px;
@@ -1468,10 +1464,6 @@ select {
   height: auto;
 }
 
-.hero-burger-image--desktop {
-  display: none;
-}
-
 @media (min-width: 768px) {
   .hero-burger {
     align-items: flex-start;
@@ -1479,15 +1471,7 @@ select {
     padding-top: clamp(48px, 7vh, 88px);
   }
 
-  .hero-burger-image--mobile {
-    display: none;
-  }
-
-  .hero-burger-image--desktop {
-    display: block;
-  }
-
-  .hero-burger-image--desktop {
+  .hero-burger-image {
     transform: translateY(calc(22px + 15vh));
   }
 }
@@ -1497,18 +1481,22 @@ select {
     padding-top: clamp(36px, 5.5vh, 72px);
   }
 
-  .hero-burger-image--desktop {
+  .hero-burger-image {
     transform: translateY(calc(6px + 15vh));
   }
 }
 
 @media (max-width: 767px) {
   .hero-burger {
-    top: 58px;
-    bottom: clamp(188px, 30vh, 248px);
+    top: var(--site-chrome-offset, 160px);
+    bottom: calc(
+      var(--hero-caption-reserve, clamp(160px, 28vh, 220px)) + env(safe-area-inset-bottom, 0px)
+    );
     left: 0;
     right: 0;
-    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 
   .hero-burger > span {
@@ -1518,18 +1506,13 @@ select {
     max-height: 100%;
   }
 
-  .hero-burger-image--mobile {
+  .hero-burger-image {
+    transform: none;
     width: auto;
-    max-width: min(98vw, 1364px);
-    max-height: 100%;
     height: auto;
+    max-width: min(92vw, 100%);
+    max-height: 100%;
     object-fit: contain;
-    transform: scale(1.2) translate(0, 14px);
-    transform-origin: center center;
-  }
-
-  .hero-language-switcher {
-    margin-bottom: 10px;
   }
 
   .hero-caption-kicker {
@@ -1882,19 +1865,6 @@ select {
   margin-top: var(--ds-space-6, 44.8px);
   direction: ltr;
   transform: none;
-}
-
-.hero-language-switcher {
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  margin: 0 0 clamp(14px, 2vw, 22px);
-}
-
-.hero-language-switcher .language-switcher {
-  background: transparent;
-  border-color: rgba(255, 255, 255, 0.35);
-  backdrop-filter: none;
 }
 
 .hero-button {

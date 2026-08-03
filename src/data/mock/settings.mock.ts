@@ -17,7 +17,7 @@ export const mockSiteSettings: SiteSettings = {
   tiktokUrl: BUSINESS.social.tiktok,
   orderDeliveryUrl: BUSINESS.serviceOptions.deliveryUrl ?? "",
   orderPickupUrl: BUSINESS.serviceOptions.takeawayUrl ?? "",
-  ogImageUrl: "/images/hero/nb-burger-hero-desktop.webp",
+  ogImageUrl: "/images/hero/nb-burger-hero.webp",
   updatedAt: now
 };
 

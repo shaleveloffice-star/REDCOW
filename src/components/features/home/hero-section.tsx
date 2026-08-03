@@ -1,12 +1,14 @@
 "use client";
 
 import Image from "next/image";
-import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 
-const HERO_BURGER_IMAGE_MOBILE = "/images/hero/nb-burger-hero-current.webp";
-const HERO_BURGER_IMAGE_DESKTOP = "/images/hero/nb-burger-hero-desktop.webp";
+/** Bump when replacing public/images/hero/nb-burger-hero.webp (avoids stale browser cache). */
+const HERO_BURGER_IMAGE_VERSION = "20260803";
+
+/** Single hero asset — used on mobile and desktop (responsive CSS handles layout). */
+export const HERO_BURGER_IMAGE = `/images/hero/nb-burger-hero.webp?v=${HERO_BURGER_IMAGE_VERSION}`;
 
 export function HeroSection() {
   const t = useTranslations();
@@ -19,34 +21,20 @@ export function HeroSection() {
 
       <div className="hero-burger" aria-hidden="true">
         <Image
-          src={HERO_BURGER_IMAGE_MOBILE}
+          src={HERO_BURGER_IMAGE}
           alt={DECORATIVE_IMAGE_ALT}
           aria-hidden
-          width={1024}
-          height={682}
+          width={2048}
+          height={1366}
           priority
           unoptimized
-          className="hero-burger-image hero-burger-image--mobile"
-          sizes="98vw"
-        />
-        <Image
-          src={HERO_BURGER_IMAGE_DESKTOP}
-          alt={DECORATIVE_IMAGE_ALT}
-          aria-hidden
-          width={1024}
-          height={682}
-          priority
-          unoptimized
-          className="hero-burger-image hero-burger-image--desktop"
-          sizes="(min-width: 768px) min(98vw, 1064px)"
+          className="hero-burger-image"
+          sizes="(min-width: 768px) min(98vw, 1064px), 98vw"
         />
       </div>
 
       <div className="hero-caption">
         <div className="hero-caption-inner" dir={captionDir}>
-          <div className="hero-language-switcher" dir="ltr">
-            <LanguageSwitcher />
-          </div>
           <p className="hero-caption-kicker">{t.hero.captionKicker}</p>
           <p className="hero-caption-title" dir="ltr">
             {t.hero.captionTitle}

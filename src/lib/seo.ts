@@ -7,7 +7,7 @@ const rawSiteUrl = process.env.NEXT_PUBLIC_APP_URL ?? BUSINESS.website;
 
 export const SITE_URL = rawSiteUrl.replace(/\/+$/, "");
 export const SITE_NAME = BUSINESS.name;
-export const DEFAULT_OG_IMAGE = "/images/hero/nb-burger-hero-desktop.webp";
+export const DEFAULT_OG_IMAGE = "/images/hero/nb-burger-hero.webp";
 
 const OG_LOCALE: Record<Locale, string> = {
   he: "he_IL",

@@ -5,13 +5,10 @@ import {
 } from "@/data/site-images.registry";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
-import { pickSiteImage } from "@/lib/site-image-url";
-import type { SiteImagesMap } from "@/types/site-images";
 
 import { HomeAtmosphereSlideshow } from "./home-atmosphere-slideshow";
 
-const SLIDE_KEYS = ["atmosphere-slide-1", "atmosphere-slide-2", "atmosphere-slide-3"] as const;
-const SLIDE_DEFAULTS = [
+const CAROUSEL_1_SLIDES = [
   HOME_ATMOSPHERE_SLIDE_1,
   HOME_ATMOSPHERE_SLIDE_2,
   HOME_ATMOSPHERE_SLIDE_3
@@ -23,7 +20,7 @@ const THIRD_CAROUSEL_SLIDES = [
 ] as const;
 
 /** Bump when replacing carousel-1 slides in public/images/atmosphere/ */
-const ATMOSPHERE_CAROUSEL_1_VERSION = "20260803d";
+const ATMOSPHERE_CAROUSEL_1_VERSION = "20260803e";
 
 function withAssetVersion(url: string): string {
   if (!url.startsWith("/") || url.includes("?")) {
@@ -36,10 +33,6 @@ function rotateItems<T>(items: readonly T[], offset: number): T[] {
   return [...items.slice(offset), ...items.slice(0, offset)];
 }
 
-type HomeAtmosphereSectionProps = {
-  siteImages?: SiteImagesMap;
-};
-
 function AtmosphereLifter() {
   return (
     <svg className="home-atmosphere-lifter" viewBox="0 0 48 64" aria-hidden="true">
@@ -51,11 +44,10 @@ function AtmosphereLifter() {
   );
 }
 
-export async function HomeAtmosphereSection({ siteImages }: HomeAtmosphereSectionProps) {
+export async function HomeAtmosphereSection() {
   const t = await getLocalizedMessages(await getServerLocale());
-  const slides = SLIDE_KEYS.map((key, index) =>
-    withAssetVersion(pickSiteImage(siteImages, key, SLIDE_DEFAULTS[index]))
-  );
+  // Registry paths only — Firestore overrides still point at deleted .png files on production.
+  const slides = CAROUSEL_1_SLIDES.map((url) => withAssetVersion(url));
   const slideAlts = [...t.atmosphere.carouselSlideAlts];
   const carousel1Slides = slides;
   const carousel2Slides = rotateItems(slides, 1);

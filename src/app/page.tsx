@@ -59,7 +59,7 @@ export default async function HomePage() {
         <HeroSection />
         <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
         <HomeBrandStorySection />
-        <HomeAtmosphereSection siteImages={siteImages} />
+        <HomeAtmosphereSection />
         <HomeSocialVibeSection />
         <HomeFaqSection faq={homeSeo.faq} />
         <LocationSection siteImages={siteImages} />

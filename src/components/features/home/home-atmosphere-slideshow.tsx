@@ -35,7 +35,7 @@ export function HomeAtmosphereSlideshow({ slides, slideAlts }: HomeAtmosphereSli
 
     setImagesReady(false);
 
-    Promise.all(
+    Promise.allSettled(
       slides.map(
         (src) =>
           new Promise<void>((resolve, reject) => {
@@ -47,13 +47,12 @@ export function HomeAtmosphereSlideshow({ slides, slideAlts }: HomeAtmosphereSli
             image.src = src;
           })
       )
-    )
-      .then(() => {
-        if (!cancelled) setImagesReady(true);
-      })
-      .catch(() => {
-        // Keep the first image visible instead of transitioning to an unloaded image.
-      });
+    ).then((results) => {
+      if (cancelled) return;
+      if (results.some((result) => result.status === "fulfilled")) {
+        setImagesReady(true);
+      }
+    });
 
     return () => {
       cancelled = true;

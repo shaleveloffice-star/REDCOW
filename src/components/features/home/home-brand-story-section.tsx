@@ -8,7 +8,7 @@ import { resolveImageAlt } from "@/lib/image-alt";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
 
 /** Bump when replacing public/images/home/home-story-burger.webp */
-const HOME_STORY_IMAGE_VERSION = "20260803c";
+const HOME_STORY_IMAGE_VERSION = "20260803d";
 const HOME_STORY_IMAGE_URL = `${HOME_STORY_IMAGE}?v=${HOME_STORY_IMAGE_VERSION}`;
 
 export async function HomeBrandStorySection() {
@@ -35,8 +35,8 @@ export async function HomeBrandStorySection() {
           <Image
             src={HOME_STORY_IMAGE_URL}
             alt={imageAlt}
-            width={1024}
-            height={787}
+            width={900}
+            height={900}
             sizes="(max-width: 900px) 100vw, 45vw"
             className="home-story-image"
             unoptimized

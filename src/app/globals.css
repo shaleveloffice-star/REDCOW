@@ -547,6 +547,10 @@ select {
   flex-shrink: 0;
 }
 
+.site-navbar-back-icon {
+  transform: scaleX(-1);
+}
+
 .site-navbar-end {
   display: flex;
   align-items: center;
@@ -1277,10 +1281,14 @@ select {
   }
 
   .site-navbar-inner {
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      "brand menu back"
+      "utilities utilities utilities";
     align-items: center;
-    row-gap: 10px;
     column-gap: 12px;
+    row-gap: 10px;
     width: calc(100% - 32px);
     padding: 16px 0;
   }
@@ -1290,14 +1298,13 @@ select {
   }
 
   .site-navbar-start {
-    order: 1;
-    flex: 1 1 auto;
+    grid-area: brand;
     min-width: 0;
-    max-width: calc(100% - 108px);
+    max-width: none;
   }
 
   .site-navbar-brand {
-    flex: 1 1 auto;
+    flex: initial;
     min-width: 0;
     max-width: none;
   }
@@ -1307,21 +1314,26 @@ select {
     height: clamp(40px, 11vw, 52px);
   }
 
-  .site-navbar-icons {
-    order: 2;
-    flex-shrink: 0;
+  .site-navbar-mobile-utilities {
+    grid-area: utilities;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    width: 100%;
+  }
+
+  .site-navbar-mobile-utilities .site-navbar-language {
+    flex: none;
+    margin: 0;
+  }
+
+  .site-navbar-back {
+    grid-area: back;
   }
 
   .site-navbar-actions {
-    order: 3;
-    flex-shrink: 0;
-  }
-
-  .site-navbar-language {
-    order: 4;
-    flex: 1 0 100%;
-    justify-content: center;
-    margin: 0;
+    grid-area: menu;
   }
 
   .site-cta--mobile .site-cta-btn {

@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
@@ -87,10 +87,12 @@ export function SiteNavbar({
 }: SiteNavbarProps) {
   const t = useTranslations();
   const router = useRouter();
+  const pathname = usePathname();
   const { locale } = useLocale();
   const logoAlt = resolveImageAlt({ kind: "logo", locale });
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [showBack, setShowBack] = useState(false);
   const wordmarkSrc = isScrolled ? SITE_WORDMARK_DARK_SRC : SITE_WORDMARK_LIGHT_SRC;
   const wordmarkWebp = isScrolled ? SITE_WORDMARK_DARK_WEBP_SRC : SITE_WORDMARK_LIGHT_WEBP_SRC;
   const [isOrderOpen, setIsOrderOpen] = useState(false);
@@ -99,6 +101,7 @@ export function SiteNavbar({
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const bagButtonRef = useRef<HTMLButtonElement>(null);
+  const navStackRef = useRef<string[]>([]);
 
   const { pickupUrl, deliveryUrl } = useMemo(
     () => resolveOrderUrls(orderLinks, orderUrl),
@@ -133,12 +136,29 @@ export function SiteNavbar({
   };
 
   const handleBack = useCallback(() => {
-    if (typeof window !== "undefined" && window.history.length > 1) {
-      router.back();
+    router.back();
+  }, [router]);
+
+  useEffect(() => {
+    const stack = navStackRef.current;
+    const top = stack[stack.length - 1];
+
+    if (top === pathname) {
+      setShowBack(stack.length > 1);
       return;
     }
-    router.push("/");
-  }, [router]);
+
+    const priorIndex = stack.lastIndexOf(pathname);
+    if (priorIndex >= 0 && priorIndex < stack.length - 1) {
+      navStackRef.current = stack.slice(0, priorIndex + 1);
+    } else if (stack.length === 0) {
+      navStackRef.current = [pathname];
+    } else {
+      navStackRef.current = [...stack, pathname];
+    }
+
+    setShowBack(navStackRef.current.length > 1);
+  }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -201,14 +221,6 @@ export function SiteNavbar({
       <header className={navClass}>
         <nav className="site-navbar-inner" aria-label={t.nav.main}>
           <div className="site-navbar-start">
-            <button
-              type="button"
-              className="site-navbar-icon-btn site-navbar-back"
-              aria-label={t.nav.goBack}
-              onClick={handleBack}
-            >
-              <IconArrowBack className="site-navbar-icon" />
-            </button>
             <Link href="/" className="site-navbar-brand">
               <picture>
                 <source srcSet={wordmarkWebp} type="image/webp" />
@@ -247,23 +259,24 @@ export function SiteNavbar({
               </li>
             </ul>
 
-            <div className="site-navbar-icons">
-              <Link
-                href="/locations"
-                className="site-navbar-icon-btn"
-                aria-label={t.locations.findLocal}
-              >
-                <IconLocationPinFilled className="site-navbar-icon" />
-              </Link>
+            <div className="site-navbar-mobile-utilities">
               <button
                 ref={bagButtonRef}
                 type="button"
-                className="site-navbar-icon-btn"
+                className="site-navbar-icon-btn site-navbar-icon-order"
                 aria-label={t.hero.orderCta}
                 onClick={openOrderModal}
               >
                 <IconShoppingBagFilled className="site-navbar-icon" />
               </button>
+              {languageSwitcher}
+              <Link
+                href="/locations"
+                className="site-navbar-icon-btn site-navbar-icon-location"
+                aria-label={t.locations.findLocal}
+              >
+                <IconLocationPinFilled className="site-navbar-icon" />
+              </Link>
             </div>
 
             <CtaButtons
@@ -273,7 +286,16 @@ export function SiteNavbar({
               menuLabel={t.hero.menuCta}
             />
 
-            {languageSwitcher}
+            {showBack ? (
+              <button
+                type="button"
+                className="site-navbar-icon-btn site-navbar-back"
+                aria-label={t.nav.goBack}
+                onClick={handleBack}
+              >
+                <IconArrowBack className="site-navbar-icon site-navbar-back-icon" />
+              </button>
+            ) : null}
 
             <div className="site-navbar-actions">
               <button

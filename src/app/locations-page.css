@@ -388,19 +388,6 @@
 }
 
 /* Header utility icons */
-.site-navbar-icons {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-inline-start: 4px;
-}
-
-@media (min-width: 768px) {
-  .site-navbar-icons {
-    display: none;
-  }
-}
-
 .site-navbar-icon-btn {
   display: inline-flex;
   align-items: center;
@@ -442,6 +429,17 @@
   border: 0;
   background: transparent;
   cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .site-navbar-mobile-utilities {
+    display: contents;
+  }
+
+  .site-navbar-mobile-utilities .site-navbar-icon-order,
+  .site-navbar-mobile-utilities .site-navbar-icon-location {
+    display: none;
+  }
 }
 
 button.site-cta-btn {

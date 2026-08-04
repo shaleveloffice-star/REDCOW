@@ -1,11 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { OrderModal } from "@/components/layout/order-modal";
 import {
+  IconArrowBack,
   IconClose,
   IconLocationPinFilled,
   IconShoppingBagFilled
@@ -84,6 +86,7 @@ export function SiteNavbar({
   orderLinks = []
 }: SiteNavbarProps) {
   const t = useTranslations();
+  const router = useRouter();
   const { locale } = useLocale();
   const logoAlt = resolveImageAlt({ kind: "logo", locale });
   const [isOpen, setIsOpen] = useState(false);
@@ -128,6 +131,14 @@ export function SiteNavbar({
       focusElement(toggleRef.current);
     }
   };
+
+  const handleBack = useCallback(() => {
+    if (typeof window !== "undefined" && window.history.length > 1) {
+      router.back();
+      return;
+    }
+    router.push("/");
+  }, [router]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -189,20 +200,30 @@ export function SiteNavbar({
     <>
       <header className={navClass}>
         <nav className="site-navbar-inner" aria-label={t.nav.main}>
-          <Link href="/" className="site-navbar-brand">
-            <picture>
-              <source srcSet={wordmarkWebp} type="image/webp" />
-              <img
-                className="site-navbar-logo"
-                src={wordmarkSrc}
-                alt={logoAlt}
-                width={160}
-                height={72}
-                decoding="async"
-                fetchPriority="low"
-              />
-            </picture>
-          </Link>
+          <div className="site-navbar-start">
+            <button
+              type="button"
+              className="site-navbar-icon-btn site-navbar-back"
+              aria-label={t.nav.goBack}
+              onClick={handleBack}
+            >
+              <IconArrowBack className="site-navbar-icon" />
+            </button>
+            <Link href="/" className="site-navbar-brand">
+              <picture>
+                <source srcSet={wordmarkWebp} type="image/webp" />
+                <img
+                  className="site-navbar-logo"
+                  src={wordmarkSrc}
+                  alt={logoAlt}
+                  width={160}
+                  height={72}
+                  decoding="async"
+                  fetchPriority="low"
+                />
+              </picture>
+            </Link>
+          </div>
 
           <div className="site-navbar-end">
             <ul className="site-navbar-links">

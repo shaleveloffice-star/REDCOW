@@ -535,6 +535,18 @@ select {
   gap: 32px;
 }
 
+.site-navbar-start {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  min-width: 0;
+}
+
+.site-navbar-back {
+  flex-shrink: 0;
+}
+
 .site-navbar-end {
   display: flex;
   align-items: center;
@@ -1277,11 +1289,17 @@ select {
     display: contents;
   }
 
-  .site-navbar-brand {
+  .site-navbar-start {
     order: 1;
     flex: 1 1 auto;
     min-width: 0;
     max-width: calc(100% - 108px);
+  }
+
+  .site-navbar-brand {
+    flex: 1 1 auto;
+    min-width: 0;
+    max-width: none;
   }
 
   .site-navbar-logo {
@@ -3518,6 +3536,31 @@ a.menu-showcase-button.site-cta-btn {
   border-color: #ffffff;
   color: #000000;
   background-color: #ffffff;
+}
+
+.location-cta-group {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.location-details-link {
+  color: rgba(255, 247, 237, 0.86);
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  transition: color var(--motion-short) ease;
+}
+
+.location-details-link:hover {
+  color: #ffffff;
+}
+
+.location-details-link:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
 }
 
 .location-cta-icon {
@@ -6105,6 +6148,14 @@ a.menu-showcase-button.site-cta-btn {
   width: min(680px, 100%);
   color: #ffffff;
   text-align: center;
+}
+
+.about-simple-content .menu-bleecker-breadcrumbs {
+  margin-bottom: 14px;
+}
+
+.about-simple-content .menu-bleecker-breadcrumbs-list {
+  justify-content: center;
 }
 
 .about-simple-content h1 {

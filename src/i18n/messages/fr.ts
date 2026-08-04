@@ -17,6 +17,7 @@ export const fr: Messages = {
     menuDialog: "Menu de navigation",
     openMenu: "Ouvrir le menu de navigation",
     closeMenu: "Fermer le menu de navigation",
+    goBack: "Retour",
     home: "Accueil",
     menu: "Carte",
     plancha: "Sur la Plancha",
@@ -61,12 +62,14 @@ export const fr: Messages = {
     allergyGuide: "Guide des allergènes",
     relatedItemsTitle: "Autres plats",
     relatedItemsLead: "De cette catégorie — trouvez votre prochaine bouchée.",
-    relatedItemsAria: "Autres plats de la catégorie"
+    relatedItemsAria: "Autres plats de la catégorie",
+    viewBranchHours: "Voir le restaurant et les horaires d'ouverture"
   },
   aboutPage: {
     title: "À propos de NB BURGER"
   },
   locations: {
+    breadcrumbLabel: "Emplacements",
     pageTitle: "Adresse et horaires — NB BURGER Raanana",
     findLocal: "Trouver un restaurant",
     ourLocations: "Nos restaurants",
@@ -206,6 +209,7 @@ export const fr: Messages = {
       sat: BUSINESS.displayHours.saturday
     },
     navigate: "Itinéraire",
+    viewBranchDetails: "Tous les détails du restaurant",
     imageAlt: "Façade du restaurant",
     businessType: "Restaurant de burgers",
     kosher: "Casher — sous supervision rabbinique locale"

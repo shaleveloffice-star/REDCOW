@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import { ABOUT_PAGE_IMAGES as IMG } from "@/data/site-images.registry";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
@@ -34,6 +35,12 @@ export async function AboutPageView({ siteImages, seoContent }: AboutPageViewPro
       <div className="about-simple-overlay" aria-hidden="true" />
 
       <div className="about-simple-content">
+        <MenuBreadcrumbs
+          items={[
+            { label: messages.nav.home, href: "/" },
+            { label: messages.nav.about }
+          ]}
+        />
         <h1 id="about-simple-title">{messages.aboutPage.title}</h1>
         {seoContent.sectionTitle.trim() ? (
           <p className="about-simple-subtitle">{seoContent.sectionTitle}</p>

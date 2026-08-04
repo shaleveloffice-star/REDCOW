@@ -5,6 +5,7 @@ import Link from "next/link";
 import dynamic from "next/dynamic";
 import { useMemo } from "react";
 
+import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { SeoContentBody, SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { PLANCHA_BURGERS_IMAGE } from "@/data/site-images.registry";
@@ -103,6 +104,12 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
   return (
     <div className="locations-page">
       <header className="locations-page-head">
+        <MenuBreadcrumbs
+          items={[
+            { label: t.nav.home, href: "/" },
+            { label: t.locations.breadcrumbLabel }
+          ]}
+        />
         <h1 className="locations-page-title">{t.locations.pageTitle}</h1>
       </header>
 

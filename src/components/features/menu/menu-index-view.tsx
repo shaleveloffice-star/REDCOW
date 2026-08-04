@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 
+import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { MenuFilters } from "@/components/features/menu/menu-filters";
 import { MenuHero } from "@/components/features/menu/menu-hero";
 import { isBurgersCategory, MenuItemsGrid } from "@/components/features/menu/menu-items-grid";
@@ -36,7 +37,13 @@ export function MenuIndexView({ groups, menuSeo, pickupUrl, deliveryUrl }: MenuI
     <div className="menu-bleecker">
       <MenuHero heroAlt={t.menuPage.heroAlt} locale={locale} />
 
-      <div className="menu-bleecker-toolbar">
+      <div className="menu-bleecker-toolbar menu-bleecker-toolbar--category">
+        <MenuBreadcrumbs
+          items={[
+            { label: t.nav.home, href: "/" },
+            { label: t.nav.menu }
+          ]}
+        />
         <h1 className="menu-bleecker-title">{t.menuPage.title}</h1>
       </div>
 

@@ -12,7 +12,7 @@ import {
 import { getServerLocale } from "@/i18n/get-locale";
 import { resolveMenuOrderUrls } from "@/lib/menu/menu-page-utils";
 import { getMenuPageMetadata } from "@/lib/page-metadata";
-import { buildMenuJsonLd } from "@/lib/seo/json-ld";
+import { buildMenuJsonLd, buildStaticPageBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return await getMenuPageMetadata(locale);
@@ -31,6 +31,14 @@ export default async function MenuPage() {
   return (
     <>
       <JsonLd data={buildMenuJsonLd(groups, locale, messages)} />
+      <JsonLd
+        data={buildStaticPageBreadcrumbJsonLd({
+          pageName: messages.nav.menu,
+          pagePath: "/menu",
+          locale,
+          messages
+        })}
+      />
       <main id="main-content" className="menu-page">
         <div className="menu-page-inner">
           <MenuIndexView

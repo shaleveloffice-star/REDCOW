@@ -17,6 +17,7 @@ export const he: Messages = {
     menuDialog: "תפריט ניווט",
     openMenu: "פתח תפריט ניווט",
     closeMenu: "סגור תפריט ניווט",
+    goBack: "חזרה",
     home: "דף הבית",
     menu: "התפריט",
     plancha: "על הפלנצ׳ה",
@@ -61,12 +62,14 @@ export const he: Messages = {
     allergyGuide: "מדריך אלרגנים",
     relatedItemsTitle: "מנות נוספות",
     relatedItemsLead: "עוד מהקטגוריה - מנות ששוות את הביס הבא שלכם.",
-    relatedItemsAria: "מנות נוספות מהקטגוריה"
+    relatedItemsAria: "מנות נוספות מהקטגוריה",
+    viewBranchHours: "לצפייה בסניף ובשעות הפעילות"
   },
   aboutPage: {
     title: "אודות NB BURGER"
   },
   locations: {
+    breadcrumbLabel: "מיקומים",
     pageTitle: "מיקום ושעות — NB BURGER רעננה",
     findLocal: "מצא סניף",
     ourLocations: "הסניפים שלנו",
@@ -206,6 +209,7 @@ export const he: Messages = {
       sat: BUSINESS.displayHours.saturday
     },
     navigate: "נווטו אלינו",
+    viewBranchDetails: "לכל פרטי הסניף",
     imageAlt: "חזית המסעדה",
     businessType: BUSINESS.businessTypeHe,
     kosher: BUSINESS.kosherHe

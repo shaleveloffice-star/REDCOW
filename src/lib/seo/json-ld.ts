@@ -243,6 +243,35 @@ export function buildProductBreadcrumbJsonLd(
   };
 }
 
+export function buildStaticPageBreadcrumbJsonLd(options: {
+  pageName: string;
+  pagePath: `/${string}`;
+  locale?: Locale;
+  messages?: Messages;
+}): JsonLdObject {
+  const locale = options.locale ?? "he";
+  const t = options.messages ?? getMessages(locale);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t.nav.home,
+        item: absoluteUrl("/")
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: options.pageName,
+        item: absoluteUrl(options.pagePath)
+      }
+    ]
+  };
+}
+
 export function buildCategoryBreadcrumbJsonLd(options: {
   categoryName: string;
   categorySlug: string;

@@ -179,6 +179,9 @@ export function MenuItemDetailView({
         <Link className="menu-item-detail-back" href="/menu">
           {t.menuItemDetail.backToMenu}
         </Link>
+        <Link className="menu-item-detail-back" href="/locations">
+          {t.menuItemDetail.viewBranchHours}
+        </Link>
       </div>
 
       <OrderModal

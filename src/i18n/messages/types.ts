@@ -19,6 +19,7 @@ export type Messages = {
     menuDialog: string;
     openMenu: string;
     closeMenu: string;
+    goBack: string;
     home: string;
     menu: string;
     plancha: string;
@@ -64,11 +65,13 @@ export type Messages = {
     relatedItemsTitle: string;
     relatedItemsLead: string;
     relatedItemsAria: string;
+    viewBranchHours: string;
   };
   aboutPage: {
     title: string;
   };
   locations: {
+    breadcrumbLabel: string;
     pageTitle: string;
     findLocal: string;
     ourLocations: string;
@@ -208,6 +211,7 @@ export type Messages = {
       sat: string;
     };
     navigate: string;
+    viewBranchDetails: string;
     imageAlt: string;
     businessType: string;
     kosher: string;

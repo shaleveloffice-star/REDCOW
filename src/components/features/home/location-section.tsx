@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { IconClock, IconMap, IconMapPin } from "@/components/shared/site-icons";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
@@ -73,15 +74,20 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
             </dl>
           </div>
 
-          <a
-            href={mapsUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="location-cta"
-          >
-            <IconMap className="location-cta-icon" />
-            <span>{t.location.navigate}</span>
-          </a>
+          <div className="location-cta-group">
+            <a
+              href={mapsUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="location-cta"
+            >
+              <IconMap className="location-cta-icon" />
+              <span>{t.location.navigate}</span>
+            </a>
+            <Link href="/locations" className="location-details-link">
+              {t.location.viewBranchDetails}
+            </Link>
+          </div>
         </div>
 
         <div className="location-media">

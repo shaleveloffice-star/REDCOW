@@ -9,7 +9,7 @@ export const SITE_URL = rawSiteUrl.replace(/\/+$/, "");
 export const SITE_NAME = BUSINESS.name;
 export const DEFAULT_OG_IMAGE = "/images/hero/nb-burger-hero.webp";
 
-const OG_LOCALE: Record<Locale, string> = {
+export const OG_LOCALE: Record<Locale, string> = {
   he: "he_IL",
   en: "en_US",
   fr: "fr_FR"

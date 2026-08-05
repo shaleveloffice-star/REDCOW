@@ -69,6 +69,7 @@ export type Messages = {
   };
   aboutPage: {
     title: string;
+    backHome: string;
   };
   locations: {
     breadcrumbLabel: string;

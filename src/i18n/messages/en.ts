@@ -66,7 +66,8 @@ export const en: Messages = {
     viewBranchHours: "View branch location and opening hours"
   },
   aboutPage: {
-    title: "About NB BURGER"
+    title: "About NB BURGER",
+    backHome: "Back to home"
   },
   locations: {
     breadcrumbLabel: "Locations",

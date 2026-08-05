@@ -66,7 +66,8 @@ export const he: Messages = {
     viewBranchHours: "לצפייה בסניף ובשעות הפעילות"
   },
   aboutPage: {
-    title: "אודות NB BURGER"
+    title: "אודות NB BURGER",
+    backHome: "חזרה לדף הבית"
   },
   locations: {
     breadcrumbLabel: "מיקומים",

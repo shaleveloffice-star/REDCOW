@@ -63,7 +63,7 @@ export async function AboutPageView({ siteImages, seoContent }: AboutPageViewPro
           ))}
           <SeoCtaBlockView {...seoContent.cta} className="about-simple-seo-cta seo-content-cta" />
           <Link href="/" className="about-simple-home">
-            {locale === "he" ? "חזרה לדף הבית" : locale === "fr" ? "Retour à l'accueil" : "Back to home"}
+            {messages.aboutPage.backHome}
           </Link>
         </div>
       </section>

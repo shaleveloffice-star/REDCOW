@@ -15,7 +15,7 @@ import { getDirection } from "@/i18n/config";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getCachedActiveOrderLinks } from "@/lib/cache/cached-data";
 import { buildOrganizationJsonLd } from "@/lib/seo/json-ld";
-import { DEFAULT_OG_IMAGE, SITE_NAME, SITE_URL } from "@/lib/seo";
+import { DEFAULT_OG_IMAGE, OG_LOCALE, SITE_NAME, SITE_URL } from "@/lib/seo";
 
 const assistant = Assistant({
   subsets: ["hebrew", "latin"],
@@ -34,36 +34,40 @@ const archivoBlack = Archivo_Black({
 const DEFAULT_DESCRIPTION =
   "מסעדת המבורגרים NB BURGER ברעננה — המבורגרים על הפלנצ׳ה, אווירה וטעם מדויק.";
 
-export const metadata: Metadata = {
-  metadataBase: new URL(SITE_URL),
-  title: `${SITE_NAME} | המבורגר רעננה`,
-  description: DEFAULT_DESCRIPTION,
-  icons: {
-    icon: [
-      { url: "/favicon.ico", sizes: "any" },
-      { url: "/icons/icon-16.png", sizes: "16x16", type: "image/png" },
-      { url: "/icons/icon-32.png", sizes: "32x32", type: "image/png" },
-      { url: "/icons/icon-48.png", sizes: "48x48", type: "image/png" },
-      { url: "/icon.png", sizes: "512x512", type: "image/png" }
-    ],
-    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
-    shortcut: ["/favicon.ico"]
-  },
-  openGraph: {
-    type: "website",
-    siteName: SITE_NAME,
-    locale: "he_IL",
-    title: SITE_NAME,
+export async function generateMetadata(): Promise<Metadata> {
+  const locale = await getServerLocale();
+
+  return {
+    metadataBase: new URL(SITE_URL),
+    title: `${SITE_NAME} | המבורגר רעננה`,
     description: DEFAULT_DESCRIPTION,
-    images: [{ url: DEFAULT_OG_IMAGE, alt: SITE_NAME }]
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: SITE_NAME,
-    description: DEFAULT_DESCRIPTION,
-    images: [DEFAULT_OG_IMAGE]
-  }
-};
+    icons: {
+      icon: [
+        { url: "/favicon.ico", sizes: "any" },
+        { url: "/icons/icon-16.png", sizes: "16x16", type: "image/png" },
+        { url: "/icons/icon-32.png", sizes: "32x32", type: "image/png" },
+        { url: "/icons/icon-48.png", sizes: "48x48", type: "image/png" },
+        { url: "/icon.png", sizes: "512x512", type: "image/png" }
+      ],
+      apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+      shortcut: ["/favicon.ico"]
+    },
+    openGraph: {
+      type: "website",
+      siteName: SITE_NAME,
+      locale: OG_LOCALE[locale],
+      title: SITE_NAME,
+      description: DEFAULT_DESCRIPTION,
+      images: [{ url: DEFAULT_OG_IMAGE, alt: SITE_NAME }]
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: SITE_NAME,
+      description: DEFAULT_DESCRIPTION,
+      images: [DEFAULT_OG_IMAGE]
+    }
+  };
+}
 
 export default async function RootLayout({
   children

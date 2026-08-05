@@ -424,6 +424,25 @@ select {
     #000000;
 }
 
+.not-found-page {
+  min-height: 60vh;
+  display: grid;
+  place-content: center;
+  gap: 1rem;
+  padding: 2rem;
+  text-align: center;
+}
+
+.not-found-page-title {
+  font-size: 1.5rem;
+  margin: 0;
+}
+
+.not-found-page-description {
+  margin: 0;
+  opacity: 0.8;
+}
+
 .legal-document {
   width: min(860px, 100%);
   margin: 0 auto;

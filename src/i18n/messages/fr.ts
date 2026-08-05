@@ -66,7 +66,8 @@ export const fr: Messages = {
     viewBranchHours: "Voir le restaurant et les horaires d'ouverture"
   },
   aboutPage: {
-    title: "À propos de NB BURGER"
+    title: "À propos de NB BURGER",
+    backHome: "Retour à l'accueil"
   },
   locations: {
     breadcrumbLabel: "Emplacements",

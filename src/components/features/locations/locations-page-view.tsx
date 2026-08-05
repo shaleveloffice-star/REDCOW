@@ -7,10 +7,10 @@ import { useMemo } from "react";
 
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { SeoContentBody, SeoCtaBlockView } from "@/components/shared/seo-content-body";
+import { IconLocationPinFilled } from "@/components/shared/site-icons";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
-import { PLANCHA_BURGERS_IMAGE } from "@/data/site-images.registry";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
-import { resolveImageAlt, DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
+import { resolveImageAlt } from "@/lib/image-alt";
 import type { Branch } from "@/types/content";
 import type { ResolvedSeoPageContent } from "@/types/seo-content";
 
@@ -162,15 +162,7 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
             {t.locations.deliveryZones.map((city) => (
               <li key={city}>
                 <article className="locations-delivery-tile">
-                  <Image
-                    src={PLANCHA_BURGERS_IMAGE}
-                    alt={DECORATIVE_IMAGE_ALT}
-                    aria-hidden="true"
-                    fill
-                    sizes="(max-width: 900px) 100vw, 33vw"
-                    className="locations-delivery-tile-image"
-                  />
-                  <span className="locations-delivery-tile-scrim" aria-hidden="true" />
+                  <IconLocationPinFilled className="locations-delivery-tile-icon" aria-hidden="true" />
                   <h3 className="locations-delivery-tile-name">{city}</h3>
                 </article>
               </li>

@@ -14,6 +14,7 @@ import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { hasValidFaqItems } from "@/lib/seo/faq-utils";
 import { resolveImageAlt } from "@/lib/image-alt";
+import { splitParagraphs } from "@/lib/seo-content/paragraphs";
 import type { Branch } from "@/types/content";
 import type { ResolvedSeoPageContent } from "@/types/seo-content";
 
@@ -86,6 +87,38 @@ function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "e
   ];
 }
 
+const INTRO_DASH_SPLIT = /\s—\s/;
+
+function LocationsSeoIntro({ text }: { text: string }) {
+  const paragraphs = splitParagraphs(text);
+  if (paragraphs.length === 0) return null;
+
+  return (
+    <div className="locations-seo-intro">
+      {paragraphs.map((paragraph, index) => {
+        const [lead, detail] = paragraph.split(INTRO_DASH_SPLIT);
+        if (detail?.trim()) {
+          return (
+            <LabelWithNote
+              key={`${index}-${lead.slice(0, 24)}`}
+              as="div"
+              mainAs="p"
+              noteAs="p"
+              className="locations-seo-intro-split"
+              label={lead.trim()}
+              note={detail.trim()}
+            />
+          );
+        }
+
+        return (
+          <p key={`${index}-${paragraph.slice(0, 24)}`}>{paragraph}</p>
+        );
+      })}
+    </div>
+  );
+}
+
 export function LocationsPageView({ branches, exteriorImage, seoContent }: LocationsPageViewProps) {
   const t = useTranslations();
   const { locale } = useLocale();
@@ -114,9 +147,8 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
           ]}
         />
         <h1 className="locations-page-title">{t.locations.pageTitle}</h1>
+        <LocationsSeoIntro text={seoContent.introduction} />
       </header>
-
-      <SeoContentBody text={seoContent.introduction} className="locations-seo-intro" />
 
       <div className="locations-map-wrap">
         <LocationsMap points={mapPoints} ariaLabel={t.locations.mapSummary} />

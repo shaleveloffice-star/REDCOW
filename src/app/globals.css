@@ -7283,10 +7283,26 @@ body:not(:has(.admin-layout)) button:focus-visible {
   margin: 20px auto;
 }
 
+.locations-page-head .locations-seo-intro {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+}
+
 .locations-seo-intro p,
+.locations-seo-intro .ui-label-with-note__main,
 .locations-seo-bottom p {
   margin: 0 0 12px;
   line-height: 1.65;
+}
+
+.locations-seo-intro .locations-seo-intro-split {
+  margin: 0 0 12px;
+}
+
+.locations-seo-intro .ui-label-with-note__note {
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 0.94em;
 }
 
 .legal-seo-intro,

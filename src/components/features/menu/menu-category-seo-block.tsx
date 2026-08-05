@@ -1,5 +1,6 @@
 import { SeoContentBody, SeoCtaBlockView } from "@/components/shared/seo-content-body";
-import { hasSeoFaqContent, SeoFaqSection } from "@/components/shared/seo-faq-section";
+import { hasValidFaqItems } from "@/lib/seo/faq-utils";
+import { SeoFaqSection } from "@/components/shared/seo-faq-section";
 import type { ResolvedCategorySeoContent } from "@/types/seo-content";
 
 type MenuCategorySeoBlockProps = {
@@ -9,7 +10,7 @@ type MenuCategorySeoBlockProps = {
 
 export function MenuCategorySeoBlock({ content, categoryId }: MenuCategorySeoBlockProps) {
   const hasBottom = Boolean(content.bottomContent.trim());
-  const hasFaq = hasSeoFaqContent(content.faq);
+  const hasFaq = hasValidFaqItems(content.faq);
   const hasCta = Boolean(
     content.cta.title?.trim() ||
       content.cta.body?.trim() ||
@@ -33,8 +34,10 @@ export function MenuCategorySeoBlock({ content, categoryId }: MenuCategorySeoBlo
       {hasFaq ? (
         <SeoFaqSection
           faq={content.faq}
-          className="menu-bleecker-category-faq"
+          className="site-faq site-faq--nested"
           titleId={`menu-category-faq-${categoryId}`}
+          titleLevel="h3"
+          questionLevel="h4"
         />
       ) : null}
 

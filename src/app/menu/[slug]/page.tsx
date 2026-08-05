@@ -25,9 +25,11 @@ import { buildPageMetadata } from "@/lib/seo";
 import {
   absoluteUrl,
   buildCategoryBreadcrumbJsonLd,
+  buildFaqPageJsonLd,
   buildProductBreadcrumbJsonLd,
   buildProductJsonLd
 } from "@/lib/seo/json-ld";
+import { getValidFaqItems } from "@/lib/seo/faq-utils";
 import { getResolvedCategorySeo } from "@/lib/seo-content/resolve-seo-content";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
 import { listMenuCategories, listMenuItems } from "@/services/menu.service";
@@ -136,6 +138,7 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
     const categorySeo = getResolvedCategorySeo(seoContent, category.id);
     const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
     const categoryName = getLocalizedCategoryName(category, locale);
+    const categoryFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(categorySeo.faq.items));
 
     return (
       <>
@@ -147,6 +150,7 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
             messages
           })}
         />
+        {categoryFaqJsonLd ? <JsonLd data={categoryFaqJsonLd} /> : null}
         <main id="main-content" className="menu-page">
           <div className="menu-page-inner">
             <MenuCategoryView

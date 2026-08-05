@@ -77,7 +77,18 @@ export const en: Messages = {
     mapSummary: "NB BURGER branch map — Raanana, Ahuzah 96",
     navigate: "Navigate",
     deliveryZonesTitle: "Delivery areas",
-    deliveryZones: ["Hod Hasharon", "Kfar Saba", "Ra'anana"],
+    deliveryZones: [
+      { name: "Ra'anana" },
+      { name: "Kfar Saba" },
+      { name: "Herzliya", areasNote: "selected areas" },
+      { name: "Hod Hasharon", areasNote: "selected areas" },
+      { name: "Ramot Hashavim" },
+      { name: "Givat Hen" },
+      { name: "Bitzra", areasNote: "selected areas" },
+      { name: "Harutzim" }
+    ],
+    deliveryZonesNote:
+      "Deliveries are made within approximately 5 km of the branch, depending on the delivery address and zone availability.",
     backHome: "Back to home"
   },
   menuShowcase: {
@@ -164,7 +175,7 @@ export const en: Messages = {
     fields: {
       fullName: "Full name",
       phone: "Phone",
-      email: "Email (optional)",
+      email: "Email",
       birthDate: "Birth date"
     },
     consentPrefix: "I agree to receive updates and gifts",
@@ -219,12 +230,15 @@ export const en: Messages = {
     description: "The address may have changed or the link is invalid.",
     backHome: "Back to home"
   },
+  forms: {
+    optionalFieldNote: "optional"
+  },
   contactForm: {
     title: "Send us a message",
     lead: "We'd love to help — leave your details and we'll get back to you.",
     fullName: "Full name",
     phone: "Phone",
-    email: "Email (optional)",
+    email: "Email",
     message: "Message",
     submit: "Send",
     submitting: "Sending...",

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Archivo_Black, Assistant } from "next/font/google";
 import "./globals.css";
 import "./homepage-ds.css";
+import "./site-faq.css";
 import "./locations-page.css";
 import "./menu-page.css";
 import "./menu-item-detail.css";

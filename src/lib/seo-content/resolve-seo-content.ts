@@ -127,7 +127,7 @@ export function resolveSeoPageContent(
     introductionParagraphs: splitParagraphs(introduction),
     bottomContent,
     bottomParagraphs: splitParagraphs(bottomContent),
-    faq: pickFaqBlock(source.faq, defaults.faq),
+    faq: pickFaqBlock(source.faq, EMPTY_FAQ),
     cta: pickCta(source.cta, defaults.cta),
     categoryIntros,
     categoryPages: buildCategoryPagesMap(source, categoryIntros)

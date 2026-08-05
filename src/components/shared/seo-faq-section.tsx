@@ -2,96 +2,104 @@
 
 import { useId, useState } from "react";
 
-import type { SeoFaqBlock, SeoFaqItem } from "@/types/seo-content";
+import { getValidFaqItems, hasValidFaqItems, type SeoFaqContent } from "@/lib/seo/faq-utils";
 
-export type SeoFaqContent = Required<SeoFaqBlock> & { items: SeoFaqItem[] };
+export type { SeoFaqContent };
+
+type HeadingLevel = "h2" | "h3" | "h4";
 
 type SeoFaqSectionProps = {
   faq: SeoFaqContent;
   className?: string;
+  sectionId?: string;
   titleId?: string;
+  titleLevel?: HeadingLevel;
+  questionLevel?: HeadingLevel;
   defaultOpenIndex?: number | null;
 };
 
+/** @deprecated Prefer hasValidFaqItems — FAQ requires at least one complete Q&A pair. */
 export function hasSeoFaqContent(faq: SeoFaqContent): boolean {
-  return Boolean(
-    faq.kicker.trim() ||
-      faq.title.trim() ||
-      faq.lead.trim() ||
-      faq.items.some((item) => item.question.trim() && item.answer.trim())
-  );
+  return hasValidFaqItems(faq);
 }
 
 export function SeoFaqSection({
   faq,
-  className = "seo-faq-section",
+  className = "site-faq",
+  sectionId,
   titleId,
+  titleLevel = "h2",
+  questionLevel = "h3",
   defaultOpenIndex = 0
 }: SeoFaqSectionProps) {
   const baseId = useId();
   const [openIndex, setOpenIndex] = useState<number | null>(defaultOpenIndex);
-  const items = faq.items.filter((item) => item.question.trim() && item.answer.trim());
+  const items = getValidFaqItems(faq.items);
 
-  if (!hasSeoFaqContent({ ...faq, items })) {
+  if (!hasValidFaqItems(faq)) {
     return null;
   }
 
   const headingId = titleId ?? `${baseId}-title`;
+  const TitleTag = titleLevel;
+  const QuestionTag = questionLevel;
 
   return (
-    <section className={className} aria-labelledby={faq.title.trim() ? headingId : undefined}>
+    <section
+      id={sectionId}
+      className={className}
+      aria-labelledby={faq.title.trim() ? headingId : undefined}
+    >
       <div className={`${className}-shell`}>
         <header className={`${className}-header`}>
           {faq.kicker.trim() ? <p className={`${className}-kicker`}>{faq.kicker}</p> : null}
           {faq.title.trim() ? (
-            <h3 id={headingId} className={`${className}-title`}>
+            <TitleTag id={headingId} className={`${className}-title`}>
               {faq.title}
-            </h3>
+            </TitleTag>
           ) : null}
           {faq.lead.trim() ? <p className={`${className}-lead`}>{faq.lead}</p> : null}
         </header>
 
-        {items.length > 0 ? (
-          <div className={`${className}-list`}>
-            {items.map((item, index) => {
-              const isOpen = openIndex === index;
-              const panelId = `${baseId}-panel-${index}`;
-              const buttonId = `${baseId}-button-${index}`;
+        <div className={`${className}-list`}>
+          {items.map((item, index) => {
+            const isOpen = openIndex === index;
+            const panelId = `${baseId}-panel-${index}`;
+            const buttonId = `${baseId}-button-${index}`;
 
-              return (
-                <div
-                  key={`${item.question}-${index}`}
-                  className={`${className}-item${isOpen ? " is-open" : ""}`}
-                >
-                  <h4 className={`${className}-question`}>
-                    <button
-                      id={buttonId}
-                      type="button"
-                      className={`${className}-trigger`}
-                      aria-expanded={isOpen}
-                      aria-controls={panelId}
-                      onClick={() => setOpenIndex(isOpen ? null : index)}
-                    >
-                      <span>{item.question}</span>
-                      <span className={`${className}-icon`} aria-hidden="true">
-                        {isOpen ? "−" : "+"}
-                      </span>
-                    </button>
-                  </h4>
-                  <div
-                    id={panelId}
-                    role="region"
-                    aria-labelledby={buttonId}
-                    className={`${className}-answer`}
-                    hidden={!isOpen}
+            return (
+              <div
+                key={`${item.question}-${index}`}
+                className={`${className}-item${isOpen ? " is-open" : ""}`}
+              >
+                <QuestionTag className={`${className}-question`}>
+                  <button
+                    id={buttonId}
+                    type="button"
+                    className={`${className}-trigger`}
+                    aria-expanded={isOpen}
+                    aria-controls={panelId}
+                    onClick={() => setOpenIndex(isOpen ? null : index)}
                   >
-                    <p>{item.answer}</p>
-                  </div>
+                    <span>{item.question}</span>
+                    <span className={`${className}-icon`} aria-hidden="true">
+                      {isOpen ? "−" : "+"}
+                    </span>
+                  </button>
+                </QuestionTag>
+                <div
+                  id={panelId}
+                  role="region"
+                  aria-labelledby={buttonId}
+                  className={`${className}-answer`}
+                  hidden={!isOpen}
+                >
+                  <p>{item.answer}</p>
                 </div>
-              );
-            })}
-          </div>
-        ) : null}
+              </div>
+            );
+          })}
+        </div>
       </div>
     </section>
   );

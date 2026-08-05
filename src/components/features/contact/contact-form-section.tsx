@@ -2,6 +2,7 @@
 
 import { useId, useState, useTransition } from "react";
 
+import { LabelWithNote } from "@/components/shared/label-with-note";
 import { useTranslations } from "@/components/providers/locale-provider";
 import {
   submitContactMessageAction,
@@ -59,7 +60,7 @@ export function ContactFormSection() {
           <input name="phone" type="tel" autoComplete="tel" required />
         </label>
         <label>
-          {t.contactForm.email}
+          <LabelWithNote label={t.contactForm.email} note={t.forms.optionalFieldNote} />
           <input name="email" type="email" autoComplete="email" />
         </label>
         <label>

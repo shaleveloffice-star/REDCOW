@@ -7,7 +7,7 @@ import { HomeBrandStorySection } from "@/components/features/home/home-brand-sto
 import { HeroSection } from "@/components/features/home/hero-section";
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
 import { HomeSocialVibeSection } from "@/components/features/home/home-social-vibe-section";
-import { HomeFaqSection } from "@/components/features/home/home-faq-section";
+import { SeoFaqSection } from "@/components/shared/seo-faq-section";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
@@ -17,7 +17,8 @@ import {
 } from "@/lib/cache/cached-data";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getHomePageMetadata } from "@/lib/page-metadata";
-import { buildRestaurantJsonLd } from "@/lib/seo/json-ld";
+import { buildFaqPageJsonLd, buildRestaurantJsonLd } from "@/lib/seo/json-ld";
+import { getValidFaqItems } from "@/lib/seo/faq-utils";
 import type { SiteImagesMap } from "@/types/site-images";
 
 const LocationSection = dynamic(
@@ -52,16 +53,22 @@ export default async function HomePage() {
     }),
     getCachedResolvedSeoPageContent(locale, "home")
   ]);
+  const homeFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(homeSeo.faq.items));
   return (
     <>
       <JsonLd data={buildRestaurantJsonLd()} />
+      {homeFaqJsonLd ? <JsonLd data={homeFaqJsonLd} /> : null}
       <main id="main-content">
         <HeroSection />
         <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
         <HomeBrandStorySection />
         <HomeAtmosphereSection />
         <HomeSocialVibeSection />
-        <HomeFaqSection faq={homeSeo.faq} />
+        <SeoFaqSection
+          faq={homeSeo.faq}
+          sectionId="faq"
+          titleId="home-faq-title"
+        />
         <LocationSection siteImages={siteImages} />
         <CustomerClubSection />
       </main>

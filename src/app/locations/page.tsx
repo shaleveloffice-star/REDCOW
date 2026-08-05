@@ -8,7 +8,8 @@ import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getLocationsPageMetadata } from "@/lib/page-metadata";
-import { buildStaticPageBreadcrumbJsonLd } from "@/lib/seo/json-ld";
+import { buildFaqPageJsonLd, buildStaticPageBreadcrumbJsonLd } from "@/lib/seo/json-ld";
+import { getValidFaqItems } from "@/lib/seo/faq-utils";
 import { listBranches } from "@/services/branches.service";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -23,6 +24,7 @@ export default async function LocationsPage() {
     getCachedResolvedSeoPageContent(locale, "locations"),
     getLocalizedMessages(locale)
   ]);
+  const locationsFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(seoContent.faq.items));
   return (
     <>
       <JsonLd
@@ -33,6 +35,7 @@ export default async function LocationsPage() {
           messages
         })}
       />
+      {locationsFaqJsonLd ? <JsonLd data={locationsFaqJsonLd} /> : null}
       <main id="main-content">
         <LocationsPageView
           branches={branches}

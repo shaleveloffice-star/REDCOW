@@ -10,6 +10,7 @@ import { isVideoMediaUrl } from "@/lib/menu-media";
 import { SITE_URL } from "@/lib/seo";
 import type { MenuGroupWithDisplay, MenuItemWithDisplay } from "@/lib/translation/menu-display";
 import type { MenuCategory, MenuItem } from "@/types/content";
+import type { SeoFaqItem } from "@/types/seo-content";
 
 export type JsonLdObject = Record<string, unknown>;
 
@@ -269,6 +270,26 @@ export function buildStaticPageBreadcrumbJsonLd(options: {
         item: absoluteUrl(options.pagePath)
       }
     ]
+  };
+}
+
+export function buildFaqPageJsonLd(items: SeoFaqItem[]): JsonLdObject | null {
+  const validItems = items.filter((item) => item.question.trim() && item.answer.trim());
+  if (validItems.length === 0) {
+    return null;
+  }
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: validItems.map((item) => ({
+      "@type": "Question",
+      name: item.question.trim(),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: item.answer.trim()
+      }
+    }))
   };
 }
 

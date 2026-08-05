@@ -20,7 +20,7 @@ export default async function AdminMenuPage() {
         <AdminSeoPageEditor
           pageId="menu"
           initialDocument={seoDocument}
-          fieldFlags={{ introduction: true, bottomContent: true, cta: true, faq: false, sectionTitle: false }}
+          fieldFlags={{ introduction: true, bottomContent: true, cta: true, sectionTitle: false }}
         />
       </AdminCard>
 

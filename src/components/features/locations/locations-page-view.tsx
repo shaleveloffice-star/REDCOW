@@ -6,10 +6,13 @@ import dynamic from "next/dynamic";
 import { useMemo } from "react";
 
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
+import { LabelWithNote } from "@/components/shared/label-with-note";
 import { SeoContentBody, SeoCtaBlockView } from "@/components/shared/seo-content-body";
+import { SeoFaqSection } from "@/components/shared/seo-faq-section";
 import { IconLocationPinFilled } from "@/components/shared/site-icons";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
+import { hasValidFaqItems } from "@/lib/seo/faq-utils";
 import { resolveImageAlt } from "@/lib/image-alt";
 import type { Branch } from "@/types/content";
 import type { ResolvedSeoPageContent } from "@/types/seo-content";
@@ -159,15 +162,26 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
         <div className="locations-delivery">
           <h2 className="locations-list-title">{t.locations.deliveryZonesTitle}</h2>
           <ul className="locations-delivery-grid">
-            {t.locations.deliveryZones.map((city) => (
-              <li key={city}>
+            {t.locations.deliveryZones.map((zone) => (
+              <li key={`${zone.name}-${zone.areasNote ?? ""}`}>
                 <article className="locations-delivery-tile">
                   <IconLocationPinFilled className="locations-delivery-tile-icon" aria-hidden="true" />
-                  <h3 className="locations-delivery-tile-name">{city}</h3>
+                  <div className="locations-delivery-tile-label">
+                    <LabelWithNote
+                      as="div"
+                      mainAs="h3"
+                      noteAs="p"
+                      label={zone.name}
+                      note={zone.areasNote}
+                      className="ui-label-with-note--center"
+                      mainClassName="locations-delivery-tile-name"
+                    />
+                  </div>
                 </article>
               </li>
             ))}
           </ul>
+          <p className="locations-delivery-note">{t.locations.deliveryZonesNote}</p>
         </div>
 
         <p className="locations-back">
@@ -175,8 +189,13 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
         </p>
 
         <SeoContentBody text={seoContent.bottomContent} className="locations-seo-bottom" />
+
         <SeoCtaBlockView {...seoContent.cta} className="locations-seo-cta seo-content-cta" />
       </section>
+
+      {hasValidFaqItems(seoContent.faq) ? (
+        <SeoFaqSection faq={seoContent.faq} titleId="locations-faq-title" />
+      ) : null}
     </div>
   );
 }

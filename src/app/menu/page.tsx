@@ -12,7 +12,8 @@ import {
 import { getServerLocale } from "@/i18n/get-locale";
 import { resolveMenuOrderUrls } from "@/lib/menu/menu-page-utils";
 import { getMenuPageMetadata } from "@/lib/page-metadata";
-import { buildMenuJsonLd, buildStaticPageBreadcrumbJsonLd } from "@/lib/seo/json-ld";
+import { buildFaqPageJsonLd, buildMenuJsonLd, buildStaticPageBreadcrumbJsonLd } from "@/lib/seo/json-ld";
+import { getValidFaqItems } from "@/lib/seo/faq-utils";
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
   return await getMenuPageMetadata(locale);
@@ -27,6 +28,7 @@ export default async function MenuPage() {
     getLocalizedMessages(locale)
   ]);
   const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
+  const menuFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(menuSeo.faq.items));
 
   return (
     <>
@@ -39,6 +41,7 @@ export default async function MenuPage() {
           messages
         })}
       />
+      {menuFaqJsonLd ? <JsonLd data={menuFaqJsonLd} /> : null}
       <main id="main-content" className="menu-page">
         <div className="menu-page-inner">
           <MenuIndexView
@@ -46,7 +49,8 @@ export default async function MenuPage() {
             menuSeo={{
               introduction: menuSeo.introduction,
               bottomContent: menuSeo.bottomContent,
-              cta: menuSeo.cta
+              cta: menuSeo.cta,
+              faq: menuSeo.faq
             }}
             pickupUrl={pickupUrl}
             deliveryUrl={deliveryUrl}

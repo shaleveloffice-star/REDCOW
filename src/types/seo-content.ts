@@ -91,7 +91,7 @@ export const SEO_PAGE_DEFINITIONS: SeoPageDefinition[] = [
   {
     id: "about",
     labelHe: "אודות",
-    supportsFaq: false,
+    supportsFaq: true,
     supportsCta: true,
     supportsCategoryIntros: false,
     supportsSectionTitle: true
@@ -99,7 +99,7 @@ export const SEO_PAGE_DEFINITIONS: SeoPageDefinition[] = [
   {
     id: "menu",
     labelHe: "תפריט",
-    supportsFaq: false,
+    supportsFaq: true,
     supportsCta: true,
     supportsCategoryIntros: true,
     supportsSectionTitle: false
@@ -107,7 +107,7 @@ export const SEO_PAGE_DEFINITIONS: SeoPageDefinition[] = [
   {
     id: "locations",
     labelHe: "מיקומים",
-    supportsFaq: false,
+    supportsFaq: true,
     supportsCta: true,
     supportsCategoryIntros: false,
     supportsSectionTitle: false

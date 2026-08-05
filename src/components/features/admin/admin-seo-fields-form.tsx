@@ -190,14 +190,14 @@ export function AdminSeoFieldsForm({
               />
             </label>
 
-            {(draft.faq?.items ?? defaults.faq?.items ?? []).map((item, index) => (
+            {(draft.faq?.items ?? []).map((item, index) => (
               <div key={`${idPrefix}-faq-${index}`} className="admin-seo-faq-item">
                 <label>
                   {fieldWhere?.faqQuestion
                     ? adminFieldLabel(`שאלה ${index + 1}`, fieldWhere.faqQuestion)
                     : `שאלה ${index + 1}`}
                   <input
-                    value={draft.faq?.items?.[index]?.question ?? item.question}
+                    value={draft.faq?.items?.[index]?.question ?? ""}
                     onChange={(event) => updateFaqItem(index, { question: event.target.value })}
                   />
                 </label>
@@ -207,7 +207,7 @@ export function AdminSeoFieldsForm({
                     : "תשובה"}
                   <textarea
                     rows={3}
-                    value={draft.faq?.items?.[index]?.answer ?? item.answer}
+                    value={draft.faq?.items?.[index]?.answer ?? ""}
                     onChange={(event) => updateFaqItem(index, { answer: event.target.value })}
                   />
                 </label>

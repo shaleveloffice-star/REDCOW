@@ -79,13 +79,17 @@ export type Messages = {
     mapSummary: string;
     navigate: string;
     deliveryZonesTitle: string;
-    deliveryZones: string[];
+    deliveryZones: ReadonlyArray<{ name: string; areasNote?: string }>;
+    deliveryZonesNote: string;
     backHome: string;
   };
   notFound: {
     title: string;
     description: string;
     backHome: string;
+  };
+  forms: {
+    optionalFieldNote: string;
   };
   contactForm: {
     title: string;

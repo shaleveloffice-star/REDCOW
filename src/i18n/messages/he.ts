@@ -76,8 +76,19 @@ export const he: Messages = {
     mapTitle: "מפת סניפי NB BURGER",
     mapSummary: "מפת סניפי NB BURGER — רעננה, אחוזה 96",
     navigate: "ניווט",
-    deliveryZonesTitle: "מיקומי משלוחים",
-    deliveryZones: ["הוד השרון", "כפר סבא", "רעננה"],
+    deliveryZonesTitle: "אזורי המשלוחים",
+    deliveryZones: [
+      { name: "רעננה" },
+      { name: "כפר סבא" },
+      { name: "הרצליה", areasNote: "אזורים נבחרים" },
+      { name: "הוד השרון", areasNote: "אזורים נבחרים" },
+      { name: "רמות השבים" },
+      { name: "גבעת חן" },
+      { name: "בצרה", areasNote: "אזורים נבחרים" },
+      { name: "חרוצים" }
+    ],
+    deliveryZonesNote:
+      "המשלוחים מתבצעים עד כ־5 ק\"מ מהסניף, בהתאם לכתובת ההזמנה וזמינות אזור המשלוחים.",
     backHome: "חזרה לדף הבית"
   },
   menuShowcase: {
@@ -164,7 +175,7 @@ export const he: Messages = {
     fields: {
       fullName: "שם מלא",
       phone: "טלפון",
-      email: "אימייל (אופציונלי)",
+      email: "אימייל",
       birthDate: "תאריך לידה"
     },
     consentPrefix: "מאשר/ת קבלת עדכונים ומתנות",
@@ -219,12 +230,15 @@ export const he: Messages = {
     description: "ייתכן שהכתובת השתנתה או שהקישור אינו תקין.",
     backHome: "חזרה לדף הבית"
   },
+  forms: {
+    optionalFieldNote: "אופציונלי"
+  },
   contactForm: {
     title: "שלחו לנו הודעה",
     lead: "נשמח לעזור — השאירו פרטים ונחזור אליכם.",
     fullName: "שם מלא",
     phone: "טלפון",
-    email: "אימייל (אופציונלי)",
+    email: "אימייל",
     message: "הודעה",
     submit: "שליחה",
     submitting: "שולחים...",

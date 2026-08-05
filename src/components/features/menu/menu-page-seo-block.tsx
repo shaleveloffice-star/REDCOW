@@ -1,9 +1,11 @@
 import { SeoContentBody, SeoCtaBlockView } from "@/components/shared/seo-content-body";
+import { SeoFaqSection } from "@/components/shared/seo-faq-section";
+import { hasValidFaqItems } from "@/lib/seo/faq-utils";
 import type { ResolvedSeoPageContent } from "@/types/seo-content";
 
 export type MenuPageSeoContent = Pick<
   ResolvedSeoPageContent,
-  "introduction" | "bottomContent" | "cta"
+  "introduction" | "bottomContent" | "cta" | "faq"
 >;
 
 type MenuPageSeoBlockProps = {
@@ -26,7 +28,7 @@ export function MenuPageSeoFooter({ content }: MenuPageSeoBlockProps) {
       content.cta.buttonLabel?.trim()
   );
 
-  if (!hasBottom && !hasCta) {
+  if (!hasBottom && !hasCta && !hasValidFaqItems(content.faq)) {
     return null;
   }
 
@@ -34,6 +36,10 @@ export function MenuPageSeoFooter({ content }: MenuPageSeoBlockProps) {
     <div className="menu-bleecker-seo-footer">
       {hasBottom ? (
         <SeoContentBody text={content.bottomContent} className="menu-bleecker-seo-bottom" />
+      ) : null}
+
+      {hasValidFaqItems(content.faq) ? (
+        <SeoFaqSection faq={content.faq} titleId="menu-page-faq-title" />
       ) : null}
 
       {hasCta ? (

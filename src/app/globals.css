@@ -5895,6 +5895,51 @@ a.menu-showcase-button.site-cta-btn {
   .site-footer-grid {
     grid-template-columns: 1fr;
     gap: 36px;
+    text-align: center;
+  }
+
+  .site-footer-brand,
+  .site-footer-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .site-footer-logo {
+    margin-inline: auto;
+  }
+
+  .site-footer-tagline {
+    margin-inline: auto;
+  }
+
+  .site-footer-heading {
+    text-align: center;
+  }
+
+  .site-footer-contact-list {
+    justify-items: center;
+    width: 100%;
+  }
+
+  .site-footer-contact-link,
+  .site-footer-contact-item {
+    justify-content: center;
+  }
+
+  .site-footer-social-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+  }
+
+  .site-footer-socials {
+    justify-content: center;
+  }
+
+  .site-footer-links {
+    justify-items: center;
   }
 
   .site-footer-bar-inner {
@@ -5902,6 +5947,10 @@ a.menu-showcase-button.site-cta-btn {
     align-items: center;
     text-align: center;
     padding: 20px;
+  }
+
+  .site-footer-legal-links {
+    justify-content: center;
   }
 }
 

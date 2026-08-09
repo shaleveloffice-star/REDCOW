@@ -1,3 +1,5 @@
+import { Suspense } from "react";
+
 import { AdminStoriesManager } from "@/components/features/admin/admin-stories-manager";
 import { AdminCard } from "@/components/features/admin/admin-card";
 import { getStoriesAdminData } from "@/server/actions/stories.actions";
@@ -7,7 +9,9 @@ export default async function AdminStoriesPage() {
 
   return (
     <AdminCard title="ניהול סיפורים" description="הוספה, עריכה, פרסום ומחיקה של סיפורים עריכתיים.">
-      <AdminStoriesManager items={items} />
+      <Suspense fallback={null}>
+        <AdminStoriesManager items={items} />
+      </Suspense>
     </AdminCard>
   );
 }

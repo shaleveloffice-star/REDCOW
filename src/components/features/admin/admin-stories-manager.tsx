@@ -1,6 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 import {
   AdminFormFooter,
@@ -12,6 +14,7 @@ import {
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { resolveStorySlug } from "@/lib/stories/story-slug";
 import { deleteBrandStoryAction, saveBrandStoryAction } from "@/server/actions/stories.actions";
 import {
   STORY_SECTION_TYPES,
@@ -273,7 +276,43 @@ function SectionEditor({
   );
 }
 
+function getStoryPublicPath(story: BrandStory): string | null {
+  if (!story.isActive || !story.title.trim()) {
+    return null;
+  }
+
+  const slug = resolveStorySlug(story);
+  return slug ? `/stories/${slug}` : null;
+}
+
+function StoryLinksPanel({ story }: { story: BrandStory }) {
+  const adminHref = `/admin/stories?edit=${story.id}`;
+  const publicPath = getStoryPublicPath(story);
+
+  return (
+    <div className="admin-story-links">
+      <p>
+        <strong>קישור לעריכה באדמין:</strong>{" "}
+        <Link href={adminHref} className="admin-inline-link">
+          {adminHref}
+        </Link>
+      </p>
+      {publicPath ? (
+        <p>
+          <strong>קישור באתר (מפורסם):</strong>{" "}
+          <Link href={publicPath} className="admin-inline-link" target="_blank" rel="noopener noreferrer">
+            {publicPath}
+          </Link>
+        </p>
+      ) : (
+        <p className="admin-form-hint">קישור באתר יופיע לאחר סימון &quot;פעיל (פרסום באתר)&quot; ושמירה.</p>
+      )}
+    </div>
+  );
+}
+
 export function AdminStoriesManager({ items }: { items: BrandStory[] }) {
+  const searchParams = useSearchParams();
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<BrandStory | null>(null);
   const [newSectionType, setNewSectionType] = useState<StorySectionType>("split-text-image");
@@ -283,6 +322,18 @@ export function AdminStoriesManager({ items }: { items: BrandStory[] }) {
     setDraft(null);
     setError(null);
   };
+
+  useEffect(() => {
+    if (draft) return;
+
+    const editId = searchParams.get("edit");
+    if (!editId) return;
+
+    const item = items.find((entry) => entry.id === editId);
+    if (item) {
+      setDraft({ ...item, sections: [...item.sections] });
+    }
+  }, [draft, items, searchParams]);
 
   const sortedItems = [...items].sort((a, b) => a.sortOrder - b.sortOrder);
 
@@ -296,6 +347,7 @@ export function AdminStoriesManager({ items }: { items: BrandStory[] }) {
             <th>Slug</th>
             <th>סדר</th>
             <th>סטטוס</th>
+            <th>קישורים</th>
             <th style={{ width: 160 }}>פעולות</th>
           </tr>
         </thead>
@@ -307,6 +359,26 @@ export function AdminStoriesManager({ items }: { items: BrandStory[] }) {
               <td>{item.sortOrder}</td>
               <td>
                 <StatusBadge active={item.isActive} />
+              </td>
+              <td>
+                <div className="admin-row-links">
+                  <Link href={`/admin/stories?edit=${item.id}`} className="admin-inline-link">
+                    עריכה באדמין
+                  </Link>
+                  {getStoryPublicPath(item) ? (
+                    <>
+                      <span aria-hidden="true"> · </span>
+                      <Link
+                        href={getStoryPublicPath(item)!}
+                        className="admin-inline-link"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        צפייה באתר
+                      </Link>
+                    </>
+                  ) : null}
+                </div>
               </td>
               <td>
                 <AdminRowActions
@@ -428,6 +500,8 @@ export function AdminStoriesManager({ items }: { items: BrandStory[] }) {
               />
               פעיל (פרסום באתר — עד שלא מסומן, הסיפור לא יופיע)
             </label>
+
+            {!isNew ? <StoryLinksPanel story={draft} /> : null}
 
             <div className="admin-toolbar" style={{ marginTop: 16 }}>
               <select

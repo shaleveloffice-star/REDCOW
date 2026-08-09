@@ -5174,6 +5174,47 @@ a.menu-showcase-button.site-cta-btn {
   font-size: 14px;
 }
 
+.admin-inline-link {
+  color: var(--admin-accent, #c9a227);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.admin-inline-link:hover {
+  color: var(--admin-text);
+}
+
+.admin-row-links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+}
+
+.admin-story-links {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface-strong);
+  font-size: 13px;
+}
+
+.admin-story-links p {
+  margin: 0 0 8px;
+}
+
+.admin-story-links p:last-child {
+  margin-bottom: 0;
+}
+
+.admin-form-hint {
+  margin: 0;
+  color: var(--admin-text-muted);
+  font-size: 13px;
+}
+
 .admin-form label.admin-checkbox-row {
   display: flex;
   flex-direction: row;

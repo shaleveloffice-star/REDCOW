@@ -95,6 +95,138 @@ function defaultSection(type: StorySectionType): StorySection {
   }
 }
 
+function convertStorySectionType(section: StorySection, nextType: StorySectionType): StorySection {
+  if (section.type === nextType) {
+    return section;
+  }
+
+  if (
+    (section.type === "split-text-image" || section.type === "split-image-text") &&
+    (nextType === "split-text-image" || nextType === "split-image-text")
+  ) {
+    return { ...section, type: nextType };
+  }
+
+  if (section.type === "split-text-image" || section.type === "split-image-text") {
+    switch (nextType) {
+      case "full-image":
+        return {
+          type: "full-image",
+          imageUrl: section.imageUrl,
+          imageAlt: section.imageAlt,
+          caption: section.title.trim() || section.kicker?.trim() || undefined
+        };
+      case "quote":
+        return {
+          type: "quote",
+          text: section.body.trim() || section.title.trim(),
+          attribution: section.kicker?.trim() || undefined
+        };
+      case "cta":
+        return {
+          type: "cta",
+          body: section.body.trim() || undefined,
+          label: section.title.trim() || "לחצו כאן",
+          href: "/menu"
+        };
+      default:
+        break;
+    }
+  }
+
+  if (section.type === "full-image") {
+    switch (nextType) {
+      case "split-text-image":
+      case "split-image-text":
+        return {
+          type: nextType,
+          kicker: "",
+          title: section.caption?.trim() ?? "",
+          body: "",
+          imageUrl: section.imageUrl,
+          imageAlt: section.imageAlt
+        };
+      case "quote":
+        return {
+          type: "quote",
+          text: section.caption?.trim() ?? "",
+          attribution: undefined
+        };
+      case "cta":
+        return {
+          type: "cta",
+          body: section.caption?.trim() || undefined,
+          label: "לחצו כאן",
+          href: "/menu"
+        };
+      default:
+        break;
+    }
+  }
+
+  if (section.type === "quote") {
+    switch (nextType) {
+      case "split-text-image":
+      case "split-image-text":
+        return {
+          type: nextType,
+          kicker: section.attribution?.trim() || undefined,
+          title: "",
+          body: section.text,
+          imageUrl: DEFAULT_OG_IMAGE,
+          imageAlt: ""
+        };
+      case "full-image":
+        return {
+          type: "full-image",
+          imageUrl: DEFAULT_OG_IMAGE,
+          imageAlt: "",
+          caption: section.text
+        };
+      case "cta":
+        return {
+          type: "cta",
+          body: section.text,
+          label: section.attribution?.trim() || "לחצו כאן",
+          href: "/menu"
+        };
+      default:
+        break;
+    }
+  }
+
+  if (section.type === "cta") {
+    switch (nextType) {
+      case "split-text-image":
+      case "split-image-text":
+        return {
+          type: nextType,
+          title: section.label,
+          body: section.body?.trim() ?? "",
+          imageUrl: DEFAULT_OG_IMAGE,
+          imageAlt: ""
+        };
+      case "full-image":
+        return {
+          type: "full-image",
+          imageUrl: DEFAULT_OG_IMAGE,
+          imageAlt: "",
+          caption: section.body?.trim() || section.label
+        };
+      case "quote":
+        return {
+          type: "quote",
+          text: section.body?.trim() || section.label,
+          attribution: undefined
+        };
+      default:
+        break;
+    }
+  }
+
+  return defaultSection(nextType);
+}
+
 function moveSection(sections: StorySection[], index: number, direction: -1 | 1): StorySection[] {
   const target = index + direction;
   if (target < 0 || target >= sections.length) {
@@ -137,9 +269,7 @@ function SectionEditor({
 }) {
   return (
     <fieldset className="admin-fieldset">
-      <legend>
-        מקטע {index + 1}: {SECTION_TYPE_LABELS[section.type]}
-      </legend>
+      <legend>מקטע {index + 1}</legend>
 
       <div className="admin-row-actions" style={{ marginBottom: 12 }}>
         <button className="button secondary" disabled={disabled || index === 0} type="button" onClick={onMoveUp}>
@@ -157,6 +287,20 @@ function SectionEditor({
           הסר מקטע
         </button>
       </div>
+
+      <label>
+        סוג מקטע
+        <select
+          value={section.type}
+          onChange={(e) => onChange(convertStorySectionType(section, e.target.value as StorySectionType))}
+        >
+          {STORY_SECTION_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {SECTION_TYPE_LABELS[type]}
+            </option>
+          ))}
+        </select>
+      </label>
 
       {(section.type === "split-text-image" || section.type === "split-image-text") && (
         <>

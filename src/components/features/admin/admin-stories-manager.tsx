@@ -11,7 +11,9 @@ import {
   AdminToolbar,
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
+import { AdminImageUrlField } from "@/components/features/admin/admin-site-image-picker";
 import { StatusBadge } from "@/components/features/admin/status-badge";
+import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { createId } from "@/lib/admin/new-id";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { resolveStorySlug } from "@/lib/stories/story-slug";
@@ -117,6 +119,7 @@ function SectionEditor({
   index,
   total,
   disabled,
+  pickableImages,
   onChange,
   onMoveUp,
   onMoveDown,
@@ -126,6 +129,7 @@ function SectionEditor({
   index: number;
   total: number;
   disabled?: boolean;
+  pickableImages: AdminPickableImage[];
   onChange: (section: StorySection) => void;
   onMoveUp: () => void;
   onMoveDown: () => void;
@@ -180,14 +184,18 @@ function SectionEditor({
               onChange={(e) => onChange({ ...section, body: e.target.value })}
             />
           </label>
-          <label>
-            כתובת תמונה
-            <input
-              required
-              value={section.imageUrl}
-              onChange={(e) => onChange({ ...section, imageUrl: e.target.value })}
-            />
-          </label>
+          <AdminImageUrlField
+            label="כתובת תמונה"
+            required
+            value={section.imageUrl}
+            images={pickableImages}
+            onChange={(imageUrl) => onChange({ ...section, imageUrl })}
+            onAltSuggestion={(alt) => {
+              if (!section.imageAlt.trim()) {
+                onChange({ ...section, imageAlt: alt });
+              }
+            }}
+          />
           <label>
             תיאור תמונה (alt)
             <input
@@ -201,14 +209,18 @@ function SectionEditor({
 
       {section.type === "full-image" && (
         <>
-          <label>
-            כתובת תמונה
-            <input
-              required
-              value={section.imageUrl}
-              onChange={(e) => onChange({ ...section, imageUrl: e.target.value })}
-            />
-          </label>
+          <AdminImageUrlField
+            label="כתובת תמונה"
+            required
+            value={section.imageUrl}
+            images={pickableImages}
+            onChange={(imageUrl) => onChange({ ...section, imageUrl })}
+            onAltSuggestion={(alt) => {
+              if (!section.imageAlt.trim()) {
+                onChange({ ...section, imageAlt: alt });
+              }
+            }}
+          />
           <label>
             תיאור תמונה (alt)
             <input
@@ -311,7 +323,13 @@ function StoryLinksPanel({ story }: { story: BrandStory }) {
   );
 }
 
-export function AdminStoriesManager({ items }: { items: BrandStory[] }) {
+export function AdminStoriesManager({
+  items,
+  pickableImages
+}: {
+  items: BrandStory[];
+  pickableImages: AdminPickableImage[];
+}) {
   const searchParams = useSearchParams();
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<BrandStory | null>(null);
@@ -433,14 +451,18 @@ export function AdminStoriesManager({ items }: { items: BrandStory[] }) {
                 onChange={(e) => setDraft({ ...draft, subtitle: e.target.value })}
               />
             </label>
-            <label>
-              כתובת תמונת Hero
-              <input
-                required
-                value={draft.heroImageUrl}
-                onChange={(e) => setDraft({ ...draft, heroImageUrl: e.target.value })}
-              />
-            </label>
+            <AdminImageUrlField
+              label="כתובת תמונת Hero"
+              required
+              value={draft.heroImageUrl}
+              images={pickableImages}
+              onChange={(heroImageUrl) => setDraft({ ...draft, heroImageUrl })}
+              onAltSuggestion={(alt) => {
+                if (!draft.heroImageAlt.trim()) {
+                  setDraft({ ...draft, heroImageAlt: alt });
+                }
+              }}
+            />
             <label>
               תיאור תמונת Hero (alt)
               <input
@@ -464,13 +486,12 @@ export function AdminStoriesManager({ items }: { items: BrandStory[] }) {
                 onChange={(e) => setDraft({ ...draft, metaDescription: e.target.value })}
               />
             </label>
-            <label>
-              OG Image URL (אופציונלי)
-              <input
-                value={draft.ogImageUrl ?? ""}
-                onChange={(e) => setDraft({ ...draft, ogImageUrl: e.target.value })}
-              />
-            </label>
+            <AdminImageUrlField
+              label="OG Image URL (אופציונלי)"
+              value={draft.ogImageUrl ?? ""}
+              images={pickableImages}
+              onChange={(ogImageUrl) => setDraft({ ...draft, ogImageUrl })}
+            />
             <label>
               סדר תצוגה
               <input
@@ -535,6 +556,7 @@ export function AdminStoriesManager({ items }: { items: BrandStory[] }) {
                 index={index}
                 total={draft.sections.length}
                 disabled={isPending}
+                pickableImages={pickableImages}
                 onChange={(next) =>
                   setDraft({
                     ...draft,

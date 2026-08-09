@@ -5215,6 +5215,111 @@ a.menu-showcase-button.site-cta-btn {
   font-size: 13px;
 }
 
+.admin-image-url-field {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.admin-image-url-field input {
+  flex: 1 1 220px;
+}
+
+.admin-image-url-preview {
+  margin: -4px 0 12px;
+}
+
+.admin-image-url-preview-image {
+  display: block;
+  width: 160px;
+  height: auto;
+  max-height: 120px;
+  object-fit: cover;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+}
+
+.admin-image-picker {
+  display: grid;
+  gap: 16px;
+  max-height: min(70vh, 720px);
+  overflow: auto;
+  padding-inline-end: 4px;
+}
+
+.admin-image-picker-search input {
+  width: 100%;
+}
+
+.admin-image-picker-group-title {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--admin-text);
+}
+
+.admin-image-picker-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-image-picker-item {
+  display: grid;
+  gap: 8px;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface-strong);
+  text-align: start;
+  cursor: pointer;
+  transition:
+    border-color var(--motion-short) var(--motion-ease),
+    background var(--motion-short) var(--motion-ease);
+}
+
+.admin-image-picker-item:hover,
+.admin-image-picker-item:focus-visible {
+  border-color: var(--admin-accent, #c9a227);
+  background: var(--admin-surface-hover);
+}
+
+.admin-image-picker-thumb {
+  display: block;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  border-radius: 6px;
+  background: #111;
+}
+
+.admin-image-picker-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-image-picker-meta {
+  display: grid;
+  gap: 2px;
+}
+
+.admin-image-picker-meta strong {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--admin-text);
+}
+
+.admin-image-picker-meta small {
+  font-size: 11px;
+  color: var(--admin-text-muted);
+  line-height: 1.35;
+}
+
 .admin-form label.admin-checkbox-row {
   display: flex;
   flex-direction: row;

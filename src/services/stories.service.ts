@@ -1,0 +1,36 @@
+import {
+  deleteBrandStory,
+  getBrandStories,
+  saveBrandStory
+} from "@/repositories/stories.repository";
+import { resolveStorySlug } from "@/lib/stories/story-slug";
+import type { BrandStory } from "@/types/story";
+
+export async function listBrandStories(options: { activeOnly?: boolean } = {}): Promise<BrandStory[]> {
+  const stories = await getBrandStories();
+  const filtered = options.activeOnly ? stories.filter((story) => story.isActive) : stories;
+
+  return filtered.sort((a, b) => {
+    if (a.sortOrder !== b.sortOrder) {
+      return a.sortOrder - b.sortOrder;
+    }
+    return new Date(b.publishedAt).getTime() - new Date(a.publishedAt).getTime();
+  });
+}
+
+export async function getBrandStoryBySlug(
+  slug: string,
+  options: { activeOnly?: boolean } = {}
+): Promise<BrandStory | null> {
+  const normalized = slug.trim().toLowerCase();
+  const stories = await listBrandStories({ activeOnly: options.activeOnly });
+  return stories.find((story) => resolveStorySlug(story) === normalized) ?? null;
+}
+
+export async function upsertBrandStory(input: BrandStory): Promise<BrandStory> {
+  return saveBrandStory({ ...input, updatedAt: new Date().toISOString() });
+}
+
+export async function removeBrandStory(id: string): Promise<boolean> {
+  return deleteBrandStory(id);
+}

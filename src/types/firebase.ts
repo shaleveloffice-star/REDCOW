@@ -4,6 +4,7 @@ export type FirebaseCollectionName =
   | "menuCategories"
   | "branches"
   | "pressItems"
+  | "brandStories"
   | "contactMessages"
   | "careerApplications"
   | "customerClubSignups"

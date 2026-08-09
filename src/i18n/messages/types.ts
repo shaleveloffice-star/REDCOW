@@ -235,4 +235,16 @@ export type Messages = {
     terms: string;
     closing: string;
   };
+  stories: {
+    breadcrumbLabel: string;
+    indexTitle: string;
+    indexLead: string;
+    indexMetaTitle: string;
+    indexMetaDescription: string;
+    readStory: string;
+    featuredLabel: string;
+    moreStories: string;
+    empty: string;
+    backToStories: string;
+  };
 };

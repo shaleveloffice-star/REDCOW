@@ -10,6 +10,7 @@ import { DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/seo";
 import type { MenuGroupWithDisplay, MenuItemWithDisplay } from "@/lib/translation/menu-display";
 import type { MenuCategory, MenuItem } from "@/types/content";
 import type { SeoFaqItem } from "@/types/seo-content";
+import type { BrandStory } from "@/types/story";
 
 export type JsonLdObject = Record<string, unknown>;
 
@@ -324,5 +325,102 @@ export function buildCategoryBreadcrumbJsonLd(options: {
         item: absoluteUrl(`/menu/${options.categorySlug}`)
       }
     ]
+  };
+}
+
+export function buildStoriesIndexBreadcrumbJsonLd(options: {
+  pageName: string;
+  locale?: Locale;
+  messages?: Messages;
+}): JsonLdObject {
+  const locale = options.locale ?? "he";
+  const t = options.messages ?? getMessages(locale);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t.nav.home,
+        item: absoluteUrl("/")
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: options.pageName,
+        item: absoluteUrl("/stories")
+      }
+    ]
+  };
+}
+
+export function buildStoryBreadcrumbJsonLd(options: {
+  storiesLabel: string;
+  storyTitle: string;
+  storySlug: string;
+  locale?: Locale;
+  messages?: Messages;
+}): JsonLdObject {
+  const locale = options.locale ?? "he";
+  const t = options.messages ?? getMessages(locale);
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t.nav.home,
+        item: absoluteUrl("/")
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: options.storiesLabel,
+        item: absoluteUrl("/stories")
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: options.storyTitle,
+        item: absoluteUrl(`/stories/${options.storySlug}`)
+      }
+    ]
+  };
+}
+
+export function buildArticleJsonLd(story: BrandStory): JsonLdObject {
+  const slug = story.slug.trim();
+  const imageUrl = story.ogImageUrl?.trim() || story.heroImageUrl.trim() || DEFAULT_OG_IMAGE;
+  const description = story.metaDescription?.trim() || story.subtitle.trim() || story.title.trim();
+
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: story.title.trim(),
+    description,
+    image: absoluteUrl(imageUrl),
+    datePublished: story.publishedAt,
+    dateModified: story.updatedAt,
+    author: {
+      "@type": "Organization",
+      name: BUSINESS.name,
+      url: absoluteUrl("/")
+    },
+    publisher: {
+      "@type": "Organization",
+      name: BUSINESS.name,
+      logo: {
+        "@type": "ImageObject",
+        url: absoluteUrl(SITE_LOGO_SCHEMA_SRC)
+      }
+    },
+    mainEntityOfPage: {
+      "@type": "WebPage",
+      "@id": absoluteUrl(`/stories/${slug}`)
+    }
   };
 }

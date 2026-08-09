@@ -23,7 +23,8 @@ export type ImageAltKind =
   | "atmosphere-bun-top"
   | "atmosphere-bun-bottom"
   | "burger-layer"
-  | "menu-page-hero";
+  | "menu-page-hero"
+  | "story";
 
 export type BurgerLayerId =
   | "bunTop"
@@ -286,6 +287,13 @@ function generateByKind(input: ResolveImageAltInput): string {
         : locale === "fr"
           ? `Plats du menu ${BRAND_NAME}`
           : `Dishes from the ${BRAND_NAME} menu`;
+
+    case "story":
+      return locale === "he"
+        ? `תמונה מסיפור ${BRAND_NAME}`
+        : locale === "fr"
+          ? `Image d'histoire ${BRAND_NAME}`
+          : `${BRAND_NAME} story image`;
 
     default:
       return name || BRAND_NAME;

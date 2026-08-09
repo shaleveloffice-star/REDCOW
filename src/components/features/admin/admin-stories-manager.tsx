@@ -1,0 +1,502 @@
+"use client";
+
+import { useState } from "react";
+
+import {
+  AdminFormFooter,
+  AdminModal,
+  AdminRowActions,
+  AdminToolbar,
+  useAdminMutation
+} from "@/components/features/admin/admin-crud-ui";
+import { StatusBadge } from "@/components/features/admin/status-badge";
+import { createId } from "@/lib/admin/new-id";
+import { DEFAULT_OG_IMAGE } from "@/lib/seo";
+import { deleteBrandStoryAction, saveBrandStoryAction } from "@/server/actions/stories.actions";
+import {
+  STORY_SECTION_TYPES,
+  type BrandStory,
+  type StorySection,
+  type StorySectionType
+} from "@/types/story";
+
+const SECTION_TYPE_LABELS: Record<StorySectionType, string> = {
+  "split-text-image": "טקסט + תמונה (ימין)",
+  "split-image-text": "תמונה + טקסט (שמאל)",
+  "full-image": "תמונה מלאה",
+  quote: "ציטוט",
+  cta: "קריאה לפעולה"
+};
+
+function newStory(items: BrandStory[]): BrandStory {
+  const now = new Date().toISOString();
+  return {
+    id: createId("story"),
+    slug: "",
+    category: "הסיפור שלנו",
+    title: "",
+    subtitle: "",
+    heroImageUrl: DEFAULT_OG_IMAGE,
+    heroImageAlt: "",
+    sections: [],
+    publishedAt: now,
+    isActive: false,
+    sortOrder: items.length,
+    createdAt: now,
+    updatedAt: now
+  };
+}
+
+function defaultSection(type: StorySectionType): StorySection {
+  switch (type) {
+    case "split-text-image":
+    case "split-image-text":
+      return {
+        type,
+        kicker: "",
+        title: "",
+        body: "",
+        imageUrl: DEFAULT_OG_IMAGE,
+        imageAlt: ""
+      };
+    case "full-image":
+      return {
+        type,
+        imageUrl: DEFAULT_OG_IMAGE,
+        imageAlt: "",
+        caption: ""
+      };
+    case "quote":
+      return {
+        type,
+        text: "",
+        attribution: ""
+      };
+    case "cta":
+      return {
+        type,
+        body: "",
+        label: "",
+        href: "/menu"
+      };
+    default:
+      return {
+        type: "split-text-image",
+        title: "",
+        body: "",
+        imageUrl: DEFAULT_OG_IMAGE,
+        imageAlt: ""
+      };
+  }
+}
+
+function moveSection(sections: StorySection[], index: number, direction: -1 | 1): StorySection[] {
+  const target = index + direction;
+  if (target < 0 || target >= sections.length) {
+    return sections;
+  }
+
+  const next = [...sections];
+  [next[index], next[target]] = [next[target], next[index]];
+  return next;
+}
+
+function updateSectionAt(
+  sections: StorySection[],
+  index: number,
+  updater: (section: StorySection) => StorySection
+): StorySection[] {
+  return sections.map((section, i) => (i === index ? updater(section) : section));
+}
+
+function SectionEditor({
+  section,
+  index,
+  total,
+  disabled,
+  onChange,
+  onMoveUp,
+  onMoveDown,
+  onRemove
+}: {
+  section: StorySection;
+  index: number;
+  total: number;
+  disabled?: boolean;
+  onChange: (section: StorySection) => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  onRemove: () => void;
+}) {
+  return (
+    <fieldset className="admin-fieldset">
+      <legend>
+        מקטע {index + 1}: {SECTION_TYPE_LABELS[section.type]}
+      </legend>
+
+      <div className="admin-row-actions" style={{ marginBottom: 12 }}>
+        <button className="button secondary" disabled={disabled || index === 0} type="button" onClick={onMoveUp}>
+          ↑
+        </button>
+        <button
+          className="button secondary"
+          disabled={disabled || index === total - 1}
+          type="button"
+          onClick={onMoveDown}
+        >
+          ↓
+        </button>
+        <button className="button secondary admin-btn-danger" disabled={disabled} type="button" onClick={onRemove}>
+          הסר מקטע
+        </button>
+      </div>
+
+      {(section.type === "split-text-image" || section.type === "split-image-text") && (
+        <>
+          <label>
+            Kicker (אופציונלי)
+            <input
+              value={section.kicker ?? ""}
+              onChange={(e) => onChange({ ...section, kicker: e.target.value })}
+            />
+          </label>
+          <label>
+            כותרת מקטע
+            <input
+              required
+              value={section.title}
+              onChange={(e) => onChange({ ...section, title: e.target.value })}
+            />
+          </label>
+          <label>
+            תוכן
+            <textarea
+              required
+              rows={4}
+              value={section.body}
+              onChange={(e) => onChange({ ...section, body: e.target.value })}
+            />
+          </label>
+          <label>
+            כתובת תמונה
+            <input
+              required
+              value={section.imageUrl}
+              onChange={(e) => onChange({ ...section, imageUrl: e.target.value })}
+            />
+          </label>
+          <label>
+            תיאור תמונה (alt)
+            <input
+              required
+              value={section.imageAlt}
+              onChange={(e) => onChange({ ...section, imageAlt: e.target.value })}
+            />
+          </label>
+        </>
+      )}
+
+      {section.type === "full-image" && (
+        <>
+          <label>
+            כתובת תמונה
+            <input
+              required
+              value={section.imageUrl}
+              onChange={(e) => onChange({ ...section, imageUrl: e.target.value })}
+            />
+          </label>
+          <label>
+            תיאור תמונה (alt)
+            <input
+              required
+              value={section.imageAlt}
+              onChange={(e) => onChange({ ...section, imageAlt: e.target.value })}
+            />
+          </label>
+          <label>
+            כיתוב (אופציונלי)
+            <input
+              value={section.caption ?? ""}
+              onChange={(e) => onChange({ ...section, caption: e.target.value })}
+            />
+          </label>
+        </>
+      )}
+
+      {section.type === "quote" && (
+        <>
+          <label>
+            טקסט ציטוט
+            <textarea
+              required
+              rows={3}
+              value={section.text}
+              onChange={(e) => onChange({ ...section, text: e.target.value })}
+            />
+          </label>
+          <label>
+            ייחוס (אופציונלי)
+            <input
+              value={section.attribution ?? ""}
+              onChange={(e) => onChange({ ...section, attribution: e.target.value })}
+            />
+          </label>
+        </>
+      )}
+
+      {section.type === "cta" && (
+        <>
+          <label>
+            טקסט מקדים (אופציונלי)
+            <input value={section.body ?? ""} onChange={(e) => onChange({ ...section, body: e.target.value })} />
+          </label>
+          <label>
+            תווית כפתור
+            <input
+              required
+              value={section.label}
+              onChange={(e) => onChange({ ...section, label: e.target.value })}
+            />
+          </label>
+          <label>
+            קישור
+            <input
+              required
+              value={section.href}
+              onChange={(e) => onChange({ ...section, href: e.target.value })}
+            />
+          </label>
+        </>
+      )}
+    </fieldset>
+  );
+}
+
+export function AdminStoriesManager({ items }: { items: BrandStory[] }) {
+  const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
+  const [draft, setDraft] = useState<BrandStory | null>(null);
+  const [newSectionType, setNewSectionType] = useState<StorySectionType>("split-text-image");
+  const isNew = draft ? !items.some((item) => item.id === draft.id) : false;
+
+  const close = () => {
+    setDraft(null);
+    setError(null);
+  };
+
+  const sortedItems = [...items].sort((a, b) => a.sortOrder - b.sortOrder);
+
+  return (
+    <>
+      <AdminToolbar label="הוסף סיפור" onAdd={() => setDraft(newStory(items))} />
+      <table className="table">
+        <thead>
+          <tr>
+            <th>כותרת</th>
+            <th>Slug</th>
+            <th>סדר</th>
+            <th>סטטוס</th>
+            <th style={{ width: 160 }}>פעולות</th>
+          </tr>
+        </thead>
+        <tbody>
+          {sortedItems.map((item) => (
+            <tr key={item.id}>
+              <td>{item.title}</td>
+              <td>{item.slug || "—"}</td>
+              <td>{item.sortOrder}</td>
+              <td>
+                <StatusBadge active={item.isActive} />
+              </td>
+              <td>
+                <AdminRowActions
+                  disabled={isPending}
+                  onDelete={() => {
+                    if (!confirmDelete(item.title)) return;
+                    run(async () => {
+                      await deleteBrandStoryAction(item.id);
+                    });
+                  }}
+                  onEdit={() => setDraft({ ...item, sections: [...item.sections] })}
+                />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+
+      <AdminModal open={Boolean(draft)} title={isNew ? "הוספת סיפור" : "עריכת סיפור"} onClose={close} stacked>
+        {draft ? (
+          <form
+            className="admin-form"
+            onSubmit={(e) => {
+              e.preventDefault();
+              run(async () => {
+                await saveBrandStoryAction(draft);
+              }, close);
+            }}
+          >
+            <label>
+              כותרת
+              <input required value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} />
+            </label>
+            <label>
+              Slug (אופציונלי — ייווצר מהכותרת)
+              <input value={draft.slug} onChange={(e) => setDraft({ ...draft, slug: e.target.value })} />
+            </label>
+            <label>
+              קטגוריה
+              <input
+                required
+                value={draft.category}
+                onChange={(e) => setDraft({ ...draft, category: e.target.value })}
+              />
+            </label>
+            <label>
+              כותרת משנה
+              <textarea
+                required
+                rows={2}
+                value={draft.subtitle}
+                onChange={(e) => setDraft({ ...draft, subtitle: e.target.value })}
+              />
+            </label>
+            <label>
+              כתובת תמונת Hero
+              <input
+                required
+                value={draft.heroImageUrl}
+                onChange={(e) => setDraft({ ...draft, heroImageUrl: e.target.value })}
+              />
+            </label>
+            <label>
+              תיאור תמונת Hero (alt)
+              <input
+                required
+                value={draft.heroImageAlt}
+                onChange={(e) => setDraft({ ...draft, heroImageAlt: e.target.value })}
+              />
+            </label>
+            <label>
+              Meta Title (אופציונלי)
+              <input
+                value={draft.metaTitle ?? ""}
+                onChange={(e) => setDraft({ ...draft, metaTitle: e.target.value })}
+              />
+            </label>
+            <label>
+              Meta Description (אופציונלי)
+              <textarea
+                rows={2}
+                value={draft.metaDescription ?? ""}
+                onChange={(e) => setDraft({ ...draft, metaDescription: e.target.value })}
+              />
+            </label>
+            <label>
+              OG Image URL (אופציונלי)
+              <input
+                value={draft.ogImageUrl ?? ""}
+                onChange={(e) => setDraft({ ...draft, ogImageUrl: e.target.value })}
+              />
+            </label>
+            <label>
+              סדר תצוגה
+              <input
+                type="number"
+                value={draft.sortOrder}
+                onChange={(e) => setDraft({ ...draft, sortOrder: Number(e.target.value) || 0 })}
+              />
+            </label>
+            <label>
+              תאריך פרסום
+              <input
+                type="datetime-local"
+                value={draft.publishedAt.slice(0, 16)}
+                onChange={(e) =>
+                  setDraft({
+                    ...draft,
+                    publishedAt: new Date(e.target.value).toISOString()
+                  })
+                }
+              />
+            </label>
+            <label className="admin-checkbox-row">
+              <input
+                checked={draft.isActive}
+                type="checkbox"
+                onChange={(e) => setDraft({ ...draft, isActive: e.target.checked })}
+              />
+              פעיל (פרסום באתר — עד שלא מסומן, הסיפור לא יופיע)
+            </label>
+
+            <div className="admin-toolbar" style={{ marginTop: 16 }}>
+              <select
+                value={newSectionType}
+                onChange={(e) => setNewSectionType(e.target.value as StorySectionType)}
+              >
+                {STORY_SECTION_TYPES.map((type) => (
+                  <option key={type} value={type}>
+                    {SECTION_TYPE_LABELS[type]}
+                  </option>
+                ))}
+              </select>
+              <button
+                className="button secondary"
+                type="button"
+                onClick={() =>
+                  setDraft({
+                    ...draft,
+                    sections: [...draft.sections, defaultSection(newSectionType)]
+                  })
+                }
+              >
+                הוסף מקטע
+              </button>
+            </div>
+
+            {draft.sections.map((section, index) => (
+              <SectionEditor
+                key={`${section.type}-${index}`}
+                section={section}
+                index={index}
+                total={draft.sections.length}
+                disabled={isPending}
+                onChange={(next) =>
+                  setDraft({
+                    ...draft,
+                    sections: updateSectionAt(draft.sections, index, () => next)
+                  })
+                }
+                onMoveUp={() =>
+                  setDraft({
+                    ...draft,
+                    sections: moveSection(draft.sections, index, -1)
+                  })
+                }
+                onMoveDown={() =>
+                  setDraft({
+                    ...draft,
+                    sections: moveSection(draft.sections, index, 1)
+                  })
+                }
+                onRemove={() =>
+                  setDraft({
+                    ...draft,
+                    sections: draft.sections.filter((_, i) => i !== index)
+                  })
+                }
+              />
+            ))}
+
+            <AdminFormFooter
+              isPending={isPending}
+              error={error}
+              onCancel={close}
+              submitLabel={isNew ? "שמור סיפור" : "עדכן סיפור"}
+            />
+          </form>
+        ) : null}
+      </AdminModal>
+    </>
+  );
+}

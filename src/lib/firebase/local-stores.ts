@@ -4,6 +4,7 @@ import { createJsonSingleDocStore } from "@/lib/admin/json-single-doc-store";
 import { mockCareerApplications, mockContactMessages, mockCustomerClubSignups } from "@/data/mock/contact.mock";
 import { mockBranches } from "@/data/mock/branches.mock";
 import { mockMenuCategories, mockMenuItems } from "@/data/mock/menu.mock";
+import { mockBrandStories } from "@/data/mock/stories.mock";
 import { mockPressItems } from "@/data/mock/press.mock";
 import { mockOrderLinks, mockSiteSettings } from "@/data/mock/settings.mock";
 import type {
@@ -18,6 +19,7 @@ import type {
   PressItem,
   SiteSettings
 } from "@/types/content";
+import type { BrandStory } from "@/types/story";
 import type { SiteImageOverride } from "@/types/site-images";
 
 export const localMenuItemsStore = createJsonFileStore<MenuItem>("menu-items.json", mockMenuItems);
@@ -34,6 +36,10 @@ export const localCustomerClubSignupsStore = createInMemoryStore<CustomerClubSig
 );
 export const localBranchesStore = createInMemoryStore<Branch>(mockBranches);
 export const localPressStore = createInMemoryStore<PressItem>(mockPressItems);
+export const localBrandStoriesStore = createJsonFileStore<BrandStory>(
+  "brand-stories.json",
+  mockBrandStories
+);
 export const localOrderLinksStore = createInMemoryStore<OrderLink>(mockOrderLinks);
 export const localSiteImageOverridesStore = createJsonFileStore<SiteImageOverride>(
   "site-image-overrides.json",

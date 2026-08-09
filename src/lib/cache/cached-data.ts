@@ -11,6 +11,9 @@ import {
 } from "@/services/menu.service";
 import { getSettings, listOrderLinks } from "@/services/settings.service";
 import { resolveStaticSiteImagesMap } from "@/services/site-images-resolver.service";
+import { getBrandStoryBySlug, listBrandStories } from "@/services/stories.service";
+import { localizeBrandStories, localizeBrandStory } from "@/lib/translation/localize-stories";
+import type { Locale } from "@/i18n/config";
 
 export const CACHE_TAGS = {
   settings: "settings",
@@ -19,7 +22,8 @@ export const CACHE_TAGS = {
   homepageMenu: "homepage-menu",
   menuCategories: "menu-categories",
   menuDisplay: "menu-display",
-  seoContent: "seo-content"
+  seoContent: "seo-content",
+  brandStories: "brand-stories"
 } as const;
 
 export const getCachedSettings = unstable_cache(
@@ -109,5 +113,26 @@ export function getCachedResolvedSeoPageContent(locale: string, pageId: string) 
       revalidate: CACHE_REVALIDATE_SECONDS.slow,
       tags: [CACHE_TAGS.seoContent]
     }
+  )();
+}
+
+export const getCachedBrandStories = unstable_cache(
+  async (locale: Locale) => {
+    const stories = await listBrandStories({ activeOnly: true });
+    return localizeBrandStories(stories, locale);
+  },
+  [CACHE_TAGS.brandStories, "list"],
+  { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.brandStories] }
+);
+
+export async function getCachedBrandStoryBySlug(slug: string, locale: Locale) {
+  return unstable_cache(
+    async () => {
+      const story = await getBrandStoryBySlug(slug, { activeOnly: true });
+      if (!story) return null;
+      return localizeBrandStory(story, locale);
+    },
+    [CACHE_TAGS.brandStories, "story", slug, locale],
+    { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.brandStories] }
   )();
 }

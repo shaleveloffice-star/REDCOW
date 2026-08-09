@@ -269,5 +269,18 @@ export const en: Messages = {
     privacy: "Privacy Policy",
     terms: "Terms of Use",
     closing: "Any occasion, any hour. A bite you won't forget."
+  },
+  stories: {
+    breadcrumbLabel: "Stories",
+    indexTitle: "Stories",
+    indexLead: "Behind the scenes — consistency, precision, and experience.",
+    indexMetaTitle: "Stories | NB BURGER",
+    indexMetaDescription:
+      "Short stories from NB BURGER — about the burger you come back for, the consistency, and the experience behind every bite.",
+    readStory: "Read the story",
+    featuredLabel: "Featured story",
+    moreStories: "More stories",
+    empty: "No active stories at the moment.",
+    backToStories: "Back to stories"
   }
 };

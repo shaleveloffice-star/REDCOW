@@ -269,5 +269,18 @@ export const he: Messages = {
     privacy: "מדיניות פרטיות",
     terms: "תקנון האתר",
     closing: "לכל אירוע, בכל שעה. ביס אחד שלא תשכחו."
+  },
+  stories: {
+    breadcrumbLabel: "סיפורים",
+    indexTitle: "סיפורים",
+    indexLead: "מאחורי הקלעים — עקביות, דיוק וחוויה.",
+    indexMetaTitle: "סיפורים | NB BURGER",
+    indexMetaDescription:
+      "סיפורים קצרים מ-NB BURGER — על המבורגר שחוזרים אליו, העקביות והחוויה שמאחורי כל ביס.",
+    readStory: "קראו את הסיפור",
+    featuredLabel: "סיפור נבחר",
+    moreStories: "עוד סיפורים",
+    empty: "אין סיפורים פעילים כרגע.",
+    backToStories: "חזרה לסיפורים"
   }
 };

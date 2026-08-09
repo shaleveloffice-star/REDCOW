@@ -269,5 +269,18 @@ export const fr: Messages = {
     privacy: "Politique de confidentialité",
     terms: "Conditions d'utilisation",
     closing: "Pour chaque moment. Une bouchée inoubliable."
+  },
+  stories: {
+    breadcrumbLabel: "Histoires",
+    indexTitle: "Histoires",
+    indexLead: "Dans les coulisses — constance, précision et expérience.",
+    indexMetaTitle: "Histoires | NB BURGER",
+    indexMetaDescription:
+      "Courtes histoires de NB BURGER — sur le burger auquel on revient, la constance et l'expérience derrière chaque bouchée.",
+    readStory: "Lire l'histoire",
+    featuredLabel: "Histoire à la une",
+    moreStories: "Plus d'histoires",
+    empty: "Aucune histoire active pour le moment.",
+    backToStories: "Retour aux histoires"
   }
 };

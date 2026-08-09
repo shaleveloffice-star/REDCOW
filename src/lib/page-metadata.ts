@@ -78,3 +78,43 @@ export async function getPrivacyPageMetadata(locale: Locale) {
 export async function getTermsPageMetadata(locale: Locale) {
   return getSeoPageMetadata(locale, "terms");
 }
+
+export async function getStoriesIndexMetadata(locale: Locale) {
+  const { getMessages } = await import("@/i18n/messages");
+  const t = getMessages(locale);
+
+  return buildPageMetadata({
+    title: t.stories.indexMetaTitle,
+    description: t.stories.indexMetaDescription,
+    path: "/stories",
+    locale
+  });
+}
+
+export function getStoryPageMetadata(
+  locale: Locale,
+  story: {
+    title: string;
+    subtitle: string;
+    slug: string;
+    metaTitle?: string;
+    metaDescription?: string;
+    heroImageUrl: string;
+    heroImageAlt: string;
+    ogImageUrl?: string;
+  }
+) {
+  const title = story.metaTitle?.trim() || `${story.title.trim()} | NB BURGER`;
+  const description =
+    story.metaDescription?.trim() || story.subtitle.trim() || story.title.trim();
+  const image = story.ogImageUrl?.trim() || story.heroImageUrl.trim();
+
+  return buildPageMetadata({
+    title,
+    description,
+    path: `/stories/${story.slug.trim()}`,
+    image,
+    imageAlt: story.heroImageAlt.trim() || story.title.trim(),
+    locale
+  });
+}

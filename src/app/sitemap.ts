@@ -2,8 +2,10 @@ import type { MetadataRoute } from "next";
 
 import { resolveMenuItemSlug } from "@/lib/menu/product-slug";
 import { resolveCategorySlug } from "@/lib/menu/category-slug";
+import { resolveStorySlug } from "@/lib/stories/story-slug";
 import { SITE_URL } from "@/lib/seo";
 import { listMenuItems, listMenuCategories } from "@/services/menu.service";
+import { listBrandStories } from "@/services/stories.service";
 
 type SitemapEntryInput = {
   path: string;
@@ -53,5 +55,28 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     menuEntries = [];
   }
 
-  return [...staticEntries, ...menuEntries];
+  let storyEntries: MetadataRoute.Sitemap = [];
+  try {
+    const stories = await listBrandStories({ activeOnly: true });
+    if (stories.length > 0) {
+      storyEntries.push({
+        url: `${SITE_URL}/stories`,
+        lastModified: new Date(stories[0].updatedAt),
+        changeFrequency: "weekly",
+        priority: 0.75
+      });
+    }
+    storyEntries.push(
+      ...stories.map((story) => ({
+        url: `${SITE_URL}/stories/${resolveStorySlug(story)}`,
+        lastModified: new Date(story.updatedAt),
+        changeFrequency: "monthly" as const,
+        priority: 0.7
+      }))
+    );
+  } catch {
+    storyEntries = [];
+  }
+
+  return [...staticEntries, ...menuEntries, ...storyEntries];
 }

@@ -5320,6 +5320,45 @@ a.menu-showcase-button.site-cta-btn {
   line-height: 1.35;
 }
 
+.admin-story-view-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.admin-story-view-toggle .button.is-active {
+  border-color: var(--admin-accent, #c9a227);
+  background: rgba(201, 162, 39, 0.12);
+}
+
+.admin-story-edit-bar {
+  display: grid;
+  gap: 10px;
+  padding: 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 10px;
+  background: var(--admin-surface-strong);
+}
+
+.admin-story-edit-bar-label {
+  display: grid;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.admin-story-edit-bar-label input,
+.admin-story-edit-bar-label textarea {
+  width: 100%;
+}
+
+.admin-story-edit-bar-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
 .admin-form label.admin-checkbox-row {
   display: flex;
   flex-direction: row;

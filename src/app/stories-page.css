@@ -465,3 +465,129 @@
     order: unset;
   }
 }
+
+/* —— Admin visual preview (editable overlays) —— */
+.admin-story-visual-preview {
+  display: grid;
+  gap: 12px;
+}
+
+.admin-story-preview-intro {
+  display: grid;
+  gap: 4px;
+  padding: 10px 12px;
+  border: 1px solid var(--admin-border, #ddd);
+  border-radius: 8px;
+  background: var(--admin-surface-strong, #f8f8f8);
+  font-size: 13px;
+}
+
+.admin-story-preview-intro span {
+  color: var(--admin-text-muted, #666);
+}
+
+.admin-story-preview-canvas {
+  border: 1px solid var(--admin-border, #ddd);
+  border-radius: 10px;
+  overflow: hidden;
+  max-height: min(72vh, 900px);
+  overflow-y: auto;
+}
+
+.admin-story-preview-empty {
+  padding: 24px;
+  text-align: center;
+  font-family: var(--font-assistant-stack);
+}
+
+.story-editable-hit {
+  cursor: pointer;
+  outline: 2px dashed transparent;
+  outline-offset: 4px;
+  transition: outline-color 0.15s ease;
+}
+
+.story-editable-hit:hover,
+.story-editable-hit:focus-visible {
+  outline-color: var(--secondary, #ffe1ba);
+}
+
+.story-editable-image-wrap {
+  position: relative;
+}
+
+.story-editable-image-btn {
+  position: absolute;
+  inset-inline-end: 12px;
+  inset-block-end: 12px;
+  z-index: 2;
+  padding: 8px 12px;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.78);
+  color: #fff;
+  font-family: var(--font-assistant-stack);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.story-editable-image-btn:hover,
+.story-editable-image-btn:focus-visible {
+  background: #000;
+}
+
+.story-editable-section {
+  position: relative;
+}
+
+.story-editable-section-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  padding: 8px 12px;
+  background: rgba(0, 0, 0, 0.82);
+  color: #fff;
+  font-family: var(--font-assistant-stack);
+  font-size: 12px;
+}
+
+.story-editable-section-label {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.story-editable-toolbar-btn,
+.story-editable-inline-link-btn {
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 6px;
+  background: transparent;
+  color: #fff;
+  font: inherit;
+  cursor: pointer;
+}
+
+.story-editable-toolbar-btn:hover,
+.story-editable-inline-link-btn:hover {
+  border-color: var(--secondary, #ffe1ba);
+  color: var(--secondary, #ffe1ba);
+}
+
+.story-editable-toolbar-select {
+  margin-inline-start: auto;
+  min-width: 180px;
+  padding: 6px 8px;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  background: #111;
+  color: #fff;
+  font: inherit;
+}
+
+.story-editable-inline-link-btn {
+  display: inline-block;
+  margin-top: 10px;
+}

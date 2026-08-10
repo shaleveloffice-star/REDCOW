@@ -9,6 +9,7 @@ import {
   AdminRowActions,
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
+import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { compressGalleryImage } from "@/lib/client/compress-image";
 import {
   createGalleryImageAction,
@@ -45,7 +46,38 @@ function fileTitleFromName(name: string): string {
   return name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").trim() || "תמונה מהגלריה";
 }
 
-export function AdminGalleryManager({ items }: { items: GalleryImage[] }) {
+function LibraryImageCard({ image }: { image: AdminPickableImage }) {
+  return (
+    <li className="admin-gallery-card admin-gallery-card--library">
+      <span className="admin-gallery-badge">{image.group}</span>
+      <img src={image.imageUrl} alt={image.label} className="admin-gallery-card-image" loading="lazy" />
+      <div className="admin-gallery-card-body">
+        <strong>{image.label}</strong>
+        <p className="admin-form-hint">{image.location}</p>
+        <code className="admin-gallery-url">{image.imageUrl}</code>
+        <div className="admin-row-actions">
+          <button
+            className="button secondary"
+            type="button"
+            onClick={() => {
+              void navigator.clipboard.writeText(image.imageUrl);
+            }}
+          >
+            העתק URL
+          </button>
+        </div>
+      </div>
+    </li>
+  );
+}
+
+export function AdminGalleryManager({
+  uploadedItems,
+  libraryImages
+}: {
+  uploadedItems: GalleryImage[];
+  libraryImages: AdminPickableImage[];
+}) {
   const router = useRouter();
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<GalleryImage | null>(null);
@@ -131,42 +163,66 @@ export function AdminGalleryManager({ items }: { items: GalleryImage[] }) {
       {uploadStatus ? <p className="admin-form-hint">{uploadStatus}</p> : null}
       {error ? <p className="admin-form-error">{error}</p> : null}
 
-      {items.length === 0 ? (
-        <p className="admin-form-hint">אין תמונות בגלריה. העלו תמונות כדי להשתמש בהן בסיפורים ובאתר.</p>
-      ) : (
-        <ul className="admin-gallery-grid">
-          {items.map((item) => (
-            <li key={item.id} className="admin-gallery-card">
-              <img src={item.imageUrl} alt={item.alt || item.title} className="admin-gallery-card-image" loading="lazy" />
-              <div className="admin-gallery-card-body">
-                <strong>{item.title}</strong>
-                <code className="admin-gallery-url">{item.imageUrl}</code>
-                <div className="admin-row-actions">
-                  <button
-                    className="button secondary"
-                    type="button"
-                    onClick={() => {
-                      void navigator.clipboard.writeText(item.imageUrl);
-                    }}
-                  >
-                    העתק URL
-                  </button>
-                  <AdminRowActions
-                    disabled={isPending || uploading}
-                    onEdit={() => setDraft({ ...item })}
-                    onDelete={() => {
-                      if (!confirmDelete(item.title)) return;
-                      run(async () => {
-                        await deleteGalleryImageAction(item.id);
-                      });
-                    }}
-                  />
+      <section className="admin-gallery-section" aria-labelledby="gallery-uploads-heading">
+        <h3 id="gallery-uploads-heading" className="admin-gallery-section-title">
+          העלאות שלך ({uploadedItems.length})
+        </h3>
+        {uploadedItems.length === 0 ? (
+          <p className="admin-form-hint">עדיין לא הועלו תמונות. השתמשו בכפתור למעלה.</p>
+        ) : (
+          <ul className="admin-gallery-grid">
+            {uploadedItems.map((item) => (
+              <li key={item.id} className="admin-gallery-card">
+                <span className="admin-gallery-badge admin-gallery-badge--upload">העלאה</span>
+                <img src={item.imageUrl} alt={item.alt || item.title} className="admin-gallery-card-image" loading="lazy" />
+                <div className="admin-gallery-card-body">
+                  <strong>{item.title}</strong>
+                  <code className="admin-gallery-url">{item.imageUrl}</code>
+                  <div className="admin-row-actions">
+                    <button
+                      className="button secondary"
+                      type="button"
+                      onClick={() => {
+                        void navigator.clipboard.writeText(item.imageUrl);
+                      }}
+                    >
+                      העתק URL
+                    </button>
+                    <AdminRowActions
+                      disabled={isPending || uploading}
+                      onEdit={() => setDraft({ ...item })}
+                      onDelete={() => {
+                        if (!confirmDelete(item.title)) return;
+                        run(async () => {
+                          await deleteGalleryImageAction(item.id);
+                        });
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
-            </li>
-          ))}
-        </ul>
-      )}
+              </li>
+            ))}
+          </ul>
+        )}
+      </section>
+
+      <section className="admin-gallery-section" aria-labelledby="gallery-library-heading">
+        <h3 id="gallery-library-heading" className="admin-gallery-section-title">
+          תמונות האתר ({libraryImages.length})
+        </h3>
+        <p className="admin-form-hint">
+          תמונות מהעיצוב, דף הבית, אודות, תפריט ועוד — לקריאה והעתקת URL. לעריכה השתמשו בהגדרות התמונות הרלוונטיות.
+        </p>
+        {libraryImages.length === 0 ? (
+          <p className="admin-form-hint">לא נמצאו תמונות בספריית האתר.</p>
+        ) : (
+          <ul className="admin-gallery-grid">
+            {libraryImages.map((image) => (
+              <LibraryImageCard key={image.id} image={image} />
+            ))}
+          </ul>
+        )}
+      </section>
 
       <AdminModal open={Boolean(draft)} title="עריכת תמונה" onClose={close}>
         {draft ? (

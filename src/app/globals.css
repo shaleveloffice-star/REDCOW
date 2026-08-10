@@ -5377,6 +5377,42 @@ a.menu-showcase-button.site-cta-btn {
   margin-bottom: 4px;
 }
 
+.admin-gallery-section {
+  margin-top: 28px;
+}
+
+.admin-gallery-section-title {
+  margin: 0 0 8px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--admin-text);
+}
+
+.admin-gallery-badge {
+  position: absolute;
+  top: 10px;
+  inset-inline-end: 10px;
+  z-index: 1;
+  padding: 4px 8px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.72);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.admin-gallery-badge--upload {
+  background: rgba(154, 123, 79, 0.92);
+}
+
+.admin-gallery-card {
+  position: relative;
+}
+
+.admin-gallery-card--library {
+  opacity: 0.98;
+}
+
 .admin-gallery-file-input {
   display: none;
 }

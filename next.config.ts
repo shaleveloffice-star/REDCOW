@@ -100,6 +100,10 @@ const nextConfig: NextConfig = {
         {
           source: "/images/menu/:file",
           destination: "/api/media/menu/:file"
+        },
+        {
+          source: "/images/gallery/:file",
+          destination: "/api/media/gallery/:file"
         }
       ]
     };

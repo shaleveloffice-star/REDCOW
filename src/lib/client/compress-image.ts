@@ -2,6 +2,8 @@
 
 export const MENU_PRIMARY_IMAGE_MAX_BYTES = 80 * 1024;
 export const MENU_CLOSEUP_IMAGE_MAX_BYTES = 40 * 1024;
+export const GALLERY_IMAGE_MAX_BYTES = 350 * 1024;
+export const GALLERY_IMAGE_MAX_EDGE = 1920;
 
 const DEFAULT_MAX_EDGE = 1200;
 const CLOSEUP_MAX_EDGE = 960;
@@ -135,5 +137,12 @@ export async function compressMenuCloseUpImage(file: File): Promise<string> {
   return compressImageFileToDataUrl(file, {
     maxBytes: MENU_CLOSEUP_IMAGE_MAX_BYTES,
     maxEdge: CLOSEUP_MAX_EDGE
+  });
+}
+
+export async function compressGalleryImage(file: File): Promise<string> {
+  return compressImageFileToDataUrl(file, {
+    maxBytes: GALLERY_IMAGE_MAX_BYTES,
+    maxEdge: GALLERY_IMAGE_MAX_EDGE
   });
 }

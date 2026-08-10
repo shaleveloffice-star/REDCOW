@@ -42,7 +42,7 @@ export function menuImageDiskPath(fileName: string): string {
   return path.join(MENU_UPLOAD_DATA_DIR, fileName);
 }
 
-function extForMime(mime: string): string {
+export function extForMime(mime: string): string {
   switch (mime) {
     case "image/jpeg":
       return ".jpg";

@@ -5,6 +5,7 @@ export type FirebaseCollectionName =
   | "branches"
   | "pressItems"
   | "brandStories"
+  | "galleryImages"
   | "contactMessages"
   | "careerApplications"
   | "customerClubSignups"

@@ -20,6 +20,7 @@ import type {
   SiteSettings
 } from "@/types/content";
 import type { BrandStory } from "@/types/story";
+import type { GalleryImage } from "@/types/gallery";
 import type { SiteImageOverride } from "@/types/site-images";
 
 export const localMenuItemsStore = createJsonFileStore<MenuItem>("menu-items.json", mockMenuItems);
@@ -40,6 +41,7 @@ export const localBrandStoriesStore = createJsonFileStore<BrandStory>(
   "brand-stories.json",
   mockBrandStories
 );
+export const localGalleryImagesStore = createJsonFileStore<GalleryImage>("gallery-images.json", []);
 export const localOrderLinksStore = createInMemoryStore<OrderLink>(mockOrderLinks);
 export const localSiteImageOverridesStore = createJsonFileStore<SiteImageOverride>(
   "site-image-overrides.json",

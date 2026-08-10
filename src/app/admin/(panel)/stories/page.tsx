@@ -4,17 +4,19 @@ import { AdminStoriesManager } from "@/components/features/admin/admin-stories-m
 import { AdminCard } from "@/components/features/admin/admin-card";
 import { buildAdminPickableImages } from "@/lib/admin/pickable-site-images";
 import { getCachedSiteImagesMap } from "@/lib/cache/cached-data";
+import { getGalleryAdminData } from "@/server/actions/gallery.actions";
 import { getStoriesAdminData } from "@/server/actions/stories.actions";
 import { listMenuItems } from "@/services/menu.service";
 import type { SiteImagesMap } from "@/types/site-images";
 
 export default async function AdminStoriesPage() {
-  const [items, siteImagesMap, menuItems] = await Promise.all([
+  const [items, siteImagesMap, menuItems, galleryImages] = await Promise.all([
     getStoriesAdminData(),
     getCachedSiteImagesMap().catch(() => ({} as SiteImagesMap)),
-    listMenuItems()
+    listMenuItems(),
+    getGalleryAdminData()
   ]);
-  const pickableImages = buildAdminPickableImages(siteImagesMap, menuItems);
+  const pickableImages = buildAdminPickableImages(siteImagesMap, menuItems, galleryImages);
 
   return (
     <AdminCard title="ניהול סיפורים" description="הוספה, עריכה, פרסום ומחיקה של סיפורים עריכתיים.">

@@ -2,6 +2,7 @@ import { STATIC_SITE_IMAGE_GROUPS } from "@/data/site-images.registry";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { MenuItem } from "@/types/content";
+import type { GalleryImage } from "@/types/gallery";
 import type { SiteImagesMap } from "@/types/site-images";
 
 export type AdminPickableImage = {
@@ -14,7 +15,8 @@ export type AdminPickableImage = {
 
 export function buildAdminPickableImages(
   siteImagesMap: SiteImagesMap,
-  menuItems: MenuItem[] = []
+  menuItems: MenuItem[] = [],
+  galleryImages: GalleryImage[] = []
 ): AdminPickableImage[] {
   const seen = new Set<string>();
   const result: AdminPickableImage[] = [];
@@ -50,6 +52,22 @@ export function buildAdminPickableImages(
       location: "תמונת מנה",
       imageUrl: url,
       group: "תפריט"
+    });
+  }
+
+  for (const item of galleryImages) {
+    const url = item.imageUrl?.trim();
+    if (!url || isVideoMediaUrl(url) || seen.has(url)) {
+      continue;
+    }
+
+    seen.add(url);
+    result.push({
+      id: `gallery-${item.id}`,
+      label: item.title,
+      location: item.alt?.trim() || "גלריה",
+      imageUrl: url,
+      group: "גלריה"
     });
   }
 

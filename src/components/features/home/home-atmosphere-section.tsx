@@ -1,32 +1,27 @@
 import {
   HOME_ATMOSPHERE_SLIDE_1,
   HOME_ATMOSPHERE_SLIDE_2,
-  HOME_ATMOSPHERE_SLIDE_3
+  HOME_ATMOSPHERE_SLIDE_3,
+  HOME_ATMOSPHERE_THIRD_1,
+  HOME_ATMOSPHERE_THIRD_2,
+  HOME_ATMOSPHERE_THIRD_3
 } from "@/data/site-images.registry";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
+import { resolveSiteImageUrl } from "@/lib/site-image-url";
+import type { SiteImagesMap } from "@/types/site-images";
 
 import { HomeAtmosphereSlideshow } from "./home-atmosphere-slideshow";
-
-const CAROUSEL_1_SLIDES = [
-  HOME_ATMOSPHERE_SLIDE_1,
-  HOME_ATMOSPHERE_SLIDE_2,
-  HOME_ATMOSPHERE_SLIDE_3
-] as const;
-const THIRD_CAROUSEL_SLIDES = [
-  "/images/atmosphere/atmosphere-third-1.png",
-  "/images/atmosphere/atmosphere-third-2.png",
-  "/images/atmosphere/atmosphere-third-3.png"
-] as const;
 
 /** Bump when replacing carousel-1 slides in public/images/atmosphere/ */
 const ATMOSPHERE_CAROUSEL_1_VERSION = "20260803e";
 
-function withAssetVersion(url: string): string {
-  if (!url.startsWith("/") || url.includes("?")) {
-    return url;
-  }
-  return `${url}?v=${ATMOSPHERE_CAROUSEL_1_VERSION}`;
+function withCarouselVersion(
+  id: string,
+  fallback: string,
+  siteImages?: SiteImagesMap
+): string {
+  return resolveSiteImageUrl(siteImages, id, fallback, ATMOSPHERE_CAROUSEL_1_VERSION);
 }
 
 function rotateItems<T>(items: readonly T[], offset: number): T[] {
@@ -44,12 +39,24 @@ function AtmosphereLifter() {
   );
 }
 
-export async function HomeAtmosphereSection() {
+type HomeAtmosphereSectionProps = {
+  siteImages?: SiteImagesMap;
+};
+
+export async function HomeAtmosphereSection({ siteImages }: HomeAtmosphereSectionProps) {
   const t = await getLocalizedMessages(await getServerLocale());
-  // Registry paths only — Firestore overrides still point at deleted .png files on production.
-  const slides = CAROUSEL_1_SLIDES.map((url) => withAssetVersion(url));
+  const slides = [
+    withCarouselVersion("atmosphere-slide-1", HOME_ATMOSPHERE_SLIDE_1, siteImages),
+    withCarouselVersion("atmosphere-slide-2", HOME_ATMOSPHERE_SLIDE_2, siteImages),
+    withCarouselVersion("atmosphere-slide-3", HOME_ATMOSPHERE_SLIDE_3, siteImages)
+  ] as const;
+  const thirdCarouselSlides = [
+    resolveSiteImageUrl(siteImages, "atmosphere-third-1", HOME_ATMOSPHERE_THIRD_1),
+    resolveSiteImageUrl(siteImages, "atmosphere-third-2", HOME_ATMOSPHERE_THIRD_2),
+    resolveSiteImageUrl(siteImages, "atmosphere-third-3", HOME_ATMOSPHERE_THIRD_3)
+  ];
   const slideAlts = [...t.atmosphere.carouselSlideAlts];
-  const carousel1Slides = slides;
+  const carousel1Slides = [...slides];
   const carousel2Slides = rotateItems(slides, 1);
   const carousel2Alts = rotateItems(slideAlts, 1);
 
@@ -78,7 +85,7 @@ export async function HomeAtmosphereSection() {
           </div>
         </div>
         <div className="home-atmosphere-clip home-atmosphere-clip--3">
-          <HomeAtmosphereSlideshow slides={[...THIRD_CAROUSEL_SLIDES]} />
+          <HomeAtmosphereSlideshow slides={thirdCarouselSlides} />
         </div>
       </div>
     </section>

@@ -32,9 +32,13 @@ export const ATMOSPHERE_BURGER_STACK_IMAGE =
   "/images/atmosphere/atmosphere-burger-stack.png";
 export const ATMOSPHERE_BOTTOM_IMAGE = ATMOSPHERE_WIDE_IMAGE;
 
+export const HOME_HERO_IMAGE = "/images/hero/nb-burger-hero.webp";
 export const HOME_ATMOSPHERE_SLIDE_1 = "/images/atmosphere/atmosphere-slide-1.webp";
 export const HOME_ATMOSPHERE_SLIDE_2 = "/images/atmosphere/atmosphere-slide-2.webp";
 export const HOME_ATMOSPHERE_SLIDE_3 = "/images/atmosphere/atmosphere-slide-3.webp";
+export const HOME_ATMOSPHERE_THIRD_1 = "/images/atmosphere/atmosphere-third-1.png";
+export const HOME_ATMOSPHERE_THIRD_2 = "/images/atmosphere/atmosphere-third-2.png";
+export const HOME_ATMOSPHERE_THIRD_3 = "/images/atmosphere/atmosphere-third-3.png";
 
 export const BURGER_ASSEMBLY_IMAGES = {
   bunTop: "/burger/bun-top.png",
@@ -76,6 +80,12 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
   {
     title: "מיתוג",
     items: [item("brand-logo", "לוגו NB BURGER", "כותרת האתר / לוגו", SITE_LOGO_SRC)]
+  },
+  {
+    title: "דף הבית — גיבור",
+    items: [
+      item("hero-burger", "תמונת הגיבור", "סקשן הגיבור (ראש הדף)", HOME_HERO_IMAGE)
+    ]
   },
   {
     title: "דף הבית — על הפלנצ׳ה",
@@ -127,6 +137,24 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
         "סלייד 3 — האווירה",
         "סקשן האווירה (דף הבית)",
         HOME_ATMOSPHERE_SLIDE_3
+      ),
+      item(
+        "atmosphere-third-1",
+        "קרוסלה תחתונה — סלייד 1",
+        "סקשן האווירה (דף הבית)",
+        HOME_ATMOSPHERE_THIRD_1
+      ),
+      item(
+        "atmosphere-third-2",
+        "קרוסלה תחתונה — סלייד 2",
+        "סקשן האווירה (דף הבית)",
+        HOME_ATMOSPHERE_THIRD_2
+      ),
+      item(
+        "atmosphere-third-3",
+        "קרוסלה תחתונה — סלייד 3",
+        "סקשן האווירה (דף הבית)",
+        HOME_ATMOSPHERE_THIRD_3
       )
     ]
   },
@@ -155,6 +183,37 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
       item("about-fries", "צ׳יפס", "דף אודות", ABOUT_PAGE_IMAGES.fries),
       item("about-experience", "חוויה", "דף אודות", ABOUT_PAGE_IMAGES.experience),
       item("about-smoked", "המבורגר מעושן", "דף אודות", ABOUT_PAGE_IMAGES.smoked)
+    ]
+  }
+];
+
+/** Homepage sections only — used in /admin/pages/home image editor. */
+export const HOME_PAGE_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
+  {
+    title: "גיבור (Hero)",
+    items: [item("hero-burger", "תמונת הגיבור", "סקשן הגיבור", HOME_HERO_IMAGE)]
+  },
+  {
+    title: "סיפור המותג",
+    items: [
+      item("home-story", "תמונת הסקשן", "סקשן סיפור המותג", HOME_STORY_IMAGE)
+    ]
+  },
+  {
+    title: "האווירה",
+    items: [
+      item("atmosphere-slide-1", "סלייד 1", "קרוסלה עליונה", HOME_ATMOSPHERE_SLIDE_1),
+      item("atmosphere-slide-2", "סלייד 2", "קרוסלה עליונה", HOME_ATMOSPHERE_SLIDE_2),
+      item("atmosphere-slide-3", "סלייד 3", "קרוסלה עליונה", HOME_ATMOSPHERE_SLIDE_3),
+      item("atmosphere-third-1", "סלייד 1", "קרוסלה תחתונה", HOME_ATMOSPHERE_THIRD_1),
+      item("atmosphere-third-2", "סלייד 2", "קרוסלה תחתונה", HOME_ATMOSPHERE_THIRD_2),
+      item("atmosphere-third-3", "סלייד 3", "קרוסלה תחתונה", HOME_ATMOSPHERE_THIRD_3)
+    ]
+  },
+  {
+    title: "מיקום ושעות",
+    items: [
+      item("location-exterior", "חזית המסעדה", "סקשן מיקום", LOCATION_EXTERIOR_IMAGE)
     ]
   }
 ];

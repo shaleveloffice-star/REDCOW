@@ -2,18 +2,24 @@
 
 import Image from "next/image";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
+import { HOME_HERO_IMAGE } from "@/data/site-images.registry";
 import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 
 /** Bump when replacing public/images/hero/nb-burger-hero.webp (avoids stale browser cache). */
 const HERO_BURGER_IMAGE_VERSION = "20260803";
 
 /** Single hero asset — used on mobile and desktop (responsive CSS handles layout). */
-export const HERO_BURGER_IMAGE = `/images/hero/nb-burger-hero.webp?v=${HERO_BURGER_IMAGE_VERSION}`;
+export const HERO_BURGER_IMAGE = `${HOME_HERO_IMAGE}?v=${HERO_BURGER_IMAGE_VERSION}`;
 
-export function HeroSection() {
+type HeroSectionProps = {
+  heroImageUrl?: string;
+};
+
+export function HeroSection({ heroImageUrl }: HeroSectionProps) {
   const t = useTranslations();
   const { locale } = useLocale();
   const captionDir = locale === "he" ? "rtl" : "ltr";
+  const imageSrc = heroImageUrl?.trim() || HERO_BURGER_IMAGE;
 
   return (
     <section id="hero" className="hero hero--cinematic hero--premier hero--solid" aria-label="NB BURGER">
@@ -21,7 +27,7 @@ export function HeroSection() {
 
       <div className="hero-burger" aria-hidden="true">
         <Image
-          src={HERO_BURGER_IMAGE}
+          src={imageSrc}
           alt={DECORATIVE_IMAGE_ALT}
           aria-hidden
           width={2048}

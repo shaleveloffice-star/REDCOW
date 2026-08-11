@@ -14,7 +14,7 @@
     "isActive": false,
     "sortOrder": 0,
     "createdAt": "2026-08-09T10:00:00.000Z",
-    "updatedAt": "2026-08-09T10:00:00.000Z",
+    "updatedAt": "2026-08-11T10:20:00.000Z",
     "sections": [
       {
         "type": "split-text-image",
@@ -34,7 +34,7 @@
       },
       {
         "type": "full-image",
-        "imageUrl": "/images/location/exterior.jpg",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1786432750323-6l2r3u7z.jpg",
         "imageAlt": "[עריכה: תיאור תמונה — חוויית המסעדה]",
         "caption": "[עריכה: כיתוב אופציונלי לתמונה]"
       },

@@ -7552,6 +7552,66 @@ body:not(:has(.admin-layout)) button:focus-visible {
   gap: 16px;
 }
 
+.admin-home-images {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.admin-home-images-group {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-top: 8px;
+  border-top: 1px solid var(--admin-border);
+}
+
+.admin-home-images-group:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.admin-home-images-group-title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.admin-home-images-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.admin-home-images-item {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 16px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.admin-home-images-item-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.admin-home-images-badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: rgba(255, 193, 7, 0.15);
+  color: #ffc107;
+}
+
+.admin-home-images-item-actions {
+  margin-top: 0;
+}
+
 .admin-seo-toolbar {
   display: flex;
   flex-wrap: wrap;

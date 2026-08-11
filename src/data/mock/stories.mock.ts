@@ -1,6 +1,5 @@
 import {
   HOME_STORY_IMAGE,
-  LOCATION_EXTERIOR_IMAGE,
   PLANCHA_MEAT_IMAGE,
   PLANCHA_SEAR_IMAGE
 } from "@/data/site-images.registry";
@@ -47,7 +46,8 @@ export const mockBrandStories: BrandStory[] = [
       },
       {
         type: "full-image",
-        imageUrl: LOCATION_EXTERIOR_IMAGE,
+        imageUrl:
+          "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1786432750323-6l2r3u7z.jpg",
         imageAlt: "[עריכה: תיאור תמונה — חוויית המסעדה]",
         caption: "[עריכה: כיתוב אופציונלי לתמונה]"
       },

@@ -4,12 +4,17 @@ import { getServerLocale } from "@/i18n/get-locale";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
+import { resolveSiteImageUrl } from "@/lib/site-image-url";
+import type { SiteImagesMap } from "@/types/site-images";
 
 /** Bump when replacing public/images/home/story-section-burger.webp */
 const HOME_STORY_IMAGE_VERSION = "2";
-const HOME_STORY_IMAGE_URL = `${HOME_STORY_IMAGE}?v=${HOME_STORY_IMAGE_VERSION}`;
 
-export async function HomeBrandStorySection() {
+type HomeBrandStorySectionProps = {
+  siteImages?: SiteImagesMap;
+};
+
+export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectionProps) {
   const locale = await getServerLocale();
   const t = await getLocalizedMessages(locale);
   const seoContent = await getCachedResolvedSeoPageContent(locale, "home");
@@ -19,6 +24,12 @@ export async function HomeBrandStorySection() {
     locale,
     customAlt: t.homeStory.imageAlt
   });
+  const storyImageUrl = resolveSiteImageUrl(
+    siteImages,
+    "home-story",
+    HOME_STORY_IMAGE,
+    HOME_STORY_IMAGE_VERSION
+  );
 
   return (
     <section id="story" className="home-story-section" aria-labelledby="home-story-title">
@@ -32,7 +43,7 @@ export async function HomeBrandStorySection() {
         <div className="home-story-media">
           {/* Native img — avoids Next.js image cache; same pattern as hero unoptimized */}
           <img
-            src={HOME_STORY_IMAGE_URL}
+            src={storyImageUrl}
             alt={imageAlt}
             width={900}
             height={600}

@@ -479,8 +479,8 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .home-atmosphere-scroll-track {
-  height: calc(var(--home-atmosphere-panel-count, 3) * 100vh);
-  height: calc(var(--home-atmosphere-panel-count, 3) * 100svh);
+  height: calc(var(--home-atmosphere-scroll-viewports, 2.35) * 100vh);
+  height: calc(var(--home-atmosphere-scroll-viewports, 2.35) * 100svh);
 }
 
 .home-atmosphere-scroll-sticky {
@@ -494,6 +494,8 @@ a.menu-showcase-button.site-cta-btn {
 .home-atmosphere-scroll-panel {
   position: absolute;
   inset: 0;
+  transform-origin: center center;
+  backface-visibility: hidden;
 }
 
 .home-atmosphere-scroll-image {
@@ -501,7 +503,8 @@ a.menu-showcase-button.site-cta-btn {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center;
+  object-position: center 42%;
+  transform: translateZ(0);
 }
 
 .home-atmosphere-section--static .home-atmosphere-static-stack {

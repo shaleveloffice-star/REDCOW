@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, type CSSProperties } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 import {
   motion,
   useReducedMotion,
@@ -22,17 +22,61 @@ type HomeAtmosphereScrollProps = {
   ariaLabel: string;
 };
 
-const OFF_SCREEN_PERCENT = 105;
-/** First half of section scroll — image 1 only; transitions begin at 50%. */
-const HOLD_UNTIL_PROGRESS = 0.5;
+/** Subtle slide — most of the transition is crossfade to avoid harsh cuts. */
+const SLIDE_PERCENT = 28;
+/** Hold image 1, then transitions use the rest of scroll progress. */
+const HOLD_UNTIL_PROGRESS = 0.28;
+/** Max gentle scale during hold (1 → 1 + MAX_HOLD_SCALE). */
+const MAX_HOLD_SCALE = 0.022;
 
-function easeOutCubic(value: number) {
-  return 1 - Math.pow(1 - value, 3);
+function smoothstep(edge0: number, edge1: number, value: number): number {
+  if (edge1 <= edge0) {
+    return value >= edge1 ? 1 : 0;
+  }
+  const t = Math.max(0, Math.min(1, (value - edge0) / (edge1 - edge0)));
+  return t * t * (3 - 2 * t);
 }
 
-function BasePanel({ panel }: { panel: HomeAtmospherePanelData }) {
+function segmentBounds(transitionIndex: number, transitionCount: number) {
+  const activeRange = 1 - HOLD_UNTIL_PROGRESS;
+  const segmentSize = activeRange / transitionCount;
+  const segmentStart = HOLD_UNTIL_PROGRESS + transitionIndex * segmentSize;
+  const segmentEnd = segmentStart + segmentSize;
+  const fadeStart = segmentStart - segmentSize * 0.06;
+  const fadeEnd = segmentStart + segmentSize * 0.55;
+  return { segmentStart, segmentEnd, fadeStart, fadeEnd };
+}
+
+function scrollViewportsForViewport(): number {
+  if (typeof window === "undefined") {
+    return 2.35;
+  }
+  return window.matchMedia("(max-width: 768px)").matches ? 2.05 : 2.35;
+}
+
+function preloadImages(urls: string[]) {
+  urls.forEach((src) => {
+    const image = new Image();
+    image.src = src;
+  });
+}
+
+type HoldPanelProps = {
+  panel: HomeAtmospherePanelData;
+  progress: MotionValue<number>;
+};
+
+function HoldPanel({ panel, progress }: HoldPanelProps) {
+  const scale = useTransform(progress, (value) => {
+    if (value >= HOLD_UNTIL_PROGRESS) {
+      return 1;
+    }
+    const t = smoothstep(0, HOLD_UNTIL_PROGRESS, value);
+    return 1 + MAX_HOLD_SCALE * t;
+  });
+
   return (
-    <div className="home-atmosphere-scroll-panel" style={{ zIndex: 1 }}>
+    <motion.div className="home-atmosphere-scroll-panel" style={{ zIndex: 1, scale }}>
       <img
         src={panel.src}
         alt={panel.alt}
@@ -42,7 +86,7 @@ function BasePanel({ panel }: { panel: HomeAtmospherePanelData }) {
         decoding="async"
         fetchPriority="high"
       />
-    </div>
+    </motion.div>
   );
 }
 
@@ -54,14 +98,6 @@ type AnimatedPanelProps = {
   progress: MotionValue<number>;
 };
 
-function segmentBounds(transitionIndex: number, transitionCount: number) {
-  const activeRange = 1 - HOLD_UNTIL_PROGRESS;
-  const segmentSize = activeRange / transitionCount;
-  const segmentStart = HOLD_UNTIL_PROGRESS + transitionIndex * segmentSize;
-  const enterEnd = segmentStart + segmentSize * 0.82;
-  return { segmentStart, segmentSize, enterEnd };
-}
-
 function AnimatedPanel({
   panel,
   index,
@@ -70,28 +106,14 @@ function AnimatedPanel({
   progress
 }: AnimatedPanelProps) {
   const direction = panel.from === "right" ? 1 : -1;
-  const { segmentStart, segmentSize, enterEnd } = segmentBounds(transitionIndex, transitionCount);
+  const { segmentEnd, fadeStart, fadeEnd } = segmentBounds(transitionIndex, transitionCount);
 
   const x = useTransform(progress, (value) => {
-    if (value < segmentStart) {
-      return `${direction * OFF_SCREEN_PERCENT}%`;
-    }
-    if (value >= enterEnd) {
-      return "0%";
-    }
-    const t = easeOutCubic((value - segmentStart) / (enterEnd - segmentStart));
-    return `${direction * OFF_SCREEN_PERCENT * (1 - t)}%`;
+    const t = smoothstep(fadeStart, segmentEnd, value);
+    return `${direction * SLIDE_PERCENT * (1 - t)}%`;
   });
 
-  const opacity = useTransform(progress, (value) => {
-    if (value < segmentStart) {
-      return 0;
-    }
-    if (value >= segmentStart + segmentSize * 0.14) {
-      return 1;
-    }
-    return (value - segmentStart) / (segmentSize * 0.14);
-  });
+  const opacity = useTransform(progress, (value) => smoothstep(fadeStart, fadeEnd, value));
 
   return (
     <motion.div
@@ -103,7 +125,7 @@ function AnimatedPanel({
         alt={panel.alt}
         className="home-atmosphere-scroll-image"
         draggable={false}
-        loading="lazy"
+        loading="eager"
         decoding="async"
       />
     </motion.div>
@@ -115,11 +137,24 @@ export function HomeAtmosphereScroll({ panels, ariaLabel }: HomeAtmosphereScroll
   const reduceMotion = useReducedMotion();
   const panelCount = panels.length;
   const transitionCount = Math.max(panelCount - 1, 1);
+  const [scrollViewports, setScrollViewports] = useState(2.35);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end start"]
   });
+
+  useEffect(() => {
+    preloadImages(panels.slice(1).map((panel) => panel.src));
+  }, [panels]);
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia("(max-width: 768px)");
+    const syncViewports = () => setScrollViewports(scrollViewportsForViewport());
+    syncViewports();
+    mediaQuery.addEventListener("change", syncViewports);
+    return () => mediaQuery.removeEventListener("change", syncViewports);
+  }, []);
 
   if (reduceMotion) {
     return (
@@ -151,20 +186,13 @@ export function HomeAtmosphereScroll({ panels, ariaLabel }: HomeAtmosphereScroll
       ref={sectionRef}
       className="home-atmosphere-section"
       aria-label={ariaLabel}
-      style={{ "--home-atmosphere-panel-count": panelCount } as CSSProperties}
+      style={{ "--home-atmosphere-scroll-viewports": scrollViewports } as CSSProperties}
     >
       <div className="home-atmosphere-scroll-track">
-        <div
-          className="home-atmosphere-scroll-sticky"
-          style={{
-            backgroundImage: `url(${panels[0]?.src ?? ""})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center"
-          }}
-        >
+        <div className="home-atmosphere-scroll-sticky">
           {panels.map((panel, index) =>
             index === 0 ? (
-              <BasePanel key={panel.src} panel={panel} />
+              <HoldPanel key={panel.src} panel={panel} progress={scrollYProgress} />
             ) : (
               <AnimatedPanel
                 key={panel.src}

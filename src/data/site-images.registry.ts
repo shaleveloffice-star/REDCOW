@@ -202,12 +202,9 @@ export const HOME_PAGE_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
   {
     title: "האווירה",
     items: [
-      item("atmosphere-slide-1", "סלייד 1", "קרוסלה עליונה", HOME_ATMOSPHERE_SLIDE_1),
-      item("atmosphere-slide-2", "סלייד 2", "קרוסלה עליונה", HOME_ATMOSPHERE_SLIDE_2),
-      item("atmosphere-slide-3", "סלייד 3", "קרוסלה עליונה", HOME_ATMOSPHERE_SLIDE_3),
-      item("atmosphere-third-1", "סלייד 1", "קרוסלה תחתונה", HOME_ATMOSPHERE_THIRD_1),
-      item("atmosphere-third-2", "סלייד 2", "קרוסלה תחתונה", HOME_ATMOSPHERE_THIRD_2),
-      item("atmosphere-third-3", "סלייד 3", "קרוסלה תחתונה", HOME_ATMOSPHERE_THIRD_3)
+      item("atmosphere-slide-1", "פאנל עליון", "סקשן האווירה — תמונה 1", HOME_ATMOSPHERE_SLIDE_1),
+      item("atmosphere-slide-2", "פאנל אמצעי", "סקשן האווירה — תמונה 2", HOME_ATMOSPHERE_SLIDE_2),
+      item("atmosphere-third-1", "פאנל תחתון", "סקשן האווירה — תמונה 3", HOME_ATMOSPHERE_THIRD_1)
     ]
   },
   {

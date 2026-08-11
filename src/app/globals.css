@@ -1276,6 +1276,10 @@ select {
   .site-cta-btn:hover::before {
     transform: none;
   }
+
+  .site-navbar-mobile-utilities {
+    transition: none;
+  }
 }
 
 @media (max-width: 767px) {
@@ -1303,7 +1307,7 @@ select {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto auto;
     grid-template-areas:
-      "brand menu back"
+      "brand back menu"
       "utilities utilities utilities";
     align-items: center;
     column-gap: 12px;
@@ -1340,6 +1344,27 @@ select {
     justify-content: center;
     gap: 10px;
     width: 100%;
+    max-height: 56px;
+    opacity: 1;
+    overflow: hidden;
+    pointer-events: auto;
+    transition:
+      max-height 0.3s var(--motion-ease),
+      opacity 0.25s ease;
+  }
+
+  .site-navbar--scrolled .site-navbar-inner {
+    grid-template-areas:
+      "brand back menu"
+      "utilities utilities utilities";
+    row-gap: 0;
+    padding: 12px 0;
+  }
+
+  .site-navbar--scrolled .site-navbar-mobile-utilities {
+    max-height: 0;
+    opacity: 0;
+    pointer-events: none;
   }
 
   .site-navbar-mobile-utilities .site-navbar-language {
@@ -1353,6 +1378,7 @@ select {
 
   .site-navbar-actions {
     grid-area: menu;
+    justify-self: end;
   }
 
   .site-cta--mobile .site-cta-btn {

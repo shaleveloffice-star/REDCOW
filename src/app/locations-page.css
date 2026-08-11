@@ -460,6 +460,10 @@
   .site-navbar-mobile-utilities .site-navbar-icon-location {
     display: none;
   }
+
+  .site-navbar--scrolled .site-navbar-language {
+    display: none;
+  }
 }
 
 button.site-cta-btn {

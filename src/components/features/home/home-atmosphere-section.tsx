@@ -36,7 +36,7 @@ export async function HomeAtmosphereSection({ siteImages }: HomeAtmosphereSectio
         {
           src: panelImageUrl("atmosphere-slide-1", HOME_ATMOSPHERE_SLIDE_1, siteImages),
           alt: panel1Alt,
-          from: "right"
+          from: "left"
         },
         {
           src: panelImageUrl("atmosphere-slide-2", HOME_ATMOSPHERE_SLIDE_2, siteImages),
@@ -46,7 +46,7 @@ export async function HomeAtmosphereSection({ siteImages }: HomeAtmosphereSectio
         {
           src: resolveSiteImageUrl(siteImages, "atmosphere-third-1", HOME_ATMOSPHERE_THIRD_1),
           alt: panel3Alt,
-          from: "right"
+          from: "left"
         }
       ]}
     />

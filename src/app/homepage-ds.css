@@ -485,9 +485,10 @@ a.menu-showcase-button.site-cta-btn {
 
 .home-atmosphere-scroll-sticky {
   position: sticky;
-  top: 0;
-  height: 100vh;
-  height: 100svh;
+  top: 15vh;
+  top: 15svh;
+  height: 70vh;
+  height: 70svh;
   overflow: hidden;
 }
 

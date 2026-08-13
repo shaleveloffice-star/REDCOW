@@ -485,9 +485,10 @@ a.menu-showcase-button.site-cta-btn {
 
 .home-atmosphere-scroll-sticky {
   position: sticky;
-  top: var(--site-chrome-offset, 0px);
-  height: calc(
-    100svh - var(--site-chrome-offset, 0px) - var(--site-mobile-cta-height, 0px)
+  top: var(--home-atmosphere-sticky-top, var(--site-chrome-offset, 0px));
+  height: var(
+    --home-atmosphere-sticky-height,
+    calc(100dvh - var(--site-chrome-offset, 0px) - var(--site-mobile-cta-height, 0px))
   );
   overflow: hidden;
 }
@@ -495,8 +496,7 @@ a.menu-showcase-button.site-cta-btn {
 @media (min-width: 768px) {
   .home-atmosphere-scroll-sticky {
     top: 0;
-    height: 100vh;
-    height: 100svh;
+    height: var(--home-atmosphere-sticky-height, 100dvh);
   }
 }
 

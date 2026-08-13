@@ -9,6 +9,10 @@ import {
   AdminRowActions,
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
+import {
+  formatAdminImageSpec,
+  GALLERY_IMAGE_SPEC
+} from "@/data/admin-image-specs";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { compressGalleryImage } from "@/lib/client/compress-image";
 import {
@@ -36,12 +40,6 @@ async function uploadGalleryImageDataUrl(dataUrl: string): Promise<{ ok: true; u
   return result;
 }
 
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
-
 function fileTitleFromName(name: string): string {
   return name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").trim() || "תמונה מהגלריה";
 }
@@ -54,6 +52,7 @@ function LibraryImageCard({ image }: { image: AdminPickableImage }) {
       <div className="admin-gallery-card-body">
         <strong>{image.label}</strong>
         <p className="admin-form-hint">{image.location}</p>
+        <p className="admin-image-spec">{image.recommendedSizeLabel}</p>
         <code className="admin-gallery-url">{image.imageUrl}</code>
         <div className="admin-row-actions">
           <button
@@ -136,7 +135,7 @@ export function AdminGalleryManager({
         <div className="admin-gallery-upload-copy">
           <strong>העלאת תמונות</strong>
           <p className="admin-form-hint">
-            JPG, PNG, WebP או GIF — דחיסה אוטומטית עד ~350KB ורוחב מקסימלי 1920px.
+            JPG, PNG, WebP או GIF — {formatAdminImageSpec(GALLERY_IMAGE_SPEC)} · נדחס אוטומטית בהעלאה.
           </p>
         </div>
         <div className="admin-gallery-upload-actions">
@@ -177,6 +176,7 @@ export function AdminGalleryManager({
                 <img src={item.imageUrl} alt={item.alt || item.title} className="admin-gallery-card-image" loading="lazy" />
                 <div className="admin-gallery-card-body">
                   <strong>{item.title}</strong>
+                  <p className="admin-image-spec">{formatAdminImageSpec(GALLERY_IMAGE_SPEC)}</p>
                   <code className="admin-gallery-url">{item.imageUrl}</code>
                   <div className="admin-row-actions">
                     <button
@@ -248,7 +248,7 @@ export function AdminGalleryManager({
               URL
               <input readOnly value={draft.imageUrl} />
             </label>
-            <p className="admin-form-hint">גודל מומלץ לאחר דחיסה: עד {formatBytes(350 * 1024)}</p>
+            <p className="admin-image-spec">{formatAdminImageSpec(GALLERY_IMAGE_SPEC)} — נדחס אוטומטית בהעלאה</p>
             <AdminFormFooter isPending={isPending} error={error} onCancel={close} submitLabel="עדכן" />
           </form>
         ) : null}

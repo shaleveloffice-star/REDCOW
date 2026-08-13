@@ -57,6 +57,9 @@ export default async function AdminSettingsPage() {
             />
           </label>
           <p className="muted">
+            גודל מומלץ לתמונת Hero: 1920×1080px (16:9) · עד 350KB. עדיף להעלות דרך דף הבית / גלריה — שם התמונה נדחסת אוטומטית.
+          </p>
+          <p className="muted">
             לשימוש מקומי: שים קובץ בתוך `public`, למשל `public/images/hero.jpg`, והכנס כאן
             `/images/hero.jpg`. השמירה זמנית עד הפעלה מחדש של השרת.
           </p>

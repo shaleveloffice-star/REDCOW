@@ -12,6 +12,11 @@ import {
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
 import { AdminImageUrlField } from "@/components/features/admin/admin-site-image-picker";
+import {
+  OG_IMAGE_SPEC,
+  STORY_HERO_IMAGE_SPEC,
+  STORY_SECTION_IMAGE_SPEC
+} from "@/data/admin-image-specs";
 import { AdminStoryVisualPreview } from "@/components/features/admin/admin-story-visual-preview";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
@@ -203,6 +208,7 @@ function SectionEditor({
             required
             value={section.imageUrl}
             images={pickableImages}
+            spec={STORY_SECTION_IMAGE_SPEC}
             onChange={(imageUrl) => onChange({ ...section, imageUrl })}
             onAltSuggestion={(alt) => {
               if (!section.imageAlt.trim()) {
@@ -228,6 +234,7 @@ function SectionEditor({
             required
             value={section.imageUrl}
             images={pickableImages}
+            spec={STORY_SECTION_IMAGE_SPEC}
             onChange={(imageUrl) => onChange({ ...section, imageUrl })}
             onAltSuggestion={(alt) => {
               if (!section.imageAlt.trim()) {
@@ -501,6 +508,7 @@ export function AdminStoriesManager({
               required
               value={draft.heroImageUrl}
               images={pickableImages}
+              spec={STORY_HERO_IMAGE_SPEC}
               onChange={(heroImageUrl) => setDraft({ ...draft, heroImageUrl })}
               onAltSuggestion={(alt) => {
                 if (!draft.heroImageAlt.trim()) {
@@ -535,6 +543,7 @@ export function AdminStoriesManager({
               label="OG Image URL (אופציונלי)"
               value={draft.ogImageUrl ?? ""}
               images={pickableImages}
+              spec={OG_IMAGE_SPEC}
               onChange={(ogImageUrl) => setDraft({ ...draft, ogImageUrl })}
             />
             <label>

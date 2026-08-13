@@ -5241,6 +5241,13 @@ a.menu-showcase-button.site-cta-btn {
   font-size: 13px;
 }
 
+.admin-image-spec {
+  margin: 4px 0 0;
+  color: var(--admin-text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
 .admin-image-url-field {
   display: flex;
   flex-wrap: wrap;

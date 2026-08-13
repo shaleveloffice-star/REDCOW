@@ -1,3 +1,8 @@
+import {
+  formatAdminImageSpec,
+  getAdminImageSpec,
+  type AdminImageSpec
+} from "@/data/admin-image-specs";
 import { STATIC_SITE_IMAGE_GROUPS } from "@/data/site-images.registry";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { pickSiteImage } from "@/lib/site-image-url";
@@ -11,6 +16,8 @@ export type AdminPickableImage = {
   location: string;
   imageUrl: string;
   group: string;
+  spec: AdminImageSpec;
+  recommendedSizeLabel: string;
 };
 
 export function buildAdminPickableImages(
@@ -28,13 +35,16 @@ export function buildAdminPickableImages(
         continue;
       }
 
+      const spec = getAdminImageSpec(item.id);
       seen.add(url);
       result.push({
         id: item.id,
         label: item.label,
         location: item.location,
         imageUrl: url,
-        group: group.title
+        group: group.title,
+        spec,
+        recommendedSizeLabel: formatAdminImageSpec(spec)
       });
     }
   }
@@ -45,13 +55,16 @@ export function buildAdminPickableImages(
       continue;
     }
 
+    const spec = getAdminImageSpec(`menu-${item.id}`);
     seen.add(url);
     result.push({
       id: `menu-${item.id}`,
       label: item.name,
       location: "תמונת מנה",
       imageUrl: url,
-      group: "תפריט"
+      group: "תפריט",
+      spec,
+      recommendedSizeLabel: formatAdminImageSpec(spec)
     });
   }
 
@@ -61,13 +74,16 @@ export function buildAdminPickableImages(
       continue;
     }
 
+    const spec = getAdminImageSpec(`gallery-${item.id}`);
     seen.add(url);
     result.push({
       id: `gallery-${item.id}`,
       label: item.title,
       location: item.alt?.trim() || "גלריה",
       imageUrl: url,
-      group: "גלריה"
+      group: "גלריה",
+      spec,
+      recommendedSizeLabel: formatAdminImageSpec(spec)
     });
   }
 

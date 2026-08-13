@@ -2,6 +2,11 @@
 
 import { revalidatePath, updateTag } from "next/cache";
 
+import {
+  formatAdminImageSpec,
+  getAdminImageSpec,
+  type AdminImageSpec
+} from "@/data/admin-image-specs";
 import { HOME_PAGE_SITE_IMAGE_GROUPS } from "@/data/site-images.registry";
 import { requireAdmin } from "@/lib/auth/admin-guard";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
@@ -21,6 +26,8 @@ export type HomePageSiteImageAdminItem = {
   defaultImageUrl: string;
   currentImageUrl: string;
   isOverridden: boolean;
+  spec: AdminImageSpec;
+  recommendedSizeLabel: string;
 };
 
 export type HomePageSiteImageAdminGroup = {
@@ -57,13 +64,17 @@ function buildHomePageSiteImageGroups(
         catalogItem.defaultImageUrl
       );
 
+      const spec = getAdminImageSpec(catalogItem.id);
+
       return {
         id: catalogItem.id,
         label: catalogItem.label,
         location: catalogItem.location,
         defaultImageUrl: catalogItem.defaultImageUrl,
         currentImageUrl,
-        isOverridden: overrideIds.has(catalogItem.id)
+        isOverridden: overrideIds.has(catalogItem.id),
+        spec,
+        recommendedSizeLabel: formatAdminImageSpec(spec)
       };
     })
   }));

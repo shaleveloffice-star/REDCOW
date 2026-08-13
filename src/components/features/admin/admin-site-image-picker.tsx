@@ -1,10 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { AdminModal } from "@/components/features/admin/admin-crud-ui";
+import {
+  formatAdminImageSpec,
+  GALLERY_IMAGE_SPEC,
+  type AdminImageSpec
+} from "@/data/admin-image-specs";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
+import { uploadCompressedAdminImage } from "@/lib/client/upload-admin-image";
 
 type AdminSiteImagePickerProps = {
   open: boolean;
@@ -91,6 +97,7 @@ export function AdminSiteImagePicker({
                       <span className="admin-image-picker-meta">
                         <strong>{image.label}</strong>
                         <small>{image.location}</small>
+                        <small>{image.recommendedSizeLabel}</small>
                       </span>
                     </button>
                   </li>
@@ -109,6 +116,8 @@ type AdminImageUrlFieldProps = {
   value: string;
   required?: boolean;
   images: AdminPickableImage[];
+  spec?: AdminImageSpec;
+  allowUpload?: boolean;
   onChange: (url: string) => void;
   onAltSuggestion?: (alt: string) => void;
 };
@@ -118,11 +127,35 @@ export function AdminImageUrlField({
   value,
   required,
   images,
+  spec = GALLERY_IMAGE_SPEC,
+  allowUpload = true,
   onChange,
   onAltSuggestion
 }: AdminImageUrlFieldProps) {
   const [pickerOpen, setPickerOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [uploadError, setUploadError] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const showPreview = isPickablePreviewUrl(value);
+
+  const handleUpload = async (fileList: FileList | null) => {
+    const file = fileList?.[0];
+    if (!file) return;
+
+    setUploading(true);
+    setUploadError(null);
+    try {
+      const uploaded = await uploadCompressedAdminImage(file, spec);
+      onChange(uploaded.url);
+    } catch (err) {
+      setUploadError(err instanceof Error ? err.message : "העלאה נכשלה");
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) {
+        fileInputRef.current.value = "";
+      }
+    }
+  };
 
   return (
     <>
@@ -130,11 +163,37 @@ export function AdminImageUrlField({
         {label}
         <div className="admin-image-url-field">
           <input required={required} value={value} onChange={(e) => onChange(e.target.value)} />
+          {allowUpload ? (
+            <>
+              <input
+                ref={fileInputRef}
+                accept="image/jpeg,image/png,image/webp,image/gif"
+                className="admin-gallery-file-input"
+                disabled={uploading}
+                type="file"
+                onChange={(event) => void handleUpload(event.target.files)}
+              />
+              <button
+                className="button secondary"
+                disabled={uploading}
+                type="button"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                {uploading ? "דוחס ומעלה…" : "העלה תמונה"}
+              </button>
+            </>
+          ) : null}
           <button className="button secondary" type="button" onClick={() => setPickerOpen(true)}>
-            בחר תמונה
+            בחר מהגלריה
           </button>
         </div>
       </label>
+      <p className="admin-image-spec">
+        {formatAdminImageSpec(spec)}
+        {spec.note ? ` · ${spec.note}` : ""}
+        {" — נדחס אוטומטית בהעלאה"}
+      </p>
+      {uploadError ? <p className="admin-form-error">{uploadError}</p> : null}
       {showPreview ? (
         <div className="admin-image-url-preview">
           <img src={value} alt="" className="admin-image-url-preview-image" loading="lazy" />

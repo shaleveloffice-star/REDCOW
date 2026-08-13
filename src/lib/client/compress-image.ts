@@ -146,3 +146,13 @@ export async function compressGalleryImage(file: File): Promise<string> {
     maxEdge: GALLERY_IMAGE_MAX_EDGE
   });
 }
+
+export async function compressAdminImage(
+  file: File,
+  options: CompressImageOptions = {}
+): Promise<string> {
+  return compressImageFileToDataUrl(file, {
+    maxBytes: options.maxBytes ?? GALLERY_IMAGE_MAX_BYTES,
+    maxEdge: options.maxEdge ?? GALLERY_IMAGE_MAX_EDGE
+  });
+}

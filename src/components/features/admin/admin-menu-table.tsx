@@ -573,6 +573,9 @@ export function AdminMenuTable({
               {adminFieldLabel("תמונה ראשית (מוצגת בכל האתר)", "/menu, דף הבית, עמוד המוצר")}
               <input accept="image/*" disabled={uploadingImage} type="file" onChange={handleImageUpload} />
             </label>
+            <p className="admin-image-spec">
+              גודל מומלץ: 1200×1200px (1:1) · עד 80KB — נדחס אוטומטית בהעלאה
+            </p>
             {uploadingImage ? <p className="muted">דוחס תמונה ראשית עד 80KB…</p> : null}
             {draft.imageUrl ? (
               <div className="admin-image-preview">
@@ -596,6 +599,9 @@ export function AdminMenuTable({
                 onChange={handleCloseUpImageUpload}
               />
             </label>
+            <p className="admin-image-spec">
+              גודל מומלץ: 960×960px (1:1) · עד 40KB — נדחס אוטומטית בהעלאה
+            </p>
             {uploadingCloseUpImage ? <p className="muted">דוחס תמונת מקרוב עד 40KB…</p> : null}
             {draft.closeUpImageUrl?.trim() ? (
               <div className="admin-image-preview">

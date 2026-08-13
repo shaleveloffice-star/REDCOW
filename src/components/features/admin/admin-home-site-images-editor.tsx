@@ -63,7 +63,7 @@ export function AdminHomeSiteImagesEditor({
   return (
     <div className="admin-home-images">
       <p className="admin-field-hint">
-        החלפת תמונות לפי סקשנים בדף הבית. ניתן לבחור מהגלריה, מהתפריט או מהאתר.
+        החלפת תמונות לפי סקשנים בדף הבית. לכל תמונה מוצג גודל מומלץ — העלאה נדחסת אוטומטית.
       </p>
 
       {groups.map((group) => (
@@ -80,6 +80,7 @@ export function AdminHomeSiteImagesEditor({
                     <div>
                       <strong>{item.label}</strong>
                       <p className="admin-field-hint">{item.location}</p>
+                      <p className="admin-image-spec">{item.recommendedSizeLabel}</p>
                     </div>
                     {item.isOverridden ? (
                       <span className="admin-home-images-badge">מותאם</span>
@@ -91,6 +92,7 @@ export function AdminHomeSiteImagesEditor({
                     value={draft.url}
                     required
                     images={pickableImages}
+                    spec={item.spec}
                     onChange={(url) => updateDraft(item.id, url)}
                   />
 

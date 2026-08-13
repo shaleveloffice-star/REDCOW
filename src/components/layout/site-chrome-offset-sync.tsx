@@ -17,8 +17,8 @@ export function SiteChromeOffsetSync() {
       const headerBottom = Math.ceil(navbarRect?.bottom ?? bannerHeight + navbarHeight);
       const ctaRect = mobileCta?.getBoundingClientRect();
       const ctaVisible = Boolean(ctaRect && ctaRect.height > 1);
-      const ctaHeight = ctaVisible ? Math.ceil(ctaRect.height) : 0;
-      const ctaTop = ctaVisible ? Math.round(ctaRect.top) : viewportHeight;
+      const ctaHeight = ctaVisible && ctaRect ? Math.ceil(ctaRect.height) : 0;
+      const ctaTop = ctaVisible && ctaRect ? Math.round(ctaRect.top) : viewportHeight;
       const isDesktop = window.matchMedia("(min-width: 768px)").matches;
 
       const stickyTop = isDesktop ? 0 : Math.max(0, headerBottom);

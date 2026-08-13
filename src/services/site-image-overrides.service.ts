@@ -12,6 +12,7 @@ export async function listSiteImageOverrides(): Promise<SiteImageOverride[]> {
 export async function upsertSiteImageOverride(input: {
   id: string;
   imageUrl?: string;
+  mobileImageUrl?: string;
   label?: string;
   hidden?: boolean;
 }): Promise<SiteImageOverride> {
@@ -21,6 +22,8 @@ export async function upsertSiteImageOverride(input: {
   return saveSiteImageOverride({
     id: input.id,
     imageUrl: input.imageUrl !== undefined ? input.imageUrl : current?.imageUrl,
+    mobileImageUrl:
+      input.mobileImageUrl !== undefined ? input.mobileImageUrl : current?.mobileImageUrl,
     label: input.label !== undefined ? input.label : current?.label,
     hidden: input.hidden !== undefined ? input.hidden : current?.hidden,
     updatedAt: new Date().toISOString()

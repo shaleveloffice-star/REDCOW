@@ -421,6 +421,11 @@ a.menu-showcase-button.site-cta-btn {
   overflow: visible;
 }
 
+.home-story-media picture {
+  display: block;
+  width: 100%;
+}
+
 .home-story-image {
   --home-story-image-scale: 1.15;
   display: block;
@@ -505,6 +510,13 @@ a.menu-showcase-button.site-cta-btn {
   inset: 0;
   transform-origin: center center;
   backface-visibility: hidden;
+}
+
+.home-atmosphere-scroll-panel picture,
+.home-atmosphere-scroll-image-frame {
+  position: absolute;
+  inset: 0;
+  display: block;
 }
 
 .home-atmosphere-scroll-image {
@@ -1006,7 +1018,16 @@ a.menu-showcase-button.site-cta-btn {
   overflow: hidden;
 }
 
+.location-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
 .location-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
   border-radius: 0;
   filter: contrast(1.04) saturate(1.04);
   transition: transform var(--ds-motion-normal) var(--motion-ease);

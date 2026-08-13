@@ -19,7 +19,7 @@ import { getServerLocale } from "@/i18n/get-locale";
 import { getHomePageMetadata } from "@/lib/page-metadata";
 import { buildFaqPageJsonLd, buildRestaurantJsonLd } from "@/lib/seo/json-ld";
 import { getValidFaqItems } from "@/lib/seo/faq-utils";
-import { resolveSiteImageUrl } from "@/lib/site-image-url";
+import { resolveSiteImagePair } from "@/lib/site-image-url";
 import { HOME_HERO_IMAGE } from "@/data/site-images.registry";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -56,13 +56,13 @@ export default async function HomePage() {
     getCachedResolvedSeoPageContent(locale, "home")
   ]);
   const homeFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(homeSeo.faq.items));
-  const heroImageUrl = resolveSiteImageUrl(siteImages, "hero-burger", HOME_HERO_IMAGE, "20260803");
+  const heroImages = resolveSiteImagePair(siteImages, "hero-burger", HOME_HERO_IMAGE, "20260803");
   return (
     <>
       <JsonLd data={buildRestaurantJsonLd()} />
       {homeFaqJsonLd ? <JsonLd data={homeFaqJsonLd} /> : null}
       <main id="main-content">
-        <HeroSection heroImageUrl={heroImageUrl} />
+        <HeroSection heroImageUrl={heroImages.desktop} heroMobileImageUrl={heroImages.mobile} />
         <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
         <HomeBrandStorySection siteImages={siteImages} />
         <HomeAtmosphereSection siteImages={siteImages} />

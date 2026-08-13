@@ -1,4 +1,5 @@
 import { STATIC_SITE_IMAGE_GROUPS } from "@/data/site-images.registry";
+import { siteImageMobileId } from "@/lib/site-image-url";
 import { listSiteImageOverrides } from "@/services/site-image-overrides.service";
 import type { SiteImageCatalogItem, SiteImagesMap } from "@/types/site-images";
 
@@ -17,7 +18,8 @@ export function applySiteImageOverrides(
       return {
         ...entry,
         label: override?.label?.trim() || entry.label,
-        imageUrl: override?.imageUrl?.trim() || entry.imageUrl
+        imageUrl:
+          override?.imageUrl?.trim() || override?.mobileImageUrl?.trim() || entry.imageUrl
       };
     })
     .filter((entry): entry is SiteImageCatalogItem => entry !== null);
@@ -33,9 +35,13 @@ export async function resolveStaticSiteImagesMap(): Promise<SiteImagesMap> {
       const override = overrideMap.get(entry.id);
       if (override?.hidden) {
         map[entry.id] = "";
+        map[siteImageMobileId(entry.id)] = "";
         continue;
       }
-      map[entry.id] = override?.imageUrl?.trim() || entry.imageUrl;
+      const desktop = override?.imageUrl?.trim() || "";
+      const mobile = override?.mobileImageUrl?.trim() || "";
+      map[entry.id] = desktop || mobile || entry.imageUrl;
+      map[siteImageMobileId(entry.id)] = mobile || desktop || entry.imageUrl;
     }
   }
 

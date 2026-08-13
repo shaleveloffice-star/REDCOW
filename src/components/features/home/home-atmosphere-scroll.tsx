@@ -9,10 +9,13 @@ import {
   type MotionValue
 } from "framer-motion";
 
+import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
+
 type PanelSide = "left" | "right";
 
 export type HomeAtmospherePanelData = {
   src: string;
+  mobileSrc?: string;
   alt: string;
   from: PanelSide;
 };
@@ -78,7 +81,7 @@ function smoothstep(edge0: number, edge1: number, value: number): number {
 }
 
 function preloadImages(urls: string[]) {
-  urls.forEach((src) => {
+  [...new Set(urls.filter(Boolean))].forEach((src) => {
     const image = new Image();
     image.src = src;
   });
@@ -100,13 +103,13 @@ function HoldPanel({ panel, progress }: HoldPanelProps) {
 
   return (
     <motion.div className="home-atmosphere-scroll-panel" style={{ zIndex: 1, scale }}>
-      <img
-        src={panel.src}
+      <ResponsiveSiteImage
+        desktopSrc={panel.src}
+        mobileSrc={panel.mobileSrc}
         alt={panel.alt}
         className="home-atmosphere-scroll-image"
-        draggable={false}
+        pictureClassName="home-atmosphere-scroll-image-frame"
         loading="eager"
-        decoding="async"
         fetchPriority="high"
       />
     </motion.div>
@@ -142,13 +145,13 @@ function AnimatedPanel({ panel, index, progress }: AnimatedPanelProps) {
       className="home-atmosphere-scroll-panel"
       style={{ zIndex: index + 1, x, opacity }}
     >
-      <img
-        src={panel.src}
+      <ResponsiveSiteImage
+        desktopSrc={panel.src}
+        mobileSrc={panel.mobileSrc}
         alt={panel.alt}
         className="home-atmosphere-scroll-image"
-        draggable={false}
+        pictureClassName="home-atmosphere-scroll-image-frame"
         loading="eager"
-        decoding="async"
       />
     </motion.div>
   );
@@ -182,7 +185,9 @@ export function HomeAtmosphereScroll({ panels, ariaLabel }: HomeAtmosphereScroll
   });
 
   useEffect(() => {
-    preloadImages(panels.slice(1).map((panel) => panel.src));
+    preloadImages(
+      panels.slice(1).flatMap((panel) => [panel.src, panel.mobileSrc ?? panel.src])
+    );
   }, [panels]);
 
   useEffect(() => {
@@ -203,12 +208,12 @@ export function HomeAtmosphereScroll({ panels, ariaLabel }: HomeAtmosphereScroll
         <div className="home-atmosphere-static-stack">
           {panels.map((panel) => (
             <div key={panel.src} className="home-atmosphere-static-panel">
-              <img
-                src={panel.src}
+              <ResponsiveSiteImage
+                desktopSrc={panel.src}
+                mobileSrc={panel.mobileSrc}
                 alt={panel.alt}
                 className="home-atmosphere-scroll-image"
                 loading="lazy"
-                decoding="async"
               />
             </div>
           ))}

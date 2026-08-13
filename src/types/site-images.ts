@@ -25,6 +25,7 @@ export type SiteImageGroup = {
 export type SiteImageOverride = {
   id: string;
   imageUrl?: string;
+  mobileImageUrl?: string;
   label?: string;
   hidden?: boolean;
   updatedAt: string;

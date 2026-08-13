@@ -4,7 +4,8 @@ import { getServerLocale } from "@/i18n/get-locale";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
-import { resolveSiteImageUrl } from "@/lib/site-image-url";
+import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
+import { resolveSiteImagePair } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
 /** Bump when replacing public/images/home/story-section-burger.webp */
@@ -24,7 +25,7 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
     locale,
     customAlt: t.homeStory.imageAlt
   });
-  const storyImageUrl = resolveSiteImageUrl(
+  const storyImages = resolveSiteImagePair(
     siteImages,
     "home-story",
     HOME_STORY_IMAGE,
@@ -42,13 +43,13 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
       <div className="home-story-shell">
         <div className="home-story-media">
           {/* Native img — avoids Next.js image cache; same pattern as hero unoptimized */}
-          <img
-            src={storyImageUrl}
+          <ResponsiveSiteImage
+            desktopSrc={storyImages.desktop}
+            mobileSrc={storyImages.mobile}
             alt={imageAlt}
             width={900}
             height={600}
             className="home-story-image"
-            decoding="async"
           />
         </div>
 

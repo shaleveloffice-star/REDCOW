@@ -1395,7 +1395,13 @@ select {
   }
 
   :root {
+    --site-navbar-height: 72px;
+    --site-chrome-offset: calc(var(--site-opening-banner-height) + var(--site-navbar-height));
     --site-mobile-cta-height: calc(84px + env(safe-area-inset-bottom, 0px));
+    --home-atmosphere-sticky-top: var(--site-chrome-offset);
+    --home-atmosphere-sticky-height: calc(
+      100dvh - var(--site-chrome-offset) - var(--site-mobile-cta-height)
+    );
   }
 
   body {
@@ -1533,7 +1539,8 @@ select {
   pointer-events: none;
 }
 
-.hero-burger > span {
+.hero-burger > span,
+.hero-burger > picture {
   display: block !important;
   line-height: 0;
 }
@@ -1580,7 +1587,8 @@ select {
     justify-content: center;
   }
 
-  .hero-burger > span {
+  .hero-burger > span,
+  .hero-burger > picture {
     display: flex !important;
     align-items: center;
     justify-content: center;
@@ -7648,6 +7656,24 @@ body:not(:has(.admin-layout)) button:focus-visible {
 
 .admin-home-images-item-actions {
   margin-top: 0;
+}
+
+.admin-home-images-slots {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 900px) {
+  .admin-home-images-slots {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.admin-home-images-slot {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
 }
 
 .admin-seo-toolbar {

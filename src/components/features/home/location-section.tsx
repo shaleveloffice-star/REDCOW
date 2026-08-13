@@ -1,13 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
 
+import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
+
 import { IconClock, IconMap, IconMapPin } from "@/components/shared/site-icons";
-import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
+import { getBusinessMapsSearchUrl } from "@/data/business";
 import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { resolveImageAlt } from "@/lib/image-alt";
-import { pickSiteImage } from "@/lib/site-image-url";
+import { resolveSiteImagePair } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
 type LocationSectionProps = {
@@ -17,8 +18,11 @@ type LocationSectionProps = {
 export async function LocationSection({ siteImages }: LocationSectionProps) {
   const locale = await getServerLocale();
   const t = await getLocalizedMessages(locale);
-  const pickedExterior = pickSiteImage(siteImages, "location-exterior", LOCATION_EXTERIOR_IMAGE);
-  const exteriorImage = pickedExterior.startsWith("/") ? pickedExterior : LOCATION_EXTERIOR_IMAGE;
+  const exteriorImages = resolveSiteImagePair(
+    siteImages,
+    "location-exterior",
+    LOCATION_EXTERIOR_IMAGE
+  );
   const imageAlt = resolveImageAlt({
     kind: "location",
     locale,
@@ -91,13 +95,12 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
         </div>
 
         <div className="location-media">
-          <Image
-            src={exteriorImage}
+          <ResponsiveSiteImage
+            desktopSrc={exteriorImages.desktop}
+            mobileSrc={exteriorImages.mobile}
             alt={imageAlt}
-            fill
-            sizes="(max-width: 767px) 100vw, 50vw"
+            className="location-media-image"
             loading="eager"
-            style={{ objectFit: "cover" }}
           />
         </div>
       </div>

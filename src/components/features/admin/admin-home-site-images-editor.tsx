@@ -17,14 +17,18 @@ type AdminHomeSiteImagesEditorProps = {
 };
 
 type ImageDraft = {
-  url: string;
+  desktop: string;
+  mobile: string;
 };
 
 function buildDrafts(groups: HomePageSiteImageAdminGroup[]): Record<string, ImageDraft> {
   const drafts: Record<string, ImageDraft> = {};
   for (const group of groups) {
     for (const item of group.items) {
-      drafts[item.id] = { url: item.currentImageUrl };
+      drafts[item.id] = {
+        desktop: item.desktopImageUrl || item.defaultImageUrl,
+        mobile: item.mobileImageUrl
+      };
     }
   }
   return drafts;
@@ -38,23 +42,37 @@ export function AdminHomeSiteImagesEditor({
   const [groups, setGroups] = useState(initialGroups);
   const [drafts, setDrafts] = useState(() => buildDrafts(initialGroups));
 
-  const updateDraft = (id: string, url: string) => {
+  const updateDraft = (id: string, patch: Partial<ImageDraft>) => {
     setDrafts((current) => ({
       ...current,
-      [id]: { url }
+      [id]: { ...current[id], ...patch }
     }));
   };
 
-  const syncSavedState = (id: string, url: string, isOverridden: boolean) => {
+  const syncSavedState = (
+    id: string,
+    desktop: string,
+    mobile: string,
+    isOverridden: boolean,
+    defaultImageUrl: string
+  ) => {
     setDrafts((current) => ({
       ...current,
-      [id]: { url }
+      [id]: { desktop, mobile }
     }));
     setGroups((current) =>
       current.map((group) => ({
         ...group,
         items: group.items.map((item) =>
-          item.id === id ? { ...item, currentImageUrl: url, isOverridden } : item
+          item.id === id
+            ? {
+                ...item,
+                desktopImageUrl: isOverridden ? desktop : "",
+                mobileImageUrl: isOverridden ? mobile : "",
+                currentImageUrl: desktop || mobile || defaultImageUrl,
+                isOverridden
+              }
+            : item
         )
       }))
     );
@@ -63,7 +81,8 @@ export function AdminHomeSiteImagesEditor({
   return (
     <div className="admin-home-images">
       <p className="admin-field-hint">
-        החלפת תמונות לפי סקשנים בדף הבית. לכל תמונה מוצג גודל מומלץ — העלאה נדחסת אוטומטית.
+        לכל תמונה אפשר להעלות גרסה למסך רחב וגרסה למובייל. אם ממלאים רק אחת — היא תשמש גם במסך השני.
+        העלאה נדחסת אוטומטית.
       </p>
 
       {groups.map((group) => (
@@ -72,7 +91,11 @@ export function AdminHomeSiteImagesEditor({
           <div className="admin-home-images-list">
             {group.items.map((item) => {
               const draft = drafts[item.id];
-              const isDirty = draft.url.trim() !== item.currentImageUrl.trim();
+              const savedDesktop = item.desktopImageUrl || item.defaultImageUrl;
+              const isDirty =
+                draft.desktop.trim() !== savedDesktop.trim() ||
+                draft.mobile.trim() !== item.mobileImageUrl.trim();
+              const canSave = Boolean(draft.desktop.trim() || draft.mobile.trim());
 
               return (
                 <article key={item.id} className="admin-home-images-item">
@@ -80,38 +103,62 @@ export function AdminHomeSiteImagesEditor({
                     <div>
                       <strong>{item.label}</strong>
                       <p className="admin-field-hint">{item.location}</p>
-                      <p className="admin-image-spec">{item.recommendedSizeLabel}</p>
                     </div>
                     {item.isOverridden ? (
                       <span className="admin-home-images-badge">מותאם</span>
                     ) : null}
                   </div>
 
-                  <AdminImageUrlField
-                    label="כתובת תמונה"
-                    value={draft.url}
-                    required
-                    images={pickableImages}
-                    spec={item.spec}
-                    onChange={(url) => updateDraft(item.id, url)}
-                  />
+                  <div className="admin-home-images-slots">
+                    <div className="admin-home-images-slot">
+                      <AdminImageUrlField
+                        label="מסך רחב (מחשב / טאבלט)"
+                        value={draft.desktop}
+                        images={pickableImages}
+                        spec={item.spec}
+                        onChange={(url) => updateDraft(item.id, { desktop: url })}
+                      />
+                      {!draft.desktop.trim() && draft.mobile.trim() ? (
+                        <p className="admin-image-spec">ריק — יוצג מהמובייל</p>
+                      ) : null}
+                    </div>
+                    <div className="admin-home-images-slot">
+                      <AdminImageUrlField
+                        label="מובייל"
+                        value={draft.mobile}
+                        images={pickableImages}
+                        spec={item.mobileSpec}
+                        onChange={(url) => updateDraft(item.id, { mobile: url })}
+                      />
+                      {!draft.mobile.trim() && draft.desktop.trim() ? (
+                        <p className="admin-image-spec">ריק — יוצג ממסך רחב</p>
+                      ) : null}
+                    </div>
+                  </div>
 
                   <div className="admin-form-actions admin-home-images-item-actions">
                     <button
                       className="button"
-                      disabled={isPending || !isDirty || !draft.url.trim()}
+                      disabled={isPending || !isDirty || !canSave}
                       type="button"
                       onClick={() =>
                         run(async () => {
                           await saveSiteImageOverrideAction({
                             id: item.id,
-                            imageUrl: draft.url
+                            imageUrl: draft.desktop,
+                            mobileImageUrl: draft.mobile
                           });
-                          syncSavedState(item.id, draft.url.trim(), true);
+                          syncSavedState(
+                            item.id,
+                            draft.desktop.trim(),
+                            draft.mobile.trim(),
+                            true,
+                            item.defaultImageUrl
+                          );
                         })
                       }
                     >
-                      {isPending ? "שומר…" : "שמור תמונה"}
+                      {isPending ? "שומר…" : "שמור תמונות"}
                     </button>
                     {item.isOverridden ? (
                       <button
@@ -121,7 +168,13 @@ export function AdminHomeSiteImagesEditor({
                         onClick={() =>
                           run(async () => {
                             await resetSiteImageOverrideAction(item.id);
-                            syncSavedState(item.id, item.defaultImageUrl, false);
+                            syncSavedState(
+                              item.id,
+                              item.defaultImageUrl,
+                              "",
+                              false,
+                              item.defaultImageUrl
+                            );
                           })
                         }
                       >

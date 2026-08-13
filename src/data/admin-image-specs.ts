@@ -163,6 +163,15 @@ const SITE_IMAGE_SPECS: Record<string, AdminImageSpec> = {
   "about-smoked": CARD_SQUARE
 };
 
+const MOBILE_FULL_BLEED: AdminImageSpec = {
+  width: 1080,
+  height: 1920,
+  maxBytes: 280 * 1024,
+  maxEdge: 1080,
+  aspectHint: "9:16",
+  note: "מובייל — מסך מלא"
+};
+
 export function getAdminImageSpec(id: string): AdminImageSpec {
   if (SITE_IMAGE_SPECS[id]) {
     return SITE_IMAGE_SPECS[id];
@@ -174,6 +183,33 @@ export function getAdminImageSpec(id: string): AdminImageSpec {
     return GALLERY_IMAGE_SPEC;
   }
   return GALLERY_IMAGE_SPEC;
+}
+
+export function getAdminMobileImageSpec(id: string): AdminImageSpec {
+  if (
+    id === "hero-burger" ||
+    id === "location-exterior" ||
+    id.startsWith("atmosphere-")
+  ) {
+    return MOBILE_FULL_BLEED;
+  }
+  if (id === "home-story") {
+    return {
+      width: 1080,
+      height: 1350,
+      maxBytes: 250 * 1024,
+      maxEdge: 1080,
+      aspectHint: "4:5",
+      note: "מובייל — סיפור המותג"
+    };
+  }
+  const desktop = getAdminImageSpec(id);
+  return {
+    ...desktop,
+    width: Math.min(desktop.width, 1080),
+    maxEdge: Math.min(desktop.maxEdge, 1080),
+    note: "מובייל"
+  };
 }
 
 export function formatBytesShort(bytes: number): string {

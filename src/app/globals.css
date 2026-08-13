@@ -51,6 +51,7 @@
   --site-opening-banner-height: 40px;
   --site-navbar-height: 120px;
   --site-chrome-offset: calc(var(--site-opening-banner-height) + var(--site-navbar-height));
+  --site-mobile-cta-height: 0px;
   --hero-caption-reserve: clamp(160px, 28vh, 220px);
   --secondary-border-hover: rgba(255, 225, 186, 0.85);
   --secondary-glow: rgba(255, 225, 186, 0.35);
@@ -1391,6 +1392,10 @@ select {
 
   .site-cta--mobile {
     display: flex;
+  }
+
+  :root {
+    --site-mobile-cta-height: calc(84px + env(safe-area-inset-bottom, 0px));
   }
 
   body {

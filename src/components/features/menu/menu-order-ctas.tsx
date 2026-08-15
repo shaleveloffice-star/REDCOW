@@ -10,6 +10,7 @@ import {
   IconLocationPinFilled
 } from "@/components/shared/site-icons";
 import { useTranslations } from "@/components/providers/locale-provider";
+import { trackEvent } from "@/lib/analytics";
 
 type MenuOrderCtasProps = {
   pickupUrl: string;
@@ -24,7 +25,14 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
   return (
     <>
       <section className="menu-bleecker-ctas" aria-label={t.orderModal.title}>
-        <button type="button" className="menu-bleecker-cta" onClick={() => setOrderOpen(true)}>
+        <button
+          type="button"
+          className="menu-bleecker-cta"
+          onClick={() => {
+            trackEvent("order_open", { location: "menu" });
+            setOrderOpen(true);
+          }}
+        >
           <IconBurgerMark className="menu-bleecker-cta-icon" />
           <span>{t.orderModal.pickup}</span>
         </button>
@@ -33,6 +41,9 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
           className="menu-bleecker-cta"
           href={deliveryUrl}
           {...(deliveryExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+          onClick={() => {
+            trackEvent("order_click", { location: "menu", order_type: "delivery" });
+          }}
         >
           <IconDeliveryMark className="menu-bleecker-cta-icon" />
           <span>{t.orderModal.delivery}</span>
@@ -49,6 +60,7 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
         onClose={() => setOrderOpen(false)}
         pickupUrl={pickupUrl}
         deliveryUrl={deliveryUrl}
+        location="menu"
       />
     </>
   );

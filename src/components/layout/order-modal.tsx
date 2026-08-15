@@ -9,15 +9,23 @@ import {
 } from "@/components/shared/site-icons";
 import { useTranslations } from "@/components/providers/locale-provider";
 import { focusElement, getFocusableElements, trapFocus } from "@/lib/a11y/focus-trap";
+import { trackEvent } from "@/lib/analytics";
 
 type OrderModalProps = {
   open: boolean;
   onClose: () => void;
   pickupUrl: string;
   deliveryUrl: string;
+  location: string;
 };
 
-export function OrderModal({ open, onClose, pickupUrl, deliveryUrl }: OrderModalProps) {
+export function OrderModal({
+  open,
+  onClose,
+  pickupUrl,
+  deliveryUrl,
+  location
+}: OrderModalProps) {
   const t = useTranslations();
   const titleId = useId();
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -86,7 +94,10 @@ export function OrderModal({ open, onClose, pickupUrl, deliveryUrl }: OrderModal
             className="order-modal-option"
             href={pickupUrl}
             {...(pickupExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            onClick={onClose}
+            onClick={() => {
+              trackEvent("order_click", { location, order_type: "pickup" });
+              onClose();
+            }}
           >
             <IconBurgerMark className="order-modal-option-icon" />
             <span className="order-modal-option-label">{t.orderModal.pickup}</span>
@@ -98,7 +109,10 @@ export function OrderModal({ open, onClose, pickupUrl, deliveryUrl }: OrderModal
             className="order-modal-option"
             href={deliveryUrl}
             {...(deliveryExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-            onClick={onClose}
+            onClick={() => {
+              trackEvent("order_click", { location, order_type: "delivery" });
+              onClose();
+            }}
           >
             <IconDeliveryMark className="order-modal-option-icon" />
             <span className="order-modal-option-label">{t.orderModal.delivery}</span>

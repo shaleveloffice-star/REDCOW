@@ -22,6 +22,7 @@ import { resolveImageAlt } from "@/lib/image-alt";
 import { BUSINESS } from "@/data/business";
 import { useTranslations, useLocale } from "@/components/providers/locale-provider";
 import { focusElement, getFocusableElements, trapFocus } from "@/lib/a11y/focus-trap";
+import { trackEvent } from "@/lib/analytics";
 import type { OrderLink } from "@/types/content";
 
 type SiteNavbarProps = {
@@ -96,6 +97,7 @@ export function SiteNavbar({
   const wordmarkSrc = isScrolled ? SITE_WORDMARK_DARK_SRC : SITE_WORDMARK_LIGHT_SRC;
   const wordmarkWebp = isScrolled ? SITE_WORDMARK_DARK_WEBP_SRC : SITE_WORDMARK_LIGHT_WEBP_SRC;
   const [isOrderOpen, setIsOrderOpen] = useState(false);
+  const [orderLocation, setOrderLocation] = useState("navbar");
   const menuId = useId();
   const toggleRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
@@ -118,7 +120,9 @@ export function SiteNavbar({
     [t]
   );
 
-  const openOrderModal = useCallback(() => {
+  const openOrderModal = useCallback((location: string) => {
+    trackEvent("order_open", { location });
+    setOrderLocation(location);
     setIsOpen(false);
     setIsOrderOpen(true);
   }, []);
@@ -265,7 +269,7 @@ export function SiteNavbar({
                 type="button"
                 className="site-navbar-icon-btn site-navbar-icon-order"
                 aria-label={t.hero.orderCta}
-                onClick={openOrderModal}
+                onClick={() => openOrderModal("navbar")}
               >
                 <IconShoppingBagFilled className="site-navbar-icon" />
               </button>
@@ -281,7 +285,7 @@ export function SiteNavbar({
 
             <CtaButtons
               className="site-cta site-cta--desktop"
-              onOrderClick={openOrderModal}
+              onOrderClick={() => openOrderModal("navbar")}
               orderLabel={t.hero.orderCta}
               menuLabel={t.hero.menuCta}
             />
@@ -324,7 +328,7 @@ export function SiteNavbar({
 
       <CtaButtons
         className="site-cta site-cta--mobile"
-        onOrderClick={openOrderModal}
+        onOrderClick={() => openOrderModal("mobile_cta")}
         orderLabel={t.hero.orderCta}
         menuLabel={t.hero.menuCta}
       />
@@ -334,6 +338,7 @@ export function SiteNavbar({
         onClose={closeOrderModal}
         pickupUrl={pickupUrl}
         deliveryUrl={deliveryUrl}
+        location={orderLocation}
       />
 
       {isOpen ? (
@@ -370,7 +375,7 @@ export function SiteNavbar({
               type="button"
               className="site-nav-overlay-link"
               style={{ animationDelay: `${navLinks.length * 0.08}s` }}
-              onClick={openOrderModal}
+              onClick={() => openOrderModal("nav_overlay")}
             >
               {t.hero.orderCta}
             </button>

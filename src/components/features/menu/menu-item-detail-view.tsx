@@ -16,6 +16,7 @@ import { resolveMenuItemCloseUpAlt, DECORATIVE_IMAGE_ALT } from "@/lib/image-alt
 import { getMenuCategoryHref } from "@/lib/menu/category-slug";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
+import { trackEvent } from "@/lib/analytics";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
 type MenuItemDetailViewProps = {
@@ -122,7 +123,10 @@ export function MenuItemDetailView({
         <button
           type="button"
           className="menu-item-detail-order"
-          onClick={() => setOrderOpen(true)}
+          onClick={() => {
+            trackEvent("order_open", { location: "menu_item" });
+            setOrderOpen(true);
+          }}
         >
           {t.menuItemDetail.orderNow}
         </button>
@@ -189,6 +193,7 @@ export function MenuItemDetailView({
         onClose={() => setOrderOpen(false)}
         pickupUrl={pickupUrl}
         deliveryUrl={deliveryUrl}
+        location="menu_item"
       />
     </article>
   );

@@ -95,7 +95,7 @@ export function OrderModal({
             href={pickupUrl}
             {...(pickupExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             onClick={() => {
-              trackEvent("order_click", { location, order_type: "pickup" });
+              trackEvent("order_pickup", { location });
               onClose();
             }}
           >
@@ -110,7 +110,7 @@ export function OrderModal({
             href={deliveryUrl}
             {...(deliveryExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             onClick={() => {
-              trackEvent("order_click", { location, order_type: "delivery" });
+              trackEvent("order_delivery", { location });
               onClose();
             }}
           >

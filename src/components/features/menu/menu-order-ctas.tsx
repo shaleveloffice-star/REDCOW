@@ -42,7 +42,7 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
           href={deliveryUrl}
           {...(deliveryExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           onClick={() => {
-            trackEvent("order_click", { location: "menu", order_type: "delivery" });
+            trackEvent("order_delivery", { location: "menu" });
           }}
         >
           <IconDeliveryMark className="menu-bleecker-cta-icon" />

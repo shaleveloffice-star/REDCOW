@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo_Black, Assistant } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 import "./homepage-ds.css";
 import "./site-faq.css";
@@ -7,6 +8,7 @@ import "./locations-page.css";
 import "./menu-page.css";
 import "./menu-item-detail.css";
 
+import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { SkipToContent } from "@/components/layout/skip-to-content";
@@ -84,6 +86,9 @@ export default async function RootLayout({
           <JsonLd data={buildOrganizationJsonLd()} />
           <SkipToContent />
           <SiteChrome orderLinks={orderLinks}>{children}</SiteChrome>
+          <Suspense fallback={null}>
+            <GoogleAnalytics />
+          </Suspense>
         </LocaleProvider>
       </body>
     </html>

@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 const isProd = process.env.NODE_ENV === "production";
 
 /**
- * CSP tuned for Next.js App Router + Firebase + existing base44 image hosts.
+ * CSP tuned for Next.js App Router + Firebase + existing base44 image hosts + GA4.
  * 'unsafe-inline' / 'unsafe-eval' are required for Next runtime + JSON-LD until nonces are wired.
  */
 const contentSecurityPolicy = [
@@ -12,7 +12,7 @@ const contentSecurityPolicy = [
   "form-action 'self'",
   "frame-ancestors 'self'",
   "object-src 'none'",
-  "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+  "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com",
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data: blob: https://media.base44.com https:",
   "media-src 'self' blob:",
@@ -27,7 +27,12 @@ const contentSecurityPolicy = [
     "https://securetoken.googleapis.com",
     "https://firestore.googleapis.com",
     "wss://*.firebaseio.com",
-    "wss://*.googleapis.com"
+    "wss://*.googleapis.com",
+    "https://www.googletagmanager.com",
+    "https://www.google-analytics.com",
+    "https://analytics.google.com",
+    "https://*.google-analytics.com",
+    "https://*.analytics.google.com"
   ].join(" "),
   "upgrade-insecure-requests"
 ].join("; ");

@@ -3,13 +3,13 @@
 import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue
 } from "framer-motion";
 
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
+import { useEffectiveReducedMotion } from "@/lib/a11y/use-effective-reduced-motion";
 
 type PanelSide = "left" | "right";
 
@@ -158,9 +158,49 @@ function AnimatedPanel({ panel, index, progress }: AnimatedPanelProps) {
 }
 
 export function HomeAtmosphereScroll({ panels, ariaLabel }: HomeAtmosphereScrollProps) {
+  const reduceMotion = useEffectiveReducedMotion();
+  const useStaticLayout = reduceMotion || panels.length < 2;
+
+  if (useStaticLayout) {
+    return <HomeAtmosphereStatic panels={panels} ariaLabel={ariaLabel} />;
+  }
+
+  return <HomeAtmosphereAnimated panels={panels} ariaLabel={ariaLabel} />;
+}
+
+function HomeAtmosphereStatic({ panels, ariaLabel }: HomeAtmosphereScrollProps) {
+  const headingId = useId();
+
+  return (
+    <section
+      id="atmosphere"
+      className="home-atmosphere-section home-atmosphere-section--static"
+      aria-labelledby={headingId}
+    >
+      <h2 id={headingId} className="sr-only">
+        {ariaLabel}
+      </h2>
+      <div className="home-atmosphere-static-stack">
+        {panels.map((panel) => (
+          <div key={panel.src} className="home-atmosphere-static-panel">
+            <ResponsiveSiteImage
+              desktopSrc={panel.src}
+              mobileSrc={panel.mobileSrc}
+              alt={panel.alt}
+              className="home-atmosphere-scroll-image"
+              pictureClassName="home-atmosphere-scroll-image-frame"
+              loading="eager"
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function HomeAtmosphereAnimated({ panels, ariaLabel }: HomeAtmosphereScrollProps) {
   const headingId = useId();
   const trackRef = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
   const [scrollViewports, setScrollViewports] = useState(1 + ANIMATION_PIN_VIEWPORTS + HOLD_PIN_VIEWPORTS);
 
   /** A. Section entering viewport — no image transitions during this phase. */
@@ -198,36 +238,6 @@ export function HomeAtmosphereScroll({ panels, ariaLabel }: HomeAtmosphereScroll
     mediaQuery.addEventListener("change", syncViewports);
     return () => mediaQuery.removeEventListener("change", syncViewports);
   }, []);
-
-  const useStaticLayout = Boolean(reduceMotion) || panels.length < 2;
-
-  if (useStaticLayout) {
-    return (
-      <section
-        id="atmosphere"
-        className="home-atmosphere-section home-atmosphere-section--static"
-        aria-labelledby={headingId}
-      >
-        <h2 id={headingId} className="sr-only">
-          {ariaLabel}
-        </h2>
-        <div className="home-atmosphere-static-stack">
-          {panels.map((panel) => (
-            <div key={panel.src} className="home-atmosphere-static-panel">
-              <ResponsiveSiteImage
-                desktopSrc={panel.src}
-                mobileSrc={panel.mobileSrc}
-                alt={panel.alt}
-                className="home-atmosphere-scroll-image"
-                pictureClassName="home-atmosphere-scroll-image-frame"
-                loading="eager"
-              />
-            </div>
-          ))}
-        </div>
-      </section>
-    );
-  }
 
   return (
     <section

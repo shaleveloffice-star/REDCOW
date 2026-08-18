@@ -34,6 +34,8 @@ export function AccessibilityWidget() {
 
   const isAdmin = pathname.startsWith("/admin");
 
+  const close = useCallback(() => setOpen(false), []);
+
   useLayoutEffect(() => {
     const stored = readA11yPreferences();
     setPrefs(stored);
@@ -58,6 +60,8 @@ export function AccessibilityWidget() {
       return;
     }
 
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
     const restoreInert = inertBackground(root);
     focusElement(closeRef.current ?? getFocusableElements(panel)[0]);
     const releaseTrap = trapFocus(panel);
@@ -65,12 +69,13 @@ export function AccessibilityWidget() {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape") {
         event.preventDefault();
-        setOpen(false);
+        close();
       }
     };
 
     window.addEventListener("keydown", onKeyDown);
     return () => {
+      document.body.style.overflow = previousOverflow;
       releaseTrap();
       restoreInert();
       window.removeEventListener("keydown", onKeyDown);
@@ -78,117 +83,124 @@ export function AccessibilityWidget() {
         focusElement(opener);
       }
     };
-  }, [open, isAdmin]);
+  }, [open, isAdmin, close]);
 
   if (isAdmin) {
     return null;
   }
 
   return (
-    <div ref={rootRef} className="a11y-widget">
+    <div className="a11y-widget">
       <button
         ref={toggleRef}
         type="button"
         className="a11y-widget-toggle"
-        aria-label={open ? t.a11y.closeWidget : t.a11y.openWidget}
+        aria-label={t.a11y.openWidget}
         aria-expanded={open}
         aria-controls={panelId}
         aria-haspopup="dialog"
-        onClick={() => setOpen((current) => !current)}
+        onClick={() => setOpen(true)}
       >
         <IconAccessible className="a11y-widget-toggle-icon" />
-        <span className="a11y-widget-toggle-label">{t.a11y.openWidget}</span>
       </button>
 
       {open ? (
-        <div
-          ref={panelRef}
-          id={panelId}
-          className="a11y-widget-panel"
-          role="dialog"
-          aria-modal="true"
-          aria-labelledby={titleId}
-        >
-          <div className="a11y-widget-panel-head">
-            <h2 id={titleId} className="a11y-widget-panel-title">
-              {t.a11y.widgetTitle}
-            </h2>
-            <button
-              ref={closeRef}
-              type="button"
-              className="a11y-widget-close"
-              aria-label={t.a11y.closeWidget}
-              onClick={() => setOpen(false)}
-            >
-              <IconClose />
-            </button>
-          </div>
-
-          <div className="a11y-widget-group">
-            <p className="a11y-widget-label" id={`${panelId}-text`}>
-              {t.a11y.textSize}
-            </p>
-            <div className="a11y-widget-text-controls" role="group" aria-labelledby={`${panelId}-text`}>
-              <button
-                type="button"
-                className="a11y-widget-action"
-                onClick={() => updatePrefs({ ...prefs, font: Math.max(0, prefs.font - 1) as A11yPreferences["font"] })}
-                disabled={prefs.font === 0}
-              >
-                {t.a11y.decreaseText}
-              </button>
-              <span className="a11y-widget-text-value" aria-live="polite">
-                {prefs.font === 0 ? "100%" : prefs.font === 1 ? "115%" : "130%"}
-              </span>
-              <button
-                type="button"
-                className="a11y-widget-action"
-                onClick={() => updatePrefs({ ...prefs, font: Math.min(2, prefs.font + 1) as A11yPreferences["font"] })}
-                disabled={prefs.font === 2}
-              >
-                {t.a11y.increaseText}
-              </button>
-            </div>
-          </div>
-
-          <div className="a11y-widget-actions">
-            <button
-              type="button"
-              className="a11y-widget-toggle-option"
-              aria-pressed={prefs.contrast}
-              onClick={() => updatePrefs({ ...prefs, contrast: !prefs.contrast })}
-            >
-              {t.a11y.highContrast}
-            </button>
-            <button
-              type="button"
-              className="a11y-widget-toggle-option"
-              aria-pressed={prefs.links}
-              onClick={() => updatePrefs({ ...prefs, links: !prefs.links })}
-            >
-              {t.a11y.highlightLinks}
-            </button>
-            <button
-              type="button"
-              className="a11y-widget-toggle-option"
-              aria-pressed={prefs.motion}
-              onClick={() => updatePrefs({ ...prefs, motion: !prefs.motion })}
-            >
-              {t.a11y.reduceMotion}
-            </button>
-          </div>
-
+        <div ref={rootRef} className="a11y-widget-modal" role="presentation">
           <button
             type="button"
-            className="a11y-widget-reset"
-            onClick={() => updatePrefs({ ...DEFAULT_A11Y_PREFERENCES })}
+            className="a11y-widget-backdrop"
+            aria-label={t.a11y.closeWidget}
+            onClick={close}
+          />
+          <div
+            ref={panelRef}
+            id={panelId}
+            className="a11y-widget-panel"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby={titleId}
           >
-            {t.a11y.reset}
-          </button>
+            <div className="a11y-widget-panel-head">
+              <h2 id={titleId} className="a11y-widget-panel-title">
+                {t.a11y.widgetTitle}
+              </h2>
+              <button
+                ref={closeRef}
+                type="button"
+                className="a11y-widget-close"
+                aria-label={t.a11y.closeWidget}
+                onClick={close}
+              >
+                <IconClose />
+              </button>
+            </div>
 
-          <a className="a11y-widget-statement" href="/accessibility" onClick={() => setOpen(false)}>
-            {t.footer.accessibility}
-          </a>
+            <div className="a11y-widget-group">
+              <p className="a11y-widget-label" id={`${panelId}-text`}>
+                {t.a11y.textSize}
+              </p>
+              <div className="a11y-widget-text-controls" role="group" aria-labelledby={`${panelId}-text`}>
+                <button
+                  type="button"
+                  className="a11y-widget-action"
+                  onClick={() => updatePrefs({ ...prefs, font: Math.max(0, prefs.font - 1) as A11yPreferences["font"] })}
+                  disabled={prefs.font === 0}
+                >
+                  {t.a11y.decreaseText}
+                </button>
+                <span className="a11y-widget-text-value" aria-live="polite">
+                  {prefs.font === 0 ? "100%" : prefs.font === 1 ? "115%" : "130%"}
+                </span>
+                <button
+                  type="button"
+                  className="a11y-widget-action"
+                  onClick={() => updatePrefs({ ...prefs, font: Math.min(2, prefs.font + 1) as A11yPreferences["font"] })}
+                  disabled={prefs.font === 2}
+                >
+                  {t.a11y.increaseText}
+                </button>
+              </div>
+            </div>
+
+            <div className="a11y-widget-actions">
+              <button
+                type="button"
+                className="a11y-widget-toggle-option"
+                aria-pressed={prefs.contrast}
+                onClick={() => updatePrefs({ ...prefs, contrast: !prefs.contrast })}
+              >
+                {t.a11y.highContrast}
+              </button>
+              <button
+                type="button"
+                className="a11y-widget-toggle-option"
+                aria-pressed={prefs.links}
+                onClick={() => updatePrefs({ ...prefs, links: !prefs.links })}
+              >
+                {t.a11y.highlightLinks}
+              </button>
+              <button
+                type="button"
+                className="a11y-widget-toggle-option"
+                aria-pressed={prefs.motion}
+                onClick={() => updatePrefs({ ...prefs, motion: !prefs.motion })}
+              >
+                {t.a11y.reduceMotion}
+              </button>
+            </div>
+
+            <button
+              type="button"
+              className="a11y-widget-reset"
+              onClick={() => updatePrefs({ ...DEFAULT_A11Y_PREFERENCES })}
+            >
+              {t.a11y.reset}
+            </button>
+
+            <a className="a11y-widget-statement" href="/accessibility" onClick={close}>
+              {t.footer.accessibility}
+            </a>
+          </div>
         </div>
       ) : null}
     </div>

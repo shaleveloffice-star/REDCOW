@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import {
   motion,
-  useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue
@@ -11,6 +10,7 @@ import {
 
 import { BURGER_ASSEMBLY_IMAGES } from "@/data/site-images.registry";
 import { useLocale } from "@/components/providers/locale-provider";
+import { useEffectiveReducedMotion } from "@/lib/a11y/use-effective-reduced-motion";
 import { resolveImageAlt, type BurgerLayerId } from "@/lib/image-alt";
 
 type Side = "left" | "right";
@@ -125,7 +125,7 @@ function AssemblyLayer({ layer, src, alt, progress, reduceMotion }: AssemblyLaye
 
 export function BurgerAssemblyStage() {
   const stageRef = useRef<HTMLDivElement>(null);
-  const reduceMotion = useReducedMotion();
+  const reduceMotion = useEffectiveReducedMotion();
   const { locale } = useLocale();
 
   const { scrollYProgress } = useScroll({

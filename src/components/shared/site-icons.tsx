@@ -223,11 +223,17 @@ export function IconDeliveryMark({ className }: IconProps) {
   );
 }
 
-/** International Symbol of Access — accessibility widget */
+/** Universal Access — accessibility widget */
 export function IconAccessible({ className }: IconProps) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-      <path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm7 7h-3.4l-1.1-2.5A1.5 1.5 0 0 0 13.1 5.5h-2.2c-.6 0-1.1.3-1.4.9L8.4 9H6a1 1 0 0 0 0 2h2.7l.9 2.1A5 5 0 1 0 14.7 16l2.1-5H19a1 1 0 1 0 0-2zm-8.3 9.5a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+      <path d="M12 3.5a1.75 1.75 0 1 0 0 3.5 1.75 1.75 0 0 0 0-3.5z" />
+      <path d="M4.7 8.05a.95.95 0 0 1 1.04-.84l3.26.4h6l3.26-.4a.95.95 0 1 1 .2 1.89l-2.76.34v2.62l.48 6.82a.95.95 0 0 1-1.9.13l-.5-7.07h-.96V20a.95.95 0 0 1-1.9 0v-8.06h-.92l-.5 7.07a.95.95 0 1 1-1.9-.13l.48-6.82V9.84l-2.76-.34a.95.95 0 0 1-.84-1.04z" />
+      <path
+        fillRule="evenodd"
+        d="M12 1.5a10.5 10.5 0 1 0 0 21 10.5 10.5 0 0 0 0-21zM3.5 12a8.5 8.5 0 1 1 17 0 8.5 8.5 0 0 1-17 0z"
+        clipRule="evenodd"
+      />
     </svg>
   );
 }

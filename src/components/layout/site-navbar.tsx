@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { OrderModal } from "@/components/layout/order-modal";
@@ -21,7 +21,7 @@ import {
 import { resolveImageAlt } from "@/lib/image-alt";
 import { BUSINESS } from "@/data/business";
 import { useTranslations, useLocale } from "@/components/providers/locale-provider";
-import { focusElement, getFocusableElements, trapFocus } from "@/lib/a11y/focus-trap";
+import { focusElement, getFocusableElements, inertBackground, isFocusRestoreTarget, trapFocus } from "@/lib/a11y/focus-trap";
 import { trackEvent } from "@/lib/analytics";
 import type { OrderLink } from "@/types/content";
 
@@ -48,14 +48,18 @@ function CtaButtons({
   menuLabel,
   className
 }: {
-  onOrderClick: () => void;
+  onOrderClick: (opener: HTMLElement) => void;
   orderLabel: string;
   menuLabel: string;
   className: string;
 }) {
   return (
     <div className={className} dir="ltr">
-      <button type="button" className="site-cta-btn site-cta-btn--solid" onClick={onOrderClick}>
+      <button
+        type="button"
+        className="site-cta-btn site-cta-btn--solid"
+        onClick={(event) => onOrderClick(event.currentTarget)}
+      >
         <span className="site-cta-btn-label">{orderLabel}</span>
       </button>
       <a className="site-cta-btn site-cta-btn--outline" href="/menu">
@@ -103,6 +107,7 @@ export function SiteNavbar({
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const bagButtonRef = useRef<HTMLButtonElement>(null);
+  const orderReturnFocusRef = useRef<HTMLElement | null>(null);
   const navStackRef = useRef<string[]>([]);
 
   const { pickupUrl, deliveryUrl } = useMemo(
@@ -120,8 +125,9 @@ export function SiteNavbar({
     [t]
   );
 
-  const openOrderModal = useCallback((location: string) => {
+  const openOrderModal = useCallback((location: string, opener?: HTMLElement | null) => {
     trackEvent("order_open", { location });
+    orderReturnFocusRef.current = opener ?? null;
     setOrderLocation(location);
     setIsOpen(false);
     setIsOrderOpen(true);
@@ -129,12 +135,11 @@ export function SiteNavbar({
 
   const closeOrderModal = useCallback(() => {
     setIsOrderOpen(false);
-    focusElement(bagButtonRef.current);
   }, []);
 
   const closeMenu = (restoreFocus = true) => {
     setIsOpen(false);
-    if (restoreFocus) {
+    if (restoreFocus && isFocusRestoreTarget(toggleRef.current)) {
       focusElement(toggleRef.current);
     }
   };
@@ -183,12 +188,13 @@ export function SiteNavbar({
     };
   }, [isOpen]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!isOpen) return;
 
     const dialog = dialogRef.current;
     if (!dialog) return;
 
+    const restoreInert = inertBackground(dialog);
     focusElement(closeRef.current ?? getFocusableElements(dialog)[0]);
     const releaseTrap = trapFocus(dialog);
 
@@ -202,6 +208,7 @@ export function SiteNavbar({
     window.addEventListener("keydown", onKeyDown);
     return () => {
       releaseTrap();
+      restoreInert();
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [isOpen]);
@@ -269,7 +276,7 @@ export function SiteNavbar({
                 type="button"
                 className="site-navbar-icon-btn site-navbar-icon-order"
                 aria-label={t.hero.orderCta}
-                onClick={() => openOrderModal("navbar")}
+                onClick={(event) => openOrderModal("navbar", event.currentTarget)}
               >
                 <IconShoppingBagFilled className="site-navbar-icon" />
               </button>
@@ -285,7 +292,7 @@ export function SiteNavbar({
 
             <CtaButtons
               className="site-cta site-cta--desktop"
-              onOrderClick={() => openOrderModal("navbar")}
+              onOrderClick={(opener) => openOrderModal("navbar", opener)}
               orderLabel={t.hero.orderCta}
               menuLabel={t.hero.menuCta}
             />
@@ -328,7 +335,7 @@ export function SiteNavbar({
 
       <CtaButtons
         className="site-cta site-cta--mobile"
-        onOrderClick={() => openOrderModal("mobile_cta")}
+        onOrderClick={(opener) => openOrderModal("mobile_cta", opener)}
         orderLabel={t.hero.orderCta}
         menuLabel={t.hero.menuCta}
       />
@@ -339,6 +346,7 @@ export function SiteNavbar({
         pickupUrl={pickupUrl}
         deliveryUrl={deliveryUrl}
         location={orderLocation}
+        returnFocusRef={orderReturnFocusRef}
       />
 
       {isOpen ? (
@@ -375,7 +383,7 @@ export function SiteNavbar({
               type="button"
               className="site-nav-overlay-link"
               style={{ animationDelay: `${navLinks.length * 0.08}s` }}
-              onClick={() => openOrderModal("nav_overlay")}
+              onClick={() => openOrderModal("nav_overlay", toggleRef.current)}
             >
               {t.hero.orderCta}
             </button>

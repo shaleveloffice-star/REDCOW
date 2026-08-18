@@ -1,3 +1,28 @@
+const STYLE_ID = "site-chrome-metrics";
+const METRIC_VARS = [
+  "--site-chrome-offset",
+  "--site-mobile-cta-height",
+  "--home-atmosphere-sticky-top",
+  "--home-atmosphere-sticky-height"
+] as const;
+
+function applySiteChromeMetrics(offset: number, ctaHeight: number, stickyTop: number, stickyHeight: number): void {
+  const css = `:root{${METRIC_VARS[0]}:${offset}px;${METRIC_VARS[1]}:${ctaHeight}px;${METRIC_VARS[2]}:${stickyTop}px;${METRIC_VARS[3]}:${stickyHeight}px;}`;
+
+  let styleEl = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
+  if (!styleEl) {
+    styleEl = document.createElement("style");
+    styleEl.id = STYLE_ID;
+    document.head.appendChild(styleEl);
+  }
+  styleEl.textContent = css;
+
+  const root = document.documentElement;
+  for (const name of METRIC_VARS) {
+    root.style.removeProperty(name);
+  }
+}
+
 export function syncSiteChromeMetrics(): void {
   if (typeof window === "undefined") {
     return;
@@ -18,34 +43,6 @@ export function syncSiteChromeMetrics(): void {
   const isDesktop = window.matchMedia("(min-width: 768px)").matches;
   const stickyTop = isDesktop ? 0 : Math.max(0, headerBottom);
   const stickyHeight = isDesktop ? viewportHeight : Math.max(0, ctaTop - stickyTop);
-  const root = document.documentElement;
 
-  root.style.setProperty("--site-chrome-offset", `${Math.ceil(bannerHeight + navbarHeight)}px`);
-  root.style.setProperty("--site-mobile-cta-height", `${ctaHeight}px`);
-  root.style.setProperty("--home-atmosphere-sticky-top", `${stickyTop}px`);
-  root.style.setProperty("--home-atmosphere-sticky-height", `${stickyHeight}px`);
+  applySiteChromeMetrics(Math.ceil(bannerHeight + navbarHeight), ctaHeight, stickyTop, stickyHeight);
 }
-
-/** Runs as soon as the header HTML is parsed, before the rest of the page paints. */
-export const SITE_CHROME_METRICS_INLINE_SCRIPT = `(function(){
-  var banner = document.querySelector(".site-opening-banner");
-  var navbar = document.querySelector(".site-navbar");
-  var mobileCta = document.querySelector(".site-cta--mobile");
-  var viewportHeight = Math.round(window.innerHeight);
-  var bannerHeight = banner ? banner.getBoundingClientRect().height : 0;
-  var navbarRect = navbar ? navbar.getBoundingClientRect() : null;
-  var navbarHeight = navbarRect ? navbarRect.height : 0;
-  var headerBottom = Math.ceil(navbarRect ? navbarRect.bottom : bannerHeight + navbarHeight);
-  var ctaRect = mobileCta ? mobileCta.getBoundingClientRect() : null;
-  var ctaVisible = Boolean(ctaRect && ctaRect.height > 1);
-  var ctaHeight = ctaVisible && ctaRect ? Math.ceil(ctaRect.height) : 0;
-  var ctaTop = ctaVisible && ctaRect ? Math.round(ctaRect.top) : viewportHeight;
-  var isDesktop = window.matchMedia("(min-width: 768px)").matches;
-  var stickyTop = isDesktop ? 0 : Math.max(0, headerBottom);
-  var stickyHeight = isDesktop ? viewportHeight : Math.max(0, ctaTop - stickyTop);
-  var root = document.documentElement;
-  root.style.setProperty("--site-chrome-offset", Math.ceil(bannerHeight + navbarHeight) + "px");
-  root.style.setProperty("--site-mobile-cta-height", ctaHeight + "px");
-  root.style.setProperty("--home-atmosphere-sticky-top", stickyTop + "px");
-  root.style.setProperty("--home-atmosphere-sticky-height", stickyHeight + "px");
-})();`;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef } from "react";
+import { useId, useLayoutEffect, useRef, type RefObject } from "react";
 
 import {
   IconBurgerMark,
@@ -8,7 +8,13 @@ import {
   IconDeliveryMark
 } from "@/components/shared/site-icons";
 import { useTranslations } from "@/components/providers/locale-provider";
-import { focusElement, getFocusableElements, trapFocus } from "@/lib/a11y/focus-trap";
+import {
+  focusElement,
+  getFocusableElements,
+  inertBackground,
+  isFocusRestoreTarget,
+  trapFocus
+} from "@/lib/a11y/focus-trap";
 import { trackEvent } from "@/lib/analytics";
 
 type OrderModalProps = {
@@ -17,6 +23,7 @@ type OrderModalProps = {
   pickupUrl: string;
   deliveryUrl: string;
   location: string;
+  returnFocusRef?: RefObject<HTMLElement | null>;
 };
 
 export function OrderModal({
@@ -24,28 +31,38 @@ export function OrderModal({
   onClose,
   pickupUrl,
   deliveryUrl,
-  location
+  location,
+  returnFocusRef
 }: OrderModalProps) {
   const t = useTranslations();
   const titleId = useId();
+  const rootRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const pickupExternal = pickupUrl.startsWith("http");
   const deliveryExternal = deliveryUrl.startsWith("http");
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!open) return;
+
+    const opener =
+      (returnFocusRef?.current && returnFocusRef.current.isConnected
+        ? returnFocusRef.current
+        : null) ??
+      (document.activeElement instanceof HTMLElement ? document.activeElement : null);
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
 
+    const root = rootRef.current;
     const dialog = dialogRef.current;
-    if (!dialog) {
+    if (!root || !dialog) {
       return () => {
         document.body.style.overflow = previousOverflow;
       };
     }
 
+    const restoreInert = inertBackground(root);
     focusElement(closeRef.current ?? getFocusableElements(dialog)[0]);
     const releaseTrap = trapFocus(dialog);
 
@@ -60,14 +77,18 @@ export function OrderModal({
     return () => {
       document.body.style.overflow = previousOverflow;
       releaseTrap();
+      restoreInert();
       window.removeEventListener("keydown", onKeyDown);
+      if (isFocusRestoreTarget(opener)) {
+        focusElement(opener);
+      }
     };
-  }, [open, onClose]);
+  }, [open, onClose, returnFocusRef]);
 
   if (!open) return null;
 
   return (
-    <div className="order-modal-root" role="presentation">
+    <div ref={rootRef} className="order-modal-root" role="presentation">
       <button type="button" className="order-modal-backdrop" aria-label={t.orderModal.close} onClick={onClose} />
       <div
         ref={dialogRef}

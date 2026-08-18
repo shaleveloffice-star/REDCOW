@@ -37,12 +37,22 @@ export function MenuItemsGrid({ items, large = false }: MenuItemsGridProps) {
         const media = resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
         return (
           <li key={item.id}>
-            <Link href={getMenuItemHref(item)} className="menu-bleecker-card-link">
+            {isVideoMediaUrl(media) ? (
               <article className="menu-bleecker-card">
                 <div className="menu-bleecker-card-media">
-                  {isVideoMediaUrl(media) ? (
-                    <MenuAutoplayMedia decorative src={media} name={localized.name} />
-                  ) : (
+                  <MenuAutoplayMedia decorative src={media} name={localized.name} />
+                </div>
+                <h3 className="menu-bleecker-card-name">
+                  <Link href={getMenuItemHref(item)} className="menu-bleecker-card-link">
+                    {localized.name}
+                  </Link>
+                </h3>
+                <p className="menu-bleecker-card-price">{formatPrice(item.price, locale)}</p>
+              </article>
+            ) : (
+              <Link href={getMenuItemHref(item)} className="menu-bleecker-card-link">
+                <article className="menu-bleecker-card">
+                  <div className="menu-bleecker-card-media">
                     <MenuItemImage
                       decorative
                       src={media}
@@ -53,12 +63,12 @@ export function MenuItemsGrid({ items, large = false }: MenuItemsGridProps) {
                       loading="lazy"
                       className="menu-bleecker-card-image"
                     />
-                  )}
-                </div>
-                <h3 className="menu-bleecker-card-name">{localized.name}</h3>
-                <p className="menu-bleecker-card-price">{formatPrice(item.price, locale)}</p>
-              </article>
-            </Link>
+                  </div>
+                  <h3 className="menu-bleecker-card-name">{localized.name}</h3>
+                  <p className="menu-bleecker-card-price">{formatPrice(item.price, locale)}</p>
+                </article>
+              </Link>
+            )}
           </li>
         );
       })}

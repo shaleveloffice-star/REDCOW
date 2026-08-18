@@ -6,6 +6,8 @@ export type PlanchaStepMessage = {
 export type Messages = {
   a11y: {
     skipToMain: string;
+    pauseVideo: string;
+    playVideo: string;
   };
   lang: {
     label: string;

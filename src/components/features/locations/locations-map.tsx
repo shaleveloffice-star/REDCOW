@@ -119,7 +119,7 @@ export function LocationsMap({ points, ariaLabel }: LocationsMapProps) {
     <div
       ref={containerRef}
       className="locations-map"
-      role="img"
+      role="region"
       aria-label={ariaLabel ?? "NB BURGER locations map"}
     />
   );

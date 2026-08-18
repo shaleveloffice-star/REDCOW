@@ -1,8 +1,4 @@
-import {
-  HOME_ATMOSPHERE_SLIDE_1,
-  HOME_ATMOSPHERE_SLIDE_2,
-  HOME_ATMOSPHERE_THIRD_1
-} from "@/data/site-images.registry";
+import { HOME_ATMOSPHERE_SLIDE_1 } from "@/data/site-images.registry";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { resolveSiteImagePair } from "@/lib/site-image-url";
@@ -27,10 +23,8 @@ type HomeAtmosphereSectionProps = {
 
 export async function HomeAtmosphereSection({ siteImages }: HomeAtmosphereSectionProps) {
   const t = await getLocalizedMessages(await getServerLocale());
-  const [panel1Alt, panel2Alt, panel3Alt] = t.atmosphere.carouselSlideAlts;
+  const [panel1Alt] = t.atmosphere.carouselSlideAlts;
   const panel1 = panelImages("atmosphere-slide-1", HOME_ATMOSPHERE_SLIDE_1, siteImages);
-  const panel2 = panelImages("atmosphere-slide-2", HOME_ATMOSPHERE_SLIDE_2, siteImages);
-  const panel3 = panelImages("atmosphere-third-1", HOME_ATMOSPHERE_THIRD_1, siteImages);
 
   return (
     <HomeAtmosphereScroll
@@ -41,19 +35,8 @@ export async function HomeAtmosphereSection({ siteImages }: HomeAtmosphereSectio
           mobileSrc: panel1.mobile,
           alt: panel1Alt,
           from: "left"
-        },
-        {
-          src: panel2.desktop,
-          mobileSrc: panel2.mobile,
-          alt: panel2Alt,
-          from: "left"
-        },
-        {
-          src: panel3.desktop,
-          mobileSrc: panel3.mobile,
-          alt: panel3Alt,
-          from: "left"
         }
+        // Restore slide 2 + 3 here to bring back the scroll-driven image sequence.
       ]}
     />
   );

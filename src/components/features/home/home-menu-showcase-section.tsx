@@ -74,40 +74,45 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
         </header>
 
         <div className="menu-showcase-carousel" role="region" aria-label={t.menuShowcase.trackAria}>
-          <div ref={trackRef} className="menu-showcase-track" tabIndex={0}>
+          <div ref={trackRef} className="menu-showcase-track">
             <div className="menu-showcase-rail" role="list">
               {items.map((item) => {
                 const localized = getLocalizedMenuItem(item, locale);
                 const media = resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
                 const isVideo = isVideoMediaUrl(media);
 
-                return (
+                return isVideo ? (
+                  <article key={item.id} className="menu-showcase-card" role="listitem">
+                    <div className="menu-showcase-card-media menu-showcase-card-media--video">
+                      <div className="menu-showcase-card-video-frame">
+                        <AutoplayVideo
+                          className="menu-showcase-card-video"
+                          src={media}
+                          poster={PLACEHOLDER_IMAGE}
+                          aria-hidden
+                        />
+                      </div>
+                    </div>
+                    <h3 className="menu-showcase-card-name">
+                      <Link href={getMenuItemHref(item)} className="menu-showcase-card-link">
+                        {localized.name}
+                      </Link>
+                    </h3>
+                  </article>
+                ) : (
                   <article key={item.id} className="menu-showcase-card" role="listitem">
                     <Link href={getMenuItemHref(item)} className="menu-showcase-card-link">
-                      <div
-                        className={`menu-showcase-card-media${isVideo ? " menu-showcase-card-media--video" : ""}`}
-                      >
-                        {isVideo ? (
-                          <div className="menu-showcase-card-video-frame">
-                            <AutoplayVideo
-                              className="menu-showcase-card-video"
-                              src={media}
-                              poster={PLACEHOLDER_IMAGE}
-                              aria-hidden
-                            />
-                          </div>
-                        ) : (
-                          <MenuItemImage
-                            decorative
-                            src={media}
-                            alt={localized.imageAlt}
-                            width={640}
-                            height={640}
-                            sizes="(max-width: 767px) 67vw, 247px"
-                            loading="eager"
-                            className="menu-showcase-card-image"
-                          />
-                        )}
+                      <div className="menu-showcase-card-media">
+                        <MenuItemImage
+                          decorative
+                          src={media}
+                          alt={localized.imageAlt}
+                          width={640}
+                          height={640}
+                          sizes="(max-width: 767px) 67vw, 247px"
+                          loading="eager"
+                          className="menu-showcase-card-image"
+                        />
                       </div>
                       <h3 className="menu-showcase-card-name">{localized.name}</h3>
                     </Link>

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { useEffect, useId, useRef, useState, type CSSProperties } from "react";
 import {
   motion,
   useReducedMotion,
@@ -158,6 +158,7 @@ function AnimatedPanel({ panel, index, progress }: AnimatedPanelProps) {
 }
 
 export function HomeAtmosphereScroll({ panels, ariaLabel }: HomeAtmosphereScrollProps) {
+  const headingId = useId();
   const trackRef = useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
   const [scrollViewports, setScrollViewports] = useState(1 + ANIMATION_PIN_VIEWPORTS + HOLD_PIN_VIEWPORTS);
@@ -198,13 +199,18 @@ export function HomeAtmosphereScroll({ panels, ariaLabel }: HomeAtmosphereScroll
     return () => mediaQuery.removeEventListener("change", syncViewports);
   }, []);
 
-  if (reduceMotion) {
+  const useStaticLayout = Boolean(reduceMotion) || panels.length < 2;
+
+  if (useStaticLayout) {
     return (
       <section
         id="atmosphere"
         className="home-atmosphere-section home-atmosphere-section--static"
-        aria-label={ariaLabel}
+        aria-labelledby={headingId}
       >
+        <h2 id={headingId} className="sr-only">
+          {ariaLabel}
+        </h2>
         <div className="home-atmosphere-static-stack">
           {panels.map((panel) => (
             <div key={panel.src} className="home-atmosphere-static-panel">
@@ -213,7 +219,8 @@ export function HomeAtmosphereScroll({ panels, ariaLabel }: HomeAtmosphereScroll
                 mobileSrc={panel.mobileSrc}
                 alt={panel.alt}
                 className="home-atmosphere-scroll-image"
-                loading="lazy"
+                pictureClassName="home-atmosphere-scroll-image-frame"
+                loading="eager"
               />
             </div>
           ))}
@@ -226,9 +233,12 @@ export function HomeAtmosphereScroll({ panels, ariaLabel }: HomeAtmosphereScroll
     <section
       id="atmosphere"
       className="home-atmosphere-section"
-      aria-label={ariaLabel}
+      aria-labelledby={headingId}
       style={{ "--home-atmosphere-scroll-viewports": scrollViewports } as CSSProperties}
     >
+      <h2 id={headingId} className="sr-only">
+        {ariaLabel}
+      </h2>
       <div ref={trackRef} className="home-atmosphere-scroll-track">
         <div className="home-atmosphere-scroll-sticky">
           {panels.map((panel, index) =>

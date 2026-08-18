@@ -3,7 +3,9 @@ import type { Messages } from "./types";
 
 export const he: Messages = {
   a11y: {
-    skipToMain: "דלג לתוכן הראשי"
+    skipToMain: "דלג לתוכן הראשי",
+    pauseVideo: "עצור סרטון",
+    playVideo: "נגן סרטון"
   },
   lang: {
     label: "שפה",

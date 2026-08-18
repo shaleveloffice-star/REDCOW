@@ -80,8 +80,8 @@ export default async function RootLayout({
   const dir = getDirection(locale);
 
   return (
-    <html lang={locale} dir={dir}>
-      <body className={`${assistant.variable} ${archivoBlack.variable} ${assistant.className}`}>
+    <html lang={locale} dir={dir} suppressHydrationWarning>
+      <body className={`${assistant.variable} ${archivoBlack.variable} ${assistant.className}`} suppressHydrationWarning>
         <LocaleProvider initialLocale={locale}>
           <JsonLd data={buildOrganizationJsonLd()} />
           <SkipToContent />

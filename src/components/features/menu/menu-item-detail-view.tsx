@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
@@ -54,6 +54,7 @@ export function MenuItemDetailView({
   const primaryIsVideo = isVideoMediaUrl(primaryMedia);
   const closeUpIsVideo = closeUpMedia ? isVideoMediaUrl(closeUpMedia) : false;
   const [orderOpen, setOrderOpen] = useState(false);
+  const orderButtonRef = useRef<HTMLButtonElement>(null);
 
   const longParagraphs = useMemo(
     () => splitLongDescription(localized.longDescription),
@@ -121,6 +122,7 @@ export function MenuItemDetailView({
         ) : null}
 
         <button
+          ref={orderButtonRef}
           type="button"
           className="menu-item-detail-order"
           onClick={() => {
@@ -194,6 +196,7 @@ export function MenuItemDetailView({
         pickupUrl={pickupUrl}
         deliveryUrl={deliveryUrl}
         location="menu_item"
+        returnFocusRef={orderButtonRef}
       />
     </article>
   );

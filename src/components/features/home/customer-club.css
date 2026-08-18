@@ -259,8 +259,18 @@
 
 .customer-club-field {
   display: grid;
-  gap: 0;
+  gap: 6px;
   overflow: visible;
+}
+
+.customer-club-field-label {
+  display: block;
+  margin: 0;
+  color: rgba(255, 248, 240, 0.88);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  line-height: 1.2;
 }
 
 .visually-hidden {

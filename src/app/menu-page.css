@@ -36,6 +36,11 @@
   background: #111;
 }
 
+.menu-bleecker-hero .autoplay-video-wrap {
+  position: absolute;
+  inset: 0;
+}
+
 .menu-bleecker-hero-image,
 .menu-bleecker-hero-video,
 .menu-bleecker-hero video {
@@ -499,6 +504,39 @@
 
 .menu-bleecker-card-link:hover .menu-bleecker-card {
   transform: translateY(-2px);
+}
+
+.menu-bleecker-card:has(.autoplay-video-toggle) {
+  position: relative;
+}
+
+.menu-bleecker-card:has(.autoplay-video-toggle):hover {
+  transform: translateY(-2px);
+}
+
+.menu-bleecker-card:has(.autoplay-video-toggle) .menu-bleecker-card-media,
+.menu-bleecker-card:has(.autoplay-video-toggle) .autoplay-video-wrap {
+  pointer-events: none;
+}
+
+.menu-bleecker-card:has(.autoplay-video-toggle) .menu-bleecker-card-media {
+  z-index: 2;
+}
+
+.menu-bleecker-card:has(.autoplay-video-toggle) .menu-bleecker-card-link::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+
+.menu-bleecker-card:has(.autoplay-video-toggle) .menu-bleecker-card-link:focus-visible {
+  outline: none;
+}
+
+.menu-bleecker-card:has(.autoplay-video-toggle):has(.menu-bleecker-card-link:focus-visible) {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
 }
 
 .menu-bleecker-card-media {

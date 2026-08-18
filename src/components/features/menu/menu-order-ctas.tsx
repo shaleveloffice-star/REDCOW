@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 import { OrderModal } from "@/components/layout/order-modal";
 import {
@@ -20,12 +20,14 @@ type MenuOrderCtasProps = {
 export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
   const t = useTranslations();
   const [orderOpen, setOrderOpen] = useState(false);
+  const orderButtonRef = useRef<HTMLButtonElement>(null);
   const deliveryExternal = deliveryUrl.startsWith("http");
 
   return (
     <>
       <section className="menu-bleecker-ctas" aria-label={t.orderModal.title}>
         <button
+          ref={orderButtonRef}
           type="button"
           className="menu-bleecker-cta"
           onClick={() => {
@@ -61,6 +63,7 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
         pickupUrl={pickupUrl}
         deliveryUrl={deliveryUrl}
         location="menu"
+        returnFocusRef={orderButtonRef}
       />
     </>
   );

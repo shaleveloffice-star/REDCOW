@@ -122,7 +122,7 @@ export function CustomerClubSection() {
               <form className="customer-club-panel customer-club-form" action={handleSubmit} noValidate>
                 <div className="customer-club-fields">
                   <div className="customer-club-field">
-                    <label className="visually-hidden" htmlFor={fullNameId}>
+                    <label className="customer-club-field-label" htmlFor={fullNameId}>
                       {t.customerClub.fields.fullName}
                     </label>
                     <span className="customer-club-input-box">
@@ -143,7 +143,7 @@ export function CustomerClubSection() {
                   </div>
 
                   <div className="customer-club-field">
-                    <label className="visually-hidden" htmlFor={phoneId}>
+                    <label className="customer-club-field-label" htmlFor={phoneId}>
                       {t.customerClub.fields.phone}
                     </label>
                     <span className="customer-club-input-box">
@@ -165,7 +165,7 @@ export function CustomerClubSection() {
                   </div>
 
                   <div className="customer-club-field">
-                    <span className="visually-hidden" id={`${ids}-birth-label`}>
+                    <span className="customer-club-field-label" id={`${ids}-birth-label`}>
                       {t.customerClub.fields.birthDate}
                     </span>
                     <span className="customer-club-input-box customer-club-input-box--birth">

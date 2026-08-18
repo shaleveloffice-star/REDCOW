@@ -810,9 +810,12 @@ select {
 .site-navbar-toggle {
   display: flex;
   flex-direction: column;
+  justify-content: center;
   gap: 6px;
-  width: 32px;
-  padding: 0;
+  box-sizing: border-box;
+  width: 44px;
+  height: 44px;
+  padding: 13px 6px;
   border: 0;
   background: transparent;
   cursor: pointer;
@@ -2862,6 +2865,43 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   border-radius: 5%;
   object-fit: contain;
   pointer-events: none;
+}
+
+.autoplay-video-wrap {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.autoplay-video-toggle {
+  position: absolute;
+  inset-inline-end: 8px;
+  inset-block-end: 8px;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.42);
+  color: #ffffff;
+  cursor: pointer;
+  opacity: 0.78;
+  pointer-events: auto;
+}
+
+.autoplay-video-toggle:hover,
+.autoplay-video-toggle:focus-visible {
+  opacity: 1;
+}
+
+.autoplay-video-toggle:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
 }
 
 .hero-media--video::-webkit-media-controls,

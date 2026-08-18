@@ -12,6 +12,16 @@ function renderBlock(block: LegalBlock, key: string) {
     return <p key={key}>{block.text}</p>;
   }
 
+  if (block.type === "paragraphWithLink") {
+    return (
+      <p key={key}>
+        {block.before}
+        <a href={block.href}>{block.linkText}</a>
+        {block.after}
+      </p>
+    );
+  }
+
   return (
     <ul key={key}>
       {block.items.map((item) => (

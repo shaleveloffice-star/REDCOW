@@ -1,5 +1,8 @@
 import type { Locale } from "@/i18n/config";
 import type { LegalDocument } from "@/i18n/legal/types";
+import { getAccessibilityContentEn } from "@/i18n/legal/accessibility.en";
+import { getAccessibilityContentFr } from "@/i18n/legal/accessibility.fr";
+import { getAccessibilityContentHe } from "@/i18n/legal/accessibility.he";
 import { getPrivacyContentEn } from "@/i18n/legal/privacy.en";
 import { getPrivacyContentFr } from "@/i18n/legal/privacy.fr";
 import { getPrivacyContentHe } from "@/i18n/legal/privacy.he";
@@ -26,5 +29,16 @@ export function getTermsContent(locale: Locale): LegalDocument {
       return getTermsContentFr();
     default:
       return getTermsContentHe();
+  }
+}
+
+export function getAccessibilityContent(locale: Locale): LegalDocument {
+  switch (locale) {
+    case "en":
+      return getAccessibilityContentEn();
+    case "fr":
+      return getAccessibilityContentFr();
+    default:
+      return getAccessibilityContentHe();
   }
 }

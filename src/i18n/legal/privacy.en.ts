@@ -1,32 +1,30 @@
 import { BUSINESS } from "@/data/business";
 import type { LegalDocument } from "@/i18n/legal/types";
 
+const CONTACT_EMAIL = BUSINESS.email;
+
 export function getPrivacyContentEn(): LegalDocument {
   return {
-    lastUpdated: "Last updated: March 2026",
-    title: "Privacy Policy – NB BURGER",
+    lastUpdated: "Last updated: 18 August 2026",
+    title: "Privacy Policy - NB BURGER",
     introTitle: "Introduction",
     introBlocks: [
       { type: "paragraph", text: "Welcome to the NB BURGER website." },
       {
         type: "paragraph",
-        text: "This Privacy Policy is intended to clearly explain how NB BURGER collects, stores, uses, and protects personal information provided by users of the website."
+        text: "This policy explains what information is collected on the website, how it is used, and how you can contact us about privacy."
       },
       {
         type: "paragraph",
-        text: "The website is used to display information about NB BURGER, including information about the brand, menu, branch location, opening hours, updates, contact details, and other content related to the business."
+        text: "The website is used to present information about NB BURGER, including the brand, menu, branch, opening hours, customer club, contact details, and related content."
       },
       {
         type: "paragraph",
-        text: "At this stage, the website is not used for placing online orders and does not store payment details, credit card information, or users' financial information."
+        text: "The website itself does not process payments and does not store credit card details. Delivery or pickup orders, when offered on the website, are completed by redirecting to an external ordering system."
       },
       {
         type: "paragraph",
-        text: "The personal information collected on the website is primarily information voluntarily provided by the user, for example through a contact form, updates form, or inquiry submitted via the website."
-      },
-      {
-        type: "paragraph",
-        text: "NB BURGER respects the privacy of website users and is committed to acting in accordance with applicable law, including the Protection of Privacy Law, 5741-1981, Amendment 13 to the Protection of Privacy Law, the Communications Law (Telecommunications and Broadcasting), 5742-1982, and any other relevant legislation."
+        text: "NB BURGER respects users' privacy and acts in accordance with applicable Israeli law, including the Protection of Privacy Law, 5741-1981."
       },
       {
         type: "paragraph",
@@ -34,585 +32,323 @@ export function getPrivacyContentEn(): LegalDocument {
       },
       {
         type: "paragraph",
-        text: "Use of the website or submission of personal details through the website constitutes confirmation that you have read and understood this Privacy Policy. If you do not agree to this policy, please refrain from using the website or submitting personal details."
+        text: "You are not required to provide personal information. Without certain details, we may be unable to register you for the customer club or contact you."
       },
       {
         type: "paragraph",
-        text: "You are not legally required to provide us with personal information. However, without providing certain details, we may be unable to contact you, send updates, or handle an inquiry you submitted through the website."
-      },
-      {
-        type: "paragraph",
-        text: 'In this policy, "personal information" means any information relating to an identified or identifiable individual, directly or indirectly, including name, phone number, email address, IP address, website usage data, or any other detail that enables identification of a person with reasonable effort.'
+        text: 'In this policy, "personal information" means information that can identify a person, directly or indirectly, including name, phone number, date of birth, website usage data, or another identifying detail.'
       }
     ],
     sections: [
       {
-        title: "1. Who We Are",
+        title: "1. Who we are",
         blocks: [
           { type: "paragraph", text: "The website is operated by NB BURGER." },
-          {
-            type: "paragraph",
-            text: "For any privacy-related questions, you may contact us using the contact details at the end of this document."
-          },
           {
             type: "list",
             items: [
               `Business name: ${BUSINESS.name}`,
-              "Field of activity: Restaurant / burger chain / food services",
-              `Email: ${BUSINESS.email}`,
+              "Activity: restaurant / food service",
+              `Email: ${CONTACT_EMAIL}`,
               `Business address: ${BUSINESS.address.formattedWithCountry.en}`
             ]
           }
         ]
       },
       {
-        title: "2. What Information We Collect",
+        title: "2. What information is collected",
         blocks: [
           {
             type: "paragraph",
-            text: "When you use the website, we may collect personal information and technical information, depending on how you use the website."
+            text: "The information collected depends on how you use the website: browsing only, joining the customer club, or going to an external service."
           }
         ]
       },
       {
-        title: "2.1 Information You Provide Directly",
+        title: "2.1 Customer club",
         blocks: [
           {
             type: "paragraph",
-            text: "We may collect information that you voluntarily provide, including:"
-          },
-          {
-            type: "list",
-            items: [
-              "Full name",
-              "Phone number",
-              "Email address, if provided",
-              "Message or inquiry content, if submitted",
-              "Details provided through an updates form",
-              "Details provided through a contact form",
-              "Additional information you choose to provide on your own initiative"
-            ]
-          }
-        ]
-      },
-      {
-        title: "2.2 Information Collected Through Contact Forms",
-        blocks: [
-          {
-            type: "paragraph",
-            text: "When you submit your details on the website, we may store the following information:"
+            text: "The customer club is active on the website. When you register, we collect:"
           },
           {
             type: "list",
             items: [
               "Name",
-              "Phone",
-              "Email, if included in the form",
-              "Date and time of form submission",
-              "Website referral source, where identifiable",
-              "Inquiry content, if provided",
-              "Consent to receive updates and marketing messages, where indicated"
+              "Phone number",
+              "Date of birth, if provided (optional)",
+              "Consent to receive marketing communications"
             ]
           },
           {
             type: "paragraph",
-            text: "This information will be used to contact you, respond to your inquiry, send updates, marketing messages, and information related to NB BURGER, in accordance with your consent and applicable law."
+            text: "If provided, date of birth is used for birthday benefits and relevant promotions."
+          },
+          {
+            type: "paragraph",
+            text: "Registration details are stored in Firebase / Firestore. An IP address is not stored as part of the customer-club record."
           }
         ]
       },
       {
-        title: "2.3 Technical Information Collected Automatically",
+        title: "2.2 Technical information",
         blocks: [
           {
             type: "paragraph",
-            text: "When you use the website, technical information may be collected automatically, including:"
-          },
-          {
-            type: "list",
-            items: [
-              "IP address",
-              "Browser type",
-              "Device type",
-              "Operating system",
-              "Browser language",
-              "Pages visited on the website",
-              "Time spent on the website",
-              "Actions performed on the website",
-              "Referral source",
-              "General usage data",
-              "Performance data, errors, and logs"
-            ]
+            text: "When you browse the website, technical information is collected through Google Analytics 4, including pages viewed, general actions on the site (such as clicking an order option), device and browser type, and referral source where the tool provides it."
           },
           {
             type: "paragraph",
-            text: "This information may be collected through cookies, measurement tools, analytics systems, pixels, tags, and similar technologies."
+            text: "The server may process an IP address for technical and security purposes, such as rate limiting form submissions. This information is not stored in the customer-club record."
           }
         ]
       },
       {
-        title: "2.4 Information We Do Not Collect on the Website",
+        title: "2.3 Information we do not collect on the website",
         blocks: [
           {
             type: "paragraph",
-            text: "At this stage, the website does not collect or store:"
+            text: "The website itself does not collect or store:"
           },
           {
             type: "list",
             items: [
               "Credit card details",
-              "Payment information",
+              "Payment details",
               "National ID numbers",
-              "Bank account details",
-              "Medical information",
-              "Biometric information",
-              "Online order details",
-              "Delivery addresses submitted through the website"
+              "A delivery address within the website itself"
             ]
           },
           {
             type: "paragraph",
-            text: "If additional services are added to the website in the future, such as online ordering, a customer club, a payment system, or other services, this Privacy Policy will be updated accordingly."
+            text: "If such information is required by an external ordering system, it is handled by that service under its own terms and privacy policy."
           }
         ]
       },
       {
-        title: "3. Purposes of Use",
+        title: "3. Purposes of use",
         blocks: [
           {
             type: "paragraph",
-            text: "Information collected on the website will be used for the following purposes:"
+            text: "We use the information for the following purposes, depending on the type of information collected:"
           },
           {
             type: "list",
             items: [
-              "Contacting users who submitted their details",
-              "Responding to inquiries submitted through the website",
-              "Sending updates about NB BURGER",
-              "Sending information about openings, menu, promotions, benefits, events, and launches",
-              "Managing a mailing list of interested parties",
-              "Managing marketing communications, subject to consent",
-              "Improving the user experience on the website",
-              "Analyzing website activity",
-              "Measuring campaign performance",
-              "Improving content, design, and services on the website",
-              "Targeted advertising and remarketing",
-              "Securing the website and preventing misuse",
-              "Identifying faults and technical maintenance",
-              "Compliance with legal requirements or instructions from authorized authorities",
-              "Protecting the rights of NB BURGER, its customers, or third parties"
+              "Operating the customer club",
+              "Contacting people who joined the club",
+              "Sending updates, benefits, and promotions, subject to consent",
+              "Birthday benefits and relevant promotions, if a date of birth was provided",
+              "Running the website and saving language preference",
+              "Understanding website use through Google Analytics 4",
+              "Technical security and preventing abuse, including rate limiting",
+              "Responding to privacy inquiries"
             ]
-          },
-          {
-            type: "paragraph",
-            text: "We may combine information you provide with technical information collected on the website to improve service, tailor content, analyze data, and conduct marketing."
           }
         ]
       },
       {
-        title: "4. Submission of Information and Consent",
+        title: "4. Consent and marketing communications",
         blocks: [
           {
             type: "paragraph",
-            text: "Submission of personal information on the website is voluntary and based on your consent."
+            text: "Joining the customer club includes consent to receive marketing communications."
           },
           {
             type: "paragraph",
-            text: "When you complete a form on the website and submit your details, you confirm that the information you provided is accurate and that NB BURGER may use it to contact you and handle your inquiry."
+            text: "NB BURGER may send people who registered and consented marketing messages, updates, benefits, and promotions through channels such as SMS and other channels for which details were provided and consent to receive communications was given."
           },
           {
             type: "paragraph",
-            text: "When you check a box to receive updates or marketing messages, you consent to receiving messages and updates from NB BURGER, including marketing messages, subject to applicable law."
+            text: "You can opt out of SMS messages using the unsubscribe mechanism that appears in the message, according to the instructions included with it. You may also contact us at the email address at the end of this policy."
           },
           {
             type: "paragraph",
-            text: "You may request at any time to stop receiving marketing messages, as detailed in this policy."
+            text: "The website does not currently include an unsubscribe button."
           }
         ]
       },
       {
-        title: "5. Disclosure to Third Parties",
+        title: "5. Orders",
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER will not sell your personal information to third parties."
+            text: "The website itself does not process orders, does not take payment, and does not store credit card details."
           },
           {
             type: "paragraph",
-            text: "However, we may transfer personal information or allow access to it by third parties only where necessary to operate the website, manage the business, communicate, conduct marketing, ensure security, or comply with legal requirements."
+            text: "The website is intended to allow a transfer to an external ordering system for delivery and/or pickup."
           },
           {
             type: "paragraph",
-            text: "Information may be disclosed to parties such as:"
+            text: "When an external ordering system is available, clicking an order option may take you to an external service. The rest of the order will also be subject to that provider's privacy policy and terms of use."
+          }
+        ]
+      },
+      {
+        title: "6. Cookies",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "The website uses cookies and similar technologies, as follows:"
           },
           {
             type: "list",
             items: [
-              "Website hosting and server providers",
-              "Cloud service providers",
-              "Website development and maintenance providers",
-              "CRM systems",
-              "Email and automation systems",
-              "Digital advertising platforms",
-              "Analytics and measurement systems",
-              "Information security providers",
-              "Customer service and support providers",
-              "Professional advisors, including lawyers and accountants",
-              "Authorized authorities, where required by law"
+              "A cookie for language preference",
+              "Google Analytics 4 cookies to measure website use",
+              "Technical cookies needed to operate the website, including a session cookie for the admin interface"
             ]
           },
           {
             type: "paragraph",
-            text: "Any disclosure of information will be made in accordance with the purposes set out in this policy and in compliance with applicable law."
+            text: "When Instagram embedded content is shown, that service may set its own cookies."
+          },
+          {
+            type: "paragraph",
+            text: "You can block or delete cookies in your browser settings. Blocking certain cookies may affect language preference or measurement of website use."
           }
         ]
       },
       {
-        title: "6. Orders and Payments",
+        title: "7. Third-party services",
         blocks: [
           {
             type: "paragraph",
-            text: "At this stage, the website does not allow online ordering and does not store payment details."
+            text: "NB BURGER does not sell your personal information to third parties."
           },
           {
             type: "paragraph",
-            text: "If an ordering option appears on the website, it may be processed through an external system not directly operated by NB BURGER."
-          },
-          {
-            type: "paragraph",
-            text: "In such cases, use of the external system will be subject to that external provider's privacy policy and terms of use."
-          },
-          {
-            type: "paragraph",
-            text: "NB BURGER does not store credit card details, payment information, or users' financial information on the website."
-          }
-        ]
-      },
-      {
-        title: "7. Use of Cookies and Similar Technologies",
-        blocks: [
-          {
-            type: "paragraph",
-            text: "The website may use cookies, pixels, tags, and similar technologies."
-          },
-          {
-            type: "paragraph",
-            text: "Cookies are small files stored in your browser or device that enable the website to recognize the device, save preferences, measure activity, and improve the user experience."
-          },
-          {
-            type: "paragraph",
-            text: "Cookies may be used for the following purposes:"
+            text: "The website uses the following services to operate:"
           },
           {
             type: "list",
             items: [
-              "Proper operation of the website",
-              "Saving user preferences",
-              "Improving speed and browsing experience",
-              "Measuring website traffic",
-              "Analyzing user behavior",
-              "Testing campaign performance",
-              "Targeted advertising",
-              "Remarketing",
-              "Website security",
-              "Identifying faults and improving service"
+              "Google Analytics 4 — measuring website use",
+              "Firebase / Firestore — storing club registrations and website content",
+              "Instagram — displaying embedded social content",
+              "Leaflet, CARTO, and OpenStreetMap — displaying the branch map",
+              "Google Maps — a navigation link to the branch address",
+              "Vercel — hosting the website and media"
             ]
           },
           {
             type: "paragraph",
-            text: "We may use tools such as Google Analytics, Google Tag Manager, Meta Pixel, TikTok Pixel, and similar tools."
+            text: "These services may process technical information, such as an IP address or device identifiers, in accordance with their own privacy policies."
           },
           {
             type: "paragraph",
-            text: "These tools may collect information about website usage, including pages viewed, actions performed, referral source, device type, and additional usage data."
-          },
-          {
-            type: "paragraph",
-            text: "You may block or delete cookies through your browser settings. However, blocking certain cookies may affect some website functions."
+            text: "If you go to an external ordering system, use of that system will also be subject to that provider's policy."
           }
         ]
       },
       {
-        title: "8. Direct Marketing and Promotional Messages",
+        title: "8. Transfer of information outside Israel",
         blocks: [
           {
             type: "paragraph",
-            text: "If you submitted your details on the website and consented to receive updates, NB BURGER may send you messages and updates through various channels, including:"
-          },
-          {
-            type: "list",
-            items: ["SMS", "WhatsApp", "Email", "Phone call", "System messages", "Any other communication channel you provided to us"]
-          },
-          {
-            type: "paragraph",
-            text: "These messages may include information about branch opening, menu, promotions, benefits, events, launches, surveys, activities, and other updates."
-          },
-          {
-            type: "paragraph",
-            text: "You may request at any time to be removed from the mailing list or to stop receiving marketing messages by contacting us using the details in this policy or through an unsubscribe link, where provided in a message."
-          },
-          {
-            type: "paragraph",
-            text: "Please note that even after opting out of marketing communications, we may continue to send service or operational messages that are not promotional, where necessary to handle an inquiry, provide a service, or comply with legal requirements."
+            text: "Some of the services listed above, including hosting, analytics, and media, may be located outside Israel. In those cases, information may be processed outside Israel in accordance with those providers' policies and applicable law."
           }
         ]
       },
       {
-        title: "9. Use of Automation and Artificial Intelligence",
+        title: "9. Retention period",
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER may use automation systems, CRM systems, data analysis tools, artificial intelligence tools, and chatbots for the following purposes:"
-          },
-          {
-            type: "list",
-            items: [
-              "Responding to inquiries",
-              "Filtering and routing inquiries",
-              "Improving customer service",
-              "Data analysis",
-              "Improving user experience",
-              "Tailoring content and offers",
-              "Automating marketing and operational processes"
-            ]
+            text: "We keep personal information for as long as it is needed for the purposes for which it was collected, including operating the customer club, marketing subject to consent, running the website, and responding to inquiries."
           },
           {
             type: "paragraph",
-            text: "Where a chatbot or automated system is used in interaction with users, we will clarify that it is an automated system, where required by law."
-          },
-          {
-            type: "paragraph",
-            text: "NB BURGER will not use automated systems to make significant decisions affecting your rights without the possibility of human review, where required by law."
+            text: "When the information is no longer needed, we will delete it or limit its use, where reasonably possible."
           }
         ]
       },
       {
-        title: "10. Data Retention Period",
+        title: "10. Information security",
         blocks: [
           {
             type: "paragraph",
-            text: "We will retain personal information for as long as necessary for the purposes for which it was collected, including:"
-          },
-          {
-            type: "list",
-            items: [
-              "Contacting you",
-              "Handling inquiries",
-              "Managing mailing lists",
-              "Sending updates",
-              "Marketing and communications",
-              "Proper business management",
-              "Legal compliance",
-              "Legal protection",
-              "Dispute resolution",
-              "Information security"
-            ]
+            text: "We take reasonable steps to protect the information, including restricting access to the admin interface and storing club registrations in a secured system."
           },
           {
             type: "paragraph",
-            text: "When information is no longer required, we will take steps to delete, minimize, or anonymize it, where possible and in accordance with applicable law."
+            text: "No system is completely secure, and we cannot guarantee full protection against a fault or unauthorized access."
+          },
+          {
+            type: "paragraph",
+            text: "NB BURGER will not ask you to send credit card details, passwords, or other sensitive information by email, SMS, or WhatsApp."
           }
         ]
       },
       {
-        title: "11. Information Security",
+        title: "11. User rights",
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER takes reasonable and accepted measures to protect personal information provided to it, including technological and organizational measures designed to reduce risks of unauthorized access, misuse, loss, alteration, deletion, or unauthorized disclosure."
+            text: "Under applicable law, you may have rights in relation to personal information held about you, including access, correction, deletion subject to law, and stopping use of the information for marketing communications."
           },
           {
             type: "paragraph",
-            text: "These measures may include, among others:"
-          },
-          {
-            type: "list",
-            items: [
-              "Use of secure systems",
-              "Limited access permissions",
-              "Use of passwords and authorization controls",
-              "Security measures on the website and servers",
-              "Working with providers committed to information security",
-              "Monitoring faults and unusual access attempts"
-            ]
-          },
-          {
-            type: "paragraph",
-            text: "However, it is important to know that no information system is absolutely secure, and we cannot guarantee complete protection against intrusion, malfunction, unauthorized access, or misuse of information."
-          },
-          {
-            type: "paragraph",
-            text: "NB BURGER will not ask you to send full credit card details, passwords, or other sensitive information via email, SMS, or WhatsApp."
+            text: `To exercise these rights, contact ${CONTACT_EMAIL}. We may ask for details to verify your identity before responding.`
           }
         ]
       },
       {
-        title: "12. User Rights",
+        title: "12. Minors",
         blocks: [
           {
             type: "paragraph",
-            text: "In accordance with the Protection of Privacy Law, 5741-1981, and applicable amendments, you may have various rights regarding personal information stored about you, including:"
-          },
-          {
-            type: "list",
-            items: [
-              "The right to review personal information stored about you",
-              "The right to request correction of information that is incorrect, incomplete, unclear, or outdated",
-              "The right to request deletion of information, subject to applicable law",
-              "The right to request cessation of use of information for direct marketing",
-              "The right to request removal from a mailing list",
-              "The right to receive information about the purposes of use of information",
-              "The right to contact us with any privacy-related question"
-            ]
+            text: "The website is not intended to collect information from minors without parental or guardian consent, where such consent is required by law."
           },
           {
             type: "paragraph",
-            text: "To exercise your rights, we may ask you to provide additional details to verify your identity and ensure that information is disclosed to the authorized person."
-          },
-          {
-            type: "paragraph",
-            text: "We will review each request in accordance with applicable law and respond within a reasonable time and in accordance with our legal obligations."
+            text: "If we learn that information was collected from a minor contrary to law, we will delete it or limit its use."
           }
         ]
       },
       {
-        title: "13. Minors",
+        title: "13. External links and services",
         blocks: [
           {
             type: "paragraph",
-            text: "The website and digital services are not intended to collect information from minors without parental or guardian consent, where such consent is required by law."
+            text: "The website includes links to social networks, maps, and external services, and may include a transfer to an external ordering system."
           },
           {
             type: "paragraph",
-            text: "If you are a minor, you must obtain approval from your parent or legal guardian before submitting personal details on the website."
-          },
-          {
-            type: "paragraph",
-            text: "If we become aware that personal information was collected from a minor contrary to law or without required consent, we will take steps to delete it or limit its use, in accordance with the circumstances and applicable law."
+            text: "NB BURGER is not responsible for the privacy policy or practices of external services. You should review each service's policy before submitting details there."
           }
         ]
       },
       {
-        title: "14. Links to External Websites and Services",
+        title: "14. Changes to this policy",
         blocks: [
           {
             type: "paragraph",
-            text: "The website may include links to websites, pages, social networks, external ordering systems, or other external services."
-          },
-          {
-            type: "paragraph",
-            text: "NB BURGER is not responsible for the privacy policies, information security, content, or conduct of external websites and services."
-          },
-          {
-            type: "paragraph",
-            text: "We recommend reviewing the privacy policy and terms of use of any external service before using it or submitting personal details."
+            text: "NB BURGER may update this policy from time to time. The last-updated date appears at the top of this document."
           }
         ]
       },
       {
-        title: "15. Transfer of Information Outside Israel",
+        title: "15. Privacy contact",
         blocks: [
           {
             type: "paragraph",
-            text: "Some information may be stored or processed through providers located outside Israel, including cloud services, email systems, CRM systems, analytics systems, advertising systems, and other technology providers."
-          },
-          {
-            type: "paragraph",
-            text: "In such cases, NB BURGER will act, where required, in accordance with applicable law governing the transfer of information outside Israel."
-          }
-        ]
-      },
-      {
-        title: "16. Anonymous and Statistical Information",
-        blocks: [
-          {
-            type: "paragraph",
-            text: "We may use information that does not personally identify you, including statistical, aggregated, or anonymous information, for the following purposes:"
-          },
-          {
-            type: "list",
-            items: [
-              "Analyzing website activity",
-              "Improving services",
-              "Measuring performance",
-              "Improving campaigns",
-              "Understanding user preferences",
-              "Making business decisions"
-            ]
-          },
-          {
-            type: "paragraph",
-            text: "Information that does not identify a specific person is not considered personal information, and we may use it in accordance with applicable law."
-          }
-        ]
-      },
-      {
-        title: "17. Surveys, Feedback, and Public Activities",
-        blocks: [
-          {
-            type: "paragraph",
-            text: "NB BURGER may conduct surveys, feedback requests, questionnaires, public activities, preference tests, tastings, promotions, or marketing activities."
-          },
-          {
-            type: "paragraph",
-            text: "In the course of such activities, we may collect information such as:"
-          },
-          {
-            type: "list",
-            items: [
-              "Name",
-              "Phone",
-              "Survey responses",
-              "Food preferences",
-              "Comments and feedback",
-              "Participation in an activity",
-              "Additional information you provide"
-            ]
-          },
-          {
-            type: "paragraph",
-            text: "This information may be used to improve the menu, understand audience preferences, develop products, conduct marketing, contact you, and provide benefits, subject to your consent and applicable law."
-          }
-        ]
-      },
-      {
-        title: "18. Changes to This Privacy Policy",
-        blocks: [
-          {
-            type: "paragraph",
-            text: "NB BURGER may update this Privacy Policy from time to time in accordance with changes to the website, services, legal requirements, business needs, or technologies we use."
-          },
-          {
-            type: "paragraph",
-            text: "The date of the latest update will appear at the top of the policy."
-          },
-          {
-            type: "paragraph",
-            text: "A material change to the policy may be published on the website or in another manner we deem appropriate, where required by law."
-          },
-          {
-            type: "paragraph",
-            text: "Continued use of the website after an update to the policy constitutes acceptance of the updated policy."
-          }
-        ]
-      },
-      {
-        title: "19. Contact Us About Privacy",
-        blocks: [
-          {
-            type: "paragraph",
-            text: "For any question, request, complaint, or inquiry regarding this Privacy Policy or the exercise of your rights, you may contact us:"
+            text: "For questions, requests, or inquiries about this policy, contact us:"
           },
           {
             type: "list",
             items: [
               `Business name: ${BUSINESS.name}`,
-              `Email: ${BUSINESS.email}`,
+              `Email: ${CONTACT_EMAIL}`,
               `Address: ${BUSINESS.address.formattedWithCountry.en}`
             ]
           },
           {
-            type: "paragraph",
-            text: "We will review your inquiry and respond in accordance with applicable law."
+            type: "paragraphWithLink",
+            before: "Email for privacy inquiries: ",
+            href: `mailto:${CONTACT_EMAIL}`,
+            linkText: CONTACT_EMAIL
           }
         ]
       }

@@ -222,3 +222,12 @@ export function IconDeliveryMark({ className }: IconProps) {
     </svg>
   );
 }
+
+/** International Symbol of Access — accessibility widget */
+export function IconAccessible({ className }: IconProps) {
+  return (
+    <svg className={className} viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+      <path d="M12 2a2 2 0 1 1 0 4 2 2 0 0 1 0-4zm7 7h-3.4l-1.1-2.5A1.5 1.5 0 0 0 13.1 5.5h-2.2c-.6 0-1.1.3-1.4.9L8.4 9H6a1 1 0 0 0 0 2h2.7l.9 2.1A5 5 0 1 0 14.7 16l2.1-5H19a1 1 0 1 0 0-2zm-8.3 9.5a3 3 0 1 1 0-6 3 3 0 0 1 0 6z" />
+    </svg>
+  );
+}

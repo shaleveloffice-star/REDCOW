@@ -30,15 +30,22 @@ export function AutoplayVideo({
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const html = document.documentElement;
     const sync = () => {
-      const prefersReduced = mediaQuery.matches;
+      const prefersReduced =
+        mediaQuery.matches || html.getAttribute("data-a11y-motion") === "reduce";
       setReducedMotion(prefersReduced);
       userPausedRef.current = prefersReduced;
       setPaused(prefersReduced);
     };
     sync();
     mediaQuery.addEventListener("change", sync);
-    return () => mediaQuery.removeEventListener("change", sync);
+    const observer = new MutationObserver(sync);
+    observer.observe(html, { attributes: true, attributeFilter: ["data-a11y-motion"] });
+    return () => {
+      mediaQuery.removeEventListener("change", sync);
+      observer.disconnect();
+    };
   }, [src]);
 
   useEffect(() => {

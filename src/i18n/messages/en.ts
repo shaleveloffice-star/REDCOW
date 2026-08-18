@@ -5,7 +5,17 @@ export const en: Messages = {
   a11y: {
     skipToMain: "Skip to main content",
     pauseVideo: "Pause video",
-    playVideo: "Play video"
+    playVideo: "Play video",
+    openWidget: "Accessibility",
+    closeWidget: "Close accessibility menu",
+    widgetTitle: "Accessibility options",
+    textSize: "Text size",
+    increaseText: "Larger",
+    decreaseText: "Smaller",
+    highContrast: "High contrast",
+    highlightLinks: "Highlight links",
+    reduceMotion: "Reduce motion",
+    reset: "Reset"
   },
   lang: {
     label: "Language",
@@ -270,6 +280,7 @@ export const en: Messages = {
     copyright: "© 2026 NB BURGER - All rights reserved",
     privacy: "Privacy Policy",
     terms: "Terms of Use",
+    accessibility: "Accessibility Statement",
     closing: "Any occasion, any hour. A bite you won't forget."
   },
   stories: {

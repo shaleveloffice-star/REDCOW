@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { getDefaultPageMeta } from "@/data/seo-content-defaults";
 import type { Locale } from "@/i18n/config";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
+import { getAccessibilityContent } from "@/i18n/legal";
 import { buildPageMetadata } from "@/lib/seo";
 import type { SeoPageId } from "@/types/seo-content";
 
@@ -77,6 +78,17 @@ export async function getPrivacyPageMetadata(locale: Locale) {
 
 export async function getTermsPageMetadata(locale: Locale) {
   return getSeoPageMetadata(locale, "terms");
+}
+
+export function getAccessibilityPageMetadata(locale: Locale) {
+  const document = getAccessibilityContent(locale);
+
+  return buildPageMetadata({
+    title: document.metaTitle?.trim() || document.title.replace(" - ", " | "),
+    description: document.metaDescription?.trim() || document.title,
+    path: "/accessibility",
+    locale
+  });
 }
 
 export async function getStoriesIndexMetadata(locale: Locale) {

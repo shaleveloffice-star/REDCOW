@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Archivo_Black, Assistant } from "next/font/google";
+import Script from "next/script";
 import { Suspense } from "react";
 import "./globals.css";
 import "./homepage-ds.css";
@@ -9,12 +10,14 @@ import "./menu-page.css";
 import "./menu-item-detail.css";
 
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { AccessibilityWidget } from "@/components/layout/accessibility-widget";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { SkipToContent } from "@/components/layout/skip-to-content";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getDirection } from "@/i18n/config";
 import { getServerLocale } from "@/i18n/get-locale";
+import { A11Y_BOOT_SCRIPT } from "@/lib/a11y/preferences";
 import { getCachedActiveOrderLinks } from "@/lib/cache/cached-data";
 import { buildOrganizationJsonLd } from "@/lib/seo/json-ld";
 import { DEFAULT_OG_IMAGE, OG_LOCALE, SITE_NAME, SITE_URL } from "@/lib/seo";
@@ -82,10 +85,14 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
       <body className={`${assistant.variable} ${archivoBlack.variable} ${assistant.className}`} suppressHydrationWarning>
+        <Script id="nb-a11y-boot" strategy="beforeInteractive">
+          {A11Y_BOOT_SCRIPT}
+        </Script>
         <LocaleProvider initialLocale={locale}>
           <JsonLd data={buildOrganizationJsonLd()} />
           <SkipToContent />
           <SiteChrome orderLinks={orderLinks}>{children}</SiteChrome>
+          <AccessibilityWidget />
           <Suspense fallback={null}>
             <GoogleAnalytics />
           </Suspense>

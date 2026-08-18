@@ -1,9 +1,11 @@
 import { BUSINESS } from "@/data/business";
 import type { LegalDocument } from "@/i18n/legal/types";
 
+const CONTACT_EMAIL = BUSINESS.email;
+
 export function getTermsContentFr(): LegalDocument {
   return {
-    lastUpdated: "Dernière mise à jour : 22/07/2026",
+    lastUpdated: "Dernière mise à jour : 18 août 2026",
     title: "Conditions générales d'utilisation du site – NB BURGER",
     introBlocks: [
       {
@@ -12,7 +14,7 @@ export function getTermsContentFr(): LegalDocument {
       },
       {
         type: "paragraph",
-        text: "L'utilisation du Site, y compris la navigation, la passation de commande, la prise de contact, l'inscription à un programme de fidélité, la transmission de coordonnées ou l'utilisation de tout service proposé sur le Site, vaut acceptation pleine et entière des présentes conditions et de la politique de confidentialité du Site."
+        text: "L'utilisation du Site, y compris la navigation, l'inscription au club clients, la transmission de coordonnées, la prise de contact ou le transfert vers un système de commande externe, vaut acceptation des présentes conditions et de la politique de confidentialité du Site."
       },
       {
         type: "paragraph",
@@ -25,7 +27,11 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "Le Site est exploité et géré par NB BURGER et sert à présenter des informations, menus, produits, services, commandes, promotions, contenus marketing, options de contact et services supplémentaires."
+            text: "Le Site est exploité et géré par NB BURGER et sert à présenter des informations, menus, produits, services, promotions, contenus marketing, le club clients, des options de contact et des services supplémentaires."
+          },
+          {
+            type: "paragraph",
+            text: "Le Site lui-même n'est pas un système de commande et ne traite ni les commandes ni les paiements. Le Site permet ou permettra un transfert vers un système de commande externe pour la livraison et le retrait."
           },
           {
             type: "paragraph",
@@ -62,86 +68,119 @@ export function getTermsContentFr(): LegalDocument {
         ]
       },
       {
-        title: "3. Informations sur le Site",
+        title: "3. Informations sur le Site et images",
         blocks: [
           { type: "paragraph", text: "La gestion du Site s'efforce de présenter des informations exactes, complètes et à jour." },
           {
             type: "paragraph",
             text: "Toutefois, des erreurs typographiques, des erreurs de calcul, des inexactitudes, des omissions ou des modifications peuvent survenir."
           },
-          { type: "paragraph", text: "Les images sur le Site sont fournies à titre illustratif uniquement." },
-          { type: "paragraph", text: "Des différences peuvent exister entre les images et le produit réel." },
           {
             type: "paragraph",
-            text: "En cas d'erreur manifeste de prix, de description de produit ou de tout autre détail, NB BURGER sera en droit de corriger l'erreur ou d'annuler la commande conformément à la loi applicable."
+            text: "Les images des plats sur le Site sont fournies à titre illustratif uniquement. Des différences raisonnables peuvent exister entre les images et l'apparence réelle du plat."
+          },
+          {
+            type: "paragraph",
+            text: "En cas d'erreur de prix, de description ou de tout autre détail affiché sur le Site, NB BURGER peut corriger les informations sur le Site. Le prix applicable à une commande en ligne est le prix affiché dans le système de commande externe au moment de la commande."
           }
         ]
       },
       {
-        title: "4. Commandes et paiements",
+        title: "4. Commandes",
         blocks: [
           {
             type: "paragraph",
-            text: "Les prix affichés sur le Site sont exprimés en shekels israéliens et incluent la TVA conformément à la loi, sauf indication contraire."
+            text: "Le site de NB BURGER lui-même n'est pas le système de commande et ne traite ni la commande ni le paiement."
           },
-          { type: "paragraph", text: "NB BURGER peut mettre à jour à tout moment :" },
-          {
-            type: "list",
-            items: ["Les prix", "Les promotions", "Les menus", "Les produits", "Les suppléments", "La disponibilité des produits"]
-          },
-          { type: "paragraph", text: "L'envoi d'une commande sur le Site ne constitue pas une confirmation définitive de celle-ci." },
           {
             type: "paragraph",
-            text: "Une commande sera considérée comme confirmée uniquement après sa réception et son approbation par les systèmes de l'entreprise et sous réserve de la disponibilité des produits."
+            text: "Le Site permet ou permettra un transfert vers un système de commande externe pour la livraison et le retrait."
           },
-          { type: "paragraph", text: "NB BURGER peut refuser d'approuver une commande en cas de :" },
           {
-            type: "list",
-            items: [
-              "Rupture de stock.",
-              "Erreur de prix.",
-              "Suspicion de fraude.",
-              "Dysfonctionnement technique.",
-              "Transmission de coordonnées incorrectes.",
-              "Toute autre raison autorisée par la loi."
-            ]
+            type: "paragraph",
+            text: "Lorsque l'utilisateur est transféré vers le système de commande externe, la passation de la commande est également soumise aux conditions et à la politique du fournisseur du système de commande."
           }
         ]
       },
       {
-        title: "5. Livraisons et retrait",
+        title: "5. Paiement",
         blocks: [
-          { type: "paragraph", text: "Les délais de livraison affichés sur le Site sont des estimations uniquement." },
-          { type: "paragraph", text: "Des retards peuvent survenir en raison de :" },
-          {
-            type: "list",
-            items: [
-              "Forte affluence.",
-              "Conditions météorologiques.",
-              "Situation sécuritaire.",
-              "Événements de force majeure.",
-              "Dysfonctionnements techniques.",
-              "Zones de livraison.",
-              "Embouteillages."
-            ]
-          },
-          { type: "paragraph", text: "Le client doit fournir une adresse complète et exacte." },
           {
             type: "paragraph",
-            text: "NB BURGER ne sera pas responsable des retards ou de l'absence de livraison d'une commande en raison de coordonnées incorrectes."
+            text: "NB BURGER ne collecte ni ne conserve sur le Site lui-même les données de carte bancaire ni les données de paiement de la commande."
+          },
+          {
+            type: "paragraph",
+            text: "Le paiement d'une commande en ligne s'effectue dans le système de commande externe."
           }
         ]
       },
       {
-        title: "6. Annulations et remboursements",
+        title: "6. Prix",
         blocks: [
           {
             type: "paragraph",
-            text: "Une fois la préparation de la commande commencée, l'annulation n'est plus possible, sous réserve de la loi israélienne sur la protection des consommateurs."
+            text: "Des prix peuvent être affichés sur le site de NB BURGER aux fins de présentation du menu."
           },
           {
             type: "paragraph",
-            text: "En cas de problème exceptionnel, vous pouvez contacter le service client et la question sera examinée conformément à la loi applicable."
+            text: "Les prix peuvent changer de temps à autre."
+          },
+          {
+            type: "paragraph",
+            text: "Lors d'une commande en ligne, le prix à jour et déterminant pour la commande est le prix affiché dans le système de commande externe au moment de la commande."
+          }
+        ]
+      },
+      {
+        title: "7. Livraisons",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Le Site peut afficher des zones de livraison générales."
+          },
+          {
+            type: "paragraph",
+            text: "La disponibilité de la livraison à une adresse donnée, les frais de livraison, le minimum de commande, les délais de livraison et les autres conditions sont déterminés et affichés dans le système de commande externe au moment de la commande."
+          }
+        ]
+      },
+      {
+        title: "8. Retrait",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "NB BURGER propose une option de retrait."
+          },
+          {
+            type: "paragraph",
+            text: "Le retrait est commandé via le système de commande externe lorsque le service est actif."
+          }
+        ]
+      },
+      {
+        title: "9. Disponibilité des plats",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Les plats, accompagnements et produits peuvent changer ou être indisponibles de temps à autre."
+          },
+          {
+            type: "paragraph",
+            text: "La disponibilité déterminante au moment d'une commande en ligne est celle affichée dans le système de commande."
+          }
+        ]
+      },
+      {
+        title: "10. Annulations, modifications et remboursements",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Les commandes en ligne sont gérées via le système de commande externe."
+          },
+          {
+            type: "paragraph",
+            text: "L'annulation, la modification, le remboursement et les conditions liées à la commande s'effectuent conformément aux conditions affichées dans le système de commande concerné et conformément à la loi applicable."
           },
           {
             type: "paragraph",
@@ -150,7 +189,102 @@ export function getTermsContentFr(): LegalDocument {
         ]
       },
       {
-        title: "7. Propriété intellectuelle",
+        title: "11. Cacherout",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "NB BURGER est casher sous la supervision du rabbinat de Ra'anana."
+          }
+        ]
+      },
+      {
+        title: "12. Boissons alcoolisées",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "NB BURGER vend des boissons alcoolisées, notamment de la bière."
+          },
+          {
+            type: "paragraph",
+            text: "La vente de boissons alcoolisées est destinée aux personnes âgées de 18 ans et plus, conformément à la loi applicable."
+          }
+        ]
+      },
+      {
+        title: "13. Allergènes et besoins alimentaires",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Il n'existe actuellement aucun guide public des allergènes sur le Site."
+          },
+          {
+            type: "paragraph",
+            text: "Les clients présentant une allergie, une sensibilité ou un besoin alimentaire particulier sont priés de contacter l'équipe NB BURGER avant de passer commande."
+          }
+        ]
+      },
+      {
+        title: "14. Club clients",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Le club clients est actif sur le Site. Lors de l'inscription, les informations suivantes sont collectées :"
+          },
+          {
+            type: "list",
+            items: [
+              "Nom",
+              "Numéro de téléphone",
+              "Date de naissance, si elle est fournie (champ facultatif)",
+              "Consentement aux communications marketing"
+            ]
+          },
+          {
+            type: "paragraph",
+            text: "La date de naissance, si elle est fournie, est utilisée pour des avantages d'anniversaire et des promotions pertinentes."
+          },
+          {
+            type: "paragraph",
+            text: "De plus amples détails sur la collecte et l'utilisation de ces informations figurent dans la politique de confidentialité."
+          }
+        ]
+      },
+      {
+        title: "15. Communications marketing",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "Les communications marketing sont envoyées aux personnes ayant donné leur consentement."
+          },
+          {
+            type: "paragraph",
+            text: "La désinscription des SMS est possible conformément aux instructions de désinscription figurant dans le message."
+          },
+          {
+            type: "paragraph",
+            text: `Vous pouvez également contacter : ${CONTACT_EMAIL}`
+          }
+        ]
+      },
+      {
+        title: "16. Confidentialité, cookies et services tiers",
+        blocks: [
+          {
+            type: "paragraph",
+            text: "NB BURGER agit conformément à la législation israélienne en matière de protection de la vie privée."
+          },
+          {
+            type: "paragraph",
+            text: "Le Site lui-même ne collecte ni ne conserve d'adresse de livraison, de détails de commande dans le système de commande, de données de carte bancaire ou de données de paiement. Lorsque de telles informations sont transmises à un fournisseur de commande externe, elles sont traitées dans le cadre de ce système externe."
+          },
+          {
+            type: "paragraph",
+            text: "Les détails concernant les cookies, les services tiers et l'utilisation des informations personnelles figurent dans la politique de confidentialité."
+          }
+        ]
+      },
+      {
+        title: "17. Propriété intellectuelle",
         blocks: [
           {
             type: "paragraph",
@@ -180,117 +314,17 @@ export function getTermsContentFr(): LegalDocument {
         ]
       },
       {
-        title: "8. Confidentialité et sécurité des informations",
+        title: "18. Responsabilité de l'utilisateur",
         blocks: [
+          { type: "paragraph", text: "L'utilisateur est responsable de fournir des informations complètes, exactes et correctes sur le Site." },
           {
             type: "paragraph",
-            text: "NB BURGER agit conformément à la législation israélienne en matière de protection de la vie privée."
-          },
-          { type: "paragraph", text: "Le Site peut collecter des informations telles que :" },
-          {
-            type: "list",
-            items: [
-              "Nom",
-              "Téléphone",
-              "Adresse",
-              "Adresse e-mail",
-              "Détails de commande",
-              "Adresse IP",
-              "Cookies",
-              "Type de navigateur",
-              "Données d'utilisation",
-              "Informations statistiques"
-            ]
-          },
-          { type: "paragraph", text: "Les informations sont collectées aux fins de :" },
-          {
-            type: "list",
-            items: [
-              "Exploitation du Site.",
-              "Traitement des commandes.",
-              "Service client.",
-              "Amélioration du service.",
-              "Sécurité des informations.",
-              "Prévention de la fraude.",
-              "Communication marketing, sous réserve du consentement de l'utilisateur et de la loi applicable."
-            ]
-          },
-          {
-            type: "paragraph",
-            text: "NB BURGER met en œuvre des mesures de sécurité reconnues et raisonnables, mais ne peut garantir une immunité absolue contre toute intrusion non autorisée dans ses systèmes."
+            text: "NB BURGER ne sera pas responsable de tout dommage ou retard résultant d'informations incorrectes transmises par l'utilisateur sur le Site."
           }
         ]
       },
       {
-        title: "9. Cookies",
-        blocks: [
-          { type: "paragraph", text: "Le Site utilise des cookies aux fins de :" },
-          {
-            type: "list",
-            items: [
-              "Exploitation du Site.",
-              "Sécurité.",
-              "Mesure des performances.",
-              "Adaptation de l'expérience utilisateur.",
-              "Analyse statistique.",
-              "Personnalisation publicitaire."
-            ]
-          },
-          {
-            type: "paragraph",
-            text: "L'utilisateur peut bloquer les cookies via les paramètres du navigateur ; toutefois, certains services du Site pourraient ne pas fonctionner correctement."
-          }
-        ]
-      },
-      {
-        title: "10. Systèmes tiers",
-        blocks: [
-          { type: "paragraph", text: "Le Site peut utiliser des services tiers, notamment :" },
-          {
-            type: "list",
-            items: [
-              "Google Analytics",
-              "Google Tag Manager",
-              "Meta Pixel",
-              "Google Ads",
-              "Systèmes d'e-mailing",
-              "Systèmes de paiement",
-              "Systèmes de sécurité",
-              "Systèmes d'analyse"
-            ]
-          },
-          {
-            type: "paragraph",
-            text: "L'utilisation de ces systèmes est également soumise aux politiques de confidentialité de ces sociétés."
-          }
-        ]
-      },
-      {
-        title: "11. Communications marketing",
-        blocks: [
-          { type: "paragraph", text: "La transmission de coordonnées sur le Site peut permettre l'envoi de :" },
-          {
-            type: "list",
-            items: ["Promotions", "Coupons", "Actualités", "Nouveautés", "Contenus marketing"]
-          },
-          {
-            type: "paragraph",
-            text: "L'utilisateur peut se désinscrire de la liste de diffusion à tout moment conformément à la loi applicable."
-          }
-        ]
-      },
-      {
-        title: "12. Responsabilité de l'utilisateur",
-        blocks: [
-          { type: "paragraph", text: "L'utilisateur est responsable de fournir des informations complètes, exactes et correctes." },
-          {
-            type: "paragraph",
-            text: "NB BURGER ne sera pas responsable de tout dommage, retard ou défaut de prestation de service résultant d'informations incorrectes transmises par l'utilisateur."
-          }
-        ]
-      },
-      {
-        title: "13. Disponibilité du Site",
+        title: "19. Disponibilité du Site",
         blocks: [
           { type: "paragraph", text: "NB BURGER ne garantit pas que le Site sera disponible en continu." },
           { type: "paragraph", text: "Des interruptions peuvent survenir en raison de :" },
@@ -309,7 +343,7 @@ export function getTermsContentFr(): LegalDocument {
         ]
       },
       {
-        title: "14. Force majeure",
+        title: "20. Force majeure",
         blocks: [
           {
             type: "paragraph",
@@ -318,20 +352,20 @@ export function getTermsContentFr(): LegalDocument {
         ]
       },
       {
-        title: "15. Liens externes",
+        title: "21. Liens externes",
         blocks: [
           {
             type: "paragraph",
-            text: "Le Site peut inclure des liens vers des sites web de tiers."
+            text: "Le Site peut inclure des liens vers des sites web et des services de tiers, y compris un système de commande externe."
           },
           {
             type: "paragraph",
-            text: "NB BURGER n'est pas responsable du contenu, des informations, des services ou des politiques de confidentialité de ces sites."
+            text: "NB BURGER n'est pas responsable du contenu, des informations, des services ou des politiques de confidentialité de ces sites et services."
           }
         ]
       },
       {
-        title: "16. Limitation de responsabilité",
+        title: "22. Limitation de responsabilité",
         blocks: [
           {
             type: "paragraph",
@@ -348,7 +382,7 @@ export function getTermsContentFr(): LegalDocument {
         ]
       },
       {
-        title: "17. Réserve de droits",
+        title: "23. Réserve de droits",
         blocks: [
           {
             type: "paragraph",
@@ -357,7 +391,7 @@ export function getTermsContentFr(): LegalDocument {
         ]
       },
       {
-        title: "18. Divisibilité",
+        title: "24. Divisibilité",
         blocks: [
           {
             type: "paragraph",
@@ -366,7 +400,7 @@ export function getTermsContentFr(): LegalDocument {
         ]
       },
       {
-        title: "19. Droit applicable et juridiction",
+        title: "25. Droit applicable et juridiction",
         blocks: [
           { type: "paragraph", text: "Les présentes conditions sont régies exclusivement par le droit de l'État d'Israël." },
           {
@@ -376,14 +410,14 @@ export function getTermsContentFr(): LegalDocument {
         ]
       },
       {
-        title: "20. Contact",
+        title: "26. Contact",
         blocks: [
           { type: "paragraph", text: "NB BURGER" },
           {
             type: "list",
             items: [
-              `📍 Adresse : ${BUSINESS.address.formattedWithCountry.fr}`,
-              `📧 E-mail : ${BUSINESS.email}`
+              `📍 Adresse : ${BUSINESS.address.formatted.fr}`,
+              `📧 E-mail : ${CONTACT_EMAIL}`
             ]
           }
         ]

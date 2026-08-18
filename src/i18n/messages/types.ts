@@ -8,6 +8,16 @@ export type Messages = {
     skipToMain: string;
     pauseVideo: string;
     playVideo: string;
+    openWidget: string;
+    closeWidget: string;
+    widgetTitle: string;
+    textSize: string;
+    increaseText: string;
+    decreaseText: string;
+    highContrast: string;
+    highlightLinks: string;
+    reduceMotion: string;
+    reset: string;
   };
   lang: {
     label: string;
@@ -235,6 +245,7 @@ export type Messages = {
     copyright: string;
     privacy: string;
     terms: string;
+    accessibility: string;
     closing: string;
   };
   stories: {

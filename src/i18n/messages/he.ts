@@ -5,7 +5,17 @@ export const he: Messages = {
   a11y: {
     skipToMain: "דלג לתוכן הראשי",
     pauseVideo: "עצור סרטון",
-    playVideo: "נגן סרטון"
+    playVideo: "נגן סרטון",
+    openWidget: "נגישות",
+    closeWidget: "סגור תפריט נגישות",
+    widgetTitle: "התאמות נגישות",
+    textSize: "גודל טקסט",
+    increaseText: "הגדלה",
+    decreaseText: "הקטנה",
+    highContrast: "ניגודיות גבוהה",
+    highlightLinks: "הדגשת קישורים",
+    reduceMotion: "הפחתת תנועה",
+    reset: "איפוס"
   },
   lang: {
     label: "שפה",
@@ -270,6 +280,7 @@ export const he: Messages = {
     copyright: "© 2026 NB BURGER - כל הזכויות שמורות",
     privacy: "מדיניות פרטיות",
     terms: "תקנון האתר",
+    accessibility: "הצהרת נגישות",
     closing: "לכל אירוע, בכל שעה. ביס אחד שלא תשכחו."
   },
   stories: {

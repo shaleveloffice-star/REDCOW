@@ -5,7 +5,17 @@ export const fr: Messages = {
   a11y: {
     skipToMain: "Aller au contenu principal",
     pauseVideo: "Mettre la vidéo en pause",
-    playVideo: "Lire la vidéo"
+    playVideo: "Lire la vidéo",
+    openWidget: "Accessibilité",
+    closeWidget: "Fermer le menu d'accessibilité",
+    widgetTitle: "Options d'accessibilité",
+    textSize: "Taille du texte",
+    increaseText: "Plus grand",
+    decreaseText: "Plus petit",
+    highContrast: "Contraste élevé",
+    highlightLinks: "Surligner les liens",
+    reduceMotion: "Réduire les animations",
+    reset: "Réinitialiser"
   },
   lang: {
     label: "Langue",
@@ -270,6 +280,7 @@ export const fr: Messages = {
     copyright: "© 2026 NB BURGER - Tous droits réservés",
     privacy: "Politique de confidentialité",
     terms: "Conditions d'utilisation",
+    accessibility: "Déclaration d'accessibilité",
     closing: "Pour chaque moment. Une bouchée inoubliable."
   },
   stories: {

@@ -186,6 +186,12 @@ export async function SiteFooter() {
             <a className="site-footer-legal-link" href="/terms">
               {t.footer.terms}
             </a>
+            <span className="site-footer-legal-sep" aria-hidden="true">
+              ·
+            </span>
+            <a className="site-footer-legal-link" href="/accessibility">
+              {t.footer.accessibility}
+            </a>
           </div>
           <p>{t.footer.closing}</p>
         </div>

@@ -398,6 +398,18 @@ html[data-a11y-motion="reduce"] *::after {
   height: 30px;
 }
 
+@media (max-width: 767px) {
+  .a11y-widget-toggle {
+    width: 39px;
+    height: 39px;
+  }
+
+  .a11y-widget-toggle-icon {
+    width: 21px;
+    height: 21px;
+  }
+}
+
 .a11y-widget-modal {
   position: fixed;
   inset: 0;

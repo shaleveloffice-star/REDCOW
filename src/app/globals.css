@@ -852,12 +852,15 @@ select {
   margin: 0;
   padding: 0;
   list-style: none;
+  overflow: visible;
 }
 
 .site-navbar-links > li {
+  position: relative;
   display: flex;
   align-items: center;
   height: 24px;
+  overflow: visible;
 }
 
 .site-navbar-link {
@@ -920,9 +923,11 @@ select {
 
 .site-navbar-magazine {
   position: relative;
+  z-index: 50;
   display: flex;
   align-items: center;
   height: 24px;
+  overflow: visible;
 }
 
 .site-navbar-magazine-trigger .site-navbar-link-label {
@@ -944,21 +949,19 @@ select {
 
 .site-navbar-magazine-menu {
   position: absolute;
-  top: calc(100% + 14px);
-  inset-inline-start: 50%;
+  top: calc(100% + 12px);
+  left: 50%;
+  right: auto;
   transform: translateX(-50%);
-  z-index: 40;
+  z-index: 60;
   min-width: max(220px, 100%);
+  width: max-content;
   margin: 0;
   padding: 10px 0;
   list-style: none;
   background: #0b0b0b;
   border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
-}
-
-html[dir="rtl"] .site-navbar-magazine-menu {
-  transform: translateX(50%);
 }
 
 .site-navbar-magazine-item {
@@ -994,25 +997,39 @@ html[dir="rtl"] .site-navbar-magazine-menu {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 8px;
 }
 
 .site-nav-overlay-magazine-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  width: auto;
+  height: auto;
+  min-width: 28px;
+  min-height: 28px;
+  padding: 4px;
+  border: 0;
   background: transparent;
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.72);
   cursor: pointer;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.site-nav-overlay-magazine-toggle .site-navbar-magazine-chevron {
+  width: 12px;
+  height: 12px;
+}
+
+.site-nav-overlay-magazine-toggle:hover,
+.site-nav-overlay-magazine-toggle[aria-expanded="true"] {
+  color: #ffffff;
 }
 
 .site-nav-overlay-magazine-toggle:focus-visible {
   outline: 2px solid #ffffff;
-  outline-offset: 3px;
+  outline-offset: 4px;
+  border-radius: 2px;
 }
 
 .site-nav-overlay-magazine-list {

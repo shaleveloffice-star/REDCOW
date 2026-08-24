@@ -118,8 +118,8 @@ type AdminImageUrlFieldProps = {
   images: AdminPickableImage[];
   spec?: AdminImageSpec;
   allowUpload?: boolean;
-  onChange: (url: string) => void;
-  onAltSuggestion?: (alt: string) => void;
+  /** Optional alt suggestion is passed in the same call as the URL to avoid stale state races. */
+  onChange: (url: string, meta?: { altSuggestion?: string }) => void;
 };
 
 export function AdminImageUrlField({
@@ -129,8 +129,7 @@ export function AdminImageUrlField({
   images,
   spec = GALLERY_IMAGE_SPEC,
   allowUpload = true,
-  onChange,
-  onAltSuggestion
+  onChange
 }: AdminImageUrlFieldProps) {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -204,8 +203,7 @@ export function AdminImageUrlField({
         images={images}
         onClose={() => setPickerOpen(false)}
         onSelect={(url, image) => {
-          onChange(url);
-          onAltSuggestion?.(image.label);
+          onChange(url, { altSuggestion: image.label });
         }}
       />
     </>

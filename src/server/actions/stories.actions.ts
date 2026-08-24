@@ -47,9 +47,16 @@ function formatSaveError(err: unknown): string {
   return `שמירת הסיפור נכשלה: ${short}`;
 }
 
-async function materializeImageUrl(imageUrl: string, fieldLabel: string): Promise<string> {
+async function materializeImageUrl(
+  imageUrl: string,
+  fieldLabel: string,
+  options?: { optional?: boolean }
+): Promise<string> {
   const safe = assertSafeHttpUrl(imageUrl, fieldLabel);
   if (!safe) {
+    if (options?.optional) {
+      return "";
+    }
     throw new Error(`${fieldLabel}: כתובת תמונה נדרשת`);
   }
   const materialized = await materializeMenuImageUrl(safe);
@@ -68,13 +75,13 @@ async function sanitizeSection(section: StorySection): Promise<StorySection> {
         kicker: section.kicker?.trim() || undefined,
         title: section.title.trim(),
         body: section.body.trim(),
-        imageUrl: await materializeImageUrl(section.imageUrl, "תמונת מקטע"),
+        imageUrl: await materializeImageUrl(section.imageUrl, "תמונת מקטע", { optional: true }),
         imageAlt: section.imageAlt.trim()
       }) as StorySection;
     case "full-image":
       return omitUndefined({
         type: section.type,
-        imageUrl: await materializeImageUrl(section.imageUrl, "תמונת מקטע"),
+        imageUrl: await materializeImageUrl(section.imageUrl, "תמונת מקטע", { optional: true }),
         imageAlt: section.imageAlt.trim(),
         caption: section.caption?.trim() || undefined
       }) as StorySection;
@@ -107,7 +114,9 @@ async function sanitizeStory(input: BrandStory): Promise<BrandStory> {
     throw new Error("Slug נדרש");
   }
 
-  const heroImageUrl = await materializeImageUrl(input.heroImageUrl, "תמונת Hero");
+  const heroImageUrl = await materializeImageUrl(input.heroImageUrl, "תמונת Hero", {
+    optional: true
+  });
   const ogRaw = input.ogImageUrl?.trim();
   const ogImageUrl = ogRaw
     ? await materializeImageUrl(ogRaw, "תמונת OG")

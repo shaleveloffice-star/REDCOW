@@ -18,30 +18,37 @@ export function StoryHero({ story, locale, editor }: StoryHeroProps) {
     locale,
     customAlt: story.heroImageAlt
   });
+  const heroSrc = story.heroImageUrl.trim();
 
   return (
-    <header className="story-hero">
-      <StoryEditableImageWrap
-        editor={editor}
-        onPick={(url, label) => {
-          editor?.onEditHero({
-            heroImageUrl: url,
-            ...(label && !story.heroImageAlt.trim() ? { heroImageAlt: label } : {})
-          });
-        }}
-      >
-        <div className="story-hero-image-wrap">
-          <Image
-            src={story.heroImageUrl}
-            alt={heroAlt}
-            fill
-            priority
-            sizes="100vw"
-            className="story-hero-image"
-          />
-          <div className="story-hero-overlay" aria-hidden="true" />
-        </div>
-      </StoryEditableImageWrap>
+    <header className={`story-hero${heroSrc ? "" : " story-hero--no-image"}`}>
+      {heroSrc || editor?.active ? (
+        <StoryEditableImageWrap
+          editor={editor}
+          onPick={(url, label) => {
+            editor?.onEditHero({
+              heroImageUrl: url,
+              ...(label && !story.heroImageAlt.trim() ? { heroImageAlt: label } : {})
+            });
+          }}
+        >
+          <div className="story-hero-image-wrap">
+            {heroSrc ? (
+              <Image
+                src={heroSrc}
+                alt={heroAlt}
+                fill
+                priority
+                sizes="100vw"
+                className="story-hero-image"
+              />
+            ) : (
+              <div className="story-hero-image-placeholder" aria-hidden="true" />
+            )}
+            <div className="story-hero-overlay" aria-hidden="true" />
+          </div>
+        </StoryEditableImageWrap>
+      ) : null}
       <div className="story-hero-content">
         {story.category.trim() || editor?.active ? (
           <p

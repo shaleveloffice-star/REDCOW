@@ -164,27 +164,33 @@ function SplitSection({
               onSave={(body) => onUpdate({ ...section, body })}
             />
           </div>
-          <div className="story-split-media">
-            <StoryEditableImageWrap
-              editor={editor}
-              onPick={(url, label) =>
-                onUpdate({
-                  ...section,
-                  imageUrl: url,
-                  ...(label && !section.imageAlt.trim() ? { imageAlt: label } : {})
-                })
-              }
-            >
-              <Image
-                src={section.imageUrl}
-                alt={imageAlt}
-                width={960}
-                height={720}
-                sizes="(max-width: 768px) 100vw, 50vw"
-                className="story-split-image"
-              />
-            </StoryEditableImageWrap>
-          </div>
+          {(section.imageUrl.trim() || editor?.active) ? (
+            <div className="story-split-media">
+              <StoryEditableImageWrap
+                editor={editor}
+                onPick={(url, label) =>
+                  onUpdate({
+                    ...section,
+                    imageUrl: url,
+                    ...(label && !section.imageAlt.trim() ? { imageAlt: label } : {})
+                  })
+                }
+              >
+                {section.imageUrl.trim() ? (
+                  <Image
+                    src={section.imageUrl}
+                    alt={imageAlt}
+                    width={960}
+                    height={720}
+                    sizes="(max-width: 768px) 100vw, 50vw"
+                    className="story-split-image"
+                  />
+                ) : (
+                  <div className="story-split-image-placeholder" aria-hidden="true" />
+                )}
+              </StoryEditableImageWrap>
+            </div>
+          ) : null}
         </div>
       </section>
     </SectionEditChrome>
@@ -233,6 +239,17 @@ function renderSection(
         locale,
         customAlt: section.imageAlt
       });
+      const imageSrc = section.imageUrl.trim();
+
+      if (!imageSrc && !editor?.active) {
+        return section.caption?.trim() ? (
+          <SectionEditChrome key={`${section.type}-${index}`} editor={editor} index={index} section={section}>
+            <section className={`story-section story-section--${tone}`}>
+              <p className="story-full-caption story-full-caption--solo">{section.caption}</p>
+            </section>
+          </SectionEditChrome>
+        ) : null;
+      }
 
       return (
         <SectionEditChrome key={`${section.type}-${index}`} editor={editor} index={index} section={section}>
@@ -248,14 +265,18 @@ function renderSection(
                   })
                 }
               >
-                <Image
-                  src={section.imageUrl}
-                  alt={imageAlt}
-                  width={1200}
-                  height={800}
-                  sizes="100vw"
-                  className="story-full-image"
-                />
+                {imageSrc ? (
+                  <Image
+                    src={imageSrc}
+                    alt={imageAlt}
+                    width={1200}
+                    height={800}
+                    sizes="100vw"
+                    className="story-full-image"
+                  />
+                ) : (
+                  <div className="story-full-image-placeholder" aria-hidden="true" />
+                )}
               </StoryEditableImageWrap>
               {section.caption?.trim() || editor?.active ? (
                 <figcaption

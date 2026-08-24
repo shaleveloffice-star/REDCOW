@@ -21,7 +21,6 @@ import { StatusBadge } from "@/components/features/admin/status-badge";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { createId } from "@/lib/admin/new-id";
 import { convertStorySectionType } from "@/lib/stories/convert-section-type";
-import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { resolveStorySlug } from "@/lib/stories/story-slug";
 import { deleteBrandStoryAction, saveBrandStoryAction } from "@/server/actions/stories.actions";
 import {
@@ -121,7 +120,7 @@ function newStory(items: BrandStory[]): BrandStory {
     category: "הסיפור שלנו",
     title: "",
     subtitle: "",
-    heroImageUrl: DEFAULT_OG_IMAGE,
+    heroImageUrl: "",
     heroImageAlt: "",
     sections: [],
     publishedAt: now,
@@ -141,13 +140,13 @@ function defaultSection(type: StorySectionType): StorySection {
         kicker: "",
         title: "",
         body: "",
-        imageUrl: DEFAULT_OG_IMAGE,
+        imageUrl: "",
         imageAlt: ""
       };
     case "full-image":
       return {
         type,
-        imageUrl: DEFAULT_OG_IMAGE,
+        imageUrl: "",
         imageAlt: "",
         caption: ""
       };
@@ -169,7 +168,7 @@ function defaultSection(type: StorySectionType): StorySection {
         type: "split-text-image",
         title: "",
         body: "",
-        imageUrl: DEFAULT_OG_IMAGE,
+        imageUrl: "",
         imageAlt: ""
       };
   }
@@ -277,22 +276,23 @@ function SectionEditor({
             />
           </label>
           <AdminImageUrlField
-            label="כתובת תמונה"
-            required
+            label="כתובת תמונה (אופציונלי)"
             value={section.imageUrl}
             images={pickableImages}
             spec={STORY_SECTION_IMAGE_SPEC}
-            onChange={(imageUrl) => onChange({ ...section, imageUrl })}
-            onAltSuggestion={(alt) => {
-              if (!section.imageAlt.trim()) {
-                onChange({ ...section, imageAlt: alt });
-              }
-            }}
+            onChange={(imageUrl, meta) =>
+              onChange({
+                ...section,
+                imageUrl,
+                ...(meta?.altSuggestion && !section.imageAlt.trim()
+                  ? { imageAlt: meta.altSuggestion }
+                  : {})
+              })
+            }
           />
           <label>
             תיאור תמונה (alt)
             <input
-              required
               value={section.imageAlt}
               onChange={(e) => onChange({ ...section, imageAlt: e.target.value })}
             />
@@ -303,22 +303,23 @@ function SectionEditor({
       {section.type === "full-image" && (
         <>
           <AdminImageUrlField
-            label="כתובת תמונה"
-            required
+            label="כתובת תמונה (אופציונלי)"
             value={section.imageUrl}
             images={pickableImages}
             spec={STORY_SECTION_IMAGE_SPEC}
-            onChange={(imageUrl) => onChange({ ...section, imageUrl })}
-            onAltSuggestion={(alt) => {
-              if (!section.imageAlt.trim()) {
-                onChange({ ...section, imageAlt: alt });
-              }
-            }}
+            onChange={(imageUrl, meta) =>
+              onChange({
+                ...section,
+                imageUrl,
+                ...(meta?.altSuggestion && !section.imageAlt.trim()
+                  ? { imageAlt: meta.altSuggestion }
+                  : {})
+              })
+            }
           />
           <label>
             תיאור תמונה (alt)
             <input
-              required
               value={section.imageAlt}
               onChange={(e) => onChange({ ...section, imageAlt: e.target.value })}
             />
@@ -662,22 +663,23 @@ export function AdminStoriesManager({
               />
             </label>
             <AdminImageUrlField
-              label="כתובת תמונת Hero"
-              required
+              label="כתובת תמונת Hero (אופציונלי)"
               value={draft.heroImageUrl}
               images={pickableImages}
               spec={STORY_HERO_IMAGE_SPEC}
-              onChange={(heroImageUrl) => setDraft({ ...draft, heroImageUrl })}
-              onAltSuggestion={(alt) => {
-                if (!draft.heroImageAlt.trim()) {
-                  setDraft({ ...draft, heroImageAlt: alt });
-                }
-              }}
+              onChange={(heroImageUrl, meta) =>
+                setDraft({
+                  ...draft,
+                  heroImageUrl,
+                  ...(meta?.altSuggestion && !draft.heroImageAlt.trim()
+                    ? { heroImageAlt: meta.altSuggestion }
+                    : {})
+                })
+              }
             />
             <label>
               תיאור תמונת Hero (alt)
               <input
-                required
                 value={draft.heroImageAlt}
                 onChange={(e) => setDraft({ ...draft, heroImageAlt: e.target.value })}
               />

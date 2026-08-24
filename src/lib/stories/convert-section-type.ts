@@ -1,4 +1,3 @@
-import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import type { StorySection, StorySectionType } from "@/types/story";
 
 function defaultSection(type: StorySectionType): StorySection {
@@ -10,13 +9,13 @@ function defaultSection(type: StorySectionType): StorySection {
         kicker: "",
         title: "",
         body: "",
-        imageUrl: DEFAULT_OG_IMAGE,
+        imageUrl: "",
         imageAlt: ""
       };
     case "full-image":
       return {
         type,
-        imageUrl: DEFAULT_OG_IMAGE,
+        imageUrl: "",
         imageAlt: "",
         caption: ""
       };
@@ -38,7 +37,7 @@ function defaultSection(type: StorySectionType): StorySection {
         type: "split-text-image",
         title: "",
         body: "",
-        imageUrl: DEFAULT_OG_IMAGE,
+        imageUrl: "",
         imageAlt: ""
       };
   }
@@ -131,13 +130,13 @@ export function convertStorySectionType(section: StorySection, nextType: StorySe
           kicker: section.attribution?.trim() || undefined,
           title: "",
           body: section.text,
-          imageUrl: DEFAULT_OG_IMAGE,
+          imageUrl: "",
           imageAlt: ""
         };
       case "full-image":
         return {
           type: "full-image",
-          imageUrl: DEFAULT_OG_IMAGE,
+          imageUrl: "",
           imageAlt: "",
           caption: section.text
         };
@@ -161,13 +160,13 @@ export function convertStorySectionType(section: StorySection, nextType: StorySe
           type: nextType,
           title: section.label,
           body: section.body?.trim() ?? "",
-          imageUrl: DEFAULT_OG_IMAGE,
+          imageUrl: "",
           imageAlt: ""
         };
       case "full-image":
         return {
           type: "full-image",
-          imageUrl: DEFAULT_OG_IMAGE,
+          imageUrl: "",
           imageAlt: "",
           caption: section.body?.trim() || section.label
         };

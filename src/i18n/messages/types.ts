@@ -39,6 +39,7 @@ export type Messages = {
     club: string;
     location: string;
     about: string;
+    magazine: string;
     branches: string;
   };
   hero: {

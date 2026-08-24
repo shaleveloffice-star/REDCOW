@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Archivo_Black, Assistant } from "next/font/google";
-import Script from "next/script";
 import { Suspense } from "react";
 import "./globals.css";
 import "./homepage-ds.css";
@@ -10,6 +9,7 @@ import "./menu-page.css";
 import "./menu-item-detail.css";
 
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { A11yBootScript } from "@/components/layout/a11y-boot-script";
 import { AccessibilityWidget } from "@/components/layout/accessibility-widget";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { LocaleProvider } from "@/components/providers/locale-provider";
@@ -17,10 +17,11 @@ import { SkipToContent } from "@/components/layout/skip-to-content";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getDirection } from "@/i18n/config";
 import { getServerLocale } from "@/i18n/get-locale";
-import { A11Y_BOOT_SCRIPT } from "@/lib/a11y/preferences";
-import { getCachedActiveOrderLinks } from "@/lib/cache/cached-data";
+import { getCachedActiveOrderLinks, getCachedBrandStories } from "@/lib/cache/cached-data";
+import { resolveStorySlug } from "@/lib/stories/story-slug";
 import { buildOrganizationJsonLd } from "@/lib/seo/json-ld";
 import { DEFAULT_OG_IMAGE, OG_LOCALE, SITE_NAME, SITE_URL } from "@/lib/seo";
+import type { MagazineNavStory } from "@/components/layout/site-navbar";
 
 const assistant = Assistant({
   subsets: ["hebrew", "latin"],
@@ -79,19 +80,29 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [locale, orderLinks] = await Promise.all([getServerLocale(), getCachedActiveOrderLinks()]);
+  const locale = await getServerLocale();
+  const [orderLinks, brandStories] = await Promise.all([
+    getCachedActiveOrderLinks(),
+    getCachedBrandStories(locale).catch(() => [])
+  ]);
   const dir = getDirection(locale);
+  const magazineStories: MagazineNavStory[] = brandStories
+    .filter((story) => story.title.trim().length > 0)
+    .map((story) => ({
+      title: story.title.trim(),
+      slug: resolveStorySlug(story)
+    }));
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
       <body className={`${assistant.variable} ${archivoBlack.variable} ${assistant.className}`} suppressHydrationWarning>
-        <Script id="nb-a11y-boot" strategy="beforeInteractive">
-          {A11Y_BOOT_SCRIPT}
-        </Script>
+        <A11yBootScript />
         <LocaleProvider initialLocale={locale}>
           <JsonLd data={buildOrganizationJsonLd()} />
           <SkipToContent />
-          <SiteChrome orderLinks={orderLinks}>{children}</SiteChrome>
+          <SiteChrome orderLinks={orderLinks} magazineStories={magazineStories}>
+            {children}
+          </SiteChrome>
           <AccessibilityWidget />
           <Suspense fallback={null}>
             <GoogleAnalytics />

@@ -918,6 +918,133 @@ select {
   outline-offset: 4px;
 }
 
+.site-navbar-magazine {
+  position: relative;
+  display: flex;
+  align-items: center;
+  height: 24px;
+}
+
+.site-navbar-magazine-trigger .site-navbar-link-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.site-navbar-magazine-chevron {
+  width: 10px;
+  height: 10px;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+.site-navbar-magazine-chevron.is-open {
+  transform: rotate(180deg);
+}
+
+.site-navbar-magazine-menu {
+  position: absolute;
+  top: calc(100% + 14px);
+  inset-inline-start: 50%;
+  transform: translateX(-50%);
+  z-index: 40;
+  min-width: max(220px, 100%);
+  margin: 0;
+  padding: 10px 0;
+  list-style: none;
+  background: #0b0b0b;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.35);
+}
+
+html[dir="rtl"] .site-navbar-magazine-menu {
+  transform: translateX(50%);
+}
+
+.site-navbar-magazine-item {
+  display: block;
+  padding: 10px 16px;
+  color: #ffffff;
+  font-family: var(--font-button);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  line-height: 1.35;
+  text-decoration: none;
+  text-transform: none;
+  white-space: nowrap;
+  transition: background-color 0.2s ease;
+}
+
+.site-navbar-magazine-item:hover,
+.site-navbar-magazine-item:focus-visible {
+  background: rgba(255, 255, 255, 0.08);
+  outline: none;
+}
+
+.site-nav-overlay-magazine {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  width: min(100%, 420px);
+}
+
+.site-nav-overlay-magazine-row {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.site-nav-overlay-magazine-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.site-nav-overlay-magazine-toggle:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+.site-nav-overlay-magazine-list {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.site-nav-overlay-magazine-item {
+  display: block;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: var(--font-button);
+  font-size: clamp(15px, 4vw, 20px);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  text-transform: none;
+}
+
+.site-nav-overlay-magazine-item:hover,
+.site-nav-overlay-magazine-item:focus-visible {
+  color: #ffffff;
+  outline: none;
+}
+
 .site-navbar-social {
   position: relative;
   display: inline-flex;

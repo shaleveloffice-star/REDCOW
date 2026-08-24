@@ -37,6 +37,7 @@ export const he: Messages = {
     club: "מועדון לקוחות",
     location: "מיקום ושעות",
     about: "אודות",
+    magazine: "מגזין",
     branches: "סניפים"
   },
   hero: {

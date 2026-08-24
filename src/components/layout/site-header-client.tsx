@@ -3,14 +3,15 @@
 import { usePathname } from "next/navigation";
 
 import { SiteOpeningBanner } from "@/components/layout/site-opening-banner";
-import { SiteNavbar } from "@/components/layout/site-navbar";
+import { SiteNavbar, type MagazineNavStory } from "@/components/layout/site-navbar";
 import type { OrderLink } from "@/types/content";
 
 type SiteHeaderClientProps = {
   orderLinks: OrderLink[];
+  magazineStories?: MagazineNavStory[];
 };
 
-export function SiteHeaderClient({ orderLinks }: SiteHeaderClientProps) {
+export function SiteHeaderClient({ orderLinks, magazineStories = [] }: SiteHeaderClientProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isAdmin = pathname.startsWith("/admin");
@@ -26,6 +27,7 @@ export function SiteHeaderClient({ orderLinks }: SiteHeaderClientProps) {
         overlay={isHome}
         orderUrl={orderLinks[0]?.url ?? "#location"}
         orderLinks={orderLinks}
+        magazineStories={magazineStories}
       />
     </>
   );

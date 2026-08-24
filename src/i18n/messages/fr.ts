@@ -37,6 +37,7 @@ export const fr: Messages = {
     club: "Club client",
     location: "Adresse & Horaires",
     about: "À propos",
+    magazine: "Magazine",
     branches: "Adresses"
   },
   hero: {

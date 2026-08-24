@@ -25,10 +25,16 @@ import { focusElement, getFocusableElements, inertBackground, isFocusRestoreTarg
 import { trackEvent } from "@/lib/analytics";
 import type { OrderLink } from "@/types/content";
 
+export type MagazineNavStory = {
+  title: string;
+  slug: string;
+};
+
 type SiteNavbarProps = {
   overlay?: boolean;
   orderUrl?: string;
   orderLinks?: OrderLink[];
+  magazineStories?: MagazineNavStory[];
 };
 
 function IconInstagram() {
@@ -37,6 +43,25 @@ function IconInstagram() {
       <path
         fill="currentColor"
         d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5.2A4.8 4.8 0 1 0 16.8 12 4.8 4.8 0 0 0 12 7.2zm0 7.7A2.9 2.9 0 1 1 14.9 12 2.9 2.9 0 0 1 12 14.9zm5.95-8.85a1.15 1.15 0 1 0 1.15 1.15 1.15 1.15 0 0 0-1.15-1.15z"
+      />
+    </svg>
+  );
+}
+
+function IconMagazineChevron({ open = false }: { open?: boolean }) {
+  return (
+    <svg
+      viewBox="0 0 12 12"
+      aria-hidden="true"
+      className={`site-navbar-magazine-chevron${open ? " is-open" : ""}`}
+    >
+      <path
+        d="M2.5 4.25 6 7.75l3.5-3.5"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   );
@@ -88,7 +113,8 @@ function resolveOrderUrls(orderLinks: OrderLink[], fallbackOrderUrl: string) {
 export function SiteNavbar({
   overlay = false,
   orderUrl = "#location",
-  orderLinks = []
+  orderLinks = [],
+  magazineStories = []
 }: SiteNavbarProps) {
   const t = useTranslations();
   const router = useRouter();
@@ -98,15 +124,20 @@ export function SiteNavbar({
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBack, setShowBack] = useState(false);
+  const [desktopMagazineOpen, setDesktopMagazineOpen] = useState(false);
+  const [mobileMagazineOpen, setMobileMagazineOpen] = useState(false);
   const wordmarkSrc = isScrolled ? SITE_WORDMARK_DARK_SRC : SITE_WORDMARK_LIGHT_SRC;
   const wordmarkWebp = isScrolled ? SITE_WORDMARK_DARK_WEBP_SRC : SITE_WORDMARK_LIGHT_WEBP_SRC;
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const [orderLocation, setOrderLocation] = useState("navbar");
   const menuId = useId();
+  const magazineMenuId = useId();
+  const mobileMagazineId = useId();
   const toggleRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const bagButtonRef = useRef<HTMLButtonElement>(null);
+  const magazineRef = useRef<HTMLLIElement>(null);
   const orderReturnFocusRef = useRef<HTMLElement | null>(null);
   const navStackRef = useRef<string[]>([]);
 
@@ -125,6 +156,17 @@ export function SiteNavbar({
     [t]
   );
 
+  const magazineItems = useMemo(
+    () =>
+      magazineStories
+        .filter((story) => story.title.trim() && story.slug.trim())
+        .map((story) => ({
+          title: story.title.trim(),
+          href: `/stories/${story.slug.trim()}`
+        })),
+    [magazineStories]
+  );
+
   const openOrderModal = useCallback((location: string, opener?: HTMLElement | null) => {
     trackEvent("order_open", { location });
     orderReturnFocusRef.current = opener ?? null;
@@ -139,6 +181,7 @@ export function SiteNavbar({
 
   const closeMenu = (restoreFocus = true) => {
     setIsOpen(false);
+    setMobileMagazineOpen(false);
     if (restoreFocus && isFocusRestoreTarget(toggleRef.current)) {
       focusElement(toggleRef.current);
     }
@@ -168,6 +211,34 @@ export function SiteNavbar({
 
     setShowBack(navStackRef.current.length > 1);
   }, [pathname]);
+
+  useEffect(() => {
+    setDesktopMagazineOpen(false);
+    setMobileMagazineOpen(false);
+  }, [pathname]);
+
+  useEffect(() => {
+    if (!desktopMagazineOpen) return;
+
+    const onPointerDown = (event: MouseEvent) => {
+      if (!magazineRef.current?.contains(event.target as Node)) {
+        setDesktopMagazineOpen(false);
+      }
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setDesktopMagazineOpen(false);
+      }
+    };
+
+    window.addEventListener("mousedown", onPointerDown);
+    window.addEventListener("keydown", onKeyDown);
+    return () => {
+      window.removeEventListener("mousedown", onPointerDown);
+      window.removeEventListener("keydown", onKeyDown);
+    };
+  }, [desktopMagazineOpen]);
 
   useEffect(() => {
     const onScroll = () => {
@@ -257,6 +328,61 @@ export function SiteNavbar({
                   </a>
                 </li>
               ))}
+              <li
+                ref={magazineRef}
+                className={`site-navbar-magazine${desktopMagazineOpen ? " is-open" : ""}`}
+                onMouseEnter={() => setDesktopMagazineOpen(true)}
+                onMouseLeave={() => setDesktopMagazineOpen(false)}
+              >
+                <a
+                  href="/stories"
+                  className="site-navbar-link site-navbar-magazine-trigger"
+                  aria-haspopup={magazineItems.length > 0 ? "menu" : undefined}
+                  aria-expanded={magazineItems.length > 0 ? desktopMagazineOpen : undefined}
+                  aria-controls={magazineItems.length > 0 ? magazineMenuId : undefined}
+                  onClick={(event) => {
+                    if (magazineItems.length === 0) return;
+                    if (event.detail === 0) {
+                      event.preventDefault();
+                      setDesktopMagazineOpen((open) => !open);
+                    }
+                  }}
+                  onKeyDown={(event) => {
+                    if (magazineItems.length === 0) return;
+                    if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      setDesktopMagazineOpen(true);
+                    }
+                  }}
+                >
+                  <span className="site-navbar-link-label">
+                    {t.nav.magazine}
+                    {magazineItems.length > 0 ? <IconMagazineChevron open={desktopMagazineOpen} /> : null}
+                  </span>
+                </a>
+                {magazineItems.length > 0 ? (
+                  <ul
+                    id={magazineMenuId}
+                    className="site-navbar-magazine-menu"
+                    role="menu"
+                    aria-label={t.nav.magazine}
+                    hidden={!desktopMagazineOpen}
+                  >
+                    {magazineItems.map((item) => (
+                      <li key={item.href} role="none">
+                        <a
+                          href={item.href}
+                          className="site-navbar-magazine-item"
+                          role="menuitem"
+                          onClick={() => setDesktopMagazineOpen(false)}
+                        >
+                          {item.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </li>
               <li>
                 <a
                   href={BUSINESS.social.instagram}
@@ -379,10 +505,51 @@ export function SiteNavbar({
                 {link.label}
               </a>
             ))}
+            <div
+              className="site-nav-overlay-magazine"
+              style={{ animationDelay: `${navLinks.length * 0.08}s` }}
+            >
+              <div className="site-nav-overlay-magazine-row">
+                <a
+                  href="/stories"
+                  className="site-nav-overlay-link site-nav-overlay-magazine-link"
+                  onClick={() => closeMenu(true)}
+                >
+                  {t.nav.magazine}
+                </a>
+                {magazineItems.length > 0 ? (
+                  <button
+                    type="button"
+                    className="site-nav-overlay-magazine-toggle"
+                    aria-expanded={mobileMagazineOpen}
+                    aria-controls={mobileMagazineId}
+                    aria-label={t.nav.magazine}
+                    onClick={() => setMobileMagazineOpen((open) => !open)}
+                  >
+                    <IconMagazineChevron open={mobileMagazineOpen} />
+                  </button>
+                ) : null}
+              </div>
+              {magazineItems.length > 0 && mobileMagazineOpen ? (
+                <ul id={mobileMagazineId} className="site-nav-overlay-magazine-list">
+                  {magazineItems.map((item) => (
+                    <li key={item.href}>
+                      <a
+                        href={item.href}
+                        className="site-nav-overlay-magazine-item"
+                        onClick={() => closeMenu(true)}
+                      >
+                        {item.title}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              ) : null}
+            </div>
             <button
               type="button"
               className="site-nav-overlay-link"
-              style={{ animationDelay: `${navLinks.length * 0.08}s` }}
+              style={{ animationDelay: `${(navLinks.length + 1) * 0.08}s` }}
               onClick={() => openOrderModal("nav_overlay", toggleRef.current)}
             >
               {t.hero.orderCta}

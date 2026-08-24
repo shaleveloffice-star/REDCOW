@@ -2,10 +2,9 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import {
-  AdminFormFooter,
   AdminModal,
   AdminRowActions,
   AdminToolbar,
@@ -31,6 +30,80 @@ import {
   type StorySection,
   type StorySectionType
 } from "@/types/story";
+
+const STORY_DRAFT_STORAGE_PREFIX = "nb-admin-story-draft:";
+
+function storyDraftStorageKey(id: string) {
+  return `${STORY_DRAFT_STORAGE_PREFIX}${id}`;
+}
+
+function readLocalStoryDraft(id: string): BrandStory | null {
+  if (typeof window === "undefined") return null;
+  try {
+    const raw = window.localStorage.getItem(storyDraftStorageKey(id));
+    if (!raw) return null;
+    const parsed = JSON.parse(raw) as BrandStory;
+    if (!parsed || typeof parsed !== "object" || parsed.id !== id) return null;
+    return { ...parsed, sections: Array.isArray(parsed.sections) ? parsed.sections : [] };
+  } catch {
+    return null;
+  }
+}
+
+function writeLocalStoryDraft(story: BrandStory) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(
+      storyDraftStorageKey(story.id),
+      JSON.stringify({ ...story, updatedAt: new Date().toISOString() })
+    );
+  } catch {
+    // private mode / quota
+  }
+}
+
+function clearLocalStoryDraft(id: string) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.removeItem(storyDraftStorageKey(id));
+  } catch {
+    // ignore
+  }
+}
+
+function findNewestOrphanLocalDraft(existingIds: Set<string>): BrandStory | null {
+  if (typeof window === "undefined") return null;
+  let newest: BrandStory | null = null;
+  try {
+    for (let i = 0; i < window.localStorage.length; i++) {
+      const key = window.localStorage.key(i);
+      if (!key?.startsWith(STORY_DRAFT_STORAGE_PREFIX)) continue;
+      const id = key.slice(STORY_DRAFT_STORAGE_PREFIX.length);
+      if (existingIds.has(id)) continue;
+      const draft = readLocalStoryDraft(id);
+      if (!draft) continue;
+      if (!newest || Date.parse(draft.updatedAt) > Date.parse(newest.updatedAt)) {
+        newest = draft;
+      }
+    }
+  } catch {
+    return newest;
+  }
+  return newest;
+}
+
+function preferLocalDraft(serverStory: BrandStory): { story: BrandStory; fromLocal: boolean } {
+  const local = readLocalStoryDraft(serverStory.id);
+  if (!local) {
+    return { story: { ...serverStory, sections: [...serverStory.sections] }, fromLocal: false };
+  }
+  const localTs = Date.parse(local.updatedAt) || 0;
+  const serverTs = Date.parse(serverStory.updatedAt) || 0;
+  if (localTs >= serverTs) {
+    return { story: local, fromLocal: true };
+  }
+  return { story: { ...serverStory, sections: [...serverStory.sections] }, fromLocal: false };
+}
 
 const SECTION_TYPE_LABELS: Record<StorySectionType, string> = {
   "split-text-image": "טקסט + תמונה (ימין)",
@@ -338,7 +411,7 @@ function StoryLinksPanel({ story }: { story: BrandStory }) {
           </Link>
         </p>
       ) : (
-        <p className="admin-form-hint">קישור באתר יופיע לאחר סימון &quot;פעיל (פרסום באתר)&quot; ושמירה.</p>
+        <p className="admin-form-hint">קישור באתר יופיע לאחר פרסום הסיפור (&quot;פרסם באתר&quot;).</p>
       )}
     </div>
   );
@@ -356,31 +429,105 @@ export function AdminStoriesManager({
   const [draft, setDraft] = useState<BrandStory | null>(null);
   const [newSectionType, setNewSectionType] = useState<StorySectionType>("split-text-image");
   const [viewMode, setViewMode] = useState<"form" | "preview">("form");
+  const [restoredFromLocal, setRestoredFromLocal] = useState(false);
+  const [localSaveHint, setLocalSaveHint] = useState(false);
+  const [serverSaveOk, setServerSaveOk] = useState<string | null>(null);
+  const skipNextAutosave = useRef(false);
+  const dismissedEditId = useRef<string | null>(null);
   const isNew = draft ? !items.some((item) => item.id === draft.id) : false;
 
   const close = () => {
+    if (draft) {
+      dismissedEditId.current = draft.id;
+    }
     setDraft(null);
     setViewMode("form");
     setError(null);
+    setRestoredFromLocal(false);
+    setLocalSaveHint(false);
+    setServerSaveOk(null);
+  };
+
+  const openStory = (story: BrandStory, fromLocal = false) => {
+    dismissedEditId.current = null;
+    skipNextAutosave.current = true;
+    setDraft(story);
+    setRestoredFromLocal(fromLocal);
+    setViewMode("form");
+    setError(null);
+    setServerSaveOk(null);
+  };
+
+  const openNewStory = () => {
+    const existingIds = new Set(items.map((item) => item.id));
+    const orphan = findNewestOrphanLocalDraft(existingIds);
+    if (orphan) {
+      openStory(orphan, true);
+      return;
+    }
+    openStory(newStory(items), false);
   };
 
   useEffect(() => {
     if (draft) return;
 
     const editId = searchParams.get("edit");
-    if (!editId) return;
+    if (!editId || dismissedEditId.current === editId) return;
 
     const item = items.find((entry) => entry.id === editId);
     if (item) {
-      setDraft({ ...item, sections: [...item.sections] });
+      const preferred = preferLocalDraft(item);
+      openStory(preferred.story, preferred.fromLocal);
     }
+    // openStory is stable enough for ?edit= bootstrap; avoid re-open loops via dismissedEditId
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [draft, items, searchParams]);
+
+  useEffect(() => {
+    if (!draft) return;
+    if (skipNextAutosave.current) {
+      skipNextAutosave.current = false;
+      return;
+    }
+
+    const timer = window.setTimeout(() => {
+      writeLocalStoryDraft(draft);
+      setLocalSaveHint(true);
+    }, 400);
+
+    return () => window.clearTimeout(timer);
+  }, [draft]);
+
+  const saveStory = (publish: boolean) => {
+    if (!draft) return;
+    const payload: BrandStory = {
+      ...draft,
+      isActive: publish,
+      updatedAt: new Date().toISOString()
+    };
+    setDraft(payload);
+    writeLocalStoryDraft(payload);
+
+    run(async () => {
+      const result = await saveBrandStoryAction(payload);
+      if (!result.ok) {
+        setServerSaveOk(null);
+        throw new Error(result.error);
+      }
+      clearLocalStoryDraft(result.story.id);
+      skipNextAutosave.current = true;
+      setDraft({ ...result.story, sections: [...result.story.sections] });
+      setRestoredFromLocal(false);
+      setLocalSaveHint(false);
+      setServerSaveOk(publish ? "הסיפור פורסם באתר ונשמר בשרת." : "הטיוטה נשמרה בשרת (לא מפורסמת).");
+    });
+  };
 
   const sortedItems = [...items].sort((a, b) => a.sortOrder - b.sortOrder);
 
   return (
     <>
-      <AdminToolbar label="הוסף סיפור" onAdd={() => setDraft(newStory(items))} />
+      <AdminToolbar label="הוסף סיפור" onAdd={openNewStory} />
       <table className="table">
         <thead>
           <tr>
@@ -430,7 +577,10 @@ export function AdminStoriesManager({
                       await deleteBrandStoryAction(item.id);
                     });
                   }}
-                  onEdit={() => setDraft({ ...item, sections: [...item.sections] })}
+                  onEdit={() => {
+                    const preferred = preferLocalDraft(item);
+                    openStory(preferred.story, preferred.fromLocal);
+                  }}
                 />
               </td>
             </tr>
@@ -444,11 +594,19 @@ export function AdminStoriesManager({
             className="admin-form"
             onSubmit={(e) => {
               e.preventDefault();
-              run(async () => {
-                await saveBrandStoryAction(draft);
-              }, close);
+              saveStory(false);
             }}
           >
+            {restoredFromLocal ? (
+              <p className="admin-form-hint" role="status">
+                שוחזרה טיוטה מקומית מהדפדפן — לחצו &quot;שמור טיוטה&quot; כדי לשמור בשרת.
+              </p>
+            ) : null}
+            {localSaveHint && !restoredFromLocal ? (
+              <p className="admin-form-hint" role="status">
+                טיוטה נשמרת אוטומטית בדפדפן (גם אם השמירה לשרת נכשלת).
+              </p>
+            ) : null}
             <div className="admin-story-view-toggle" role="tablist" aria-label="מצב עריכה">
               <button
                 className={`button secondary${viewMode === "form" ? " is-active" : ""}`}
@@ -559,22 +717,21 @@ export function AdminStoriesManager({
               <input
                 type="datetime-local"
                 value={draft.publishedAt.slice(0, 16)}
-                onChange={(e) =>
+                onChange={(e) => {
+                  const value = e.target.value;
+                  if (!value) return;
+                  const next = new Date(value);
+                  if (Number.isNaN(next.getTime())) return;
                   setDraft({
                     ...draft,
-                    publishedAt: new Date(e.target.value).toISOString()
-                  })
-                }
+                    publishedAt: next.toISOString()
+                  });
+                }}
               />
             </label>
-            <label className="admin-checkbox-row">
-              <input
-                checked={draft.isActive}
-                type="checkbox"
-                onChange={(e) => setDraft({ ...draft, isActive: e.target.checked })}
-              />
-              פעיל (פרסום באתר — עד שלא מסומן, הסיפור לא יופיע)
-            </label>
+            <p className="admin-form-hint">
+              סטטוס נוכחי: {draft.isActive ? "מפורסם באתר" : "טיוטה (לא מוצג באתר)"}. השתמשו בכפתורים למטה לשמירה או לפרסום.
+            </p>
 
             {!isNew ? <StoryLinksPanel story={draft} /> : null}
 
@@ -641,12 +798,39 @@ export function AdminStoriesManager({
             </>
             )}
 
-            <AdminFormFooter
-              isPending={isPending}
-              error={error}
-              onCancel={close}
-              submitLabel={isNew ? "שמור סיפור" : "עדכן סיפור"}
-            />
+            {error ? (
+              <p className="admin-form-error" role="alert">
+                {error}
+              </p>
+            ) : null}
+            {serverSaveOk && !error ? (
+              <p className="admin-form-hint" role="status">
+                {serverSaveOk}
+              </p>
+            ) : null}
+            <div className="admin-form-actions">
+              <button className="button" disabled={isPending} type="submit">
+                {isPending ? "שומר…" : "שמור טיוטה"}
+              </button>
+              <button
+                className="button"
+                disabled={isPending}
+                type="button"
+                onClick={(event) => {
+                  const form = event.currentTarget.form;
+                  if (form && !form.reportValidity()) return;
+                  saveStory(true);
+                }}
+              >
+                {isPending ? "מפרסם…" : "פרסם באתר"}
+              </button>
+              <button className="button secondary" disabled={isPending} type="button" onClick={close}>
+                סגור
+              </button>
+            </div>
+            <p className="admin-form-hint">
+              &quot;שמור טיוטה&quot; שומר בשרת בלי לפרסם. &quot;פרסם באתר&quot; שומר ומציג בדף הסיפורים. הטיוטה נשמרת גם בדפדפן אוטומטית.
+            </p>
           </form>
         ) : null}
       </AdminModal>

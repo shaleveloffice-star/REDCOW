@@ -1,5 +1,7 @@
 import type { NextConfig } from "next";
 
+import { getMarketingShortLinkRedirects } from "./src/data/marketing-short-links";
+
 const isProd = process.env.NODE_ENV === "production";
 
 /**
@@ -124,7 +126,8 @@ const nextConfig: NextConfig = {
         source: "/menu/category/:slug",
         destination: "/menu/:slug",
         permanent: true
-      }
+      },
+      ...getMarketingShortLinkRedirects()
     ];
   },
   async headers() {

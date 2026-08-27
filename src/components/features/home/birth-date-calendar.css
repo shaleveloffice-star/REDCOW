@@ -37,7 +37,7 @@
 
 .birth-date-picker-trigger:focus,
 .birth-date-picker-trigger:focus-visible {
-  outline: 2px solid #ffe1ba;
+  outline: 2px solid #ffffff;
   outline-offset: 2px;
 }
 
@@ -52,12 +52,12 @@
   inset-inline: 0;
   top: calc(100% + 10px);
   padding: 14px;
-  border: 1px solid rgba(255, 225, 186, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.28);
   border-radius: 16px;
   background: rgba(8, 8, 8, 0.98);
   box-shadow:
     0 24px 60px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 225, 186, 0.06) inset;
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
   backdrop-filter: blur(16px);
   direction: rtl;
 }
@@ -77,10 +77,10 @@
   width: 36px;
   height: 36px;
   padding: 0;
-  border: 1px solid rgba(255, 225, 186, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 10px;
   background: rgba(255, 247, 237, 0.03);
-  color: #ffe1ba;
+  color: #ffffff;
   cursor: pointer;
   transition:
     background-color var(--motion-short) ease,
@@ -89,8 +89,8 @@
 
 @media (hover: hover) and (pointer: fine) {
   .birth-date-calendar-nav:hover:not(:disabled) {
-    background: rgba(255, 225, 186, 0.08);
-    border-color: rgba(255, 225, 186, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.4);
   }
 }
 
@@ -104,7 +104,7 @@
 .birth-date-calendar-day:focus-visible,
 .birth-date-calendar-month:focus-visible,
 .birth-date-calendar-year:focus-visible {
-  outline: 2px solid #ffe1ba;
+  outline: 2px solid #ffffff;
   outline-offset: 2px;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.85);
 }
@@ -134,8 +134,8 @@
 
 @media (hover: hover) and (pointer: fine) {
   .birth-date-calendar-title-part:hover {
-    background: rgba(255, 225, 186, 0.06);
-    color: #ffe1ba;
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
   }
 }
 
@@ -193,19 +193,19 @@
 
 @media (hover: hover) and (pointer: fine) {
   .birth-date-calendar-day:hover:not(:disabled):not(.birth-date-calendar-day--empty) {
-    background: rgba(255, 225, 186, 0.1);
-    color: #ffe1ba;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
   }
 
   .birth-date-calendar-day--selected:hover:not(:disabled) {
-    background: #ffe1ba;
-    color: #1a0f08;
+    background: #ffffff;
+    color: #000000;
   }
 }
 
 .birth-date-calendar-day--selected {
-  background: #ffe1ba;
-  color: #1a0f08;
+  background: #ffffff;
+  color: #000000;
   font-weight: 700;
 }
 
@@ -226,7 +226,7 @@
   overflow-y: auto;
   padding: 2px;
   scrollbar-width: thin;
-  scrollbar-color: #ffe1ba transparent;
+  scrollbar-color: #ffffff transparent;
 }
 
 .birth-date-calendar-months {
@@ -239,7 +239,7 @@
 .birth-date-calendar-month {
   min-height: 42px;
   padding: 0 8px;
-  border: 1px solid rgba(255, 225, 186, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
   background: rgba(255, 247, 237, 0.02);
   color: #ffffff;
@@ -254,16 +254,16 @@
 
 @media (hover: hover) and (pointer: fine) {
   .birth-date-calendar-month:hover:not(:disabled) {
-    background: rgba(255, 225, 186, 0.08);
-    border-color: rgba(255, 225, 186, 0.35);
-    color: #ffe1ba;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #ffffff;
   }
 }
 
 .birth-date-calendar-month--selected {
-  background: #ffe1ba;
-  border-color: #ffe1ba;
-  color: #1a0f08;
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
   font-weight: 700;
 }
 
@@ -275,7 +275,7 @@
 .birth-date-calendar-year {
   min-height: 40px;
   padding: 0 8px;
-  border: 1px solid rgba(255, 225, 186, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 10px;
   background: rgba(255, 247, 237, 0.02);
   color: #ffffff;
@@ -290,16 +290,16 @@
 
 @media (hover: hover) and (pointer: fine) {
   .birth-date-calendar-year:hover {
-    background: rgba(255, 225, 186, 0.08);
-    border-color: rgba(255, 225, 186, 0.35);
-    color: #ffe1ba;
+    background: rgba(255, 255, 255, 0.08);
+    border-color: rgba(255, 255, 255, 0.35);
+    color: #ffffff;
   }
 }
 
 .birth-date-calendar-year--selected {
-  background: #ffe1ba;
-  border-color: #ffe1ba;
-  color: #1a0f08;
+  background: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
   font-weight: 700;
 }
 

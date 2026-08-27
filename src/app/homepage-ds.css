@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════
    Homepage Design System Pass
    Source: DESIGN.md + SKILL.md (project root)
-   NB brand accent preserved: --ds-accent / --secondary = #ffe1ba
+   B&W accent: --ds-accent / --secondary = #ffffff
    Surface/border language: black + white (design system)
    ═══════════════════════════════════════════════════════════════ */
 
@@ -1480,7 +1480,7 @@ a.menu-showcase-button.site-cta-btn {
   position: relative;
 }
 
-/* Soften previous gold ambient washes on homepage body */
+/* Soften ambient washes on homepage body */
 body:not(:has(.admin-layout)) {
   background-color: var(--ds-surface);
   background-image: none;

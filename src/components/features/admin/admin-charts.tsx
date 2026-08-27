@@ -19,12 +19,12 @@ type BarChartItem = {
 };
 
 const CHART_PALETTE = [
-  "#ffe1ba",
-  "#e5c89a",
-  "#c9a87a",
-  "#f5edd8",
-  "#d4a574",
-  "#b8895a"
+  "#111111",
+  "#333333",
+  "#555555",
+  "#777777",
+  "#999999",
+  "#bbbbbb"
 ] as const;
 
 export function getChartColor(index: number) {
@@ -60,7 +60,7 @@ export function DonutChart({
           cy={center}
           r={radius}
           fill="none"
-          stroke="rgba(255, 225, 186, 0.2)"
+          stroke="rgba(17, 24, 39, 0.12)"
           strokeWidth={stroke}
         />
         {total > 0
@@ -198,12 +198,12 @@ export function Sparkline({ values }: { values: number[] }) {
     >
       <defs>
         <linearGradient id="adminSparkFill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="rgba(255, 225, 186, 0.55)" />
-          <stop offset="100%" stopColor="rgba(255, 225, 186, 0.02)" />
+          <stop offset="0%" stopColor="rgba(17, 24, 39, 0.28)" />
+          <stop offset="100%" stopColor="rgba(17, 24, 39, 0.02)" />
         </linearGradient>
       </defs>
       <polygon points={areaPoints} fill="url(#adminSparkFill)" />
-      <polyline points={points} fill="none" stroke="#ffe1ba" strokeWidth="2.5" strokeLinecap="round" />
+      <polyline points={points} fill="none" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   );
 }

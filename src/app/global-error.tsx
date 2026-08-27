@@ -33,8 +33,8 @@ export default function GlobalError({ error, reset }: GlobalErrorProps) {
           style={{
             justifySelf: "center",
             padding: "0.75rem 1.25rem",
-            border: "1px solid #ffe1ba",
-            background: "#ffe1ba",
+            border: "1px solid #ffffff",
+            background: "#ffffff",
             color: "#000",
             cursor: "pointer"
           }}

@@ -6,7 +6,7 @@
   padding: clamp(72px, 8vw, 110px) 0 0;
   background: #000000;
   overflow: hidden;
-  color: #fff8f0;
+  color: #ffffff;
   --home-section-title-size: clamp(42px, 5.4vw, 64px);
   --home-section-title-line: 1.05;
 }
@@ -47,7 +47,7 @@
 
 .customer-club-kicker {
   margin: 0 0 14px;
-  color: #ffe1ba;
+  color: #ffffff;
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.36em;
@@ -71,14 +71,14 @@
   width: 72px;
   height: 1px;
   margin: 0 0 18px auto;
-  background: linear-gradient(90deg, transparent, #ffe1ba);
+  background: linear-gradient(90deg, transparent, #ffffff);
 }
 
 .customer-club-lead {
   margin: 0;
   max-width: 28rem;
   margin-inline-start: auto;
-  color: rgba(255, 248, 240, 0.88);
+  color: rgba(255, 255, 255, 0.88);
   font-size: clamp(15px, 1.5vw, 17px);
   font-weight: 400;
   line-height: 1.7;
@@ -110,7 +110,7 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  color: #ffe1ba;
+  color: #ffffff;
 }
 
 .customer-club-feature-icon svg {
@@ -119,7 +119,7 @@
 }
 
 .customer-club-feature-label {
-  color: #ffe1ba;
+  color: #ffffff;
   font-size: 12px;
   font-weight: 500;
   line-height: 1.35;
@@ -144,7 +144,7 @@
   position: absolute;
   inset: 8% 10% 0;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(255, 225, 186, 0.18) 0%, transparent 68%);
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.18) 0%, transparent 68%);
   filter: blur(18px);
   pointer-events: none;
 }
@@ -154,12 +154,12 @@
   inset: -6% -4% 10%;
   pointer-events: none;
   background-image:
-    radial-gradient(circle at 18% 28%, rgba(255, 225, 186, 0.85) 0 1.2px, transparent 2px),
-    radial-gradient(circle at 78% 22%, rgba(255, 225, 186, 0.7) 0 1px, transparent 2px),
-    radial-gradient(circle at 62% 48%, rgba(255, 225, 186, 0.55) 0 1.4px, transparent 2.5px),
-    radial-gradient(circle at 30% 62%, rgba(255, 225, 186, 0.45) 0 1px, transparent 2px),
-    radial-gradient(circle at 86% 58%, rgba(255, 225, 186, 0.65) 0 1.1px, transparent 2px),
-    radial-gradient(circle at 12% 72%, rgba(255, 225, 186, 0.35) 0 1px, transparent 2px);
+    radial-gradient(circle at 18% 28%, rgba(255, 255, 255, 0.85) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 78% 22%, rgba(255, 255, 255, 0.7) 0 1px, transparent 2px),
+    radial-gradient(circle at 62% 48%, rgba(255, 255, 255, 0.55) 0 1.4px, transparent 2.5px),
+    radial-gradient(circle at 30% 62%, rgba(255, 255, 255, 0.45) 0 1px, transparent 2px),
+    radial-gradient(circle at 86% 58%, rgba(255, 255, 255, 0.65) 0 1.1px, transparent 2px),
+    radial-gradient(circle at 12% 72%, rgba(255, 255, 255, 0.35) 0 1px, transparent 2px);
   opacity: 0.75;
   animation: customer-club-embers 6s ease-in-out infinite alternate;
 }
@@ -241,13 +241,13 @@
   display: block;
   width: 36px;
   height: 1px;
-  background: #ffe1ba;
+  background: #ffffff;
   flex-shrink: 0;
 }
 
 .customer-club-form-subtitle {
   margin: 0;
-  color: rgba(255, 248, 240, 0.78);
+  color: rgba(255, 255, 255, 0.78);
   font-size: 14px;
   line-height: 1.5;
 }
@@ -266,7 +266,7 @@
 .customer-club-field-label {
   display: block;
   margin: 0;
-  color: rgba(255, 248, 240, 0.88);
+  color: rgba(255, 255, 255, 0.88);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -299,15 +299,15 @@
 }
 
 .customer-club-input-box:focus-within {
-  border-color: rgba(255, 225, 186, 0.55);
-  box-shadow: 0 0 0 1px rgba(255, 225, 186, 0.18);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
 }
 
 .customer-club-input-icon {
   width: 18px;
   height: 18px;
   flex-shrink: 0;
-  color: rgba(255, 248, 240, 0.88);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .customer-club-input-box input {
@@ -324,7 +324,7 @@
 }
 
 .customer-club-input-box input::placeholder {
-  color: rgba(255, 248, 240, 0.48);
+  color: rgba(255, 255, 255, 0.48);
 }
 
 .customer-club-input-box input:focus,
@@ -408,7 +408,7 @@
   align-items: flex-start;
   gap: 10px;
   margin-top: 14px;
-  color: rgba(255, 248, 240, 0.78);
+  color: rgba(255, 255, 255, 0.78);
   font-size: 12px;
   line-height: 1.5;
   cursor: pointer;
@@ -416,11 +416,11 @@
 
 .customer-club-consent input {
   margin-top: 2px;
-  accent-color: #ffe1ba;
+  accent-color: #ffffff;
 }
 
 .customer-club-consent a {
-  color: #ffe1ba;
+  color: #ffffff;
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -451,7 +451,7 @@
 
 .customer-club-form-perk-icon {
   display: inline-flex;
-  color: #ffe1ba;
+  color: #ffffff;
 }
 
 .customer-club-form-perk-icon svg {
@@ -466,14 +466,14 @@
 }
 
 .customer-club-form-perk-text strong {
-  color: #ffe1ba;
+  color: #ffffff;
   font-size: 11px;
   font-weight: 600;
   line-height: 1.35;
 }
 
 .customer-club-form-perk-text span {
-  color: rgba(255, 225, 186, 0.72);
+  color: rgba(255, 255, 255, 0.72);
   font-size: 10px;
   line-height: 1.35;
 }
@@ -488,7 +488,7 @@
   width: 36px;
   height: 36px;
   margin: 0 auto 16px;
-  color: #ffe1ba;
+  color: #ffffff;
 }
 
 .customer-club-success h3 {
@@ -500,7 +500,7 @@
 
 .customer-club-success p {
   margin: 0;
-  color: rgba(255, 248, 240, 0.65);
+  color: rgba(255, 255, 255, 0.65);
   font-size: 15px;
   line-height: 1.65;
 }
@@ -509,7 +509,7 @@
 
 .customer-club-bar {
   margin-top: clamp(56px, 7vw, 88px);
-  border-top: 1px solid rgba(255, 225, 186, 0.18);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
 }
 
 .customer-club-bar-inner {
@@ -525,7 +525,7 @@
 
 .customer-club-bar-name {
   margin: 0;
-  color: #ffe1ba;
+  color: #ffffff;
   font-size: 15px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -533,7 +533,7 @@
 
 .customer-club-bar-sub {
   margin: 4px 0 0;
-  color: rgba(255, 248, 240, 0.55);
+  color: rgba(255, 255, 255, 0.55);
   font-size: 11px;
   letter-spacing: 0.12em;
   text-transform: uppercase;
@@ -547,7 +547,7 @@
 
 .customer-club-bar-social {
   display: inline-flex;
-  color: #ffe1ba;
+  color: #ffffff;
   opacity: 0.9;
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
@@ -566,7 +566,7 @@
 
 .customer-club-bar-slogan {
   margin: 0;
-  color: #ffe1ba;
+  color: #ffffff;
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -646,7 +646,7 @@
 
   .customer-club-title-rule {
     margin-inline: auto;
-    background: #ffe1ba;
+    background: #ffffff;
   }
 
   .customer-club-lead {

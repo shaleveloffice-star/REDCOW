@@ -5,8 +5,8 @@
   --surface: #0a0a0a;
   --surface-soft: #121212;
   --surface-elevated: #161616;
-  --brand: #ffe1ba;
-  --brand-dark: #e5c89a;
+  --brand: #ffffff;
+  --brand-dark: #e5e5e5;
   --border: rgba(255, 255, 255, 0.18);
   --success: #3fb970;
   --warning: #f3b64b;
@@ -14,7 +14,7 @@
   --motion-short: 140ms;
   --motion-medium: 650ms;
 
-  /* DESIGN.md / SKILL.md tokens (NB accent kept as cream gold) */
+  /* DESIGN.md / SKILL.md tokens — black & white only */
   --ds-space-1: 1.91px;
   --ds-space-2: 4px;
   --ds-space-3: 8.67px;
@@ -38,16 +38,16 @@
   --ds-motion-instant: 100ms;
   --ds-motion-fast: 140ms;
   --ds-motion-normal: 650ms;
-  --ds-accent: #ffe1ba;
+  --ds-accent: #ffffff;
 
-  /* Secondary accent — NB cream gold (#FFE1BA) */
-  --secondary: #FFE1BA;
-  --secondary-rgb: 255, 225, 186;
-  --secondary-dark: #e5c89a;
-  --secondary-soft: rgba(255, 225, 186, 0.22);
-  --secondary-muted: rgba(255, 225, 186, 0.82);
-  --secondary-border: rgba(255, 225, 186, 0.55);
-  --secondary-border-strong: rgba(255, 225, 186, 0.72);
+  /* Secondary accent — pure white (B&W palette) */
+  --secondary: #ffffff;
+  --secondary-rgb: 255, 255, 255;
+  --secondary-dark: #e5e5e5;
+  --secondary-soft: rgba(255, 255, 255, 0.22);
+  --secondary-muted: rgba(255, 255, 255, 0.82);
+  --secondary-border: rgba(255, 255, 255, 0.55);
+  --secondary-border-strong: rgba(255, 255, 255, 0.72);
   --site-opening-banner-height: 40px;
   --site-navbar-height: 120px;
   --site-chrome-offset: calc(
@@ -55,17 +55,17 @@
   );
   --site-mobile-cta-height: 0px;
   --hero-caption-reserve: clamp(160px, 28vh, 220px);
-  --secondary-border-hover: rgba(255, 225, 186, 0.85);
-  --secondary-glow: rgba(255, 225, 186, 0.35);
-  --secondary-bg-soft: rgba(255, 225, 186, 0.1);
-  --secondary-shadow: rgba(255, 225, 186, 0.18);
-  --secondary-line: rgba(255, 225, 186, 0.18);
-  --secondary-line-soft: rgba(255, 225, 186, 0.12);
-  --secondary-line-mid: rgba(255, 225, 186, 0.28);
-  --secondary-highlight: rgba(255, 225, 186, 0.95);
-  --secondary-radial-soft: rgba(255, 225, 186, 0.1);
-  --secondary-radial-mid: rgba(255, 225, 186, 0.16);
-  --secondary-radial-light: rgba(255, 225, 186, 0.08);
+  --secondary-border-hover: rgba(255, 255, 255, 0.85);
+  --secondary-glow: rgba(255, 255, 255, 0.35);
+  --secondary-bg-soft: rgba(255, 255, 255, 0.1);
+  --secondary-shadow: rgba(255, 255, 255, 0.18);
+  --secondary-line: rgba(255, 255, 255, 0.18);
+  --secondary-line-soft: rgba(255, 255, 255, 0.12);
+  --secondary-line-mid: rgba(255, 255, 255, 0.28);
+  --secondary-highlight: rgba(255, 255, 255, 0.95);
+  --secondary-radial-soft: rgba(255, 255, 255, 0.1);
+  --secondary-radial-mid: rgba(255, 255, 255, 0.16);
+  --secondary-radial-light: rgba(255, 255, 255, 0.08);
 
   --site-media-radius: 2px;
   --site-media-frame-border: 1px solid rgba(255, 255, 255, 0.14);
@@ -288,8 +288,8 @@ body {
   margin: 0;
   background-color: var(--background);
   background-image:
-    radial-gradient(ellipse 90% 55% at 50% -10%, rgba(255, 225, 186, 0.09), transparent 55%),
-    radial-gradient(ellipse 60% 40% at 100% 20%, rgba(255, 225, 186, 0.04), transparent 50%),
+    radial-gradient(ellipse 90% 55% at 50% -10%, rgba(255, 255, 255, 0.09), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 100% 20%, rgba(255, 255, 255, 0.04), transparent 50%),
     linear-gradient(180deg, #070605 0%, #0c0a08 50%, #070605 100%);
   color: var(--foreground);
   font-family: var(--font-body);
@@ -723,7 +723,7 @@ select {
 .legal-document {
   width: min(860px, 100%);
   margin: 0 auto;
-  border: 1px solid rgba(255, 225, 186, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   padding: clamp(28px, 5vw, 64px);
   background: rgba(8, 6, 4, 0.72);
   color: rgba(255, 255, 255, 0.82);
@@ -1990,7 +1990,7 @@ select {
 }
 
 .hero--premier {
-  /* DESIGN.md / SKILL.md tokens — NB brand accent kept as cream gold */
+  /* DESIGN.md / SKILL.md tokens — black & white accent only */
   --ds-space-1: 1.91px;
   --ds-space-2: 4px;
   --ds-space-3: 8.67px;
@@ -2348,7 +2348,7 @@ select {
 
 .hero-tagline--2 {
   margin-bottom: 36px;
-  color: rgba(255, 225, 186, 0.88);
+  color: rgba(255, 255, 255, 0.88);
 }
 
 .hero-brand {
@@ -2375,7 +2375,7 @@ select {
   margin-top: var(--ds-space-4, 20px);
   margin-bottom: 0;
   max-width: 24ch;
-  color: var(--ds-accent, #ffe1ba);
+  color: var(--ds-accent, #ffffff);
   font-size: var(--ds-font-sm, 14.45px);
   font-weight: 700;
   letter-spacing: 0.16em;
@@ -2582,7 +2582,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   width: 84%;
   height: 22%;
   content: "";
-  background: linear-gradient(90deg, transparent, rgba(255, 225, 186, 0.45), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.45), transparent);
   filter: blur(22px);
 }
 
@@ -2604,7 +2604,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   overflow-x: hidden;
   padding: 28px 24px 80px;
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.05), transparent 28%),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05), transparent 28%),
     #000000;
 }
 
@@ -2616,7 +2616,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
 
 .menu-highlights-kicker {
   margin: 0 0 10px;
-  color: rgba(255, 225, 186, 0.78);
+  color: rgba(255, 255, 255, 0.78);
 }
 
 .menu-highlights h2 {
@@ -2645,7 +2645,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
 }
 
 .menu-highlight-card + .menu-highlight-card {
-  border-right: 1px solid rgba(255, 225, 186, 0.34);
+  border-right: 1px solid rgba(255, 255, 255, 0.34);
 }
 
 .menu-highlight-image {
@@ -3792,8 +3792,8 @@ a.menu-showcase-button.site-cta-btn {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 225, 186, 0.28) 20%,
-    rgba(255, 225, 186, 0.28) 80%,
+    rgba(255, 255, 255, 0.28) 20%,
+    rgba(255, 255, 255, 0.28) 80%,
     transparent
   );
   pointer-events: none;
@@ -3865,8 +3865,8 @@ a.menu-showcase-button.site-cta-btn {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 225, 186, 0.28) 20%,
-    rgba(255, 225, 186, 0.28) 80%,
+    rgba(255, 255, 255, 0.28) 20%,
+    rgba(255, 255, 255, 0.28) 80%,
     transparent
   );
   pointer-events: none;
@@ -4013,7 +4013,7 @@ a.menu-showcase-button.site-cta-btn {
   overflow: hidden;
   height: 56vh;
   min-height: 320px;
-  border: 1px solid rgba(255, 225, 186, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 2px;
   box-shadow: var(--luxury-shadow);
 }
@@ -4283,8 +4283,8 @@ a.menu-showcase-button.site-cta-btn {
   height: 220px;
   content: "";
   background:
-    radial-gradient(ellipse at 50% 0%, rgba(255, 225, 186, 0.22), transparent 38%),
-    linear-gradient(90deg, transparent, rgba(255, 225, 186, 0.2), transparent);
+    radial-gradient(ellipse at 50% 0%, rgba(255, 255, 255, 0.22), transparent 38%),
+    linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   filter: blur(18px);
   opacity: 0.7;
 }
@@ -4318,7 +4318,7 @@ a.menu-showcase-button.site-cta-btn {
   display: block;
   height: 1px;
   content: "";
-  background: rgba(255, 225, 186, 0.56);
+  background: rgba(255, 255, 255, 0.56);
 }
 
 .visit-copy h2 {
@@ -4358,7 +4358,7 @@ a.menu-showcase-button.site-cta-btn {
   width: 120px;
   height: 1px;
   content: "";
-  background: rgba(255, 225, 186, 0.46);
+  background: rgba(255, 255, 255, 0.46);
 }
 
 .visit-actions {
@@ -4450,7 +4450,7 @@ a.menu-showcase-button.site-cta-btn {
   width: 84px;
   height: 1px;
   margin: 28px auto;
-  background: rgba(255, 225, 186, 0.52);
+  background: rgba(255, 255, 255, 0.52);
 }
 
 .visit-card ul {
@@ -4467,7 +4467,7 @@ a.menu-showcase-button.site-cta-btn {
   grid-template-columns: 48px 1fr;
   align-items: center;
   min-height: 62px;
-  border-bottom: 1px solid rgba(255, 225, 186, 0.16);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.16);
   color: rgba(255, 255, 255, 0.86);
   font-size: 20px;
   text-align: start;
@@ -4486,9 +4486,9 @@ a.menu-showcase-button.site-cta-btn {
   position: relative;
   z-index: 2;
   overflow-x: hidden;
-  border-top: 1px solid rgba(255, 225, 186, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
   background:
-    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255, 225, 186, 0.05), transparent 55%),
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255, 255, 255, 0.05), transparent 55%),
     linear-gradient(180deg, #0a0806 0%, #050403 100%);
 }
 
@@ -4640,7 +4640,7 @@ a.menu-showcase-button.site-cta-btn {
 .site-contact-form-fields textarea {
   width: 100%;
   padding: 8px 10px;
-  border: 1px solid rgba(255, 225, 186, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: 8px;
   background: rgba(0, 0, 0, 0.25);
   color: #fff;
@@ -4675,7 +4675,7 @@ a.menu-showcase-button.site-cta-btn {
   place-items: center;
   width: 36px;
   height: 36px;
-  border: 1px solid rgba(255, 225, 186, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   color: rgba(255, 255, 255, 0.82);
   transition:
     border-color var(--motion-short) ease,
@@ -4713,7 +4713,7 @@ a.menu-showcase-button.site-cta-btn {
 
 .site-footer-bar {
   position: relative;
-  border-top: 1px solid rgba(255, 225, 186, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .site-footer-bar-inner {
@@ -4759,7 +4759,7 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .site-footer-legal-link {
-  color: rgba(255, 225, 186, 0.75);
+  color: rgba(255, 255, 255, 0.75);
   font-size: 12px;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -4776,7 +4776,7 @@ a.menu-showcase-button.site-cta-btn {
 .legal-related {
   margin: 48px 0 0;
   padding-top: 24px;
-  border-top: 1px solid rgba(255, 225, 186, 0.16);
+  border-top: 1px solid rgba(255, 255, 255, 0.16);
   color: rgba(255, 255, 255, 0.68);
   font-size: 15px;
 }
@@ -4800,7 +4800,7 @@ a.menu-showcase-button.site-cta-btn {
   }
 }
 
-/* Admin — clean white + brand #ffe1ba */
+/* Admin — clean white + black accents */
 .admin-layout,
 .admin-login-shell {
   --admin-bg: #f7f8fa;
@@ -4812,15 +4812,15 @@ a.menu-showcase-button.site-cta-btn {
   --admin-text-muted: #6b7280;
   --admin-border: #e5e7eb;
   --admin-border-strong: #d1d5db;
-  --admin-brand: #ffe1ba;
-  --admin-brand-hover: #e5c89a;
-  --admin-brand-soft: rgba(255, 225, 186, 0.35);
-  --admin-brand-softer: rgba(255, 225, 186, 0.16);
-  --admin-brand-border: rgba(255, 225, 186, 0.55);
+  --admin-brand: #111111;
+  --admin-brand-hover: #000000;
+  --admin-brand-soft: rgba(17, 24, 39, 0.12);
+  --admin-brand-softer: rgba(17, 24, 39, 0.06);
+  --admin-brand-border: rgba(17, 24, 39, 0.22);
   --admin-primary: var(--admin-brand);
   --admin-primary-hover: var(--admin-brand-hover);
-  --admin-primary-text: #2a1f0f;
-  --admin-label-accent: #9a7b4f;
+  --admin-primary-text: #ffffff;
+  --admin-label-accent: #4b5563;
   --admin-accent-soft: var(--admin-brand-softer);
   --admin-accent-border: var(--admin-brand-border);
   --admin-shadow: 0 1px 2px rgba(17, 24, 39, 0.04), 0 8px 24px rgba(17, 24, 39, 0.05);
@@ -4834,8 +4834,8 @@ a.menu-showcase-button.site-cta-btn {
   min-height: 100vh;
   color: var(--admin-text);
   background:
-    radial-gradient(ellipse 80% 50% at 100% 0%, rgba(255, 225, 186, 0.14), transparent 55%),
-    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(255, 225, 186, 0.08), transparent 50%),
+    radial-gradient(ellipse 80% 50% at 100% 0%, rgba(255, 255, 255, 0.14), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(255, 255, 255, 0.08), transparent 50%),
     var(--admin-bg);
   font-family: var(--font-body);
 }
@@ -5046,7 +5046,7 @@ a.menu-showcase-button.site-cta-btn {
   border: 1px solid var(--admin-border);
   border-radius: 20px;
   background:
-    linear-gradient(135deg, rgba(255, 225, 186, 0.22) 0%, rgba(255, 255, 255, 0.95) 48%, #fff 100%);
+    linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.95) 48%, #fff 100%);
   box-shadow: var(--admin-shadow);
   overflow: hidden;
 }
@@ -5769,7 +5769,7 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .admin-inline-link {
-  color: var(--admin-accent, #c9a227);
+  color: var(--admin-accent, #111111);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -5886,7 +5886,7 @@ a.menu-showcase-button.site-cta-btn {
 
 .admin-image-picker-item:hover,
 .admin-image-picker-item:focus-visible {
-  border-color: var(--admin-accent, #c9a227);
+  border-color: var(--admin-accent, #111111);
   background: var(--admin-surface-hover);
 }
 
@@ -5929,7 +5929,7 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .admin-story-view-toggle .button.is-active {
-  border-color: var(--admin-accent, #c9a227);
+  border-color: var(--admin-accent, #111111);
   background: rgba(201, 162, 39, 0.12);
 }
 
@@ -6563,7 +6563,7 @@ a.menu-showcase-button.site-cta-btn {
 
   .menu-highlight-card + .menu-highlight-card {
     border-right: 0;
-    border-top: 1px solid rgba(255, 225, 186, 0.22);
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
     padding-top: 28px;
   }
 
@@ -6682,8 +6682,8 @@ a.menu-showcase-button.site-cta-btn {
 .menu-page {
   min-height: 100vh;
   background:
-    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255, 225, 186, 0.09), transparent 45%),
-    radial-gradient(ellipse 40% 30% at 100% 40%, rgba(255, 225, 186, 0.04), transparent 50%),
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255, 255, 255, 0.09), transparent 45%),
+    radial-gradient(ellipse 40% 30% at 100% 40%, rgba(255, 255, 255, 0.04), transparent 50%),
     linear-gradient(180deg, #0a0806 0%, #070605 100%);
   padding-bottom: 96px;
 }
@@ -6699,7 +6699,7 @@ a.menu-showcase-button.site-cta-btn {
 
 .menu-page-hero-title {
   margin: 0;
-  color: #fff8f0;
+  color: #ffffff;
   font-family: var(--font-editorial);
   font-size: clamp(42px, 7vw, 72px);
   font-weight: 700;
@@ -6745,7 +6745,7 @@ a.menu-showcase-button.site-cta-btn {
 .menu-page-category-head {
   text-align: center;
   padding-bottom: 22px;
-  border-bottom: 1px solid rgba(255, 225, 186, 0.28);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.28);
 }
 
 .menu-page-category-head h2 {
@@ -6783,7 +6783,7 @@ a.menu-showcase-button.site-cta-btn {
   text-align: center;
   height: 100%;
   border: none;
-  border-bottom: 1px solid rgba(255, 225, 186, 0.12);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 0;
   background: transparent;
   transition: border-color 0.35s ease;
@@ -6791,7 +6791,7 @@ a.menu-showcase-button.site-cta-btn {
 
 @media (hover: hover) and (pointer: fine) {
   .menu-page-dish:hover {
-    border-bottom-color: rgba(255, 225, 186, 0.35);
+    border-bottom-color: rgba(255, 255, 255, 0.35);
   }
 }
 
@@ -6805,7 +6805,7 @@ a.menu-showcase-button.site-cta-btn {
   border: none;
   border-radius: 0;
   background:
-    radial-gradient(circle at 50% 40%, rgba(255, 225, 186, 0.1), transparent 55%),
+    radial-gradient(circle at 50% 40%, rgba(255, 255, 255, 0.1), transparent 55%),
     #0a0806;
 }
 
@@ -6865,8 +6865,8 @@ a.menu-showcase-button.site-cta-btn {
   font-size: 11px;
   padding: 5px 11px;
   border-radius: 999px;
-  border: 1px solid rgba(255, 225, 186, 0.42);
-  color: rgba(255, 225, 186, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.42);
+  color: rgba(255, 255, 255, 0.95);
   letter-spacing: 0.06em;
 }
 
@@ -6924,8 +6924,8 @@ a.menu-showcase-button.site-cta-btn {
 .branches-page {
   min-height: 100vh;
   background:
-    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255, 225, 186, 0.09), transparent 45%),
-    radial-gradient(ellipse 40% 30% at 100% 40%, rgba(255, 225, 186, 0.04), transparent 50%),
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255, 255, 255, 0.09), transparent 45%),
+    radial-gradient(ellipse 40% 30% at 100% 40%, rgba(255, 255, 255, 0.04), transparent 50%),
     linear-gradient(180deg, #0a0806 0%, #070605 100%);
   padding-bottom: 96px;
 }
@@ -6992,7 +6992,7 @@ a.menu-showcase-button.site-cta-btn {
   width: 100px;
   height: 1px;
   content: "";
-  background: rgba(255, 225, 186, 0.46);
+  background: rgba(255, 255, 255, 0.46);
 }
 
 .branches-coming-actions {
@@ -7018,10 +7018,10 @@ a.menu-showcase-button.site-cta-btn {
 
 .branches-card {
   padding: 32px 28px;
-  border: 1px solid rgba(255, 225, 186, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   border-radius: 2px;
   background:
-    linear-gradient(165deg, rgba(255, 225, 186, 0.05) 0%, transparent 45%),
+    linear-gradient(165deg, rgba(255, 255, 255, 0.05) 0%, transparent 45%),
     #100e0c;
   box-shadow: 0 20px 48px rgba(0, 0, 0, 0.35);
   direction: rtl;
@@ -7034,7 +7034,7 @@ a.menu-showcase-button.site-cta-btn {
 
 @media (hover: hover) and (pointer: fine) {
   .branches-card:hover {
-    border-color: rgba(255, 225, 186, 0.32);
+    border-color: rgba(255, 255, 255, 0.32);
     transform: translateY(-3px);
     box-shadow: 0 28px 56px rgba(0, 0, 0, 0.45);
   }
@@ -7117,8 +7117,8 @@ a.menu-showcase-button.site-cta-btn {
 .about-page {
   min-height: 100vh;
   background:
-    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(255, 225, 186, 0.09), transparent 45%),
-    radial-gradient(ellipse 40% 30% at 100% 40%, rgba(255, 225, 186, 0.05), transparent 50%),
+    radial-gradient(ellipse 70% 40% at 50% 0%, rgba(255, 255, 255, 0.09), transparent 45%),
+    radial-gradient(ellipse 40% 30% at 100% 40%, rgba(255, 255, 255, 0.05), transparent 50%),
     linear-gradient(180deg, #0a0806 0%, #070605 100%);
   padding-bottom: 0;
 }
@@ -7256,7 +7256,7 @@ a.menu-showcase-button.site-cta-btn {
   inset: 0;
   background:
     linear-gradient(180deg, rgba(0, 0, 0, 0.45) 0%, rgba(0, 0, 0, 0.82) 45%, rgba(0, 0, 0, 0.94) 100%),
-    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255, 225, 186, 0.12), transparent 55%);
+    radial-gradient(ellipse 80% 60% at 50% 100%, rgba(255, 255, 255, 0.12), transparent 55%);
 }
 
 .about-hero-content {
@@ -7408,7 +7408,7 @@ a.menu-showcase-button.site-cta-btn {
 .about-frame {
   position: relative;
   overflow: hidden;
-  border: 1px solid rgba(255, 225, 186, 0.32);
+  border: 1px solid rgba(255, 255, 255, 0.32);
   border-radius: var(--site-media-radius);
   background: rgba(4, 3, 2, 0.65);
   box-shadow:
@@ -7421,7 +7421,7 @@ a.menu-showcase-button.site-cta-btn {
   inset: 0;
   pointer-events: none;
   content: "";
-  background: linear-gradient(145deg, transparent 40%, rgba(255, 225, 186, 0.06) 100%);
+  background: linear-gradient(145deg, transparent 40%, rgba(255, 255, 255, 0.06) 100%);
 }
 
 .about-frame img {
@@ -7438,7 +7438,7 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .about-frame-accent {
-  border-color: rgba(255, 225, 186, 0.48);
+  border-color: rgba(255, 255, 255, 0.48);
 }
 
 /* Image strip */
@@ -7455,7 +7455,7 @@ a.menu-showcase-button.site-cta-btn {
 
 .about-strip-card {
   overflow: hidden;
-  border: 1px solid rgba(255, 225, 186, 0.22);
+  border: 1px solid rgba(255, 255, 255, 0.22);
   border-radius: var(--site-media-radius);
   background: rgba(4, 3, 2, 0.5);
 }
@@ -7513,7 +7513,7 @@ a.menu-showcase-button.site-cta-btn {
   flex-direction: column;
   gap: 6px;
   padding: 22px 18px;
-  border: 1px solid rgba(255, 225, 186, 0.26);
+  border: 1px solid rgba(255, 255, 255, 0.26);
   background:
     radial-gradient(circle at 50% 0%, var(--secondary-bg-soft), transparent 55%),
     rgba(4, 3, 2, 0.55);
@@ -7524,7 +7524,7 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .about-moment-card:hover {
-  border-color: rgba(255, 225, 186, 0.5);
+  border-color: rgba(255, 255, 255, 0.5);
   transform: translateY(-4px);
 }
 
@@ -7544,9 +7544,9 @@ a.menu-showcase-button.site-cta-btn {
 .about-closing {
   margin: 0 0 48px;
   padding: 32px 28px 36px;
-  border: 1px solid rgba(255, 225, 186, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.3);
   background:
-    radial-gradient(circle at 50% 0%, rgba(255, 225, 186, 0.12), transparent 55%),
+    radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.12), transparent 55%),
     rgba(4, 3, 2, 0.55);
   text-align: center;
 }
@@ -7654,7 +7654,7 @@ body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-title-par
 body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-day:focus-visible,
 body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-month:focus-visible,
 body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-year:focus-visible {
-  outline: 2px solid #ffe1ba;
+  outline: 2px solid #ffffff;
   outline-offset: 2px;
   box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.85);
 }
@@ -7897,7 +7897,7 @@ body:not(:has(.admin-layout)) {
   color-scheme: dark;
 }
 
-/* Soft gold ambient wash behind all public pages */
+/* Soft ambient wash behind all public pages */
 body:not(:has(.admin-layout)) main {
   position: relative;
 }
@@ -7909,9 +7909,9 @@ body:not(:has(.admin-layout)) main::before {
   z-index: -1;
   pointer-events: none;
   background:
-    radial-gradient(ellipse 100% 40% at 50% -5%, rgba(255, 225, 186, 0.07), transparent 50%),
-    radial-gradient(ellipse 50% 30% at 0% 60%, rgba(255, 225, 186, 0.03), transparent 50%),
-    radial-gradient(ellipse 50% 30% at 100% 80%, rgba(255, 225, 186, 0.03), transparent 50%);
+    radial-gradient(ellipse 100% 40% at 50% -5%, rgba(255, 255, 255, 0.07), transparent 50%),
+    radial-gradient(ellipse 50% 30% at 0% 60%, rgba(255, 255, 255, 0.03), transparent 50%),
+    radial-gradient(ellipse 50% 30% at 100% 80%, rgba(255, 255, 255, 0.03), transparent 50%);
 }
 
 /* Section rhythm — cinematic breathing room */
@@ -7965,32 +7965,32 @@ body:not(:has(.admin-layout)) main::before {
   box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.4);
 }
 
-/* Typography polish — tighter leads, cream whites */
+/* Typography polish — tighter leads */
 .menu-showcase-card-title {
-  color: #fff8f0;
+  color: #ffffff;
   letter-spacing: -0.01em;
 }
 
 .menu-showcase-card-desc {
   max-width: 28ch;
-  color: rgba(255, 248, 240, 0.62);
+  color: rgba(255, 255, 255, 0.62);
   line-height: 1.65;
 }
 
 .menu-page-dish-head h3 {
-  color: #fff8f0;
+  color: #ffffff;
   letter-spacing: -0.01em;
 }
 
 .menu-page-dish-head p {
   max-width: 32ch;
   margin-inline: auto;
-  color: rgba(255, 248, 240, 0.62);
+  color: rgba(255, 255, 255, 0.62);
 }
 
 .menu-page-lede {
   max-width: 36ch;
-  color: rgba(255, 248, 240, 0.68);
+  color: rgba(255, 255, 255, 0.68);
 }
 
 .plancha-panel-desc {
@@ -8095,18 +8095,18 @@ body:not(:has(.admin-layout)) main::before {
 
 .site-footer-tagline {
   max-width: 28ch;
-  color: rgba(255, 248, 240, 0.65);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 .site-footer-bar {
-  border-top: 1px solid rgba(255, 225, 186, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(0, 0, 0, 0.35);
 }
 
 /* Branches page breathing room */
 .branches-page {
   background:
-    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255, 225, 186, 0.08), transparent 45%),
+    radial-gradient(ellipse 70% 35% at 50% 0%, rgba(255, 255, 255, 0.08), transparent 45%),
     linear-gradient(180deg, #0a0806 0%, #070605 100%);
 }
 
@@ -8137,7 +8137,7 @@ body:not(:has(.admin-layout)) button:focus-visible {
   background: linear-gradient(
     90deg,
     transparent,
-    rgba(255, 225, 186, 0.18),
+    rgba(255, 255, 255, 0.18),
     transparent
   );
 }

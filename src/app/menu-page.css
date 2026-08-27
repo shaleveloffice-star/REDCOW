@@ -129,13 +129,15 @@
   transition: color 0.2s ease;
 }
 
-.menu-bleecker-breadcrumbs-link:hover {
-  color: #ffffff;
-}
-
 .menu-bleecker-breadcrumbs-link:focus-visible {
   outline: 2px solid #ffffff;
   outline-offset: 2px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menu-bleecker-breadcrumbs-link:hover {
+    color: #ffffff;
+  }
 }
 
 .menu-bleecker-breadcrumbs-current {
@@ -196,14 +198,16 @@
     color 0.2s ease;
 }
 
-.menu-bleecker-related-link:hover {
-  background: #ffffff;
-  color: #000000;
-}
-
 .menu-bleecker-related-link:focus-visible {
   outline: 2px solid #ffffff;
   outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menu-bleecker-related-link:hover {
+    background: #ffffff;
+    color: #000000;
+  }
 }
 
 /* Shared content column — prose blocks align to the same edge as H1 / filters (RTL-safe). */
@@ -345,10 +349,16 @@
     color 0.2s ease;
 }
 
-.menu-bleecker-filter.is-active,
-.menu-bleecker-filter:hover {
+.menu-bleecker-filter.is-active {
   background: #ffffff;
   color: #000000;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menu-bleecker-filter:hover {
+    background: #ffffff;
+    color: #000000;
+  }
 }
 
 .menu-bleecker-sections {
@@ -380,13 +390,15 @@
   transition: color 0.2s ease;
 }
 
-.menu-bleecker-category-title-link:hover {
-  color: rgba(255, 255, 255, 0.72);
-}
-
 .menu-bleecker-category-title-link:focus-visible {
   outline: 2px solid #ffffff;
   outline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menu-bleecker-category-title-link:hover {
+    color: rgba(255, 255, 255, 0.72);
+  }
 }
 
 .menu-bleecker-category-intro {
@@ -502,16 +514,18 @@
   outline-offset: 3px;
 }
 
-.menu-bleecker-card-link:hover .menu-bleecker-card {
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  .menu-bleecker-card-link:hover .menu-bleecker-card {
+    transform: translateY(-2px);
+  }
+
+  .menu-bleecker-card:has(.autoplay-video-toggle):hover {
+    transform: translateY(-2px);
+  }
 }
 
 .menu-bleecker-card:has(.autoplay-video-toggle) {
   position: relative;
-}
-
-.menu-bleecker-card:has(.autoplay-video-toggle):hover {
-  transform: translateY(-2px);
 }
 
 .menu-bleecker-card:has(.autoplay-video-toggle) .menu-bleecker-card-media,
@@ -627,8 +641,10 @@
   transition: background-color 0.2s ease;
 }
 
-.menu-bleecker-cta:hover {
-  background: #242424;
+@media (hover: hover) and (pointer: fine) {
+  .menu-bleecker-cta:hover {
+    background: #242424;
+  }
 }
 
 .menu-bleecker-cta-icon {

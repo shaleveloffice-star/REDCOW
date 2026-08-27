@@ -83,17 +83,6 @@ body:not(:has(.admin-layout)) .customer-club-submit {
   box-shadow: none;
 }
 
-body:not(:has(.admin-layout)) .branches-card-nav:hover,
-body:not(:has(.admin-layout)) .about-btn-primary:hover,
-body:not(:has(.admin-layout)) .customer-club-submit:hover:not(:disabled) {
-  transform: translateY(-2px);
-  filter: none;
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
-  box-shadow: 0 12px 28px rgba(255, 255, 255, 0.18);
-}
-
 body:not(:has(.admin-layout)) .visit-secondary,
 body:not(:has(.admin-layout)) .about-btn-ghost,
 body:not(:has(.admin-layout)) .location-cta,
@@ -103,14 +92,27 @@ body:not(:has(.admin-layout)) .plancha-footer-cta {
   color: #ffffff;
 }
 
-body:not(:has(.admin-layout)) .visit-secondary:hover,
-body:not(:has(.admin-layout)) .about-btn-ghost:hover,
-body:not(:has(.admin-layout)) .location-cta:hover,
-body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
-  background: #ffffff;
-  color: #000000;
-  border-color: #ffffff;
-  transform: translateY(-2px);
+@media (hover: hover) and (pointer: fine) {
+  body:not(:has(.admin-layout)) .branches-card-nav:hover,
+  body:not(:has(.admin-layout)) .about-btn-primary:hover,
+  body:not(:has(.admin-layout)) .customer-club-submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    filter: none;
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+    box-shadow: 0 12px 28px rgba(255, 255, 255, 0.18);
+  }
+
+  body:not(:has(.admin-layout)) .visit-secondary:hover,
+  body:not(:has(.admin-layout)) .about-btn-ghost:hover,
+  body:not(:has(.admin-layout)) .location-cta:hover,
+  body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
+    background: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+    transform: translateY(-2px);
+  }
 }
 
 /* —— Header / navigation —— */
@@ -153,10 +155,12 @@ body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
   transition: opacity var(--ds-motion-fast) ease;
 }
 
-.site-nav-overlay-link:hover {
-  color: #ffffff;
-  opacity: 0.7;
-  letter-spacing: 0.1em;
+@media (hover: hover) and (pointer: fine) {
+  .site-nav-overlay-link:hover {
+    color: #ffffff;
+    opacity: 0.7;
+    letter-spacing: 0.1em;
+  }
 }
 
 .language-switcher {
@@ -272,10 +276,12 @@ body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
   outline-offset: 3px;
 }
 
-.menu-showcase-card:hover {
-  border-color: transparent;
-  transform: translateY(-4px);
-  box-shadow: none;
+@media (hover: hover) and (pointer: fine) {
+  .menu-showcase-card:hover {
+    border-color: transparent;
+    transform: translateY(-4px);
+    box-shadow: none;
+  }
 }
 
 .menu-showcase-card-media {
@@ -375,14 +381,16 @@ a.menu-showcase-button.site-cta-btn {
     background-color var(--ds-motion-fast) ease;
 }
 
-.menu-showcase-control:hover:not(:disabled) {
-  border-color: var(--ds-border);
-  background: rgba(255, 255, 255, 0.08);
-}
-
 .menu-showcase-control:focus-visible {
   outline: 2px solid var(--ds-border);
   outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .menu-showcase-control:hover:not(:disabled) {
+    border-color: var(--ds-border);
+    background: rgba(255, 255, 255, 0.08);
+  }
 }
 
 @media (min-width: 768px) {
@@ -755,15 +763,17 @@ a.menu-showcase-button.site-cta-btn {
     transform 180ms ease;
 }
 
-.home-vibe-controls button:hover {
-  background: #1e1e1e;
-  color: #ffffff;
-  transform: translateY(-2px);
-}
-
 .home-vibe-controls button:focus-visible {
   outline: 2px solid #1e1e1e;
   outline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .home-vibe-controls button:hover {
+    background: #1e1e1e;
+    color: #ffffff;
+    transform: translateY(-2px);
+  }
 }
 
 .home-vibe-counter {
@@ -795,9 +805,11 @@ a.menu-showcase-button.site-cta-btn {
     color 220ms ease;
 }
 
-.home-vibe-cta:hover {
-  background: #ffffff;
-  color: #1e1e1e;
+@media (hover: hover) and (pointer: fine) {
+  .home-vibe-cta:hover {
+    background: #ffffff;
+    color: #1e1e1e;
+  }
 }
 
 .home-vibe-instagram-word {
@@ -907,6 +919,8 @@ a.menu-showcase-button.site-cta-btn {
 
   .home-vibe-tagline {
     text-align: left;
+    white-space: normal;
+    overflow-wrap: anywhere;
   }
 
   .home-vibe-gallery {
@@ -1380,9 +1394,11 @@ a.menu-showcase-button.site-cta-btn {
   transition: color var(--ds-motion-fast) ease;
 }
 
-.site-footer-links a:hover,
-.site-footer-contact-link:hover {
-  color: var(--ds-accent);
+@media (hover: hover) and (pointer: fine) {
+  .site-footer-links a:hover,
+  .site-footer-contact-link:hover {
+    color: var(--ds-accent);
+  }
 }
 
 .site-footer-social {
@@ -1426,11 +1442,13 @@ a.menu-showcase-button.site-cta-btn {
   color: #ffffff !important;
 }
 
-.site-footer-links a:hover,
-.site-footer-contact-link:hover,
-.site-footer-legal-link:hover {
-  color: #ffffff;
-  opacity: 0.72;
+@media (hover: hover) and (pointer: fine) {
+  .site-footer-links a:hover,
+  .site-footer-contact-link:hover,
+  .site-footer-legal-link:hover {
+    color: #ffffff;
+    opacity: 0.72;
+  }
 }
 
 /* —— Section transitions (hairline rhythm, not heavy glow) —— */

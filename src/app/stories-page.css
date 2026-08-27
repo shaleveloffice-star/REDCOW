@@ -136,11 +136,18 @@
   outline-offset: 2px;
 }
 
-.stories-list-link:hover .stories-list-title,
 .stories-list-link:focus-visible .stories-list-title {
   color: #000000;
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .stories-list-link:hover .stories-list-title {
+    color: #000000;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
 }
 
 .stories-list-meta {
@@ -445,10 +452,16 @@
   border-color: #000000;
 }
 
-.story-section--light .story-cta-link:hover,
 .story-section--light .story-cta-link:focus-visible {
   background: #ffffff;
   color: #000000;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .story-section--light .story-cta-link:hover {
+    background: #ffffff;
+    color: #000000;
+  }
 }
 
 .story-section--dark .story-cta-link {
@@ -457,10 +470,16 @@
   border-color: var(--secondary, #ffe1ba);
 }
 
-.story-section--dark .story-cta-link:hover,
 .story-section--dark .story-cta-link:focus-visible {
   background: transparent;
   color: var(--secondary, #ffe1ba);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .story-section--dark .story-cta-link:hover {
+    background: transparent;
+    color: var(--secondary, #ffe1ba);
+  }
 }
 
 .story-back-nav {
@@ -477,10 +496,16 @@
   text-decoration: none;
 }
 
-.story-back-link:hover,
 .story-back-link:focus-visible {
   text-decoration: underline;
   text-underline-offset: 4px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .story-back-link:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
 }
 
 @media (max-width: 768px) {

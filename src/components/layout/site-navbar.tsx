@@ -37,6 +37,12 @@ type SiteNavbarProps = {
   magazineStories?: MagazineNavStory[];
 };
 
+/** Touch / stylus / no-hover pointers — prefer tap-to-toggle over hover menus. */
+function prefersTouchMenuInteraction(): boolean {
+  if (typeof window === "undefined") return false;
+  return window.matchMedia("(hover: none), (pointer: coarse)").matches;
+}
+
 function IconInstagram() {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" className="site-navbar-social-icon">
@@ -105,14 +111,14 @@ function resolveOrderUrls(orderLinks: OrderLink[], fallbackOrderUrl: string) {
     orderLinks.find((link) => (link.type === "delivery" || link.type === "marketplace") && link.isActive)
       ?.url ??
     fallbackOrderUrl ??
-    "#location";
+    "/locations";
 
   return { pickupUrl: pickup, deliveryUrl: delivery };
 }
 
 export function SiteNavbar({
   overlay = false,
-  orderUrl = "#location",
+  orderUrl = "/locations",
   orderLinks = [],
   magazineStories = []
 }: SiteNavbarProps) {
@@ -220,7 +226,7 @@ export function SiteNavbar({
   useEffect(() => {
     if (!desktopMagazineOpen) return;
 
-    const onPointerDown = (event: MouseEvent) => {
+    const onPointerDown = (event: PointerEvent) => {
       if (!magazineRef.current?.contains(event.target as Node)) {
         setDesktopMagazineOpen(false);
       }
@@ -232,10 +238,10 @@ export function SiteNavbar({
       }
     };
 
-    window.addEventListener("mousedown", onPointerDown);
+    window.addEventListener("pointerdown", onPointerDown);
     window.addEventListener("keydown", onKeyDown);
     return () => {
-      window.removeEventListener("mousedown", onPointerDown);
+      window.removeEventListener("pointerdown", onPointerDown);
       window.removeEventListener("keydown", onKeyDown);
     };
   }, [desktopMagazineOpen]);
@@ -331,8 +337,16 @@ export function SiteNavbar({
               <li
                 ref={magazineRef}
                 className={`site-navbar-magazine${desktopMagazineOpen ? " is-open" : ""}`}
-                onMouseEnter={() => setDesktopMagazineOpen(true)}
-                onMouseLeave={() => setDesktopMagazineOpen(false)}
+                onMouseEnter={() => {
+                  if (!prefersTouchMenuInteraction()) {
+                    setDesktopMagazineOpen(true);
+                  }
+                }}
+                onMouseLeave={() => {
+                  if (!prefersTouchMenuInteraction()) {
+                    setDesktopMagazineOpen(false);
+                  }
+                }}
               >
                 <a
                   href="/stories"
@@ -342,10 +356,18 @@ export function SiteNavbar({
                   aria-controls={magazineItems.length > 0 ? magazineMenuId : undefined}
                   onClick={(event) => {
                     if (magazineItems.length === 0) return;
+                    // Keyboard (detail === 0): toggle without navigating.
                     if (event.detail === 0) {
                       event.preventDefault();
                       setDesktopMagazineOpen((open) => !open);
+                      return;
                     }
+                    // Touch / coarse pointer: first tap opens/closes; don't navigate yet.
+                    if (prefersTouchMenuInteraction()) {
+                      event.preventDefault();
+                      setDesktopMagazineOpen((open) => !open);
+                    }
+                    // Fine pointer mouse click: keep default navigation to /stories.
                   }}
                   onKeyDown={(event) => {
                     if (magazineItems.length === 0) return;

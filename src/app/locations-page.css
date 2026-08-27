@@ -174,8 +174,10 @@
   transition: opacity 0.2s ease;
 }
 
-.locations-card-link:hover {
-  opacity: 0.7;
+@media (hover: hover) and (pointer: fine) {
+  .locations-card-link:hover {
+    opacity: 0.7;
+  }
 }
 
 .locations-delivery {
@@ -208,10 +210,12 @@
     box-shadow 0.25s ease;
 }
 
-.locations-delivery-tile:hover {
-  border-color: rgba(255, 255, 255, 0.22);
-  transform: translateY(-2px);
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+@media (hover: hover) and (pointer: fine) {
+  .locations-delivery-tile:hover {
+    border-color: rgba(255, 255, 255, 0.22);
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+  }
 }
 
 .locations-delivery-tile-icon {
@@ -257,8 +261,10 @@
   text-decoration: none;
 }
 
-.locations-back a:hover {
-  color: #ffffff;
+@media (hover: hover) and (pointer: fine) {
+  .locations-back a:hover {
+    color: #ffffff;
+  }
 }
 
 @media (max-width: 900px) {
@@ -310,6 +316,14 @@
   cursor: pointer;
 }
 
+@media (max-width: 767px) {
+  .order-modal-backdrop {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(0, 0, 0, 0.82);
+  }
+}
+
 .order-modal {
   position: relative;
   z-index: 1;
@@ -329,8 +343,8 @@
   z-index: 2;
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
+  width: 44px;
+  height: 44px;
   border: 0;
   border-radius: 999px;
   background: #ffffff;
@@ -370,8 +384,10 @@
     transform 0.25s ease;
 }
 
-.order-modal-option:hover {
-  background: rgba(255, 255, 255, 0.06);
+@media (hover: hover) and (pointer: fine) {
+  .order-modal-option:hover {
+    background: rgba(255, 255, 255, 0.06);
+  }
 }
 
 .order-modal-option-icon {
@@ -413,8 +429,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   padding: 0;
   border: 0;
   background: transparent;
@@ -432,8 +448,10 @@
   display: block;
 }
 
-.site-navbar-icon-btn:hover {
-  transform: translateY(-2px) scale(1.08);
+@media (hover: hover) and (pointer: fine) {
+  .site-navbar-icon-btn:hover {
+    transform: translateY(-2px) scale(1.08);
+  }
 }
 
 .site-navbar--scrolled .site-navbar-icon-btn {

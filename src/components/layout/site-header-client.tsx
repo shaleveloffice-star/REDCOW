@@ -25,7 +25,7 @@ export function SiteHeaderClient({ orderLinks, magazineStories = [] }: SiteHeade
       <SiteOpeningBanner />
       <SiteNavbar
         overlay={isHome}
-        orderUrl={orderLinks[0]?.url ?? "#location"}
+        orderUrl={orderLinks[0]?.url ?? (isHome ? "#location" : "/locations")}
         orderLinks={orderLinks}
         magazineStories={magazineStories}
       />

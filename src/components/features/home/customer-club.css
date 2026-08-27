@@ -383,10 +383,12 @@
   height: 18px;
 }
 
-.customer-club-submit:hover:not(:disabled) {
-  transform: translateY(-2px);
-  filter: none;
-  box-shadow: 0 12px 28px rgba(255, 255, 255, 0.18);
+@media (hover: hover) and (pointer: fine) {
+  .customer-club-submit:hover:not(:disabled) {
+    transform: translateY(-2px);
+    filter: none;
+    box-shadow: 0 12px 28px rgba(255, 255, 255, 0.18);
+  }
 }
 
 .customer-club-submit:focus,
@@ -550,9 +552,11 @@
   transition: opacity 0.25s ease, transform 0.25s ease;
 }
 
-.customer-club-bar-social:hover {
-  opacity: 1;
-  transform: translateY(-1px);
+@media (hover: hover) and (pointer: fine) {
+  .customer-club-bar-social:hover {
+    opacity: 1;
+    transform: translateY(-1px);
+  }
 }
 
 .customer-club-bar-social svg {

@@ -31,6 +31,11 @@ function collectTranslatableStrings(story: BrandStory): string[] {
         if (section.body?.trim()) strings.push(section.body);
         strings.push(section.label);
         break;
+      case "long-content":
+        if (section.kicker?.trim()) strings.push(section.kicker);
+        if (section.title?.trim()) strings.push(section.title);
+        strings.push(section.body);
+        break;
       default:
         break;
     }
@@ -82,6 +87,13 @@ function localizeSection(section: StorySection, map: (source: string) => string)
         ...section,
         body: section.body ? map(section.body) : undefined,
         label: map(section.label)
+      };
+    case "long-content":
+      return {
+        ...section,
+        kicker: section.kicker ? map(section.kicker) : undefined,
+        title: section.title ? map(section.title) : undefined,
+        body: map(section.body)
       };
     default:
       return section;

@@ -20,13 +20,17 @@ import { AdminStoryVisualPreview } from "@/components/features/admin/admin-story
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { createId } from "@/lib/admin/new-id";
-import { convertStorySectionType } from "@/lib/stories/convert-section-type";
+import {
+  convertStorySectionType,
+  createDefaultStorySection
+} from "@/lib/stories/convert-section-type";
 import { resolveStorySlug } from "@/lib/stories/story-slug";
 import { deleteBrandStoryAction, saveBrandStoryAction } from "@/server/actions/stories.actions";
 import {
   STORY_SECTION_TYPES,
   type BrandStory,
   type StorySection,
+  type StorySectionBackground,
   type StorySectionType
 } from "@/types/story";
 
@@ -109,7 +113,8 @@ const SECTION_TYPE_LABELS: Record<StorySectionType, string> = {
   "split-image-text": "תמונה + טקסט (שמאל)",
   "full-image": "תמונה מלאה",
   quote: "ציטוט",
-  cta: "קריאה לפעולה"
+  cta: "קריאה לפעולה",
+  "long-content": "תוכן ארוך"
 };
 
 function newStory(items: BrandStory[]): BrandStory {
@@ -129,49 +134,6 @@ function newStory(items: BrandStory[]): BrandStory {
     createdAt: now,
     updatedAt: now
   };
-}
-
-function defaultSection(type: StorySectionType): StorySection {
-  switch (type) {
-    case "split-text-image":
-    case "split-image-text":
-      return {
-        type,
-        kicker: "",
-        title: "",
-        body: "",
-        imageUrl: "",
-        imageAlt: ""
-      };
-    case "full-image":
-      return {
-        type,
-        imageUrl: "",
-        imageAlt: "",
-        caption: ""
-      };
-    case "quote":
-      return {
-        type,
-        text: "",
-        attribution: ""
-      };
-    case "cta":
-      return {
-        type,
-        body: "",
-        label: "",
-        href: "/menu"
-      };
-    default:
-      return {
-        type: "split-text-image",
-        title: "",
-        body: "",
-        imageUrl: "",
-        imageAlt: ""
-      };
-  }
 }
 
 function moveSection(sections: StorySection[], index: number, direction: -1 | 1): StorySection[] {
@@ -246,6 +208,24 @@ function SectionEditor({
               {SECTION_TYPE_LABELS[type]}
             </option>
           ))}
+        </select>
+      </label>
+
+      <label>
+        רקע מקטע
+        <select
+          value={section.background ?? "auto"}
+          onChange={(e) => {
+            const value = e.target.value;
+            onChange({
+              ...section,
+              background: value === "auto" ? undefined : (value as StorySectionBackground)
+            });
+          }}
+        >
+          <option value="auto">אוטומטי (מתחלף)</option>
+          <option value="light">לבן</option>
+          <option value="dark">שחור</option>
         </select>
       </label>
 
@@ -377,6 +357,35 @@ function SectionEditor({
               onChange={(e) => onChange({ ...section, href: e.target.value })}
             />
           </label>
+        </>
+      )}
+
+      {section.type === "long-content" && (
+        <>
+          <label>
+            Kicker (אופציונלי)
+            <input
+              value={section.kicker ?? ""}
+              onChange={(e) => onChange({ ...section, kicker: e.target.value })}
+            />
+          </label>
+          <label>
+            כותרת (אופציונלי)
+            <input
+              value={section.title ?? ""}
+              onChange={(e) => onChange({ ...section, title: e.target.value })}
+            />
+          </label>
+          <label>
+            תוכן ארוך
+            <textarea
+              required
+              rows={10}
+              value={section.body}
+              onChange={(e) => onChange({ ...section, body: e.target.value })}
+            />
+          </label>
+          <p className="admin-form-hint">ניתן לחלק לפסקאות עם שורה ריקה בין פסקה לפסקה.</p>
         </>
       )}
     </fieldset>
@@ -754,7 +763,7 @@ export function AdminStoriesManager({
                 onClick={() =>
                   setDraft({
                     ...draft,
-                    sections: [...draft.sections, defaultSection(newSectionType)]
+                    sections: [...draft.sections, createDefaultStorySection(newSectionType)]
                   })
                 }
               >

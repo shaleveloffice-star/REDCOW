@@ -67,11 +67,15 @@ async function materializeImageUrl(
 }
 
 async function sanitizeSection(section: StorySection): Promise<StorySection> {
+  const background =
+    section.background === "light" || section.background === "dark" ? section.background : undefined;
+
   switch (section.type) {
     case "split-text-image":
     case "split-image-text":
       return omitUndefined({
         type: section.type,
+        background,
         kicker: section.kicker?.trim() || undefined,
         title: section.title.trim(),
         body: section.body.trim(),
@@ -81,6 +85,7 @@ async function sanitizeSection(section: StorySection): Promise<StorySection> {
     case "full-image":
       return omitUndefined({
         type: section.type,
+        background,
         imageUrl: await materializeImageUrl(section.imageUrl, "תמונת מקטע", { optional: true }),
         imageAlt: section.imageAlt.trim(),
         caption: section.caption?.trim() || undefined
@@ -88,6 +93,7 @@ async function sanitizeSection(section: StorySection): Promise<StorySection> {
     case "quote":
       return omitUndefined({
         type: section.type,
+        background,
         text: section.text.trim(),
         attribution: section.attribution?.trim() || undefined
       }) as StorySection;
@@ -98,11 +104,20 @@ async function sanitizeSection(section: StorySection): Promise<StorySection> {
       }
       return omitUndefined({
         type: section.type,
+        background,
         body: section.body?.trim() || undefined,
         label: section.label.trim(),
         href
       }) as StorySection;
     }
+    case "long-content":
+      return omitUndefined({
+        type: section.type,
+        background,
+        kicker: section.kicker?.trim() || undefined,
+        title: section.title?.trim() || undefined,
+        body: section.body.trim()
+      }) as StorySection;
     default:
       return section;
   }

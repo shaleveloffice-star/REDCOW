@@ -15,7 +15,8 @@ const SECTION_TYPE_LABELS: Record<StorySectionType, string> = {
   "split-image-text": "תמונה + טקסט (שמאל)",
   "full-image": "תמונה מלאה",
   quote: "ציטוט",
-  cta: "קריאה לפעולה"
+  cta: "קריאה לפעולה",
+  "long-content": "תוכן ארוך"
 };
 
 type StorySectionsProps = {
@@ -24,7 +25,10 @@ type StorySectionsProps = {
   editor?: StoryPreviewEditor;
 };
 
-function sectionTone(index: number): "light" | "dark" {
+function sectionTone(section: StorySection, index: number): "light" | "dark" {
+  if (section.background === "light" || section.background === "dark") {
+    return section.background;
+  }
   return index % 2 === 0 ? "light" : "dark";
 }
 
@@ -130,11 +134,21 @@ function SplitSection({
     locale,
     customAlt: section.imageAlt
   });
+  const showMedia = Boolean(section.imageUrl.trim()) || Boolean(editor?.active);
+  const textOnly = !showMedia;
+  const splitClassName = [
+    "story-split",
+    reverse && showMedia ? "story-split--reverse" : "",
+    textOnly ? "story-split--text-only" : "",
+    textOnly ? (reverse ? "story-split--text-only-end" : "story-split--text-only-start") : ""
+  ]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <SectionEditChrome editor={editor} index={sectionIndex} section={section}>
       <section className={`story-section story-section--${tone}`}>
-        <div className={`story-split${reverse ? " story-split--reverse" : ""}`}>
+        <div className={splitClassName}>
           <div className="story-split-copy">
             {section.kicker?.trim() || editor?.active ? (
               <p
@@ -164,7 +178,7 @@ function SplitSection({
               onSave={(body) => onUpdate({ ...section, body })}
             />
           </div>
-          {(section.imageUrl.trim() || editor?.active) ? (
+          {showMedia ? (
             <div className="story-split-media">
               <StoryEditableImageWrap
                 editor={editor}
@@ -203,7 +217,7 @@ function renderSection(
   locale: Locale,
   editor?: StoryPreviewEditor
 ) {
-  const tone = sectionTone(index);
+  const tone = sectionTone(section, index);
   const onUpdate = (next: StorySection) => editor?.onEditSection(index, next);
 
   switch (section.type) {
@@ -377,6 +391,55 @@ function renderSection(
           </section>
         </SectionEditChrome>
       );
+    case "long-content": {
+      const hasContent =
+        Boolean(section.kicker?.trim()) ||
+        Boolean(section.title?.trim()) ||
+        Boolean(section.body.trim()) ||
+        Boolean(editor?.active);
+
+      if (!hasContent) {
+        return null;
+      }
+
+      return (
+        <SectionEditChrome key={`${section.type}-${index}`} editor={editor} index={index} section={section}>
+          <section className={`story-section story-section--${tone}`}>
+            <div className="story-long-content">
+              {section.kicker?.trim() || editor?.active ? (
+                <p
+                  className="story-section-kicker"
+                  {...storyEditableHit(editor, {
+                    label: "Kicker",
+                    value: section.kicker ?? "",
+                    onSave: (kicker) => onUpdate({ ...section, kicker })
+                  })}
+                >
+                  {section.kicker?.trim() || "Kicker (אופציונלי)"}
+                </p>
+              ) : null}
+              {section.title?.trim() || editor?.active ? (
+                <h2
+                  className="story-section-title"
+                  {...storyEditableHit(editor, {
+                    label: "כותרת מקטע",
+                    value: section.title ?? "",
+                    onSave: (title) => onUpdate({ ...section, title })
+                  })}
+                >
+                  {section.title?.trim() || "כותרת (אופציונלי)"}
+                </h2>
+              ) : null}
+              <SectionBody
+                body={section.body}
+                editor={editor}
+                onSave={(body) => onUpdate({ ...section, body })}
+              />
+            </div>
+          </section>
+        </SectionEditChrome>
+      );
+    }
     default:
       return null;
   }

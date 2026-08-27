@@ -5,12 +5,26 @@ export const STORY_SECTION_TYPES = [
   "split-image-text",
   "full-image",
   "quote",
-  "cta"
+  "cta",
+  "long-content"
 ] as const;
 
 export type StorySectionType = (typeof STORY_SECTION_TYPES)[number];
 
-export type StorySplitSection = {
+/** Explicit block background. When omitted, sections alternate light/dark by index. */
+export type StorySectionBackground = "light" | "dark";
+
+export const STORY_SECTION_BACKGROUND_OPTIONS = [
+  { value: "auto", label: "אוטומטי (מתחלף)" },
+  { value: "light", label: "לבן" },
+  { value: "dark", label: "שחור" }
+] as const;
+
+type StorySectionCommon = {
+  background?: StorySectionBackground;
+};
+
+export type StorySplitSection = StorySectionCommon & {
   type: "split-text-image" | "split-image-text";
   kicker?: string;
   title: string;
@@ -19,31 +33,40 @@ export type StorySplitSection = {
   imageAlt: string;
 };
 
-export type StoryFullImageSection = {
+export type StoryFullImageSection = StorySectionCommon & {
   type: "full-image";
   imageUrl: string;
   imageAlt: string;
   caption?: string;
 };
 
-export type StoryQuoteSection = {
+export type StoryQuoteSection = StorySectionCommon & {
   type: "quote";
   text: string;
   attribution?: string;
 };
 
-export type StoryCtaSection = {
+export type StoryCtaSection = StorySectionCommon & {
   type: "cta";
   body?: string;
   label: string;
   href: string;
 };
 
+/** Long-form prose block (optional title + multi-paragraph body). */
+export type StoryLongContentSection = StorySectionCommon & {
+  type: "long-content";
+  kicker?: string;
+  title?: string;
+  body: string;
+};
+
 export type StorySection =
   | StorySplitSection
   | StoryFullImageSection
   | StoryQuoteSection
-  | StoryCtaSection;
+  | StoryCtaSection
+  | StoryLongContentSection;
 
 export type BrandStory = {
   id: string;

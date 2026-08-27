@@ -84,7 +84,7 @@ export const he: Messages = {
   },
   locations: {
     breadcrumbLabel: "מיקומים",
-    pageTitle: "מיקום ושעות — NB BURGER רעננה",
+    pageTitle: "מיקום ושעות - NB BURGER רעננה",
     findLocal: "מצא סניף",
     ourLocations: "הסניפים שלנו",
     mapTitle: "מפת סניפי NB BURGER",

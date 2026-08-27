@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 
 import { BUSINESS } from "@/data/business";
+import { trackEvent } from "@/lib/analytics";
 
 const VIBE_REELS = [
   "DZJhDpgolz1",
@@ -152,6 +153,12 @@ export function HomeSocialVibeSection() {
         className="home-vibe-cta"
         target="_blank"
         rel="noopener noreferrer"
+        onClick={() =>
+          trackEvent("social_click", {
+            source: "home_social",
+            network: "instagram"
+          })
+        }
       >
         <InstagramIcon />
         <span>

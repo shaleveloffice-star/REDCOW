@@ -15,14 +15,14 @@ import {
   isFocusRestoreTarget,
   trapFocus
 } from "@/lib/a11y/focus-trap";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, type AnalyticsSource } from "@/lib/analytics";
 
 type OrderModalProps = {
   open: boolean;
   onClose: () => void;
   pickupUrl: string;
   deliveryUrl: string;
-  location: string;
+  source: AnalyticsSource;
   returnFocusRef?: RefObject<HTMLElement | null>;
 };
 
@@ -31,7 +31,7 @@ export function OrderModal({
   onClose,
   pickupUrl,
   deliveryUrl,
-  location,
+  source,
   returnFocusRef
 }: OrderModalProps) {
   const t = useTranslations();
@@ -113,7 +113,7 @@ export function OrderModal({
             className="order-modal-option"
             href={pickupUrl}
             onClick={() => {
-              trackEvent("order_pickup", { location });
+              trackEvent("order_pickup", { source });
               // Same-tab navigation: do not close before the browser follows href
               // (closing first broke Samsung Internet / blocked popups with target=_blank).
             }}
@@ -128,7 +128,7 @@ export function OrderModal({
             className="order-modal-option"
             href={deliveryUrl}
             onClick={() => {
-              trackEvent("order_delivery", { location });
+              trackEvent("order_delivery", { source });
             }}
           >
             <IconDeliveryMark className="order-modal-option-icon" />

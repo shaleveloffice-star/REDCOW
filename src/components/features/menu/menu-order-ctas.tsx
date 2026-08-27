@@ -30,7 +30,7 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
           type="button"
           className="menu-bleecker-cta"
           onClick={() => {
-            trackEvent("order_open", { location: "menu" });
+            trackEvent("order_open", { source: "menu" });
             setOrderOpen(true);
           }}
         >
@@ -42,14 +42,20 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
           className="menu-bleecker-cta"
           href={deliveryUrl}
           onClick={() => {
-            trackEvent("order_delivery", { location: "menu" });
+            // Consistent funnel: open intent, then known delivery choice.
+            trackEvent("order_open", { source: "menu" });
+            trackEvent("order_delivery", { source: "menu" });
           }}
         >
           <IconDeliveryMark className="menu-bleecker-cta-icon" />
           <span>{t.orderModal.delivery}</span>
         </a>
 
-        <Link className="menu-bleecker-cta" href="/locations">
+        <Link
+          className="menu-bleecker-cta"
+          href="/locations"
+          onClick={() => trackEvent("location_open", { source: "menu" })}
+        >
           <IconLocationPinFilled className="menu-bleecker-cta-icon" />
           <span>{t.menuPage.viewLocations}</span>
         </Link>
@@ -60,7 +66,7 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
         onClose={() => setOrderOpen(false)}
         pickupUrl={pickupUrl}
         deliveryUrl={deliveryUrl}
-        location="menu"
+        source="menu"
         returnFocusRef={orderButtonRef}
       />
     </>

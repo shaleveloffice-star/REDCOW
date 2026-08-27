@@ -9,6 +9,7 @@ import { isVideoMediaUrl } from "@/lib/menu-media";
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
+import { trackEvent } from "@/lib/analytics";
 import { useEffect, useRef } from "react";
 
 type HomeMenuShowcaseSectionProps = {
@@ -51,7 +52,11 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
             <p className="menu-showcase-lead">{t.menuShowcase.lead}</p>
           </header>
           <div className="menu-showcase-action">
-            <Link className="site-cta-btn site-cta-btn--outline menu-showcase-button" href="/menu">
+            <Link
+              className="site-cta-btn site-cta-btn--outline menu-showcase-button"
+              href="/menu"
+              onClick={() => trackEvent("menu_open", { source: "home_menu_showcase" })}
+            >
               <span className="site-cta-btn-label">{t.menuShowcase.fullMenu}</span>
               <span className="site-cta-arrow" aria-hidden="true">
                 ↗
@@ -124,7 +129,11 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
         </div>
 
         <div className="menu-showcase-action">
-          <Link className="site-cta-btn site-cta-btn--outline menu-showcase-button" href="/menu">
+          <Link
+            className="site-cta-btn site-cta-btn--outline menu-showcase-button"
+            href="/menu"
+            onClick={() => trackEvent("menu_open", { source: "home_menu_showcase" })}
+          >
             <span className="site-cta-btn-label">{t.menuShowcase.fullMenu}</span>
             <span className="site-cta-arrow" aria-hidden="true">
               ↗

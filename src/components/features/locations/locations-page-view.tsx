@@ -2,9 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 import { useMemo } from "react";
 
+import { LocationsMap } from "@/components/features/locations/locations-map";
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { LabelWithNote } from "@/components/shared/label-with-note";
 import { SeoContentBody, SeoCtaBlockView } from "@/components/shared/seo-content-body";
@@ -17,17 +17,6 @@ import { resolveImageAlt } from "@/lib/image-alt";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
 import type { Branch } from "@/types/content";
 import type { ResolvedSeoPageContent } from "@/types/seo-content";
-
-const LocationsMap = dynamic(
-  () =>
-    import("@/components/features/locations/locations-map").then((mod) => ({
-      default: mod.LocationsMap
-    })),
-  {
-    ssr: false,
-    loading: () => <div className="locations-map locations-map--loading" aria-hidden="true" />
-  }
-);
 
 type LocationsPageViewProps = {
   branches: Branch[];
@@ -42,12 +31,7 @@ type LocationCard = {
   hours: string;
   mapsUrl: string;
   image: string;
-  lat: number;
-  lng: number;
 };
-
-/** Default pin: Ahuza 96, Ra'anana */
-const DEFAULT_COORDS = { lat: 32.1849, lng: 34.8709 };
 
 function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "en" | "fr"): LocationCard[] {
   if (branches.length > 0) {
@@ -57,9 +41,7 @@ function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "e
       address: `${branch.address}, ${branch.city}`,
       hours: branch.openingHours,
       mapsUrl: branch.wazeUrl || getBusinessMapsSearchUrl(),
-      image: exteriorImage,
-      lat: DEFAULT_COORDS.lat,
-      lng: DEFAULT_COORDS.lng
+      image: exteriorImage
     }));
   }
 
@@ -80,9 +62,7 @@ function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "e
             ? `Dim–Jeu ${BUSINESS.displayHours.weekday} · Sam ${BUSINESS.displayHours.saturday}`
             : `Sun–Thu ${BUSINESS.displayHours.weekday} · Sat ${BUSINESS.displayHours.saturday}`,
       mapsUrl: getBusinessMapsSearchUrl(),
-      image: exteriorImage,
-      lat: DEFAULT_COORDS.lat,
-      lng: DEFAULT_COORDS.lng
+      image: exteriorImage
     }
   ];
 }
@@ -126,16 +106,6 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
     () => buildCards(branches, exteriorImage, locale),
     [branches, exteriorImage, locale]
   );
-  const mapPoints = useMemo(
-    () =>
-      cards.map((card) => ({
-        id: card.id,
-        name: card.name,
-        lat: card.lat,
-        lng: card.lng
-      })),
-    [cards]
-  );
 
   return (
     <div className="locations-page">
@@ -151,7 +121,7 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
       </header>
 
       <div className="locations-map-wrap">
-        <LocationsMap points={mapPoints} ariaLabel={t.locations.mapSummary} />
+        <LocationsMap title={t.locations.mapSummary} />
       </div>
 
       <section className="locations-list" aria-labelledby="locations-heading">

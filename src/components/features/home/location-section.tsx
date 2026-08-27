@@ -1,5 +1,4 @@
-import Link from "next/link";
-
+import { TrackedAnchor, TrackedLink } from "@/components/analytics/tracked-click";
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
 
 import { IconClock, IconMap, IconMapPin } from "@/components/shared/site-icons";
@@ -79,18 +78,26 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
           </div>
 
           <div className="location-cta-group">
-            <a
+            <TrackedAnchor
               href={mapsUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="location-cta"
+              eventName="location_open"
+              source="home_location"
+              eventParams={{ network: "maps" }}
             >
               <IconMap className="location-cta-icon" />
               <span>{t.location.navigate}</span>
-            </a>
-            <Link href="/locations" className="location-details-link">
+            </TrackedAnchor>
+            <TrackedLink
+              href="/locations"
+              className="location-details-link"
+              eventName="location_open"
+              source="home_location"
+            >
               {t.location.viewBranchDetails}
-            </Link>
+            </TrackedLink>
           </div>
         </div>
 

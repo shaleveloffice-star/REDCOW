@@ -126,7 +126,7 @@ export function MenuItemDetailView({
           type="button"
           className="menu-item-detail-order"
           onClick={() => {
-            trackEvent("order_open", { location: "menu_item" });
+            trackEvent("order_open", { source: "menu_item" });
             setOrderOpen(true);
           }}
         >
@@ -195,7 +195,7 @@ export function MenuItemDetailView({
         onClose={() => setOrderOpen(false)}
         pickupUrl={pickupUrl}
         deliveryUrl={deliveryUrl}
-        location="menu_item"
+        source="menu_item"
         returnFocusRef={orderButtonRef}
       />
     </article>

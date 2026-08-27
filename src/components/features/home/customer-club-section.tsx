@@ -17,6 +17,7 @@ import { submitCustomerClubSignupAction,
   type CustomerClubSignupErrorCode
 } from "@/server/actions/customer-club.actions";
 import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
+import { trackEvent } from "@/lib/analytics";
 
 import "./customer-club.css";
 
@@ -72,6 +73,7 @@ export function CustomerClubSection() {
     startTransition(async () => {
       const result = await submitCustomerClubSignupAction(formData);
       if (result.ok) {
+        trackEvent("club_signup", { source: "home" });
         setSubmitted(true);
         return;
       }

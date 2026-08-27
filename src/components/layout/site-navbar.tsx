@@ -22,7 +22,7 @@ import { resolveImageAlt } from "@/lib/image-alt";
 import { BUSINESS } from "@/data/business";
 import { useTranslations, useLocale } from "@/components/providers/locale-provider";
 import { focusElement, getFocusableElements, inertBackground, isFocusRestoreTarget, trapFocus } from "@/lib/a11y/focus-trap";
-import { trackEvent } from "@/lib/analytics";
+import { trackEvent, type AnalyticsSource } from "@/lib/analytics";
 import type { OrderLink } from "@/types/content";
 
 export type MagazineNavStory = {
@@ -75,11 +75,13 @@ function IconMagazineChevron({ open = false }: { open?: boolean }) {
 
 function CtaButtons({
   onOrderClick,
+  onMenuClick,
   orderLabel,
   menuLabel,
   className
 }: {
   onOrderClick: (opener: HTMLElement) => void;
+  onMenuClick: () => void;
   orderLabel: string;
   menuLabel: string;
   className: string;
@@ -93,7 +95,11 @@ function CtaButtons({
       >
         <span className="site-cta-btn-label">{orderLabel}</span>
       </button>
-      <a className="site-cta-btn site-cta-btn--outline" href="/menu">
+      <a
+        className="site-cta-btn site-cta-btn--outline"
+        href="/menu"
+        onClick={onMenuClick}
+      >
         <span className="site-cta-btn-label">{menuLabel}</span>
         <span className="site-cta-arrow" aria-hidden="true">
           ↗
@@ -135,7 +141,7 @@ export function SiteNavbar({
   const wordmarkSrc = isScrolled ? SITE_WORDMARK_DARK_SRC : SITE_WORDMARK_LIGHT_SRC;
   const wordmarkWebp = isScrolled ? SITE_WORDMARK_DARK_WEBP_SRC : SITE_WORDMARK_LIGHT_WEBP_SRC;
   const [isOrderOpen, setIsOrderOpen] = useState(false);
-  const [orderLocation, setOrderLocation] = useState("navbar");
+  const [orderSource, setOrderSource] = useState<AnalyticsSource>("desktop_navbar");
   const menuId = useId();
   const magazineMenuId = useId();
   const mobileMagazineId = useId();
@@ -173,10 +179,10 @@ export function SiteNavbar({
     [magazineStories]
   );
 
-  const openOrderModal = useCallback((location: string, opener?: HTMLElement | null) => {
-    trackEvent("order_open", { location });
+  const openOrderModal = useCallback((source: AnalyticsSource, opener?: HTMLElement | null) => {
+    trackEvent("order_open", { source });
     orderReturnFocusRef.current = opener ?? null;
-    setOrderLocation(location);
+    setOrderSource(source);
     setIsOpen(false);
     setIsOrderOpen(true);
   }, []);
@@ -412,6 +418,12 @@ export function SiteNavbar({
                   target="_blank"
                   rel="noreferrer"
                   aria-label="Instagram"
+                  onClick={() =>
+                    trackEvent("social_click", {
+                      source: "desktop_navbar",
+                      network: "instagram"
+                    })
+                  }
                 >
                   <IconInstagram />
                 </a>
@@ -424,7 +436,7 @@ export function SiteNavbar({
                 type="button"
                 className="site-navbar-icon-btn site-navbar-icon-order"
                 aria-label={t.hero.orderCta}
-                onClick={(event) => openOrderModal("navbar", event.currentTarget)}
+                onClick={(event) => openOrderModal("mobile_navbar", event.currentTarget)}
               >
                 <IconShoppingBagFilled className="site-navbar-icon" />
               </button>
@@ -433,6 +445,7 @@ export function SiteNavbar({
                 href="/locations"
                 className="site-navbar-icon-btn site-navbar-icon-location"
                 aria-label={t.locations.findLocal}
+                onClick={() => trackEvent("location_open", { source: "mobile_navbar" })}
               >
                 <IconLocationPinFilled className="site-navbar-icon" />
               </Link>
@@ -440,7 +453,8 @@ export function SiteNavbar({
 
             <CtaButtons
               className="site-cta site-cta--desktop"
-              onOrderClick={(opener) => openOrderModal("navbar", opener)}
+              onOrderClick={(opener) => openOrderModal("desktop_navbar", opener)}
+              onMenuClick={() => trackEvent("menu_open", { source: "desktop_navbar" })}
               orderLabel={t.hero.orderCta}
               menuLabel={t.hero.menuCta}
             />
@@ -483,7 +497,8 @@ export function SiteNavbar({
 
       <CtaButtons
         className="site-cta site-cta--mobile"
-        onOrderClick={(opener) => openOrderModal("mobile_cta", opener)}
+        onOrderClick={(opener) => openOrderModal("mobile_sticky_cta", opener)}
+        onMenuClick={() => trackEvent("menu_open", { source: "mobile_sticky_cta" })}
         orderLabel={t.hero.orderCta}
         menuLabel={t.hero.menuCta}
       />
@@ -493,7 +508,7 @@ export function SiteNavbar({
         onClose={closeOrderModal}
         pickupUrl={pickupUrl}
         deliveryUrl={deliveryUrl}
-        location={orderLocation}
+        source={orderSource}
         returnFocusRef={orderReturnFocusRef}
       />
 
@@ -572,7 +587,7 @@ export function SiteNavbar({
               type="button"
               className="site-nav-overlay-link"
               style={{ animationDelay: `${(navLinks.length + 1) * 0.08}s` }}
-              onClick={() => openOrderModal("nav_overlay", toggleRef.current)}
+              onClick={() => openOrderModal("mobile_nav_overlay", toggleRef.current)}
             >
               {t.hero.orderCta}
             </button>
@@ -581,7 +596,13 @@ export function SiteNavbar({
               className="site-nav-overlay-link site-nav-overlay-social"
               target="_blank"
               rel="noreferrer"
-              onClick={() => closeMenu(true)}
+              onClick={() => {
+                trackEvent("social_click", {
+                  source: "mobile_nav_overlay",
+                  network: "instagram"
+                });
+                closeMenu(true);
+              }}
             >
               Instagram
             </a>

@@ -1,3 +1,4 @@
+import { TrackedAnchor } from "@/components/analytics/tracked-click";
 import { IconMail, IconMapPin, IconPhone } from "@/components/shared/site-icons";
 import { SITE_WORDMARK_LIGHT_SRC, SITE_WORDMARK_LIGHT_WEBP_SRC } from "@/data/brand-assets";
 import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
@@ -102,42 +103,54 @@ export async function SiteFooter() {
             <div className="site-footer-social-wrap">
               <p className="site-footer-social-label">{t.footer.followUs}</p>
               <div className="site-footer-socials">
-                <a
+                <TrackedAnchor
                   href={BUSINESS.social.instagram}
                   className="site-footer-social"
                   aria-label="Instagram"
                   target="_blank"
                   rel="noopener noreferrer"
+                  eventName="social_click"
+                  source="footer"
+                  eventParams={{ network: "instagram" }}
                 >
                   <InstagramIcon />
-                </a>
-                <a
+                </TrackedAnchor>
+                <TrackedAnchor
                   href={BUSINESS.social.facebook}
                   className="site-footer-social"
                   aria-label="Facebook"
                   target="_blank"
                   rel="noopener noreferrer"
+                  eventName="social_click"
+                  source="footer"
+                  eventParams={{ network: "facebook" }}
                 >
                   <FacebookIcon />
-                </a>
-                <a
+                </TrackedAnchor>
+                <TrackedAnchor
                   href={BUSINESS.social.tiktok}
                   className="site-footer-social"
                   aria-label="TikTok"
                   target="_blank"
                   rel="noopener noreferrer"
+                  eventName="social_click"
+                  source="footer"
+                  eventParams={{ network: "tiktok" }}
                 >
                   <TikTokIcon />
-                </a>
-                <a
+                </TrackedAnchor>
+                <TrackedAnchor
                   href={mapsUrl}
                   className="site-footer-social"
                   aria-label={t.footer.mapAria}
                   target="_blank"
                   rel="noopener noreferrer"
+                  eventName="location_open"
+                  source="footer"
+                  eventParams={{ network: "maps" }}
                 >
                   <IconMapPin className="site-footer-social-icon" />
-                </a>
+                </TrackedAnchor>
               </div>
             </div>
           </section>

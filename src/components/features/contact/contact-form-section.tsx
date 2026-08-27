@@ -8,6 +8,7 @@ import {
   submitContactMessageAction,
   type ContactMessageErrorCode
 } from "@/server/actions/contact.actions";
+import { trackEvent } from "@/lib/analytics";
 
 export function ContactFormSection() {
   const t = useTranslations();
@@ -23,6 +24,7 @@ export function ContactFormSection() {
     startTransition(async () => {
       const result = await submitContactMessageAction(formData);
       if (result.ok) {
+        trackEvent("contact_submit", { source: "footer" });
         setSubmitted(true);
         return;
       }

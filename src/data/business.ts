@@ -41,8 +41,16 @@ export const BUSINESS = {
       en: "96 Ahuza St., Ra'anana, Israel",
       fr: "96 rue Ahuza, Ra'anana, Israël"
     } as const satisfies Record<BusinessLocale, string>,
-    /** Google Maps search query — not a Google Business Profile URL */
-    mapsSearchQuery: "רחוב אחוזה 96, רעננה"
+    /** Human-readable Google Maps query (display / fallback search) */
+    mapsSearchQuery: "רחוב אחוזה 96, רעננה",
+    /**
+     * Canonical Google Maps share link for Ahuza St 96, Ra'anana
+     * (resolves to place 0x151d381349a2601f:0xc3723ebd96727d1f).
+     */
+    mapsShareUrl: "https://maps.app.goo.gl/2r7TmeL53B7Dvza56",
+    /** Precise pin from the share link (!3d / !4d) — used for embed without API key */
+    mapsLat: 32.179996,
+    mapsLng: 34.8777354
   },
 
   /** No approved phone yet — do not invent one */
@@ -93,8 +101,15 @@ export const BUSINESS = {
   } as const
 } as const;
 
+/** Opens Google Maps on the canonical place (share URL). */
 export function getBusinessMapsSearchUrl(): string {
-  return `https://maps.google.com/?q=${encodeURIComponent(BUSINESS.address.mapsSearchQuery)}`;
+  return BUSINESS.address.mapsShareUrl;
+}
+
+/** Google Maps iframe src focused on the exact place pin (no API key). */
+export function getBusinessMapsEmbedUrl(): string {
+  const { mapsLat, mapsLng } = BUSINESS.address;
+  return `https://www.google.com/maps?q=${mapsLat},${mapsLng}&hl=he&z=17&output=embed`;
 }
 
 export function getBusinessAddress(locale: BusinessLocale = "he"): string {

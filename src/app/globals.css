@@ -50,7 +50,9 @@
   --secondary-border-strong: rgba(255, 225, 186, 0.72);
   --site-opening-banner-height: 40px;
   --site-navbar-height: 120px;
-  --site-chrome-offset: calc(var(--site-opening-banner-height) + var(--site-navbar-height));
+  --site-chrome-offset: calc(
+    var(--site-opening-banner-height) + env(safe-area-inset-top, 0px) + var(--site-navbar-height)
+  );
   --site-mobile-cta-height: 0px;
   --hero-caption-reserve: clamp(160px, 28vh, 220px);
   --secondary-border-hover: rgba(255, 225, 186, 0.85);
@@ -251,8 +253,8 @@ html {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: var(--site-opening-banner-height);
-  padding: 8px 16px;
+  min-height: calc(var(--site-opening-banner-height) + env(safe-area-inset-top, 0px));
+  padding: calc(8px + env(safe-area-inset-top, 0px)) 16px 8px;
   background: var(--secondary);
   color: #000000;
   text-align: center;
@@ -624,6 +626,15 @@ select {
   font: inherit;
 }
 
+/* iOS Safari zooms focused form fields under 16px — keep site type, bump inputs only */
+@media (max-width: 900px) {
+  body:not(:has(.admin-layout)) input,
+  body:not(:has(.admin-layout)) textarea,
+  body:not(:has(.admin-layout)) select {
+    font-size: 16px;
+  }
+}
+
 .page-shell {
   width: min(1120px, calc(100% - 32px));
   margin: 0 auto;
@@ -789,7 +800,7 @@ select {
 .site-navbar {
   position: fixed;
   inset: auto 0 auto;
-  top: var(--site-opening-banner-height, 0px);
+  top: calc(var(--site-opening-banner-height, 0px) + env(safe-area-inset-top, 0px));
   z-index: 50;
   border-bottom: 0;
   background: #000000;
@@ -1304,8 +1315,8 @@ select {
 
 .site-nav-overlay-close {
   position: absolute;
-  top: calc(28px + var(--site-opening-banner-height, 0px));
-  right: 28px;
+  top: calc(28px + var(--site-opening-banner-height, 0px) + env(safe-area-inset-top, 0px));
+  right: max(28px, env(safe-area-inset-right, 0px));
   left: auto;
   display: grid;
   place-items: center;
@@ -1822,7 +1833,9 @@ select {
 
   :root {
     --site-navbar-height: 72px;
-    --site-chrome-offset: calc(var(--site-opening-banner-height) + var(--site-navbar-height));
+    --site-chrome-offset: calc(
+      var(--site-opening-banner-height) + env(safe-area-inset-top, 0px) + var(--site-navbar-height)
+    );
     --site-mobile-cta-height: calc(84px + env(safe-area-inset-bottom, 0px));
     --home-atmosphere-sticky-top: var(--site-chrome-offset);
     --home-atmosphere-sticky-height: calc(
@@ -2885,25 +2898,25 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
     position: relative;
     left: auto;
     right: auto;
-    width: 100vw;
-    max-width: none;
+    width: 100%;
+    max-width: 100%;
     height: clamp(220px, 42vh, 320px);
     max-height: none;
     flex: 0 0 auto;
     margin-top: 27px;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+    margin-left: 0;
+    margin-right: 0;
     overflow: hidden;
   }
 
-  /* ?????? ??????????, ???????? ?????? ???????? ??? ????? ??????? ??????? */
+  /* Keep full-bleed crop inside the panel; overflow stays clipped to 100% width */
   .plancha-panel-media img,
   .plancha-panel--text-left .plancha-panel-media img,
   .plancha-panel--text-right .plancha-panel-media img,
   .plancha-panel--plancha-meat .plancha-panel-media img {
     position: absolute;
     bottom: 0;
-    left: 10px;
+    left: 50%;
     right: auto;
     width: auto;
     height: clamp(260px, 52vh, 400px);
@@ -2911,18 +2924,18 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
     max-height: none;
     margin-inline: 0;
     object-fit: contain;
-    object-position: bottom left;
-    transform-origin: bottom left;
+    object-position: bottom center;
+    transform-origin: bottom center;
     transform: translateX(-50%);
   }
 
-  /* ?????????? ??? ????????????: ??????? ???????? */
+  /* Mirror crop for sear panel (was right-anchored) */
   .plancha-panel--plancha-sear .plancha-panel-media img {
-    left: auto;
-    right: 10px;
-    object-position: bottom right;
-    transform-origin: bottom right;
-    transform: translateX(10%);
+    left: 50%;
+    right: auto;
+    object-position: bottom center;
+    transform-origin: bottom center;
+    transform: translateX(-50%);
   }
 
   .plancha-panel--plancha-bite .plancha-panel-media {
@@ -6298,8 +6311,8 @@ a.menu-showcase-button.site-cta-btn {
   }
 
   .site-nav-overlay-close {
-    top: calc(18px + var(--site-opening-banner-height, 0px));
-    right: 20px;
+    top: calc(18px + var(--site-opening-banner-height, 0px) + env(safe-area-inset-top, 0px));
+    right: max(20px, env(safe-area-inset-right, 0px));
     left: auto;
   }
 

@@ -21,7 +21,6 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
   const t = useTranslations();
   const [orderOpen, setOrderOpen] = useState(false);
   const orderButtonRef = useRef<HTMLButtonElement>(null);
-  const deliveryExternal = deliveryUrl.startsWith("http");
 
   return (
     <>
@@ -42,7 +41,6 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
         <a
           className="menu-bleecker-cta"
           href={deliveryUrl}
-          {...(deliveryExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
           onClick={() => {
             trackEvent("order_delivery", { location: "menu" });
           }}

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { BUSINESS } from "@/data/business";
 
@@ -22,22 +22,89 @@ function InstagramIcon() {
   );
 }
 
+function ReelEmbed({
+  reelId,
+  title,
+  className,
+  enabled
+}: {
+  reelId: string;
+  title: string;
+  className?: string;
+  enabled: boolean;
+}) {
+  if (!enabled) {
+    return (
+      <div
+        className={className ? `${className} home-vibe-embed-placeholder` : "home-vibe-embed-placeholder"}
+        aria-hidden="true"
+      />
+    );
+  }
+
+  return (
+    <iframe
+      src={`https://www.instagram.com/reel/${reelId}/embed/`}
+      title={title}
+      className={className}
+      loading="lazy"
+      scrolling="no"
+      allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+      allowFullScreen
+    />
+  );
+}
+
 export function HomeSocialVibeSection() {
+  const sectionRef = useRef<HTMLElement>(null);
   const [activeReelIndex, setActiveReelIndex] = useState(0);
+  const [sectionNearView, setSectionNearView] = useState(false);
+  const [secondaryEmbedReady, setSecondaryEmbedReady] = useState(false);
   const activeReelId = VIBE_REELS[activeReelIndex];
   const secondaryReelIndex = (activeReelIndex + 1) % VIBE_REELS.length;
   const secondaryReelId = VIBE_REELS[secondaryReelIndex];
 
+  useEffect(() => {
+    const node = sectionRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries.some((entry) => entry.isIntersecting)) {
+          setSectionNearView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px 0px", threshold: 0.01 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!sectionNearView) return;
+    // Defer the second iframe so Samsung / mid-tier devices are not hit with two embeds at once.
+    const timer = window.setTimeout(() => setSecondaryEmbedReady(true), 1200);
+    return () => window.clearTimeout(timer);
+  }, [sectionNearView, activeReelIndex]);
+
   const showPreviousReel = () => {
+    setSecondaryEmbedReady(false);
     setActiveReelIndex((current) => (current - 1 + VIBE_REELS.length) % VIBE_REELS.length);
   };
 
   const showNextReel = () => {
+    setSecondaryEmbedReady(false);
     setActiveReelIndex((current) => (current + 1) % VIBE_REELS.length);
   };
 
   return (
-    <section className="home-vibe-section" aria-labelledby="home-vibe-title">
+    <section
+      ref={sectionRef}
+      className="home-vibe-section"
+      aria-labelledby="home-vibe-title"
+    >
       <header className="home-vibe-header">
         <div>
           <p className="home-vibe-handle">@NBBURGERIL</p>
@@ -49,29 +116,20 @@ export function HomeSocialVibeSection() {
       </header>
 
       <div className="home-vibe-gallery">
-        <div
-          key={activeReelId}
-          className="home-vibe-card home-vibe-card--embed"
-        >
+        <div key={activeReelId} className="home-vibe-card home-vibe-card--embed">
           <span className="home-vibe-phone-island" aria-hidden="true" />
           <div className="home-vibe-phone-screen">
-            <iframe
-              src={`https://www.instagram.com/reel/${activeReelId}/embed/`}
+            <ReelEmbed
+              reelId={activeReelId}
               title={`Instagram Reel ${activeReelIndex + 1} של NB BURGER`}
               className="home-vibe-embed"
-              loading="lazy"
-              scrolling="no"
-              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-              allowFullScreen
+              enabled={sectionNearView}
             />
-            <iframe
-              src={`https://www.instagram.com/reel/${secondaryReelId}/embed/`}
+            <ReelEmbed
+              reelId={secondaryReelId}
               title={`Instagram Reel ${secondaryReelIndex + 1} של NB BURGER`}
               className="home-vibe-embed home-vibe-embed--secondary"
-              loading="lazy"
-              scrolling="no"
-              allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-              allowFullScreen
+              enabled={sectionNearView && secondaryEmbedReady}
             />
           </div>
         </div>

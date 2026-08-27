@@ -297,7 +297,8 @@
   z-index: 120;
   display: grid;
   place-items: center;
-  padding: 20px;
+  padding: max(20px, env(safe-area-inset-top, 0px)) 20px
+    max(20px, env(safe-area-inset-bottom, 0px));
 }
 
 .order-modal-backdrop {

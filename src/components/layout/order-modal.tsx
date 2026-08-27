@@ -39,8 +39,6 @@ export function OrderModal({
   const rootRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const pickupExternal = pickupUrl.startsWith("http");
-  const deliveryExternal = deliveryUrl.startsWith("http");
 
   useLayoutEffect(() => {
     if (!open) return;
@@ -114,10 +112,10 @@ export function OrderModal({
           <a
             className="order-modal-option"
             href={pickupUrl}
-            {...(pickupExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             onClick={() => {
               trackEvent("order_pickup", { location });
-              onClose();
+              // Same-tab navigation: do not close before the browser follows href
+              // (closing first broke Samsung Internet / blocked popups with target=_blank).
             }}
           >
             <IconBurgerMark className="order-modal-option-icon" />
@@ -129,10 +127,8 @@ export function OrderModal({
           <a
             className="order-modal-option"
             href={deliveryUrl}
-            {...(deliveryExternal ? { target: "_blank", rel: "noopener noreferrer" } : {})}
             onClick={() => {
               trackEvent("order_delivery", { location });
-              onClose();
             }}
           >
             <IconDeliveryMark className="order-modal-option-icon" />

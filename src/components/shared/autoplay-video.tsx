@@ -14,6 +14,27 @@ type AutoplayVideoProps = {
   "aria-hidden"?: boolean;
 };
 
+/** Cap concurrent muted autoplay loops to reduce mid-tier Android jank. */
+const MAX_CONCURRENT_AUTOPLAY = 1;
+const playingVideos = new Set<HTMLVideoElement>();
+
+function claimPlaybackSlot(video: HTMLVideoElement) {
+  if (playingVideos.has(video)) return;
+  if (playingVideos.size >= MAX_CONCURRENT_AUTOPLAY) {
+    for (const other of [...playingVideos]) {
+      if (other === video) continue;
+      other.pause();
+      playingVideos.delete(other);
+      if (playingVideos.size < MAX_CONCURRENT_AUTOPLAY) break;
+    }
+  }
+  playingVideos.add(video);
+}
+
+function releasePlaybackSlot(video: HTMLVideoElement) {
+  playingVideos.delete(video);
+}
+
 export function AutoplayVideo({
   src,
   className,
@@ -25,6 +46,7 @@ export function AutoplayVideo({
   const t = useTranslations();
   const videoRef = useRef<HTMLVideoElement>(null);
   const userPausedRef = useRef(false);
+  const inViewRef = useRef(false);
   const [paused, setPaused] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
 
@@ -59,17 +81,24 @@ export function AutoplayVideo({
 
     const syncPaused = () => {
       setPaused(video.paused);
+      if (video.paused) {
+        releasePlaybackSlot(video);
+      }
     };
 
     const tryPlay = () => {
-      if (userPausedRef.current || reducedMotion) {
+      if (userPausedRef.current || reducedMotion || !inViewRef.current) {
         video.pause();
+        releasePlaybackSlot(video);
         setPaused(true);
         return;
       }
+      claimPlaybackSlot(video);
       const playPromise = video.play();
       if (playPromise) {
-        void playPromise.catch(() => {});
+        void playPromise.catch(() => {
+          releasePlaybackSlot(video);
+        });
       }
     };
 
@@ -78,10 +107,12 @@ export function AutoplayVideo({
         const entry = entries[0];
         if (!entry) return;
 
+        inViewRef.current = entry.isIntersecting;
         if (entry.isIntersecting) {
           tryPlay();
         } else {
           video.pause();
+          releasePlaybackSlot(video);
         }
       },
       { threshold: 0.2, rootMargin: "8px" }
@@ -94,8 +125,8 @@ export function AutoplayVideo({
     video.addEventListener("loadedmetadata", tryPlay);
     video.addEventListener("canplay", tryPlay);
 
-    video.load();
-    tryPlay();
+    // Do not call load()/tryPlay until in view — IO will start playback.
+    inViewRef.current = false;
 
     const onFirstTouch = () => {
       tryPlay();
@@ -106,6 +137,7 @@ export function AutoplayVideo({
 
     return () => {
       observer.disconnect();
+      releasePlaybackSlot(video);
       video.removeEventListener("play", syncPaused);
       video.removeEventListener("pause", syncPaused);
       video.removeEventListener("loadedmetadata", tryPlay);
@@ -120,9 +152,12 @@ export function AutoplayVideo({
 
     if (video.paused) {
       userPausedRef.current = false;
+      claimPlaybackSlot(video);
       const playPromise = video.play();
       if (playPromise) {
-        void playPromise.catch(() => {});
+        void playPromise.catch(() => {
+          releasePlaybackSlot(video);
+        });
       }
       setPaused(false);
       return;
@@ -130,6 +165,7 @@ export function AutoplayVideo({
 
     userPausedRef.current = true;
     video.pause();
+    releasePlaybackSlot(video);
     setPaused(true);
   };
 
@@ -138,7 +174,7 @@ export function AutoplayVideo({
       <video
         ref={videoRef}
         className={className}
-        autoPlay={!reducedMotion}
+        autoPlay={false}
         loop
         muted
         playsInline

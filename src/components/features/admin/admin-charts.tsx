@@ -19,12 +19,14 @@ type BarChartItem = {
 };
 
 const CHART_PALETTE = [
-  "#111111",
-  "#333333",
-  "#555555",
-  "#777777",
-  "#999999",
-  "#bbbbbb"
+  "#2563eb",
+  "#16a34a",
+  "#d97706",
+  "#dc2626",
+  "#7c3aed",
+  "#0891b2",
+  "#db2777",
+  "#0d9488"
 ] as const;
 
 export function getChartColor(index: number) {
@@ -60,7 +62,7 @@ export function DonutChart({
           cy={center}
           r={radius}
           fill="none"
-          stroke="rgba(17, 24, 39, 0.12)"
+          stroke="rgba(37, 99, 235, 0.12)"
           strokeWidth={stroke}
         />
         {total > 0
@@ -110,6 +112,7 @@ export function BarChart({ items, maxValue }: { items: BarChartItem[]; maxValue?
     <div className="admin-chart-bars" role="img" aria-label="תרשים עמודות">
       {items.map((item, index) => {
         const heightPct = peak > 0 ? (item.value / peak) * 100 : 0;
+        const color = getChartColor(index);
 
         return (
           <div key={`${item.label}-${index}`} className="admin-chart-bar-col">
@@ -119,7 +122,8 @@ export function BarChart({ items, maxValue }: { items: BarChartItem[]; maxValue?
                 style={
                   {
                     "--bar-h": `${heightPct}%`,
-                    "--bar-delay": `${index * 60}ms`
+                    "--bar-delay": `${index * 60}ms`,
+                    "--bar-color": color
                   } as React.CSSProperties
                 }
               />
@@ -142,6 +146,7 @@ export function HorizontalBars({
     <ul className="admin-chart-hbars">
       {items.map((item, index) => {
         const widthPct = item.max > 0 ? (item.value / item.max) * 100 : 0;
+        const color = getChartColor(index);
 
         return (
           <li key={`${item.label}-${index}`} className="admin-chart-hbar-row">
@@ -155,7 +160,8 @@ export function HorizontalBars({
                 style={
                   {
                     "--bar-w": `${widthPct}%`,
-                    "--bar-delay": `${index * 70}ms`
+                    "--bar-delay": `${index * 70}ms`,
+                    "--bar-color": color
                   } as React.CSSProperties
                 }
               />
@@ -198,12 +204,12 @@ export function Sparkline({ values }: { values: number[] }) {
     >
       <defs>
         <linearGradient id="adminSparkFill" x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor="rgba(17, 24, 39, 0.28)" />
-          <stop offset="100%" stopColor="rgba(17, 24, 39, 0.02)" />
+          <stop offset="0%" stopColor="rgba(37, 99, 235, 0.28)" />
+          <stop offset="100%" stopColor="rgba(37, 99, 235, 0.02)" />
         </linearGradient>
       </defs>
       <polygon points={areaPoints} fill="url(#adminSparkFill)" />
-      <polyline points={points} fill="none" stroke="#111111" strokeWidth="2.5" strokeLinecap="round" />
+      <polyline points={points} fill="none" stroke="#2563eb" strokeWidth="2.5" strokeLinecap="round" />
     </svg>
   );
 }

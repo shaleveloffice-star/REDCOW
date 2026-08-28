@@ -41,7 +41,7 @@ export default async function StoriesIndexPage() {
         })}
       />
       <main id="main-content" className="stories-page" dir={getDirection(locale)}>
-        <StoriesIndexView stories={stories} messages={messages} />
+        <StoriesIndexView stories={stories} messages={messages} locale={locale} />
       </main>
       <SiteFooter />
     </>

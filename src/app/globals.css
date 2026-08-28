@@ -4800,7 +4800,7 @@ a.menu-showcase-button.site-cta-btn {
   }
 }
 
-/* Admin — clean white + black accents */
+/* Admin — semantic color system for review & management */
 .admin-layout,
 .admin-login-shell {
   --admin-bg: #f7f8fa;
@@ -4812,17 +4812,51 @@ a.menu-showcase-button.site-cta-btn {
   --admin-text-muted: #6b7280;
   --admin-border: #e5e7eb;
   --admin-border-strong: #d1d5db;
-  --admin-brand: #111111;
-  --admin-brand-hover: #000000;
-  --admin-brand-soft: rgba(17, 24, 39, 0.12);
-  --admin-brand-softer: rgba(17, 24, 39, 0.06);
-  --admin-brand-border: rgba(17, 24, 39, 0.22);
+
+  /* Primary — actions, links, active nav */
+  --admin-brand: #2563eb;
+  --admin-brand-hover: #1d4ed8;
+  --admin-brand-soft: rgba(37, 99, 235, 0.12);
+  --admin-brand-softer: rgba(37, 99, 235, 0.07);
+  --admin-brand-border: rgba(37, 99, 235, 0.32);
   --admin-primary: var(--admin-brand);
   --admin-primary-hover: var(--admin-brand-hover);
   --admin-primary-text: #ffffff;
-  --admin-label-accent: #4b5563;
+  --admin-label-accent: #1e40af;
+  --admin-accent: var(--admin-brand);
   --admin-accent-soft: var(--admin-brand-softer);
   --admin-accent-border: var(--admin-brand-border);
+
+  /* Semantic status colors */
+  --admin-success: #16a34a;
+  --admin-success-hover: #15803d;
+  --admin-success-soft: rgba(22, 163, 74, 0.12);
+  --admin-success-border: rgba(22, 163, 74, 0.35);
+
+  --admin-warning: #d97706;
+  --admin-warning-hover: #b45309;
+  --admin-warning-soft: rgba(217, 119, 6, 0.12);
+  --admin-warning-border: rgba(217, 119, 6, 0.35);
+
+  --admin-danger: #dc2626;
+  --admin-danger-hover: #b91c1c;
+  --admin-danger-soft: rgba(220, 38, 38, 0.1);
+  --admin-danger-border: rgba(220, 38, 38, 0.35);
+
+  --admin-info: #0891b2;
+  --admin-info-soft: rgba(8, 145, 178, 0.12);
+  --admin-info-border: rgba(8, 145, 178, 0.35);
+
+  /* Chart palette */
+  --admin-chart-1: #2563eb;
+  --admin-chart-2: #16a34a;
+  --admin-chart-3: #d97706;
+  --admin-chart-4: #dc2626;
+  --admin-chart-5: #7c3aed;
+  --admin-chart-6: #0891b2;
+  --admin-chart-7: #db2777;
+  --admin-chart-8: #0d9488;
+
   --admin-shadow: 0 1px 2px rgba(17, 24, 39, 0.04), 0 8px 24px rgba(17, 24, 39, 0.05);
   --admin-shadow-hover: 0 8px 28px rgba(17, 24, 39, 0.08);
 }
@@ -4834,8 +4868,8 @@ a.menu-showcase-button.site-cta-btn {
   min-height: 100vh;
   color: var(--admin-text);
   background:
-    radial-gradient(ellipse 80% 50% at 100% 0%, rgba(255, 255, 255, 0.14), transparent 55%),
-    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(255, 255, 255, 0.08), transparent 50%),
+    radial-gradient(ellipse 80% 50% at 100% 0%, rgba(37, 99, 235, 0.08), transparent 55%),
+    radial-gradient(ellipse 60% 40% at 0% 100%, rgba(22, 163, 74, 0.06), transparent 50%),
     var(--admin-bg);
   font-family: var(--font-body);
 }
@@ -4957,9 +4991,9 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .admin-nav-link.is-active {
-  background: var(--admin-brand-softer);
+  background: var(--admin-brand-soft);
   border-color: var(--admin-brand-border);
-  color: var(--admin-primary-text);
+  color: var(--admin-brand);
 }
 
 .admin-nav-icon {
@@ -4982,7 +5016,7 @@ a.menu-showcase-button.site-cta-btn {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--admin-brand-hover);
+  background: var(--admin-brand);
 }
 
 .admin-logout-form {
@@ -5009,9 +5043,9 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .admin-logout-button:hover {
-  background: var(--admin-brand-softer);
-  border-color: var(--admin-brand-border);
-  color: var(--admin-primary-text);
+  background: var(--admin-danger-soft);
+  border-color: var(--admin-danger-border);
+  color: var(--admin-danger);
 }
 
 .admin-main {
@@ -5043,10 +5077,10 @@ a.menu-showcase-button.site-cta-btn {
 
 .admin-dashboard-hero {
   padding: clamp(22px, 3vw, 28px);
-  border: 1px solid var(--admin-border);
+  border: 1px solid var(--admin-brand-border);
   border-radius: 20px;
   background:
-    linear-gradient(135deg, rgba(255, 255, 255, 0.22) 0%, rgba(255, 255, 255, 0.95) 48%, #fff 100%);
+    linear-gradient(135deg, rgba(37, 99, 235, 0.1) 0%, rgba(255, 255, 255, 0.96) 52%, #fff 100%);
   box-shadow: var(--admin-shadow);
   overflow: hidden;
 }
@@ -5105,7 +5139,7 @@ a.menu-showcase-button.site-cta-btn {
   font-size: 22px;
   font-weight: 800;
   line-height: 1;
-  color: var(--admin-primary-text);
+  color: var(--admin-text);
 }
 
 .admin-hero-metric-label {
@@ -5200,7 +5234,7 @@ a.menu-showcase-button.site-cta-btn {
   font-size: 28px;
   font-weight: 800;
   line-height: 1;
-  color: var(--admin-primary-text);
+  color: var(--admin-text);
 }
 
 .admin-chart-donut-label {
@@ -5277,7 +5311,7 @@ a.menu-showcase-button.site-cta-btn {
   width: 100%;
   height: var(--bar-h);
   border-radius: 10px 10px 4px 4px;
-  background: linear-gradient(180deg, var(--admin-brand), var(--admin-brand-hover));
+  background: var(--bar-color, linear-gradient(180deg, var(--admin-brand), var(--admin-brand-hover)));
   animation: admin-bar-grow 0.7s var(--motion-ease) both;
   animation-delay: var(--bar-delay);
   transform-origin: bottom;
@@ -5286,7 +5320,7 @@ a.menu-showcase-button.site-cta-btn {
 .admin-chart-bar-value {
   font-size: 14px;
   font-weight: 800;
-  color: var(--admin-primary-text);
+  color: var(--admin-text);
 }
 
 .admin-chart-bar-label {
@@ -5318,7 +5352,7 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .admin-chart-hbar-head strong {
-  color: var(--admin-primary-text);
+  color: var(--admin-text);
   font-size: 14px;
 }
 
@@ -5333,7 +5367,7 @@ a.menu-showcase-button.site-cta-btn {
   height: 100%;
   width: var(--bar-w);
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--admin-brand-hover), var(--admin-brand));
+  background: var(--bar-color, linear-gradient(90deg, var(--admin-brand-hover), var(--admin-brand)));
   animation: admin-hbar-grow 0.75s var(--motion-ease) both;
   animation-delay: var(--bar-delay);
 }
@@ -5392,10 +5426,42 @@ a.menu-showcase-button.site-cta-btn {
   border-radius: 14px;
   background: var(--admin-surface);
   box-shadow: var(--admin-shadow);
+  --tile-accent: var(--admin-brand);
+  --tile-accent-soft: var(--admin-brand-soft);
   transition:
     transform var(--motion-short) var(--motion-ease),
     box-shadow var(--motion-short) var(--motion-ease),
     border-color var(--motion-short) var(--motion-ease);
+}
+
+.admin-bento-stats .admin-stat-tile:nth-child(6n + 1) {
+  --tile-accent: var(--admin-chart-1);
+  --tile-accent-soft: rgba(37, 99, 235, 0.12);
+}
+
+.admin-bento-stats .admin-stat-tile:nth-child(6n + 2) {
+  --tile-accent: var(--admin-chart-2);
+  --tile-accent-soft: rgba(22, 163, 74, 0.12);
+}
+
+.admin-bento-stats .admin-stat-tile:nth-child(6n + 3) {
+  --tile-accent: var(--admin-chart-3);
+  --tile-accent-soft: rgba(217, 119, 6, 0.12);
+}
+
+.admin-bento-stats .admin-stat-tile:nth-child(6n + 4) {
+  --tile-accent: var(--admin-chart-5);
+  --tile-accent-soft: rgba(124, 58, 237, 0.12);
+}
+
+.admin-bento-stats .admin-stat-tile:nth-child(6n + 5) {
+  --tile-accent: var(--admin-chart-6);
+  --tile-accent-soft: rgba(8, 145, 178, 0.12);
+}
+
+.admin-bento-stats .admin-stat-tile:nth-child(6n + 6) {
+  --tile-accent: var(--admin-chart-7);
+  --tile-accent-soft: rgba(219, 39, 119, 0.12);
 }
 
 .admin-stat-tile::after {
@@ -5404,14 +5470,14 @@ a.menu-showcase-button.site-cta-btn {
   inset: auto 0 0;
   height: 3px;
   border-radius: 0 0 14px 14px;
-  background: linear-gradient(90deg, var(--admin-brand), var(--admin-brand-hover));
+  background: var(--tile-accent, var(--admin-brand));
   opacity: 0;
   transition: opacity var(--motion-short) var(--motion-ease);
 }
 
 .admin-stat-tile:hover {
   transform: translateY(-3px);
-  border-color: var(--admin-brand-border);
+  border-color: color-mix(in srgb, var(--tile-accent, var(--admin-brand)) 35%, white);
   box-shadow: var(--admin-shadow-hover);
 }
 
@@ -5432,13 +5498,13 @@ a.menu-showcase-button.site-cta-btn {
   width: 36px;
   height: 36px;
   border-radius: 10px;
-  background: var(--admin-brand-softer);
-  color: var(--admin-label-accent);
+  background: var(--tile-accent-soft, var(--admin-brand-soft));
+  color: var(--tile-accent, var(--admin-brand));
 }
 
 .admin-stat-tile:hover .admin-stat-tile-icon {
-  background: var(--admin-brand);
-  color: var(--admin-primary-text);
+  background: var(--tile-accent, var(--admin-brand));
+  color: #ffffff;
 }
 
 .admin-stat-tile-arrow {
@@ -5484,6 +5550,14 @@ a.menu-showcase-button.site-cta-btn {
   gap: 12px;
   margin-bottom: 16px;
   color: var(--admin-text-muted);
+}
+
+.admin-panel-head > svg:first-child {
+  flex-shrink: 0;
+  padding: 8px;
+  border-radius: 10px;
+  background: var(--admin-brand-soft);
+  color: var(--admin-brand);
 }
 
 .admin-panel-title {
@@ -5698,6 +5772,30 @@ a.menu-showcase-button.site-cta-btn {
   font-size: 12px;
 }
 
+.admin-layout .admin-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border: 1px solid var(--admin-border);
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.admin-layout .admin-status-badge.is-active {
+  border-color: var(--admin-success-border);
+  background: var(--admin-success-soft);
+  color: var(--admin-success);
+}
+
+.admin-layout .admin-status-badge.is-inactive {
+  border-color: var(--admin-warning-border);
+  background: var(--admin-warning-soft);
+  color: var(--admin-warning);
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
@@ -5764,12 +5862,13 @@ a.menu-showcase-button.site-cta-btn {
 
 .admin-form-error {
   margin: 0;
-  color: #b45309;
+  color: var(--admin-danger);
   font-size: 14px;
+  font-weight: 600;
 }
 
 .admin-inline-link {
-  color: var(--admin-accent, #111111);
+  color: var(--admin-brand);
   text-decoration: underline;
   text-underline-offset: 3px;
 }
@@ -5807,6 +5906,11 @@ a.menu-showcase-button.site-cta-btn {
   margin: 0;
   color: var(--admin-text-muted);
   font-size: 13px;
+}
+
+.admin-form-hint[role="status"] {
+  color: var(--admin-success);
+  font-weight: 600;
 }
 
 .admin-image-spec {
@@ -5886,8 +5990,8 @@ a.menu-showcase-button.site-cta-btn {
 
 .admin-image-picker-item:hover,
 .admin-image-picker-item:focus-visible {
-  border-color: var(--admin-accent, #111111);
-  background: var(--admin-surface-hover);
+  border-color: var(--admin-brand);
+  background: var(--admin-brand-soft);
 }
 
 .admin-image-picker-thumb {
@@ -5929,8 +6033,9 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .admin-story-view-toggle .button.is-active {
-  border-color: var(--admin-accent, #111111);
-  background: rgba(201, 162, 39, 0.12);
+  border-color: var(--admin-brand-border);
+  background: var(--admin-brand-soft);
+  color: var(--admin-brand);
 }
 
 .admin-story-edit-bar {
@@ -6363,10 +6468,17 @@ a.menu-showcase-button.site-cta-btn {
   gap: 8px;
 }
 
-.admin-btn-danger:hover {
-  border-color: var(--admin-brand-border) !important;
-  color: var(--admin-primary-text) !important;
-  background: var(--admin-brand-softer) !important;
+.admin-btn-danger:hover,
+.admin-layout .button.secondary.admin-btn-danger:hover {
+  border-color: var(--admin-danger) !important;
+  color: #ffffff !important;
+  background: var(--admin-danger) !important;
+}
+
+.admin-layout .button.secondary.admin-btn-danger {
+  border-color: var(--admin-danger-border);
+  color: var(--admin-danger);
+  background: var(--admin-danger-soft);
 }
 
 @media (max-width: 800px) {
@@ -8275,9 +8387,9 @@ body:not(:has(.admin-layout)) button:focus-visible {
 }
 
 .admin-seo-tab.is-active {
-  background: var(--admin-accent);
-  border-color: var(--admin-accent);
-  color: #111;
+  background: var(--admin-brand);
+  border-color: var(--admin-brand);
+  color: #ffffff;
 }
 
 .admin-seo-page-select {
@@ -8328,8 +8440,9 @@ body:not(:has(.admin-layout)) button:focus-visible {
 }
 
 .admin-field-warning {
-  color: #b45309;
+  color: var(--admin-warning);
   font-size: 12px;
+  font-weight: 600;
 }
 
 .admin-seo-fieldset--nested {

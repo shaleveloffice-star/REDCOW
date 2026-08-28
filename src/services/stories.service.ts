@@ -3,7 +3,7 @@ import {
   getBrandStories,
   saveBrandStory
 } from "@/repositories/stories.repository";
-import { resolveStorySlug, isStoryInMagazine } from "@/lib/stories/story-slug";
+import { resolveStorySlug, isStoryInMagazine, normalizeStorySlug } from "@/lib/stories/story-slug";
 import type { BrandStory } from "@/types/story";
 
 export async function listBrandStories(
@@ -28,9 +28,17 @@ export async function getBrandStoryBySlug(
   slug: string,
   options: { activeOnly?: boolean } = {}
 ): Promise<BrandStory | null> {
-  const normalized = slug.trim().toLowerCase();
+  const normalized = normalizeStorySlug(slug);
+  if (!normalized) {
+    return null;
+  }
+
   const stories = await listBrandStories({ activeOnly: options.activeOnly });
-  return stories.find((story) => resolveStorySlug(story) === normalized) ?? null;
+  return (
+    stories.find((story) => resolveStorySlug(story) === normalized) ??
+    stories.find((story) => normalizeStorySlug(story.slug ?? "") === normalized) ??
+    null
+  );
 }
 
 export async function upsertBrandStory(input: BrandStory): Promise<BrandStory> {

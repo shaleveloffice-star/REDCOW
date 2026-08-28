@@ -13,6 +13,7 @@ import { getSettings, listOrderLinks } from "@/services/settings.service";
 import { resolveStaticSiteImagesMap } from "@/services/site-images-resolver.service";
 import { getBrandStoryBySlug, listBrandStories } from "@/services/stories.service";
 import { localizeBrandStories, localizeBrandStory } from "@/lib/translation/localize-stories";
+import { normalizeStorySlug } from "@/lib/stories/story-slug";
 import type { Locale } from "@/i18n/config";
 
 export const CACHE_TAGS = {
@@ -137,13 +138,20 @@ export async function getCachedMagazineStories(locale: Locale) {
 }
 
 export async function getCachedBrandStoryBySlug(slug: string, locale: Locale) {
+  const normalized = normalizeStorySlug(slug);
+  if (!normalized) {
+    return null;
+  }
+
+  // Always resolve from source first — never cache 404s (stale "not found" after publish).
+  const story = await getBrandStoryBySlug(normalized, { activeOnly: true });
+  if (!story) {
+    return null;
+  }
+
   return unstable_cache(
-    async () => {
-      const story = await getBrandStoryBySlug(slug, { activeOnly: true });
-      if (!story) return null;
-      return localizeBrandStory(story, locale);
-    },
-    [CACHE_TAGS.brandStories, "story", slug, locale],
+    async () => localizeBrandStory(story, locale),
+    [CACHE_TAGS.brandStories, "story", normalized, locale, story.id, story.updatedAt],
     { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.brandStories] }
   )();
 }

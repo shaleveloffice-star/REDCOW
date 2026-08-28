@@ -2,9 +2,10 @@
 
 import { materializeMenuImageUrl } from "@/lib/admin/save-menu-image";
 import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
-import { resolveStorySlug } from "@/lib/stories/story-slug";
+import { resolveStorySlug, normalizeStorySlug } from "@/lib/stories/story-slug";
 import { assertSafeHttpUrl, sanitizePublicHref } from "@/lib/security/safe-url";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
+import { CACHE_TAGS } from "@/lib/cache/cached-data";
 import {
   listBrandStories,
   removeBrandStory,
@@ -13,6 +14,19 @@ import {
 import type { BrandStory, StorySection } from "@/types/story";
 
 const paths = ["/admin/stories", "/stories"];
+
+function revalidateStoryCaches(story: BrandStory, previousSlug?: string) {
+  revalidateTag(CACHE_TAGS.brandStories, "max");
+  for (const path of paths) {
+    revalidatePath(path);
+  }
+  const canonicalSlug = resolveStorySlug(story);
+  revalidatePath(`/stories/${canonicalSlug}`);
+  const prev = previousSlug ? normalizeStorySlug(previousSlug) : "";
+  if (prev && prev !== canonicalSlug) {
+    revalidatePath(`/stories/${prev}`);
+  }
+}
 
 export type SaveBrandStoryResult =
   | { ok: true; story: BrandStory }
@@ -177,10 +191,7 @@ export async function saveBrandStoryAction(input: BrandStory): Promise<SaveBrand
     }
 
     const saved = await upsertBrandStory(await sanitizeStory(input));
-    for (const path of paths) {
-      revalidatePath(path);
-    }
-    revalidatePath(`/stories/${saved.slug}`);
+    revalidateStoryCaches(saved, input.slug);
     return { ok: true, story: saved };
   } catch (err) {
     console.error("[saveBrandStoryAction]", err);
@@ -190,9 +201,15 @@ export async function saveBrandStoryAction(input: BrandStory): Promise<SaveBrand
 
 export async function deleteBrandStoryAction(id: string) {
   await requireAdminRole(["owner", "manager"]);
+  const existing = (await listBrandStories()).find((story) => story.id === id);
   const ok = await removeBrandStory(id);
   if (!ok) throw new Error("הסיפור לא נמצא");
-  paths.forEach((path) => revalidatePath(path));
+  if (existing) {
+    revalidateStoryCaches(existing);
+  } else {
+    revalidateTag(CACHE_TAGS.brandStories, "max");
+    paths.forEach((path) => revalidatePath(path));
+  }
 }
 
 export async function toggleStoryMagazineAction(

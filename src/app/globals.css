@@ -6468,6 +6468,34 @@ a.menu-showcase-button.site-cta-btn {
   gap: 8px;
 }
 
+.admin-table-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--admin-text);
+  cursor: pointer;
+  user-select: none;
+}
+
+.admin-table-toggle input {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--admin-brand);
+  cursor: pointer;
+}
+
+.admin-table-toggle input:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
+}
+
+.admin-table-toggle input:disabled + span {
+  color: var(--admin-text-muted);
+}
+
 .admin-btn-danger:hover,
 .admin-layout .button.secondary.admin-btn-danger:hover {
   border-color: var(--admin-danger) !important;

@@ -24,8 +24,8 @@ import {
   convertStorySectionType,
   createDefaultStorySection
 } from "@/lib/stories/convert-section-type";
-import { resolveStorySlug } from "@/lib/stories/story-slug";
-import { deleteBrandStoryAction, saveBrandStoryAction } from "@/server/actions/stories.actions";
+import { resolveStorySlug, isStoryInMagazine } from "@/lib/stories/story-slug";
+import { deleteBrandStoryAction, saveBrandStoryAction, toggleStoryMagazineAction } from "@/server/actions/stories.actions";
 import {
   STORY_SECTION_TYPES,
   type BrandStory,
@@ -130,6 +130,7 @@ function newStory(items: BrandStory[]): BrandStory {
     sections: [],
     publishedAt: now,
     isActive: false,
+    showInMagazine: true,
     sortOrder: items.length,
     createdAt: now,
     updatedAt: now
@@ -538,6 +539,11 @@ export function AdminStoriesManager({
   return (
     <>
       <AdminToolbar label="הוסף סיפור" onAdd={openNewStory} />
+      {error && !draft ? (
+        <p className="admin-form-error" role="alert">
+          {error}
+        </p>
+      ) : null}
       <table className="table">
         <thead>
           <tr>
@@ -545,6 +551,7 @@ export function AdminStoriesManager({
             <th>Slug</th>
             <th>סדר</th>
             <th>סטטוס</th>
+            <th>מגזין</th>
             <th>קישורים</th>
             <th style={{ width: 160 }}>פעולות</th>
           </tr>
@@ -557,6 +564,28 @@ export function AdminStoriesManager({
               <td>{item.sortOrder}</td>
               <td>
                 <StatusBadge active={item.isActive} />
+              </td>
+              <td>
+                <label
+                  className="admin-table-toggle"
+                  title={item.isActive ? "הצגה בעמוד המגזין ובתפריט" : "פרסמו את הסיפור כדי להציג במגזין"}
+                >
+                  <input
+                    type="checkbox"
+                    checked={isStoryInMagazine(item)}
+                    disabled={isPending || !item.isActive}
+                    onChange={(event) => {
+                      const showInMagazine = event.target.checked;
+                      run(async () => {
+                        const result = await toggleStoryMagazineAction(item.id, showInMagazine);
+                        if (!result.ok) {
+                          throw new Error(result.error);
+                        }
+                      });
+                    }}
+                  />
+                  <span>{isStoryInMagazine(item) ? "מוצג" : "מוסתר"}</span>
+                </label>
               </td>
               <td>
                 <div className="admin-row-links">

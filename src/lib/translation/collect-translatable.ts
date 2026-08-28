@@ -15,6 +15,7 @@ export const SKIP_OBJECT_KEYS = new Set([
   "price",
   "sortOrder",
   "isActive",
+  "showInMagazine",
   "createdAt",
   "updatedAt",
   "tags",

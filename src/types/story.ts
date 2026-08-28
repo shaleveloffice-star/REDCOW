@@ -82,6 +82,8 @@ export type BrandStory = {
   sections: StorySection[];
   publishedAt: ISODateString;
   isActive: boolean;
+  /** Listed on /stories and in the navbar magazine menu (requires isActive). */
+  showInMagazine?: boolean;
   sortOrder: number;
   createdAt: ISODateString;
   updatedAt: ISODateString;

@@ -1,3 +1,5 @@
+import type { BrandStory } from "@/types/story";
+
 const SLUG_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 
 export function normalizeStorySlug(value: string): string {
@@ -25,4 +27,9 @@ export function resolveStorySlug(story: { slug?: string; title: string; id: stri
   }
 
   return normalizeStorySlug(story.id) || story.id;
+}
+
+/** Active stories opted in to the public magazine index and nav dropdown. */
+export function isStoryInMagazine(story: Pick<BrandStory, "isActive" | "showInMagazine">): boolean {
+  return story.isActive && story.showInMagazine !== false;
 }

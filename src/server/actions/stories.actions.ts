@@ -152,6 +152,7 @@ async function sanitizeStory(input: BrandStory): Promise<BrandStory> {
     ogImageUrl,
     sections,
     isActive: Boolean(input.isActive),
+    showInMagazine: Boolean(input.isActive) && input.showInMagazine !== false,
     sortOrder: Number.isFinite(input.sortOrder) ? input.sortOrder : 0,
     publishedAt: input.publishedAt || new Date().toISOString(),
     updatedAt: new Date().toISOString()
@@ -192,4 +193,30 @@ export async function deleteBrandStoryAction(id: string) {
   const ok = await removeBrandStory(id);
   if (!ok) throw new Error("הסיפור לא נמצא");
   paths.forEach((path) => revalidatePath(path));
+}
+
+export async function toggleStoryMagazineAction(
+  id: string,
+  showInMagazine: boolean
+): Promise<SaveBrandStoryResult> {
+  try {
+    await requireAdmin();
+  } catch {
+    return { ok: false, error: "אין הרשאת אדמין. התחברו מחדש ל־/admin/login" };
+  }
+
+  const stories = await listBrandStories();
+  const story = stories.find((entry) => entry.id === id);
+  if (!story) {
+    return { ok: false, error: "הסיפור לא נמצא" };
+  }
+
+  if (showInMagazine && !story.isActive) {
+    return { ok: false, error: "יש לפרסם את הסיפור לפני הצגה במגזין" };
+  }
+
+  return saveBrandStoryAction({
+    ...story,
+    showInMagazine
+  });
 }

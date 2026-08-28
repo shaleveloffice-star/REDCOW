@@ -125,6 +125,17 @@ export const getCachedBrandStories = unstable_cache(
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.brandStories] }
 );
 
+export async function getCachedMagazineStories(locale: Locale) {
+  return unstable_cache(
+    async () => {
+      const stories = await listBrandStories({ activeOnly: true, magazineOnly: true });
+      return localizeBrandStories(stories, locale);
+    },
+    [CACHE_TAGS.brandStories, "magazine", locale],
+    { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.brandStories] }
+  )();
+}
+
 export async function getCachedBrandStoryBySlug(slug: string, locale: Locale) {
   return unstable_cache(
     async () => {

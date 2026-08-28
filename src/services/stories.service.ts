@@ -3,12 +3,18 @@ import {
   getBrandStories,
   saveBrandStory
 } from "@/repositories/stories.repository";
-import { resolveStorySlug } from "@/lib/stories/story-slug";
+import { resolveStorySlug, isStoryInMagazine } from "@/lib/stories/story-slug";
 import type { BrandStory } from "@/types/story";
 
-export async function listBrandStories(options: { activeOnly?: boolean } = {}): Promise<BrandStory[]> {
+export async function listBrandStories(
+  options: { activeOnly?: boolean; magazineOnly?: boolean } = {}
+): Promise<BrandStory[]> {
   const stories = await getBrandStories();
-  const filtered = options.activeOnly ? stories.filter((story) => story.isActive) : stories;
+  let filtered = options.activeOnly ? stories.filter((story) => story.isActive) : stories;
+
+  if (options.magazineOnly) {
+    filtered = filtered.filter((story) => isStoryInMagazine(story));
+  }
 
   return filtered.sort((a, b) => {
     if (a.sortOrder !== b.sortOrder) {

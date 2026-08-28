@@ -7,6 +7,7 @@ import { convertStorySectionType, flipSplitSectionType } from "@/lib/stories/con
 import { storyEditableHit, StoryEditableImageWrap } from "@/lib/stories/story-editable-ui";
 import type { Locale } from "@/i18n/config";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
+import { StoryLongContentBody } from "@/components/features/stories/story-long-content-body";
 import { STORY_SECTION_TYPES, type BrandStory, type StorySection, type StorySectionType } from "@/types/story";
 import type { StoryPreviewEditor } from "@/types/story-preview-editor";
 
@@ -430,7 +431,7 @@ function renderSection(
                   {section.title?.trim() || "כותרת (אופציונלי)"}
                 </h2>
               ) : null}
-              <SectionBody
+              <StoryLongContentBody
                 body={section.body}
                 editor={editor}
                 onSave={(body) => onUpdate({ ...section, body })}

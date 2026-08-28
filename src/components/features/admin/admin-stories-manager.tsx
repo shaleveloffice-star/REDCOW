@@ -386,7 +386,10 @@ function SectionEditor({
               onChange={(e) => onChange({ ...section, body: e.target.value })}
             />
           </label>
-          <p className="admin-form-hint">ניתן לחלק לפסקאות עם שורה ריקה בין פסקה לפסקה.</p>
+          <p className="admin-form-hint">
+            ניתן לחלק לפסקאות עם שורה ריקה בין פסקה לפסקה. ניתן להשתמש ב-## לכותרת משנה
+            וב-### לכותרת פנימית.
+          </p>
         </>
       )}
     </fieldset>

@@ -469,6 +469,78 @@
   margin-bottom: 0.75em;
 }
 
+.story-long-content-body h2.story-long-content-h2 {
+  margin: 1.75em 0 0.65em;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(22px, 3.2vw, 32px);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  line-height: 1.1;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+
+.story-long-content-body h2.story-long-content-h2:first-child {
+  margin-top: 0;
+}
+
+.story-long-content-body h3.story-long-content-h3 {
+  margin: 1.35em 0 0.5em;
+  font-family: var(--font-assistant-stack);
+  font-size: clamp(17px, 2.2vw, 22px);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.25;
+  text-wrap: balance;
+}
+
+.story-long-content-body ul,
+.story-long-content-body ol {
+  margin: 0 0 1em;
+  padding-inline-start: 1.35em;
+}
+
+.story-long-content-body li {
+  margin: 0 0 0.45em;
+}
+
+.story-long-content-body li:last-child {
+  margin-bottom: 0;
+}
+
+.story-long-content-body strong {
+  font-weight: 700;
+}
+
+.story-long-content-body em {
+  font-style: italic;
+}
+
+.story-long-content-body a.story-long-content-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+.story-long-content-body a.story-long-content-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
+.story-section--dark .story-long-content-body a.story-long-content-link {
+  color: #ffffff;
+}
+
+@media (max-width: 640px) {
+  .story-long-content-body h2.story-long-content-h2 {
+    font-size: clamp(20px, 6vw, 28px);
+  }
+
+  .story-long-content-body h3.story-long-content-h3 {
+    font-size: clamp(16px, 4.5vw, 20px);
+  }
+}
+
 .story-cta-body {
   margin: 0 0 1em;
   font-family: var(--font-assistant-stack);

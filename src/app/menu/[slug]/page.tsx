@@ -32,7 +32,7 @@ import {
 import { getValidFaqItems } from "@/lib/seo/faq-utils";
 import { getResolvedCategorySeo } from "@/lib/seo-content/resolve-seo-content";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
-import { listMenuCategories, listMenuItems } from "@/services/menu.service";
+import { getMenuForDisplay, listMenuCategories, listMenuItems } from "@/services/menu.service";
 
 type MenuSlugPageProps = {
   params: Promise<{ slug: string }>;
@@ -124,13 +124,19 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
       redirect(`/menu/${resolvedSlug}`);
     }
 
-    const [groups, orderLinks, seoContent, messages] = await Promise.all([
+    const [cachedGroups, orderLinks, seoContent, messages] = await Promise.all([
       getCachedMenuForDisplay(),
       getCachedActiveOrderLinks(),
       getCachedResolvedSeoPageContent(locale, "menu"),
       Promise.resolve(getLocalizedMessages(locale))
     ]);
-    const group = groups.find((entry) => entry.id === category.id);
+    // Category resolved but display cache can briefly lag — fall back to live menu before 404.
+    let groups = cachedGroups;
+    let group = groups.find((entry) => entry.id === category.id);
+    if (!group) {
+      groups = await getMenuForDisplay();
+      group = groups.find((entry) => entry.id === category.id);
+    }
     if (!group) {
       notFound();
     }

@@ -67,9 +67,15 @@ export const getCachedMenuForDisplay = unstable_cache(
 );
 
 export async function getCachedMenuItemById(id: string) {
+  // Resolve first — never cache null/404 (stale miss after publish or brief Firebase blip).
+  const item = await getMenuItemForDisplay(id);
+  if (!item) {
+    return null;
+  }
+
   return unstable_cache(
-    () => getMenuItemForDisplay(id),
-    [CACHE_TAGS.menuDisplay, "menu-item", id],
+    async () => item,
+    [CACHE_TAGS.menuDisplay, "menu-item", id, item.updatedAt],
     {
       revalidate: CACHE_REVALIDATE_SECONDS.menu,
       tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.homepageMenu]
@@ -78,9 +84,15 @@ export async function getCachedMenuItemById(id: string) {
 }
 
 export async function getCachedMenuItemBySlug(slug: string) {
+  // Resolve first — never cache null/404 (stale miss after publish or brief Firebase blip).
+  const item = await getMenuItemBySlugForDisplay(slug);
+  if (!item) {
+    return null;
+  }
+
   return unstable_cache(
-    () => getMenuItemBySlugForDisplay(slug),
-    [CACHE_TAGS.menuDisplay, "menu-item-slug-v2", slug],
+    async () => item,
+    [CACHE_TAGS.menuDisplay, "menu-item-slug-v3", slug, item.id, item.updatedAt],
     {
       revalidate: CACHE_REVALIDATE_SECONDS.menu,
       tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.homepageMenu]
@@ -89,9 +101,15 @@ export async function getCachedMenuItemBySlug(slug: string) {
 }
 
 export async function getCachedMenuCategoryBySlug(slug: string) {
+  // Resolve first — never cache null/404 (stale miss after publish or brief Firebase blip).
+  const category = await getMenuCategoryBySlugForDisplay(slug);
+  if (!category) {
+    return null;
+  }
+
   return unstable_cache(
-    () => getMenuCategoryBySlugForDisplay(slug),
-    [CACHE_TAGS.menuDisplay, "menu-category-slug-v2", slug],
+    async () => category,
+    [CACHE_TAGS.menuDisplay, "menu-category-slug-v3", slug, category.id, category.updatedAt],
     {
       revalidate: CACHE_REVALIDATE_SECONDS.menu,
       tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.menuCategories]

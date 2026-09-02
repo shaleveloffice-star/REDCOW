@@ -1,3 +1,4 @@
+import { getStorySeoOverride } from "@/data/seo-intent-map";
 import type { Metadata } from "next";
 
 import { getDefaultPageMeta } from "@/data/seo-content-defaults";
@@ -116,9 +117,14 @@ export function getStoryPageMetadata(
     ogImageUrl?: string;
   }
 ) {
-  const title = story.metaTitle?.trim() || `${story.title.trim()} | NB BURGER`;
+  const override = getStorySeoOverride(story.slug);
+  const title =
+    override?.metaTitle || story.metaTitle?.trim() || `${story.title.trim()} | NB BURGER`;
   const description =
-    story.metaDescription?.trim() || story.subtitle.trim() || story.title.trim();
+    override?.metaDescription ||
+    story.metaDescription?.trim() ||
+    story.subtitle.trim() ||
+    story.title.trim();
   const image = story.ogImageUrl?.trim() || story.heroImageUrl.trim();
 
   return buildPageMetadata({

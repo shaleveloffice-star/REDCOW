@@ -70,38 +70,42 @@ function pickCategoryIntros(
 function resolveCategorySeoFields(
   categoryId: string,
   source: SeoPageFieldsInput,
-  categoryIntros: Record<string, string>
+  categoryIntros: Record<string, string>,
+  defaults?: SeoPageFieldsInput
 ): ResolvedCategorySeoContent {
   const stored = source.categoryPages?.[categoryId];
+  const defaultCategory = defaults?.categoryPages?.[categoryId];
   const storedIntro = stored?.introduction;
   const introduction =
     storedIntro !== undefined
       ? storedIntro.trim()
       : pickText(undefined, categoryIntros[categoryId]);
-  const bottomContent = pickText(stored?.bottomContent, "");
+  const bottomContent = pickText(stored?.bottomContent, defaultCategory?.bottomContent);
 
   return {
-    metaTitle: stored?.metaTitle?.trim() ?? "",
-    metaDescription: stored?.metaDescription?.trim() ?? "",
+    metaTitle: pickText(stored?.metaTitle, defaultCategory?.metaTitle),
+    metaDescription: pickText(stored?.metaDescription, defaultCategory?.metaDescription),
     introduction,
     bottomContent,
-    faq: pickFaqBlock(stored?.faq, EMPTY_FAQ),
-    cta: pickCta(stored?.cta, {})
+    faq: pickFaqBlock(stored?.faq, defaultCategory?.faq ?? EMPTY_FAQ),
+    cta: pickCta(stored?.cta, defaultCategory?.cta)
   };
 }
 
 function buildCategoryPagesMap(
   source: SeoPageFieldsInput,
-  categoryIntros: Record<string, string>
+  categoryIntros: Record<string, string>,
+  defaults?: SeoPageFieldsInput
 ): Record<string, ResolvedCategorySeoContent> {
   const ids = new Set([
     ...Object.keys(source.categoryPages ?? {}),
+    ...Object.keys(defaults?.categoryPages ?? {}),
     ...Object.keys(categoryIntros)
   ]);
 
   const result: Record<string, ResolvedCategorySeoContent> = {};
   for (const categoryId of ids) {
-    result[categoryId] = resolveCategorySeoFields(categoryId, source, categoryIntros);
+    result[categoryId] = resolveCategorySeoFields(categoryId, source, categoryIntros, defaults);
   }
   return result;
 }
@@ -127,10 +131,10 @@ export function resolveSeoPageContent(
     introductionParagraphs: splitParagraphs(introduction),
     bottomContent,
     bottomParagraphs: splitParagraphs(bottomContent),
-    faq: pickFaqBlock(source.faq, EMPTY_FAQ),
+    faq: pickFaqBlock(source.faq, defaults.faq),
     cta: pickCta(source.cta, defaults.cta),
     categoryIntros,
-    categoryPages: buildCategoryPagesMap(source, categoryIntros)
+    categoryPages: buildCategoryPagesMap(source, categoryIntros, defaults)
   };
 }
 

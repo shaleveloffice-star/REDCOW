@@ -48,7 +48,7 @@ export const he: Messages = {
     orderCta: "להזמנה",
     scroll: "גלול",
     scrollAria: "גלול למטה",
-    srTitle: `המבורגר כשר ב${BUSINESS.address.addressLocality}`
+    srTitle: `המבורגר ב${BUSINESS.address.addressLocality}`
   },
   orderModal: {
     title: "בחרו אופן הזמנה",

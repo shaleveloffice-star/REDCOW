@@ -5,6 +5,7 @@ import {
   pickCategorySeoFields
 } from "@/lib/seo-content/admin-category-seo";
 import { resolveSeoPageContent } from "@/lib/seo-content/resolve-seo-content";
+import { applySeoIntentOverrides } from "@/data/seo-intent-map";
 import {
   mergeSeoPageFields,
   sanitizeSeoLocaleBundle,
@@ -40,7 +41,7 @@ export async function getResolvedSeoPageContent(
   pageId: SeoPageId
 ): Promise<ResolvedSeoPageContent> {
   const stored = await getStoredSeoPageFields(locale, pageId);
-  return resolveSeoPageContent(locale, pageId, stored);
+  return applySeoIntentOverrides(locale, pageId, resolveSeoPageContent(locale, pageId, stored));
 }
 
 export async function saveSeoPageFields(

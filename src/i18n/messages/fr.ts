@@ -48,7 +48,7 @@ export const fr: Messages = {
     orderCta: "Commander",
     scroll: "Défiler",
     scrollAria: "Défiler vers le bas",
-    srTitle: `Burgers casher à ${BUSINESS.address.addressLocality}`
+    srTitle: `Burgers à ${BUSINESS.address.addressLocality}`
   },
   orderModal: {
     title: "Choisissez votre commande",

@@ -48,7 +48,7 @@ export const en: Messages = {
     orderCta: "Order Now",
     scroll: "Scroll",
     scrollAria: "Scroll down",
-    srTitle: `Kosher burgers in ${BUSINESS.address.addressLocality}`
+    srTitle: `Burgers in ${BUSINESS.address.addressLocality}`
   },
   orderModal: {
     title: "Choose how to order",

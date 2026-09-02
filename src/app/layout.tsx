@@ -51,7 +51,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(SITE_URL),
-    title: `${SITE_NAME} | המבורגר רעננה`,
+    title: `${SITE_NAME} | המבורגר ברעננה`,
     description: DEFAULT_DESCRIPTION,
     icons: {
       icon: [

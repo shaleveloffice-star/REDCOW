@@ -3,7 +3,15 @@ import "server-only";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
 import { revalidatePath, updateTag } from "next/cache";
 
-const PUBLIC_PATHS = ["/", "/about", "/menu", "/locations", "/privacy-policy", "/terms"] as const;
+const PUBLIC_PATHS = [
+  "/",
+  "/about",
+  "/menu",
+  "/menu/meals",
+  "/locations",
+  "/privacy-policy",
+  "/terms"
+] as const;
 
 export function revalidateSeoContentCache() {
   try {

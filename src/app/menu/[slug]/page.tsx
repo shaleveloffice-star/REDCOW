@@ -31,6 +31,7 @@ import {
 } from "@/lib/seo/json-ld";
 import { getValidFaqItems } from "@/lib/seo/faq-utils";
 import { getResolvedCategorySeo } from "@/lib/seo-content/resolve-seo-content";
+import { applyCategorySeoIntent } from "@/data/seo-intent-map";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
 import { getMenuForDisplay, listMenuCategories, listMenuItems } from "@/services/menu.service";
 
@@ -71,7 +72,10 @@ export async function generateMetadata({ params }: MenuSlugPageProps): Promise<M
   const category = await getCachedMenuCategoryBySlug(normalized);
   if (category) {
     const seoContent = await getCachedResolvedSeoPageContent(locale, "menu");
-    const categorySeo = getResolvedCategorySeo(seoContent, category.id);
+    const categorySeo = applyCategorySeoIntent(
+      category,
+      getResolvedCategorySeo(seoContent, category.id)
+    );
     const introLead = splitParagraphs(categorySeo.introduction)[0] ?? "";
 
     return getMenuCategoryPageMetadata(locale, {
@@ -141,7 +145,10 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
       notFound();
     }
 
-    const categorySeo = getResolvedCategorySeo(seoContent, category.id);
+    const categorySeo = applyCategorySeoIntent(
+      category,
+      getResolvedCategorySeo(seoContent, category.id)
+    );
     const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
     const categoryName = getLocalizedCategoryName(category, locale);
     const categoryFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(categorySeo.faq.items));

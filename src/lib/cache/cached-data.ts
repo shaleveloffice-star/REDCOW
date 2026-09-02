@@ -127,7 +127,8 @@ export function getCachedResolvedSeoPageContent(locale: string, pageId: string) 
         : "he";
       return getResolvedSeoPageContent(resolvedLocale, pageId as import("@/types/seo-content").SeoPageId);
     },
-    [CACHE_TAGS.seoContent, locale, pageId],
+    // menu-intent-slug-v1: bust stale menu category SEO after slug-based intent fix
+    [CACHE_TAGS.seoContent, locale, pageId, pageId === "menu" ? "menu-intent-slug-v1" : "v0"],
     {
       revalidate: CACHE_REVALIDATE_SECONDS.slow,
       tags: [CACHE_TAGS.seoContent]

@@ -1,3 +1,4 @@
+import { resolveCategorySlug } from "@/lib/menu/category-slug";
 import { joinParagraphs, splitParagraphs } from "@/lib/seo-content/paragraphs";
 import type { Locale } from "@/i18n/config";
 import type {
@@ -170,7 +171,7 @@ const HE_CATEGORY_INTENT: Record<string, CategoryIntentPatch> = {
   "cat-meals": {
     metaTitle: "ארוחת המבורגר | NB BURGER",
     metaDescription:
-      "ארוחות המבורגר של NB BURGER — המבורגר, תוספת ושתייה בארוחה אחת. נוח לצהריים, לערב או עם חברים.",
+      "ארוחת המבורגר של NB BURGER — המבורגר, תוספת ושתייה בארוחה אחת. נוח לארוחת צהריים, לערב או עם חברים.",
     introduction: joinParagraphs([
       "ארוחת המבורגר מאגדת מנה, תוספת לבחירה ושתייה — פתרון נוח לארוחת צהריים או ערב בלי לוותר על איכות הבשר וההכנה על הפלנצ׳ה.",
       "בחרו ארוחה מהרשימה והשלימו עם התוספת שמתאימה לכם."
@@ -261,6 +262,56 @@ function applyCategoryPatch(
   };
 }
 
+const EMPTY_CATEGORY_SEO: ResolvedCategorySeoContent = {
+  metaTitle: "",
+  metaDescription: "",
+  introduction: "",
+  bottomContent: "",
+  faq: { kicker: "", title: "", lead: "", items: [] },
+  cta: {}
+};
+
+/**
+ * Resolve intent patch by stable id (cat-meals) OR public slug (meals).
+ * Production categories may use Firebase-generated ids like cat-1785… while slug stays "meals".
+ */
+export function getCategoryIntentPatch(category: {
+  id: string;
+  slug?: string;
+}): CategoryIntentPatch | undefined {
+  const id = category.id.trim();
+  if (HE_CATEGORY_INTENT[id]) {
+    return HE_CATEGORY_INTENT[id];
+  }
+
+  const resolvedSlug = resolveCategorySlug({
+    id: category.id,
+    slug: category.slug ?? ""
+  });
+  if (resolvedSlug && HE_CATEGORY_INTENT[`cat-${resolvedSlug}`]) {
+    return HE_CATEGORY_INTENT[`cat-${resolvedSlug}`];
+  }
+
+  const slug = (category.slug ?? "").trim().toLowerCase();
+  if (slug && HE_CATEGORY_INTENT[`cat-${slug}`]) {
+    return HE_CATEGORY_INTENT[`cat-${slug}`];
+  }
+
+  return undefined;
+}
+
+/** Apply category SEO intent using real category id/slug (safe for Firebase-generated ids). */
+export function applyCategorySeoIntent(
+  category: { id: string; slug?: string },
+  content: ResolvedCategorySeoContent
+): ResolvedCategorySeoContent {
+  const patch = getCategoryIntentPatch(category);
+  if (!patch) {
+    return content;
+  }
+  return applyCategoryPatch(content, patch);
+}
+
 /** Enforce approved page-level SEO intent after CMS merge. */
 export function applySeoIntentOverrides(
   locale: Locale,
@@ -293,11 +344,20 @@ export function applySeoIntentOverrides(
 
   if (pageId === "menu") {
     const categoryPages = { ...next.categoryPages };
-    for (const [categoryId, categoryPatch] of Object.entries(HE_CATEGORY_INTENT)) {
-      const current = categoryPages[categoryId];
-      if (!current) continue;
-      categoryPages[categoryId] = applyCategoryPatch(current, categoryPatch);
+
+    // Patch every existing categoryPages entry whose id/slug matches an intent key.
+    for (const categoryId of Object.keys(categoryPages)) {
+      const categoryPatch = getCategoryIntentPatch({ id: categoryId, slug: categoryId.replace(/^cat-/, "") });
+      if (!categoryPatch) continue;
+      categoryPages[categoryId] = applyCategoryPatch(categoryPages[categoryId], categoryPatch);
     }
+
+    // Keep canonical cat-* keys in sync for code that still looks up cat-meals / cat-burgers.
+    for (const [intentKey, categoryPatch] of Object.entries(HE_CATEGORY_INTENT)) {
+      const current = categoryPages[intentKey] ?? EMPTY_CATEGORY_SEO;
+      categoryPages[intentKey] = applyCategoryPatch(current, categoryPatch);
+    }
+
     next = { ...next, categoryPages };
   }
 

@@ -24,7 +24,8 @@ export const CACHE_TAGS = {
   menuCategories: "menu-categories",
   menuDisplay: "menu-display",
   seoContent: "seo-content",
-  brandStories: "brand-stories"
+  brandStories: "brand-stories",
+  announcementPopup: "announcement-popup"
 } as const;
 
 export const getCachedSettings = unstable_cache(
@@ -174,3 +175,12 @@ export async function getCachedBrandStoryBySlug(slug: string, locale: Locale) {
     { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.brandStories] }
   )();
 }
+
+export const getCachedAnnouncementPopup = unstable_cache(
+  async () => {
+    const { getAnnouncementPopup } = await import("@/services/announcement-popup.service");
+    return getAnnouncementPopup();
+  },
+  [CACHE_TAGS.announcementPopup, "v1"],
+  { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.announcementPopup] }
+);

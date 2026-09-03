@@ -141,3 +141,31 @@ export type HomepageMenuShowcaseConfig = {
   itemIds: string[];
   updatedAt: ISODateString;
 };
+
+/** Site-wide announcement popup controlled from admin. */
+export type AnnouncementPopupImagePosition = "none" | "top" | "bottom";
+
+export type AnnouncementPopupConfig = {
+  enabled: boolean;
+  kicker: string;
+  title: string;
+  /** Multiline body; blank lines create paragraphs. */
+  body: string;
+  ctaLabel: string;
+  /** Empty = dismiss only. */
+  ctaHref: string;
+  ctaOpenInNewTab: boolean;
+  imageUrl: string;
+  imageAlt: string;
+  imagePosition: AnnouncementPopupImagePosition;
+  /** Wait this many seconds before showing. */
+  delaySeconds: number;
+  /**
+   * Remember dismiss for this many days.
+   * 0 = remember until `version` changes.
+   */
+  dismissDays: number;
+  /** Bump (or change) to force the popup again for users who dismissed an older version. */
+  version: string;
+  updatedAt: ISODateString;
+};

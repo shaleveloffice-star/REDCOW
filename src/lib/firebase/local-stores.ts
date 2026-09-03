@@ -17,11 +17,13 @@ import type {
   MenuItem,
   OrderLink,
   PressItem,
+  AnnouncementPopupConfig,
   SiteSettings
 } from "@/types/content";
 import type { BrandStory } from "@/types/story";
 import type { GalleryImage } from "@/types/gallery";
 import type { SiteImageOverride } from "@/types/site-images";
+import { defaultAnnouncementPopupConfig } from "@/data/announcement-popup-defaults";
 
 export const localMenuItemsStore = createJsonFileStore<MenuItem>("menu-items.json", mockMenuItems);
 export const localMenuCategoriesStore = createJsonFileStore<MenuCategory>(
@@ -61,4 +63,9 @@ export const localHomepageMenuShowcaseStore = createJsonSingleDocStore<HomepageM
 export const localSiteSettingsStore = createJsonSingleDocStore<SiteSettings>(
   "site-settings.json",
   mockSiteSettings
+);
+
+export const localAnnouncementPopupStore = createJsonSingleDocStore<AnnouncementPopupConfig>(
+  "announcement-popup.json",
+  defaultAnnouncementPopupConfig()
 );

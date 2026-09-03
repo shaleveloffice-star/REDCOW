@@ -5,14 +5,19 @@ import { usePathname } from "next/navigation";
 import { SiteOpeningAnnouncement } from "@/components/layout/site-opening-announcement";
 import { SiteOpeningBanner } from "@/components/layout/site-opening-banner";
 import { SiteNavbar, type MagazineNavStory } from "@/components/layout/site-navbar";
-import type { OrderLink } from "@/types/content";
+import type { AnnouncementPopupConfig, OrderLink } from "@/types/content";
 
 type SiteHeaderClientProps = {
   orderLinks: OrderLink[];
   magazineStories?: MagazineNavStory[];
+  announcementPopup: AnnouncementPopupConfig;
 };
 
-export function SiteHeaderClient({ orderLinks, magazineStories = [] }: SiteHeaderClientProps) {
+export function SiteHeaderClient({
+  orderLinks,
+  magazineStories = [],
+  announcementPopup
+}: SiteHeaderClientProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
   const isAdmin = pathname.startsWith("/admin");
@@ -24,7 +29,7 @@ export function SiteHeaderClient({ orderLinks, magazineStories = [] }: SiteHeade
   return (
     <>
       <SiteOpeningBanner />
-      <SiteOpeningAnnouncement />
+      <SiteOpeningAnnouncement config={announcementPopup} />
       <SiteNavbar
         overlay={isHome}
         orderUrl={orderLinks[0]?.url ?? (isHome ? "#location" : "/locations")}

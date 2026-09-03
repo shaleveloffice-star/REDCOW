@@ -352,6 +352,25 @@ html {
   color: rgba(255, 255, 255, 0.72);
 }
 
+.opening-announce-media {
+  margin: 0 0 20px;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  overflow: hidden;
+}
+
+.opening-announce-body + .opening-announce-media,
+.opening-announce-title + .opening-announce-media {
+  margin: 20px 0 28px;
+}
+
+.opening-announce-image {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 180px;
+  object-fit: cover;
+}
+
 .opening-announce-title {
   margin: 0 0 20px;
   font-family: var(--font-archivo-black-stack);
@@ -399,6 +418,7 @@ html {
   font-weight: 400;
   letter-spacing: 0.12em;
   text-transform: uppercase;
+  text-decoration: none;
   cursor: pointer;
   transition:
     background-color 0.25s ease,
@@ -6358,6 +6378,39 @@ a.menu-showcase-button.site-cta-btn {
 .admin-checkbox-row input {
   width: auto;
   margin: 0;
+}
+
+.admin-fieldset {
+  margin: 0 0 20px;
+  padding: 16px;
+  border: 1px solid var(--admin-border, rgba(255, 255, 255, 0.14));
+  border-radius: 0;
+}
+
+.admin-fieldset legend {
+  padding-inline: 8px;
+  font-weight: 700;
+  color: var(--admin-text);
+}
+
+.admin-announcement-upload {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.admin-announcement-preview {
+  margin-top: 12px;
+  border: 1px solid var(--admin-border, rgba(255, 255, 255, 0.14));
+  overflow: hidden;
+}
+
+.admin-announcement-preview img {
+  display: block;
+  width: 100%;
+  max-height: 220px;
+  object-fit: cover;
 }
 
 .admin-menu-category-nav {

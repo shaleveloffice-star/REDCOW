@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 
 import { IconClose } from "@/components/shared/site-icons";
 import { useTranslations } from "@/components/providers/locale-provider";
@@ -10,10 +10,58 @@ import {
   inertBackground,
   trapFocus
 } from "@/lib/a11y/focus-trap";
+import { isSafePublicHref } from "@/lib/security/safe-url";
+import type { AnnouncementPopupConfig } from "@/types/content";
 
-const STORAGE_KEY = "nb-opening-announcement-v1";
+const STORAGE_PREFIX = "nb-announcement-popup:";
 
-export function SiteOpeningAnnouncement() {
+type StoredDismiss = {
+  version: string;
+  dismissedAt: number;
+};
+
+function storageKey(version: string) {
+  return `${STORAGE_PREFIX}${version.trim() || "v1"}`;
+}
+
+function wasDismissed(config: AnnouncementPopupConfig): boolean {
+  try {
+    const raw = window.localStorage.getItem(storageKey(config.version));
+    if (!raw) return false;
+    const parsed = JSON.parse(raw) as StoredDismiss;
+    if (!parsed || parsed.version !== config.version) return false;
+    if (!config.dismissDays || config.dismissDays <= 0) return true;
+    const expiresAt = parsed.dismissedAt + config.dismissDays * 24 * 60 * 60 * 1000;
+    return Date.now() < expiresAt;
+  } catch {
+    return false;
+  }
+}
+
+function rememberDismiss(config: AnnouncementPopupConfig) {
+  try {
+    const payload: StoredDismiss = {
+      version: config.version,
+      dismissedAt: Date.now()
+    };
+    window.localStorage.setItem(storageKey(config.version), JSON.stringify(payload));
+  } catch {
+    // ignore
+  }
+}
+
+function splitBody(body: string): string[] {
+  return body
+    .split(/\n\s*\n/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+}
+
+type SiteOpeningAnnouncementProps = {
+  config: AnnouncementPopupConfig;
+};
+
+export function SiteOpeningAnnouncement({ config }: SiteOpeningAnnouncementProps) {
   const t = useTranslations();
   const titleId = useId();
   const descId = useId();
@@ -22,23 +70,24 @@ export function SiteOpeningAnnouncement() {
   const closeRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
+  const paragraphs = useMemo(() => splitBody(config.body), [config.body]);
+  const safeHref = config.ctaHref.trim() && isSafePublicHref(config.ctaHref) ? config.ctaHref.trim() : "";
+  const showImage =
+    config.imagePosition !== "none" && Boolean(config.imageUrl.trim());
+
   useEffect(() => {
-    try {
-      if (window.localStorage.getItem(STORAGE_KEY) === "1") return;
-    } catch {
-      // private mode / blocked storage — still show once per session
-    }
-    setOpen(true);
-  }, []);
+    if (!config.enabled || !config.title.trim()) return;
+    if (wasDismissed(config)) return;
+
+    const delayMs = Math.max(0, config.delaySeconds) * 1000;
+    const timer = window.setTimeout(() => setOpen(true), delayMs);
+    return () => window.clearTimeout(timer);
+  }, [config]);
 
   const dismiss = useCallback(() => {
-    try {
-      window.localStorage.setItem(STORAGE_KEY, "1");
-    } catch {
-      // ignore
-    }
+    rememberDismiss(config);
     setOpen(false);
-  }, []);
+  }, [config]);
 
   useLayoutEffect(() => {
     if (!open) return;
@@ -76,6 +125,20 @@ export function SiteOpeningAnnouncement() {
 
   if (!open) return null;
 
+  const image = showImage ? (
+    <div className="opening-announce-media">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={config.imageUrl.trim()}
+        alt={config.imageAlt.trim() || config.title}
+        className="opening-announce-image"
+      />
+    </div>
+  ) : null;
+
+  const ctaClassName = "opening-announce-cta";
+  const ctaLabel = config.ctaLabel.trim() || t.openingBanner.popupCta;
+
   return (
     <div ref={rootRef} className="opening-announce-root" role="presentation">
       <button
@@ -90,7 +153,7 @@ export function SiteOpeningAnnouncement() {
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        aria-describedby={descId}
+        aria-describedby={paragraphs.length ? descId : undefined}
       >
         <button
           ref={closeRef}
@@ -102,20 +165,46 @@ export function SiteOpeningAnnouncement() {
           <IconClose />
         </button>
 
-        <p className="opening-announce-kicker">NB BURGER</p>
+        {config.imagePosition === "top" ? image : null}
+
+        {config.kicker.trim() ? (
+          <p className="opening-announce-kicker">{config.kicker.trim()}</p>
+        ) : null}
+
         <h2 id={titleId} className="opening-announce-title">
-          {t.openingBanner.popupTitle}
+          {config.title.trim()}
         </h2>
 
-        <div id={descId} className="opening-announce-body">
-          <p>{t.openingBanner.popupLead}</p>
-          <p>{t.openingBanner.popupBody}</p>
-          <p className="opening-announce-closing">{t.openingBanner.popupClosing}</p>
-        </div>
+        {paragraphs.length > 0 ? (
+          <div id={descId} className="opening-announce-body">
+            {paragraphs.map((paragraph, index) => (
+              <p
+                key={`${index}-${paragraph.slice(0, 24)}`}
+                className={index === paragraphs.length - 1 ? "opening-announce-closing" : undefined}
+              >
+                {paragraph}
+              </p>
+            ))}
+          </div>
+        ) : null}
 
-        <button type="button" className="opening-announce-cta" onClick={dismiss}>
-          {t.openingBanner.popupCta}
-        </button>
+        {config.imagePosition === "bottom" ? image : null}
+
+        {safeHref ? (
+          <a
+            className={ctaClassName}
+            href={safeHref}
+            target={config.ctaOpenInNewTab ? "_blank" : undefined}
+            rel={config.ctaOpenInNewTab ? "noopener noreferrer" : undefined}
+            onClick={dismiss}
+          >
+            {ctaLabel}
+          </a>
+        ) : (
+          <button type="button" className={ctaClassName} onClick={dismiss}>
+            {ctaLabel}
+          </button>
+        )}
       </div>
     </div>
   );

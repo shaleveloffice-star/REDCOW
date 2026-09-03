@@ -2,6 +2,7 @@
 
 import { usePathname } from "next/navigation";
 
+import { SiteOpeningAnnouncement } from "@/components/layout/site-opening-announcement";
 import { SiteOpeningBanner } from "@/components/layout/site-opening-banner";
 import { SiteNavbar, type MagazineNavStory } from "@/components/layout/site-navbar";
 import type { OrderLink } from "@/types/content";
@@ -23,6 +24,7 @@ export function SiteHeaderClient({ orderLinks, magazineStories = [] }: SiteHeade
   return (
     <>
       <SiteOpeningBanner />
+      <SiteOpeningAnnouncement />
       <SiteNavbar
         overlay={isHome}
         orderUrl={orderLinks[0]?.url ?? (isHome ? "#location" : "/locations")}

@@ -25,6 +25,12 @@ export type Messages = {
   };
   openingBanner: {
     message: string;
+    popupTitle: string;
+    popupLead: string;
+    popupBody: string;
+    popupClosing: string;
+    popupCta: string;
+    popupClose: string;
   };
   nav: {
     main: string;

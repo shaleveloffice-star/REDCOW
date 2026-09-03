@@ -22,7 +22,13 @@ export const en: Messages = {
     switchTo: "Change language"
   },
   openingBanner: {
-    message: "Opening soon"
+    message: "Opening soon",
+    popupTitle: "We're getting ready to open",
+    popupLead: "The menu and images currently shown on the site are for illustration only.",
+    popupBody: "Soon we'll update the official menu and real photos of NB BURGER here.",
+    popupClosing: "Stay tuned — the good stuff is on the way.",
+    popupCta: "Got it",
+    popupClose: "Close"
   },
   nav: {
     main: "Main navigation",

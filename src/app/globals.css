@@ -274,6 +274,172 @@ html {
   overflow-wrap: anywhere;
 }
 
+/* Opening announcement popup — NB B&W language */
+.opening-announce-root {
+  position: fixed;
+  inset: 0;
+  z-index: 130;
+  display: grid;
+  place-items: center;
+  padding: max(20px, env(safe-area-inset-top, 0px)) 20px
+    max(20px, env(safe-area-inset-bottom, 0px));
+}
+
+.opening-announce-backdrop {
+  position: absolute;
+  inset: 0;
+  border: 0;
+  background: rgba(0, 0, 0, 0.78);
+  cursor: pointer;
+}
+
+.opening-announce {
+  position: relative;
+  z-index: 1;
+  width: min(440px, 100%);
+  padding: 40px 32px 32px;
+  border: 1px solid #ffffff;
+  border-radius: 0;
+  background: #000000;
+  color: #ffffff;
+  text-align: center;
+  animation: opening-announce-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.opening-announce-close {
+  position: absolute;
+  top: 12px;
+  inset-inline-end: 12px;
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid transparent;
+  border-radius: 0;
+  background: transparent;
+  color: #ffffff;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.opening-announce-close svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .opening-announce-close:hover {
+    border-color: #ffffff;
+    background: #ffffff;
+    color: #000000;
+  }
+}
+
+.opening-announce-close:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 2px;
+}
+
+.opening-announce-kicker {
+  margin: 0 0 12px;
+  font-family: var(--font-archivo-black-stack);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.opening-announce-title {
+  margin: 0 0 20px;
+  font-family: var(--font-archivo-black-stack);
+  font-size: clamp(26px, 5vw, 34px);
+  font-weight: 400;
+  letter-spacing: -0.03em;
+  line-height: 1.05;
+  text-transform: uppercase;
+  color: #ffffff;
+}
+
+.opening-announce-body {
+  display: grid;
+  gap: 14px;
+  margin: 0 0 28px;
+}
+
+.opening-announce-body p {
+  margin: 0;
+  font-family: var(--font-assistant-stack);
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.86);
+}
+
+.opening-announce-closing {
+  color: #ffffff !important;
+  font-weight: 700 !important;
+}
+
+.opening-announce-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  width: 100%;
+  padding: 12px 24px;
+  border: 1px solid #ffffff;
+  border-radius: 0;
+  background: #ffffff;
+  color: #000000;
+  font-family: var(--font-archivo-black-stack);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease,
+    transform 0.25s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .opening-announce-cta:hover {
+    background: transparent;
+    color: #ffffff;
+    transform: translateY(-1px);
+  }
+}
+
+.opening-announce-cta:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}
+
+@keyframes opening-announce-in {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opening-announce {
+    animation: none;
+  }
+
+  .opening-announce-cta {
+    transition: none;
+  }
+}
+
 body:not(:has(.admin-layout)) {
   overflow-x: hidden;
   max-width: 100%;

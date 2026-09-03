@@ -1596,7 +1596,7 @@ select {
   gap: 12px;
   margin: 0;
   padding: 14px 16px calc(14px + env(safe-area-inset-bottom, 0px));
-  background: #efede8;
+  background: #ffffff;
   box-shadow: 0 -1px 0 rgba(0, 0, 0, 0.06);
   pointer-events: auto;
 }

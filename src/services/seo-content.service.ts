@@ -41,7 +41,12 @@ export async function getResolvedSeoPageContent(
   pageId: SeoPageId
 ): Promise<ResolvedSeoPageContent> {
   const stored = await getStoredSeoPageFields(locale, pageId);
-  return applySeoIntentOverrides(locale, pageId, resolveSeoPageContent(locale, pageId, stored));
+  return applySeoIntentOverrides(
+    locale,
+    pageId,
+    resolveSeoPageContent(locale, pageId, stored),
+    stored
+  );
 }
 
 export async function saveSeoPageFields(
@@ -81,7 +86,8 @@ export async function saveSeoLocaleBundleForAdmin(
 export async function persistSeoPageFieldsForAdmin(
   locale: Locale,
   pageId: SeoPageId,
-  fields: SeoPageFieldsInput
+  fields: SeoPageFieldsInput,
+  options?: { categorySlugs?: string[] }
 ): Promise<{ updatedAt: string }> {
   const current = await getSeoLocaleBundleForAdmin(locale);
   const mergedFields = mergeSeoPageFields(current.pages?.[pageId], fields);
@@ -94,14 +100,18 @@ export async function persistSeoPageFieldsForAdmin(
   });
 
   await saveSeoLocaleBundleForAdmin(locale, next);
-  revalidateSeoContentCache();
+  revalidateSeoContentCache({
+    pageId,
+    categorySlugs: options?.categorySlugs
+  });
 
   return { updatedAt: next.updatedAt };
 }
 
 export async function saveAllCategorySeoFieldsForAdmin(
   categoryId: string,
-  seoFields: SeoPageFieldsInput
+  seoFields: SeoPageFieldsInput,
+  options?: { categorySlugs?: string[] }
 ): Promise<{ updatedAt: string }> {
   const id = categoryId.trim();
   if (!id) {
@@ -111,12 +121,17 @@ export async function saveAllCategorySeoFieldsForAdmin(
   const fields = pickCategorySeoFields(seoFields);
   const current = await getSeoLocaleBundleForAdmin("he");
   const nextMenu = buildCategorySeoMenuPatch(current.pages?.menu, id, fields);
-  const result = await persistSeoPageFieldsForAdmin("he", "menu", nextMenu);
+  const result = await persistSeoPageFieldsForAdmin("he", "menu", nextMenu, {
+    categorySlugs: options?.categorySlugs
+  });
 
   return { updatedAt: result.updatedAt };
 }
 
-export async function removeCategorySeoForAdmin(categoryId: string): Promise<void> {
+export async function removeCategorySeoForAdmin(
+  categoryId: string,
+  options?: { categorySlugs?: string[] }
+): Promise<void> {
   const id = categoryId.trim();
   if (!id) return;
 
@@ -131,10 +146,13 @@ export async function removeCategorySeoForAdmin(categoryId: string): Promise<voi
   const categoryPages = { ...(menu.categoryPages ?? {}) };
   delete categoryPages[id];
 
-  await persistSeoPageFieldsForAdmin("he", "menu", {
-    categoryIntros,
-    categoryPages
-  });
-
-  revalidateSeoContentCache();
+  await persistSeoPageFieldsForAdmin(
+    "he",
+    "menu",
+    {
+      categoryIntros,
+      categoryPages
+    },
+    { categorySlugs: options?.categorySlugs }
+  );
 }

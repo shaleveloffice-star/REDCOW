@@ -6,17 +6,31 @@ import type {
   ResolvedSeoPageContent,
   SeoCtaBlock,
   SeoFaqBlock,
+  SeoPageFieldsInput,
   SeoPageId
 } from "@/types/seo-content";
 import type { StoryCtaSection } from "@/types/story";
 
 /**
  * Approved SEO intent map (cannibalization fix).
- * Applied after CMS+defaults merge so production Firestore titles cannot
- * keep competing pages on the same primary cluster.
+ * Applied as fallback after CMS, before baked-in defaults win:
+ *   CMS (non-empty) → intent → defaults (already in resolved content).
  *
  * Self-canonical stays per-URL. No redirects / noindex / merges.
  */
+
+/** Prefer first non-empty trimmed string (CMS → intent → resolved/default). */
+function preferText(
+  cms?: string | null,
+  intent?: string | null,
+  fallback?: string | null
+): string {
+  const a = cms?.trim();
+  if (a) return a;
+  const b = intent?.trim();
+  if (b) return b;
+  return fallback?.trim() ?? "";
+}
 
 type PageIntentPatch = {
   metaTitle?: string;
@@ -214,51 +228,67 @@ const STORY_SUPPORT_CTA: Record<string, StoryCtaSection> = {
   }
 };
 
+function nonEmptyFaqItems(items?: SeoFaqBlock["items"]) {
+  return items?.filter((item) => item.question.trim() || item.answer.trim());
+}
+
+/** CMS → intent → resolved (defaults). FAQ/CTA are editable in admin. */
 function applyFaq(
   current: ResolvedSeoPageContent["faq"],
-  patch?: SeoFaqBlock
+  patch?: SeoFaqBlock,
+  stored?: SeoFaqBlock
 ): ResolvedSeoPageContent["faq"] {
-  if (!patch) return current;
-  const items = patch.items?.filter((item) => item.question.trim() || item.answer.trim());
+  const storedItems = nonEmptyFaqItems(stored?.items);
+  const intentItems = nonEmptyFaqItems(patch?.items);
   return {
-    kicker: patch.kicker?.trim() || current.kicker,
-    title: patch.title?.trim() || current.title,
-    lead: patch.lead?.trim() || current.lead,
-    items: items && items.length > 0 ? items : current.items
+    kicker: preferText(stored?.kicker, patch?.kicker, current.kicker),
+    title: preferText(stored?.title, patch?.title, current.title),
+    lead: preferText(stored?.lead, patch?.lead, current.lead),
+    items:
+      storedItems && storedItems.length > 0
+        ? storedItems
+        : intentItems && intentItems.length > 0
+          ? intentItems
+          : current.items
   };
 }
 
-function applyCta(current: SeoCtaBlock, patch?: SeoCtaBlock): SeoCtaBlock {
-  if (!patch) return current;
+function applyCta(
+  current: SeoCtaBlock,
+  patch?: SeoCtaBlock,
+  stored?: SeoCtaBlock
+): SeoCtaBlock {
   return {
-    title: patch.title?.trim() || current.title,
-    body: patch.body?.trim() || current.body,
-    buttonLabel: patch.buttonLabel?.trim() || current.buttonLabel,
-    buttonHref: patch.buttonHref?.trim() || current.buttonHref
+    title: preferText(stored?.title, patch?.title, current.title) || undefined,
+    body: preferText(stored?.body, patch?.body, current.body) || undefined,
+    buttonLabel:
+      preferText(stored?.buttonLabel, patch?.buttonLabel, current.buttonLabel) || undefined,
+    buttonHref: preferText(stored?.buttonHref, patch?.buttonHref, current.buttonHref) || undefined
   };
 }
 
 function applyCategoryPatch(
   current: ResolvedCategorySeoContent,
-  patch: CategoryIntentPatch
+  patch: CategoryIntentPatch,
+  stored?: SeoPageFieldsInput
 ): ResolvedCategorySeoContent {
-  const introduction = patch.introduction?.trim() || current.introduction;
-  const bottomContent = patch.bottomContent?.trim() || current.bottomContent;
+  const introduction = preferText(stored?.introduction, patch.introduction, current.introduction);
+  const bottomContent = preferText(
+    stored?.bottomContent,
+    patch.bottomContent,
+    current.bottomContent
+  );
   return {
-    metaTitle: patch.metaTitle?.trim() || current.metaTitle,
-    metaDescription: patch.metaDescription?.trim() || current.metaDescription,
+    metaTitle: preferText(stored?.metaTitle, patch.metaTitle, current.metaTitle),
+    metaDescription: preferText(
+      stored?.metaDescription,
+      patch.metaDescription,
+      current.metaDescription
+    ),
     introduction,
     bottomContent,
-    faq: applyFaq(
-      {
-        kicker: current.faq.kicker,
-        title: current.faq.title,
-        lead: current.faq.lead,
-        items: current.faq.items
-      },
-      patch.faq
-    ),
-    cta: applyCta(current.cta, patch.cta)
+    faq: applyFaq(current.faq, patch.faq, stored?.faq),
+    cta: applyCta(current.cta, patch.cta, stored?.cta)
   };
 }
 
@@ -300,23 +330,62 @@ export function getCategoryIntentPatch(category: {
   return undefined;
 }
 
-/** Apply category SEO intent using real category id/slug (safe for Firebase-generated ids). */
+/**
+ * Apply category SEO intent as fallback only.
+ * With `stored`: CMS → intent → resolved defaults.
+ * Without `stored` (already-resolved content from getResolvedSeoPageContent):
+ * only fill empty fields so a second pass cannot let intent beat CMS.
+ */
 export function applyCategorySeoIntent(
   category: { id: string; slug?: string },
-  content: ResolvedCategorySeoContent
+  content: ResolvedCategorySeoContent,
+  stored?: SeoPageFieldsInput
 ): ResolvedCategorySeoContent {
   const patch = getCategoryIntentPatch(category);
   if (!patch) {
     return content;
   }
-  return applyCategoryPatch(content, patch);
+  if (stored) {
+    return applyCategoryPatch(content, patch, stored);
+  }
+
+  const intentItems = nonEmptyFaqItems(patch.faq?.items);
+  const introduction = content.introduction.trim() || patch.introduction?.trim() || "";
+  const bottomContent = content.bottomContent.trim() || patch.bottomContent?.trim() || "";
+  return {
+    metaTitle: content.metaTitle.trim() || patch.metaTitle?.trim() || "",
+    metaDescription: content.metaDescription.trim() || patch.metaDescription?.trim() || "",
+    introduction,
+    bottomContent,
+    faq: {
+      kicker: content.faq.kicker.trim() || patch.faq?.kicker?.trim() || "",
+      title: content.faq.title.trim() || patch.faq?.title?.trim() || "",
+      lead: content.faq.lead.trim() || patch.faq?.lead?.trim() || "",
+      items:
+        content.faq.items.length > 0
+          ? content.faq.items
+          : intentItems && intentItems.length > 0
+            ? intentItems
+            : content.faq.items
+    },
+    cta: {
+      title: content.cta.title?.trim() || patch.cta?.title?.trim() || undefined,
+      body: content.cta.body?.trim() || patch.cta?.body?.trim() || undefined,
+      buttonLabel: content.cta.buttonLabel?.trim() || patch.cta?.buttonLabel?.trim() || undefined,
+      buttonHref: content.cta.buttonHref?.trim() || patch.cta?.buttonHref?.trim() || undefined
+    }
+  };
 }
 
-/** Enforce approved page-level SEO intent after CMS merge. */
+/**
+ * Apply approved page-level SEO intent as fallback after CMS+defaults resolve.
+ * Pass raw `stored` CMS fields so non-empty admin values always win over intent.
+ */
 export function applySeoIntentOverrides(
   locale: Locale,
   pageId: SeoPageId,
-  content: ResolvedSeoPageContent
+  content: ResolvedSeoPageContent,
+  stored?: SeoPageFieldsInput | null
 ): ResolvedSeoPageContent {
   if (locale !== "he") {
     return content;
@@ -326,36 +395,56 @@ export function applySeoIntentOverrides(
   let next = content;
 
   if (patch) {
-    const introduction = patch.introduction?.trim() || content.introduction;
-    const bottomContent = patch.bottomContent?.trim() || content.bottomContent;
+    const introduction = preferText(stored?.introduction, patch.introduction, content.introduction);
+    const bottomContent = preferText(
+      stored?.bottomContent,
+      patch.bottomContent,
+      content.bottomContent
+    );
     next = {
       ...content,
-      metaTitle: patch.metaTitle?.trim() || content.metaTitle,
-      metaDescription: patch.metaDescription?.trim() || content.metaDescription,
-      sectionTitle: patch.sectionTitle?.trim() || content.sectionTitle,
+      metaTitle: preferText(stored?.metaTitle, patch.metaTitle, content.metaTitle),
+      metaDescription: preferText(
+        stored?.metaDescription,
+        patch.metaDescription,
+        content.metaDescription
+      ),
+      sectionTitle: preferText(stored?.sectionTitle, patch.sectionTitle, content.sectionTitle),
       introduction,
       introductionParagraphs: splitParagraphs(introduction),
       bottomContent,
       bottomParagraphs: splitParagraphs(bottomContent),
-      faq: applyFaq(content.faq, patch.faq),
-      cta: applyCta(content.cta, patch.cta)
+      faq: applyFaq(content.faq, patch.faq, stored?.faq),
+      cta: applyCta(content.cta, patch.cta, stored?.cta)
     };
   }
 
   if (pageId === "menu") {
     const categoryPages = { ...next.categoryPages };
+    const storedCategoryPages = stored?.categoryPages ?? {};
 
     // Patch every existing categoryPages entry whose id/slug matches an intent key.
     for (const categoryId of Object.keys(categoryPages)) {
-      const categoryPatch = getCategoryIntentPatch({ id: categoryId, slug: categoryId.replace(/^cat-/, "") });
+      const categoryPatch = getCategoryIntentPatch({
+        id: categoryId,
+        slug: categoryId.replace(/^cat-/, "")
+      });
       if (!categoryPatch) continue;
-      categoryPages[categoryId] = applyCategoryPatch(categoryPages[categoryId], categoryPatch);
+      categoryPages[categoryId] = applyCategoryPatch(
+        categoryPages[categoryId],
+        categoryPatch,
+        storedCategoryPages[categoryId]
+      );
     }
 
     // Keep canonical cat-* keys in sync for code that still looks up cat-meals / cat-burgers.
     for (const [intentKey, categoryPatch] of Object.entries(HE_CATEGORY_INTENT)) {
       const current = categoryPages[intentKey] ?? EMPTY_CATEGORY_SEO;
-      categoryPages[intentKey] = applyCategoryPatch(current, categoryPatch);
+      categoryPages[intentKey] = applyCategoryPatch(
+        current,
+        categoryPatch,
+        storedCategoryPages[intentKey]
+      );
     }
 
     next = { ...next, categoryPages };

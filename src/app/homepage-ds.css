@@ -109,7 +109,7 @@ body:not(:has(.admin-layout)) .plancha-footer-cta {
   body:not(:has(.admin-layout)) .location-cta:hover,
   body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
     background: #ffffff;
-    color: #000000;
+    color: #000000 !important;
     border-color: #ffffff;
     transform: translateY(-2px);
   }
@@ -1184,6 +1184,14 @@ a.menu-showcase-button.site-cta-btn {
 .location-section .location-block,
 .location-section .location-block-icon {
   color: #ffffff !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .location-section .location-cta:hover,
+  .location-section .location-cta:hover span,
+  .location-section .location-cta:hover .location-cta-icon {
+    color: #000000 !important;
+  }
 }
 
 .location-block {

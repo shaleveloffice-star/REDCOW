@@ -6,7 +6,10 @@ import {
   pickCategorySeoFields
 } from "@/lib/seo-content/admin-category-seo";
 import { sanitizeSeoLocaleBundle, sanitizeSeoPageFields } from "@/lib/seo-content/sanitize-seo-storage";
-import { revalidateSeoContentCache } from "@/lib/seo-content/revalidate-seo-cache";
+import {
+  categorySlugsForRevalidate,
+  revalidateSeoContentCache
+} from "@/lib/seo-content/revalidate-seo-cache";
 import type { Locale } from "@/i18n/config";
 import { listMenuCategories } from "@/services/menu.service";
 import {
@@ -62,13 +65,19 @@ export async function saveCategorySeoFieldsAction(
   await requireAdminOrThrow();
 
   try {
-    const current = await getSeoLocaleBundleForAdmin(locale);
+    const [current, categories] = await Promise.all([
+      getSeoLocaleBundleForAdmin(locale),
+      listMenuCategories({ activeOnly: false })
+    ]);
+    const category = categories.find((item) => item.id === categoryId.trim());
     const nextMenu = buildCategorySeoMenuPatch(
       current.pages?.menu,
       categoryId,
       pickCategorySeoFields(fields)
     );
-    const result = await persistSeoPageFieldsForAdmin(locale, "menu", nextMenu);
+    const result = await persistSeoPageFieldsForAdmin(locale, "menu", nextMenu, {
+      categorySlugs: categorySlugsForRevalidate(category ?? { id: categoryId })
+    });
     return { ok: true, updatedAt: result.updatedAt };
   } catch (error) {
     throw seoActionError(error, "שמירת תוכן SEO לקטגוריה נכשלה.");
@@ -83,7 +92,11 @@ export async function saveAllCategorySeoFieldsAction(
   await requireAdminOrThrow();
 
   try {
-    const result = await saveAllCategorySeoFieldsForAdmin(categoryId, seoFields);
+    const categories = await listMenuCategories({ activeOnly: false });
+    const category = categories.find((item) => item.id === categoryId.trim());
+    const result = await saveAllCategorySeoFieldsForAdmin(categoryId, seoFields, {
+      categorySlugs: categorySlugsForRevalidate(category ?? { id: categoryId })
+    });
     return { ok: true, updatedAt: result.updatedAt };
   } catch (error) {
     throw seoActionError(error, "שמירת תוכן SEO לקטגוריה נכשלה.");

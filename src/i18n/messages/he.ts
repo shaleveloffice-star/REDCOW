@@ -222,7 +222,7 @@ export const he: Messages = {
     title: "מיקום ושעות",
     locationHeading: "מיקום",
     address: BUSINESS.address.formatted.he,
-    parking: "חניה חופשית בשפע",
+    parking: "חניה חופשית וזמינה משעות הערב",
     hoursHeading: "שעות פתיחה",
     days: {
       sunThu: "ראשון - חמישי",

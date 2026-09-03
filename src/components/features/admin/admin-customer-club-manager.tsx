@@ -17,6 +17,13 @@ import { useState } from "react";
 
 const STATUS_OPTIONS: RecordStatus[] = ["new", "inReview", "resolved", "archived"];
 
+function formatSubmittedAt(value?: string): string {
+  if (!value?.trim()) return "—";
+  const date = new Date(value);
+  if (Number.isNaN(date.getTime())) return "—";
+  return date.toLocaleString("he-IL", { dateStyle: "short", timeStyle: "short" });
+}
+
 function newSignup(): CustomerClubSignup {
   const now = new Date().toISOString();
   return {
@@ -50,6 +57,7 @@ export function AdminCustomerClubManager({ signups }: { signups: CustomerClubSig
             <th>שם</th>
             <th>פרטי קשר</th>
             <th>תאריך לידה</th>
+            <th>נשלח ב־</th>
             <th>אישור</th>
             <th>סטטוס</th>
             <th style={{ width: 160 }}>פעולות</th>
@@ -65,6 +73,7 @@ export function AdminCustomerClubManager({ signups }: { signups: CustomerClubSig
                 {signup.email}
               </td>
               <td>{signup.birthDate || "—"}</td>
+              <td>{formatSubmittedAt(signup.createdAt)}</td>
               <td>{signup.marketingConsent ? "כן" : "לא"}</td>
               <td>{signup.status}</td>
               <td>
@@ -126,6 +135,10 @@ export function AdminCustomerClubManager({ signups }: { signups: CustomerClubSig
                 value={draft.birthDate ?? ""}
                 onChange={(e) => setDraft({ ...draft, birthDate: e.target.value })}
               />
+            </label>
+            <label>
+              נשלח ב־
+              <input readOnly value={formatSubmittedAt(draft.createdAt)} />
             </label>
             <label>
               <input

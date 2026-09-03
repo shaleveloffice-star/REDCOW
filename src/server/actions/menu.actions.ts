@@ -127,7 +127,9 @@ export async function saveMenuCategoryWithSeoAction(
   );
 
   try {
-    await saveAllCategorySeoFieldsForAdmin(input.id.trim(), sanitizedSeo);
+    await saveAllCategorySeoFieldsForAdmin(input.id.trim(), sanitizedSeo, {
+      categorySlugs: [slug]
+    });
   } catch (error) {
     const detail = error instanceof Error ? error.message : "שמירת תוכן SEO נכשלה";
     throw new Error(/[\u0590-\u05FF]/.test(detail) ? detail : "שמירת תוכן SEO לקטגוריה נכשלה.");
@@ -153,9 +155,15 @@ export async function deleteMenuCategoryAction(id: string) {
   if (items.some((item) => item.categoryId === id)) {
     throw new Error("לא ניתן למחוק קטגוריה שיש בה מנות. העבר או מחק את המנות קודם.");
   }
+  const categories = await listMenuCategories({ activeOnly: false });
+  const existing = categories.find((item) => item.id === id);
   const ok = await removeMenuCategory(id);
   if (!ok) throw new Error("הקטגוריה לא נמצאה");
-  await removeCategorySeoForAdmin(id);
+  await removeCategorySeoForAdmin(id, {
+    categorySlugs: existing
+      ? [resolveCategorySlug({ id: existing.id, slug: existing.slug })]
+      : undefined
+  });
   menuPaths.forEach((path) => revalidatePath(path));
   revalidateMenuCache();
 }

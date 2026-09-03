@@ -222,7 +222,7 @@ export const en: Messages = {
     title: "Location & Hours",
     locationHeading: "Location",
     address: BUSINESS.address.formatted.en,
-    parking: "Plenty of free parking",
+    parking: "Free parking available from evening hours",
     hoursHeading: "Opening Hours",
     days: {
       sunThu: "Sun - Thu",

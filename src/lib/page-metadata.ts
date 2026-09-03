@@ -119,10 +119,10 @@ export function getStoryPageMetadata(
 ) {
   const override = getStorySeoOverride(story.slug);
   const title =
-    override?.metaTitle || story.metaTitle?.trim() || `${story.title.trim()} | NB BURGER`;
+    story.metaTitle?.trim() || override?.metaTitle || `${story.title.trim()} | NB BURGER`;
   const description =
-    override?.metaDescription ||
     story.metaDescription?.trim() ||
+    override?.metaDescription ||
     story.subtitle.trim() ||
     story.title.trim();
   const image = story.ogImageUrl?.trim() || story.heroImageUrl.trim();

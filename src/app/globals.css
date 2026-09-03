@@ -196,7 +196,7 @@ body:not(:has(.admin-layout)) .plancha-footer-cta {
   body:not(:has(.admin-layout)) .location-cta:hover,
   body:not(:has(.admin-layout)) .plancha-footer-cta:hover {
     border-color: #ffffff;
-    color: #000000;
+    color: #000000 !important;
     background-color: #ffffff;
     transform: translateY(-2px);
   }
@@ -4102,12 +4102,20 @@ a.menu-showcase-button.site-cta-btn {
   text-align: left;
 }
 
-/* Framer Motion may inject dark inline color on wrappers ? force readable copy */
+/* Framer Motion may inject dark inline color on wrappers — force readable copy */
 .location-section .location-title,
 .location-section .location-block h3,
 .location-section .location-hours dd,
 .location-section .location-cta {
   color: var(--home-text) !important;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .location-section .location-cta:hover,
+  .location-section .location-cta:hover span,
+  .location-section .location-cta:hover .location-cta-icon {
+    color: #000000 !important;
+  }
 }
 
 .location-section .location-block,

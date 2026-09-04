@@ -130,7 +130,11 @@ async function sanitizeSection(section: StorySection): Promise<StorySection> {
         background,
         kicker: section.kicker?.trim() || undefined,
         title: section.title?.trim() || undefined,
-        body: section.body.trim()
+        body: section.body.trim(),
+        textAlign:
+          section.textAlign === "center" || section.textAlign === "left" || section.textAlign === "right"
+            ? section.textAlign
+            : undefined
       }) as StorySection;
     default:
       return section;

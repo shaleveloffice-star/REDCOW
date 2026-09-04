@@ -30,10 +30,12 @@ import { resolveStorySlug, isStoryInMagazine } from "@/lib/stories/story-slug";
 import { deleteBrandStoryAction, saveBrandStoryAction, toggleStoryMagazineAction } from "@/server/actions/stories.actions";
 import {
   STORY_SECTION_TYPES,
+  STORY_TEXT_ALIGN_OPTIONS,
   type BrandStory,
   type StorySection,
   type StorySectionBackground,
-  type StorySectionType
+  type StorySectionType,
+  type StoryTextAlign
 } from "@/types/story";
 
 const STORY_DRAFT_STORAGE_PREFIX = "nb-admin-story-draft:";
@@ -365,6 +367,24 @@ function SectionEditor({
 
       {section.type === "long-content" && (
         <>
+          <label>
+            יישור טקסט
+            <select
+              value={section.textAlign ?? "right"}
+              onChange={(e) =>
+                onChange({
+                  ...section,
+                  textAlign: e.target.value as StoryTextAlign
+                })
+              }
+            >
+              {STORY_TEXT_ALIGN_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>
+                  {option.label}
+                </option>
+              ))}
+            </select>
+          </label>
           <label>
             Kicker (אופציונלי)
             <input

@@ -20,6 +20,15 @@ export const STORY_SECTION_BACKGROUND_OPTIONS = [
   { value: "dark", label: "שחור" }
 ] as const;
 
+/** Text alignment for long-content blocks. Default (omitted) = right. */
+export type StoryTextAlign = "right" | "center" | "left";
+
+export const STORY_TEXT_ALIGN_OPTIONS = [
+  { value: "right", label: "ימין" },
+  { value: "center", label: "מרכז" },
+  { value: "left", label: "שמאל" }
+] as const;
+
 type StorySectionCommon = {
   background?: StorySectionBackground;
 };
@@ -59,6 +68,8 @@ export type StoryLongContentSection = StorySectionCommon & {
   kicker?: string;
   title?: string;
   body: string;
+  /** Defaults to right when omitted. */
+  textAlign?: StoryTextAlign;
 };
 
 export type StorySection =

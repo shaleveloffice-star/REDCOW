@@ -406,7 +406,9 @@ function renderSection(
       return (
         <SectionEditChrome key={`${section.type}-${index}`} editor={editor} index={index} section={section}>
           <section className={`story-section story-section--${tone}`}>
-            <div className="story-long-content">
+            <div
+              className={`story-long-content story-long-content--align-${section.textAlign === "center" || section.textAlign === "left" ? section.textAlign : "right"}`}
+            >
               {section.kicker?.trim() || editor?.active ? (
                 <p
                   className="story-section-kicker"

@@ -465,6 +465,25 @@
   margin-inline: auto;
 }
 
+.story-long-content--align-right {
+  text-align: right;
+}
+
+.story-long-content--align-center {
+  text-align: center;
+}
+
+.story-long-content--align-left {
+  text-align: left;
+}
+
+.story-long-content--align-center ul,
+.story-long-content--align-center ol,
+.story-long-content--align-left ul,
+.story-long-content--align-left ol {
+  list-style-position: inside;
+}
+
 .story-long-content .story-section-title {
   margin-bottom: 0.75em;
 }

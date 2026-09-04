@@ -1,4 +1,11 @@
-import type { StorySection, StorySectionType } from "@/types/story";
+import type { StorySection, StorySectionType, StoryTextAlign } from "@/types/story";
+
+function optionalTextAlign(value: StoryTextAlign | undefined): StoryTextAlign | undefined {
+  if (value === "center" || value === "left" || value === "right") {
+    return value;
+  }
+  return undefined;
+}
 
 export function createDefaultStorySection(type: StorySectionType): StorySection {
   switch (type) {
@@ -37,7 +44,8 @@ export function createDefaultStorySection(type: StorySectionType): StorySection 
         type,
         kicker: "",
         title: "",
-        body: ""
+        body: "",
+        textAlign: "right"
       };
     default:
       return {
@@ -59,12 +67,18 @@ export function flipSplitSectionType(
   };
 }
 
-function asLongContent(body: string, title?: string, kicker?: string): StorySection {
+function asLongContent(
+  body: string,
+  title?: string,
+  kicker?: string,
+  textAlign?: StoryTextAlign
+): StorySection {
   return {
     type: "long-content",
     kicker: kicker?.trim() || undefined,
     title: title?.trim() || undefined,
-    body
+    body,
+    textAlign: optionalTextAlign(textAlign)
   };
 }
 

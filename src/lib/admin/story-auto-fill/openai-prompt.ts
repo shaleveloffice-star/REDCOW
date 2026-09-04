@@ -1,3 +1,4 @@
+import { buildStoryContextSummaries } from "./story-context";
 import {
   STORY_AUTO_FILL_CTA_LABELS,
   STORY_AUTO_FILL_GOAL_LABELS,
@@ -87,11 +88,22 @@ export function buildStoryGenerateUserPrompt(options: {
 }): string {
   const { input, existingStories } = options;
   const secondaries = secondaryList(input.secondaryKeywords);
-  const existingSummary = existingStories.slice(0, 40).map((story) => ({
+  const existingSummary = buildStoryContextSummaries(
+    existingStories.map((story) => ({
+      title: story.title,
+      slug: story.slug,
+      category: "",
+      subtitle: story.subtitle,
+      metaTitle: story.metaTitle,
+      metaDescription: story.metaDescription,
+      isActive: story.isActive
+    })),
+    { limit: 40 }
+  ).map((story) => ({
     title: story.title,
     slug: story.slug,
-    metaTitle: story.metaTitle ?? "",
-    topicHint: [story.title, story.subtitle, story.metaTitle ?? ""].filter(Boolean).join(" — ").slice(0, 160)
+    metaTitle: story.metaTitle,
+    topicHint: [story.title, story.subtitle, story.metaTitle].filter(Boolean).join(" — ").slice(0, 160)
   }));
 
   const lengthHint =

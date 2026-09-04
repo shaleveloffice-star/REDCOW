@@ -21,5 +21,9 @@ export const RATE_LIMITS = {
   storyGenerate: {
     maxAttempts: 8,
     windowMs: 60 * 60 * 1000
+  },
+  storySuggest: {
+    maxAttempts: 6,
+    windowMs: 60 * 60 * 1000
   }
 } as const;

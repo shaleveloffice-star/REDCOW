@@ -21,7 +21,7 @@ export {
   STORY_AUTO_FILL_TYPES
 } from "./types";
 
-export { findStoryCannibalizationHits } from "./cannibalization";
+export { findStoryCannibalizationHits, scoreCannibalizationRisk } from "./cannibalization";
 export {
   applyStoryAutoFillToDraft,
   generateStoryAutoFill,
@@ -29,3 +29,10 @@ export {
 } from "./generate";
 export { buildStoryAutoFillSlug } from "./slug";
 export { STORY_AUTO_FILL_OPENAI_MODEL } from "./openai-model";
+export {
+  buildStoryContextSummaries,
+  categoryLabelForStoryType,
+  resolveStoryCategoryLabel
+} from "./story-context";
+export type { StorySuggestion, StorySuggestionConflict } from "./suggest-types";
+export { STORY_SUGGESTION_RISK_LABELS } from "./suggest-types";

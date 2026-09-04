@@ -2,6 +2,7 @@
 
 import { useMemo, useRef, useState } from "react";
 
+import { AdminStorySuggestModal } from "@/components/features/admin/admin-story-suggest-modal";
 import {
   applyStoryAutoFillToDraft,
   storyDraftHasContent,
@@ -20,7 +21,8 @@ import {
   type StoryAutoFillInput,
   type StoryAutoFillLength,
   type StoryAutoFillType,
-  type StoryCannibalizationHit
+  type StoryCannibalizationHit,
+  type StorySuggestion
 } from "@/lib/admin/story-auto-fill";
 import type { BrandStory } from "@/types/story";
 
@@ -75,12 +77,79 @@ export function AdminStoryAutoFillPanel({
   const [suggestedAngle, setSuggestedAngle] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [showTips, setShowTips] = useState(false);
+  const [suggestOpen, setSuggestOpen] = useState(false);
+  const [suggestLoading, setSuggestLoading] = useState(false);
+  const [suggestError, setSuggestError] = useState<string | null>(null);
+  const [suggestions, setSuggestions] = useState<StorySuggestion[]>([]);
   const inFlightRef = useRef(false);
+  const suggestInFlightRef = useRef(false);
 
   const hasExistingContent = useMemo(() => storyDraftHasContent(draft), [draft]);
 
   const update = <K extends keyof StoryAutoFillInput>(key: K, value: StoryAutoFillInput[K]) => {
     setInput((prev) => ({ ...prev, [key]: value }));
+  };
+
+  const busy = loading || suggestLoading;
+
+  const runSuggest = async () => {
+    if (suggestInFlightRef.current) return;
+    suggestInFlightRef.current = true;
+    setSuggestOpen(true);
+    setSuggestLoading(true);
+    setSuggestError(null);
+    setSuggestions([]);
+
+    try {
+      const response = await fetch("/api/admin/stories/suggest", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" }
+      });
+
+      let payload: { ok: true; suggestions?: StorySuggestion[] } | { ok: false; error?: string };
+      try {
+        payload = (await response.json()) as typeof payload;
+      } catch {
+        setSuggestError("לא הצלחנו להציע סיפורים כרגע. נסו שוב.");
+        return;
+      }
+
+      if (!response.ok || !payload.ok) {
+        setSuggestError(
+          (!payload.ok && payload.error) || "לא הצלחנו להציע סיפורים כרגע. נסו שוב."
+        );
+        return;
+      }
+
+      const next = payload.suggestions ?? [];
+      if (next.length === 0) {
+        setSuggestError("לא הצלחנו להציע סיפורים כרגע. נסו שוב.");
+        return;
+      }
+
+      setSuggestions(next);
+    } catch {
+      setSuggestError("לא הצלחנו להציע סיפורים כרגע. נסו שוב.");
+    } finally {
+      suggestInFlightRef.current = false;
+      setSuggestLoading(false);
+    }
+  };
+
+  const handleSelectSuggestion = (suggestion: StorySuggestion) => {
+    setInput({
+      primaryKeyword: suggestion.primaryKeyword,
+      secondaryKeywords: suggestion.secondaryKeywords.join(", "),
+      storyType: suggestion.storyType,
+      angle: suggestion.angle,
+      length: input.length || "medium",
+      goal: suggestion.goal,
+      cta: suggestion.cta
+    });
+    setSuggestOpen(false);
+    setSuggestions([]);
+    setSuggestError(null);
+    setError(null);
   };
 
   const runGenerate = async (acknowledgeOverlaps: boolean) => {
@@ -214,7 +283,18 @@ export function AdminStoryAutoFillPanel({
         </div>
       ) : null}
 
-      <p className="admin-form-hint">מלאו מילות מפתח ולחצו &quot;צור&quot;.</p>
+      <p className="admin-form-hint">מלאו מילות מפתח ולחצו &quot;צור&quot; — או בקשו הצעות אוטומטיות.</p>
+
+      <div className="admin-row-actions" style={{ marginBottom: 12 }}>
+        <button
+          type="button"
+          className="button"
+          onClick={() => void runSuggest()}
+          disabled={busy}
+        >
+          {suggestLoading ? "חושב על 5 רעיונות..." : "הצע לי סיפורים"}
+        </button>
+      </div>
 
       <label>
         מילת מפתח ראשית
@@ -222,7 +302,7 @@ export function AdminStoryAutoFillPanel({
           value={input.primaryKeyword}
           onChange={(e) => update("primaryKeyword", e.target.value)}
           placeholder="לדוגמה: סמאש בורגר"
-          disabled={loading}
+          disabled={busy}
         />
       </label>
       <label>
@@ -231,7 +311,7 @@ export function AdminStoryAutoFillPanel({
           value={input.secondaryKeywords}
           onChange={(e) => update("secondaryKeywords", e.target.value)}
           placeholder="מופרדות בפסיק"
-          disabled={loading}
+          disabled={busy}
         />
       </label>
       <label>
@@ -239,7 +319,7 @@ export function AdminStoryAutoFillPanel({
         <select
           value={input.storyType}
           onChange={(e) => update("storyType", e.target.value as StoryAutoFillType)}
-          disabled={loading}
+          disabled={busy}
         >
           {STORY_AUTO_FILL_TYPES.map((type) => (
             <option key={type} value={type}>
@@ -255,7 +335,7 @@ export function AdminStoryAutoFillPanel({
           value={input.angle}
           onChange={(e) => update("angle", e.target.value)}
           placeholder="לדוגמה: צריבה נכונה בלי הגזמות"
-          disabled={loading}
+          disabled={busy}
         />
       </label>
       <label>
@@ -263,7 +343,7 @@ export function AdminStoryAutoFillPanel({
         <select
           value={input.length}
           onChange={(e) => update("length", e.target.value as StoryAutoFillLength)}
-          disabled={loading}
+          disabled={busy}
         >
           {STORY_AUTO_FILL_LENGTHS.map((length) => (
             <option key={length} value={length}>
@@ -277,7 +357,7 @@ export function AdminStoryAutoFillPanel({
         <select
           value={input.goal}
           onChange={(e) => update("goal", e.target.value as StoryAutoFillGoal)}
-          disabled={loading}
+          disabled={busy}
         >
           {STORY_AUTO_FILL_GOALS.map((goal) => (
             <option key={goal} value={goal}>
@@ -291,7 +371,7 @@ export function AdminStoryAutoFillPanel({
         <select
           value={input.cta}
           onChange={(e) => update("cta", e.target.value as StoryAutoFillCta)}
-          disabled={loading}
+          disabled={busy}
         >
           {STORY_AUTO_FILL_CTAS.map((cta) => (
             <option key={cta} value={cta}>
@@ -302,10 +382,10 @@ export function AdminStoryAutoFillPanel({
       </label>
 
       <div className="admin-row-actions" style={{ marginTop: 8 }}>
-        <button type="button" className="button" onClick={handleFill} disabled={loading}>
+        <button type="button" className="button" onClick={handleFill} disabled={busy}>
           {loading ? "יוצר..." : "צור"}
         </button>
-        <button type="button" className="button secondary" onClick={handleRefill} disabled={loading}>
+        <button type="button" className="button secondary" onClick={handleRefill} disabled={busy}>
           {loading ? "יוצר..." : "צור מחדש"}
         </button>
       </div>
@@ -333,7 +413,7 @@ export function AdminStoryAutoFillPanel({
             <button
               type="button"
               className="button secondary"
-              disabled={loading}
+              disabled={busy}
               onClick={() => void runGenerate(true)}
             >
               {loading ? "יוצר..." : "המשך בכל זאת"}
@@ -349,6 +429,18 @@ export function AdminStoryAutoFillPanel({
           </p>
         </div>
       ) : null}
+
+      <AdminStorySuggestModal
+        open={suggestOpen}
+        loading={suggestLoading}
+        error={suggestError}
+        suggestions={suggestions}
+        onClose={() => {
+          if (suggestLoading) return;
+          setSuggestOpen(false);
+        }}
+        onSelect={handleSelectSuggestion}
+      />
     </fieldset>
   );
 }

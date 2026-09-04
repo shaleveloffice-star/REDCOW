@@ -4,15 +4,18 @@ import type {
   StoryCannibalizationHit
 } from "./types";
 
-type SeoCluster = {
+export type SeoCannibalizationCluster = {
   keyword: string;
   label: string;
   path: string;
   source: StoryCannibalizationHit["source"];
   suggestedAngle: string;
+  /** Extra searchable text (meta title/description etc.). */
+  blob?: string;
 };
 
-const SEO_CLUSTERS: SeoCluster[] = [
+/** Built-in SEO / menu keyword clusters (always available). */
+export const STATIC_SEO_CLUSTERS: SeoCannibalizationCluster[] = [
   {
     keyword: "המבורגר ברעננה",
     label: "דף הבית",
@@ -79,23 +82,40 @@ function parseSecondary(input: string): string[] {
     .filter(Boolean);
 }
 
+function clusterSearchBlob(cluster: SeoCannibalizationCluster): string {
+  return [cluster.keyword, cluster.blob ?? "", cluster.label].join(" ");
+}
+
+export type FindCannibalizationOptions = {
+  excludeStoryId?: string;
+  /** Extra SEO/CMS clusters beyond the static list. */
+  extraClusters?: SeoCannibalizationCluster[];
+  /** Extra probe strings (e.g. title, angle) treated like keywords. */
+  extraProbeTexts?: string[];
+};
+
 export function findStoryCannibalizationHits(
   input: StoryAutoFillInput,
   existingStories: StoryAutoFillExistingStory[],
-  options?: { excludeStoryId?: string }
+  options?: FindCannibalizationOptions
 ): StoryCannibalizationHit[] {
   const hits: StoryCannibalizationHit[] = [];
   const keywords = [
     input.primaryKeyword.trim(),
-    ...parseSecondary(input.secondaryKeywords)
+    ...parseSecondary(input.secondaryKeywords),
+    ...(options?.extraProbeTexts ?? []).map((part) => part.trim()).filter(Boolean)
   ].filter(Boolean);
 
+  const clusters = [...STATIC_SEO_CLUSTERS, ...(options?.extraClusters ?? [])];
+
   for (const keyword of keywords) {
-    for (const cluster of SEO_CLUSTERS) {
+    for (const cluster of clusters) {
+      const blob = clusterSearchBlob(cluster);
       if (
         includesKeyword(keyword, cluster.keyword) ||
         includesKeyword(cluster.keyword, keyword) ||
-        normalizeText(keyword) === normalizeText(cluster.keyword)
+        normalizeText(keyword) === normalizeText(cluster.keyword) ||
+        includesKeyword(blob, keyword)
       ) {
         hits.push({
           source: cluster.source,
@@ -129,7 +149,22 @@ export function findStoryCannibalizationHits(
 
   const unique = new Map<string, StoryCannibalizationHit>();
   for (const hit of hits) {
-    unique.set(`${hit.path}|${hit.keyword}`, hit);
+    unique.set(`${hit.path}|${hit.keyword}|${hit.source}`, hit);
   }
   return [...unique.values()];
+}
+
+export type CannibalizationRiskLevel = "low" | "medium" | "high";
+
+export function scoreCannibalizationRisk(hits: StoryCannibalizationHit[]): CannibalizationRiskLevel {
+  if (hits.length === 0) return "low";
+  const high = hits.some(
+    (hit) => hit.source !== "story" || hit.reason.includes("מפורסם")
+  );
+  if (high) return "high";
+  return "medium";
+}
+
+export function isBlockingCannibalization(hits: StoryCannibalizationHit[]): boolean {
+  return scoreCannibalizationRisk(hits) === "high";
 }

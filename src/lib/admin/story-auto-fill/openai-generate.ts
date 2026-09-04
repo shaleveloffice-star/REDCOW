@@ -6,7 +6,7 @@ import { APIError } from "openai";
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { listBrandStories } from "@/services/stories.service";
 
-import { findStoryCannibalizationHits } from "./cannibalization";
+import { findStoryCannibalizationHits, isBlockingCannibalization } from "./cannibalization";
 import {
   STORY_AUTO_FILL_OPENAI_MODEL,
   STORY_AUTO_FILL_OPENAI_TIMEOUT_MS
@@ -17,6 +17,7 @@ import {
   validateAndNormalizeStoryGeneratePayload
 } from "./openai-schema";
 import { buildStoryAutoFillSlug } from "./slug";
+import { toStoryAutoFillExistingStories } from "./story-context";
 import type {
   StoryAutoFillDraftFields,
   StoryAutoFillExistingStory,
@@ -130,15 +131,7 @@ export function parseStoryGenerateRequestBody(body: unknown):
 }
 
 function toExistingStorySummaries(stories: Awaited<ReturnType<typeof listBrandStories>>): StoryAutoFillExistingStory[] {
-  return stories.map((story) => ({
-    id: story.id,
-    slug: story.slug,
-    title: story.title,
-    subtitle: story.subtitle,
-    metaTitle: story.metaTitle,
-    metaDescription: story.metaDescription,
-    isActive: story.isActive
-  }));
+  return toStoryAutoFillExistingStories(stories);
 }
 
 function buildCannibalizationWarning(hits: StoryCannibalizationHit[]): StoryGenerateCannibalizationWarning {
@@ -226,9 +219,7 @@ export async function generateStoryWithOpenAI(options: {
     excludeStoryId: options.excludeStoryId
   });
 
-  const blocked = warnings.some(
-    (hit) => hit.source !== "story" || hit.reason.includes("מפורסם")
-  );
+  const blocked = isBlockingCannibalization(warnings);
 
   if (blocked && !options.acknowledgeOverlaps) {
     return {

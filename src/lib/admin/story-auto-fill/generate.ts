@@ -1,7 +1,7 @@
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import type { StoryCtaSection, StoryLongContentSection, StorySection, StorySplitSection } from "@/types/story";
 
-import { findStoryCannibalizationHits } from "./cannibalization";
+import { findStoryCannibalizationHits, isBlockingCannibalization } from "./cannibalization";
 import { buildStoryAutoFillSlug } from "./slug";
 import type {
   StoryAutoFillCta,
@@ -311,7 +311,7 @@ export function generateStoryAutoFill(options: {
   const warnings = findStoryCannibalizationHits(options.input, options.existingStories, {
     excludeStoryId: options.excludeStoryId
   });
-  const blocked = warnings.some((hit) => hit.source !== "story" || hit.reason.includes("מפורסם"));
+  const blocked = isBlockingCannibalization(warnings);
 
   const title = buildTitle(options.input).slice(0, 90);
   const subtitle = buildSubtitle(options.input, title).slice(0, 220);

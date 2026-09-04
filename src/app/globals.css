@@ -5249,6 +5249,25 @@ a.menu-showcase-button.site-cta-btn {
 
 .admin-main-inner {
   max-width: 1200px;
+  display: grid;
+  gap: 20px;
+}
+
+.admin-copy-page-data {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.admin-copy-page-data-btn {
+  min-height: 40px;
+}
+
+.admin-copy-page-data-status {
+  margin: 0;
+  color: var(--admin-text-muted, rgba(255, 255, 255, 0.65));
+  font-size: 13px;
 }
 
 .admin-login-shell {
@@ -6217,6 +6236,33 @@ a.menu-showcase-button.site-cta-btn {
   font-size: 11px;
   color: var(--admin-text-muted);
   line-height: 1.35;
+}
+
+.admin-story-auto-fill {
+  margin-bottom: 20px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.admin-story-auto-fill-warnings,
+.admin-story-auto-fill-preview {
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--admin-border, rgba(255, 255, 255, 0.14));
+}
+
+.admin-story-auto-fill-warnings ul,
+.admin-story-auto-fill-preview ol {
+  margin: 8px 0 0;
+  padding-inline-start: 18px;
+}
+
+.admin-story-auto-fill-warnings li,
+.admin-story-auto-fill-preview li,
+.admin-story-auto-fill-preview p {
+  margin: 0 0 8px;
+  color: var(--admin-text-muted, rgba(255, 255, 255, 0.75));
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .admin-story-view-toggle {

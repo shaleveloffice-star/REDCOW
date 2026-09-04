@@ -1,3 +1,4 @@
+import { AdminCopyPageData } from "@/components/features/admin/admin-copy-page-data";
 import { AdminSidebar } from "@/components/features/admin/admin-sidebar";
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
@@ -6,7 +7,10 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       <AdminSidebar />
       <main className="admin-main">
         <div className="admin-main-glow" aria-hidden="true" />
-        <div className="admin-main-inner">{children}</div>
+        <div className="admin-main-inner">
+          <AdminCopyPageData />
+          {children}
+        </div>
       </main>
     </div>
   );

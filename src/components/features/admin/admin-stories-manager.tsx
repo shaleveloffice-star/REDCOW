@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import {
   AdminModal,
@@ -17,9 +17,11 @@ import {
   STORY_SECTION_IMAGE_SPEC
 } from "@/data/admin-image-specs";
 import { AdminStoryVisualPreview } from "@/components/features/admin/admin-story-visual-preview";
+import { AdminStoryAutoFillPanel } from "@/components/features/admin/admin-story-auto-fill-panel";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { createId } from "@/lib/admin/new-id";
+import type { StoryAutoFillExistingStory } from "@/lib/admin/story-auto-fill";
 import {
   convertStorySectionType,
   createDefaultStorySection
@@ -450,6 +452,20 @@ export function AdminStoriesManager({
   const dismissedEditId = useRef<string | null>(null);
   const isNew = draft ? !items.some((item) => item.id === draft.id) : false;
 
+  const existingForAutoFill = useMemo<StoryAutoFillExistingStory[]>(
+    () =>
+      items.map((item) => ({
+        id: item.id,
+        slug: resolveStorySlug(item),
+        title: item.title,
+        subtitle: item.subtitle,
+        metaTitle: item.metaTitle,
+        metaDescription: item.metaDescription,
+        isActive: item.isActive
+      })),
+    [items]
+  );
+
   const close = () => {
     if (draft) {
       dismissedEditId.current = draft.id;
@@ -678,6 +694,15 @@ export function AdminStoriesManager({
               />
             ) : (
               <>
+            <AdminStoryAutoFillPanel
+              draft={draft}
+              existingStories={existingForAutoFill}
+              onApply={(next) => {
+                setDraft(next);
+                setServerSaveOk("תוכן אוטומטי הוחל כטיוטה — ערוך ושמור כשמוכן. לא פורסם.");
+                setError(null);
+              }}
+            />
             <label>
               כותרת
               <input required value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} />

@@ -444,7 +444,7 @@ export function AdminStoriesManager({
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<BrandStory | null>(null);
   const [newSectionType, setNewSectionType] = useState<StorySectionType>("split-text-image");
-  const [viewMode, setViewMode] = useState<"form" | "preview">("form");
+  const [viewMode, setViewMode] = useState<"auto" | "manual" | "preview">("manual");
   const [restoredFromLocal, setRestoredFromLocal] = useState(false);
   const [localSaveHint, setLocalSaveHint] = useState(false);
   const [serverSaveOk, setServerSaveOk] = useState<string | null>(null);
@@ -471,7 +471,7 @@ export function AdminStoriesManager({
       dismissedEditId.current = draft.id;
     }
     setDraft(null);
-    setViewMode("form");
+    setViewMode("manual");
     setError(null);
     setRestoredFromLocal(false);
     setLocalSaveHint(false);
@@ -483,7 +483,7 @@ export function AdminStoriesManager({
     skipNextAutosave.current = true;
     setDraft(story);
     setRestoredFromLocal(fromLocal);
-    setViewMode("form");
+    setViewMode("manual");
     setError(null);
     setServerSaveOk(null);
   };
@@ -667,13 +667,22 @@ export function AdminStoriesManager({
             ) : null}
             <div className="admin-story-view-toggle" role="tablist" aria-label="מצב עריכה">
               <button
-                className={`button secondary${viewMode === "form" ? " is-active" : ""}`}
+                className={`button secondary${viewMode === "auto" ? " is-active" : ""}`}
                 type="button"
                 role="tab"
-                aria-selected={viewMode === "form"}
-                onClick={() => setViewMode("form")}
+                aria-selected={viewMode === "auto"}
+                onClick={() => setViewMode("auto")}
               >
-                טופס
+                אוטומטי (AI)
+              </button>
+              <button
+                className={`button secondary${viewMode === "manual" ? " is-active" : ""}`}
+                type="button"
+                role="tab"
+                aria-selected={viewMode === "manual"}
+                onClick={() => setViewMode("manual")}
+              >
+                ידני
               </button>
               <button
                 className={`button secondary${viewMode === "preview" ? " is-active" : ""}`}
@@ -682,7 +691,7 @@ export function AdminStoriesManager({
                 aria-selected={viewMode === "preview"}
                 onClick={() => setViewMode("preview")}
               >
-                תצוגה מקדימה + עריכה חזותית
+                תצוגה מקדימה
               </button>
             </div>
 
@@ -692,17 +701,23 @@ export function AdminStoriesManager({
                 pickableImages={pickableImages}
                 onChange={setDraft}
               />
-            ) : (
+            ) : null}
+
+            {viewMode === "auto" ? (
+              <AdminStoryAutoFillPanel
+                draft={draft}
+                existingStories={existingForAutoFill}
+                onApply={(next) => {
+                  setDraft(next);
+                  setServerSaveOk("טיוטה מה־AI הוחלה — עברו ל״ידני״ לעריכה ושמירה. לא פורסם.");
+                  setError(null);
+                  setViewMode("manual");
+                }}
+              />
+            ) : null}
+
+            {viewMode === "manual" ? (
               <>
-            <AdminStoryAutoFillPanel
-              draft={draft}
-              existingStories={existingForAutoFill}
-              onApply={(next) => {
-                setDraft(next);
-                setServerSaveOk("תוכן אוטומטי הוחל כטיוטה — ערוך ושמור כשמוכן. לא פורסם.");
-                setError(null);
-              }}
-            />
             <label>
               כותרת
               <input required value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} />
@@ -864,7 +879,7 @@ export function AdminStoriesManager({
             ))}
 
             </>
-            )}
+            ) : null}
 
             {error ? (
               <p className="admin-form-error" role="alert">

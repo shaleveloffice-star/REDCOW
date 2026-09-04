@@ -28,3 +28,4 @@ export {
   storyDraftHasContent
 } from "./generate";
 export { buildStoryAutoFillSlug } from "./slug";
+export { STORY_AUTO_FILL_OPENAI_MODEL } from "./openai-model";

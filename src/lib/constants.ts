@@ -17,5 +17,9 @@ export const RATE_LIMITS = {
   contact: {
     maxAttempts: 6,
     windowMs: 60 * 60 * 1000
+  },
+  storyGenerate: {
+    maxAttempts: 8,
+    windowMs: 60 * 60 * 1000
   }
 } as const;

@@ -13,7 +13,11 @@ import {
 } from "@/server/actions/customer-club.actions";
 import { sendCustomerClubCampaignAction } from "@/server/actions/email-campaigns.actions";
 import type { CustomerClubSignup, RecordStatus } from "@/types/content";
-import type { EmailCampaign } from "@/types/email-campaign";
+import type {
+  EmailCampaign,
+  EmailCampaignRecipient,
+  EmailCampaignRecipientStatus
+} from "@/types/email-campaign";
 import { History, Mail, Pencil, Plus, Trash2, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState, useTransition } from "react";
@@ -21,6 +25,11 @@ import { useMemo, useRef, useState, useTransition } from "react";
 const STATUS_OPTIONS: RecordStatus[] = ["new", "inReview", "resolved", "archived"];
 
 type TabKey = "members" | "history";
+
+type MemberMailEvent = {
+  campaign: EmailCampaign;
+  recipient: EmailCampaignRecipient;
+};
 
 function formatSubmittedAt(value?: string): string {
   if (!value?.trim()) return "—";
@@ -73,6 +82,34 @@ function statusLabel(status: EmailCampaign["status"]): string {
   }
 }
 
+function recipientStatusLabel(status: EmailCampaignRecipientStatus): string {
+  switch (status) {
+    case "sent":
+      return "נשלח";
+    case "failed":
+      return "נכשל";
+    case "skipped":
+      return "דולג";
+    case "pending":
+      return "ממתין";
+    default:
+      return status;
+  }
+}
+
+function recipientStatusClass(status: EmailCampaignRecipientStatus): string {
+  switch (status) {
+    case "sent":
+      return "is-ok";
+    case "failed":
+      return "is-bad";
+    case "skipped":
+      return "is-warn";
+    default:
+      return "is-muted";
+  }
+}
+
 function campaignStatusClass(status: EmailCampaign["status"]): string {
   switch (status) {
     case "completed":
@@ -84,6 +121,32 @@ function campaignStatusClass(status: EmailCampaign["status"]): string {
     default:
       return "is-muted";
   }
+}
+
+function getMemberMailHistory(
+  signup: CustomerClubSignup,
+  campaigns: EmailCampaign[]
+): MemberMailEvent[] {
+  const email = normalizeEmail(signup.email ?? "");
+  const events: MemberMailEvent[] = [];
+
+  for (const campaign of campaigns) {
+    const recipients = Array.isArray(campaign.recipients) ? campaign.recipients : [];
+    const match = recipients.find((recipient) => {
+      if (recipient.signupId && recipient.signupId === signup.id) return true;
+      if (email && normalizeEmail(recipient.email) === email) return true;
+      return false;
+    });
+    if (match) {
+      events.push({ campaign, recipient: match });
+    }
+  }
+
+  return events.sort(
+    (a, b) =>
+      Date.parse(b.campaign.sentAt || b.campaign.createdAt) -
+      Date.parse(a.campaign.sentAt || a.campaign.createdAt)
+  );
 }
 
 export function AdminCustomerClubManager({
@@ -106,6 +169,7 @@ export function AdminCustomerClubManager({
   const [composeOpen, setComposeOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [detailCampaign, setDetailCampaign] = useState<EmailCampaign | null>(null);
+  const [memberHistory, setMemberHistory] = useState<CustomerClubSignup | null>(null);
   const [sendSummary, setSendSummary] = useState<EmailCampaign | null>(null);
   const [sendError, setSendError] = useState<string | null>(null);
   const [search, setSearch] = useState("");
@@ -147,6 +211,19 @@ export function AdminCustomerClubManager({
       .map((id) => normalizeEmail(byId.get(id)?.email ?? ""))
       .filter(Boolean);
   }, [signups, selectedEligibleIds]);
+
+  const mailHistoryBySignupId = useMemo(() => {
+    const map = new Map<string, MemberMailEvent[]>();
+    for (const signup of signups) {
+      map.set(signup.id, getMemberMailHistory(signup, campaigns));
+    }
+    return map;
+  }, [signups, campaigns]);
+
+  const memberHistoryEvents = useMemo(
+    () => (memberHistory ? mailHistoryBySignupId.get(memberHistory.id) ?? [] : []),
+    [memberHistory, mailHistoryBySignupId]
+  );
 
   const close = () => {
     setDraft(null);
@@ -401,7 +478,7 @@ export function AdminCustomerClubManager({
                   <th>יצירת קשר</th>
                   <th>הצטרפות</th>
                   <th>דיוור</th>
-                  <th style={{ width: 120 }}>פעולות</th>
+                  <th style={{ width: 148 }}>פעולות</th>
                 </tr>
               </thead>
               <tbody>
@@ -415,6 +492,7 @@ export function AdminCustomerClubManager({
                   filteredSignups.map((signup) => {
                     const eligible = isMailEligible(signup);
                     const reason = eligibilityReason(signup);
+                    const memberMails = mailHistoryBySignupId.get(signup.id) ?? [];
                     return (
                       <tr
                         key={signup.id}
@@ -440,6 +518,9 @@ export function AdminCustomerClubManager({
                             <span className="admin-club-meta">
                               {signup.birthDate ? `יום הולדת ${signup.birthDate}` : "ללא תאריך לידה"} ·{" "}
                               {signup.status}
+                              {memberMails.length > 0
+                                ? ` · ${memberMails.length} דיוורים`
+                                : ""}
                             </span>
                           </div>
                         </td>
@@ -461,6 +542,18 @@ export function AdminCustomerClubManager({
                         </td>
                         <td>
                           <div className="admin-club-row-actions">
+                            <button
+                              type="button"
+                              className="admin-club-icon-btn"
+                              aria-label={`היסטוריית דיוור של ${signup.fullName}`}
+                              title="היסטוריית דיוור"
+                              onClick={() => setMemberHistory(signup)}
+                            >
+                              <History size={15} />
+                              {memberMails.length > 0 ? (
+                                <span className="admin-club-icon-badge">{memberMails.length}</span>
+                              ) : null}
+                            </button>
                             <button
                               type="button"
                               className="admin-club-icon-btn"
@@ -787,6 +880,81 @@ export function AdminCustomerClubManager({
             </button>
           </div>
         </div>
+      </AdminModal>
+
+      <AdminModal
+        open={Boolean(memberHistory)}
+        size="wide"
+        title={memberHistory ? `היסטוריית דיוור · ${memberHistory.fullName}` : "היסטוריית דיוור"}
+        onClose={() => setMemberHistory(null)}
+      >
+        {memberHistory ? (
+          <div className="admin-form admin-club-member-history">
+            <div className="admin-club-member-history-head">
+              <div>
+                <strong>{memberHistory.fullName}</strong>
+                <p>
+                  {memberHistory.email || "אין אימייל"} · {memberHistory.phone || "—"}
+                </p>
+              </div>
+              <span className="admin-club-pill is-muted">{memberHistoryEvents.length} דיוורים</span>
+            </div>
+
+            {memberHistoryEvents.length === 0 ? (
+              <p className="admin-club-empty">עדיין לא נשלחו דיוורים לחבר זה.</p>
+            ) : (
+              <div className="admin-club-table-wrap">
+                <table className="table admin-club-table">
+                  <thead>
+                    <tr>
+                      <th>תאריך</th>
+                      <th>נושא</th>
+                      <th>סטטוס לחבר</th>
+                      <th>שגיאה</th>
+                      <th style={{ width: 100 }}>קמפיין</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {memberHistoryEvents.map(({ campaign, recipient }) => (
+                      <tr key={`${campaign.id}-${recipient.email}`}>
+                        <td>
+                          {formatSubmittedAt(recipient.sentAt || campaign.sentAt || campaign.createdAt)}
+                        </td>
+                        <td>
+                          <strong>{campaign.subject}</strong>
+                        </td>
+                        <td>
+                          <span className={`admin-club-pill ${recipientStatusClass(recipient.status)}`}>
+                            {recipientStatusLabel(recipient.status)}
+                          </span>
+                        </td>
+                        <td>{recipient.error || "—"}</td>
+                        <td>
+                          <button
+                            type="button"
+                            className="button secondary"
+                            onClick={() => {
+                              setMemberHistory(null);
+                              setDetailCampaign(campaign);
+                            }}
+                          >
+                            פתח
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            <div className="admin-form-actions">
+              <button type="button" className="button secondary" onClick={() => setMemberHistory(null)}>
+                סגור
+              </button>
+            </div>
+          </div>
+        ) : null}
       </AdminModal>
 
       <AdminModal

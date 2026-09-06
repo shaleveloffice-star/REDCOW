@@ -45,12 +45,14 @@ export function AdminModal({
   open,
   onClose,
   stacked = false,
+  size = "default",
   children
 }: {
   title: string;
   open: boolean;
   onClose: () => void;
   stacked?: boolean;
+  size?: "default" | "wide" | "xl";
   children: ReactNode;
 }) {
   useEffect(() => {
@@ -72,7 +74,11 @@ export function AdminModal({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div aria-labelledby="admin-modal-title" className="admin-modal" role="dialog">
+      <div
+        aria-labelledby="admin-modal-title"
+        className={`admin-modal${size === "wide" ? " admin-modal--wide" : ""}${size === "xl" ? " admin-modal--xl" : ""}`}
+        role="dialog"
+      >
         <h3 id="admin-modal-title">{title}</h3>
         {children}
       </div>

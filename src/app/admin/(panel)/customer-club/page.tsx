@@ -10,7 +10,7 @@ export default async function AdminCustomerClubPage() {
   ]);
 
   return (
-    <AdminCard title="מועדון לקוחות" description="הרשמות מהאתר, דיוור והיסטוריית שליחות.">
+    <AdminCard title="מועדון לקוחות" description="ניהול חברים, הודעות תפוצה והיסטוריית שליחות.">
       <AdminCustomerClubManager signups={signups} campaigns={campaigns} />
     </AdminCard>
   );

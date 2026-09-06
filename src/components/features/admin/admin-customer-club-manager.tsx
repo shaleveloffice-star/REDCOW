@@ -3,8 +3,6 @@
 import {
   AdminFormFooter,
   AdminModal,
-  AdminRowActions,
-  AdminToolbar,
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
 import { createId } from "@/lib/admin/new-id";
@@ -16,8 +14,9 @@ import {
 import { sendCustomerClubCampaignAction } from "@/server/actions/email-campaigns.actions";
 import type { CustomerClubSignup, RecordStatus } from "@/types/content";
 import type { EmailCampaign } from "@/types/email-campaign";
-import { useMemo, useRef, useState, useTransition } from "react";
+import { History, Mail, Pencil, Plus, Trash2, Users } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { useMemo, useRef, useState, useTransition } from "react";
 
 const STATUS_OPTIONS: RecordStatus[] = ["new", "inReview", "resolved", "archived"];
 
@@ -74,6 +73,19 @@ function statusLabel(status: EmailCampaign["status"]): string {
   }
 }
 
+function campaignStatusClass(status: EmailCampaign["status"]): string {
+  switch (status) {
+    case "completed":
+      return "is-ok";
+    case "partial":
+      return "is-warn";
+    case "failed":
+      return "is-bad";
+    default:
+      return "is-muted";
+  }
+}
+
 export function AdminCustomerClubManager({
   signups,
   campaigns
@@ -91,10 +103,12 @@ export function AdminCustomerClubManager({
   const [manualError, setManualError] = useState<string | null>(null);
   const [subject, setSubject] = useState("");
   const [body, setBody] = useState("");
+  const [composeOpen, setComposeOpen] = useState(false);
   const [previewOpen, setPreviewOpen] = useState(false);
   const [detailCampaign, setDetailCampaign] = useState<EmailCampaign | null>(null);
   const [sendSummary, setSendSummary] = useState<EmailCampaign | null>(null);
   const [sendError, setSendError] = useState<string | null>(null);
+  const [search, setSearch] = useState("");
   const [isSending, startSendTransition] = useTransition();
   const clientRequestIdRef = useRef<string>("");
   const isNew = draft ? !signups.some((item) => item.id === draft.id) : false;
@@ -115,6 +129,17 @@ export function AdminCustomerClubManager({
   const totalRecipients = selectedClubCount + manualCount;
   const allEligibleSelected =
     eligibleSignups.length > 0 && selectedEligibleIds.length === eligibleSignups.length;
+
+  const filteredSignups = useMemo(() => {
+    const q = search.trim().toLowerCase();
+    if (!q) return signups;
+    return signups.filter((signup) => {
+      const haystack = [signup.fullName, signup.phone, signup.email, signup.status]
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [signups, search]);
 
   const selectedClubEmails = useMemo(() => {
     const byId = new Map(signups.map((signup) => [signup.id, signup]));
@@ -144,6 +169,19 @@ export function AdminCustomerClubManager({
       return;
     }
     setSelectedIds(new Set(eligibleSignups.map((signup) => signup.id)));
+  };
+
+  const openCompose = () => {
+    setSendError(null);
+    setManualError(null);
+    setComposeOpen(true);
+  };
+
+  const closeCompose = () => {
+    if (isSending) return;
+    setComposeOpen(false);
+    setSendError(null);
+    setManualError(null);
   };
 
   const addManualEmail = () => {
@@ -201,6 +239,7 @@ export function AdminCustomerClubManager({
         }
 
         setPreviewOpen(false);
+        setComposeOpen(false);
         setSendSummary(result.campaign);
         setSelectedIds(new Set());
         setManualEmails([]);
@@ -208,257 +247,309 @@ export function AdminCustomerClubManager({
         setBody("");
         setTab("history");
         router.refresh();
-      } catch (error) {
-        setSendError(error instanceof Error ? error.message : "שליחת הדיוור נכשלה. נסו שוב.");
+      } catch (err) {
+        setSendError(err instanceof Error ? err.message : "שליחת הדיוור נכשלה. נסו שוב.");
       }
     });
   };
 
   return (
-    <>
-      <div className="admin-story-view-toggle" role="tablist" aria-label="מועדון לקוחות">
-        <button
-          type="button"
-          className={`button secondary${tab === "members" ? " is-active" : ""}`}
-          role="tab"
-          aria-selected={tab === "members"}
-          onClick={() => setTab("members")}
-        >
-          חברים ודיוור
-        </button>
-        <button
-          type="button"
-          className={`button secondary${tab === "history" ? " is-active" : ""}`}
-          role="tab"
-          aria-selected={tab === "history"}
-          onClick={() => setTab("history")}
-        >
-          היסטוריית דיוור
-        </button>
+    <div className="admin-club">
+      <div className="admin-club-topbar">
+        <div className="admin-club-tabs" role="tablist" aria-label="מועדון לקוחות">
+          <button
+            type="button"
+            className={`admin-club-tab${tab === "members" ? " is-active" : ""}`}
+            role="tab"
+            aria-selected={tab === "members"}
+            onClick={() => setTab("members")}
+          >
+            <Users size={16} aria-hidden />
+            חברים
+            <span className="admin-club-tab-count">{signups.length}</span>
+          </button>
+          <button
+            type="button"
+            className={`admin-club-tab${tab === "history" ? " is-active" : ""}`}
+            role="tab"
+            aria-selected={tab === "history"}
+            onClick={() => setTab("history")}
+          >
+            <History size={16} aria-hidden />
+            היסטוריית דיוור
+            <span className="admin-club-tab-count">{campaigns.length}</span>
+          </button>
+        </div>
+
+        {tab === "members" ? (
+          <div className="admin-club-actions">
+            <button
+              type="button"
+              className="button secondary"
+              disabled={isPending || isSending}
+              onClick={() => setDraft(newSignup())}
+            >
+              <Plus size={16} aria-hidden />
+              הוסף חבר
+            </button>
+            <button type="button" className="button admin-club-broadcast-btn" disabled={isSending} onClick={openCompose}>
+              <Mail size={16} aria-hidden />
+              הודעת תפוצה
+              {totalRecipients > 0 ? <span className="admin-club-broadcast-count">{totalRecipients}</span> : null}
+            </button>
+          </div>
+        ) : null}
       </div>
+
+      {sendSummary ? (
+        <div className="admin-club-banner" role="status">
+          <div>
+            <strong>הדיוור נשלח</strong>
+            <p>
+              נשלחו בהצלחה: {sendSummary.sentCount} · נכשלו: {sendSummary.failedCount} · דולגו:{" "}
+              {sendSummary.skippedCount}
+            </p>
+          </div>
+          <div className="admin-club-banner-actions">
+            <button type="button" className="button secondary" onClick={() => setDetailCampaign(sendSummary)}>
+              פירוט
+            </button>
+            <button type="button" className="button secondary" onClick={() => setSendSummary(null)}>
+              סגור
+            </button>
+          </div>
+        </div>
+      ) : null}
 
       {tab === "members" ? (
         <>
-          <AdminToolbar label="הוסף הרשמה ידנית" onAdd={() => setDraft(newSignup())} />
+          <div className="admin-club-stats" aria-label="סיכום מועדון">
+            <div className="admin-club-stat">
+              <span>סה״כ חברים</span>
+              <strong>{signups.length}</strong>
+            </div>
+            <div className="admin-club-stat">
+              <span>זמינים לדיוור</span>
+              <strong>{eligibleSignups.length}</strong>
+            </div>
+            <div className="admin-club-stat">
+              <span>נבחרו עכשיו</span>
+              <strong>{selectedClubCount}</strong>
+            </div>
+            <div className="admin-club-stat">
+              <span>נמענים ידניים</span>
+              <strong>{manualCount}</strong>
+            </div>
+          </div>
 
-          <p className="admin-form-hint" role="status">
-            נבחרו {totalRecipients} נמענים
-            <span className="admin-club-recipient-breakdown">
-              {" "}
-              ({selectedClubCount} מהמועדון · {manualCount} ידניים)
-            </span>
-          </p>
+          {selectedClubCount > 0 || manualCount > 0 ? (
+            <div className="admin-club-selection-bar" role="status">
+              <div>
+                <strong>
+                  נבחרו {totalRecipients} נמענים
+                </strong>
+                <span>
+                  {selectedClubCount} מהמועדון · {manualCount} ידניים
+                </span>
+              </div>
+              <div className="admin-club-selection-actions">
+                <button
+                  type="button"
+                  className="button secondary"
+                  disabled={isSending}
+                  onClick={() => {
+                    setSelectedIds(new Set());
+                    setManualEmails([]);
+                  }}
+                >
+                  נקה בחירה
+                </button>
+                <button type="button" className="button" disabled={isSending} onClick={openCompose}>
+                  המשך להודעת תפוצה
+                </button>
+              </div>
+            </div>
+          ) : null}
 
-          <table className="table">
+          <div className="admin-club-table-toolbar">
+            <label className="admin-club-search">
+              <span className="sr-only">חיפוש חברים</span>
+              <input
+                type="search"
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                placeholder="חיפוש לפי שם, טלפון או אימייל…"
+              />
+            </label>
+            <label className="admin-table-toggle">
+              <input
+                type="checkbox"
+                checked={allEligibleSelected}
+                onChange={toggleSelectAll}
+                disabled={eligibleSignups.length === 0 || isSending}
+              />
+              <span>בחר הכל הזמינים ({eligibleSignups.length})</span>
+            </label>
+          </div>
+
+          <div className="admin-club-table-wrap">
+            <table className="table admin-club-table">
+              <thead>
+                <tr>
+                  <th style={{ width: 48 }}>בחירה</th>
+                  <th>חבר</th>
+                  <th>יצירת קשר</th>
+                  <th>הצטרפות</th>
+                  <th>דיוור</th>
+                  <th style={{ width: 120 }}>פעולות</th>
+                </tr>
+              </thead>
+              <tbody>
+                {filteredSignups.length === 0 ? (
+                  <tr>
+                    <td colSpan={6} className="admin-club-empty">
+                      {signups.length === 0 ? "אין עדיין חברים במועדון." : "לא נמצאו תוצאות לחיפוש."}
+                    </td>
+                  </tr>
+                ) : (
+                  filteredSignups.map((signup) => {
+                    const eligible = isMailEligible(signup);
+                    const reason = eligibilityReason(signup);
+                    return (
+                      <tr
+                        key={signup.id}
+                        className={[
+                          eligible ? "" : "admin-club-row--disabled",
+                          selectedIds.has(signup.id) ? "is-selected" : ""
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
+                      >
+                        <td>
+                          <input
+                            type="checkbox"
+                            checked={selectedIds.has(signup.id)}
+                            disabled={!eligible || isSending}
+                            onChange={() => toggleOne(signup.id, eligible)}
+                            aria-label={`בחירת ${signup.fullName}`}
+                          />
+                        </td>
+                        <td>
+                          <div className="admin-club-member">
+                            <strong>{signup.fullName}</strong>
+                            <span className="admin-club-meta">
+                              {signup.birthDate ? `יום הולדת ${signup.birthDate}` : "ללא תאריך לידה"} ·{" "}
+                              {signup.status}
+                            </span>
+                          </div>
+                        </td>
+                        <td>
+                          <div className="admin-club-contact">
+                            <span>{signup.phone || "—"}</span>
+                            <span>{signup.email || "אין אימייל"}</span>
+                          </div>
+                        </td>
+                        <td>{formatSubmittedAt(signup.createdAt)}</td>
+                        <td>
+                          {eligible ? (
+                            <span className="admin-club-pill is-ok">זמין</span>
+                          ) : (
+                            <span className="admin-club-pill is-bad" title={reason}>
+                              {reason}
+                            </span>
+                          )}
+                        </td>
+                        <td>
+                          <div className="admin-club-row-actions">
+                            <button
+                              type="button"
+                              className="admin-club-icon-btn"
+                              disabled={isPending || isSending}
+                              aria-label={`עריכת ${signup.fullName}`}
+                              onClick={() => setDraft({ ...signup })}
+                            >
+                              <Pencil size={15} />
+                            </button>
+                            <button
+                              type="button"
+                              className="admin-club-icon-btn is-danger"
+                              disabled={isPending || isSending}
+                              aria-label={`מחיקת ${signup.fullName}`}
+                              onClick={() => {
+                                if (!confirmDelete(signup.fullName)) return;
+                                run(async () => {
+                                  await deleteCustomerClubSignupAction(signup.id);
+                                });
+                              }}
+                            >
+                              <Trash2 size={15} />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })
+                )}
+              </tbody>
+            </table>
+          </div>
+        </>
+      ) : (
+        <div className="admin-club-table-wrap">
+          <table className="table admin-club-table">
             <thead>
               <tr>
-                <th style={{ width: 100 }}>
-                  <label className="admin-club-select-all">
-                    <input
-                      type="checkbox"
-                      checked={allEligibleSelected}
-                      onChange={toggleSelectAll}
-                      disabled={eligibleSignups.length === 0 || isSending}
-                      aria-label="בחר הכל"
-                    />
-                    <span>בחר הכל</span>
-                  </label>
-                </th>
-                <th>שם</th>
-                <th>פרטי קשר</th>
-                <th>תאריך לידה</th>
-                <th>נשלח ב־</th>
-                <th>אישור</th>
-                <th>זמין לדיוור</th>
+                <th>תאריך</th>
+                <th>נושא</th>
+                <th>נמענים</th>
+                <th>נשלחו</th>
+                <th>נכשלו</th>
+                <th>דולגו</th>
                 <th>סטטוס</th>
-                <th style={{ width: 160 }}>פעולות</th>
+                <th style={{ width: 100 }}>פרטים</th>
               </tr>
             </thead>
             <tbody>
-              {signups.map((signup) => {
-                const eligible = isMailEligible(signup);
-                const reason = eligibilityReason(signup);
-                return (
-                  <tr key={signup.id} className={eligible ? undefined : "admin-club-row--disabled"}>
-                    <td>
-                      <input
-                        type="checkbox"
-                        checked={selectedIds.has(signup.id)}
-                        disabled={!eligible || isSending}
-                        onChange={() => toggleOne(signup.id, eligible)}
-                        aria-label={`בחירת ${signup.fullName}`}
-                      />
-                    </td>
-                    <td>{signup.fullName}</td>
-                    <td>
-                      {signup.phone}
-                      <br />
-                      {signup.email || "—"}
-                    </td>
-                    <td>{signup.birthDate || "—"}</td>
-                    <td>{formatSubmittedAt(signup.createdAt)}</td>
-                    <td>{signup.marketingConsent ? "כן" : "לא"}</td>
-                    <td>{eligible ? "כן" : reason}</td>
-                    <td>{signup.status}</td>
-                    <td>
-                      <AdminRowActions
-                        disabled={isPending || isSending}
-                        onDelete={() => {
-                          if (!confirmDelete(signup.fullName)) return;
-                          run(async () => {
-                            await deleteCustomerClubSignupAction(signup.id);
-                          });
-                        }}
-                        onEdit={() => setDraft({ ...signup })}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-
-          <fieldset className="admin-fieldset" style={{ marginTop: 20 }}>
-            <legend>הוסף נמען ידני</legend>
-            <div className="admin-row-actions" style={{ alignItems: "flex-end", flexWrap: "wrap" }}>
-              <label style={{ flex: "1 1 220px" }}>
-                אימייל
-                <input
-                  type="email"
-                  value={manualInput}
-                  disabled={isSending}
-                  onChange={(e) => setManualInput(e.target.value)}
-                  onKeyDown={(e) => {
-                    if (e.key === "Enter") {
-                      e.preventDefault();
-                      addManualEmail();
-                    }
-                  }}
-                  placeholder="name@example.com"
-                />
-              </label>
-              <button type="button" className="button secondary" disabled={isSending} onClick={addManualEmail}>
-                הוסף
-              </button>
-            </div>
-            {manualError ? (
-              <p className="admin-form-error" role="alert">
-                {manualError}
-              </p>
-            ) : null}
-            {manualEmails.length > 0 ? (
-              <ul className="admin-club-manual-list">
-                {manualEmails.map((email) => (
-                  <li key={email}>
-                    <span>{email}</span>
-                    <button
-                      type="button"
-                      className="button secondary"
-                      disabled={isSending}
-                      onClick={() => setManualEmails((prev) => prev.filter((item) => item !== email))}
-                    >
-                      הסר
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            ) : null}
-          </fieldset>
-
-          <fieldset className="admin-fieldset" style={{ marginTop: 16 }}>
-            <legend>כתיבת הודעה</legend>
-            <label>
-              נושא
-              <input
-                value={subject}
-                disabled={isSending}
-                onChange={(e) => setSubject(e.target.value)}
-                placeholder="נושא המייל"
-              />
-            </label>
-            <label>
-              גוף ההודעה
-              <textarea
-                rows={8}
-                value={body}
-                disabled={isSending}
-                onChange={(e) => setBody(e.target.value)}
-                placeholder="כתבו כאן את תוכן ההודעה..."
-              />
-            </label>
-            {sendError ? (
-              <p className="admin-form-error" role="alert">
-                {sendError}
-              </p>
-            ) : null}
-            <div className="admin-form-actions">
-              <button type="button" className="button" disabled={isSending} onClick={openPreview}>
-                תצוגה מקדימה
-              </button>
-            </div>
-          </fieldset>
-
-          {sendSummary ? (
-            <div className="admin-fieldset" style={{ marginTop: 16 }} role="status">
-              <p>
-                <strong>סיכום שליחה אחרונה</strong>
-              </p>
-              <p>
-                נשלחו בהצלחה: {sendSummary.sentCount} · נכשלו: {sendSummary.failedCount} · דולגו:{" "}
-                {sendSummary.skippedCount}
-              </p>
-              <button type="button" className="button secondary" onClick={() => setDetailCampaign(sendSummary)}>
-                פירוט
-              </button>
-            </div>
-          ) : null}
-        </>
-      ) : (
-        <table className="table">
-          <thead>
-            <tr>
-              <th>תאריך</th>
-              <th>נושא</th>
-              <th>נמענים</th>
-              <th>נשלחו</th>
-              <th>נכשלו</th>
-              <th>דולגו</th>
-              <th>סטטוס</th>
-              <th style={{ width: 120 }}>פרטים</th>
-            </tr>
-          </thead>
-          <tbody>
-            {campaigns.length === 0 ? (
-              <tr>
-                <td colSpan={8}>אין היסטוריית דיוור עדיין.</td>
-              </tr>
-            ) : (
-              campaigns.map((campaign) => (
-                <tr key={campaign.id}>
-                  <td>{formatSubmittedAt(campaign.sentAt || campaign.createdAt)}</td>
-                  <td>{campaign.subject}</td>
-                  <td>{campaign.selectedCount}</td>
-                  <td>{campaign.sentCount}</td>
-                  <td>{campaign.failedCount}</td>
-                  <td>{campaign.skippedCount}</td>
-                  <td>{statusLabel(campaign.status)}</td>
-                  <td>
-                    <button
-                      type="button"
-                      className="button secondary"
-                      onClick={() => setDetailCampaign(campaign)}
-                    >
-                      פתח
-                    </button>
+              {campaigns.length === 0 ? (
+                <tr>
+                  <td colSpan={8} className="admin-club-empty">
+                    אין היסטוריית דיוור עדיין. שלחו הודעת תפוצה ראשונה מהטאב «חברים».
                   </td>
                 </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+              ) : (
+                campaigns.map((campaign) => (
+                  <tr key={campaign.id}>
+                    <td>{formatSubmittedAt(campaign.sentAt || campaign.createdAt)}</td>
+                    <td>
+                      <strong>{campaign.subject}</strong>
+                    </td>
+                    <td>{campaign.selectedCount}</td>
+                    <td>{campaign.sentCount}</td>
+                    <td>{campaign.failedCount}</td>
+                    <td>{campaign.skippedCount}</td>
+                    <td>
+                      <span className={`admin-club-pill ${campaignStatusClass(campaign.status)}`}>
+                        {statusLabel(campaign.status)}
+                      </span>
+                    </td>
+                    <td>
+                      <button
+                        type="button"
+                        className="button secondary"
+                        onClick={() => setDetailCampaign(campaign)}
+                      >
+                        פתח
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       )}
 
-      <AdminModal open={Boolean(draft)} title={isNew ? "הוספת הרשמה" : "עריכת הרשמה"} onClose={close}>
+      <AdminModal open={Boolean(draft)} title={isNew ? "הוספת חבר" : "עריכת חבר"} onClose={close}>
         {draft ? (
           <form
             className="admin-form"
@@ -502,10 +593,10 @@ export function AdminCustomerClubManager({
               />
             </label>
             <label>
-              נשלח ב־
+              הצטרף ב־
               <input readOnly value={formatSubmittedAt(draft.createdAt)} />
             </label>
-            <label>
+            <label className="admin-checkbox-row">
               <input
                 type="checkbox"
                 checked={draft.marketingConsent}
@@ -532,8 +623,118 @@ export function AdminCustomerClubManager({
       </AdminModal>
 
       <AdminModal
+        open={composeOpen}
+        size="xl"
+        title="הודעת תפוצה"
+        onClose={closeCompose}
+      >
+        <div className="admin-form admin-club-compose">
+          <div className="admin-club-compose-summary">
+            <div>
+              <span>נמענים מהמועדון</span>
+              <strong>{selectedClubCount}</strong>
+            </div>
+            <div>
+              <span>נמענים ידניים</span>
+              <strong>{manualCount}</strong>
+            </div>
+            <div>
+              <span>סה״כ לשליחה</span>
+              <strong>{totalRecipients}</strong>
+            </div>
+          </div>
+
+          <p className="admin-form-hint">
+            בחרו חברים בטבלה לפני או תוך כדי הכתיבה. אפשר גם להוסיף אימיילים ידניים כאן.
+          </p>
+
+          <div className="admin-club-compose-manual">
+            <label>
+              הוסף נמען ידני
+              <div className="admin-club-compose-manual-row">
+                <input
+                  type="email"
+                  value={manualInput}
+                  disabled={isSending}
+                  onChange={(e) => setManualInput(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault();
+                      addManualEmail();
+                    }
+                  }}
+                  placeholder="name@example.com"
+                />
+                <button type="button" className="button secondary" disabled={isSending} onClick={addManualEmail}>
+                  הוסף
+                </button>
+              </div>
+            </label>
+            {manualError ? (
+              <p className="admin-form-error" role="alert">
+                {manualError}
+              </p>
+            ) : null}
+            {manualEmails.length > 0 ? (
+              <ul className="admin-club-manual-list">
+                {manualEmails.map((email) => (
+                  <li key={email}>
+                    <span>{email}</span>
+                    <button
+                      type="button"
+                      className="button secondary"
+                      disabled={isSending}
+                      onClick={() => setManualEmails((prev) => prev.filter((item) => item !== email))}
+                    >
+                      הסר
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            ) : null}
+          </div>
+
+          <label>
+            נושא
+            <input
+              value={subject}
+              disabled={isSending}
+              onChange={(e) => setSubject(e.target.value)}
+              placeholder="נושא המייל"
+            />
+          </label>
+          <label>
+            גוף ההודעה
+            <textarea
+              rows={10}
+              value={body}
+              disabled={isSending}
+              onChange={(e) => setBody(e.target.value)}
+              placeholder="כתבו כאן את תוכן ההודעה..."
+            />
+          </label>
+
+          {sendError && !previewOpen ? (
+            <p className="admin-form-error" role="alert">
+              {sendError}
+            </p>
+          ) : null}
+
+          <div className="admin-form-actions">
+            <button type="button" className="button secondary" disabled={isSending} onClick={closeCompose}>
+              ביטול
+            </button>
+            <button type="button" className="button" disabled={isSending} onClick={openPreview}>
+              תצוגה מקדימה
+            </button>
+          </div>
+        </div>
+      </AdminModal>
+
+      <AdminModal
         open={previewOpen}
         stacked
+        size="wide"
         title="תצוגה מקדימה לפני שליחה"
         onClose={() => {
           if (isSending) return;
@@ -541,22 +742,23 @@ export function AdminCustomerClubManager({
         }}
       >
         <div className="admin-form">
-          <p>
-            <strong>From:</strong> NB BURGER &lt;club@nbburger.co.il&gt;
-          </p>
-          <p>
-            <strong>Subject:</strong> {subject}
-          </p>
-          <p>
-            <strong>נמענים:</strong> {totalRecipients} (מועדון: {selectedClubCount} · ידניים:{" "}
-            {manualCount})
-          </p>
+          <div className="admin-club-preview-meta">
+            <p>
+              <strong>From:</strong> NB BURGER &lt;club@nbburger.co.il&gt;
+            </p>
+            <p>
+              <strong>Subject:</strong> {subject}
+            </p>
+            <p>
+              <strong>נמענים:</strong> {totalRecipients} (מועדון: {selectedClubCount} · ידניים: {manualCount})
+            </p>
+          </div>
           <div className="admin-club-preview-body">
-            <strong>גוף ההודעה:</strong>
+            <strong>גוף ההודעה</strong>
             <pre>{body}</pre>
           </div>
           <div className="admin-club-preview-recipients">
-            <strong>רשימת נמענים:</strong>
+            <strong>רשימת נמענים</strong>
             <ul>
               {selectedClubEmails.map((email) => (
                 <li key={`club-${email}`}>{email} (מועדון)</li>
@@ -590,6 +792,7 @@ export function AdminCustomerClubManager({
       <AdminModal
         open={Boolean(detailCampaign)}
         stacked
+        size="wide"
         title={detailCampaign ? `קמפיין: ${detailCampaign.subject}` : "קמפיין"}
         onClose={() => setDetailCampaign(null)}
       >
@@ -609,26 +812,28 @@ export function AdminCustomerClubManager({
             <div className="admin-club-preview-body">
               <pre>{detailCampaign.body}</pre>
             </div>
-            <table className="table">
-              <thead>
-                <tr>
-                  <th>אימייל</th>
-                  <th>מקור</th>
-                  <th>סטטוס</th>
-                  <th>שגיאה</th>
-                </tr>
-              </thead>
-              <tbody>
-                {detailCampaign.recipients.map((recipient, index) => (
-                  <tr key={`${recipient.email}-${index}`}>
-                    <td>{recipient.email}</td>
-                    <td>{recipient.source === "club" ? "מועדון" : "ידני"}</td>
-                    <td>{recipient.status}</td>
-                    <td>{recipient.error || "—"}</td>
+            <div className="admin-club-table-wrap">
+              <table className="table admin-club-table">
+                <thead>
+                  <tr>
+                    <th>אימייל</th>
+                    <th>מקור</th>
+                    <th>סטטוס</th>
+                    <th>שגיאה</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {detailCampaign.recipients.map((recipient, index) => (
+                    <tr key={`${recipient.email}-${index}`}>
+                      <td>{recipient.email}</td>
+                      <td>{recipient.source === "club" ? "מועדון" : "ידני"}</td>
+                      <td>{recipient.status}</td>
+                      <td>{recipient.error || "—"}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
             <div className="admin-form-actions">
               <button type="button" className="button secondary" onClick={() => setDetailCampaign(null)}>
                 סגור
@@ -637,6 +842,6 @@ export function AdminCustomerClubManager({
           </div>
         ) : null}
       </AdminModal>
-    </>
+    </div>
   );
 }

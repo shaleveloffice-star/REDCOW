@@ -186,27 +186,31 @@ export function AdminCustomerClubManager({
 
     setSendError(null);
     startSendTransition(async () => {
-      const result = await sendCustomerClubCampaignAction({
-        signupIds: selectedEligibleIds,
-        manualEmails,
-        subject,
-        body,
-        clientRequestId: clientRequestIdRef.current || createId("sendreq")
-      });
+      try {
+        const result = await sendCustomerClubCampaignAction({
+          signupIds: selectedEligibleIds,
+          manualEmails,
+          subject,
+          body,
+          clientRequestId: clientRequestIdRef.current || createId("sendreq")
+        });
 
-      if (!result.ok) {
-        setSendError(result.error);
-        return;
+        if (!result.ok) {
+          setSendError(result.error);
+          return;
+        }
+
+        setPreviewOpen(false);
+        setSendSummary(result.campaign);
+        setSelectedIds(new Set());
+        setManualEmails([]);
+        setSubject("");
+        setBody("");
+        setTab("history");
+        router.refresh();
+      } catch (error) {
+        setSendError(error instanceof Error ? error.message : "שליחת הדיוור נכשלה. נסו שוב.");
       }
-
-      setPreviewOpen(false);
-      setSendSummary(result.campaign);
-      setSelectedIds(new Set());
-      setManualEmails([]);
-      setSubject("");
-      setBody("");
-      setTab("history");
-      router.refresh();
     });
   };
 

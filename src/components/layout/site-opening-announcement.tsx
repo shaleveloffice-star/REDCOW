@@ -70,13 +70,16 @@ export function SiteOpeningAnnouncement({ config }: SiteOpeningAnnouncementProps
   const closeRef = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
 
-  const paragraphs = useMemo(() => splitBody(config.body), [config.body]);
-  const safeHref = config.ctaHref.trim() && isSafePublicHref(config.ctaHref) ? config.ctaHref.trim() : "";
+  const paragraphs = useMemo(() => splitBody(config?.body ?? ""), [config?.body]);
+  const safeHref =
+    config?.ctaHref?.trim() && isSafePublicHref(config.ctaHref) ? config.ctaHref.trim() : "";
   const showImage =
-    config.imagePosition !== "none" && Boolean(config.imageUrl.trim());
+    Boolean(config) &&
+    config.imagePosition !== "none" &&
+    Boolean(config.imageUrl?.trim());
 
   useEffect(() => {
-    if (!config.enabled || !config.title.trim()) return;
+    if (!config?.enabled || !config.title?.trim()) return;
     if (wasDismissed(config)) return;
 
     const delayMs = Math.max(0, config.delaySeconds) * 1000;
@@ -85,6 +88,7 @@ export function SiteOpeningAnnouncement({ config }: SiteOpeningAnnouncementProps
   }, [config]);
 
   const dismiss = useCallback(() => {
+    if (!config) return;
     rememberDismiss(config);
     setOpen(false);
   }, [config]);
@@ -123,7 +127,7 @@ export function SiteOpeningAnnouncement({ config }: SiteOpeningAnnouncementProps
     };
   }, [open, dismiss]);
 
-  if (!open) return null;
+  if (!config || !open) return null;
 
   const image = showImage ? (
     <div className="opening-announce-media">

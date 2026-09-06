@@ -70,18 +70,29 @@ export async function sendCustomerClubCampaignAction(
     return { ok: false, error: "יש לבחור לפחות נמען אחד." };
   }
 
-  const result = await sendCustomerClubCampaign({
-    signupIds,
-    manualEmails,
-    subject: String(input.subject ?? ""),
-    body: String(input.body ?? ""),
-    clientRequestId: String(input.clientRequestId ?? ""),
-    adminEmail: session.email
-  });
+  try {
+    const result = await sendCustomerClubCampaign({
+      signupIds,
+      manualEmails,
+      subject: String(input.subject ?? ""),
+      body: String(input.body ?? ""),
+      clientRequestId: String(input.clientRequestId ?? ""),
+      adminEmail: session.email
+    });
 
-  if (result.ok) {
-    paths.forEach((path) => revalidatePath(path));
+    if (result.ok) {
+      paths.forEach((path) => revalidatePath(path));
+    }
+
+    return result;
+  } catch (error) {
+    console.error(
+      "[EmailCampaign] sendCustomerClubCampaignAction failed",
+      error instanceof Error ? { name: error.name, message: error.message } : { raw: "error" }
+    );
+    return {
+      ok: false,
+      error: error instanceof Error ? error.message : "שליחת הדיוור נכשלה. נסו שוב."
+    };
   }
-
-  return result;
 }

@@ -182,23 +182,29 @@ export async function sendCustomerClubCampaign(
 
       if (result.error) {
         updatedRecipients[i] = {
-          ...recipient,
+          email: recipient.email,
+          signupId: recipient.signupId,
+          source: recipient.source,
           status: "failed",
           error: result.error.message || "Resend error",
           sentAt: new Date().toISOString()
         };
       } else {
+        const messageId = result.data?.id;
         updatedRecipients[i] = {
-          ...recipient,
+          email: recipient.email,
+          signupId: recipient.signupId,
+          source: recipient.source,
           status: "sent",
-          resendMessageId: result.data?.id,
           sentAt: new Date().toISOString(),
-          error: undefined
+          ...(messageId ? { resendMessageId: messageId } : {})
         };
       }
     } catch (err) {
       updatedRecipients[i] = {
-        ...recipient,
+        email: recipient.email,
+        signupId: recipient.signupId,
+        source: recipient.source,
         status: "failed",
         error: err instanceof Error ? err.message : "שליחה נכשלה",
         sentAt: new Date().toISOString()

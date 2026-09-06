@@ -124,6 +124,7 @@ export function AdminCustomerClubManager({ signups }: { signups: CustomerClubSig
               אימייל
               <input
                 type="email"
+                required
                 value={draft.email}
                 onChange={(e) => setDraft({ ...draft, email: e.target.value })}
               />

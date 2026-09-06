@@ -206,8 +206,9 @@ export const fr: Messages = {
     successMessage: "On vous recontacte bientôt avec vos avantages.",
     errors: {
       fullName: "Veuillez saisir votre nom complet.",
-      phone: "Veuillez saisir votre numéro de téléphone.",
-      email: "Veuillez saisir une adresse e-mail valide si renseignée.",
+      phone: "Veuillez saisir un numéro de téléphone valide.",
+      email: "Veuillez saisir une adresse e-mail valide.",
+      birthDate: "Veuillez saisir une date de naissance valide.",
       consent: "Veuillez accepter les conditions du club.",
       generic: "Une erreur est survenue. Veuillez réessayer."
     },

@@ -2,10 +2,17 @@
 
 import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
 import { RATE_LIMITS } from "@/lib/constants";
+import {
+  isValidEmailFormat,
+  isValidPhoneInput,
+  MAX_EMAIL,
+  normalizeEmail,
+  parseOptionalBirthDate
+} from "@/lib/customer-club/normalize";
 import { consumeRateLimitAsync, getRequestClientIp } from "@/lib/security/rate-limit";
 import { revalidatePath } from "next/cache";
 import {
-  createCustomerClubSignup,
+  createOrUpdateCustomerClubSignup,
   listCustomerClubSignups,
   removeCustomerClubSignup,
   upsertCustomerClubSignup
@@ -18,6 +25,7 @@ export type CustomerClubSignupErrorCode =
   | "fullName"
   | "phone"
   | "email"
+  | "birthDate"
   | "consent"
   | "generic";
 
@@ -25,10 +33,8 @@ export type CustomerClubSignupResult =
   | { ok: true }
   | { ok: false; code: CustomerClubSignupErrorCode };
 
-const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const MAX_NAME = 120;
 const MAX_PHONE = 40;
-const MAX_EMAIL = 254;
 
 export async function getCustomerClubAdminData() {
   await requireAdmin();
@@ -50,22 +56,26 @@ export async function submitCustomerClubSignupAction(
   }
 
   const fullName = String(formData.get("fullName") ?? "").trim().slice(0, MAX_NAME);
-  const phone = String(formData.get("phone") ?? "").trim().slice(0, MAX_PHONE);
-  const email = String(formData.get("email") ?? "").trim().slice(0, MAX_EMAIL);
+  const phoneRaw = String(formData.get("phone") ?? "").trim().slice(0, MAX_PHONE);
+  const email = normalizeEmail(String(formData.get("email") ?? ""));
   const birthDateRaw = String(formData.get("birthDate") ?? "").trim().slice(0, 32);
   const marketingConsent = formData.get("marketingConsent") === "on";
 
   if (!fullName) return { ok: false, code: "fullName" };
-  if (!phone) return { ok: false, code: "phone" };
-  if (email && !emailPattern.test(email)) return { ok: false, code: "email" };
+  if (!isValidPhoneInput(phoneRaw)) return { ok: false, code: "phone" };
+  if (!email || !isValidEmailFormat(email)) return { ok: false, code: "email" };
+
+  const birthParsed = parseOptionalBirthDate(birthDateRaw);
+  if (!birthParsed.ok) return { ok: false, code: "birthDate" };
+
   if (!marketingConsent) return { ok: false, code: "consent" };
 
   try {
-    const saved = await createCustomerClubSignup({
+    const saved = await createOrUpdateCustomerClubSignup({
       fullName,
-      phone,
+      phone: phoneRaw,
       email,
-      birthDate: birthDateRaw || undefined,
+      birthDate: birthParsed.value,
       marketingConsent
     });
     console.info("[CustomerClub] submitCustomerClubSignupAction saved", { id: saved.id });
@@ -82,12 +92,24 @@ export async function submitCustomerClubSignupAction(
 export async function saveCustomerClubSignupAction(input: CustomerClubSignup) {
   await requireAdmin();
   if (!input.fullName.trim()) throw new Error("שם נדרש");
+  const email = normalizeEmail(input.email ?? "");
+  if (!email || !isValidEmailFormat(email)) {
+    throw new Error("אימייל נדרש ותקין");
+  }
+  if (!isValidPhoneInput(input.phone)) {
+    throw new Error("מספר טלפון לא תקין");
+  }
+  const birthParsed = parseOptionalBirthDate(input.birthDate ?? "");
+  if (!birthParsed.ok) {
+    throw new Error("תאריך לידה לא תקין");
+  }
+
   const saved = await upsertCustomerClubSignup({
     ...input,
     fullName: input.fullName.trim().slice(0, MAX_NAME),
     phone: input.phone.trim().slice(0, MAX_PHONE),
-    email: input.email.trim().slice(0, MAX_EMAIL),
-    birthDate: input.birthDate?.trim() || undefined,
+    email: email.slice(0, MAX_EMAIL),
+    birthDate: birthParsed.value,
     marketingConsent: input.marketingConsent,
     status: input.status as RecordStatus
   });

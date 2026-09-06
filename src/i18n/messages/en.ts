@@ -206,8 +206,9 @@ export const en: Messages = {
     successMessage: "We'll be in touch with your perks soon.",
     errors: {
       fullName: "Please enter your full name.",
-      phone: "Please enter your phone number.",
-      email: "Please enter a valid email address if provided.",
+      phone: "Please enter a valid phone number.",
+      email: "Please enter a valid email address.",
+      birthDate: "Please enter a valid birth date.",
       consent: "Please accept the club terms to continue.",
       generic: "Something went wrong. Please try again."
     },

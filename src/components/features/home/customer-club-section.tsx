@@ -4,6 +4,7 @@ import {
   Calendar,
   CircleCheck,
   Gift,
+  Mail,
   Phone,
   User
 } from "lucide-react";
@@ -13,7 +14,8 @@ import { useEffect, useId, useRef, useState, useTransition } from "react";
 
 import { BirthDatePicker } from "@/components/features/home/birth-date-picker";
 import { useTranslations } from "@/components/providers/locale-provider";
-import { submitCustomerClubSignupAction,
+import {
+  submitCustomerClubSignupAction,
   type CustomerClubSignupErrorCode
 } from "@/server/actions/customer-club.actions";
 import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
@@ -23,10 +25,10 @@ import "./customer-club.css";
 
 const CLUB_HERO_IMAGE = "/images/brand/nb-club-hero-alpha.png";
 
-type FieldKey = "fullName" | "phone" | "consent";
+type FieldKey = "fullName" | "phone" | "email" | "consent";
 
 function fieldForError(code: CustomerClubSignupErrorCode): FieldKey | null {
-  if (code === "fullName" || code === "phone" || code === "consent") {
+  if (code === "fullName" || code === "phone" || code === "email" || code === "consent") {
     return code;
   }
   return null;
@@ -37,6 +39,7 @@ export function CustomerClubSection() {
   const ids = useId();
   const fullNameId = `${ids}-full-name`;
   const phoneId = `${ids}-phone`;
+  const emailId = `${ids}-email`;
   const consentId = `${ids}-consent`;
   const errorId = `${ids}-error`;
 
@@ -45,6 +48,7 @@ export function CustomerClubSection() {
   const [errorCode, setErrorCode] = useState<CustomerClubSignupErrorCode | null>(null);
   const fullNameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
   const consentRef = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
 
@@ -59,9 +63,11 @@ export function CustomerClubSection() {
         ? fullNameRef.current
         : invalidField === "phone"
           ? phoneRef.current
-          : invalidField === "consent"
-            ? consentRef.current
-            : errorRef.current;
+          : invalidField === "email"
+            ? emailRef.current
+            : invalidField === "consent"
+              ? consentRef.current
+              : errorRef.current;
 
     window.requestAnimationFrame(() => {
       target?.focus();
@@ -162,6 +168,28 @@ export function CustomerClubSection() {
                         disabled={isPending}
                         aria-invalid={invalidField === "phone" ? true : undefined}
                         aria-describedby={invalidField === "phone" ? errorId : undefined}
+                      />
+                    </span>
+                  </div>
+
+                  <div className="customer-club-field">
+                    <label className="customer-club-field-label" htmlFor={emailId}>
+                      {t.customerClub.fields.email}
+                    </label>
+                    <span className="customer-club-input-box">
+                      <Mail className="customer-club-input-icon" strokeWidth={1.5} aria-hidden="true" />
+                      <input
+                        ref={emailRef}
+                        id={emailId}
+                        name="email"
+                        type="email"
+                        autoComplete="email"
+                        inputMode="email"
+                        placeholder={t.customerClub.fields.email}
+                        required
+                        disabled={isPending}
+                        aria-invalid={invalidField === "email" ? true : undefined}
+                        aria-describedby={invalidField === "email" ? errorId : undefined}
                       />
                     </span>
                   </div>

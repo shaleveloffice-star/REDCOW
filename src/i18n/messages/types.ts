@@ -201,6 +201,7 @@ export type Messages = {
       fullName: string;
       phone: string;
       email: string;
+      birthDate: string;
       consent: string;
       generic: string;
     };

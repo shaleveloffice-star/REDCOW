@@ -22,6 +22,8 @@ type AnnouncementPopupDialogProps = {
   /** Allow clicking text/button in preview to edit inline. */
   editable?: boolean;
   onFieldChange?: (field: AnnouncementEditableField, value: string) => void;
+  /** Opens gallery picker from the preview media area. */
+  onRequestImagePick?: () => void;
   titleId?: string;
   descId?: string;
   closeRef?: Ref<HTMLButtonElement>;
@@ -62,6 +64,7 @@ export function AnnouncementPopupDialog({
   preview = false,
   editable = false,
   onFieldChange,
+  onRequestImagePick,
   titleId = "announcement-title",
   descId = "announcement-desc",
   closeRef,
@@ -97,14 +100,48 @@ export function AnnouncementPopupDialog({
   const stopEdit = () => setEditingField(null);
 
   const image = showImage ? (
-    <div className="opening-announce-media">
+    <div
+      className={`opening-announce-media${editable && onRequestImagePick ? " is-editable-target" : ""}`}
+      role={editable && onRequestImagePick ? "button" : undefined}
+      tabIndex={editable && onRequestImagePick ? 0 : undefined}
+      onClick={
+        editable && onRequestImagePick
+          ? (event) => {
+              event.preventDefault();
+              onRequestImagePick();
+            }
+          : undefined
+      }
+      onKeyDown={
+        editable && onRequestImagePick
+          ? (event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                onRequestImagePick();
+              }
+            }
+          : undefined
+      }
+      title={editable ? "לחצו לבחירת תמונה מהגלריה" : undefined}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={config.imageUrl.trim()}
         alt={config.imageAlt.trim() || config.title}
         className="opening-announce-image"
       />
+      {editable && onRequestImagePick ? (
+        <span className="opening-announce-media-edit">החלף תמונה</span>
+      ) : null}
     </div>
+  ) : editable && onRequestImagePick ? (
+    <button
+      type="button"
+      className="opening-announce-media-placeholder"
+      onClick={onRequestImagePick}
+    >
+      בחרו תמונה מהגלריה
+    </button>
   ) : null;
 
   const ctaClassName = `opening-announce-cta is-width-${ctaWidth}${
@@ -177,7 +214,10 @@ export function AnnouncementPopupDialog({
         <IconClose />
       </button>
 
-      {config.imagePosition === "top" ? image : null}
+      {config.imagePosition === "top" ||
+      (editable && onRequestImagePick && config.imagePosition === "none")
+        ? image
+        : null}
 
       {editable && editingField === "kicker" ? (
         <input

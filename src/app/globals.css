@@ -405,9 +405,47 @@ html {
 }
 
 .opening-announce-media {
+  position: relative;
   margin: 0 0 20px;
   border: 1px solid color-mix(in srgb, var(--announce-border, #fff) 35%, transparent);
   overflow: hidden;
+}
+
+.opening-announce-media-edit {
+  position: absolute;
+  inset-inline: 10px;
+  bottom: 10px;
+  display: inline-flex;
+  justify-content: center;
+  padding: 6px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  background: rgba(0, 0, 0, 0.55);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
+.opening-announce-media-placeholder {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  min-height: 120px;
+  margin: 0 0 20px;
+  padding: 16px;
+  border: 1px dashed color-mix(in srgb, var(--announce-border, #fff) 55%, transparent);
+  background: color-mix(in srgb, var(--announce-text, #fff) 8%, transparent);
+  color: var(--announce-muted, #b8b8b8);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.opening-announce-media-placeholder:hover {
+  color: var(--announce-text, #fff);
+  border-color: var(--announce-border, #fff);
 }
 
 .opening-announce-body + .opening-announce-media,
@@ -6966,6 +7004,18 @@ a.menu-showcase-button.site-cta-btn {
 
 .opening-announce-root.is-editable-preview .opening-announce-backdrop {
   pointer-events: none;
+}
+
+.admin-announcement-preview-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-announcement-preview-toolbar .button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .admin-announcement-preview-colors {

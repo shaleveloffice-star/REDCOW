@@ -1,18 +1,22 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useRef, useState } from "react";
-import { Monitor, Smartphone } from "lucide-react";
+import { useState } from "react";
+import { Images, Monitor, Smartphone } from "lucide-react";
 
 import { AdminColorField } from "@/components/features/admin/admin-color-field";
 import { AdminOpacityField } from "@/components/features/admin/admin-opacity-field";
 import { useAdminMutation } from "@/components/features/admin/admin-crud-ui";
 import {
+  AdminImageUrlField,
+  AdminSiteImagePicker
+} from "@/components/features/admin/admin-site-image-picker";
+import {
   AnnouncementPopupDialog,
   buildAnnouncementOverlayStyle,
   type AnnouncementEditableField
 } from "@/components/layout/announcement-popup-dialog";
-import { compressGalleryImage } from "@/lib/client/compress-image";
+import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { saveAnnouncementPopupAction } from "@/server/actions/announcement-popup.actions";
 import type {
   AnnouncementPopupConfig,
@@ -22,25 +26,9 @@ import type {
   AnnouncementPopupTextAlign
 } from "@/types/content";
 
-async function uploadPopupImageDataUrl(
-  dataUrl: string
-): Promise<{ ok: true; url: string } | { ok: false; error: string }> {
-  const response = await fetch("/api/admin/gallery-image", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ dataUrl })
-  });
-  const result = (await response.json()) as
-    | { ok: true; url: string }
-    | { ok: false; error: string };
-  if (!response.ok || !result.ok) {
-    return { ok: false, error: "error" in result ? result.error : "העלאה נכשלה" };
-  }
-  return result;
-}
-
 type AdminAnnouncementPopupEditorProps = {
   initialConfig: AnnouncementPopupConfig;
+  pickableImages: AdminPickableImage[];
 };
 
 type PreviewDevice = "desktop" | "mobile";
@@ -76,13 +64,15 @@ function SegmentedControl<T extends string>({
   );
 }
 
-export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncementPopupEditorProps) {
+export function AdminAnnouncementPopupEditor({
+  initialConfig,
+  pickableImages
+}: AdminAnnouncementPopupEditorProps) {
   const router = useRouter();
-  const { isPending, error, setError, run } = useAdminMutation();
+  const { isPending, error, run } = useAdminMutation();
   const [draft, setDraft] = useState<AnnouncementPopupConfig>(initialConfig);
-  const [uploading, setUploading] = useState(false);
   const [device, setDevice] = useState<PreviewDevice>("desktop");
-  const fileRef = useRef<HTMLInputElement>(null);
+  const [galleryOpen, setGalleryOpen] = useState(false);
 
   const update = <K extends keyof AnnouncementPopupConfig>(
     key: K,
@@ -91,30 +81,17 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
     setDraft((prev) => ({ ...prev, [key]: value }));
   };
 
-  const onPreviewFieldChange = (field: AnnouncementEditableField, value: string) => {
-    update(field, value);
+  const applyImage = (url: string, meta?: { altSuggestion?: string }) => {
+    setDraft((prev) => ({
+      ...prev,
+      imageUrl: url,
+      imagePosition: prev.imagePosition === "none" ? "top" : prev.imagePosition,
+      imageAlt: prev.imageAlt.trim() || meta?.altSuggestion || prev.imageAlt
+    }));
   };
 
-  const onUpload = async (file: File | undefined) => {
-    if (!file) return;
-    setUploading(true);
-    setError(null);
-    try {
-      const dataUrl = await compressGalleryImage(file);
-      const uploaded = await uploadPopupImageDataUrl(dataUrl);
-      if (!uploaded.ok) throw new Error(uploaded.error);
-      setDraft((prev) => ({
-        ...prev,
-        imageUrl: uploaded.url,
-        imagePosition: prev.imagePosition === "none" ? "top" : prev.imagePosition,
-        imageAlt: prev.imageAlt.trim() || file.name.replace(/\.[^.]+$/, "")
-      }));
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "העלאת תמונה נכשלה");
-    } finally {
-      setUploading(false);
-      if (fileRef.current) fileRef.current.value = "";
-    }
+  const onPreviewFieldChange = (field: AnnouncementEditableField, value: string) => {
+    update(field, value);
   };
 
   return (
@@ -309,14 +286,12 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
 
         <fieldset className="admin-fieldset">
           <legend>תמונה</legend>
-          <label>
-            כתובת תמונה (URL)
-            <input
-              value={draft.imageUrl}
-              onChange={(e) => update("imageUrl", e.target.value)}
-              placeholder="https://… או /images/…"
-            />
-          </label>
+          <AdminImageUrlField
+            label="תמונת פופ־אפ"
+            value={draft.imageUrl}
+            images={pickableImages}
+            onChange={(url, meta) => applyImage(url, meta)}
+          />
           <label>
             טקסט אלטרנטיבי לתמונה
             <input
@@ -325,27 +300,12 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
               placeholder="תיאור קצר"
             />
           </label>
-          <div className="admin-announcement-upload">
-            <input
-              ref={fileRef}
-              type="file"
-              accept="image/*"
-              hidden
-              onChange={(e) => void onUpload(e.target.files?.[0])}
-            />
-            <button
-              type="button"
-              className="button secondary"
-              disabled={isPending || uploading}
-              onClick={() => fileRef.current?.click()}
-            >
-              {uploading ? "מעלה…" : "העלה תמונה"}
-            </button>
-            {draft.imageUrl ? (
+          {draft.imageUrl ? (
+            <div className="admin-announcement-upload">
               <button
                 type="button"
                 className="button secondary admin-btn-danger"
-                disabled={isPending || uploading}
+                disabled={isPending}
                 onClick={() => {
                   update("imageUrl", "");
                   update("imagePosition", "none");
@@ -353,8 +313,8 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
               >
                 הסר תמונה
               </button>
-            ) : null}
-          </div>
+            </div>
+          ) : null}
         </fieldset>
 
         <fieldset className="admin-fieldset">
@@ -397,7 +357,7 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
 
         {error ? <p className="admin-form-error">{error}</p> : null}
         <div className="admin-form-actions">
-          <button className="button" type="submit" disabled={isPending || uploading}>
+          <button className="button" type="submit" disabled={isPending}>
             {isPending ? "שומר…" : "שמור פופ־אפ"}
           </button>
         </div>
@@ -407,7 +367,7 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
         <div className="admin-announcement-live-head">
           <div>
             <strong>תצוגה מקדימה לעריכה</strong>
-            <p>לחצו על טקסט/כפתור כדי לערוך ישירות. בחרו צבעים מהסרגל.</p>
+            <p>לחצו על טקסט/תמונה כדי לערוך. אפשר גם לבחור תמונה מהגלריה.</p>
           </div>
           <div className="admin-announcement-device-toggle" role="group" aria-label="גודל תצוגה">
             <button
@@ -429,6 +389,13 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
               מובייל
             </button>
           </div>
+        </div>
+
+        <div className="admin-announcement-preview-toolbar">
+          <button type="button" className="button secondary" onClick={() => setGalleryOpen(true)}>
+            <Images size={15} aria-hidden />
+            בחר תמונה מהגלריה
+          </button>
         </div>
 
         <div className="admin-announcement-preview-colors" aria-label="צבעים ושקיפות מהירים">
@@ -466,6 +433,7 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
                 preview
                 editable
                 onFieldChange={onPreviewFieldChange}
+                onRequestImagePick={() => setGalleryOpen(true)}
               />
             </div>
           </div>
@@ -477,6 +445,16 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
           </p>
         ) : null}
       </aside>
+
+      <AdminSiteImagePicker
+        open={galleryOpen}
+        title="בחירת תמונה לפופ־אפ"
+        images={pickableImages}
+        onClose={() => setGalleryOpen(false)}
+        onSelect={(url, image) => {
+          applyImage(url, { altSuggestion: image.label });
+        }}
+      />
     </div>
   );
 }

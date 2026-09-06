@@ -11,6 +11,7 @@ import {
   trapFocus
 } from "@/lib/a11y/focus-trap";
 import type { AnnouncementPopupConfig } from "@/types/content";
+import { buildAnnouncementOverlayStyle } from "@/components/layout/announcement-popup-dialog";
 
 const STORAGE_PREFIX = "nb-announcement-popup:";
 
@@ -114,7 +115,7 @@ export function SiteOpeningAnnouncement({ config }: SiteOpeningAnnouncementProps
   if (!config || !open) return null;
 
   return (
-    <div ref={rootRef} className="opening-announce-root" role="presentation">
+    <div ref={rootRef} className="opening-announce-root" role="presentation" style={buildAnnouncementOverlayStyle(config)}>
       <button
         type="button"
         className="opening-announce-backdrop"

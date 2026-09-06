@@ -169,6 +169,12 @@ export type AnnouncementPopupConfig = {
   ctaWidth: AnnouncementPopupCtaWidth;
   /** Dialog surface background. */
   backgroundColor: string;
+  /** 0 = opaque, 100 = fully transparent dialog background. */
+  backgroundTransparency: number;
+  /** Dimmed page overlay behind the dialog. */
+  overlayColor: string;
+  /** 0 = opaque overlay, 100 = invisible overlay. */
+  overlayTransparency: number;
   /** Primary text (title). */
   textColor: string;
   /** Secondary text (kicker + body). */
@@ -182,6 +188,8 @@ export type AnnouncementPopupConfig = {
   imageUrl: string;
   imageAlt: string;
   imagePosition: AnnouncementPopupImagePosition;
+  /** 0 = fully visible image, 100 = fully transparent image. */
+  imageTransparency: number;
   /** Wait this many seconds before showing. */
   delaySeconds: number;
   /**

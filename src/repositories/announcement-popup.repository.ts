@@ -43,6 +43,12 @@ function asNonNegInt(value: unknown, fallback: number): number {
   return Math.floor(n);
 }
 
+function asPercent(value: unknown, fallback: number): number {
+  const n = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.max(0, Math.min(100, Math.round(n)));
+}
+
 export function normalizeHexColor(value: unknown, fallback: string): string {
   const raw = String(value ?? "").trim();
   if (!raw) return fallback;
@@ -68,6 +74,9 @@ export function normalizeAnnouncementPopupConfig(
     ctaAlign: asCtaAlign(raw.ctaAlign),
     ctaWidth: asCtaWidth(raw.ctaWidth),
     backgroundColor: normalizeHexColor(raw.backgroundColor, defaults.backgroundColor),
+    backgroundTransparency: asPercent(raw.backgroundTransparency, defaults.backgroundTransparency),
+    overlayColor: normalizeHexColor(raw.overlayColor, defaults.overlayColor),
+    overlayTransparency: asPercent(raw.overlayTransparency, defaults.overlayTransparency),
     textColor: normalizeHexColor(raw.textColor, defaults.textColor),
     mutedTextColor: normalizeHexColor(raw.mutedTextColor, defaults.mutedTextColor),
     borderColor: normalizeHexColor(raw.borderColor, defaults.borderColor),
@@ -76,6 +85,7 @@ export function normalizeAnnouncementPopupConfig(
     imageUrl: String(raw.imageUrl ?? "").trim(),
     imageAlt: String(raw.imageAlt ?? "").trim(),
     imagePosition: asPosition(raw.imagePosition),
+    imageTransparency: asPercent(raw.imageTransparency, defaults.imageTransparency),
     delaySeconds: asNonNegInt(raw.delaySeconds, defaults.delaySeconds),
     dismissDays: asNonNegInt(raw.dismissDays, defaults.dismissDays),
     version: String(raw.version ?? defaults.version).trim() || defaults.version,

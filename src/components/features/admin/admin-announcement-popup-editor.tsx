@@ -5,9 +5,11 @@ import { useRef, useState } from "react";
 import { Monitor, Smartphone } from "lucide-react";
 
 import { AdminColorField } from "@/components/features/admin/admin-color-field";
+import { AdminOpacityField } from "@/components/features/admin/admin-opacity-field";
 import { useAdminMutation } from "@/components/features/admin/admin-crud-ui";
 import {
   AnnouncementPopupDialog,
+  buildAnnouncementOverlayStyle,
   type AnnouncementEditableField
 } from "@/components/layout/announcement-popup-dialog";
 import { compressGalleryImage } from "@/lib/client/compress-image";
@@ -168,12 +170,17 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
         </fieldset>
 
         <fieldset className="admin-fieldset">
-          <legend>צבעים</legend>
+          <legend>רקע וצבעים</legend>
           <div className="admin-color-grid">
             <AdminColorField
-              label="רקע"
+              label="רקע הפופ־אפ"
               value={draft.backgroundColor}
               onChange={(value) => update("backgroundColor", value)}
+            />
+            <AdminColorField
+              label="רקע מאחורי הפופ־אפ"
+              value={draft.overlayColor}
+              onChange={(value) => update("overlayColor", value)}
             />
             <AdminColorField
               label="טקסט ראשי"
@@ -199,6 +206,26 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
               label="טקסט כפתור"
               value={draft.ctaTextColor}
               onChange={(value) => update("ctaTextColor", value)}
+            />
+          </div>
+          <div className="admin-opacity-grid">
+            <AdminOpacityField
+              label="שקיפות רקע הפופ־אפ"
+              value={draft.backgroundTransparency}
+              onChange={(value) => update("backgroundTransparency", value)}
+              hint="0 = אטום · 80 = שקוף ב־80% · 100 = שקוף לגמרי"
+            />
+            <AdminOpacityField
+              label="שקיפות רקע מאחורי הפופ־אפ"
+              value={draft.overlayTransparency}
+              onChange={(value) => update("overlayTransparency", value)}
+              hint="שולט על ההחשכה מאחורי החלון"
+            />
+            <AdminOpacityField
+              label="שקיפות תמונה"
+              value={draft.imageTransparency}
+              onChange={(value) => update("imageTransparency", value)}
+              hint="למשל 80 = התמונה שקופה ב־80%"
             />
           </div>
         </fieldset>
@@ -404,21 +431,21 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
           </div>
         </div>
 
-        <div className="admin-announcement-preview-colors" aria-label="צבעים מהירים">
+        <div className="admin-announcement-preview-colors" aria-label="צבעים ושקיפות מהירים">
           <AdminColorField
             label="רקע"
             value={draft.backgroundColor}
             onChange={(value) => update("backgroundColor", value)}
           />
-          <AdminColorField
-            label="טקסט"
-            value={draft.textColor}
-            onChange={(value) => update("textColor", value)}
+          <AdminOpacityField
+            label="שקיפות רקע"
+            value={draft.backgroundTransparency}
+            onChange={(value) => update("backgroundTransparency", value)}
           />
-          <AdminColorField
-            label="כפתור"
-            value={draft.ctaBackgroundColor}
-            onChange={(value) => update("ctaBackgroundColor", value)}
+          <AdminOpacityField
+            label="שקיפות תמונה"
+            value={draft.imageTransparency}
+            onChange={(value) => update("imageTransparency", value)}
           />
         </div>
 
@@ -429,7 +456,10 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
             <span />
           </div>
           <div className="admin-announcement-stage-viewport">
-            <div className="opening-announce-root is-preview is-editable-preview">
+            <div
+              className="opening-announce-root is-preview is-editable-preview"
+              style={buildAnnouncementOverlayStyle(draft)}
+            >
               <div className="opening-announce-backdrop" aria-hidden="true" />
               <AnnouncementPopupDialog
                 config={draft}

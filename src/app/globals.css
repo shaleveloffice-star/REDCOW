@@ -289,21 +289,33 @@ html {
   position: absolute;
   inset: 0;
   border: 0;
-  background: rgba(0, 0, 0, 0.78);
+  background: var(--announce-overlay, #000000);
+  opacity: var(--announce-overlay-opacity, 0.78);
   cursor: pointer;
 }
 
 .opening-announce {
   position: relative;
   z-index: 1;
+  isolation: isolate;
   width: min(440px, 100%);
   padding: 40px 32px 32px;
   border: 1px solid var(--announce-border, #ffffff);
   border-radius: 0;
-  background: var(--announce-bg, #000000);
+  background: transparent;
   color: var(--announce-text, #ffffff);
   text-align: center;
   animation: opening-announce-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.opening-announce::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--announce-bg, #000000);
+  opacity: var(--announce-bg-opacity, 1);
+  pointer-events: none;
 }
 
 .opening-announce.is-align-right {
@@ -409,6 +421,7 @@ html {
   height: auto;
   max-height: 180px;
   object-fit: cover;
+  opacity: var(--announce-image-opacity, 1);
 }
 
 .opening-announce-title {
@@ -6965,6 +6978,42 @@ a.menu-showcase-button.site-cta-btn {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 10px;
+}
+
+.admin-opacity-grid {
+  display: grid;
+  gap: 12px;
+  margin-top: 12px;
+}
+
+.admin-opacity-field {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+}
+
+.admin-opacity-field-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.admin-opacity-field-head strong {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.admin-opacity-field-head em {
+  color: var(--admin-text-muted);
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.admin-opacity-field input[type="range"] {
+  width: 100%;
+  accent-color: var(--admin-brand);
 }
 
 .admin-color-field {

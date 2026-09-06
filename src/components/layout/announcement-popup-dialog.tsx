@@ -1,6 +1,7 @@
 "use client";
 
 import { IconClose } from "@/components/shared/site-icons";
+import { transparencyToOpacity } from "@/lib/announcement-popup/theme";
 import { isSafePublicHref } from "@/lib/security/safe-url";
 import type { AnnouncementPopupConfig } from "@/types/content";
 import { useEffect, useMemo, useRef, useState, type CSSProperties, type Ref } from "react";
@@ -30,14 +31,29 @@ type AnnouncementPopupDialogProps = {
   ctaFallbackLabel?: string;
 };
 
+export function buildAnnouncementOverlayStyle(config: AnnouncementPopupConfig): CSSProperties {
+  return {
+    ["--announce-overlay" as string]: config.overlayColor || "#000000",
+    ["--announce-overlay-opacity" as string]: String(
+      transparencyToOpacity(config.overlayTransparency ?? 22)
+    )
+  };
+}
+
 function buildThemeStyle(config: AnnouncementPopupConfig): CSSProperties {
   return {
     ["--announce-bg" as string]: config.backgroundColor || "#000000",
+    ["--announce-bg-opacity" as string]: String(
+      transparencyToOpacity(config.backgroundTransparency ?? 0)
+    ),
     ["--announce-text" as string]: config.textColor || "#ffffff",
     ["--announce-muted" as string]: config.mutedTextColor || "#b8b8b8",
     ["--announce-border" as string]: config.borderColor || "#ffffff",
     ["--announce-cta-bg" as string]: config.ctaBackgroundColor || "#ffffff",
-    ["--announce-cta-text" as string]: config.ctaTextColor || "#000000"
+    ["--announce-cta-text" as string]: config.ctaTextColor || "#000000",
+    ["--announce-image-opacity" as string]: String(
+      transparencyToOpacity(config.imageTransparency ?? 0)
+    )
   };
 }
 

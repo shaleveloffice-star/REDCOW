@@ -15,6 +15,8 @@ const store = createFirestoreDocumentStore<AnnouncementPopupConfig>(
   localAnnouncementPopupStore
 );
 
+const HEX_PATTERN = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
+
 function asPosition(value: unknown): AnnouncementPopupImagePosition {
   if (value === "top" || value === "bottom" || value === "none") return value;
   return "none";
@@ -41,6 +43,14 @@ function asNonNegInt(value: unknown, fallback: number): number {
   return Math.floor(n);
 }
 
+export function normalizeHexColor(value: unknown, fallback: string): string {
+  const raw = String(value ?? "").trim();
+  if (!raw) return fallback;
+  const withHash = raw.startsWith("#") ? raw : `#${raw}`;
+  if (!HEX_PATTERN.test(withHash)) return fallback;
+  return withHash.toLowerCase();
+}
+
 export function normalizeAnnouncementPopupConfig(
   input: Partial<AnnouncementPopupConfig> | null | undefined
 ): AnnouncementPopupConfig {
@@ -57,6 +67,12 @@ export function normalizeAnnouncementPopupConfig(
     textAlign: asTextAlign(raw.textAlign),
     ctaAlign: asCtaAlign(raw.ctaAlign),
     ctaWidth: asCtaWidth(raw.ctaWidth),
+    backgroundColor: normalizeHexColor(raw.backgroundColor, defaults.backgroundColor),
+    textColor: normalizeHexColor(raw.textColor, defaults.textColor),
+    mutedTextColor: normalizeHexColor(raw.mutedTextColor, defaults.mutedTextColor),
+    borderColor: normalizeHexColor(raw.borderColor, defaults.borderColor),
+    ctaBackgroundColor: normalizeHexColor(raw.ctaBackgroundColor, defaults.ctaBackgroundColor),
+    ctaTextColor: normalizeHexColor(raw.ctaTextColor, defaults.ctaTextColor),
     imageUrl: String(raw.imageUrl ?? "").trim(),
     imageAlt: String(raw.imageAlt ?? "").trim(),
     imagePosition: asPosition(raw.imagePosition),

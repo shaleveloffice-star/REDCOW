@@ -167,6 +167,18 @@ export type AnnouncementPopupConfig = {
   ctaAlign: AnnouncementPopupCtaAlign;
   /** CTA button width. */
   ctaWidth: AnnouncementPopupCtaWidth;
+  /** Dialog surface background. */
+  backgroundColor: string;
+  /** Primary text (title). */
+  textColor: string;
+  /** Secondary text (kicker + body). */
+  mutedTextColor: string;
+  /** Dialog border color. */
+  borderColor: string;
+  /** CTA button background. */
+  ctaBackgroundColor: string;
+  /** CTA button text. */
+  ctaTextColor: string;
   imageUrl: string;
   imageAlt: string;
   imagePosition: AnnouncementPopupImagePosition;

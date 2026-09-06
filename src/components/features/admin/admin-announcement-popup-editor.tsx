@@ -1,11 +1,15 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useMemo, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Monitor, Smartphone } from "lucide-react";
 
+import { AdminColorField } from "@/components/features/admin/admin-color-field";
 import { useAdminMutation } from "@/components/features/admin/admin-crud-ui";
-import { AnnouncementPopupDialog } from "@/components/layout/announcement-popup-dialog";
+import {
+  AnnouncementPopupDialog,
+  type AnnouncementEditableField
+} from "@/components/layout/announcement-popup-dialog";
 import { compressGalleryImage } from "@/lib/client/compress-image";
 import { saveAnnouncementPopupAction } from "@/server/actions/announcement-popup.actions";
 import type {
@@ -85,7 +89,9 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
     setDraft((prev) => ({ ...prev, [key]: value }));
   };
 
-  const previewConfig = useMemo(() => draft, [draft]);
+  const onPreviewFieldChange = (field: AnnouncementEditableField, value: string) => {
+    update(field, value);
+  };
 
   const onUpload = async (file: File | undefined) => {
     if (!file) return;
@@ -159,6 +165,42 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
             />
             <span className="admin-form-hint">שורה ריקה בין פסקאות יוצרת הפרדה בפופ־אפ.</span>
           </label>
+        </fieldset>
+
+        <fieldset className="admin-fieldset">
+          <legend>צבעים</legend>
+          <div className="admin-color-grid">
+            <AdminColorField
+              label="רקע"
+              value={draft.backgroundColor}
+              onChange={(value) => update("backgroundColor", value)}
+            />
+            <AdminColorField
+              label="טקסט ראשי"
+              value={draft.textColor}
+              onChange={(value) => update("textColor", value)}
+            />
+            <AdminColorField
+              label="טקסט משני"
+              value={draft.mutedTextColor}
+              onChange={(value) => update("mutedTextColor", value)}
+            />
+            <AdminColorField
+              label="מסגרת"
+              value={draft.borderColor}
+              onChange={(value) => update("borderColor", value)}
+            />
+            <AdminColorField
+              label="רקע כפתור"
+              value={draft.ctaBackgroundColor}
+              onChange={(value) => update("ctaBackgroundColor", value)}
+            />
+            <AdminColorField
+              label="טקסט כפתור"
+              value={draft.ctaTextColor}
+              onChange={(value) => update("ctaTextColor", value)}
+            />
+          </div>
         </fieldset>
 
         <fieldset className="admin-fieldset">
@@ -337,8 +379,8 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
       <aside className="admin-announcement-live" aria-label="תצוגה מקדימה חיה">
         <div className="admin-announcement-live-head">
           <div>
-            <strong>תצוגה מקדימה</strong>
-            <p>כמו בוורדפרס — השינויים מופיעים מיד</p>
+            <strong>תצוגה מקדימה לעריכה</strong>
+            <p>לחצו על טקסט/כפתור כדי לערוך ישירות. בחרו צבעים מהסרגל.</p>
           </div>
           <div className="admin-announcement-device-toggle" role="group" aria-label="גודל תצוגה">
             <button
@@ -362,6 +404,24 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
           </div>
         </div>
 
+        <div className="admin-announcement-preview-colors" aria-label="צבעים מהירים">
+          <AdminColorField
+            label="רקע"
+            value={draft.backgroundColor}
+            onChange={(value) => update("backgroundColor", value)}
+          />
+          <AdminColorField
+            label="טקסט"
+            value={draft.textColor}
+            onChange={(value) => update("textColor", value)}
+          />
+          <AdminColorField
+            label="כפתור"
+            value={draft.ctaBackgroundColor}
+            onChange={(value) => update("ctaBackgroundColor", value)}
+          />
+        </div>
+
         <div className={`admin-announcement-stage is-${device}`}>
           <div className="admin-announcement-stage-chrome" aria-hidden="true">
             <span />
@@ -369,9 +429,14 @@ export function AdminAnnouncementPopupEditor({ initialConfig }: AdminAnnouncemen
             <span />
           </div>
           <div className="admin-announcement-stage-viewport">
-            <div className="opening-announce-root is-preview">
+            <div className="opening-announce-root is-preview is-editable-preview">
               <div className="opening-announce-backdrop" aria-hidden="true" />
-              <AnnouncementPopupDialog config={previewConfig} preview />
+              <AnnouncementPopupDialog
+                config={draft}
+                preview
+                editable
+                onFieldChange={onPreviewFieldChange}
+              />
             </div>
           </div>
         </div>

@@ -1,7 +1,13 @@
 import { createFirestoreDocumentStore } from "@/lib/firebase/firestore-store";
 import { localAnnouncementPopupStore } from "@/lib/firebase/local-stores";
 import { defaultAnnouncementPopupConfig } from "@/data/announcement-popup-defaults";
-import type { AnnouncementPopupConfig, AnnouncementPopupImagePosition } from "@/types/content";
+import type {
+  AnnouncementPopupConfig,
+  AnnouncementPopupCtaAlign,
+  AnnouncementPopupCtaWidth,
+  AnnouncementPopupImagePosition,
+  AnnouncementPopupTextAlign
+} from "@/types/content";
 
 const store = createFirestoreDocumentStore<AnnouncementPopupConfig>(
   "announcementPopup",
@@ -12,6 +18,21 @@ const store = createFirestoreDocumentStore<AnnouncementPopupConfig>(
 function asPosition(value: unknown): AnnouncementPopupImagePosition {
   if (value === "top" || value === "bottom" || value === "none") return value;
   return "none";
+}
+
+function asTextAlign(value: unknown): AnnouncementPopupTextAlign {
+  if (value === "right" || value === "center" || value === "left") return value;
+  return "center";
+}
+
+function asCtaAlign(value: unknown): AnnouncementPopupCtaAlign {
+  if (value === "start" || value === "center" || value === "end") return value;
+  return "center";
+}
+
+function asCtaWidth(value: unknown): AnnouncementPopupCtaWidth {
+  if (value === "full" || value === "auto") return value;
+  return "full";
 }
 
 function asNonNegInt(value: unknown, fallback: number): number {
@@ -33,6 +54,9 @@ export function normalizeAnnouncementPopupConfig(
     ctaLabel: String(raw.ctaLabel ?? defaults.ctaLabel).trim() || defaults.ctaLabel,
     ctaHref: String(raw.ctaHref ?? "").trim(),
     ctaOpenInNewTab: Boolean(raw.ctaOpenInNewTab),
+    textAlign: asTextAlign(raw.textAlign),
+    ctaAlign: asCtaAlign(raw.ctaAlign),
+    ctaWidth: asCtaWidth(raw.ctaWidth),
     imageUrl: String(raw.imageUrl ?? "").trim(),
     imageAlt: String(raw.imageAlt ?? "").trim(),
     imagePosition: asPosition(raw.imagePosition),

@@ -147,6 +147,9 @@ export type HomepageMenuShowcaseConfig = {
 
 /** Site-wide announcement popup controlled from admin. */
 export type AnnouncementPopupImagePosition = "none" | "top" | "bottom";
+export type AnnouncementPopupTextAlign = "right" | "center" | "left";
+export type AnnouncementPopupCtaAlign = "start" | "center" | "end";
+export type AnnouncementPopupCtaWidth = "full" | "auto";
 
 export type AnnouncementPopupConfig = {
   enabled: boolean;
@@ -158,6 +161,12 @@ export type AnnouncementPopupConfig = {
   /** Empty = dismiss only. */
   ctaHref: string;
   ctaOpenInNewTab: boolean;
+  /** Text / body / title alignment. */
+  textAlign: AnnouncementPopupTextAlign;
+  /** CTA horizontal placement inside the dialog. */
+  ctaAlign: AnnouncementPopupCtaAlign;
+  /** CTA button width. */
+  ctaWidth: AnnouncementPopupCtaWidth;
   imageUrl: string;
   imageAlt: string;
   imagePosition: AnnouncementPopupImagePosition;

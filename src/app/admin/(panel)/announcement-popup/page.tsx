@@ -8,7 +8,7 @@ export default async function AdminAnnouncementPopupPage() {
   return (
     <AdminCard
       title="פופ־אפ הודעה"
-      description="שליטה מלאה בפופ־אפ באתר: תוכן, קיקור, תמונה, CTA ותזמון."
+      description="עריכה עם תצוגה מקדימה חיה: תוכן, יישור טקסט, מיקום כפתור, תמונה ותזמון."
     >
       <AdminAnnouncementPopupEditor initialConfig={config} />
     </AdminCard>

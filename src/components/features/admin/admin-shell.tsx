@@ -8,7 +8,9 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       <main className="admin-main">
         <div className="admin-main-glow" aria-hidden="true" />
         <div className="admin-main-inner">
-          <AdminCopyPageData />
+          <div className="admin-main-toolbar">
+            <AdminCopyPageData />
+          </div>
           {children}
         </div>
       </main>

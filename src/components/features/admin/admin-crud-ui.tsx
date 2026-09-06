@@ -5,16 +5,21 @@ import { useEffect, useState, useTransition, type ReactNode } from "react";
 
 export function AdminToolbar({
   onAdd,
-  label = "הוסף חדש"
+  label = "הוסף חדש",
+  children
 }: {
-  onAdd: () => void;
+  onAdd?: () => void;
   label?: string;
+  children?: React.ReactNode;
 }) {
   return (
     <div className="admin-toolbar">
-      <button className="button" type="button" onClick={onAdd}>
-        {label}
-      </button>
+      <div className="admin-toolbar-start">{children}</div>
+      {onAdd ? (
+        <button className="button" type="button" onClick={onAdd}>
+          {label}
+        </button>
+      ) : null}
     </div>
   );
 }

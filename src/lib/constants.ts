@@ -25,5 +25,9 @@ export const RATE_LIMITS = {
   storySuggest: {
     maxAttempts: 6,
     windowMs: 60 * 60 * 1000
+  },
+  clubCampaignSend: {
+    maxAttempts: 10,
+    windowMs: 60 * 60 * 1000
   }
 } as const;

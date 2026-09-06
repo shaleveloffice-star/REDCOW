@@ -195,7 +195,7 @@ export const he: Messages = {
     fields: {
       fullName: "שם מלא",
       phone: "טלפון",
-      email: "אימייל",
+      email: "אימייל (לא חובה)",
       birthDate: "תאריך לידה"
     },
     consentPrefix: "מאשר/ת קבלת עדכונים ומתנות",
@@ -207,7 +207,7 @@ export const he: Messages = {
     errors: {
       fullName: "נא למלא שם מלא.",
       phone: "נא למלא מספר טלפון תקין.",
-      email: "נא למלא כתובת אימייל תקינה.",
+      email: "נא למלא כתובת אימייל תקינה, אם הוזנה.",
       birthDate: "תאריך הלידה אינו תקין.",
       consent: "יש לאשר את תנאי ההצטרפות.",
       generic: "משהו השתבש. נסו שוב בעוד רגע."

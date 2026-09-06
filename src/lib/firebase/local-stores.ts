@@ -23,6 +23,7 @@ import type {
 import type { BrandStory } from "@/types/story";
 import type { GalleryImage } from "@/types/gallery";
 import type { SiteImageOverride } from "@/types/site-images";
+import type { EmailCampaign } from "@/types/email-campaign";
 import { defaultAnnouncementPopupConfig } from "@/data/announcement-popup-defaults";
 
 export const localMenuItemsStore = createJsonFileStore<MenuItem>("menu-items.json", mockMenuItems);
@@ -37,6 +38,7 @@ export const localCareerApplicationsStore = createInMemoryStore<CareerApplicatio
 export const localCustomerClubSignupsStore = createInMemoryStore<CustomerClubSignup>(
   mockCustomerClubSignups
 );
+export const localEmailCampaignsStore = createJsonFileStore<EmailCampaign>("email-campaigns.json", []);
 export const localBranchesStore = createInMemoryStore<Branch>(mockBranches);
 export const localPressStore = createInMemoryStore<PressItem>(mockPressItems);
 export const localBrandStoriesStore = createJsonFileStore<BrandStory>(

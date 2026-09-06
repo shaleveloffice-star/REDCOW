@@ -123,6 +123,9 @@ export type CustomerClubSignup = {
   marketingConsent: boolean;
   createdAt: ISODateString;
   status: RecordStatus;
+  /** Future unsubscribe support — campaigns skip when set. */
+  unsubscribedAt?: ISODateString;
+  unsubscribeToken?: string;
 };
 
 export type OrderLink = {

@@ -195,7 +195,7 @@ export const fr: Messages = {
     fields: {
       fullName: "Nom complet",
       phone: "Téléphone",
-      email: "E-mail",
+      email: "E-mail (facultatif)",
       birthDate: "Date de naissance"
     },
     consentPrefix: "J'accepte de recevoir actus et cadeaux",
@@ -207,7 +207,7 @@ export const fr: Messages = {
     errors: {
       fullName: "Veuillez saisir votre nom complet.",
       phone: "Veuillez saisir un numéro de téléphone valide.",
-      email: "Veuillez saisir une adresse e-mail valide.",
+      email: "Veuillez saisir une adresse e-mail valide si renseignée.",
       birthDate: "Veuillez saisir une date de naissance valide.",
       consent: "Veuillez accepter les conditions du club.",
       generic: "Une erreur est survenue. Veuillez réessayer."

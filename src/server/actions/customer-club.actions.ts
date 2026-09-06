@@ -63,7 +63,7 @@ export async function submitCustomerClubSignupAction(
 
   if (!fullName) return { ok: false, code: "fullName" };
   if (!isValidPhoneInput(phoneRaw)) return { ok: false, code: "phone" };
-  if (!email || !isValidEmailFormat(email)) return { ok: false, code: "email" };
+  if (email && !isValidEmailFormat(email)) return { ok: false, code: "email" };
 
   const birthParsed = parseOptionalBirthDate(birthDateRaw);
   if (!birthParsed.ok) return { ok: false, code: "birthDate" };
@@ -93,8 +93,8 @@ export async function saveCustomerClubSignupAction(input: CustomerClubSignup) {
   await requireAdmin();
   if (!input.fullName.trim()) throw new Error("שם נדרש");
   const email = normalizeEmail(input.email ?? "");
-  if (!email || !isValidEmailFormat(email)) {
-    throw new Error("אימייל נדרש ותקין");
+  if (email && !isValidEmailFormat(email)) {
+    throw new Error("אימייל לא תקין");
   }
   if (!isValidPhoneInput(input.phone)) {
     throw new Error("מספר טלפון לא תקין");

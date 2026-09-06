@@ -9010,3 +9010,67 @@ body:not(:has(.admin-layout)) button:focus-visible {
   text-align: center;
 }
 
+.admin-club-select-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.admin-club-select-all input {
+  width: auto;
+  margin: 0;
+}
+
+.admin-club-row--disabled td {
+  opacity: 0.55;
+}
+
+.admin-club-manual-list {
+  list-style: none;
+  margin: 12px 0 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.admin-club-manual-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  padding: 8px 10px;
+  border: 1px solid var(--admin-border, rgba(255, 255, 255, 0.14));
+}
+
+.admin-club-preview-body,
+.admin-club-preview-recipients {
+  margin: 12px 0;
+}
+
+.admin-club-preview-body pre {
+  margin: 8px 0 0;
+  padding: 12px;
+  white-space: pre-wrap;
+  word-break: break-word;
+  border: 1px solid var(--admin-border, rgba(255, 255, 255, 0.14));
+  background: rgba(0, 0, 0, 0.12);
+  font-family: inherit;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.admin-club-preview-recipients ul {
+  margin: 8px 0 0;
+  padding-inline-start: 18px;
+  max-height: 180px;
+  overflow: auto;
+}
+
+.admin-club-recipient-breakdown {
+  opacity: 0.8;
+  font-size: 0.95em;
+}
+

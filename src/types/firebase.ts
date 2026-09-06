@@ -9,6 +9,7 @@ export type FirebaseCollectionName =
   | "contactMessages"
   | "careerApplications"
   | "customerClubSignups"
+  | "emailCampaigns"
   | "orderLinks"
   | "siteImageOverrides"
   | "homepageMenuShowcase"

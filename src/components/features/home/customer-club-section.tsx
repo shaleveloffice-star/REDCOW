@@ -186,7 +186,6 @@ export function CustomerClubSection() {
                         autoComplete="email"
                         inputMode="email"
                         placeholder={t.customerClub.fields.email}
-                        required
                         disabled={isPending}
                         aria-invalid={invalidField === "email" ? true : undefined}
                         aria-describedby={invalidField === "email" ? errorId : undefined}

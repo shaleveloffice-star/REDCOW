@@ -195,7 +195,7 @@ export const en: Messages = {
     fields: {
       fullName: "Full name",
       phone: "Phone",
-      email: "Email",
+      email: "Email (optional)",
       birthDate: "Birth date"
     },
     consentPrefix: "I agree to receive updates and gifts",
@@ -207,7 +207,7 @@ export const en: Messages = {
     errors: {
       fullName: "Please enter your full name.",
       phone: "Please enter a valid phone number.",
-      email: "Please enter a valid email address.",
+      email: "Please enter a valid email address if provided.",
       birthDate: "Please enter a valid birth date.",
       consent: "Please accept the club terms to continue.",
       generic: "Something went wrong. Please try again."

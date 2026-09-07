@@ -202,7 +202,7 @@ export function AdminAnnouncementPopupEditor({
               label="שקיפות תמונה"
               value={draft.imageTransparency}
               onChange={(value) => update("imageTransparency", value)}
-              hint="למשל 80 = התמונה שקופה ב־80%"
+              hint="עובד גם לרקע מלא — למשל 70 = התמונה שקופה וצבע הרקע נראה מתחת"
             />
           </div>
         </fieldset>
@@ -249,6 +249,7 @@ export function AdminAnnouncementPopupEditor({
               <option value="none">ללא תמונה</option>
               <option value="top">למעלה (מעל הקיקור)</option>
               <option value="bottom">למטה (מעל הכפתור)</option>
+              <option value="background">רקע מלא (על כל הפופ־אפ)</option>
             </select>
           </label>
         </fieldset>

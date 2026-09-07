@@ -312,10 +312,72 @@ html {
   content: "";
   position: absolute;
   inset: 0;
-  z-index: -1;
+  z-index: -2;
   background: var(--announce-bg, #000000);
   opacity: var(--announce-bg-opacity, 1);
   pointer-events: none;
+}
+
+.opening-announce-bg-image {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.opening-announce.is-editable .opening-announce-bg-image.is-editable-target {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.opening-announce-bg-image-media {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: var(--announce-image-opacity, 1);
+}
+
+.opening-announce-bg-image .opening-announce-media-edit {
+  pointer-events: none;
+  inset: auto;
+  top: 50%;
+  left: 50%;
+  bottom: auto;
+  transform: translate(-50%, -50%);
+}
+
+.opening-announce-bg-image-placeholder {
+  position: absolute;
+  inset: 12px;
+  z-index: 0;
+  display: grid;
+  place-items: center;
+  margin: 0;
+  padding: 16px;
+  border: 1px dashed color-mix(in srgb, var(--announce-border, #fff) 55%, transparent);
+  background: color-mix(in srgb, var(--announce-bg, #000) 55%, transparent);
+  color: var(--announce-muted, #b8b8b8);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.opening-announce-bg-image-placeholder:hover {
+  color: var(--announce-text, #fff);
+  border-color: var(--announce-border, #fff);
+}
+
+.opening-announce.has-bg-image .opening-announce-kicker,
+.opening-announce.has-bg-image .opening-announce-title,
+.opening-announce.has-bg-image .opening-announce-body,
+.opening-announce.has-bg-image .opening-announce-actions,
+.opening-announce.has-bg-image .opening-announce-inline-input,
+.opening-announce.has-bg-image .opening-announce-close {
+  position: relative;
+  z-index: 1;
 }
 
 .opening-announce.is-align-right {

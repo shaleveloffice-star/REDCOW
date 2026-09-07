@@ -18,7 +18,9 @@ const store = createFirestoreDocumentStore<AnnouncementPopupConfig>(
 const HEX_PATTERN = /^#([0-9a-fA-F]{3}|[0-9a-fA-F]{6}|[0-9a-fA-F]{8})$/;
 
 function asPosition(value: unknown): AnnouncementPopupImagePosition {
-  if (value === "top" || value === "bottom" || value === "none") return value;
+  if (value === "top" || value === "bottom" || value === "none" || value === "background") {
+    return value;
+  }
   return "none";
 }
 

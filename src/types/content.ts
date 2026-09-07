@@ -146,7 +146,7 @@ export type HomepageMenuShowcaseConfig = {
 };
 
 /** Site-wide announcement popup controlled from admin. */
-export type AnnouncementPopupImagePosition = "none" | "top" | "bottom";
+export type AnnouncementPopupImagePosition = "none" | "top" | "bottom" | "background";
 export type AnnouncementPopupTextAlign = "right" | "center" | "left";
 export type AnnouncementPopupCtaAlign = "start" | "center" | "end";
 export type AnnouncementPopupCtaWidth = "full" | "auto";

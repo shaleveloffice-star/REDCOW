@@ -77,6 +77,8 @@ export function AnnouncementPopupDialog({
   const safeHref =
     config.ctaHref?.trim() && isSafePublicHref(config.ctaHref) ? config.ctaHref.trim() : "";
   const showImage = config.imagePosition !== "none" && Boolean(config.imageUrl?.trim());
+  const isBackgroundImage = config.imagePosition === "background";
+  const showInlineImage = showImage && !isBackgroundImage;
   const textAlign = config.textAlign || "center";
   const ctaAlign = config.ctaAlign || "center";
   const ctaWidth = config.ctaWidth || "full";
@@ -99,7 +101,7 @@ export function AnnouncementPopupDialog({
 
   const stopEdit = () => setEditingField(null);
 
-  const image = showImage ? (
+  const image = showInlineImage ? (
     <div
       className={`opening-announce-media${editable && onRequestImagePick ? " is-editable-target" : ""}`}
       role={editable && onRequestImagePick ? "button" : undefined}
@@ -134,7 +136,7 @@ export function AnnouncementPopupDialog({
         <span className="opening-announce-media-edit">החלף תמונה</span>
       ) : null}
     </div>
-  ) : editable && onRequestImagePick ? (
+  ) : editable && onRequestImagePick && !isBackgroundImage ? (
     <button
       type="button"
       className="opening-announce-media-placeholder"
@@ -143,6 +145,53 @@ export function AnnouncementPopupDialog({
       בחרו תמונה מהגלריה
     </button>
   ) : null;
+
+  const backgroundLayer =
+    isBackgroundImage && config.imageUrl.trim() ? (
+      <div
+        className={`opening-announce-bg-image${editable && onRequestImagePick ? " is-editable-target" : ""}`}
+        role={editable && onRequestImagePick ? "button" : undefined}
+        tabIndex={editable && onRequestImagePick ? 0 : undefined}
+        aria-label={editable ? "החלפת תמונת רקע" : undefined}
+        title={editable ? "לחצו להחלפת תמונת רקע" : undefined}
+        onClick={
+          editable && onRequestImagePick
+            ? (event) => {
+                event.preventDefault();
+                onRequestImagePick();
+              }
+            : undefined
+        }
+        onKeyDown={
+          editable && onRequestImagePick
+            ? (event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  onRequestImagePick();
+                }
+              }
+            : undefined
+        }
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={config.imageUrl.trim()}
+          alt={config.imageAlt.trim() || config.title}
+          className="opening-announce-bg-image-media"
+        />
+        {editable && onRequestImagePick ? (
+          <span className="opening-announce-media-edit">החלף רקע</span>
+        ) : null}
+      </div>
+    ) : isBackgroundImage && editable && onRequestImagePick ? (
+      <button
+        type="button"
+        className="opening-announce-bg-image-placeholder"
+        onClick={onRequestImagePick}
+      >
+        בחרו תמונת רקע מהגלריה
+      </button>
+    ) : null;
 
   const ctaClassName = `opening-announce-cta is-width-${ctaWidth}${
     editable ? " is-editable-target" : ""
@@ -196,13 +245,17 @@ export function AnnouncementPopupDialog({
   return (
     <div
       ref={dialogRef}
-      className={`opening-announce is-align-${textAlign}${editable ? " is-editable" : ""}`}
+      className={`opening-announce is-align-${textAlign}${editable ? " is-editable" : ""}${
+        isBackgroundImage ? " has-bg-image" : ""
+      }`}
       style={buildThemeStyle(config)}
       role={preview || editable ? "presentation" : "dialog"}
       aria-modal={preview || editable ? undefined : true}
       aria-labelledby={titleId}
       aria-describedby={paragraphs.length ? descId : undefined}
     >
+      {backgroundLayer}
+
       <button
         ref={closeRef}
         type="button"

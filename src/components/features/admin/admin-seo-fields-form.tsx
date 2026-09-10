@@ -254,6 +254,9 @@ export function AdminSeoFieldsForm({
                 ? adminFieldLabel("בלוק CTA (אופציונלי)", fieldWhere.ctaLegend)
                 : "בלוק CTA (אופציונלי)"}
             </legend>
+            <p className="admin-form-hint">
+              ריק = הבלוק לא יופיע באתר. אין מילוי אוטומטי מטקסט לדוגמה.
+            </p>
             <label>
               {fieldWhere?.ctaTitle ? adminFieldLabel("כותרת", fieldWhere.ctaTitle) : "כותרת"}
               <input

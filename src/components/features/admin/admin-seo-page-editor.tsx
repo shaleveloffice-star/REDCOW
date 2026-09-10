@@ -48,7 +48,7 @@ export function AdminSeoPageEditor({ pageId, initialDocument, fieldFlags }: Admi
       <p className="admin-seo-meta">
         {lastUpdated
           ? `עודכן לאחרונה: ${new Date(lastUpdated).toLocaleString("he-IL")}`
-          : "שדות ריקים משתמשים בברירת המחדל המובנית באתר."}
+          : "שדות ריקים (מלבד CTA) משתמשים בברירת המחדל המובנית באתר. CTA מוצג רק אם מולא."}
       </p>
       <p className="admin-field-hint">
         ניהול תוכן בעברית. תוכן חדש לא מתורגם אוטומטית לאנגלית ולצרפתית כל עוד שירות התרגום כבוי.

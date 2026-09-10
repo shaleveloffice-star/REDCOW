@@ -41,12 +41,13 @@ function pickFaqBlock(
   };
 }
 
-function pickCta(stored: SeoCtaBlock | undefined, fallback: SeoCtaBlock | undefined): SeoCtaBlock {
+/** CTA is optional: only explicit CMS text is used — never invent from defaults. */
+function pickCta(stored: SeoCtaBlock | undefined): SeoCtaBlock {
   return {
-    title: pickText(stored?.title, fallback?.title) || undefined,
-    body: pickText(stored?.body, fallback?.body) || undefined,
-    buttonLabel: pickText(stored?.buttonLabel, fallback?.buttonLabel) || undefined,
-    buttonHref: pickText(stored?.buttonHref, fallback?.buttonHref) || undefined
+    title: stored?.title?.trim() || undefined,
+    body: stored?.body?.trim() || undefined,
+    buttonLabel: stored?.buttonLabel?.trim() || undefined,
+    buttonHref: stored?.buttonHref?.trim() || undefined
   };
 }
 
@@ -88,7 +89,7 @@ function resolveCategorySeoFields(
     introduction,
     bottomContent,
     faq: pickFaqBlock(stored?.faq, defaultCategory?.faq ?? EMPTY_FAQ),
-    cta: pickCta(stored?.cta, defaultCategory?.cta)
+    cta: pickCta(stored?.cta)
   };
 }
 
@@ -132,7 +133,7 @@ export function resolveSeoPageContent(
     bottomContent,
     bottomParagraphs: splitParagraphs(bottomContent),
     faq: pickFaqBlock(source.faq, defaults.faq),
-    cta: pickCta(source.cta, defaults.cta),
+    cta: pickCta(source.cta),
     categoryIntros,
     categoryPages: buildCategoryPagesMap(source, categoryIntros, defaults)
   };

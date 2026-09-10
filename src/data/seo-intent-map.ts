@@ -253,17 +253,13 @@ function applyFaq(
   };
 }
 
-function applyCta(
-  current: SeoCtaBlock,
-  patch?: SeoCtaBlock,
-  stored?: SeoCtaBlock
-): SeoCtaBlock {
+/** CTA stays optional: use CMS only. Empty fields must not fall back to intent/defaults. */
+function applyCta(stored?: SeoCtaBlock): SeoCtaBlock {
   return {
-    title: preferText(stored?.title, patch?.title, current.title) || undefined,
-    body: preferText(stored?.body, patch?.body, current.body) || undefined,
-    buttonLabel:
-      preferText(stored?.buttonLabel, patch?.buttonLabel, current.buttonLabel) || undefined,
-    buttonHref: preferText(stored?.buttonHref, patch?.buttonHref, current.buttonHref) || undefined
+    title: stored?.title?.trim() || undefined,
+    body: stored?.body?.trim() || undefined,
+    buttonLabel: stored?.buttonLabel?.trim() || undefined,
+    buttonHref: stored?.buttonHref?.trim() || undefined
   };
 }
 
@@ -288,7 +284,7 @@ function applyCategoryPatch(
     introduction,
     bottomContent,
     faq: applyFaq(current.faq, patch.faq, stored?.faq),
-    cta: applyCta(current.cta, patch.cta, stored?.cta)
+    cta: applyCta(stored?.cta)
   };
 }
 
@@ -371,10 +367,10 @@ export function applyCategorySeoIntent(
             : content.faq.items
     },
     cta: {
-      title: content.cta.title?.trim() || patch.cta?.title?.trim() || undefined,
-      body: content.cta.body?.trim() || patch.cta?.body?.trim() || undefined,
-      buttonLabel: content.cta.buttonLabel?.trim() || patch.cta?.buttonLabel?.trim() || undefined,
-      buttonHref: content.cta.buttonHref?.trim() || patch.cta?.buttonHref?.trim() || undefined
+      title: content.cta.title?.trim() || undefined,
+      body: content.cta.body?.trim() || undefined,
+      buttonLabel: content.cta.buttonLabel?.trim() || undefined,
+      buttonHref: content.cta.buttonHref?.trim() || undefined
     }
   };
 }
@@ -417,7 +413,7 @@ export function applySeoIntentOverrides(
       bottomContent,
       bottomParagraphs: splitParagraphs(bottomContent),
       faq: applyFaq(content.faq, patch.faq, stored?.faq),
-      cta: applyCta(content.cta, patch.cta, stored?.cta)
+      cta: applyCta(stored?.cta)
     };
   }
 

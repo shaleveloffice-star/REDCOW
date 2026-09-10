@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { MenuCategorySeoBlock } from "@/components/features/menu/menu-category-seo-block";
 import { MenuFilters } from "@/components/features/menu/menu-filters";
@@ -10,7 +8,6 @@ import { MenuOrderCtas } from "@/components/features/menu/menu-order-ctas";
 import { SeoContentBody } from "@/components/shared/seo-content-body";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedCategoryName } from "@/i18n/category-translations";
-import { getMenuCategoryHref } from "@/lib/menu/category-slug";
 import type { MenuCategory, MenuItem } from "@/types/content";
 import type { ResolvedCategorySeoContent } from "@/types/seo-content";
 
@@ -34,7 +31,6 @@ export function MenuCategoryView({
   const t = useTranslations();
   const { locale } = useLocale();
   const categoryName = getLocalizedCategoryName(group, locale);
-  const relatedGroups = allGroups.filter((entry) => entry.id !== group.id && entry.isActive);
 
   return (
     <div className="menu-bleecker menu-bleecker--category">
@@ -78,21 +74,6 @@ export function MenuCategoryView({
             </section>
           </div>
         )}
-
-        {relatedGroups.length > 0 ? (
-          <nav className="menu-bleecker-related" aria-label={t.menuPage.relatedCategories}>
-            <h2 className="menu-bleecker-related-title">{t.menuPage.relatedCategories}</h2>
-            <ul className="menu-bleecker-related-list">
-              {relatedGroups.map((entry) => (
-                <li key={entry.id}>
-                  <Link href={getMenuCategoryHref(entry)} className="menu-bleecker-related-link">
-                    {getLocalizedCategoryName(entry, locale)}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </nav>
-        ) : null}
 
         <MenuCategorySeoBlock content={categorySeo} categoryId={group.id} />
       </div>

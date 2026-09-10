@@ -43,6 +43,8 @@ export function SeoFaqSection({
   const headingId = titleId ?? `${baseId}-title`;
   const TitleTag = titleLevel;
   const QuestionTag = questionLevel;
+  // BEM block only — modifiers like "site-faq--nested" must not prefix child classes.
+  const blockClass = className.trim().split(/\s+/).find(Boolean) || "site-faq";
 
   return (
     <section
@@ -50,18 +52,18 @@ export function SeoFaqSection({
       className={className}
       aria-labelledby={faq.title.trim() ? headingId : undefined}
     >
-      <div className={`${className}-shell`}>
-        <header className={`${className}-header`}>
-          {faq.kicker.trim() ? <p className={`${className}-kicker`}>{faq.kicker}</p> : null}
+      <div className={`${blockClass}-shell`}>
+        <header className={`${blockClass}-header`}>
+          {faq.kicker.trim() ? <p className={`${blockClass}-kicker`}>{faq.kicker}</p> : null}
           {faq.title.trim() ? (
-            <TitleTag id={headingId} className={`${className}-title`}>
+            <TitleTag id={headingId} className={`${blockClass}-title`}>
               {faq.title}
             </TitleTag>
           ) : null}
-          {faq.lead.trim() ? <p className={`${className}-lead`}>{faq.lead}</p> : null}
+          {faq.lead.trim() ? <p className={`${blockClass}-lead`}>{faq.lead}</p> : null}
         </header>
 
-        <div className={`${className}-list`}>
+        <div className={`${blockClass}-list`}>
           {items.map((item, index) => {
             const isOpen = openIndex === index;
             const panelId = `${baseId}-panel-${index}`;
@@ -70,19 +72,19 @@ export function SeoFaqSection({
             return (
               <div
                 key={`${item.question}-${index}`}
-                className={`${className}-item${isOpen ? " is-open" : ""}`}
+                className={`${blockClass}-item${isOpen ? " is-open" : ""}`}
               >
-                <QuestionTag className={`${className}-question`}>
+                <QuestionTag className={`${blockClass}-question`}>
                   <button
                     id={buttonId}
                     type="button"
-                    className={`${className}-trigger`}
+                    className={`${blockClass}-trigger`}
                     aria-expanded={isOpen}
                     aria-controls={panelId}
                     onClick={() => setOpenIndex(isOpen ? null : index)}
                   >
                     <span>{item.question}</span>
-                    <span className={`${className}-icon`} aria-hidden="true">
+                    <span className={`${blockClass}-icon`} aria-hidden="true">
                       {isOpen ? "−" : "+"}
                     </span>
                   </button>
@@ -91,7 +93,7 @@ export function SeoFaqSection({
                   id={panelId}
                   role="region"
                   aria-labelledby={buttonId}
-                  className={`${className}-answer`}
+                  className={`${blockClass}-answer`}
                   hidden={!isOpen}
                 >
                   <p>{item.answer}</p>

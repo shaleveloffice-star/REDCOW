@@ -1,3 +1,4 @@
+import { listBranches } from "@/services/branches.service";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 
@@ -42,7 +43,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HomePage() {
   const locale = await getServerLocale();
-  const [siteImages, homepageMenuItems, homeSeo] = await Promise.all([
+  const [siteImages, homepageMenuItems, homeSeo, branches] = await Promise.all([
     getCachedSiteImagesMap().catch((err) => {
       console.error("[HomePage] site images failed", err instanceof Error ? err.message : err);
       return {} as SiteImagesMap;
@@ -53,13 +54,14 @@ export default async function HomePage() {
       const items = await listMenuItems({ activeOnly: true });
       return items.slice(0, 8);
     }),
-    getCachedResolvedSeoPageContent(locale, "home")
+    getCachedResolvedSeoPageContent(locale, "home"),
+    listBranches({ activeOnly: true })
   ]);
   const homeFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(homeSeo.faq.items));
   const heroImages = resolveSiteImagePair(siteImages, "hero-burger", HOME_HERO_IMAGE, "20260803");
   return (
     <>
-      <JsonLd data={buildRestaurantJsonLd()} />
+      <JsonLd data={buildRestaurantJsonLd(branches[0])} />
       {homeFaqJsonLd ? <JsonLd data={homeFaqJsonLd} /> : null}
       <main id="main-content">
         <HeroSection heroImageUrl={heroImages.desktop} heroMobileImageUrl={heroImages.mobile} />
@@ -72,7 +74,7 @@ export default async function HomePage() {
           sectionId="faq"
           titleId="home-faq-title"
         />
-        <LocationSection siteImages={siteImages} />
+        <LocationSection siteImages={siteImages} branch={branches[0]} />
         <CustomerClubSection />
       </main>
       <SiteFooter />

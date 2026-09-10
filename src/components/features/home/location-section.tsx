@@ -1,8 +1,9 @@
+import type { Branch } from "@/types/content";
 import { TrackedAnchor, TrackedLink } from "@/components/analytics/tracked-click";
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
 
 import { IconClock, IconMap, IconMapPin } from "@/components/shared/site-icons";
-import { getBusinessMapsSearchUrl } from "@/data/business";
+import { branchAddress, branchMapsUrl, usesDefaultBranchHours } from "@/data/business";
 import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
@@ -12,9 +13,10 @@ import type { SiteImagesMap } from "@/types/site-images";
 
 type LocationSectionProps = {
   siteImages?: SiteImagesMap;
+  branch?: Branch;
 };
 
-export async function LocationSection({ siteImages }: LocationSectionProps) {
+export async function LocationSection({ siteImages, branch }: LocationSectionProps) {
   const locale = await getServerLocale();
   const t = await getLocalizedMessages(locale);
   const exteriorImages = resolveSiteImagePair(
@@ -27,7 +29,7 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
     locale,
     customAlt: t.location.imageAlt
   });
-  const mapsUrl = getBusinessMapsSearchUrl();
+  const mapsUrl = branchMapsUrl(branch);
 
   return (
     <section id="location" className="location-section" aria-labelledby="location-title">
@@ -45,7 +47,7 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
               <IconMapPin className="location-block-icon" />
               <h3>{t.location.locationHeading}</h3>
             </div>
-            <p className="location-block-text">{t.location.address}</p>
+            <p className="location-block-text">{branchAddress(branch, locale)}</p>
             <p className="location-block-text">{t.location.businessType}</p>
             <p className="location-block-text">{t.location.kosher}</p>
             <p className="location-block-text">{t.location.parking}</p>
@@ -59,7 +61,7 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
               <IconClock className="location-block-icon" />
               <h3>{t.location.hoursHeading}</h3>
             </div>
-            <dl className="location-hours">
+            {!usesDefaultBranchHours(branch) ? <p className="location-block-text">{branch?.openingHours}</p> : <dl className="location-hours">
               <div>
                 <dt className="location-hours-day">{t.location.days.sunThu}</dt>
                 <dd className="location-hours-time">{t.location.hours.sunThu}</dd>
@@ -74,7 +76,7 @@ export async function LocationSection({ siteImages }: LocationSectionProps) {
                 <dt className="location-hours-day">{t.location.days.sat}</dt>
                 <dd className="location-hours-time">{t.location.hours.sat}</dd>
               </div>
-            </dl>
+            </dl>}
           </div>
 
           <div className="location-cta-group">

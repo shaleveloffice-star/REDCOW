@@ -80,6 +80,7 @@ export type StorySection =
   | StoryLongContentSection;
 
 export type BrandStory = {
+  previousSlugs?: string[];
   id: string;
   slug: string;
   category: string;

@@ -3772,6 +3772,20 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   pointer-events: none;
 }
 
+.hero-burger.hero-burger--video {
+  padding-top: 0;
+  align-items: center;
+}
+
+.hero-burger--video .hero-burger-image {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  transform: none;
+}
+
 .autoplay-video-wrap {
   position: relative;
   display: block;
@@ -10220,4 +10234,3 @@ body:not(:has(.admin-layout)) button:focus-visible {
     justify-content: center;
   }
 }
-

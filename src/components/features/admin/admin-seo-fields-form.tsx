@@ -190,7 +190,7 @@ export function AdminSeoFieldsForm({
               />
             </label>
 
-            {(draft.faq?.items ?? []).map((item, index) => (
+            {(draft.faq?.items ?? []).map((_item, index) => (
               <div key={`${idPrefix}-faq-${index}`} className="admin-seo-faq-item">
                 <label>
                   {fieldWhere?.faqQuestion

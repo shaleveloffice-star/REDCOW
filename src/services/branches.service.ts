@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { deleteBranch, getBranches, saveBranch } from "@/repositories/branches.repository";
 import type { Branch } from "@/types/content";
 
@@ -13,3 +14,5 @@ export async function upsertBranch(input: Branch): Promise<Branch> {
 export async function removeBranch(id: string): Promise<boolean> {
   return deleteBranch(id);
 }
+
+export const getPrimaryBranch = cache(async (): Promise<Branch | undefined> => (await listBranches({ activeOnly: true }))[0]);

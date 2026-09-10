@@ -1,7 +1,8 @@
+import { getPrimaryBranch } from "@/services/branches.service";
 import { TrackedAnchor } from "@/components/analytics/tracked-click";
 import { IconMail, IconMapPin, IconPhone } from "@/components/shared/site-icons";
 import { SITE_WORDMARK_LIGHT_SRC, SITE_WORDMARK_LIGHT_WEBP_SRC } from "@/data/brand-assets";
-import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
+import { BUSINESS, branchMapsUrl, branchAddress } from "@/data/business";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { resolveImageAlt } from "@/lib/image-alt";
@@ -42,8 +43,9 @@ export async function SiteFooter() {
   const locale = await getServerLocale();
   const t = await getLocalizedMessages(locale);
   const logoAlt = resolveImageAlt({ kind: "logo", locale });
-  const phone = BUSINESS.phone;
-  const mapsUrl = getBusinessMapsSearchUrl();
+  const branch = await getPrimaryBranch();
+  const phone = branch ? branch.phone : BUSINESS.phone;
+  const mapsUrl = branchMapsUrl(branch);
 
   const footerNavLinks = [
     { label: t.nav.home, href: "/" },
@@ -93,7 +95,7 @@ export async function SiteFooter() {
               ) : null}
               <p className="site-footer-contact-item">
                 <IconMapPin className="site-footer-icon" />
-                <span>{t.location.address}</span>
+                <span>{branchAddress(branch, locale)}</span>
               </p>
               <a href={`mailto:${BUSINESS.email}`} className="site-footer-contact-link">
                 <IconMail className="site-footer-icon" />

@@ -74,7 +74,7 @@ export function resolveMenuItemSlug(
 
 /** All slug variants that should resolve to this menu item. */
 export function getMenuItemSlugAliases(
-  item: Pick<MenuItem, "id" | "name" | "slug">
+  item: Pick<MenuItem, "id" | "name" | "slug" | "previousSlugs">
 ): string[] {
   const aliases = new Set<string>();
   const add = (value: string | undefined) => {
@@ -89,6 +89,7 @@ export function getMenuItemSlugAliases(
   add(legacySlugifyProductName(item.name));
   add(item.id);
   add(slugFromItemId(item.id));
+  for (const slug of item.previousSlugs ?? []) add(slug);
 
   for (const legacy of getMenuItemLegacySlugs(item.id)) {
     add(legacy);
@@ -115,12 +116,13 @@ export function ensureUniqueProductSlug(
   if (options.items) {
     for (const item of options.items) {
       if (options.currentId && item.id === options.currentId) continue;
-      taken.add(resolveMenuItemSlug(item).toLowerCase());
+      for (const alias of getMenuItemSlugAliases(item)) taken.add(alias);
     }
   }
 
   const base =
     (normalizeAsciiSlug(desired) || "item").toLowerCase().replace(/^-+|-+$/g, "") || "item";
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(base)) throw new Error("סלאג לא תקין — השתמשו באותיות באנגלית, מספרים ומקפים בלבד");
   if (!taken.has(base)) {
     return base;
   }

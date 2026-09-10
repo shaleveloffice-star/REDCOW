@@ -37,6 +37,7 @@ export async function getBrandStoryBySlug(
   return (
     stories.find((story) => resolveStorySlug(story) === normalized) ??
     stories.find((story) => normalizeStorySlug(story.slug ?? "") === normalized) ??
+    stories.find(story => story.previousSlugs?.includes(normalized)) ??
     null
   );
 }

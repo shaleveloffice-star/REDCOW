@@ -2,6 +2,8 @@
 
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
+import { AutoplayVideo } from "@/components/shared/autoplay-video";
+import { isVideoMediaUrl } from "@/lib/menu-media";
 import { HOME_HERO_IMAGE } from "@/data/site-images.registry";
 import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 
@@ -20,15 +22,15 @@ export function HeroSection({ heroImageUrl, heroMobileImageUrl }: HeroSectionPro
   const t = useTranslations();
   const { locale } = useLocale();
   const captionDir = locale === "he" ? "rtl" : "ltr";
-  const imageSrc = heroImageUrl?.trim() || HERO_BURGER_IMAGE;
+  const imageSrc = heroImageUrl === undefined ? HERO_BURGER_IMAGE : heroImageUrl.trim();
   const mobileSrc = heroMobileImageUrl?.trim() || imageSrc;
 
   return (
     <section id="hero" className="hero hero--cinematic hero--premier hero--solid" aria-label="NB BURGER">
       <h1 className="sr-only">{t.hero.srTitle}</h1>
 
-      <div className="hero-burger" aria-hidden="true">
-        <ResponsiveSiteImage
+      <div className={`hero-burger${isVideoMediaUrl(imageSrc) ? " hero-burger--video" : ""}`}>
+        {isVideoMediaUrl(imageSrc) ? <AutoplayVideo src={imageSrc} className="hero-burger-image" preload="metadata" /> : <ResponsiveSiteImage
           desktopSrc={imageSrc}
           mobileSrc={mobileSrc}
           alt={DECORATIVE_IMAGE_ALT}
@@ -37,7 +39,7 @@ export function HeroSection({ heroImageUrl, heroMobileImageUrl }: HeroSectionPro
           loading="eager"
           fetchPriority="high"
           className="hero-burger-image"
-        />
+        />}
       </div>
 
       <div className="hero-caption">

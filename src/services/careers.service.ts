@@ -1,3 +1,4 @@
+import { createId } from "@/lib/admin/new-id";
 import {
   deleteCareerApplication,
   getCareerApplications,
@@ -15,7 +16,7 @@ export async function createCareerApplication(
 ): Promise<CareerApplication> {
   return saveCareerApplication({
     ...input,
-    id: `career-${Date.now()}`,
+    id: createId("career"),
     createdAt: new Date().toISOString(),
     status: "new"
   });

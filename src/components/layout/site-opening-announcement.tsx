@@ -4,12 +4,7 @@ import { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from
 
 import { AnnouncementPopupDialog } from "@/components/layout/announcement-popup-dialog";
 import { useTranslations } from "@/components/providers/locale-provider";
-import {
-  focusElement,
-  getFocusableElements,
-  inertBackground,
-  trapFocus
-} from "@/lib/a11y/focus-trap";
+import { mountModal } from "@/lib/a11y/focus-trap";
 import type { AnnouncementPopupConfig } from "@/types/content";
 import { buildAnnouncementOverlayStyle } from "@/components/layout/announcement-popup-dialog";
 
@@ -81,35 +76,8 @@ export function SiteOpeningAnnouncement({ config }: SiteOpeningAnnouncementProps
   useLayoutEffect(() => {
     if (!open) return;
 
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const root = rootRef.current;
-    const dialog = dialogRef.current;
-    if (!root || !dialog) {
-      return () => {
-        document.body.style.overflow = previousOverflow;
-      };
-    }
-
-    const restoreInert = inertBackground(root);
-    focusElement(closeRef.current ?? getFocusableElements(dialog)[0]);
-    const releaseTrap = trapFocus(dialog);
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        dismiss();
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      releaseTrap();
-      restoreInert();
-      window.removeEventListener("keydown", onKeyDown);
-    };
+    if (!rootRef.current || !dialogRef.current) return;
+    return mountModal(rootRef.current, dialogRef.current, dismiss);
   }, [open, dismiss]);
 
   if (!config || !open) return null;

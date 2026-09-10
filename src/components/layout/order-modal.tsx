@@ -8,13 +8,7 @@ import {
   IconDeliveryMark
 } from "@/components/shared/site-icons";
 import { useTranslations } from "@/components/providers/locale-provider";
-import {
-  focusElement,
-  getFocusableElements,
-  inertBackground,
-  isFocusRestoreTarget,
-  trapFocus
-} from "@/lib/a11y/focus-trap";
+import { mountModal } from "@/lib/a11y/focus-trap";
 import { trackEvent, type AnalyticsSource } from "@/lib/analytics";
 
 type OrderModalProps = {
@@ -39,49 +33,15 @@ export function OrderModal({
   const rootRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
+  const onCloseRef = useRef(onClose);
+  onCloseRef.current = onClose;
 
   useLayoutEffect(() => {
     if (!open) return;
 
-    const opener =
-      (returnFocusRef?.current && returnFocusRef.current.isConnected
-        ? returnFocusRef.current
-        : null) ??
-      (document.activeElement instanceof HTMLElement ? document.activeElement : null);
-
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    const root = rootRef.current;
-    const dialog = dialogRef.current;
-    if (!root || !dialog) {
-      return () => {
-        document.body.style.overflow = previousOverflow;
-      };
-    }
-
-    const restoreInert = inertBackground(root);
-    focusElement(closeRef.current ?? getFocusableElements(dialog)[0]);
-    const releaseTrap = trapFocus(dialog);
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        onClose();
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.body.style.overflow = previousOverflow;
-      releaseTrap();
-      restoreInert();
-      window.removeEventListener("keydown", onKeyDown);
-      if (isFocusRestoreTarget(opener)) {
-        focusElement(opener);
-      }
-    };
-  }, [open, onClose, returnFocusRef]);
+    if (!rootRef.current || !dialogRef.current) return;
+    return mountModal(rootRef.current, dialogRef.current, () => onCloseRef.current(), returnFocusRef?.current);
+  }, [open, returnFocusRef]);
 
   if (!open) return null;
 
@@ -92,6 +52,7 @@ export function OrderModal({
         ref={dialogRef}
         className="order-modal"
         role="dialog"
+        tabIndex={-1}
         aria-modal="true"
         aria-labelledby={titleId}
       >

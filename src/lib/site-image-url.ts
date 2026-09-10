@@ -11,7 +11,7 @@ export function pickSiteImage(
   id: string,
   fallback: string
 ): string {
-  if (!map || !(id in map) || !map[id]) {
+  if (!map || !(id in map)) {
     return fallback;
   }
   return map[id];

@@ -1,214 +1,52 @@
-# Launch Guide — NB BURGER Production
+# NB BURGER — configuration and deployment
 
-יעד: **https://nbburger.co.il**  
-ארכיטקטורת Firestore: **Public Read + Admin Write**  
-פלטפורמת Hosting: **Vercel** (לא Firebase Hosting)
+The current application runs on Next.js 16 with Node.js 22 or newer and is hosted on Vercel. Its canonical production origin is `https://www.nbburger.co.il`. This guide describes the current password-based admin flow; older documents describing Firebase Auth modes or an admin email allowlist do not describe the active login implementation.
 
-מסמך זה מכסה הכנת Launch Configuration בלבד. אין Secrets אמיתיים כאן.
+## Environment
 
----
+| Variable | Purpose |
+| --- | --- |
+| `NEXT_PUBLIC_APP_URL` | Public origin used by canonical URLs, sitemap and JSON-LD. Use `https://www.nbburger.co.il` for production and the actual preview origin for previews. |
+| `NEXT_PUBLIC_FIREBASE_API_KEY`, `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`, `NEXT_PUBLIC_FIREBASE_PROJECT_ID`, `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`, `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `NEXT_PUBLIC_FIREBASE_APP_ID` | Existing Firebase Web App configuration for public content reads. All required by the current configuration check. |
+| `ADMIN_PASSWORD` | Server-only shared admin password. Required in production; code enforces at least six characters. Use a long random password. `ADMIN_DEV_PASSWORD` is a development fallback only. |
+| `ADMIN_SESSION_SECRET` | Server-only JWT secret, at least 32 characters. |
+| `FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY` | Server-only Admin SDK credentials for writes, private reads and shared rate limiting. Client and Admin must point to the same project. Escaped `\n` in the key is supported. |
+| `BLOB_READ_WRITE_TOKEN` | Existing Vercel Blob upload token. The code also supports the existing Vercel OIDC/store binding; retain those settings when already configured. |
+| `BLOB_STORE_ID` | Optional explicit Blob store identifier. |
+| `OPENAI_API_KEY` | Server-only key for the existing story generation/suggestion tools. Retain existing optional model overrides. |
+| `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESEND_FROM_NAME` | Existing email provider and sender configuration. Sender name defaults to NB BURGER. |
+| `GOOGLE_CLOUD_TRANSLATION_API_KEY` | Optional existing translation integration. Automatic translation remains disabled in code. |
 
-## 1. Environment Variables (רשימה סופית)
+Do not replace existing deployment credentials while applying maintenance fixes. `.env*` and service-account files stay outside Git. The login flow does not use `ADMIN_AUTH_MODE`, `ADMIN_ALLOWED_EMAILS`, or Firebase Authentication.
 
-| משתנה | חובה? | Public / Server | Secret? | Production | Preview | Development | אם חסר |
-|--------|--------|------------------|---------|------------|---------|-------------|--------|
-| `NEXT_PUBLIC_APP_URL` | מומלץ מאוד (חובה לפרוד) | Public | לא | כן | כן (URL של preview) | אופציונלי | נופל ל-`BUSINESS.website` (`https://nbburger.co.il`) |
-| `ADMIN_AUTH_MODE` | מומלץ | Server | לא | **`firebase`** | `firebase` או `password` | `password` / `open` / `mock` | ברירת מחדל `password` (לא `open`) |
-| `ADMIN_SESSION_SECRET` | **חובה בפרוד** | Server | **כן** | כן | כן | כן למצבי session | Login / session נכשלים; production זורק שגיאה |
-| `ADMIN_ALLOWED_EMAILS` | **חובה בפרוד** | Server | לא (רגיש) | כן | כן | כן ל-password/firebase | חסימת admin |
-| `ADMIN_DEV_PASSWORD` | רק במצב `password` | Server | **כן** | רק זמני | אופציונלי | כן ל-password | Login password נכשל |
-| `NEXT_PUBLIC_FIREBASE_API_KEY` | חובה עם Firestore | Public | לא* | כן | כן | אופציונלי | אין Firebase Client → local/mock (לא לפרוד) |
-| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | חובה עם Firestore | Public | לא | כן | כן | אופציונלי | כנ״ל |
-| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | חובה עם Firestore | Public | לא | כן | כן | אופציונלי | כנ״ל |
-| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | חובה עם Firestore | Public | לא | כן | כן | אופציונלי | כנ״ל |
-| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | חובה עם Firestore | Public | לא | כן | כן | אופציונלי | כנ״ל |
-| `NEXT_PUBLIC_FIREBASE_APP_ID` | חובה עם Firestore | Public | לא | כן | כן | אופציונלי | כנ״ל |
-| `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` | אופציונלי | Public | לא | אופציונלי | אופציונלי | אופציונלי | אין השפעה (Analytics לא מחובר) |
-| `FIREBASE_PROJECT_ID` | **חובה** עם כתיבות / `firebase` auth | Server | לא | כן | כן | כן לכתיבות | כתיבות נכשלות בשגיאה ברורה |
-| `FIREBASE_CLIENT_EMAIL` | **חובה** כנ״ל | Server | **כן** | כן | כן | כן לכתיבות | כנ״ל |
-| `FIREBASE_PRIVATE_KEY` | **חובה** כנ״ל | Server | **כן** | כן | כן | כן לכתיבות | כנ״ל |
+## Firestore
 
-\* API key של Firebase Client הוא ציבורי לפי עיצוב, אך מוגבל ב-API restrictions / App Check בעתיד.
+The application uses public client reads for content and Admin SDK writes. The checked-in `firestore.rules` and example cover the current public collections, including SEO, stories, gallery and the announcement popup. Private collections remain denied to browser clients. A local edit to the rules does not change deployed rules.
 
-אין משתני ENV נוספים בשימוש בקוד מעבר לרשימה זו (חוץ מ-`NODE_ENV` של הפלטפורמה).
+Transactional maintenance writes also use `_mutationLocks` as private guard documents and `rateLimits` as private shared counters. Both are accessed only through Admin SDK. Rate-limit documents include `expiresAt`; optionally enable Firestore TTL for that field to remove expired counters. Expiry is checked in application code and does not depend on TTL timing.
 
----
+Publish rules to the intended Firebase project only as part of an authorized deployment, for example:
 
-## 2. Auth בפרודקשן
-
-| דרישה | סטטוס |
-|--------|--------|
-| מומלץ: `ADMIN_AUTH_MODE=firebase` | כן — ב-`.env.example` ובמדריך זה |
-| אין fallback ל-`open` | כן — ברירת מחדל `password`; `open`/`mock` נחסמים ב-`NODE_ENV=production` |
-| `ADMIN_ALLOWED_EMAILS` חובה בפרוד | כן — `assertProductionAuthMode` |
-| `ADMIN_SESSION_SECRET` חובה בפרוד | כן |
-| Firebase Admin credentials חובה במצב `firebase` | כן |
-| `password` רק כאפשרות זמנית ומודעת | כן — נשאר נתמך, מתועד כזמני |
-
-**אין** יצירת משתמשי Firebase מהקוד. צרו משתמש אדמין ידנית ב-Firebase Console → Authentication.
-
----
-
-## 3. Firestore Rules
-
-קבצים:
-
-- `firestore.rules` — מוכן לפרסום
-- `firestore.rules.example` — תבנית מתועדת (זהה בתוכן)
-- `firebase.json` → מצביע ל-`firestore.rules` + `firestore.indexes.json`
-- `firestore.indexes.json` — ריק תקין (אין indexes מותאמים כרגע)
-
-### פרסום Rules (ידני)
-
-```bash
-# לאחר התחברות ל-Firebase CLI והגדרת project (מקומית, לא ב-git):
-firebase deploy --only firestore:rules
+```sh
+firebase deploy --only firestore:rules --project YOUR_EXISTING_PROJECT_ID
 ```
 
-או העתיקו את תוכן `firestore.rules` ל-Firebase Console → Firestore → Rules → Publish.
+No database migration or reseeding is required for the maintenance changes. `previousSlugs`, campaign leases and delivery checkpoints are additive fields. Existing document IDs and collection names remain supported. Do not automatically retry legacy email campaigns stuck in `sending` without a lease: first inspect provider delivery history.
 
-אין Hosting ב-Firebase. האתר ב-Vercel.
+## Build and deploy
 
----
+1. Run `npm run lint`, `npm test`, and `npm run build` locally.
+2. Retain the existing Vercel project, Git connection, production branch and external integrations. Use Node.js 22 or newer.
+3. Confirm the existing production domain redirects to `www.nbburger.co.il`, matching canonical URLs. Do not change DNS merely to apply code fixes.
+4. Deploy code and publish the reviewed Firestore rules to the matching project when authorized.
+5. Verify admin login, public CMS reads and an approved save/refresh scenario in the deployed environment. Use a test recipient only when a live delivery test is explicitly authorized.
 
-## 4. Bootstrap: `siteSettings/default`
+`npm run build` and the automated tests do not deploy anything. In-memory Firestore tests verify application transaction behavior; they are not a substitute for checking production credentials or deployed rules.
 
-כש-Firebase מחובר, הקוד **לא** יוצר את המסמך דרך Client. יש להריץ פעם אחת:
+## Local data and recovery
 
-```bash
-# עם FIREBASE_PROJECT_ID / CLIENT_EMAIL / PRIVATE_KEY ב-.env.local
-npm run bootstrap:site-settings
-```
+JSON collection and document stores distinguish a missing file from corrupt JSON. Missing files read defaults without writing. Corrupt files raise an error and are preserved. Writes use a temporary file followed by an atomic replacement; concurrent writes in the same process are serialized. Local JSON is intended for one development server, not a multi-instance production database.
 
-או:
+Paired menu-category and SEO writes are a single Firestore transaction. Local development uses serialization and compensation if the second file write fails; a process or machine crash across two local files is not a database transaction.
 
-```bash
-node --env-file=.env.local scripts/bootstrap-site-settings.mjs
-```
-
-- משתמש ב-**Admin SDK** בלבד
-- אם המסמך קיים — נכשל אלא אם מועבר `--force`
-- לא רץ ב-build / deploy
-- לא מכיל Secrets
-
----
-
-## 5. Vercel — הוראות פריסה
-
-1. **Import** את הריפו ל-Vercel (GitHub/GitLab/Bitbucket).
-2. **Framework Preset:** Next.js (זיהוי אוטומטי).
-3. **Root Directory:** `.` (שורש הפרויקט).
-4. **Install Command:** `npm install` (ברירת מחדל).
-5. **Build Command:** `npm run build`.
-6. **Output:** ברירת מחדל של Next.js (לא static export).
-7. **Node.js:** `20.x` (ראו `.nvmrc` / `engines` ב-`package.json`). ב-Vercel: Project Settings → General → Node.js Version → 20.x.
-8. **Production Branch:** `main` (או הענף שתבחרו).
-9. הגדירו **Environment Variables** (טבלה למטה) ל-Production / Preview / Development לפי הצורך.
-10. לאחר שינוי ENV — **Redeploy** (Deployments → … → Redeploy).
-11. **Runtime Logs:** Project → Logs / Deployment → Functions logs.
-12. **Preview:** כל PR מקבל URL זמני; הגדירו `NEXT_PUBLIC_APP_URL` ל-URL של ה-preview אם בודקים canonical/OG.
-13. **Production:** אחרי חיבור דומיין — `NEXT_PUBLIC_APP_URL=https://nbburger.co.il`.
-
-אין צורך ב-`vercel.json` לפריסה הנוכחית.
-
----
-
-## 6. Checklist ידני — Firebase
-
-- [ ] 1. יצירת Firebase Project
-- [ ] 2. יצירת Firestore Database (production mode)
-- [ ] 3. הפעלת Authentication → Email/Password
-- [ ] 4. יצירת משתמש אדמין (Console בלבד — לא מהקוד)
-- [ ] 5. Authorized Domains: `nbburger.co.il`, `www.nbburger.co.il`, ודומיין Vercel
-- [ ] 6. יצירת Web App בפרויקט
-- [ ] 7. העתקת Firebase Client ENV ל-Vercel (`NEXT_PUBLIC_FIREBASE_*`)
-- [ ] 8. יצירת Service Account (Firebase Admin) והורדת JSON — **לא** ל-git
-- [ ] 9. העתקת Admin ENV ל-Vercel (`FIREBASE_PROJECT_ID`, `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`)
-- [ ] 10. פרסום `firestore.rules`
-- [ ] 11. הרצת `npm run bootstrap:site-settings` מקומית עם Admin ENV
-- [ ] 12. בדיקה: CMS ציבורי נקרא; private collections לא נגישים מ-Client
-
----
-
-## 7. Checklist ידני — Vercel ENV
-
-מלאו ב-Vercel → Settings → Environment Variables.
-
-| שם | Production | Preview | Development | Secret | ערך לדוגמה / תיאור |
-|----|------------|---------|-------------|--------|---------------------|
-| `NEXT_PUBLIC_APP_URL` | ✓ | ✓ | אופציונלי | לא | `https://nbburger.co.il` (Preview: URL של deployment) |
-| `ADMIN_AUTH_MODE` | ✓ | ✓ | ✓ | לא | `firebase` |
-| `ADMIN_SESSION_SECRET` | ✓ | ✓ | ✓ | **כן** | מחרוזת אקראית ≥32 תווים |
-| `ADMIN_ALLOWED_EMAILS` | ✓ | ✓ | ✓ | לא | מייל האדמין ב-Firebase Auth |
-| `ADMIN_DEV_PASSWORD` | רק אם password זמני | אופציונלי | כן ל-password | **כן** | ≥12 תווים — לא מומלץ בפרוד ארוך טווח |
-| `NEXT_PUBLIC_FIREBASE_API_KEY` | ✓ | ✓ | אופציונלי | לא | מ-Firebase Web App config |
-| `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN` | ✓ | ✓ | אופציונלי | לא | `your-project.firebaseapp.com` |
-| `NEXT_PUBLIC_FIREBASE_PROJECT_ID` | ✓ | ✓ | אופציונלי | לא | Project ID |
-| `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET` | ✓ | ✓ | אופציונלי | לא | `your-project.appspot.com` |
-| `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID` | ✓ | ✓ | אופציונלי | לא | מספר |
-| `NEXT_PUBLIC_FIREBASE_APP_ID` | ✓ | ✓ | אופציונלי | לא | `1:…:web:…` |
-| `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` | אופציונלי | אופציונלי | אופציונלי | לא | `G-…` |
-| `FIREBASE_PROJECT_ID` | ✓ | ✓ | לכתיבות | לא | כמו Project ID |
-| `FIREBASE_CLIENT_EMAIL` | ✓ | ✓ | לכתיבות | **כן** | `…@….iam.gserviceaccount.com` |
-| `FIREBASE_PRIVATE_KEY` | ✓ | ✓ | לכתיבות | **כן** | מפתח עם `\n` — לא להדביס ל-git/לוגים |
-
----
-
-## 8. Checklist ידני — דומיין ו-DNS
-
-- [ ] ב-Vercel: Add Domain → `nbburger.co.il`
-- [ ] הוסיפו גם `www.nbburger.co.il`
-- [ ] הגדירו **Primary Domain** ל-`nbburger.co.il` (apex)
-- [ ] Redirect מ-`www` → apex (הגדרת Vercel Domains)
-- [ ] העתיקו ל-DNS של הרשם **בדיוק** את הרשומות ש-Vercel מציג (A / CNAME / TXT לפי הצורך)
-- [ ] המתינו ל-SSL (Certificate Issued)
-- [ ] ודאו `NEXT_PUBLIC_APP_URL=https://nbburger.co.il` ב-Production + Redeploy
-- [ ] Authorized Domains ב-Firebase כוללים את הדומיין החי
-
-אין שינוי DNS מתוך Cursor.
-
-Canonical / OG / Twitter / Sitemap / Robots / JSON-LD מבוססים על `NEXT_PUBLIC_APP_URL` → `SITE_URL` ב-`src/lib/seo.ts` (עם fallback ל-`https://nbburger.co.il`).
-
----
-
-## Admin 500 — "Admin authentication is misconfigured."
-
-הודעה זו מגיעה מ-`middleware.ts` כש-`assertProductionAuthMode()` נכשל ב-production.
-
-במצב `ADMIN_AUTH_MODE=firebase` נדרשים **לפני** הצגת `/admin/login`:
-
-1. `ADMIN_SESSION_SECRET` — לפחות 32 תווים (אחרי trim)
-2. `ADMIN_ALLOWED_EMAILS` — לפחות אימייל אחד (מופרד בפסיקים, מנורמל ל-lowercase)
-3. `FIREBASE_PROJECT_ID`
-4. `FIREBASE_CLIENT_EMAIL`
-5. `FIREBASE_PRIVATE_KEY`
-
-אם `ADMIN_AUTH_MODE` **לא** מוגדר → ברירת מחדל `password`, ואז נדרש גם `ADMIN_DEV_PASSWORD` (≥12).  
-**אל תשתמשו ב-`open` / `mock` בפרודקשן** — הם נחסמים.
-
-`NEXT_PUBLIC_FIREBASE_API_KEY` אינו נבדק ב-middleware (רק בזמן Login). עדיין חובה ל-login עם Firebase.
-
-לאחר שינוי ENV ב-Vercel: **Redeploy חובה** (במיוחד ל-`NEXT_PUBLIC_*` שמוטמעים ב-build).
-
-
-| בדיקה | תוצאה צפויה |
-|--------|-------------|
-| Firebase Client חסר בפרוד עם כוונה ל-Firestore | אין mock שקט לנתיב Firebase — local רק כש-Client לא מוגדר בכלל |
-| Firebase Admin חסר בכתיבה | שגיאה ברורה בלוג + throw |
-| Auth חסר / open / mock בפרוד | חסימה / throw — לא פתיחה |
-| Secrets ב-source / git | אסורים — ראו `.gitignore` |
-| Service Account JSON ב-git | אסור |
-| Private key בלוגים | הקוד לא מדפיס מפתחות |
-| Bootstrap אוטומטי | לא — רק `npm run bootstrap:site-settings` |
-| Private collections ב-Rules | `read, write: if false` |
-
----
-
-## 10. פקודות אימות מקומיות
-
-```bash
-npm run typecheck
-npm run build
-```
-
-`npm run lint` — ב-Next.js 16 אין `next lint`; הסקריפט מדווח על כך. ההסתמכות על `typecheck` + `build`.
+Email requests claim a campaign before delivery, checkpoint recipients and reuse provider idempotency keys during recovery. An expired lease can be reclaimed by retrying the same request. Uncertain deliveries older than 23 hours are marked for manual review rather than automatically replayed beyond the provider's idempotency window. No scheduler or automatic mailing job has been added.

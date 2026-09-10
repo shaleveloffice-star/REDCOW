@@ -60,6 +60,26 @@ service cloud.firestore {
       allow read, write: if false;
     }
 
+    match /seoContent/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /brandStories/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /galleryImages/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /announcementPopup/{documentId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
     // Deny everything else by default.
     match /{document=**} {
       allow read, write: if false;

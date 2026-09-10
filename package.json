@@ -9,10 +9,12 @@
     "dev": "next dev",
     "build": "next build --webpack",
     "start": "next start",
-    "lint": "node -e \"console.log('Skipped: next lint was removed in Next.js 16. Use npm run typecheck for static checks.');\"",
+    "lint": "tsc --noEmit --incremental false --noUnusedLocals --noUnusedParameters",
     "typecheck": "tsc --noEmit",
     "bootstrap:site-settings": "node scripts/bootstrap-site-settings.mjs",
-    "seed:menu": "node scripts/seed-menu.mjs"
+    "seed:menu": "node scripts/seed-menu.mjs",
+    "test": "node --test tests/*.test.cjs",
+    "test:smoke": "node scripts/smoke-local.mjs"
   },
   "dependencies": {
     "@vercel/blob": "^2.6.1",

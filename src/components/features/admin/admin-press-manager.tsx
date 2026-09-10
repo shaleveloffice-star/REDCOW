@@ -16,7 +16,7 @@ import { uploadCompressedAdminImage } from "@/lib/client/upload-admin-image";
 import { deletePressItemAction, savePressItemAction } from "@/server/actions/press.actions";
 import type { PressItem } from "@/types/content";
 
-function newItem(items: PressItem[]): PressItem {
+function newItem(_items: PressItem[]): PressItem {
   const now = new Date().toISOString();
   return {
     id: createId("press"),

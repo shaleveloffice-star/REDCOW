@@ -61,7 +61,7 @@ function hasFirebaseAdminEnv() {
 
 
 async function writeLocalJson(force) {
-  if (!force && existsSync(CATEGORIES_FILE) && existsSync(ITEMS_FILE)) {
+  if (!force && (existsSync(CATEGORIES_FILE) || existsSync(ITEMS_FILE))) {
     console.error(
       "[seed-menu] Local menu files already exist. Re-run with --force to overwrite data/local/menu-*.json"
     );
@@ -100,7 +100,7 @@ async function writeFirestore(force) {
     const ref = db.collection("menuCategories").doc(category.id);
     const snap = await ref.get();
     if (snap.exists && !force) {
-      await ref.set({ ...category, updatedAt: new Date().toISOString() }, { merge: true });
+      continue;
     } else {
       await ref.set(category, { merge: false });
     }
@@ -111,7 +111,7 @@ async function writeFirestore(force) {
     const ref = db.collection("menuItems").doc(menuItem.id);
     const snap = await ref.get();
     if (snap.exists && !force) {
-      await ref.set({ ...menuItem, updatedAt: new Date().toISOString() }, { merge: true });
+      continue;
     } else {
       await ref.set(menuItem, { merge: false });
     }

@@ -1,3 +1,4 @@
+import { isVideoMediaUrl } from "@/lib/menu-media";
 import type { Metadata } from "next";
 
 import { BUSINESS } from "@/data/business";
@@ -5,7 +6,9 @@ import type { Locale } from "@/i18n/config";
 
 const rawSiteUrl = process.env.NEXT_PUBLIC_APP_URL ?? BUSINESS.website;
 
-export const SITE_URL = rawSiteUrl.replace(/\/+$/, "");
+const parsedSiteUrl = new URL(rawSiteUrl);
+if (parsedSiteUrl.hostname === "nbburger.co.il") parsedSiteUrl.hostname = "www.nbburger.co.il";
+export const SITE_URL = parsedSiteUrl.toString().replace(/\/+$/, "");
 export const SITE_NAME = BUSINESS.name;
 export const DEFAULT_OG_IMAGE = "/images/hero/nb-burger-hero.webp";
 
@@ -32,7 +35,8 @@ export function buildPageMetadata({
   imageAlt,
   locale = "he"
 }: PageMetadataInput): Metadata {
-  const ogImage = image?.trim() || DEFAULT_OG_IMAGE;
+  const candidate = image?.trim();
+  const ogImage = candidate && !isVideoMediaUrl(candidate) ? candidate : DEFAULT_OG_IMAGE;
   const ogAlt = imageAlt?.trim() || SITE_NAME;
 
   return {

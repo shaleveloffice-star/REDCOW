@@ -27,7 +27,7 @@ export function consumeRateLimit(key: string, limit: number, windowMs: number): 
   return true;
 }
 
-/** Preferred entry point — persists buckets to disk (/tmp on Vercel, data/local locally). */
+/** Preferred entry point — shared Firestore counter in production; atomic JSON locally. */
 export async function consumeRateLimitAsync(
   key: string,
   limit: number,

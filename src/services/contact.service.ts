@@ -1,3 +1,4 @@
+import { createId } from "@/lib/admin/new-id";
 import {
   deleteContactMessage,
   getContactMessages,
@@ -15,7 +16,7 @@ export async function createContactMessage(
 ): Promise<ContactMessage> {
   return saveContactMessage({
     ...input,
-    id: `message-${Date.now()}`,
+    id: createId("message"),
     createdAt: new Date().toISOString(),
     status: "new"
   });

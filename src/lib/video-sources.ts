@@ -23,6 +23,8 @@ export function videoSourcesForMp4(mp4Src: string): Array<{ src: string; type: s
   if (webm) {
     sources.push({ src: webm, type: "video/webm" });
   }
-  sources.push({ src: mp4Src, type: "video/mp4" });
+  const extension = mp4Src.toLowerCase().split(/[?#]/)[0];
+  const type = extension.endsWith(".webm") ? "video/webm" : extension.endsWith(".mov") ? "video/quicktime" : "video/mp4";
+  sources.push({ src: mp4Src, type });
   return sources;
 }

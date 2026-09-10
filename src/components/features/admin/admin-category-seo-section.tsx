@@ -45,7 +45,7 @@ export function AdminCategorySeoSection({
     <fieldset className="admin-seo-fieldset">
       <legend>תוכן SEO</legend>
       <p className="admin-field-hint">
-        עריכה בעברית בלבד. תרגום EN/FR מוצג אוטומטית למבקרים באתר.
+        עריכה בעברית. תוכן חדש לא מתורגם אוטומטית לאנגלית ולצרפתית כל עוד שירות התרגום כבוי.
       </p>
 
       <AdminSeoFieldsForm

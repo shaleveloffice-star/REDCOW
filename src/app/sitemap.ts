@@ -6,6 +6,9 @@ import { resolveStorySlug } from "@/lib/stories/story-slug";
 import { SITE_URL } from "@/lib/seo";
 import { listMenuItems, listMenuCategories } from "@/services/menu.service";
 import { listBrandStories } from "@/services/stories.service";
+import { isStoryInMagazine } from "@/lib/stories/story-slug";
+
+export const dynamic = "force-dynamic";
 
 type SitemapEntryInput = {
   path: string;
@@ -23,12 +26,15 @@ const PUBLIC_ROUTES: SitemapEntryInput[] = [
   { path: "/accessibility", changeFrequency: "yearly", priority: 0.3 }
 ];
 
+function modificationDate(value: string): { lastModified?: Date } {
+  const timestamp = Date.parse(value);
+  return Number.isFinite(timestamp) ? { lastModified: new Date(timestamp) } : {};
+}
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const lastModified = new Date();
 
   const staticEntries = PUBLIC_ROUTES.map(({ path, changeFrequency, priority }) => ({
     url: `${SITE_URL}${path === "/" ? "" : path}`,
-    lastModified,
     changeFrequency,
     priority
   }));
@@ -39,30 +45,32 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       listMenuItems({ activeOnly: true }),
       listMenuCategories({ activeOnly: true })
     ]);
-    const itemEntries = items.map((item) => ({
+    const activeIds = new Set(categories.map(category => category.id));
+    const itemEntries = items.filter(item => activeIds.has(item.categoryId)).map((item) => ({
       url: `${SITE_URL}/menu/${resolveMenuItemSlug(item)}`,
-      lastModified,
+      ...modificationDate(item.updatedAt),
       changeFrequency: "weekly" as const,
       priority: 0.8
     }));
     const categoryEntries = categories.map((category) => ({
       url: `${SITE_URL}/menu/${resolveCategorySlug(category)}`,
-      lastModified,
+      ...modificationDate(category.updatedAt),
       changeFrequency: "weekly" as const,
       priority: 0.85
     }));
     menuEntries = [...categoryEntries, ...itemEntries];
-  } catch {
-    menuEntries = [];
+  } catch (error) {
+    throw new Error("Sitemap menu data is unavailable", { cause: error });
   }
 
   let storyEntries: MetadataRoute.Sitemap = [];
   try {
     const stories = await listBrandStories({ activeOnly: true });
-    if (stories.length > 0) {
+    const magazine = stories.filter(isStoryInMagazine);
+    if (magazine.length > 0) {
       storyEntries.push({
         url: `${SITE_URL}/stories`,
-        lastModified: new Date(stories[0].updatedAt),
+        ...modificationDate(magazine.map(story => story.updatedAt).filter(value => Number.isFinite(Date.parse(value))).sort((a, b) => Date.parse(b) - Date.parse(a))[0] ?? ""),
         changeFrequency: "weekly",
         priority: 0.75
       });
@@ -70,14 +78,14 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     storyEntries.push(
       ...stories.map((story) => ({
         url: `${SITE_URL}/stories/${resolveStorySlug(story)}`,
-        lastModified: new Date(story.updatedAt),
+        ...modificationDate(story.updatedAt),
         changeFrequency: "monthly" as const,
         priority: 0.7
       }))
     );
-  } catch {
-    storyEntries = [];
+  } catch (error) {
+    throw new Error("Sitemap story data is unavailable", { cause: error });
   }
 
-  return [...staticEntries, ...menuEntries, ...storyEntries];
+  return [...new Map([...staticEntries, ...menuEntries, ...storyEntries].map(entry => [entry.url, entry])).values()];
 }

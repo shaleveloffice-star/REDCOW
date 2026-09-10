@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound, redirect } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import { MenuCategoryView } from "@/components/features/menu/menu-category-view";
 import { MenuItemDetailView } from "@/components/features/menu/menu-item-detail-view";
@@ -74,7 +74,7 @@ export async function generateMetadata({ params }: MenuSlugPageProps): Promise<M
     const seoContent = await getCachedResolvedSeoPageContent(locale, "menu");
     const categorySeo = applyCategorySeoIntent(
       category,
-      getResolvedCategorySeo(seoContent, category.id)
+      getResolvedCategorySeo(seoContent, category.id), undefined, locale
     );
     const introLead = splitParagraphs(categorySeo.introduction)[0] ?? "";
 
@@ -124,8 +124,8 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
   const category = await getCachedMenuCategoryBySlug(normalized);
   if (category) {
     const resolvedSlug = resolveCategorySlug(category);
-    if (normalized !== resolvedSlug) {
-      redirect(`/menu/${resolvedSlug}`);
+    if (slug !== resolvedSlug) {
+      permanentRedirect(`/menu/${resolvedSlug}`);
     }
 
     const [cachedGroups, orderLinks, seoContent, messages] = await Promise.all([
@@ -147,7 +147,7 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
 
     const categorySeo = applyCategorySeoIntent(
       category,
-      getResolvedCategorySeo(seoContent, category.id)
+      getResolvedCategorySeo(seoContent, category.id), undefined, locale
     );
     const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
     const categoryName = getLocalizedCategoryName(category, locale);
@@ -186,8 +186,8 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
   }
 
   const resolvedSlug = resolveMenuItemSlug(item);
-  if (normalized !== resolvedSlug.toLowerCase()) {
-    redirect(`/menu/${resolvedSlug}`);
+  if (slug !== resolvedSlug) {
+    permanentRedirect(`/menu/${resolvedSlug}`);
   }
 
   const [orderLinks, categories, groups, messages] = await Promise.all([

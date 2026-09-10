@@ -10,7 +10,7 @@ import { LabelWithNote } from "@/components/shared/label-with-note";
 import { SeoContentBody, SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import { SeoFaqSection } from "@/components/shared/seo-faq-section";
 import { IconLocationPinFilled } from "@/components/shared/site-icons";
-import { BUSINESS, getBusinessMapsSearchUrl } from "@/data/business";
+import { BUSINESS, getBusinessMapsSearchUrl, branchMapsUrl, branchAddress } from "@/data/business";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { hasValidFaqItems } from "@/lib/seo/faq-utils";
 import { resolveImageAlt } from "@/lib/image-alt";
@@ -38,9 +38,9 @@ function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "e
     return branches.map((branch) => ({
       id: branch.id,
       name: branch.name,
-      address: `${branch.address}, ${branch.city}`,
+      address: branchAddress(branch, locale),
       hours: branch.openingHours,
-      mapsUrl: branch.wazeUrl || getBusinessMapsSearchUrl(),
+      mapsUrl: branchMapsUrl(branch),
       image: exteriorImage
     }));
   }
@@ -121,7 +121,7 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
       </header>
 
       <div className="locations-map-wrap">
-        <LocationsMap title={t.locations.mapSummary} />
+        <LocationsMap title={t.locations.mapSummary} branch={branches[0]} />
       </div>
 
       <section className="locations-list" aria-labelledby="locations-heading">

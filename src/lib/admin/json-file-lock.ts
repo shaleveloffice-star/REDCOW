@@ -8,10 +8,8 @@ export async function withJsonFileLock<T>(fileKey: string, task: () => Promise<T
     release = resolve;
   });
 
-  queues.set(
-    fileKey,
-    previous.then(() => gate)
-  );
+  const queued = previous.then(() => gate);
+  queues.set(fileKey, queued);
 
   await previous;
 
@@ -19,7 +17,7 @@ export async function withJsonFileLock<T>(fileKey: string, task: () => Promise<T
     return await task();
   } finally {
     release();
-    if (queues.get(fileKey) === gate) {
+    if (queues.get(fileKey) === queued) {
       queues.delete(fileKey);
     }
   }

@@ -1,12 +1,15 @@
 import { AdminCard } from "@/components/features/admin/admin-card";
+import Link from "next/link";
+import { getResolvedSeoPageContent } from "@/services/seo-content.service";
 import { getSettingsAdminData, saveHeroMediaAction } from "@/server/actions/settings.actions";
 
 export default async function AdminSettingsPage() {
-  const { settings } = await getSettingsAdminData();
+  const [{ settings }, homeSeo] = await Promise.all([getSettingsAdminData(), getResolvedSeoPageContent("he", "home")]);
 
   return (
     <div className="grid">
-      <AdminCard title="הגדרות אתר" description="הגדרות אלו מוכנות ל-siteSettings ב-Firestore.">
+      <Link href="/admin/pages/home">עריכת כותרות ותיאורי SEO</Link>
+      <AdminCard title="הגדרות אתר" description="הגדרות כלליות. פרטי סניפים מנוהלים במסך הסניפים, ותוכן SEO במסך SEO.">
         <div className="grid" style={{ gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))" }}>
           <div>
             <p className="muted">שם האתר</p>
@@ -22,14 +25,14 @@ export default async function AdminSettingsPage() {
           </div>
           <div>
             <p className="muted">SEO Title</p>
-            <strong>{settings.seoTitle}</strong>
+            <strong>{homeSeo.metaTitle}</strong>
           </div>
         </div>
       </AdminCard>
 
       <AdminCard
         title="Hero Media"
-        description="כרגע מוסיפים URL מקומי או חיצוני. העלאות תמונות תפריט נשמרות ב-Vercel Blob."
+        description="המדיה הראשית בדף הבית. השמירה מעדכנת גם את התמונה בניהול דף הבית."
       >
         <form action={saveHeroMediaAction} className="admin-form">
           <label>
@@ -61,7 +64,7 @@ export default async function AdminSettingsPage() {
           </p>
           <p className="muted">
             לשימוש מקומי: שים קובץ בתוך `public`, למשל `public/images/hero.jpg`, והכנס כאן
-            `/images/hero.jpg`. השמירה זמנית עד הפעלה מחדש של השרת.
+            `/images/hero.jpg`. השמירה משתמשת באחסון התוכן המוגדר באתר.
           </p>
           <button className="button" type="submit">
             שמור מדיה להירו

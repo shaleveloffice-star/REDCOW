@@ -22,6 +22,8 @@ function revalidateStoryCaches(story: BrandStory, previousSlug?: string) {
   }
   const canonicalSlug = resolveStorySlug(story);
   revalidatePath(`/stories/${canonicalSlug}`);
+  for (const oldSlug of story.previousSlugs ?? []) revalidatePath(`/stories/${oldSlug}`);
+  revalidatePath("/sitemap.xml");
   const prev = previousSlug ? normalizeStorySlug(previousSlug) : "";
   if (prev && prev !== canonicalSlug) {
     revalidatePath(`/stories/${prev}`);

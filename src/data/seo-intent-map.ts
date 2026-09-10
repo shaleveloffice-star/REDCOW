@@ -339,8 +339,10 @@ export function getCategoryIntentPatch(category: {
 export function applyCategorySeoIntent(
   category: { id: string; slug?: string },
   content: ResolvedCategorySeoContent,
-  stored?: SeoPageFieldsInput
+  stored?: SeoPageFieldsInput,
+  locale: Locale = "he"
 ): ResolvedCategorySeoContent {
+  if (locale !== "he") return content;
   const patch = getCategoryIntentPatch(category);
   if (!patch) {
     return content;

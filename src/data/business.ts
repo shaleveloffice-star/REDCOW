@@ -3,6 +3,8 @@
  * נתונים מאושרים בלבד — אין placeholders או קישורים זמניים.
  */
 
+import type { Branch } from "@/types/content";
+
 export type BusinessLocale = "he" | "en" | "fr";
 
 export type OpeningHoursInterval = {
@@ -58,7 +60,7 @@ export const BUSINESS = {
 
   email: "official.nbburger@gmail.com",
 
-  website: "https://nbburger.co.il",
+  website: "https://www.nbburger.co.il",
 
   social: {
     facebook: "https://www.facebook.com/profile.php?id=61590066758310",
@@ -118,4 +120,25 @@ export function getBusinessAddress(locale: BusinessLocale = "he"): string {
 
 export function getBusinessPhone(): string | null {
   return BUSINESS.phone;
+}
+
+export function branchAddress(branch: Branch | undefined, locale: BusinessLocale = "he"): string {
+  if (!branch || (branch.address === BUSINESS.address.streetAddress && branch.city === BUSINESS.address.addressLocality)) return getBusinessAddress(locale);
+  return [branch.address, branch.city].filter(Boolean).join(", ");
+}
+
+export function branchMapsUrl(branch?: Branch): string {
+  if (!branch) return getBusinessMapsSearchUrl();
+  const changedAddress = branch.address !== BUSINESS.address.streetAddress || branch.city !== BUSINESS.address.addressLocality;
+  if (branch.wazeUrl && !(changedAddress && branch.wazeUrl === getBusinessMapsSearchUrl())) return branch.wazeUrl;
+  return changedAddress ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branchAddress(branch))}` : getBusinessMapsSearchUrl();
+}
+
+export function branchMapsEmbedUrl(branch?: Branch): string {
+  if (!branch || (branch.address === BUSINESS.address.streetAddress && branch.city === BUSINESS.address.addressLocality)) return getBusinessMapsEmbedUrl();
+  return `https://www.google.com/maps?q=${encodeURIComponent(branchAddress(branch))}&hl=he&z=17&output=embed`;
+}
+
+export function usesDefaultBranchHours(branch?: Branch): boolean {
+  return !branch || branch.openingHours === `א׳–ה׳ ${BUSINESS.displayHours.weekday} · שבת ${BUSINESS.displayHours.saturday}`;
 }

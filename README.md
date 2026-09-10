@@ -1,146 +1,39 @@
-# NB BURGER — אתר המסעדה
+# NB BURGER
 
-אתר Next.js 16 (App Router) עבור **NB BURGER** ברעננה: דפים ציבוריים + פאנל ניהול.
+אתר המסעדה ופאנל הניהול, מבוססי Next.js 16. שם תיקיית הפרויקט ו־GitHub repository הוא עדיין REDCOW.
 
-**Production URL:** https://nbburger.co.il  
-**מדריך השקה מלא:** [`docs/LAUNCH.md`](docs/LAUNCH.md)
+האתר הציבורי: [www.nbburger.co.il](https://www.nbburger.co.il).
 
-## דרישות
+## פיתוח ובדיקות
 
-- Node.js **22+** (firebase-admin 14 דורש Node ≥22 — ראו `.nvmrc`)
-- npm
+נדרשים Node.js 22 ומעלה ו־npm.
 
-## התקנה
-
-```bash
+```sh
 npm install
-cp .env.example .env.local
-```
-
-מלאו את `.env.local` לפי `.env.example` ו-`docs/LAUNCH.md`. אל תעלו קבצי `.env*` או Service Account JSON ל-git.
-
-## משתני סביבה (ENV)
-
-ראו `.env.example` וטבלה מלאה ב-`docs/LAUNCH.md`.
-
-### ציבוריים (דפדפן)
-
-| משתנה | תפקיד |
-|--------|--------|
-| `NEXT_PUBLIC_APP_URL` | כתובת האתר (canonical / sitemap / OG) — בפרוד: `https://nbburger.co.il` |
-| `NEXT_PUBLIC_FIREBASE_*` | חיבור Firebase Client |
-| `NEXT_PUBLIC_FIREBASE_MEASUREMENT_ID` | אופציונלי — Analytics (לא מחובר כרגע ל-SDK) |
-
-### שרת בלבד
-
-| משתנה | תפקיד |
-|--------|--------|
-| `FIREBASE_PROJECT_ID` | Admin SDK |
-| `FIREBASE_CLIENT_EMAIL` | Admin SDK |
-| `FIREBASE_PRIVATE_KEY` | Admin SDK (שמרו `\n` כשצריך) |
-| `ADMIN_AUTH_MODE` | **פרודקשן: `firebase`** · זמני: `password` · dev בלבד: `open` / `mock` |
-| `ADMIN_SESSION_SECRET` | לפחות 32 תווים — חתימת JWT לסשן (חובה בפרוד) |
-| `ADMIN_ALLOWED_EMAILS` | רשימת מיילים מופרדת בפסיקים (חובה בפרוד) |
-| `ADMIN_DEV_PASSWORD` | סיסמה משותפת ל-`password` בלבד (מינימום 12 תווים) |
-
-**ברירת מחדל:** אם `ADMIN_AUTH_MODE` לא מוגדר → `password`.  
-ב-production אסורים `open` ו-`mock`. נדרשים session secret + allowlist; במצב `firebase` גם Admin credentials.
-
-## Development
-
-```bash
 npm run dev
 ```
 
-פותח בדרך כלל ב-`http://localhost:3000`.
+העתיקו את `.env.example` ל־`.env.local` ומלאו רק את החיבורים הנדרשים. אין להכניס סודות ל־Git. בלי Firebase Client מוגדר, הנתונים מגיעים מאחסון מקומי ונתוני פיתוח. עם Firebase, שגיאת כתיבה אינה הופכת לשמירה מקומית שנראית מוצלחת.
 
-בלי Firebase Client env — נתונים מקומיים / mock (לפיתוח בלבד).  
-עם Firebase — אין fallback שקט ל-mock; כתיבות דורשות Admin SDK.
-
-## Typecheck / Lint / Build
-
-```bash
-npm run typecheck
+```sh
+npm run lint
+npm test
 npm run build
 ```
 
-`npm run lint` מציין ש-`next lint` הוסר ב-Next.js 16; בדיקה סטטית העיקרית היא `typecheck`.
-## Bootstrap siteSettings (חד-פעמי)
+`lint` מפעיל TypeScript עם בדיקת סמלים לא בשימוש. `typecheck` זמין גם בנפרד. הבדיקות משתמשות בנתונים סינתטיים, בספקי Firebase/Resend מדומים ובתיקיות זמניות; הן אינן טוענות `.env` ואינן פונות לשירותים חיים.
 
-לאחר פרסום Firestore Rules ו-Admin ENV:
+## אדמין וחיבורים
 
-```bash
-npm run bootstrap:site-settings
-```
+- כניסה ב־`/admin/login` עם הסיסמה המשותפת הקיימת. נדרשים `ADMIN_PASSWORD` ו־`ADMIN_SESSION_SECRET` בשרת. אין שימוש ב־Firebase Auth או ב־email allowlist בזרימת הכניסה הנוכחית.
+- Cookie בשם `admin_session_v2`, עם HttpOnly, SameSite=Lax, path `/` ו־Secure בפרודקשן. שינוי סיסמה מבטל סשנים ישנים. `src/proxy.ts` והגנות הפעולות/API בודקים הרשאה.
+- Firestore: קריאה ציבורית באוספי התוכן המפורטים ב־`firestore.rules`; כתיבה וקריאת פרטי לקוחות דרך Admin SDK בלבד.
+- תמונות: Vercel Blob. תוכן AI: OpenAI. דיוור: Resend. שמות משתני הסביבה וכתובות ה־API הקיימים נשמרו.
+- תוכן מטא של דפים מנוהל תחת `/admin/pages/*`; מטא של קטגוריות, מנות וסיפורים במסכי העריכה שלהם. הגדרות Hero ודף הבית משתמשות באותה רשומת `siteImageOverrides/hero-burger`.
+- תרגום אוטומטי כבוי ב־`src/lib/translation/config.ts`. טקסט חדש באדמין אינו מפעיל בקשת תרגום בתשלום.
 
-יוצר `siteSettings/default` דרך Admin SDK בלבד. לא רץ ב-build. פרטים: `docs/LAUNCH.md`.
+## פריסה ותחזוקה
 
-## Production (מקומי)
+ראו [מדריך הפריסה](docs/LAUNCH.md) ו[פירוט התיקונים והבדיקות](docs/MAINTENANCE-FIXES.md).
 
-```bash
-npm run build
-npm run start
-```
-
-## Deploy (Vercel)
-
-1. Import הפרויקט ב-Vercel — Framework: Next.js, Node **22**.
-2. הגדירו את כל משתני הסביבה (ראו `docs/LAUNCH.md`).
-3. Build: `npm run build`.
-4. חברו את `nbburger.co.il` (+ www → apex).
-5. פרסמו `firestore.rules` ב-Firebase והריצו bootstrap ל-Settings.
-6. Redeploy אחרי שינוי ENV.
-
-פירוט מלא: **`docs/LAUNCH.md`**.
-
-## Firebase
-
-- ארכיטקטורה: **Public Read + Admin Write**
-- Rules לפריסה: `firestore.rules` (+ `firebase.json`, `firestore.indexes.json`)
-- Client: `src/lib/firebase.ts` + `firestore-store.ts`
-- Admin SDK: `src/lib/firebase/admin-core.ts`, `admin-auth.ts`, `admin-firestore.ts`
-- מבנה: `docs/firestore-structure.md`
-- אבטחה: `docs/firebase-security.md`
-
-## Admin
-
-- כניסה: `/admin/login`
-- פאנל: `/admin` (מוגן ב-middleware + `requireAdmin`)
-- Cookie: `admin_session` — HttpOnly, SameSite=Lax, path=`/admin`, Secure ב-production
-
-| מצב | שימוש |
-|-----|--------|
-| `firebase` | **מומלץ לפרודקשן** — Firebase Auth + allowlist |
-| `password` | זמני — אימייל ברשימה + `ADMIN_DEV_PASSWORD` |
-| `mock` / `open` | פיתוח בלבד — חסומים ב-production |
-
-## מבנה קוד (בקצרה)
-
-```text
-src/app          → נתיבים (ציבורי + admin)
-src/components   → UI
-src/server/actions → Server Actions
-src/services     → לוגיקה
-src/repositories → גישת נתונים
-src/lib          → auth, firebase, seo, security, cache
-docs/LAUNCH.md   → מדריך השקה
-```
-
-## Troubleshooting
-
-| בעיה | בדיקה |
-|------|--------|
-| `/admin` מחזיר 500 | `ADMIN_AUTH_MODE` / allowlist / secret / Admin ENV ב-production |
-| Login `error=config` | `ADMIN_SESSION_SECRET` או Firebase Admin env חסרים |
-| Login `error=invalid` | סיסמה/אימייל/allowlist או rate limit |
-| תפריט לא נטען עם Firebase | Rules (public read) / Client ENV / לוגים |
-| כתיבת CMS נכשלת | Admin SDK ENV / Rules לא רלוונטיים ל-Admin |
-| Settings חסר | הריצו `npm run bootstrap:site-settings` |
-| תמונות חיצוניות נשברות | `images.remotePatterns` ל-`media.base44.com` |
-
-## מסמכים נוספים
-
-- `docs/LAUNCH.md` — Launch Configuration
-- `docs/firebase-architecture.md`
-- `docs/firebase-security.md`
-- `docs/firestore-structure.md`
+`npm run build` בונה מקומית בלבד. הוא אינו מפרסם קוד, כללי Firestore או נתונים. סקריפטים `seed:menu` ו־`bootstrap:site-settings` מיועדים לאתחול מכוון; אין להריץ אותם על נתונים קיימים עם `--force` בלי כוונה להחליפם.

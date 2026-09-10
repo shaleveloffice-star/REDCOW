@@ -1,7 +1,8 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState, useTransition, type ReactNode } from "react";
+import { useId, useRef, useLayoutEffect, useState, useTransition, type ReactNode } from "react";
+import { mountModal } from "@/lib/a11y/focus-trap";
 
 export function AdminToolbar({
   onAdd,
@@ -60,19 +61,22 @@ export function AdminModal({
   size?: "default" | "wide" | "xl";
   children: ReactNode;
 }) {
-  useEffect(() => {
+  const titleId = useId();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const dialogRef = useRef<HTMLDivElement>(null);
+  const closeRef = useRef(onClose);
+  closeRef.current = onClose;
+  useLayoutEffect(() => {
     if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onClose]);
+    if (!rootRef.current || !dialogRef.current) return;
+    return mountModal(rootRef.current, dialogRef.current, () => closeRef.current());
+  }, [open]);
 
   if (!open) return null;
 
   return (
     <div
+      ref={rootRef}
       className={`admin-modal-backdrop${stacked ? " admin-modal-backdrop--stacked" : ""}`}
       role="presentation"
       onMouseDown={(e) => {
@@ -80,11 +84,14 @@ export function AdminModal({
       }}
     >
       <div
-        aria-labelledby="admin-modal-title"
+        ref={dialogRef}
+        tabIndex={-1}
+        aria-modal="true"
+        aria-labelledby={titleId}
         className={`admin-modal${size === "wide" ? " admin-modal--wide" : ""}${size === "xl" ? " admin-modal--xl" : ""}`}
         role="dialog"
       >
-        <h3 id="admin-modal-title">{title}</h3>
+        <h3 id={titleId}>{title}</h3>
         {children}
       </div>
     </div>

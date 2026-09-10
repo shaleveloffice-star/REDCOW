@@ -77,7 +77,7 @@ function compressLoadedImage(
   maxBytes: number,
   maxEdge: number
 ): string {
-  let edgeScale = Math.min(1, maxEdge / Math.max(img.width, img.height, 1));
+  const edgeScale = Math.min(1, maxEdge / Math.max(img.width, img.height, 1));
   let width = Math.max(1, img.width * edgeScale);
   let height = Math.max(1, img.height * edgeScale);
 
@@ -89,13 +89,11 @@ function compressLoadedImage(
       }
     }
 
-    const nextWidth = Math.max(MIN_EDGE, Math.round(width * 0.82));
-    const nextHeight = Math.max(MIN_EDGE, Math.round(height * 0.82));
-    if (nextWidth === Math.round(width) && nextHeight === Math.round(height)) {
-      break;
-    }
-    width = nextWidth;
-    height = nextHeight;
+    const longest = Math.max(width, height);
+    if (longest <= MIN_EDGE) break;
+    const scale = Math.max(MIN_EDGE, Math.round(longest * 0.82)) / longest;
+    width *= scale;
+    height *= scale;
   }
 
   throw new Error("התמונה עדיין גדולה מדי אחרי דחיסה. נסו תמונה אחרת.");

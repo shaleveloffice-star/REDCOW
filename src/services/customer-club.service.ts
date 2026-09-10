@@ -1,9 +1,11 @@
 import {
   deleteCustomerClubSignup,
   getCustomerClubSignups,
-  saveCustomerClubSignup
+  saveCustomerClubSignup,
+  registerCustomerClubSignup
 } from "@/repositories/customer-club.repository";
-import { normalizeEmail, normalizePhoneDigits } from "@/lib/customer-club/normalize";
+import { normalizeEmail } from "@/lib/customer-club/normalize";
+import { createId } from "@/lib/admin/new-id";
 import type { CustomerClubSignup } from "@/types/content";
 
 export async function listCustomerClubSignups(): Promise<CustomerClubSignup[]> {
@@ -20,44 +22,20 @@ export type CustomerClubSignupInput = {
 };
 
 /**
- * Create a new signup, or update an existing one matched by normalized email OR phone.
+ * Create a signup or acknowledge a repeat submission without modifying its owner.
  * Always returns success-shaped save; caller should not reveal whether it was a duplicate.
  */
 export async function createOrUpdateCustomerClubSignup(
   input: CustomerClubSignupInput
 ): Promise<CustomerClubSignup> {
   const emailNorm = normalizeEmail(input.email);
-  const phoneNorm = normalizePhoneDigits(input.phone);
-  const existing = await getCustomerClubSignups();
-
-  const match = existing.find((signup) => {
-    const existingEmail = normalizeEmail(signup.email ?? "");
-    const existingPhone = normalizePhoneDigits(signup.phone ?? "");
-    return (
-      (emailNorm.length > 0 && existingEmail === emailNorm) ||
-      (phoneNorm.length > 0 && existingPhone === phoneNorm)
-    );
-  });
-
-  if (match) {
-    return saveCustomerClubSignup({
-      ...match,
-      fullName: input.fullName,
-      phone: input.phone.trim(),
-      email: emailNorm,
-      birthDate: input.birthDate ?? match.birthDate,
-      marketingConsent: input.marketingConsent,
-      createdAt: match.createdAt
-    });
-  }
-
-  return saveCustomerClubSignup({
+  return registerCustomerClubSignup({
     fullName: input.fullName,
     phone: input.phone.trim(),
     email: emailNorm,
     birthDate: input.birthDate,
     marketingConsent: input.marketingConsent,
-    id: `club-${Date.now()}`,
+    id: createId("club"),
     createdAt: new Date().toISOString(),
     status: "new"
   });

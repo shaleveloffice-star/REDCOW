@@ -6,6 +6,7 @@ export type MenuCategory = {
   id: string;
   name: string;
   slug: string;
+  previousSlugs?: string[];
   description?: string;
   sortOrder: number;
   isActive: boolean;
@@ -28,6 +29,7 @@ export type MenuItem = {
   closeUpImageUrl?: string;
   /** Public URL slug for /menu/[slug]. Generated from name when empty. */
   slug?: string;
+  previousSlugs?: string[];
   /** Image ALT text for accessibility and SEO. */
   imageAlt?: string;
   /** Primary SEO keyword (admin/SEO use). */

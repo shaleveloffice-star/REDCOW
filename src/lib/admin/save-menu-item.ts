@@ -8,7 +8,7 @@ import {
   slugifyProductName
 } from "@/lib/menu/product-slug";
 import { assertSafeHttpUrl } from "@/lib/security/safe-url";
-import { revalidatePath, updateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { listMenuItems, upsertMenuItem } from "@/services/menu.service";
 import type { MenuItem } from "@/types/content";
 
@@ -52,9 +52,10 @@ function revalidateMenuCacheBestEffort(slug?: string) {
     if (slug) {
       revalidatePath(`/menu/${slug}`);
     }
-    updateTag(CACHE_TAGS.homepageMenu);
-    updateTag(CACHE_TAGS.menuCategories);
-    updateTag(CACHE_TAGS.menuDisplay);
+    revalidateTag(CACHE_TAGS.homepageMenu, { expire: 0 });
+    revalidateTag(CACHE_TAGS.menuCategories, { expire: 0 });
+    revalidateTag(CACHE_TAGS.menuDisplay, { expire: 0 });
+    revalidatePath("/sitemap.xml");
   } catch (err) {
     console.warn(
       "[saveMenuItem] revalidate skipped:",
@@ -203,7 +204,7 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
       updatedAt: now
     });
 
-    revalidateMenuCacheBestEffort(slug);
+    revalidateMenuCacheBestEffort(saved.slug);
     return { ok: true, item: saved };
   } catch (err) {
     console.warn("[saveMenuItemCore]", err instanceof Error ? err.message : err);

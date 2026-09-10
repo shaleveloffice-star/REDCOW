@@ -6,7 +6,7 @@ import { AdminSiteImagePicker } from "@/components/features/admin/admin-site-ima
 import { StoryHero } from "@/components/features/stories/story-hero";
 import { StorySections } from "@/components/features/stories/story-sections";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
-import type { BrandStory, StorySection } from "@/types/story";
+import type { BrandStory } from "@/types/story";
 import type { StoryPreviewEditor, StoryTextEditRequest } from "@/types/story-preview-editor";
 
 import "@/app/stories-page.css";

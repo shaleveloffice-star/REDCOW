@@ -1,98 +1,39 @@
-import { mkdir, readFile, writeFile } from "fs/promises";
+import { readFile } from "fs/promises";
 import path from "path";
-
 import { withJsonFileLock } from "@/lib/admin/json-file-lock";
-
-const LOCAL_DATA_DIR = path.join(process.cwd(), "data", "local");
+import { isMissingFile, writeJsonAtomic } from "@/lib/admin/atomic-json";
 
 export function createJsonFileStore<T extends { id: string }>(fileName: string, seed: readonly T[]) {
-  const filePath = path.join(LOCAL_DATA_DIR, fileName);
-  const lockKey = fileName;
-
-  async function ensureDir() {
-    await mkdir(LOCAL_DATA_DIR, { recursive: true });
-  }
-
+  const filePath = path.join(process.cwd(), "data", "local", fileName);
   async function readAll(): Promise<T[]> {
     try {
-      const raw = await readFile(filePath, "utf8");
-      const parsed = JSON.parse(raw) as T[];
-      return Array.isArray(parsed) ? parsed : seed.map((item) => ({ ...item }));
-    } catch {
-      const initial = seed.map((item) => ({ ...item }));
-      try {
-        await writeAll(initial);
-      } catch (err) {
-        console.warn(
-          `[json-file-store] seed write failed for ${fileName}:`,
-          err instanceof Error ? err.message : err
-        );
-      }
-      return initial;
+      const parsed: unknown = JSON.parse(await readFile(filePath, "utf8"));
+      if (!Array.isArray(parsed)) throw new Error(`Invalid collection in ${fileName}`);
+      return parsed as T[];
+    } catch (error) {
+      if (isMissingFile(error)) return structuredClone([...seed]);
+      throw error;
     }
   }
-
-  async function writeAll(items: T[]): Promise<void> {
-    await ensureDir();
-    const payload = `${JSON.stringify(items, null, 2)}\n`;
-    await writeFile(filePath, payload, "utf8");
-
-    const verify = await readFile(filePath, "utf8");
-    if (verify !== payload) {
-      throw new Error(`אימות כתיבה נכשל עבור ${fileName}`);
-    }
-  }
-
   return {
     async getAll(): Promise<T[]> {
-      return withJsonFileLock(lockKey, async () => {
-        const items = await readAll();
-        return items.map((item) => ({ ...item }));
-      });
+      return withJsonFileLock(filePath, async () => structuredClone(await readAll()));
     },
     async getById(id: string): Promise<T | null> {
-      return withJsonFileLock(lockKey, async () => {
-        const found = (await readAll()).find((item) => item.id === id);
-        return found ? { ...found } : null;
+      return withJsonFileLock(filePath, async () => structuredClone((await readAll()).find(x => x.id === id) ?? null));
+    },
+    async update<R>(mutate: (items: T[]) => { items: T[]; result: R }): Promise<R> {
+      return withJsonFileLock(filePath, async () => {
+        const next = mutate(await readAll());
+        await writeJsonAtomic(filePath, next.items);
+        return structuredClone(next.result);
       });
     },
     async save(input: T): Promise<T> {
-      return withJsonFileLock(lockKey, async () => {
-        const items = await readAll();
-        const idx = items.findIndex((item) => item.id === input.id);
-        const saved = { ...input };
-        if (idx >= 0) {
-          items[idx] = saved;
-        } else {
-          items.push(saved);
-        }
-        try {
-          await writeAll(items);
-        } catch (err) {
-          const detail = err instanceof Error ? err.message : "write failed";
-          console.error(`[json-file-store] save failed for ${fileName}:`, detail);
-          throw new Error(
-            `שמירה לדיסק נכשלה (${fileName}). אם הפרויקט ב-OneDrive — סמנו את התיקייה Available offline או העתיקו מחוץ ל-OneDrive.`
-          );
-        }
-        return { ...saved };
-      });
+      return this.update(items => ({ items: items.some(x => x.id === input.id) ? items.map(x => x.id === input.id ? structuredClone(input) : x) : [...items, structuredClone(input)], result: input }));
     },
     async remove(id: string): Promise<boolean> {
-      return withJsonFileLock(lockKey, async () => {
-        const items = await readAll();
-        const idx = items.findIndex((item) => item.id === id);
-        if (idx < 0) return false;
-        items.splice(idx, 1);
-        try {
-          await writeAll(items);
-        } catch (err) {
-          const detail = err instanceof Error ? err.message : "write failed";
-          console.error(`[json-file-store] remove failed for ${fileName}:`, detail);
-          throw new Error(`מחיקה מהדיסק נכשלה (${fileName}).`);
-        }
-        return true;
-      });
+      return this.update(items => ({ items: items.filter(x => x.id !== id), result: items.some(x => x.id === id) }));
     }
   };
 }

@@ -1,4 +1,4 @@
-import { BUSINESS } from "@/data/business";
+import { BUSINESS, usesDefaultBranchHours } from "@/data/business";
 import { SITE_LOGO_SCHEMA_SRC } from "@/data/brand-assets";
 import { getLocalizedCategoryName, getLocalizedCategoryDescription } from "@/i18n/category-translations";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
@@ -8,7 +8,7 @@ import type { Locale } from "@/i18n/config";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { DEFAULT_OG_IMAGE, SITE_URL } from "@/lib/seo";
 import type { MenuGroupWithDisplay, MenuItemWithDisplay } from "@/lib/translation/menu-display";
-import type { MenuCategory, MenuItem } from "@/types/content";
+import type { Branch, MenuCategory, MenuItem } from "@/types/content";
 import type { SeoFaqItem } from "@/types/seo-content";
 import type { BrandStory } from "@/types/story";
 
@@ -67,7 +67,7 @@ export function buildOrganizationJsonLd(): JsonLdObject {
   };
 }
 
-export function buildRestaurantJsonLd(): JsonLdObject {
+export function buildRestaurantJsonLd(branch?: Branch): JsonLdObject {
   return {
     "@context": "https://schema.org",
     "@type": "Restaurant",
@@ -89,11 +89,12 @@ export function buildRestaurantJsonLd(): JsonLdObject {
     ],
     address: {
       "@type": "PostalAddress",
-      streetAddress: BUSINESS.address.streetAddress,
-      addressLocality: BUSINESS.address.addressLocality,
+      streetAddress: branch?.address ?? BUSINESS.address.streetAddress,
+      addressLocality: branch?.city ?? BUSINESS.address.addressLocality,
       addressCountry: "IL"
     },
-    openingHoursSpecification: BUSINESS.openingHours.map((interval) => ({
+    ...(branch?.phone ? { telephone: branch.phone } : {}),
+    openingHoursSpecification: !usesDefaultBranchHours(branch) ? undefined : BUSINESS.openingHours.map((interval) => ({
       "@type": "OpeningHoursSpecification",
       dayOfWeek: [...interval.dayOfWeek],
       opens: interval.opens,

@@ -21,7 +21,7 @@ import {
 import { resolveImageAlt } from "@/lib/image-alt";
 import { BUSINESS } from "@/data/business";
 import { useTranslations, useLocale } from "@/components/providers/locale-provider";
-import { focusElement, getFocusableElements, inertBackground, isFocusRestoreTarget, trapFocus } from "@/lib/a11y/focus-trap";
+import { focusElement, isFocusRestoreTarget, mountModal } from "@/lib/a11y/focus-trap";
 import { trackEvent, type AnalyticsSource } from "@/lib/analytics";
 import type { OrderLink } from "@/types/content";
 
@@ -264,12 +264,6 @@ export function SiteNavbar({
     };
   }, []);
 
-  useEffect(() => {
-    document.body.style.overflow = isOpen ? "hidden" : "";
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [isOpen]);
 
   useLayoutEffect(() => {
     if (!isOpen) return;
@@ -277,23 +271,7 @@ export function SiteNavbar({
     const dialog = dialogRef.current;
     if (!dialog) return;
 
-    const restoreInert = inertBackground(dialog);
-    focusElement(closeRef.current ?? getFocusableElements(dialog)[0]);
-    const releaseTrap = trapFocus(dialog);
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        event.preventDefault();
-        closeMenu(true);
-      }
-    };
-
-    window.addEventListener("keydown", onKeyDown);
-    return () => {
-      releaseTrap();
-      restoreInert();
-      window.removeEventListener("keydown", onKeyDown);
-    };
+    return mountModal(dialog, dialog, () => closeMenu(true));
   }, [isOpen]);
 
   const navClass = [
@@ -340,7 +318,7 @@ export function SiteNavbar({
                   </a>
                 </li>
               ))}
-              <li
+              {magazineItems.length > 0 ? <li
                 ref={magazineRef}
                 className={`site-navbar-magazine${desktopMagazineOpen ? " is-open" : ""}`}
                 onMouseEnter={() => {
@@ -410,7 +388,7 @@ export function SiteNavbar({
                     ))}
                   </ul>
                 ) : null}
-              </li>
+              </li> : null}
               <li>
                 <a
                   href={BUSINESS.social.instagram}
@@ -542,7 +520,7 @@ export function SiteNavbar({
                 {link.label}
               </a>
             ))}
-            <div
+            {magazineItems.length > 0 ? <div
               className="site-nav-overlay-magazine"
               style={{ animationDelay: `${navLinks.length * 0.08}s` }}
             >
@@ -582,7 +560,7 @@ export function SiteNavbar({
                   ))}
                 </ul>
               ) : null}
-            </div>
+            </div> : null}
             <button
               type="button"
               className="site-nav-overlay-link"

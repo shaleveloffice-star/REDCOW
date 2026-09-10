@@ -1,46 +1,28 @@
-import { mkdir, readFile, writeFile } from "fs/promises";
+import { readFile } from "fs/promises";
 import path from "path";
-
 import { withJsonFileLock } from "@/lib/admin/json-file-lock";
+import { isMissingFile, writeJsonAtomic } from "@/lib/admin/atomic-json";
 
-const LOCAL_DATA_DIR = path.join(process.cwd(), "data", "local");
-
-export function createJsonSingleDocStore<T extends Record<string, unknown>>(
-  fileName: string,
-  defaultValue: T
-) {
-  const filePath = path.join(LOCAL_DATA_DIR, fileName);
-  const lockKey = fileName;
-
-  async function ensureDir() {
-    await mkdir(LOCAL_DATA_DIR, { recursive: true });
+export function createJsonSingleDocStore<T extends Record<string, unknown>>(fileName: string, defaultValue: T) {
+  const filePath = path.join(process.cwd(), "data", "local", fileName);
+  async function read(): Promise<T> {
+    try {
+      const parsed: unknown = JSON.parse(await readFile(filePath, "utf8"));
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) throw new Error(`Invalid document in ${fileName}`);
+      return { ...structuredClone(defaultValue), ...parsed } as T;
+    } catch (error) {
+      if (isMissingFile(error)) return structuredClone(defaultValue);
+      throw error;
+    }
   }
-
   return {
-    async get(): Promise<T> {
-      return withJsonFileLock(lockKey, async () => {
-        try {
-          const raw = await readFile(filePath, "utf8");
-          const parsed = JSON.parse(raw) as T;
-          return { ...defaultValue, ...parsed };
-        } catch {
-          return { ...defaultValue };
-        }
-      });
-    },
-
-    async save(input: T): Promise<T> {
-      return withJsonFileLock(lockKey, async () => {
-        await ensureDir();
-        const payload = `${JSON.stringify(input, null, 2)}\n`;
-        await writeFile(filePath, payload, "utf8");
-
-        const verify = await readFile(filePath, "utf8");
-        if (verify !== payload) {
-          throw new Error(`אימות כתיבה נכשל עבור ${fileName}`);
-        }
-
-        return { ...input };
+    async get(): Promise<T> { return withJsonFileLock(filePath, read); },
+    async save(input: T): Promise<T> { return this.update(() => input); },
+    async update(mutate: (current: T) => T): Promise<T> {
+      return withJsonFileLock(filePath, async () => {
+        const next = mutate(await read());
+        await writeJsonAtomic(filePath, next);
+        return structuredClone(next);
       });
     }
   };

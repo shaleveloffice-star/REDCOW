@@ -8,12 +8,10 @@ import {
 } from "@/lib/seo-content/admin-category-seo";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
 import { resolveCategorySlug } from "@/lib/menu/category-slug";
-import type { Locale } from "@/i18n/config";
+
 import { revalidatePath, updateTag } from "next/cache";
 import {
-  getSeoContentStore,
-  saveAllCategorySeoFieldsForAdmin,
-  removeCategorySeoForAdmin
+  getSeoContentStore
 } from "@/services/seo-content.service";
 import {
   getHomepageMenuShowcaseSelection,
@@ -39,6 +37,7 @@ function revalidateMenuCache() {
     updateTag(CACHE_TAGS.menuCategories);
     updateTag(CACHE_TAGS.menuDisplay);
     updateTag(CACHE_TAGS.seoContent);
+    revalidatePath("/sitemap.xml");
   } catch {
     // ignore cache errors — data already saved
   }
@@ -126,22 +125,13 @@ export async function saveMenuCategoryWithSeoAction(
     seoFields
   );
 
-  try {
-    await saveAllCategorySeoFieldsForAdmin(input.id.trim(), sanitizedSeo, {
-      categorySlugs: [slug]
-    });
-  } catch (error) {
-    const detail = error instanceof Error ? error.message : "שמירת תוכן SEO נכשלה";
-    throw new Error(/[\u0590-\u05FF]/.test(detail) ? detail : "שמירת תוכן SEO לקטגוריה נכשלה.");
-  }
-
   const saved = await upsertMenuCategory({
     ...input,
     name,
     slug,
     description: input.description?.trim() ?? "",
     isActive: Boolean(input.isActive)
-  });
+  }, sanitizedSeo);
 
   menuPaths.forEach((path) => revalidatePath(path));
   revalidateCategoryPath(saved);
@@ -159,11 +149,7 @@ export async function deleteMenuCategoryAction(id: string) {
   const existing = categories.find((item) => item.id === id);
   const ok = await removeMenuCategory(id);
   if (!ok) throw new Error("הקטגוריה לא נמצאה");
-  await removeCategorySeoForAdmin(id, {
-    categorySlugs: existing
-      ? [resolveCategorySlug({ id: existing.id, slug: existing.slug })]
-      : undefined
-  });
+  if (existing) revalidateCategoryPath(existing);
   menuPaths.forEach((path) => revalidatePath(path));
   revalidateMenuCache();
 }

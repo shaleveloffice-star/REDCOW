@@ -78,7 +78,7 @@ function applyDeletableFieldCleanup(
 }
 
 function fromSnapshot<T extends { id: string }>(id: string, data: Record<string, unknown>) {
-  return { id, ...data } as T;
+  return { ...data, id } as T;
 }
 
 async function requireAdminDb(collectionName: FirebaseCollectionName): Promise<AdminFirestore> {
@@ -123,17 +123,12 @@ export function createFirestoreCollectionStore<T extends { id: string }>(
   options: FirestoreCollectionStoreOptions<T> = {}
 ): DocumentStore<T> {
   const access: FirestoreAccess = options.access ?? "public";
-  const seed = options.seed;
   const deletableFields = options.deletableFields;
 
   return {
     async getAll() {
       if (useLocalOnly()) {
-        const localItems = await localStore.getAll();
-        if (localItems.length > 0 || !seed?.length) {
-          return localItems;
-        }
-        return seed.map((item) => ({ ...item }));
+        return localStore.getAll();
       }
 
       try {

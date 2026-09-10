@@ -1,3 +1,4 @@
+import { cache } from "react";
 import { unstable_cache } from "next/cache";
 
 import { CACHE_REVALIDATE_SECONDS } from "@/lib/constants";
@@ -67,56 +68,10 @@ export const getCachedMenuForDisplay = unstable_cache(
   }
 );
 
-export async function getCachedMenuItemById(id: string) {
-  // Resolve first — never cache null/404 (stale miss after publish or brief Firebase blip).
-  const item = await getMenuItemForDisplay(id);
-  if (!item) {
-    return null;
-  }
-
-  return unstable_cache(
-    async () => item,
-    [CACHE_TAGS.menuDisplay, "menu-item", id, item.updatedAt],
-    {
-      revalidate: CACHE_REVALIDATE_SECONDS.menu,
-      tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.homepageMenu]
-    }
-  )();
-}
-
-export async function getCachedMenuItemBySlug(slug: string) {
-  // Resolve first — never cache null/404 (stale miss after publish or brief Firebase blip).
-  const item = await getMenuItemBySlugForDisplay(slug);
-  if (!item) {
-    return null;
-  }
-
-  return unstable_cache(
-    async () => item,
-    [CACHE_TAGS.menuDisplay, "menu-item-slug-v3", slug, item.id, item.updatedAt],
-    {
-      revalidate: CACHE_REVALIDATE_SECONDS.menu,
-      tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.homepageMenu]
-    }
-  )();
-}
-
-export async function getCachedMenuCategoryBySlug(slug: string) {
-  // Resolve first — never cache null/404 (stale miss after publish or brief Firebase blip).
-  const category = await getMenuCategoryBySlugForDisplay(slug);
-  if (!category) {
-    return null;
-  }
-
-  return unstable_cache(
-    async () => category,
-    [CACHE_TAGS.menuDisplay, "menu-category-slug-v3", slug, category.id, category.updatedAt],
-    {
-      revalidate: CACHE_REVALIDATE_SECONDS.menu,
-      tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.menuCategories]
-    }
-  )();
-}
+// Per-request deduplication keeps publication and 404 decisions fresh.
+export const getCachedMenuItemById = cache(getMenuItemForDisplay);
+export const getCachedMenuItemBySlug = cache(getMenuItemBySlugForDisplay);
+export const getCachedMenuCategoryBySlug = cache(getMenuCategoryBySlugForDisplay);
 
 export function getCachedResolvedSeoPageContent(locale: string, pageId: string) {
   return unstable_cache(
@@ -157,24 +112,10 @@ export async function getCachedMagazineStories(locale: Locale) {
   )();
 }
 
-export async function getCachedBrandStoryBySlug(slug: string, locale: Locale) {
-  const normalized = normalizeStorySlug(slug);
-  if (!normalized) {
-    return null;
-  }
-
-  // Always resolve from source first — never cache 404s (stale "not found" after publish).
-  const story = await getBrandStoryBySlug(normalized, { activeOnly: true });
-  if (!story) {
-    return null;
-  }
-
-  return unstable_cache(
-    async () => localizeBrandStory(story, locale),
-    [CACHE_TAGS.brandStories, "story", normalized, locale, story.id, story.updatedAt],
-    { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.brandStories] }
-  )();
-}
+export const getCachedBrandStoryBySlug = cache(async (slug: string, locale: Locale) => {
+  const story = await getBrandStoryBySlug(normalizeStorySlug(slug), { activeOnly: true });
+  return story ? localizeBrandStory(story, locale) : null;
+});
 
 export const getCachedAnnouncementPopup = unstable_cache(
   async () => {

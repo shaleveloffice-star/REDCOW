@@ -215,6 +215,7 @@ export function AdminMenuTable({
   ) => {
     const file = event.target.files?.[0];
     if (!file || !draft) return;
+    const targetItemId = draft.id;
 
     const setUploading = target === "primary" ? setUploadingImage : setUploadingCloseUpImage;
     setUploading(true);
@@ -246,7 +247,7 @@ export function AdminMenuTable({
 
       const uploadedUrl = result.url;
       setDraft((prev) => {
-        if (!prev) return prev;
+        if (!prev || prev.id !== targetItemId) return prev;
         if (target === "closeUp") {
           return { ...prev, closeUpImageUrl: uploadedUrl };
         }

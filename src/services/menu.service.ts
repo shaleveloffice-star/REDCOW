@@ -14,6 +14,10 @@ import {
   saveMenuItem
 } from "@/repositories/menu.repository";
 import type { MenuCategory, MenuItem } from "@/types/content";
+import type { SeoPageFieldsInput } from "@/types/seo-content";
+import { normalizeMenuSlugParam } from "@/lib/menu/menu-page-utils";
+import { resolveMenuItemSlug } from "@/lib/menu/product-slug";
+import { resolveCategorySlug } from "@/lib/menu/category-slug";
 
 const bySortOrder = <T extends { sortOrder: number }>(a: T, b: T) => a.sortOrder - b.sortOrder;
 
@@ -49,10 +53,13 @@ export async function getHomepageMenuShowcase(): Promise<MenuItem[]> {
   const MAX_SHOWCASE = 8;
 
   try {
-    const [activeItems, config] = await Promise.all([
+    const [allActiveItems, config, categories] = await Promise.all([
       listMenuItems({ activeOnly: true }),
-      getHomepageMenuShowcaseConfig()
+      getHomepageMenuShowcaseConfig(),
+      listMenuCategories({ activeOnly: true })
     ]);
+    const activeIds = new Set(categories.map(category => category.id));
+    const activeItems = allActiveItems.filter(item => activeIds.has(item.categoryId));
 
     if (activeItems.length === 0) {
       return [];
@@ -76,7 +83,8 @@ export async function getHomepageMenuShowcase(): Promise<MenuItem[]> {
   } catch (error) {
     console.error("[menu.service] getHomepageMenuShowcase failed", error);
     try {
-      const activeItems = await listMenuItems({ activeOnly: true });
+      const [items, categories] = await Promise.all([listMenuItems({ activeOnly: true }), listMenuCategories({ activeOnly: true })]);
+      const activeItems = items.filter(item => categories.some(category => category.id === item.categoryId));
       return activeItems.slice(0, MAX_SHOWCASE);
     } catch {
       return [];
@@ -108,47 +116,32 @@ export async function getMenuItemForDisplay(id: string): Promise<MenuItem | null
   if (!item || !item.isActive) {
     return null;
   }
+  if (!(await listMenuCategories({ activeOnly: true })).some(category => category.id === item.categoryId)) return null;
   return item;
 }
 
-function normalizeSlugParam(slug: string): string {
-  let value = slug.trim();
-
-  try {
-    while (/%[0-9A-Fa-f]{2}/.test(value)) {
-      const decoded = decodeURIComponent(value);
-      if (decoded === value) break;
-      value = decoded;
-    }
-  } catch {
-    // Keep the raw slug when decoding fails.
-  }
-
-  return value.toLowerCase();
-}
-
 export async function getMenuItemBySlugForDisplay(slug: string): Promise<MenuItem | null> {
-  const normalized = normalizeSlugParam(slug);
+  const normalized = normalizeMenuSlugParam(slug);
   if (!normalized) return null;
 
-  const items = await listMenuItems({ activeOnly: false });
-  const match = items.find((item) => {
+  const [items, categories] = await Promise.all([listMenuItems({ activeOnly: false }), listMenuCategories({ activeOnly: true })]);
+  const match = items.find(item => resolveMenuItemSlug(item).toLowerCase() === normalized) ?? items.find((item) => {
     const aliases = getMenuItemSlugAliases(item);
-    return aliases.includes(normalized);
+    return item.isActive && aliases.includes(normalized);
   });
 
-  if (!match || !match.isActive) {
+  if (!match || !match.isActive || !categories.some(category => category.id === match.categoryId)) {
     return null;
   }
   return match;
 }
 
 export async function getMenuCategoryBySlugForDisplay(slug: string): Promise<MenuCategory | null> {
-  const normalized = normalizeSlugParam(slug);
+  const normalized = normalizeMenuSlugParam(slug);
   if (!normalized) return null;
 
   const categories = await listMenuCategories({ activeOnly: true });
-  const match = categories.find((category) => getCategorySlugAliases(category).includes(normalized));
+  const match = categories.find(category => resolveCategorySlug(category) === normalized) ?? categories.find((category) => getCategorySlugAliases(category).includes(normalized));
 
   return match ?? null;
 }
@@ -157,8 +150,8 @@ export async function upsertMenuItem(input: MenuItem): Promise<MenuItem> {
   return saveMenuItem({ ...input, updatedAt: new Date().toISOString() });
 }
 
-export async function upsertMenuCategory(input: MenuCategory): Promise<MenuCategory> {
-  return saveMenuCategory({ ...input, updatedAt: new Date().toISOString() });
+export async function upsertMenuCategory(input: MenuCategory, seoFields?: SeoPageFieldsInput): Promise<MenuCategory> {
+  return saveMenuCategory({ ...input, updatedAt: new Date().toISOString() }, seoFields);
 }
 
 export async function removeMenuItem(id: string): Promise<boolean> {

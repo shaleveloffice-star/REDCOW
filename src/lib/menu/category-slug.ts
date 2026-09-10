@@ -15,7 +15,7 @@ export function getMenuCategoryHref(category: Pick<MenuCategory, "id" | "slug">)
   return `/menu/${resolveCategorySlug(category)}`;
 }
 
-export function getCategorySlugAliases(category: Pick<MenuCategory, "id" | "slug">): string[] {
+export function getCategorySlugAliases(category: Pick<MenuCategory, "id" | "slug" | "previousSlugs">): string[] {
   const aliases = new Set<string>();
   const add = (value: string | undefined) => {
     const normalized = value?.trim().toLowerCase();
@@ -28,6 +28,7 @@ export function getCategorySlugAliases(category: Pick<MenuCategory, "id" | "slug
   add(category.slug);
   add(category.id);
   add(category.id.replace(/^cat-/, ""));
+  for (const slug of category.previousSlugs ?? []) add(slug);
 
   for (const legacy of getCategoryLegacySlugs(category.id)) {
     add(legacy);

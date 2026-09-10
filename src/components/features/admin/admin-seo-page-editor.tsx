@@ -51,7 +51,7 @@ export function AdminSeoPageEditor({ pageId, initialDocument, fieldFlags }: Admi
           : "שדות ריקים משתמשים בברירת המחדל המובנית באתר."}
       </p>
       <p className="admin-field-hint">
-        ניהול תוכן בעברית בלבד. תרגום לאנגלית ולצרפתית מוצג אוטומטית למבקרים באתר.
+        ניהול תוכן בעברית. תוכן חדש לא מתורגם אוטומטית לאנגלית ולצרפתית כל עוד שירות התרגום כבוי.
       </p>
 
       <form

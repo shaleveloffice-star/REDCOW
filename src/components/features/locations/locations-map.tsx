@@ -1,14 +1,15 @@
-import { getBusinessMapsEmbedUrl } from "@/data/business";
+import { branchMapsEmbedUrl } from "@/data/business";
 
 type LocationsMapProps = {
   title: string;
+  branch?: import("@/types/content").Branch;
 };
 
-export function LocationsMap({ title }: LocationsMapProps) {
+export function LocationsMap({ title, branch }: LocationsMapProps) {
   return (
     <iframe
       className="locations-map"
-      src={getBusinessMapsEmbedUrl()}
+      src={branchMapsEmbedUrl(branch)}
       title={title}
       loading="lazy"
       allowFullScreen

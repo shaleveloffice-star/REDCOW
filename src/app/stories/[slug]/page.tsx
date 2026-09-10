@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { notFound } from "next/navigation";
+import { notFound, permanentRedirect } from "next/navigation";
 
 import { StoryPageView } from "@/components/features/stories/story-page-view";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -11,7 +11,6 @@ import { getServerLocale } from "@/i18n/get-locale";
 import { getStoryPageMetadata } from "@/lib/page-metadata";
 import { resolveStorySlug, normalizeStorySlug } from "@/lib/stories/story-slug";
 import { buildArticleJsonLd, buildStoryBreadcrumbJsonLd } from "@/lib/seo/json-ld";
-import { listBrandStories } from "@/services/stories.service";
 
 type StoryPageProps = {
   params: Promise<{ slug: string }>;
@@ -19,14 +18,8 @@ type StoryPageProps = {
 
 export const dynamicParams = true;
 
-export async function generateStaticParams() {
-  try {
-    const stories = await listBrandStories({ activeOnly: true });
-    return stories.map((story) => ({ slug: resolveStorySlug(story) }));
-  } catch {
-    return [];
-  }
-}
+// Story pages read the locale cookie; render each request to avoid static fallback errors.
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata({ params }: StoryPageProps): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -60,6 +53,7 @@ export default async function StoryPage({ params }: StoryPageProps) {
   }
 
   const canonicalSlug = resolveStorySlug(story);
+  if (rawSlug !== canonicalSlug) permanentRedirect(`/stories/${canonicalSlug}`);
 
   return (
     <>

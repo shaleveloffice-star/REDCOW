@@ -1,4 +1,4 @@
-import type { MenuCategory, MenuItem } from "@/types/content";
+import type { MenuItem } from "@/types/content";
 
 export type MenuItemSmartPasteFieldKey =
   | "name"

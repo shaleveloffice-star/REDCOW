@@ -19,7 +19,7 @@ export function getFocusableElements(container: HTMLElement): HTMLElement[] {
     if (style.display === "none" || style.visibility === "hidden") {
       return false;
     }
-    return true;
+    return element.getClientRects().length > 0;
   });
 }
 
@@ -44,6 +44,7 @@ export function isFocusRestoreTarget(element: HTMLElement | null | undefined): e
 }
 
 /** Marks sibling branches as inert so AT/keyboard cannot reach content behind a dialog. */
+const inertOwners = new WeakMap<HTMLElement, { count: number; original: boolean }>();
 export function inertBackground(keep: HTMLElement): () => void {
   const marked: HTMLElement[] = [];
   let current: HTMLElement | null = keep;
@@ -58,9 +59,9 @@ export function inertBackground(keep: HTMLElement): () => void {
       if (sibling === current || !(sibling instanceof HTMLElement)) {
         continue;
       }
-      if (sibling.hasAttribute("data-a11y-inert")) {
-        continue;
-      }
+      const owner = inertOwners.get(sibling) ?? { count: 0, original: sibling.inert };
+      owner.count++;
+      inertOwners.set(sibling, owner);
       sibling.inert = true;
       sibling.setAttribute("data-a11y-inert", "");
       marked.push(sibling);
@@ -71,8 +72,12 @@ export function inertBackground(keep: HTMLElement): () => void {
 
   return () => {
     for (const element of marked) {
-      element.inert = false;
-      element.removeAttribute("data-a11y-inert");
+      const owner = inertOwners.get(element);
+      if (owner && --owner.count === 0) {
+        element.inert = owner.original;
+        element.removeAttribute("data-a11y-inert");
+        inertOwners.delete(element);
+      }
     }
   };
 }
@@ -81,6 +86,7 @@ export function inertBackground(keep: HTMLElement): () => void {
 export function trapFocus(container: HTMLElement): () => void {
   const onKeyDown = (event: KeyboardEvent) => {
     if (event.key !== "Tab") return;
+    event.stopPropagation();
 
     const focusable = getFocusableElements(container);
     if (focusable.length === 0) {
@@ -113,6 +119,42 @@ export function trapFocus(container: HTMLElement): () => void {
 export function focusElement(element: HTMLElement | null | undefined) {
   if (!element) return;
   window.requestAnimationFrame(() => {
-    element.focus();
+    if (element.isConnected && !element.closest("[inert]")) element.focus();
   });
+}
+
+const modalStack: Array<{ root: HTMLElement; dialog: HTMLElement }> = [];
+let restoreBackground: (() => void) | undefined;
+function syncModalBackground() {
+  restoreBackground?.();
+  const top = modalStack.at(-1);
+  restoreBackground = top ? inertBackground(top.root) : undefined;
+}
+let originalOverflow = "";
+export function mountModal(root: HTMLElement, dialog: HTMLElement, dismiss: () => void, returnTo?: HTMLElement | null): () => void {
+  const opener = returnTo ?? (document.activeElement instanceof HTMLElement ? document.activeElement : null);
+  if (modalStack.length === 0) originalOverflow = document.body.style.overflow;
+  const entry = { root, dialog };
+  modalStack.push(entry);
+  document.body.style.overflow = "hidden";
+  syncModalBackground();
+  const release = trapFocus(dialog);
+  focusElement(getFocusableElements(dialog)[0] ?? dialog);
+  const onKey = (event: KeyboardEvent) => {
+    if (event.key === "Escape" && modalStack.at(-1) === entry) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      dismiss();
+    }
+  };
+  window.addEventListener("keydown", onKey, true);
+  return () => {
+    window.removeEventListener("keydown", onKey, true);
+    const index = modalStack.indexOf(entry);
+    if (index < 0) return;
+    modalStack.splice(index, 1);
+    release(); syncModalBackground();
+    if (modalStack.length === 0) document.body.style.overflow = originalOverflow;
+    if (isFocusRestoreTarget(opener)) focusElement(opener);
+  };
 }

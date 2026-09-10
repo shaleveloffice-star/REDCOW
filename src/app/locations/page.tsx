@@ -1,10 +1,11 @@
+import { resolveSiteImageUrl } from "@/lib/site-image-url";
 import type { Metadata } from "next";
 
 import { LocationsPageView } from "@/components/features/locations/locations-page-view";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
-import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
+import { getCachedResolvedSeoPageContent, getCachedSiteImagesMap } from "@/lib/cache/cached-data";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getLocationsPageMetadata } from "@/lib/page-metadata";
@@ -19,10 +20,11 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function LocationsPage() {
   const locale = await getServerLocale();
-  const [branches, seoContent, messages] = await Promise.all([
+  const [branches, seoContent, messages, siteImages] = await Promise.all([
     listBranches({ activeOnly: true }),
     getCachedResolvedSeoPageContent(locale, "locations"),
-    getLocalizedMessages(locale)
+    getLocalizedMessages(locale),
+    getCachedSiteImagesMap()
   ]);
   const locationsFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(seoContent.faq.items));
   return (
@@ -39,7 +41,7 @@ export default async function LocationsPage() {
       <main id="main-content">
         <LocationsPageView
           branches={branches}
-          exteriorImage={LOCATION_EXTERIOR_IMAGE}
+          exteriorImage={resolveSiteImageUrl(siteImages, "location-exterior", LOCATION_EXTERIOR_IMAGE)}
           seoContent={seoContent}
         />
       </main>

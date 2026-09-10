@@ -60,6 +60,7 @@ export function normalizeMenuItem(raw: Partial<MenuItem> & { id: string }): Menu
     imageUrl: toText(raw.imageUrl),
     closeUpImageUrl: toText(raw.closeUpImageUrl),
     ...(toOptionalText(raw.slug) ? { slug: toOptionalText(raw.slug) } : {}),
+    previousSlugs: toStringArray(raw.previousSlugs),
     ...(toOptionalText(raw.imageAlt) ? { imageAlt: toOptionalText(raw.imageAlt) } : {}),
     ...(toOptionalText(raw.primaryKeyword)
       ? { primaryKeyword: toOptionalText(raw.primaryKeyword) }
@@ -92,6 +93,7 @@ export function normalizeMenuCategory(raw: Partial<MenuCategory> & { id: string 
     id: id || name,
     name,
     slug: toText(raw.slug) || id || "category",
+    previousSlugs: toStringArray(raw.previousSlugs),
     ...(toOptionalText(raw.description) ? { description: toOptionalText(raw.description) } : {}),
     sortOrder: toNumber(raw.sortOrder, 0),
     isActive: toBoolean(raw.isActive, true),

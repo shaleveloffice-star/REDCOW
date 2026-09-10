@@ -1,6 +1,6 @@
 import { jwtVerify } from "jose";
 
-import { ADMIN_SESSION_COOKIE, getAdminSessionSecret } from "@/lib/auth/edge";
+import { ADMIN_SESSION_COOKIE, getAdminSessionSecret, getAdminPassword } from "@/lib/auth/edge";
 import type { AdminRole, AdminSession } from "@/types/admin";
 
 export function getAdminSessionCookieName() {
@@ -23,6 +23,11 @@ export async function verifyAdminSessionTokenEdge(
     const email = typeof payload.email === "string" ? payload.email : "";
     const role = payload.role;
     const isMock = payload.isMock === true;
+    const password = getAdminPassword();
+    if (!password) return null;
+    const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(password));
+    const expectedVersion = Array.from(new Uint8Array(digest), byte => byte.toString(16).padStart(2, "0")).join("").slice(0, 16);
+    if (payload.authVersion !== expectedVersion) return null;
 
     if (!email || (role !== "owner" && role !== "manager" && role !== "editor")) {
       return null;

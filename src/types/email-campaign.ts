@@ -14,6 +14,7 @@ export type EmailCampaignRecipient = {
   resendMessageId?: string;
   error?: string;
   sentAt?: ISODateString;
+  attemptedAt?: ISODateString;
 };
 
 export type EmailCampaign = {
@@ -33,4 +34,6 @@ export type EmailCampaign = {
   recipients: EmailCampaignRecipient[];
   /** Client-generated id to prevent double-submit of the same send action. */
   clientRequestId?: string;
+  leaseToken?: string;
+  leaseExpiresAt?: ISODateString;
 };

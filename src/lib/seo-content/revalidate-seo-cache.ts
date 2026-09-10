@@ -39,7 +39,7 @@ export function revalidateSeoContentCache(options?: SeoRevalidateOptions) {
   try {
     updateTag(CACHE_TAGS.seoContent);
 
-    const paths: string[] = [];
+    const paths: string[] = ["/sitemap.xml"];
 
     if (options?.pageId) {
       paths.push(PAGE_PATHS[options.pageId]);

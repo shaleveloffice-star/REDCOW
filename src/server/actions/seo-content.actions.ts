@@ -1,10 +1,6 @@
 "use server";
 
 import { requireAdmin } from "@/lib/auth/admin-guard";
-import {
-  buildCategorySeoMenuPatch,
-  pickCategorySeoFields
-} from "@/lib/seo-content/admin-category-seo";
 import { sanitizeSeoLocaleBundle, sanitizeSeoPageFields } from "@/lib/seo-content/sanitize-seo-storage";
 import {
   categorySlugsForRevalidate,
@@ -17,7 +13,8 @@ import {
   getSeoLocaleBundleForAdmin,
   persistSeoPageFieldsForAdmin,
   saveAllCategorySeoFieldsForAdmin,
-  saveSeoLocaleBundleForAdmin
+  saveSeoLocaleBundleForAdmin,
+  saveCategorySeoFieldsForAdmin
 } from "@/services/seo-content.service";
 import type { SeoLocaleBundle, SeoPageFieldsInput, SeoPageId } from "@/types/seo-content";
 
@@ -65,17 +62,9 @@ export async function saveCategorySeoFieldsAction(
   await requireAdminOrThrow();
 
   try {
-    const [current, categories] = await Promise.all([
-      getSeoLocaleBundleForAdmin(locale),
-      listMenuCategories({ activeOnly: false })
-    ]);
+    const categories = await listMenuCategories({ activeOnly: false });
     const category = categories.find((item) => item.id === categoryId.trim());
-    const nextMenu = buildCategorySeoMenuPatch(
-      current.pages?.menu,
-      categoryId,
-      pickCategorySeoFields(fields)
-    );
-    const result = await persistSeoPageFieldsForAdmin(locale, "menu", nextMenu, {
+    const result = await saveCategorySeoFieldsForAdmin(locale, categoryId, fields, {
       categorySlugs: categorySlugsForRevalidate(category ?? { id: categoryId })
     });
     return { ok: true, updatedAt: result.updatedAt };
@@ -110,11 +99,7 @@ export async function getSeoLocaleAdminBundleAction(locale: Locale) {
 
 export async function saveSeoLocaleBundleAction(locale: Locale, bundle: SeoLocaleBundle): Promise<SeoSaveResult> {
   await requireAdmin();
-  const saved = sanitizeSeoLocaleBundle({
-    ...bundle,
-    updatedAt: new Date().toISOString()
-  });
-  await saveSeoLocaleBundleForAdmin(locale, saved);
+  const saved = await saveSeoLocaleBundleForAdmin(locale, sanitizeSeoLocaleBundle(bundle));
   revalidateSeoContentCache();
   return { ok: true, updatedAt: saved.updatedAt };
 }

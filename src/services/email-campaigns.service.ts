@@ -10,7 +10,8 @@ import { isValidEmailFormat, normalizeEmail } from "@/lib/customer-club/normaliz
 import {
   getEmailCampaignById,
   getEmailCampaigns,
-  saveEmailCampaign
+  claimEmailCampaign,
+  checkpointEmailCampaign
 } from "@/repositories/email-campaigns.repository";
 import { getCustomerClubSignups } from "@/repositories/customer-club.repository";
 import type {
@@ -61,13 +62,13 @@ export async function sendCustomerClubCampaign(
   if (!clientRequestId) return { ok: false, error: "בקשת שליחה לא תקינה." };
 
   const existing = (await getEmailCampaigns()).find(
-    (campaign) => campaign.clientRequestId === clientRequestId
+    (campaign) => campaign.clientRequestId === clientRequestId && campaign.createdByAdmin === input.adminEmail
   );
   if (existing) {
-    if (existing.status === "sending") {
+    if (existing.status === "sending" && (!existing.leaseExpiresAt || Date.parse(existing.leaseExpiresAt) > Date.now())) {
       return { ok: false, error: "שליחה כבר בתהליך עבור בקשה זו. המתינו לסיום." };
     }
-    return { ok: true, campaign: existing, reused: true };
+    if (existing.status !== "sending") return { ok: true, campaign: existing, reused: true };
   }
 
   const from = getResendFromConfig();
@@ -83,6 +84,7 @@ export async function sendCustomerClubCampaign(
   const signupById = new Map(signups.map((signup) => [signup.id, signup]));
   const recipients: EmailCampaignRecipient[] = [];
   const seenEmails = new Set<string>();
+  const suppressedEmails = new Set(signups.filter(signup => !signup.marketingConsent || signup.unsubscribedAt).map(signup => normalizeEmail(signup.email ?? "")));
 
   for (const id of input.signupIds) {
     const signup = signupById.get(id);
@@ -98,7 +100,7 @@ export async function sendCustomerClubCampaign(
       });
       continue;
     }
-    if (!signup.marketingConsent || signup.unsubscribedAt) {
+    if (suppressedEmails.has(email)) {
       recipients.push({
         email,
         signupId: signup.id,
@@ -120,6 +122,10 @@ export async function sendCustomerClubCampaign(
 
   for (const raw of input.manualEmails) {
     const email = normalizeEmail(raw);
+    if (suppressedEmails.has(email)) {
+      recipients.push({ email, source: "manual", status: "skipped", error: "אין הרשאה לדיוור לכתובת זו" });
+      continue;
+    }
     if (!email || !isValidEmailFormat(email)) {
       recipients.push({
         email: email || raw.trim() || "(לא תקין)",
@@ -139,7 +145,7 @@ export async function sendCustomerClubCampaign(
   }
 
   const toSend = recipients.filter((recipient) => recipient.status === "pending");
-  if (toSend.length === 0) {
+  if (toSend.length === 0 && !existing) {
     return { ok: false, error: "אין נמענים תקינים לשליחה." };
   }
 
@@ -159,26 +165,48 @@ export async function sendCustomerClubCampaign(
     failedCount: 0,
     skippedCount: recipients.filter((r) => r.status === "skipped").length,
     recipients,
-    clientRequestId
+    clientRequestId,
+    leaseToken: createId("lease"),
+    leaseExpiresAt: new Date(Date.now() + 120_000).toISOString()
   };
 
-  campaign = await saveEmailCampaign(campaign);
+  const claim = await claimEmailCampaign(campaign);
+  if (!claim.acquired) {
+    return claim.campaign.status === "sending"
+      ? { ok: false, error: "שליחה כבר בתהליך עבור בקשה זו. המתינו לסיום." }
+      : { ok: true, campaign: claim.campaign, reused: true };
+  }
+  campaign = claim.campaign;
 
-  const html = plainTextBodyToHtml(body);
+  const html = plainTextBodyToHtml(campaign.body);
   const updatedRecipients = [...campaign.recipients];
 
   for (let i = 0; i < updatedRecipients.length; i += 1) {
     const recipient = updatedRecipients[i];
     if (recipient.status !== "pending") continue;
 
+    if (suppressedEmails.has(recipient.email)) {
+      updatedRecipients[i] = { ...recipient, status: "skipped", error: "אין הרשאה לדיוור לכתובת זו" };
+      campaign = await checkpointEmailCampaign({ ...campaign, recipients: updatedRecipients });
+      continue;
+    }
+    // Never replay an uncertain delivery beyond the provider's idempotency window.
+    if (recipient.attemptedAt && Date.now() - Date.parse(recipient.attemptedAt) >= 23 * 60 * 60 * 1000) {
+      updatedRecipients[i] = { ...recipient, status: "failed", error: "תוצאת שליחה קודמת אינה ודאית. נדרשת בדיקה בהיסטוריית ספק הדיוור לפני שליחה נוספת." };
+      campaign = await checkpointEmailCampaign({ ...campaign, recipients: updatedRecipients });
+      continue;
+    }
+    updatedRecipients[i] = { ...recipient, attemptedAt: recipient.attemptedAt ?? new Date().toISOString() };
+    campaign = await checkpointEmailCampaign({ ...campaign, recipients: updatedRecipients });
+
     try {
       const result = await resend.emails.send({
-        from: from.formatted,
+        from: `${campaign.fromName} <${campaign.fromEmail}>`,
         to: [recipient.email],
-        subject,
+        subject: campaign.subject,
         html,
-        text: body
-      });
+        text: campaign.body
+      }, { idempotencyKey: `${campaign.id}/${i}` });
 
       if (result.error) {
         updatedRecipients[i] = {
@@ -210,13 +238,14 @@ export async function sendCustomerClubCampaign(
         sentAt: new Date().toISOString()
       };
     }
+    campaign = await checkpointEmailCampaign({ ...campaign, recipients: updatedRecipients });
   }
 
   const sentCount = updatedRecipients.filter((r) => r.status === "sent").length;
   const failedCount = updatedRecipients.filter((r) => r.status === "failed").length;
   const skippedCount = updatedRecipients.filter((r) => r.status === "skipped").length;
 
-  campaign = await saveEmailCampaign({
+  campaign = await checkpointEmailCampaign({
     ...campaign,
     recipients: updatedRecipients,
     sentAt: new Date().toISOString(),

@@ -6,6 +6,7 @@ import { JsonLd } from "@/components/seo/json-ld";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import {
   getCachedActiveOrderLinks,
+  getMenuHeroForDisplay,
   getCachedMenuForDisplay,
   getCachedResolvedSeoPageContent
 } from "@/lib/cache/cached-data";
@@ -21,11 +22,12 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function MenuPage() {
   const locale = await getServerLocale();
-  const [groups, orderLinks, menuSeo, messages] = await Promise.all([
+  const [groups, orderLinks, menuSeo, messages, menuHero] = await Promise.all([
     getCachedMenuForDisplay(),
     getCachedActiveOrderLinks(),
     getCachedResolvedSeoPageContent(locale, "menu"),
-    getLocalizedMessages(locale)
+    getLocalizedMessages(locale),
+    getMenuHeroForDisplay()
   ]);
   const { pickupUrl, deliveryUrl } = resolveMenuOrderUrls(orderLinks);
   const menuFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(menuSeo.faq.items));
@@ -45,6 +47,7 @@ export default async function MenuPage() {
       <main id="main-content" className="menu-page">
         <div className="menu-page-inner">
           <MenuIndexView
+            menuHero={menuHero}
             groups={groups}
             menuSeo={{
               introduction: menuSeo.introduction,

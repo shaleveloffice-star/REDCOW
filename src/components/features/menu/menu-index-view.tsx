@@ -16,17 +16,19 @@ import { useLocale, useTranslations } from "@/components/providers/locale-provid
 import { getLocalizedCategoryName } from "@/i18n/category-translations";
 import { getMenuCategoryHref } from "@/lib/menu/category-slug";
 import type { MenuCategory, MenuItem } from "@/types/content";
+import type { MenuHeroConfig } from "@/types/menu-hero";
 
 type MenuGroup = MenuCategory & { items: MenuItem[] };
 
 type MenuIndexViewProps = {
   groups: MenuGroup[];
   menuSeo: MenuPageSeoContent;
+  menuHero: MenuHeroConfig;
   pickupUrl: string;
   deliveryUrl: string;
 };
 
-export function MenuIndexView({ groups, menuSeo, pickupUrl, deliveryUrl }: MenuIndexViewProps) {
+export function MenuIndexView({ groups, menuSeo, menuHero, pickupUrl, deliveryUrl }: MenuIndexViewProps) {
   const t = useTranslations();
   const { locale } = useLocale();
 
@@ -35,7 +37,7 @@ export function MenuIndexView({ groups, menuSeo, pickupUrl, deliveryUrl }: MenuI
 
   return (
     <div className="menu-bleecker">
-      <MenuHero heroAlt={t.menuPage.heroAlt} locale={locale} />
+      <MenuHero config={menuHero} heroAlt={t.menuPage.heroAlt} locale={locale} />
 
       <div className="menu-bleecker-toolbar menu-bleecker-toolbar--category">
         <MenuBreadcrumbs

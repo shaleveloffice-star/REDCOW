@@ -359,67 +359,69 @@ export function AdminMenuTable({
         </p>
       ) : null}
 
-      <table className="table">
-        <thead>
-          <tr>
-            <th style={{ width: 56 }}>סדר</th>
-            <th style={{ width: 72 }}>תמונה</th>
-            <th>מנה</th>
-            {!categoryFilter ? <th>קטגוריה</th> : null}
-            <th>מחיר</th>
-            <th>סטטוס</th>
-            <th style={{ width: 160 }}>פעולות</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredRows.length === 0 ? (
+      <div className="admin-menu-table-scroll" role="region" aria-label="טבלת מנות בתפריט" tabIndex={0}>
+        <table className="table">
+          <thead>
             <tr>
-              <td className="admin-menu-empty" colSpan={categoryFilter ? 6 : 7}>
-                {activeCategory
-                  ? `אין מנות בקטגוריה «${activeCategory.name}». לחץ «הוסף מנה ל־${activeCategory.name}».`
-                  : "אין מנות בתפריט."}
-              </td>
+              <th style={{ width: 56 }}>סדר</th>
+              <th style={{ width: 72 }}>תמונה</th>
+              <th>מנה</th>
+              {!categoryFilter ? <th>קטגוריה</th> : null}
+              <th>מחיר</th>
+              <th>סטטוס</th>
+              <th style={{ width: 160 }}>פעולות</th>
             </tr>
-          ) : (
-            filteredRows.map((item) => (
-              <tr key={item.id}>
-                <td className="admin-menu-sort">{item.sortOrder}</td>
-                <td>
-                  <img
-                    alt={resolveMenuItemImageAlt(item, "he")}
-                    className="admin-menu-thumb"
-                    height={56}
-                    src={menuImageSrc(item.imageUrl, item.updatedAt)}
-                    width={56}
-                    loading="lazy"
-                  />
-                </td>
-                <td>
-                  <strong>{item.name}</strong>
-                  <p className="muted" style={{ margin: "6px 0 0", maxWidth: 420 }}>
-                    {item.description}
-                  </p>
-                  <p className="muted" style={{ margin: "4px 0 0", fontSize: 12 }}>
-                    {getMenuItemHref(item)}
-                  </p>
-                </td>
-                {!categoryFilter ? <td>{categoryById[item.categoryId] ?? "—"}</td> : null}
-                <td>{item.price} ש&quot;ח</td>
-                <td>
-                  <StatusBadge active={item.isActive} />
-                </td>
-                <td>
-                  <AdminRowActions
-                    disabled={isPending}
-                    onDelete={() => handleDelete(item)}
-                    onEdit={() => openEditItem(item)}
-                  />
+          </thead>
+          <tbody>
+            {filteredRows.length === 0 ? (
+              <tr>
+                <td className="admin-menu-empty" colSpan={categoryFilter ? 6 : 7}>
+                  {activeCategory
+                    ? `אין מנות בקטגוריה «${activeCategory.name}». לחץ «הוסף מנה ל־${activeCategory.name}».`
+                    : "אין מנות בתפריט."}
                 </td>
               </tr>
-            ))
-          )}
-        </tbody>
-      </table>
+            ) : (
+              filteredRows.map((item) => (
+                <tr key={item.id}>
+                  <td className="admin-menu-sort">{item.sortOrder}</td>
+                  <td>
+                    <img
+                      alt={resolveMenuItemImageAlt(item, "he")}
+                      className="admin-menu-thumb"
+                      height={56}
+                      src={menuImageSrc(item.imageUrl, item.updatedAt)}
+                      width={56}
+                      loading="lazy"
+                    />
+                  </td>
+                  <td>
+                    <strong>{item.name}</strong>
+                    <p className="muted" style={{ margin: "6px 0 0", maxWidth: 420 }}>
+                      {item.description}
+                    </p>
+                    <p className="muted" style={{ margin: "4px 0 0", fontSize: 12 }}>
+                      {getMenuItemHref(item)}
+                    </p>
+                  </td>
+                  {!categoryFilter ? <td>{categoryById[item.categoryId] ?? "—"}</td> : null}
+                  <td>{item.price} ש&quot;ח</td>
+                  <td>
+                    <StatusBadge active={item.isActive} />
+                  </td>
+                  <td>
+                    <AdminRowActions
+                      disabled={isPending}
+                      onDelete={() => handleDelete(item)}
+                      onEdit={() => openEditItem(item)}
+                    />
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
 
       <AdminModal open={Boolean(draft)} title={isNew ? "הוספת מנה" : "עריכת מנה"} onClose={close}>
         {draft ? (

@@ -2,6 +2,8 @@ import { cache } from "react";
 import { unstable_cache } from "next/cache";
 
 import { CACHE_REVALIDATE_SECONDS } from "@/lib/constants";
+import { DEFAULT_MENU_HERO } from "@/lib/menu/menu-hero-config";
+import { getMenuHeroConfig } from "@/repositories/menu-hero.repository";
 import {
   getHomepageMenuShowcase,
   getMenuForDisplay,
@@ -24,10 +26,27 @@ export const CACHE_TAGS = {
   homepageMenu: "homepage-menu",
   menuCategories: "menu-categories",
   menuDisplay: "menu-display",
+  menuHero: "menu-hero",
   seoContent: "seo-content",
   brandStories: "brand-stories",
   announcementPopup: "announcement-popup"
 } as const;
+
+export const getCachedMenuHero = unstable_cache(
+  () => getMenuHeroConfig(),
+  [CACHE_TAGS.menuHero],
+  { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.menuHero] }
+);
+
+// Keep the menu available during a CMS read failure; do not cache the fallback.
+export async function getMenuHeroForDisplay() {
+  try {
+    return await getCachedMenuHero();
+  } catch (error) {
+    console.error("[menu-hero] read failed", error);
+    return { ...DEFAULT_MENU_HERO };
+  }
+}
 
 export const getCachedSettings = unstable_cache(
   () => getSettings(),

@@ -5301,7 +5301,7 @@ a.menu-showcase-button.site-cta-btn {
 
 .admin-layout {
   display: grid;
-  grid-template-columns: 288px 1fr;
+  grid-template-columns: 288px minmax(0, 1fr);
   align-items: start;
   min-height: 100vh;
   color: var(--admin-text);
@@ -5566,12 +5566,14 @@ a.menu-showcase-button.site-cta-btn {
 
 .admin-main {
   position: relative;
+  min-width: 0;
   padding: clamp(20px, 2.6vw, 32px);
 }
 
 .admin-main-inner {
   max-width: 1280px;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 18px;
 }
 
@@ -6203,6 +6205,7 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .admin-card {
+  min-width: 0;
   border: 1px solid var(--admin-border);
   border-radius: var(--admin-radius-lg);
   background: var(--admin-surface);
@@ -6251,6 +6254,7 @@ a.menu-showcase-button.site-cta-btn {
 
 .admin-card-body {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
 }
 
@@ -6401,8 +6405,30 @@ a.menu-showcase-button.site-cta-btn {
   font-weight: 700;
 }
 
+.admin-menu-table-scroll {
+  min-width: 0;
+  overflow-x: auto;
+}
+
+.admin-menu-hero-fields {
+  display: grid;
+  gap: 16px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.admin-menu-hero-heights {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(200px, 100%), 1fr));
+  gap: 16px;
+}
+
 .admin-form {
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
   max-width: 720px;
   gap: 16px;
 }
@@ -7711,7 +7737,7 @@ a.menu-showcase-button.site-cta-btn {
   }
 
   .admin-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .admin-sidebar {

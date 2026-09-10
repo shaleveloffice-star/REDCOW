@@ -2,17 +2,33 @@ import { AdminHomepageMenuShowcase } from "@/components/features/admin/admin-hom
 import { AdminMenuTable } from "@/components/features/admin/admin-menu-table";
 import { AdminSeoPageEditor } from "@/components/features/admin/admin-seo-page-editor";
 import { AdminCard } from "@/components/features/admin/admin-card";
+import { AdminMenuHeroEditor } from "@/components/features/admin/admin-menu-hero-editor";
+import { buildAdminPickableImages } from "@/lib/admin/pickable-site-images";
+import { getCachedSiteImagesMap } from "@/lib/cache/cached-data";
+import { getGalleryAdminData } from "@/server/actions/gallery.actions";
+import { getMenuHeroAdminData } from "@/server/actions/menu-hero.actions";
 import { getMenuAdminData } from "@/server/actions/menu.actions";
 import { getSeoContentDocumentForAdmin } from "@/server/actions/seo-content.actions";
 
 export default async function AdminMenuPage() {
-  const [{ items, categories, homepageShowcase }, seoDocument] = await Promise.all([
+  const [{ items, categories, homepageShowcase }, seoDocument, menuHero, siteImagesMap, galleryImages] = await Promise.all([
     getMenuAdminData(),
-    getSeoContentDocumentForAdmin()
+    getSeoContentDocumentForAdmin(),
+    getMenuHeroAdminData(),
+    getCachedSiteImagesMap(),
+    getGalleryAdminData()
   ]);
+  const pickableImages = buildAdminPickableImages(siteImagesMap, items, galleryImages);
 
   return (
     <>
+      <AdminCard
+        title="באנר עליון — דף התפריט"
+        description="בחירת תמונה או וידאו מעל כותרת התפריט, והגדרת הגובה במובייל ובמחשב."
+      >
+        <AdminMenuHeroEditor initialConfig={menuHero} images={pickableImages} />
+      </AdminCard>
+
       <AdminCard
         title="תוכן SEO — דף התפריט"
         description="מבוא, תוכן תחתון ו-CTA לדף /menu. הקדמות לקטגוריות נערכות בעריכת כל קטגוריה."

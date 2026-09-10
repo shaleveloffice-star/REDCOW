@@ -14,7 +14,7 @@
 }
 
 .menu-bleecker:not(.menu-bleecker--category) {
-  padding-top: 72px;
+  padding-top: var(--site-chrome-offset, 160px);
 }
 
 /* No hero on category pages — clear fixed banner + navbar (+ breathing room) */
@@ -29,9 +29,7 @@
 .menu-bleecker-hero {
   position: relative;
   width: 100%;
-  aspect-ratio: 21 / 9;
-  min-height: 180px;
-  max-height: 360px;
+  height: var(--menu-hero-desktop-height, 420px);
   overflow: hidden;
   background: #111;
 }
@@ -662,11 +660,13 @@
   }
 }
 
-@media (max-width: 700px) {
-  .menu-bleecker:not(.menu-bleecker--category) {
-    padding-top: 64px;
+@media (max-width: 767px) {
+  .menu-bleecker-hero {
+    height: var(--menu-hero-mobile-height, 260px);
   }
+}
 
+@media (max-width: 700px) {
   .menu-bleecker--category {
     padding-top: calc(var(--site-chrome-offset, 160px) + 20px);
   }

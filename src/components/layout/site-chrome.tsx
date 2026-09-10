@@ -1,7 +1,9 @@
 import { SiteChromeOffsetSync } from "@/components/layout/site-chrome-offset-sync";
 import { SiteHeaderClient } from "@/components/layout/site-header-client";
+import { PageTransitionLoader } from "@/components/layout/page-transition-loader";
 import type { MagazineNavStory } from "@/components/layout/site-navbar";
 import type { AnnouncementPopupConfig, OrderLink } from "@/types/content";
+import { Suspense } from "react";
 
 type SiteChromeProps = {
   orderLinks: OrderLink[];
@@ -25,6 +27,9 @@ export function SiteChrome({
         announcementPopup={announcementPopup}
       />
       <SiteChromeOffsetSync />
+      <Suspense fallback={null}>
+        <PageTransitionLoader />
+      </Suspense>
       {children}
     </>
   );

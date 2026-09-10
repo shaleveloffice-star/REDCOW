@@ -5,6 +5,7 @@ import dynamic from "next/dynamic";
 import { CustomerClubSection } from "@/components/features/home/customer-club-section";
 import { HomeAtmosphereSection } from "@/components/features/home/home-atmosphere-section";
 import { HomeBrandStorySection } from "@/components/features/home/home-brand-story-section";
+import { HomePageGlitter } from "@/components/features/home/home-page-glitter";
 import { HeroSection } from "@/components/features/home/hero-section";
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
 import { HomeSocialVibeSection } from "@/components/features/home/home-social-vibe-section";
@@ -63,7 +64,8 @@ export default async function HomePage() {
     <>
       <JsonLd data={buildRestaurantJsonLd(branches[0])} />
       {homeFaqJsonLd ? <JsonLd data={homeFaqJsonLd} /> : null}
-      <main id="main-content">
+      <main id="main-content" className="home-page">
+        <HomePageGlitter />
         <HeroSection heroImageUrl={heroImages.desktop} heroMobileImageUrl={heroImages.mobile} />
         <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
         <HomeBrandStorySection siteImages={siteImages} />

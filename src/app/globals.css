@@ -1615,88 +1615,151 @@ select {
   align-items: center;
   gap: 4px;
   padding: 4px;
-  border: 1px solid rgba(255, 255, 255, 0.28);
+  border: 1px solid rgba(255, 255, 255, 0.34);
   border-radius: 999px;
   background: transparent;
   backdrop-filter: none;
   overflow: visible;
 }
 
-.language-switcher::before,
-.language-switcher::after {
-  content: "";
+.language-switcher-frame {
   position: absolute;
   inset: -1px;
   z-index: 0;
   border-radius: inherit;
   pointer-events: none;
+  overflow: visible;
 }
 
-/* Tiny glitter flecks along the frame — soft metallic so they read on black */
-.language-switcher::before {
-  background-image:
-    radial-gradient(circle at 8% 42%, rgba(220, 230, 255, 0.95) 0 0.7px, transparent 1.1px),
-    radial-gradient(circle at 18% 12%, rgba(255, 245, 220, 0.85) 0 0.55px, transparent 0.95px),
-    radial-gradient(circle at 31% 88%, rgba(200, 215, 255, 0.9) 0 0.65px, transparent 1.05px),
-    radial-gradient(circle at 44% 8%, rgba(255, 255, 255, 0.88) 0 0.5px, transparent 0.9px),
-    radial-gradient(circle at 57% 92%, rgba(230, 220, 255, 0.82) 0 0.6px, transparent 1px),
-    radial-gradient(circle at 69% 18%, rgba(255, 236, 210, 0.8) 0 0.55px, transparent 0.95px),
-    radial-gradient(circle at 82% 78%, rgba(210, 230, 255, 0.9) 0 0.7px, transparent 1.1px),
-    radial-gradient(circle at 93% 38%, rgba(255, 255, 255, 0.78) 0 0.5px, transparent 0.9px),
-    radial-gradient(circle at 12% 68%, rgba(235, 225, 255, 0.86) 0 0.55px, transparent 0.95px),
-    radial-gradient(circle at 26% 28%, rgba(255, 248, 230, 0.8) 0 0.45px, transparent 0.85px),
-    radial-gradient(circle at 48% 72%, rgba(215, 228, 255, 0.9) 0 0.65px, transparent 1.05px),
-    radial-gradient(circle at 63% 48%, rgba(255, 255, 255, 0.72) 0 0.45px, transparent 0.85px),
-    radial-gradient(circle at 76% 8%, rgba(225, 215, 255, 0.88) 0 0.55px, transparent 0.95px),
-    radial-gradient(circle at 88% 58%, rgba(255, 240, 220, 0.8) 0 0.5px, transparent 0.9px);
-  opacity: 0.95;
-  -webkit-mask-image: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 1px));
-  mask-image: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 1px));
+.language-switcher-sparkle {
+  position: absolute;
+  width: 1.5px;
+  height: 1.5px;
+  margin: -0.75px 0 0 -0.75px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow:
+    0 0 0 0.35px rgba(255, 245, 220, 0.5),
+    0 0 3px rgba(255, 255, 255, 0.75),
+    0 0 5px rgba(200, 220, 255, 0.4);
+  transform: scale(0.182);
+  transform-origin: center;
+  animation: language-switcher-sparkle 2.4s ease-in-out infinite;
 }
 
-/* Micro sparkle highlights that gently twinkle on the rim */
-.language-switcher::after {
-  background-image:
-    radial-gradient(circle at 14% 22%, rgba(255, 255, 255, 1) 0 0.75px, transparent 1.25px),
-    radial-gradient(circle at 38% 86%, rgba(190, 210, 255, 0.95) 0 0.7px, transparent 1.2px),
-    radial-gradient(circle at 61% 14%, rgba(255, 236, 200, 0.95) 0 0.65px, transparent 1.15px),
-    radial-gradient(circle at 79% 64%, rgba(255, 255, 255, 0.95) 0 0.7px, transparent 1.2px),
-    radial-gradient(circle at 92% 28%, rgba(210, 200, 255, 0.9) 0 0.55px, transparent 1px),
-    radial-gradient(circle at 6% 58%, rgba(255, 245, 220, 0.95) 0 0.65px, transparent 1.15px),
-    radial-gradient(circle at 52% 6%, rgba(255, 255, 255, 0.9) 0 0.5px, transparent 0.95px),
-    radial-gradient(circle at 24% 90%, rgba(200, 220, 255, 0.88) 0 0.55px, transparent 1px);
-  opacity: 0.9;
-  -webkit-mask-image: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 1px));
-  mask-image: radial-gradient(farthest-side, transparent calc(100% - 3px), #000 calc(100% - 1px));
-  animation: language-switcher-glitter 2.8s ease-in-out infinite;
+.language-switcher-sparkle.is-xs {
+  width: 1px;
+  height: 1px;
+  margin: -0.5px 0 0 -0.5px;
+  box-shadow:
+    0 0 0 0.25px rgba(255, 236, 210, 0.4),
+    0 0 2.5px rgba(255, 255, 255, 0.65);
 }
 
-.language-switcher > * {
+.language-switcher-sparkle.is-sm {
+  width: 1.5px;
+  height: 1.5px;
+}
+
+.language-switcher-sparkle::before,
+.language-switcher-sparkle::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 1px;
+  transform: translate(-50%, -50%);
+}
+
+.language-switcher-sparkle::before {
+  width: 0.75px;
+  height: 4px;
+}
+
+.language-switcher-sparkle::after {
+  width: 4px;
+  height: 0.75px;
+}
+
+.language-switcher-sparkle.is-xs::before {
+  height: 3px;
+}
+
+.language-switcher-sparkle.is-xs::after {
+  width: 3px;
+}
+
+.language-switcher > .language-switcher-btn {
   position: relative;
   z-index: 1;
 }
 
-@keyframes language-switcher-glitter {
+@keyframes language-switcher-sparkle {
   0%,
   100% {
-    opacity: 0.55;
-    filter: brightness(0.95);
+    opacity: 0.35;
+    transform: scale(0.127);
   }
   40% {
     opacity: 1;
-    filter: brightness(1.25);
+    transform: scale(0.182);
   }
-  70% {
-    opacity: 0.7;
-    filter: brightness(1.05);
+  65% {
+    opacity: 0.55;
+    transform: scale(0.154);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .language-switcher::after {
+  .language-switcher-sparkle {
     animation: none;
-    opacity: 0.85;
-    filter: none;
+    opacity: 0.8;
+    transform: scale(0.182);
+  }
+}
+
+.home-page {
+  position: relative;
+}
+
+.home-page-glitter {
+  position: absolute;
+  inset: 0;
+  z-index: 30;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.home-page-glitter .language-switcher-sparkle {
+  animation-name: home-page-sparkle;
+}
+
+@keyframes home-page-sparkle {
+  0%,
+  100% {
+    opacity: calc(var(--sparkle-opacity, 0.8) * 0.28);
+    transform: scale(0.12);
+  }
+  35% {
+    opacity: var(--sparkle-opacity, 1);
+    transform: scale(0.182);
+  }
+  60% {
+    opacity: calc(var(--sparkle-opacity, 0.8) * 0.55);
+    transform: scale(0.15);
+  }
+  80% {
+    opacity: calc(var(--sparkle-opacity, 0.8) * 0.4);
+    transform: scale(0.135);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .home-page-glitter .language-switcher-sparkle {
+    animation: none;
+    opacity: var(--sparkle-opacity, 0.7);
+    transform: scale(0.16);
   }
 }
 
@@ -9475,12 +9538,17 @@ body:not(:has(.admin-layout)) main::before {
   background: transparent;
 }
 
-.site-navbar--scrolled .language-switcher::before {
-  opacity: 0.8;
+.site-navbar--scrolled .language-switcher-sparkle {
+  background: #111111;
+  box-shadow:
+    0 0 0 0.5px rgba(80, 80, 80, 0.55),
+    0 0 4px rgba(40, 40, 40, 0.45),
+    0 0 1px rgba(255, 255, 255, 0.35);
 }
 
-.site-navbar--scrolled .language-switcher::after {
-  opacity: 0.85;
+.site-navbar--scrolled .language-switcher-sparkle::before,
+.site-navbar--scrolled .language-switcher-sparkle::after {
+  background: rgba(30, 30, 30, 0.95);
 }
 
 .site-navbar--scrolled .language-switcher-btn {

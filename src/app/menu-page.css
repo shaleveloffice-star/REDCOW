@@ -249,9 +249,9 @@
 }
 
 .menu-bleecker-seo-intro p {
-  max-width: 720px;
-  margin-inline-start: 0;
-  margin-inline-end: auto;
+  max-width: none;
+  width: 100%;
+  margin-inline: 0;
   margin-block: 0 14px;
   color: rgba(255, 255, 255, 0.78);
   font-size: clamp(15px, 2.2vw, 17px);
@@ -268,9 +268,9 @@
 }
 
 .menu-bleecker-seo-bottom p {
-  max-width: 720px;
-  margin-inline-start: 0;
-  margin-inline-end: auto;
+  max-width: none;
+  width: 100%;
+  margin-inline: 0;
   margin-block: 0 14px;
   color: rgba(255, 255, 255, 0.78);
   font-size: clamp(15px, 2.2vw, 17px);
@@ -282,9 +282,8 @@
 }
 
 .menu-bleecker-seo-cta {
-  width: min(720px, calc(100% - 32px));
+  width: min(1200px, calc(100% - 32px));
   margin: 24px auto 0;
-  margin-inline: auto;
   text-align: center;
 }
 
@@ -294,9 +293,9 @@
 }
 
 .seo-content-cta {
-  padding: 24px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
+  padding: 24px 0;
+  border-radius: 0;
+  background: transparent;
 }
 
 .seo-content-cta-title {
@@ -438,13 +437,14 @@
 }
 
 .menu-bleecker-category-cta {
-  max-width: 720px;
-  margin-inline-start: 0;
-  margin-inline-end: auto;
-  padding: 24px;
-  border-radius: 12px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  max-width: none;
+  width: 100%;
+  margin-inline: 0;
+  padding: 24px 0;
+  border-radius: 0;
+  background: transparent;
+  border: 0;
+  text-align: start;
 }
 
 .menu-bleecker-category-cta .seo-content-cta-title {

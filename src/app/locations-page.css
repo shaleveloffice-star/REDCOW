@@ -189,11 +189,14 @@
 }
 
 .locations-delivery-note {
-  max-width: 52ch;
+  max-width: none;
+  width: 100%;
   margin: 20px 0 0;
+  margin-inline: 0;
   color: rgba(255, 255, 255, 0.62);
   font-size: 14px;
   line-height: 1.55;
+  text-align: start;
 }
 
 .locations-back {

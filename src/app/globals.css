@@ -9751,16 +9751,39 @@ body:not(:has(.admin-layout)) button:focus-visible {
   margin-top: 8px;
 }
 
-.locations-seo-intro,
-.locations-seo-bottom {
+.locations-seo-intro {
   width: min(920px, calc(100% - 32px));
   margin: 20px auto;
+}
+
+.locations-seo-bottom,
+.locations-seo-cta {
+  width: 100%;
+  max-width: none;
+  margin: 28px 0 0;
+  margin-inline: 0;
+  padding-inline: 0;
+  text-align: start;
 }
 
 .locations-page-head .locations-seo-intro {
   width: 100%;
   max-width: none;
   margin: 0;
+}
+
+/* Nested FAQ inside a content column — keep start edge aligned with siblings */
+.locations-list .site-faq-shell,
+.menu-bleecker-seo-footer .site-faq-shell,
+.menu-bleecker-category-seo .site-faq-shell {
+  width: 100%;
+  margin-inline: 0;
+}
+
+.locations-list .site-faq,
+.menu-bleecker-seo-footer .site-faq,
+.menu-bleecker-category-seo .site-faq {
+  padding-inline: 0;
 }
 
 .locations-seo-intro p,
@@ -9779,19 +9802,24 @@ body:not(:has(.admin-layout)) button:focus-visible {
   font-size: 0.94em;
 }
 
+.about-simple-seo-cta {
+  margin-top: 20px;
+  width: 100%;
+  text-align: center;
+}
+
 .legal-seo-intro,
 .legal-seo-bottom {
   margin-bottom: 24px;
+  width: 100%;
+  max-width: none;
+  margin-inline: 0;
 }
 
 .legal-seo-intro p,
 .legal-seo-bottom p {
   margin: 0 0 12px;
   line-height: 1.65;
-}
-
-.about-simple-seo-cta {
-  margin-top: 20px;
 }
 
 .admin-form-toolbar {

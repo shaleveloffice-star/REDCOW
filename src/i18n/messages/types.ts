@@ -44,6 +44,7 @@ export type Messages = {
     atmosphere: string;
     club: string;
     location: string;
+    kosher: string;
     about: string;
     magazine: string;
     branches: string;
@@ -87,6 +88,10 @@ export type Messages = {
     viewBranchHours: string;
   };
   aboutPage: {
+    title: string;
+    backHome: string;
+  };
+  kosherPage: {
     title: string;
     backHome: string;
   };
@@ -177,6 +182,7 @@ export type Messages = {
     formSubtitle: string;
     formHint: string;
     socialProof: string;
+    close: string;
     trustSafe: string;
     trustTerms: string;
     barBrandSub: string;
@@ -250,6 +256,7 @@ export type Messages = {
     nav: string;
     menu: string;
     fullMenu: string;
+    clubCta: string;
     copyright: string;
     privacy: string;
     terms: string;

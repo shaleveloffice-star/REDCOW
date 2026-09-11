@@ -13,6 +13,7 @@ const PAGE_PATHS: Record<SeoPageId, string> = {
   about: "/about",
   menu: "/menu",
   locations: "/locations",
+  kosher: "/kosher",
   privacy: "/privacy-policy",
   terms: "/terms"
 };
@@ -67,6 +68,10 @@ export function getMenuCategoryPageMetadata(
 
 export async function getLocationsPageMetadata(locale: Locale) {
   return getSeoPageMetadata(locale, "locations");
+}
+
+export async function getKosherPageMetadata(locale: Locale) {
+  return getSeoPageMetadata(locale, "kosher");
 }
 
 export async function getAboutPageMetadata(locale: Locale) {

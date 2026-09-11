@@ -42,6 +42,7 @@ export const en: Messages = {
     atmosphere: "Atmosphere",
     club: "Customer Club",
     location: "Location & Hours",
+    kosher: "Kosher under rabbinate supervision",
     about: "About",
     magazine: "Magazine",
     branches: "Locations"
@@ -86,6 +87,10 @@ export const en: Messages = {
   },
   aboutPage: {
     title: "About NB BURGER",
+    backHome: "Back to home"
+  },
+  kosherPage: {
+    title: "Kosher under rabbinate supervision",
     backHome: "Back to home"
   },
   locations: {
@@ -172,6 +177,7 @@ export const en: Messages = {
     formSubtitle: "And unlock a world of benefits",
     formHint: "Quick signup",
     socialProof: "2,300+ members",
+    close: "Close",
     trustSafe: "Your info stays with us",
     trustTerms: "Free · No commitment",
     barBrandSub: "REAL BURGERS. REAL PEOPLE.",
@@ -285,6 +291,7 @@ export const en: Messages = {
     nav: "Navigation",
     menu: "Menu",
     fullMenu: "Full Menu",
+    clubCta: "Join the customer club",
     copyright: "© 2026 NB BURGER - All rights reserved",
     privacy: "Privacy Policy",
     terms: "Terms of Use",

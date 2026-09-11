@@ -42,6 +42,7 @@ export const fr: Messages = {
     atmosphere: "Ambiance",
     club: "Club client",
     location: "Adresse & Horaires",
+    kosher: "Casher sous supervision rabbinique",
     about: "À propos",
     magazine: "Magazine",
     branches: "Adresses"
@@ -86,6 +87,10 @@ export const fr: Messages = {
   },
   aboutPage: {
     title: "À propos de NB BURGER",
+    backHome: "Retour à l'accueil"
+  },
+  kosherPage: {
+    title: "Casher sous supervision rabbinique",
     backHome: "Retour à l'accueil"
   },
   locations: {
@@ -172,6 +177,7 @@ export const fr: Messages = {
     formSubtitle: "Et accédez à un monde d'avantages",
     formHint: "Inscription rapide",
     socialProof: "2 300+ membres",
+    close: "Fermer",
     trustSafe: "Vos infos restent chez nous",
     trustTerms: "Gratuit · Sans engagement",
     barBrandSub: "REAL BURGERS. REAL PEOPLE.",
@@ -285,6 +291,7 @@ export const fr: Messages = {
     nav: "Navigation",
     menu: "Carte",
     fullMenu: "Carte complète",
+    clubCta: "Rejoindre le club clients",
     copyright: "© 2026 NB BURGER - Tous droits réservés",
     privacy: "Politique de confidentialité",
     terms: "Conditions d'utilisation",

@@ -33,6 +33,11 @@ const PAGE_META_DEFAULTS: Record<
       metaDescription:
         "כתובת NB BURGER ברחוב אחוזה 96, שעות פתיחה, ניווט, איסוף עצמי ואזורי משלוח. כל מה שצריך לפני שמגיעים לסניף רעננה."
     },
+    kosher: {
+      metaTitle: "כשר בהשגחת רבנות | NB BURGER",
+      metaDescription:
+        "NB BURGER — מסעדת המבורגרים כשרה בהשגחת רבנות. פרטי הכשרות והמידע המעודכן יופיעו כאן."
+    },
     about: {
       metaTitle: "אודות NB BURGER | הסיפור שלנו",
       metaDescription:
@@ -62,6 +67,11 @@ const PAGE_META_DEFAULTS: Record<
       metaTitle: "Location & Hours | NB BURGER Raanana",
       metaDescription: "Find NB BURGER in Raanana — address, opening hours, directions and delivery."
     },
+    kosher: {
+      metaTitle: "Kosher Certification | NB BURGER",
+      metaDescription:
+        "NB BURGER is a kosher burger restaurant under rabbinate supervision. Details will appear here."
+    },
     about: {
       metaTitle: "About | NB BURGER Raanana",
       metaDescription:
@@ -90,6 +100,11 @@ const PAGE_META_DEFAULTS: Record<
     locations: {
       metaTitle: "Adresse & horaires | NB BURGER Raanana",
       metaDescription: "NB BURGER à Raanana — adresse, horaires, itinéraire et livraison."
+    },
+    kosher: {
+      metaTitle: "Cacherout | NB BURGER",
+      metaDescription:
+        "NB BURGER est un restaurant de burgers casher sous supervision rabbinique. Les détails apparaîtront ici."
     },
     about: {
       metaTitle: "À propos | NB BURGER Raanana",
@@ -231,6 +246,22 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
           buttonHref: "/"
         }
       },
+      kosher: {
+        sectionTitle: "כשר בהשגחת רבנות",
+        introduction: joinParagraphs([
+          "NB BURGER היא מסעדת המבורגרים כשרה בהשגחת רבנות.",
+          "בעמוד זה יופיע מידע מעודכן על הכשרות, ההשגחה ופרטים נוספים — התוכן יעודכן מהפאנל הניהולי."
+        ]),
+        bottomContent: joinParagraphs([
+          "שאלות על כשרות? צרו קשר עם הסניף או עקבו אחרי העדכונים כאן."
+        ]),
+        cta: {
+          title: "מוכנים להזמין?",
+          body: "עברו לתפריט ובחרו את המנה שלכם.",
+          buttonLabel: "לתפריט",
+          buttonHref: "/menu"
+        }
+      },
       privacy: {},
       terms: {}
     };
@@ -329,6 +360,19 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
           "Dine in or order delivery to nearby zones."
         ])
       },
+      kosher: {
+        sectionTitle: "Kosher under rabbinate supervision",
+        introduction: joinParagraphs([
+          "NB BURGER is a kosher burger restaurant under rabbinate supervision.",
+          "Updated kashrut details will appear on this page — content is managed from the admin panel."
+        ]),
+        cta: {
+          title: "Ready to order?",
+          body: "Browse the menu and pick your meal.",
+          buttonLabel: "View menu",
+          buttonHref: "/menu"
+        }
+      },
       privacy: {},
       terms: {}
     };
@@ -416,6 +460,19 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
         "Trouvez NB BURGER à Ra'anana — adresse, horaires et zones de livraison.",
         "Sur place ou en livraison."
       ])
+    },
+    kosher: {
+      sectionTitle: "Casher sous supervision rabbinique",
+      introduction: joinParagraphs([
+        "NB BURGER est un restaurant de burgers casher sous supervision rabbinique.",
+        "Les détails de cacherout mis à jour apparaîtront sur cette page — le contenu est géré depuis l'administration."
+      ]),
+      cta: {
+        title: "Prêt à commander ?",
+        body: "Parcourez la carte et choisissez votre plat.",
+        buttonLabel: "Voir la carte",
+        buttonHref: "/menu"
+      }
     },
     privacy: {},
     terms: {}

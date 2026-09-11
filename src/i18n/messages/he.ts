@@ -42,6 +42,7 @@ export const he: Messages = {
     atmosphere: "האווירה",
     club: "מועדון לקוחות",
     location: "מיקום ושעות",
+    kosher: "כשר בהשגחת רבנות",
     about: "אודות",
     magazine: "מגזין",
     branches: "סניפים"
@@ -86,6 +87,10 @@ export const he: Messages = {
   },
   aboutPage: {
     title: "אודות NB BURGER",
+    backHome: "חזרה לדף הבית"
+  },
+  kosherPage: {
+    title: "כשר בהשגחת רבנות",
     backHome: "חזרה לדף הבית"
   },
   locations: {
@@ -172,6 +177,7 @@ export const he: Messages = {
     formSubtitle: "ומקבלים עולם של הטבות",
     formHint: "הרשמה מהירה",
     socialProof: "2,300+ חברים",
+    close: "סגירה",
     trustSafe: "המידע שלך נשאר אצלנו",
     trustTerms: "בלי עלות · בלי התחייבות",
     barBrandSub: "REAL BURGERS. REAL PEOPLE.",
@@ -285,6 +291,7 @@ export const he: Messages = {
     nav: "ניווט",
     menu: "תפריט",
     fullMenu: "לתפריט המלא",
+    clubCta: "הצטרפות למועדון הלקוחות",
     copyright: "© 2026 NB BURGER - כל הזכויות שמורות",
     privacy: "מדיניות פרטיות",
     terms: "תקנון האתר",

@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import {
+  BadgeCheck,
   BookOpen,
   ChevronDown,
   FileText,
@@ -75,6 +76,7 @@ const navGroups: NavGroup[] = [
     items: [
       { href: "/admin/pages/home", label: "דף הבית", icon: Home },
       { href: "/admin/pages/about", label: "אודות", icon: Info },
+      { href: "/admin/pages/kosher", label: "כשרות", icon: BadgeCheck },
       { href: "/admin/pages/locations", label: "מיקומים", icon: MapPin },
       { href: "/admin/pages/privacy", label: "פרטיות", icon: Shield },
       { href: "/admin/pages/terms", label: "תקנון", icon: ScrollText }

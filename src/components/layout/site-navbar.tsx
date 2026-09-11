@@ -162,7 +162,7 @@ export function SiteNavbar({
     () => [
       { label: t.nav.home, href: "/" },
       { label: t.nav.menu, href: "/menu" },
-      { label: t.nav.location, href: "/locations" },
+      { label: t.nav.kosher, href: "/kosher" },
       { label: t.nav.about, href: "/about" }
     ],
     [t]

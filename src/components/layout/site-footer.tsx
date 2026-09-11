@@ -1,5 +1,6 @@
 import { getPrimaryBranch } from "@/services/branches.service";
 import { TrackedAnchor } from "@/components/analytics/tracked-click";
+import { FooterCustomerClubCta } from "@/components/layout/footer-customer-club-cta";
 import { IconMail, IconMapPin, IconPhone } from "@/components/shared/site-icons";
 import { SITE_WORDMARK_LIGHT_SRC, SITE_WORDMARK_LIGHT_WEBP_SRC } from "@/data/brand-assets";
 import { BUSINESS, branchMapsUrl, branchAddress } from "@/data/business";
@@ -53,8 +54,6 @@ export async function SiteFooter() {
     { label: t.nav.location, href: "/locations" },
     { label: t.nav.about, href: "/about" }
   ];
-
-  const footerMenuItems = [{ label: t.footer.fullMenu, href: "/menu" }];
 
   return (
     <footer className="site-footer" id="site-footer">
@@ -167,19 +166,34 @@ export async function SiteFooter() {
                   {item.label}
                 </a>
               ))}
+              <a href="/menu">{t.footer.fullMenu}</a>
+              <FooterCustomerClubCta />
             </div>
           </nav>
 
-          <section className="site-footer-block" aria-labelledby="footer-menu-title">
-            <h2 id="footer-menu-title" className="site-footer-heading">
-              {t.footer.menu}
+          <section className="site-footer-block" aria-labelledby="footer-info-title">
+            <h2 id="footer-info-title" className="site-footer-heading">
+              {t.location.hoursHeading}
             </h2>
-            <div className="site-footer-links">
-              {footerMenuItems.map((item) => (
-                <a key={item.href} href={item.href}>
-                  {item.label}
-                </a>
-              ))}
+            <div className="site-footer-info">
+              <p className="site-footer-info-line">{t.location.kosher}</p>
+              <dl className="site-footer-hours">
+                <div>
+                  <dt>{t.location.days.sunThu}</dt>
+                  <dd>{t.location.hours.sunThu}</dd>
+                </div>
+                {t.location.hours.fri ? (
+                  <div>
+                    <dt>{t.location.days.fri}</dt>
+                    <dd>{t.location.hours.fri}</dd>
+                  </div>
+                ) : null}
+                <div>
+                  <dt>{t.location.days.sat}</dt>
+                  <dd>{t.location.hours.sat}</dd>
+                </div>
+              </dl>
+              <p className="site-footer-info-line">{t.location.parking}</p>
             </div>
           </section>
         </div>
@@ -187,10 +201,6 @@ export async function SiteFooter() {
 
       <div className="site-footer-bar">
         <div className="site-footer-bar-inner">
-          <p>{t.footer.copyright}</p>
-          <p className="site-footer-est">
-            EST. <span>NB</span> BURGER 2026
-          </p>
           <div className="site-footer-legal-links">
             <a className="site-footer-legal-link" href="/privacy-policy">
               {t.footer.privacy}
@@ -208,7 +218,8 @@ export async function SiteFooter() {
               {t.footer.accessibility}
             </a>
           </div>
-          <p>{t.footer.closing}</p>
+          <p className="site-footer-business-type">{t.location.businessType}</p>
+          <p className="site-footer-copyright">{t.footer.copyright}</p>
         </div>
       </div>
     </footer>

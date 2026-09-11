@@ -10,6 +10,7 @@ const PAGE_PATHS: Record<SeoPageId, string> = {
   about: "/about",
   menu: "/menu",
   locations: "/locations",
+  kosher: "/kosher",
   privacy: "/privacy-policy",
   terms: "/terms"
 };

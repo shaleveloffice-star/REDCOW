@@ -1,8 +1,6 @@
 import { listBranches } from "@/services/branches.service";
 import type { Metadata } from "next";
-import dynamic from "next/dynamic";
 
-import { CustomerClubSection } from "@/components/features/home/customer-club-section";
 import { HomeAtmosphereSection } from "@/components/features/home/home-atmosphere-section";
 import { HomeBrandStorySection } from "@/components/features/home/home-brand-story-section";
 import { HeroSection } from "@/components/features/home/hero-section";
@@ -23,18 +21,6 @@ import { getValidFaqItems } from "@/lib/seo/faq-utils";
 import { resolveSiteImagePair } from "@/lib/site-image-url";
 import { HOME_HERO_IMAGE } from "@/data/site-images.registry";
 import type { SiteImagesMap } from "@/types/site-images";
-
-const LocationSection = dynamic(
-  () =>
-    import("@/components/features/home/location-section").then((mod) => ({
-      default: mod.LocationSection
-    })),
-  {
-    loading: () => (
-      <div className="location-section" style={{ minHeight: "70vh" }} aria-hidden="true" />
-    )
-  }
-);
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -74,8 +60,6 @@ export default async function HomePage() {
           sectionId="faq"
           titleId="home-faq-title"
         />
-        <LocationSection siteImages={siteImages} branch={branches[0]} />
-        <CustomerClubSection />
       </main>
       <SiteFooter />
     </>

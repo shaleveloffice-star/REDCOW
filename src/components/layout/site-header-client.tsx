@@ -32,7 +32,7 @@ export function SiteHeaderClient({
       <SiteOpeningAnnouncement config={announcementPopup} />
       <SiteNavbar
         overlay={isHome}
-        orderUrl={orderLinks[0]?.url ?? (isHome ? "#location" : "/locations")}
+        orderUrl={orderLinks[0]?.url ?? "/locations"}
         orderLinks={orderLinks}
         magazineStories={magazineStories}
       />

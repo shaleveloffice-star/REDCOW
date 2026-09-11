@@ -1,7 +1,7 @@
 import type { Locale } from "@/i18n/config";
 
 /** Built-in public pages with SEO body slots. */
-export const SEO_PAGE_IDS = ["home", "about", "menu", "locations", "privacy", "terms"] as const;
+export const SEO_PAGE_IDS = ["home", "about", "menu", "locations", "kosher", "privacy", "terms"] as const;
 
 export type SeoPageId = (typeof SEO_PAGE_IDS)[number];
 
@@ -111,6 +111,14 @@ export const SEO_PAGE_DEFINITIONS: SeoPageDefinition[] = [
     supportsCta: true,
     supportsCategoryIntros: false,
     supportsSectionTitle: false
+  },
+  {
+    id: "kosher",
+    labelHe: "כשרות",
+    supportsFaq: true,
+    supportsCta: true,
+    supportsCategoryIntros: false,
+    supportsSectionTitle: true
   },
   {
     id: "privacy",

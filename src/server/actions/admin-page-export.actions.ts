@@ -179,6 +179,8 @@ export async function getAdminPageExportAction(
     }
     case "/admin/pages/about":
       return seoPageExport("about", "SEO — אודות", page);
+    case "/admin/pages/kosher":
+      return seoPageExport("kosher", "SEO — כשרות", page);
     case "/admin/pages/locations":
       return seoPageExport("locations", "SEO — מיקומים", page);
     case "/admin/pages/privacy":

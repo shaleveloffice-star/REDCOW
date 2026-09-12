@@ -1222,6 +1222,17 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   width: var(--site-copy-column);
 }
 
+/* Wide screens: keep the shared column, nudge it toward the right (RTL start). */
+@media (min-width: 1100px) {
+  main#main-content:not(:has(.hero)) .site-faq-shell,
+  .kosher-page-panel,
+  .legal-document,
+  .about-simple-content {
+    margin-inline-start: max(40px, calc((100% - 760px) * 0.28));
+    margin-inline-end: auto;
+  }
+}
+
 .kosher-page-panel .menu-bleecker-breadcrumbs {
   margin-bottom: 0.5rem;
 }

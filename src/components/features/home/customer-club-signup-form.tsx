@@ -1,6 +1,7 @@
 "use client";
 
-import { Calendar, CircleCheck, Gift, Mail, Phone, User } from "lucide-react";
+import { Calendar, Gift, Mail, Phone, User } from "lucide-react";
+import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useId, useRef, useState, useTransition } from "react";
 
@@ -26,11 +27,13 @@ function fieldForError(code: CustomerClubSignupErrorCode): FieldKey | null {
 type CustomerClubSignupFormProps = {
   source?: AnalyticsSource;
   className?: string;
+  previewSuccess?: boolean;
 };
 
 export function CustomerClubSignupForm({
   source = "footer",
-  className
+  className,
+  previewSuccess = false
 }: CustomerClubSignupFormProps) {
   const t = useTranslations();
   const ids = useId();
@@ -41,7 +44,7 @@ export function CustomerClubSignupForm({
   const errorId = `${ids}-error`;
 
   const [isPending, startTransition] = useTransition();
-  const [submitted, setSubmitted] = useState(false);
+  const [submitted, setSubmitted] = useState(previewSuccess);
   const [errorCode, setErrorCode] = useState<CustomerClubSignupErrorCode | null>(null);
   const fullNameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
@@ -91,7 +94,14 @@ export function CustomerClubSignupForm({
         role="status"
         aria-live="polite"
       >
-        <CircleCheck className="customer-club-success-icon" strokeWidth={1.5} aria-hidden="true" />
+        <Image
+          className="customer-club-success-icon"
+          src="/images/brand/nb-loading-mark.png"
+          alt=""
+          width={160}
+          height={139}
+          aria-hidden
+        />
         <h3>{t.customerClub.successTitle}</h3>
         <p>{t.customerClub.successMessage}</p>
       </div>

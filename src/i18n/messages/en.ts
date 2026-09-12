@@ -209,7 +209,7 @@ export const en: Messages = {
     submit: "Join now",
     submitting: "Sending...",
     successTitle: "You're in!",
-    successMessage: "We'll be in touch with your perks soon.",
+    successMessage: "Welcome to NB CLUB.\nFrom now on, you'll be first to enjoy our perks.",
     errors: {
       fullName: "Please enter your full name.",
       phone: "Please enter a valid phone number.",

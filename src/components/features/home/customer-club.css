@@ -299,8 +299,8 @@
 }
 
 .customer-club-input-box:focus-within {
-  border-color: rgba(255, 255, 255, 0.55);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.18);
+  border-color: #ffffff;
+  box-shadow: 0 0 0 1px #ffffff;
 }
 
 .customer-club-input-icon {
@@ -328,8 +328,11 @@
 }
 
 .customer-club-input-box input:focus,
-.customer-club-input-box input:focus-visible {
+.customer-club-input-box input:focus-visible,
+.customer-club-input-box .birth-date-picker-trigger:focus,
+.customer-club-input-box .birth-date-picker-trigger:focus-visible {
   outline: none;
+  box-shadow: none;
 }
 
 .customer-club-input-box input:disabled {
@@ -485,10 +488,11 @@
 }
 
 .customer-club-success-icon {
-  width: 36px;
-  height: 36px;
+  display: block;
+  width: 108px;
+  height: auto;
   margin: 0 auto 16px;
-  color: #ffffff;
+  object-fit: contain;
 }
 
 .customer-club-success h3 {
@@ -503,6 +507,7 @@
   color: rgba(255, 255, 255, 0.65);
   font-size: 15px;
   line-height: 1.65;
+  white-space: pre-line;
 }
 
 /* Bottom bar */
@@ -710,11 +715,32 @@
   z-index: 1;
   width: min(440px, 100%);
   max-height: min(92vh, 900px);
-  overflow: auto;
+  overflow: visible;
   border-radius: 18px;
   background: #141414;
   box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
-  padding: 28px 20px 20px;
+  padding: 56px 20px 20px;
+}
+
+@media (min-width: 641px) {
+  .customer-club-modal .birth-date-calendar {
+    top: auto;
+    bottom: calc(100% + 8px);
+  }
+}
+
+@media (max-width: 640px) {
+  .customer-club-modal .birth-date-calendar {
+    position: fixed;
+    z-index: 30;
+    inset-inline: 16px;
+    top: auto;
+    bottom: calc(var(--site-mobile-cta-height, 84px) + 12px);
+    width: auto;
+    max-width: none;
+    max-height: min(420px, calc(100dvh - var(--site-chrome-offset, 88px) - var(--site-mobile-cta-height, 84px) - 24px));
+    overflow: auto;
+  }
 }
 
 .customer-club-modal-close {

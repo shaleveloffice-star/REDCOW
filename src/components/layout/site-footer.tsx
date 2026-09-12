@@ -167,7 +167,6 @@ export async function SiteFooter() {
                 </a>
               ))}
               <a href="/menu">{t.footer.fullMenu}</a>
-              <FooterCustomerClubCta />
             </div>
           </nav>
 
@@ -195,6 +194,9 @@ export async function SiteFooter() {
               <p className="site-footer-info-line">{t.location.parking}</p>
             </div>
           </section>
+        </div>
+        <div className="site-footer-club">
+          <FooterCustomerClubCta />
         </div>
       </div>
 

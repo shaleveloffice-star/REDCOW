@@ -5337,8 +5337,15 @@ a.menu-showcase-button.site-cta-btn {
   gap: 8px;
 }
 
-.site-footer-club-btn {
+.site-footer-club {
+  display: flex;
+  justify-content: center;
+  width: 100%;
   margin-top: 8px;
+}
+
+.site-footer-club-btn {
+  margin-top: 0;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -8245,6 +8252,10 @@ a.menu-showcase-button.site-cta-btn {
     justify-items: center;
   }
 
+  .site-footer-club {
+    justify-content: center;
+  }
+
   .site-footer-club-btn {
     width: min(100%, 280px);
   }
@@ -9253,10 +9264,14 @@ body:not(:has(.admin-layout)) textarea:focus-visible {
   outline-offset: 3px;
 }
 
+body:not(:has(.admin-layout)) .customer-club-input-box input:focus-visible,
+body:not(:has(.admin-layout)) .customer-club-input-box .birth-date-picker-trigger:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 body:not(:has(.admin-layout)) .customer-club-form .customer-club-submit:focus-visible,
-body:not(:has(.admin-layout)) .customer-club-form input:focus-visible,
 body:not(:has(.admin-layout)) .customer-club-consent input:focus-visible,
-body:not(:has(.admin-layout)) .customer-club-form .birth-date-picker-trigger:focus-visible,
 body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-nav:focus-visible,
 body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-title:focus-visible,
 body:not(:has(.admin-layout)) .customer-club-form .birth-date-calendar-title-part:focus-visible,

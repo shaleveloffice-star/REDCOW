@@ -208,8 +208,8 @@ export const he: Messages = {
     privacyLink: "פרטיות",
     submit: "להצטרפות",
     submitting: "שולחים...",
-    successTitle: "נרשמתם!",
-    successMessage: "נחזור אליכם בקרוב.",
+    successTitle: "אתם בפנים!",
+    successMessage: "ברוכים הבאים ל-NB CLUB.\nמעכשיו אתם הראשונים ליהנות מההטבות שלנו.",
     errors: {
       fullName: "נא למלא שם מלא.",
       phone: "נא למלא מספר טלפון תקין.",

@@ -16,17 +16,18 @@ type CustomerClubModalProps = {
   onClose: () => void;
   source?: AnalyticsSource;
   returnFocusRef?: RefObject<HTMLElement | null>;
+  previewSuccess?: boolean;
 };
 
 export function CustomerClubModal({
   open,
   onClose,
   source = "footer",
-  returnFocusRef
+  returnFocusRef,
+  previewSuccess = false
 }: CustomerClubModalProps) {
   const t = useTranslations();
   const titleId = useId();
-  const leadId = useId();
   const rootRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const onCloseRef = useRef(onClose);
@@ -55,8 +56,10 @@ export function CustomerClubModal({
         tabIndex={-1}
         aria-modal="true"
         aria-labelledby={titleId}
-        aria-describedby={leadId}
       >
+        <h2 id={titleId} className="sr-only">
+          {t.customerClub.title}
+        </h2>
         <button
           type="button"
           className="customer-club-modal-close"
@@ -66,17 +69,11 @@ export function CustomerClubModal({
           <IconClose />
         </button>
 
-        <header className="customer-club-modal-header">
-          <p className="customer-club-modal-kicker">{t.customerClub.kicker}</p>
-          <h2 id={titleId} className="customer-club-modal-title">
-            {t.customerClub.title}
-          </h2>
-          <p id={leadId} className="customer-club-modal-lead">
-            {t.customerClub.lead}
-          </p>
-        </header>
-
-        <CustomerClubSignupForm source={source} className="customer-club-modal-form" />
+        <CustomerClubSignupForm
+          source={source}
+          className="customer-club-modal-form"
+          previewSuccess={previewSuccess}
+        />
       </div>
     </div>,
     document.body

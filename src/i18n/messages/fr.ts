@@ -208,8 +208,8 @@ export const fr: Messages = {
     privacyLink: "Confidentialité",
     submit: "S'inscrire",
     submitting: "Envoi...",
-    successTitle: "C'est bon !",
-    successMessage: "On vous recontacte bientôt avec vos avantages.",
+    successTitle: "Vous êtes des nôtres !",
+    successMessage: "Bienvenue au NB CLUB.\nDès maintenant, vous serez les premiers à profiter de nos avantages.",
     errors: {
       fullName: "Veuillez saisir votre nom complet.",
       phone: "Veuillez saisir un numéro de téléphone valide.",

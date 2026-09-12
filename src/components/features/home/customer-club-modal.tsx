@@ -1,6 +1,7 @@
 "use client";
 
 import { useId, useLayoutEffect, useRef, type RefObject } from "react";
+import { createPortal } from "react-dom";
 
 import { CustomerClubSignupForm } from "@/components/features/home/customer-club-signup-form";
 import { IconClose } from "@/components/shared/site-icons";
@@ -37,9 +38,9 @@ export function CustomerClubModal({
     return mountModal(rootRef.current, dialogRef.current, () => onCloseRef.current(), returnFocusRef?.current);
   }, [open, returnFocusRef]);
 
-  if (!open) return null;
+  if (!open || typeof document === "undefined") return null;
 
-  return (
+  return createPortal(
     <div ref={rootRef} className="customer-club-modal-root" role="presentation">
       <button
         type="button"
@@ -77,6 +78,7 @@ export function CustomerClubModal({
 
         <CustomerClubSignupForm source={source} className="customer-club-modal-form" />
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }

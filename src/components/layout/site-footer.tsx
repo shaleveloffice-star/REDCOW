@@ -51,7 +51,7 @@ export async function SiteFooter() {
   const footerNavLinks = [
     { label: t.nav.home, href: "/" },
     { label: t.nav.menu, href: "/menu" },
-    { label: t.nav.location, href: "/locations" },
+    { label: t.nav.kosher, href: "/kosher" },
     { label: t.nav.about, href: "/about" }
   ];
 
@@ -176,7 +176,6 @@ export async function SiteFooter() {
               {t.location.hoursHeading}
             </h2>
             <div className="site-footer-info">
-              <p className="site-footer-info-line">{t.location.kosher}</p>
               <dl className="site-footer-hours">
                 <div>
                   <dt>{t.location.days.sunThu}</dt>

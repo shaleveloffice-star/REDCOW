@@ -202,7 +202,7 @@ export function AdminAnnouncementPopupEditor({
               label="שקיפות תמונה"
               value={draft.imageTransparency}
               onChange={(value) => update("imageTransparency", value)}
-              hint="עובד גם לרקע מלא — למשל 70 = התמונה שקופה וצבע הרקע נראה מתחת"
+              hint="עובד גם לרקע מלא - למשל 70 = התמונה שקופה וצבע הרקע נראה מתחת"
             />
           </div>
         </fieldset>

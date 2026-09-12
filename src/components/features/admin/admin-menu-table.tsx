@@ -355,7 +355,7 @@ export function AdminMenuTable({
 
       {activeCategory ? (
         <p className="admin-menu-filter-hint muted">
-          מציג {filteredRows.length} מנות בקטגוריה «{activeCategory.name}» — לפי סדר תצוגה
+          מציג {filteredRows.length} מנות בקטגוריה «{activeCategory.name}» - לפי סדר תצוגה
         </p>
       ) : null}
 
@@ -469,7 +469,7 @@ export function AdminMenuTable({
               />
             </label>
             <label>
-              {adminFieldLabel("קטגוריה", "מיקום וסינון ב-/menu — לא טקסט גלוי")}
+              {adminFieldLabel("קטגוריה", "מיקום וסינון ב-/menu - לא טקסט גלוי")}
               <select
                 required
                 value={draft.categoryId}
@@ -515,7 +515,7 @@ export function AdminMenuTable({
                 />
               </label>
               <label>
-                {adminFieldLabel("טקסט ALT לתמונה (אופציונלי)", "תיאור תמונה לנגישות — בכל האתר")}
+                {adminFieldLabel("טקסט ALT לתמונה (אופציונלי)", "תיאור תמונה לנגישות - בכל האתר")}
                 <input
                   maxLength={160}
                   placeholder="נוצר אוטומטית אם ריק"
@@ -524,7 +524,7 @@ export function AdminMenuTable({
                 />
               </label>
               <label>
-                {adminFieldLabel("מילת מפתח ראשית", "שמירה פנימית — לא מוצג באתר")}
+                {adminFieldLabel("מילת מפתח ראשית", "שמירה פנימית - לא מוצג באתר")}
                 <input
                   maxLength={80}
                   value={draft.primaryKeyword ?? ""}
@@ -577,7 +577,7 @@ export function AdminMenuTable({
               <input accept="image/*" disabled={uploadingImage} type="file" onChange={handleImageUpload} />
             </label>
             <p className="admin-image-spec">
-              גודל מומלץ: 1200×1200px (1:1) · עד 80KB — נדחס אוטומטית בהעלאה
+              גודל מומלץ: 1200×1200px (1:1) · עד 80KB - נדחס אוטומטית בהעלאה
             </p>
             {uploadingImage ? <p className="muted">דוחס תמונה ראשית עד 80KB…</p> : null}
             {draft.imageUrl ? (
@@ -589,7 +589,7 @@ export function AdminMenuTable({
                   src={menuImageSrc(draft.imageUrl, draft.updatedAt)}
                   width={120}
                 />
-                <p className="muted">התמונה נשמרת אוטומטית לאחר העלאה — לחצו שמור לשייך למנה</p>
+                <p className="muted">התמונה נשמרת אוטומטית לאחר העלאה - לחצו שמור לשייך למנה</p>
               </div>
             ) : null}
 
@@ -603,7 +603,7 @@ export function AdminMenuTable({
               />
             </label>
             <p className="admin-image-spec">
-              גודל מומלץ: 960×960px (1:1) · עד 40KB — נדחס אוטומטית בהעלאה
+              גודל מומלץ: 960×960px (1:1) · עד 40KB - נדחס אוטומטית בהעלאה
             </p>
             {uploadingCloseUpImage ? <p className="muted">דוחס תמונת מקרוב עד 40KB…</p> : null}
             {draft.closeUpImageUrl?.trim() ? (
@@ -624,7 +624,7 @@ export function AdminMenuTable({
                 </button>
               </div>
             ) : (
-              <p className="muted">אופציונלי — תופיע לצד התמונה הראשית בעמוד המוצר בלבד.</p>
+              <p className="muted">אופציונלי - תופיע לצד התמונה הראשית בעמוד המוצר בלבד.</p>
             )}
 
             <label>

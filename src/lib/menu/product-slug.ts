@@ -26,7 +26,7 @@ export function slugifyProductName(name: string): string {
   return base;
 }
 
-/** Previous slug format (Hebrew allowed) — lookup only for old bookmarks. */
+/** Previous slug format (Hebrew allowed) - lookup only for old bookmarks. */
 export function legacySlugifyProductName(name: string): string {
   const safeName = String(name ?? "");
   const base = safeName
@@ -122,7 +122,7 @@ export function ensureUniqueProductSlug(
 
   const base =
     (normalizeAsciiSlug(desired) || "item").toLowerCase().replace(/^-+|-+$/g, "") || "item";
-  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(base)) throw new Error("סלאג לא תקין — השתמשו באותיות באנגלית, מספרים ומקפים בלבד");
+  if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(base)) throw new Error("סלאג לא תקין - השתמשו באותיות באנגלית, מספרים ומקפים בלבד");
   if (!taken.has(base)) {
     return base;
   }

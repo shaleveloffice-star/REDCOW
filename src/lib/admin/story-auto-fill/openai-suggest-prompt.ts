@@ -10,7 +10,7 @@ export type SeoSuggestContextPage = {
   source: "seo-page" | "menu-category";
 };
 
-export const STORY_SUGGEST_BRAND_INSTRUCTIONS = `אתה אסטרטג תוכן עבור NB BURGER — מסעדת המבורגרים ברעננה.
+export const STORY_SUGGEST_BRAND_INSTRUCTIONS = `אתה אסטרטג תוכן עבור NB BURGER - מסעדת המבורגרים ברעננה.
 
 שפה: עברית טבעית.
 
@@ -39,9 +39,9 @@ export const STORY_SUGGEST_BRAND_INSTRUCTIONS = `אתה אסטרטג תוכן ע
 - goal
 - cta
 
-גוון את סוגי הסיפור — אל תחזיר חמש פעמים magazine.
+גוון את סוגי הסיפור - אל תחזיר חמש פעמים magazine.
 העדף cannibalizationRisk: low.
-אם יש חפיפה חלקית — שנה זווית במקום להתחרות על אותו חיפוש.
+אם יש חפיפה חלקית - שנה זווית במקום להתחרות על אותו חיפוש.
 
 החזר אך ורק לפי ה-JSON Schema (Structured Outputs).`.trim();
 
@@ -89,6 +89,6 @@ export function buildStorySuggestUserPrompt(options: {
     `מילות מפתח / נושאים להימנע מהם (או לשנות זווית משמעותית): ${avoid}`,
     "",
     "לכל הצעה מלא conflictingPages רק אם אתה מזהה חפיפה אפשרית; אחרת מערך ריק.",
-    "cannibalizationRisk חייב להיות low / medium / high — נבדוק שוב בשרת."
+    "cannibalizationRisk חייב להיות low / medium / high - נבדוק שוב בשרת."
   ].join("\n");
 }

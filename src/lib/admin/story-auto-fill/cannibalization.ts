@@ -42,7 +42,7 @@ export const STATIC_SEO_CLUSTERS: SeoCannibalizationCluster[] = [
     label: "קטגוריית המבורגרים / כתבה קיימת",
     path: "/menu/burgers",
     source: "menu-category",
-    suggestedAngle: "התמקדו בהסבר קולינרי או השוואה עדינה — לא בדף מכירה של מנה."
+    suggestedAngle: "התמקדו בהסבר קולינרי או השוואה עדינה - לא בדף מכירה של מנה."
   },
   {
     keyword: "ארוחת המבורגר",
@@ -56,7 +56,7 @@ export const STATIC_SEO_CLUSTERS: SeoCannibalizationCluster[] = [
     label: "עמוד מיקומים",
     path: "/locations",
     source: "seo-page",
-    suggestedAngle: "הימנעו מלוגיסטיקה של הגעה — השאירו את זה לעמוד המיקום."
+    suggestedAngle: "הימנעו מלוגיסטיקה של הגעה - השאירו את זה לעמוד המיקום."
   }
 ];
 

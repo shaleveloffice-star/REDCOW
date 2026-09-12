@@ -3,7 +3,7 @@
     "id": "cat-burgers",
     "name": "המבורגרים",
     "slug": "burgers",
-    "description": "המבורגרים על הפלנצ׳ה — הבשר, הצריבה והביס.",
+    "description": "המבורגרים על הפלנצ׳ה - הבשר, הצריבה והביס.",
     "sortOrder": 1,
     "isActive": true,
     "createdAt": "2026-07-29T14:01:40.906Z",

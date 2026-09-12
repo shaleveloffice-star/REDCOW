@@ -128,19 +128,19 @@ export function AdminHomepageMenuShowcase({
   return (
     <section className="admin-homepage-showcase">
       <p className="admin-homepage-showcase-lead">
-        בחרו אילו מנות יופיעו בדף הבית בסקשן &quot;התפריט שלנו&quot; — לפי הסדר. גררו שורה, השתמשו
+        בחרו אילו מנות יופיעו בדף הבית בסקשן &quot;התפריט שלנו&quot; - לפי הסדר. גררו שורה, השתמשו
         בחצים, או הוסיפו מהרשימה. אין צורך לפתוח כרטיס עריכה לכל מנה.
       </p>
       {!isConfigured ? (
         <p className="admin-homepage-showcase-note">
-          עדיין לא נשמר סדר ייעודי — מוצג כרגע מה שמופיע למטה. לחצו &quot;שמור תצוגת דף בית&quot; כדי
+          עדיין לא נשמר סדר ייעודי - מוצג כרגע מה שמופיע למטה. לחצו &quot;שמור תצוגת דף בית&quot; כדי
           לקבע.
         </p>
       ) : null}
 
       <ol className="admin-homepage-showcase-list">
         {selectedItems.length === 0 ? (
-          <li className="admin-homepage-showcase-empty">אין מנות נבחרות — הוסיפו מהרשימה למטה.</li>
+          <li className="admin-homepage-showcase-empty">אין מנות נבחרות - הוסיפו מהרשימה למטה.</li>
         ) : (
           selectedItems.map((item) => {
             const index = selectedIndexById.get(item.id) ?? 0;
@@ -240,7 +240,7 @@ export function AdminHomepageMenuShowcase({
                   return (
                     <option key={item.id} disabled={isSelected} value={item.id}>
                       {item.name}
-                      {isSelected ? " — כבר בדף הבית" : ""}
+                      {isSelected ? " - כבר בדף הבית" : ""}
                     </option>
                   );
                 })}

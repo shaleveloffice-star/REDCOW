@@ -247,7 +247,7 @@ export function createFirestoreDocumentStore<T extends Record<string, unknown>>(
         const snapshot = await getDoc(doc(db, collectionName, documentId));
         if (!snapshot.exists()) {
           console.warn(
-            `[Firestore] Missing document "${collectionName}/${documentId}" — using local defaults.`
+            `[Firestore] Missing document "${collectionName}/${documentId}" - using local defaults.`
           );
           return localStore.get();
         }

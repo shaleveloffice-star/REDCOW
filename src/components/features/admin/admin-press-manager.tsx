@@ -143,7 +143,7 @@ export function AdminPressManager({ items }: { items: PressItem[] }) {
                 </button>
               </div>
             </label>
-            <p className="admin-image-spec">{formatAdminImageSpec(PRESS_IMAGE_SPEC)} — נדחס אוטומטית בהעלאה</p>
+            <p className="admin-image-spec">{formatAdminImageSpec(PRESS_IMAGE_SPEC)} - נדחס אוטומטית בהעלאה</p>
             <label>
               תאריך פרסום
               <input

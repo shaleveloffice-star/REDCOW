@@ -23,14 +23,14 @@ export default async function AdminMenuPage() {
   return (
     <>
       <AdminCard
-        title="באנר עליון — דף התפריט"
+        title="באנר עליון - דף התפריט"
         description="בחירת תמונה או וידאו מעל כותרת התפריט, והגדרת הגובה במובייל ובמחשב."
       >
         <AdminMenuHeroEditor initialConfig={menuHero} images={pickableImages} />
       </AdminCard>
 
       <AdminCard
-        title="תוכן SEO — דף התפריט"
+        title="תוכן SEO - דף התפריט"
         description="מבוא, תוכן תחתון ו-CTA לדף /menu. הקדמות לקטגוריות נערכות בעריכת כל קטגוריה."
       >
         <AdminSeoPageEditor
@@ -41,7 +41,7 @@ export default async function AdminMenuPage() {
       </AdminCard>
 
       <AdminCard
-        title="תפריט בדף הבית — התפריט שלנו"
+        title="תפריט בדף הבית - התפריט שלנו"
         description="סדר והצגה של המנות בסקשן בדף הבית. שינוי כאן לא דורש כניסה לעריכת כל מנה."
       >
         <AdminHomepageMenuShowcase
@@ -54,7 +54,7 @@ export default async function AdminMenuPage() {
 
       <AdminCard
         title="ניהול תפריט"
-        description="הוספה, עריכה ומחיקה — נשמר בקובץ מקומי (data/local) ומוצג באתר אחרי שמירה."
+        description="הוספה, עריכה ומחיקה - נשמר בקובץ מקומי (data/local) ומוצג באתר אחרי שמירה."
       >
         <AdminMenuTable categories={categories} items={items} />
       </AdminCard>

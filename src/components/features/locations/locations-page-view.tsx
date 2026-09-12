@@ -67,7 +67,7 @@ function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "e
   ];
 }
 
-const INTRO_DASH_SPLIT = /\s—\s/;
+const INTRO_DASH_SPLIT = /\s(?:—|-)\s/;
 
 function LocationsSeoIntro({ text }: { text: string }) {
   const paragraphs = splitParagraphs(text);

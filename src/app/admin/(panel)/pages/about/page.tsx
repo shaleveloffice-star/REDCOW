@@ -7,7 +7,7 @@ export default async function AdminAboutSeoPage() {
 
   return (
     <AdminCard
-      title="אודות — תוכן SEO"
+      title="אודות - תוכן SEO"
       description="כותרות וטקסטים לדף /about. שדות ריקים משתמשים בברירת המחדל."
     >
       <AdminSeoPageEditor pageId="about" initialDocument={seoDocument} />

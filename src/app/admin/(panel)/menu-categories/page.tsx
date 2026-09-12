@@ -10,7 +10,7 @@ export default async function AdminMenuCategoriesPage() {
   ]);
 
   return (
-    <AdminCard title="קטגוריות תפריט" description="הוספה, עריכה ומחיקה של קטגוריות — כולל תוכן SEO לכל קטגוריה.">
+    <AdminCard title="קטגוריות תפריט" description="הוספה, עריכה ומחיקה של קטגוריות - כולל תוכן SEO לכל קטגוריה.">
       <AdminMenuCategoriesManager categories={categories} seoDocument={seoDocument} />
     </AdminCard>
   );

@@ -104,7 +104,7 @@ export async function generateMetadata({ params }: MenuSlugPageProps): Promise<M
     item.metaDescription?.trim() ||
     localized.description.trim() ||
     localized.longDescription.trim() ||
-    `${localized.name} — NB BURGER רעננה`;
+    `${localized.name} - NB BURGER רעננה`;
   const imageUrl = String(item.imageUrl ?? "").trim();
 
   return buildPageMetadata({

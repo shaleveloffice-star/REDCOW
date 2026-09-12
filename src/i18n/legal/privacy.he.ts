@@ -224,12 +224,12 @@ export function getPrivacyContentHe(): LegalDocument {
           {
             type: "list",
             items: [
-              "Google Analytics 4 — מדידת שימוש באתר",
-              "Firebase / Firestore — שמירת הרשמות למועדון ותוכן האתר",
-              "Instagram — הצגת תוכן מוטמע מהרשת החברתית",
-              "Leaflet, CARTO ו-OpenStreetMap — הצגת מפת הסניף",
-              "Google Maps — קישור ניווט לכתובת הסניף",
-              "Vercel — אחסון האתר ומדיה"
+              "Google Analytics 4 - מדידת שימוש באתר",
+              "Firebase / Firestore - שמירת הרשמות למועדון ותוכן האתר",
+              "Instagram - הצגת תוכן מוטמע מהרשת החברתית",
+              "Leaflet, CARTO ו-OpenStreetMap - הצגת מפת הסניף",
+              "Google Maps - קישור ניווט לכתובת הסניף",
+              "Vercel - אחסון האתר ומדיה"
             ]
           },
           {

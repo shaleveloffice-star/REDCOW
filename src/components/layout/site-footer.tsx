@@ -61,48 +61,69 @@ export async function SiteFooter() {
 
       <div className="site-footer-main">
         <div className="site-footer-grid">
-          <section className="site-footer-brand" aria-label={BUSINESS.name}>
-            <picture>
-              <source srcSet={SITE_WORDMARK_LIGHT_WEBP_SRC} type="image/webp" />
-              <img
-                className="site-footer-logo"
-                src={SITE_WORDMARK_LIGHT_SRC}
-                alt={logoAlt}
-                width={160}
-                height={72}
-                loading="lazy"
-                decoding="async"
-              />
-            </picture>
-            <p className="site-footer-tagline">
-              {t.footer.taglineLine1}
-              <br />
-              {t.footer.taglineLine2}
-            </p>
+          <section className="site-footer-club" aria-labelledby="footer-club-title">
+            <div className="site-footer-logo-wrap">
+              <picture>
+                <source srcSet={SITE_WORDMARK_LIGHT_WEBP_SRC} type="image/webp" />
+                <img
+                  className="site-footer-logo"
+                  src={SITE_WORDMARK_LIGHT_SRC}
+                  alt={logoAlt}
+                  width={160}
+                  height={72}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </picture>
+            </div>
+            <h2 id="footer-club-title" className="site-footer-heading">
+              {t.footer.clubTitle}
+            </h2>
+            <p className="site-footer-club-lead">{t.footer.clubLead}</p>
+            <FooterCustomerClubCta />
           </section>
 
-          <section className="site-footer-block" aria-labelledby="footer-contact-title">
-            <h2 id="footer-contact-title" className="site-footer-heading">
-              {t.footer.contact}
+          <section className="site-footer-brand site-footer-block" aria-labelledby="footer-nav-title">
+            <h2 id="footer-nav-title" className="site-footer-heading">
+              {t.footer.nav}
             </h2>
-            <div className="site-footer-contact-list">
-              {phone ? (
-                <a href={`tel:${phone}`} className="site-footer-contact-link">
-                  <IconPhone className="site-footer-icon" />
-                  <span>{phone}</span>
+            <nav className="site-footer-links" aria-label={t.footer.nav}>
+              {footerNavLinks.map((item) => (
+                <a key={item.href} href={item.href}>
+                  {item.label}
                 </a>
-              ) : null}
-              <p className="site-footer-contact-item">
-                <IconMapPin className="site-footer-icon" />
-                <span>{branchAddress(branch, locale)}</span>
-              </p>
-              <a href={`mailto:${BUSINESS.email}`} className="site-footer-contact-link">
-                <IconMail className="site-footer-icon" />
-                <span>{BUSINESS.email}</span>
-              </a>
+              ))}
+              <a href="/menu">{t.footer.fullMenu}</a>
+            </nav>
+          </section>
+
+          <section className="site-footer-block" aria-labelledby="footer-info-title">
+            <h2 id="footer-info-title" className="site-footer-heading">
+              {t.location.hoursHeading}
+            </h2>
+            <div className="site-footer-info">
+              <dl className="site-footer-hours">
+                <div>
+                  <dt>{t.location.days.sunThu}</dt>
+                  <dd>{t.location.hours.sunThu}</dd>
+                </div>
+                {t.location.hours.fri ? (
+                  <div>
+                    <dt>{t.location.days.fri}</dt>
+                    <dd>{t.location.hours.fri}</dd>
+                  </div>
+                ) : null}
+                <div>
+                  <dt>{t.location.days.sat}</dt>
+                  <dd>{t.location.hours.sat}</dd>
+                </div>
+              </dl>
+              <p className="site-footer-info-line">{t.location.parking}</p>
             </div>
             <div className="site-footer-social-wrap">
-              <p className="site-footer-social-label">{t.footer.followUs}</p>
+              <h2 id="footer-social-title" className="site-footer-heading">
+                {t.footer.followUs}
+              </h2>
               <div className="site-footer-socials">
                 <TrackedAnchor
                   href={BUSINESS.social.instagram}
@@ -156,47 +177,27 @@ export async function SiteFooter() {
             </div>
           </section>
 
-          <nav className="site-footer-block" aria-labelledby="footer-nav-title">
-            <h2 id="footer-nav-title" className="site-footer-heading">
-              {t.footer.nav}
+          <section className="site-footer-block site-footer-contact" aria-labelledby="footer-contact-title">
+            <h2 id="footer-contact-title" className="site-footer-heading">
+              {t.footer.contact}
             </h2>
-            <div className="site-footer-links">
-              {footerNavLinks.map((item) => (
-                <a key={item.href} href={item.href}>
-                  {item.label}
+            <div className="site-footer-contact-list">
+              {phone ? (
+                <a href={`tel:${phone}`} className="site-footer-contact-link">
+                  <IconPhone className="site-footer-icon" />
+                  <span>{phone}</span>
                 </a>
-              ))}
-              <a href="/menu">{t.footer.fullMenu}</a>
-            </div>
-          </nav>
-
-          <section className="site-footer-block" aria-labelledby="footer-info-title">
-            <h2 id="footer-info-title" className="site-footer-heading">
-              {t.location.hoursHeading}
-            </h2>
-            <div className="site-footer-info">
-              <dl className="site-footer-hours">
-                <div>
-                  <dt>{t.location.days.sunThu}</dt>
-                  <dd>{t.location.hours.sunThu}</dd>
-                </div>
-                {t.location.hours.fri ? (
-                  <div>
-                    <dt>{t.location.days.fri}</dt>
-                    <dd>{t.location.hours.fri}</dd>
-                  </div>
-                ) : null}
-                <div>
-                  <dt>{t.location.days.sat}</dt>
-                  <dd>{t.location.hours.sat}</dd>
-                </div>
-              </dl>
-              <p className="site-footer-info-line">{t.location.parking}</p>
+              ) : null}
+              <p className="site-footer-contact-item">
+                <IconMapPin className="site-footer-icon" />
+                <span>{branchAddress(branch, locale)}</span>
+              </p>
+              <a href={`mailto:${BUSINESS.email}`} className="site-footer-contact-link">
+                <IconMail className="site-footer-icon" />
+                <span>{BUSINESS.email}</span>
+              </a>
             </div>
           </section>
-        </div>
-        <div className="site-footer-club">
-          <FooterCustomerClubCta />
         </div>
       </div>
 

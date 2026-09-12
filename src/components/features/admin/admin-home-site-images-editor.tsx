@@ -81,7 +81,7 @@ export function AdminHomeSiteImagesEditor({
   return (
     <div className="admin-home-images">
       <p className="admin-field-hint">
-        לכל תמונה אפשר להעלות גרסה למסך רחב וגרסה למובייל. אם ממלאים רק אחת — היא תשמש גם במסך השני.
+        לכל תמונה אפשר להעלות גרסה למסך רחב וגרסה למובייל. אם ממלאים רק אחת - היא תשמש גם במסך השני.
         העלאה נדחסת אוטומטית.
       </p>
 
@@ -119,7 +119,7 @@ export function AdminHomeSiteImagesEditor({
                         onChange={(url) => updateDraft(item.id, { desktop: url })}
                       />
                       {!draft.desktop.trim() && draft.mobile.trim() ? (
-                        <p className="admin-image-spec">ריק — יוצג מהמובייל</p>
+                        <p className="admin-image-spec">ריק - יוצג מהמובייל</p>
                       ) : null}
                     </div>
                     <div className="admin-home-images-slot">
@@ -131,7 +131,7 @@ export function AdminHomeSiteImagesEditor({
                         onChange={(url) => updateDraft(item.id, { mobile: url })}
                       />
                       {!draft.mobile.trim() && draft.desktop.trim() ? (
-                        <p className="admin-image-spec">ריק — יוצג ממסך רחב</p>
+                        <p className="admin-image-spec">ריק - יוצג ממסך רחב</p>
                       ) : null}
                     </div>
                   </div>

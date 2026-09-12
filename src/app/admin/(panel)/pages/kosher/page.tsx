@@ -7,8 +7,8 @@ export default async function AdminKosherSeoPage() {
 
   return (
     <AdminCard
-      title="כשרות — תוכן SEO"
-      description="מבוא, כותרת משנה ותוכן תחתון לדף /kosher. שדות ריקים משתמשים בברירת המחדל — בהמשך אפשר להוסיף כאן את פרטי הכשרות המלאים."
+      title="כשרות - תוכן SEO"
+      description="מבוא, כותרת משנה ותוכן תחתון לדף /kosher. שדות ריקים משתמשים בברירת המחדל - בהמשך אפשר להוסיף כאן את פרטי הכשרות המלאים."
     >
       <AdminSeoPageEditor pageId="kosher" initialDocument={seoDocument} />
     </AdminCard>

@@ -100,7 +100,7 @@ export async function saveSiteImageOverrideAction(input: {
   const imageUrl = input.imageUrl?.trim() ?? "";
   const mobileImageUrl = input.mobileImageUrl?.trim() ?? "";
   if (!imageUrl && !mobileImageUrl) {
-    throw new Error("נדרשת לפחות תמונה אחת — מסך רחב או מובייל");
+    throw new Error("נדרשת לפחות תמונה אחת - מסך רחב או מובייל");
   }
 
   const saved = await upsertSiteImageOverride({

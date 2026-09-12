@@ -224,12 +224,12 @@ export function getPrivacyContentFr(): LegalDocument {
           {
             type: "list",
             items: [
-              "Google Analytics 4 — mesure de l'usage du site",
-              "Firebase / Firestore — conservation des inscriptions au club et du contenu du site",
-              "Instagram — affichage de contenus intégrés",
-              "Leaflet, CARTO et OpenStreetMap — affichage de la carte de l'établissement",
-              "Google Maps — lien d'itinéraire vers l'adresse",
-              "Vercel — hébergement du site et des médias"
+              "Google Analytics 4 - mesure de l'usage du site",
+              "Firebase / Firestore - conservation des inscriptions au club et du contenu du site",
+              "Instagram - affichage de contenus intégrés",
+              "Leaflet, CARTO et OpenStreetMap - affichage de la carte de l'établissement",
+              "Google Maps - lien d'itinéraire vers l'adresse",
+              "Vercel - hébergement du site et des médias"
             ]
           },
           {

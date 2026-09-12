@@ -187,10 +187,10 @@ export function parseCategorySmartPaste(text: string): CategorySmartPastePreview
 
   for (const item of buildFaqItems(faqMap)) {
     if (item.question && !item.answer) {
-      warnings.push(`שאלה ${item.index} ללא תשובה — לא נוספה ל-FAQ.`);
+      warnings.push(`שאלה ${item.index} ללא תשובה - לא נוספה ל-FAQ.`);
     }
     if (item.answer && !item.question) {
-      warnings.push(`תשובה ${item.index} ללא שאלה — לא נוספה ל-FAQ.`);
+      warnings.push(`תשובה ${item.index} ללא שאלה - לא נוספה ל-FAQ.`);
     }
   }
 

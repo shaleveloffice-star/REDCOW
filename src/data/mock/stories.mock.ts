@@ -20,7 +20,7 @@ export const mockBrandStories: BrandStory[] = [
     heroImageAlt: "המבורגר NB BURGER",
     metaTitle: "מה הופך המבורגר טוב להמבורגר שחוזרים אליו? | NB BURGER",
     metaDescription:
-      "סיפור קצר על עקביות, דיוק וחוויה — מה שמבדיל המבורגר שחוזרים אליו מזה שפוגשים פעם אחת.",
+      "סיפור קצר על עקביות, דיוק וחוויה - מה שמבדיל המבורגר שחוזרים אליו מזה שפוגשים פעם אחת.",
     ogImageUrl: DEFAULT_OG_IMAGE,
     publishedAt: now,
     isActive: false,
@@ -31,38 +31,38 @@ export const mockBrandStories: BrandStory[] = [
       {
         type: "split-text-image",
         kicker: "חומרי גלם",
-        title: "[עריכה: כותרת מקטע — חומרי גלם]",
+        title: "[עריכה: כותרת מקטע - חומרי גלם]",
         body: "[עריכה: פסקה קצרה על חומרי הגלם. הוסיפו כאן רק מידע שאתם מאשרים לפרסם.]",
         imageUrl: PLANCHA_MEAT_IMAGE,
-        imageAlt: "[עריכה: תיאור תמונה — חומרי גלם]"
+        imageAlt: "[עריכה: תיאור תמונה - חומרי גלם]"
       },
       {
         type: "split-image-text",
         kicker: "הכנה",
-        title: "[עריכה: כותרת מקטע — דיוק בהכנה]",
+        title: "[עריכה: כותרת מקטע - דיוק בהכנה]",
         body: "[עריכה: פסקה קצרה על תהליך ההכנה. הימנעו מטענות שלא אושרו.]",
         imageUrl: PLANCHA_SEAR_IMAGE,
-        imageAlt: "[עריכה: תיאור תמונה — הכנה על הפלנצ׳ה]"
+        imageAlt: "[עריכה: תיאור תמונה - הכנה על הפלנצ׳ה]"
       },
       {
         type: "full-image",
         imageUrl:
           "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1786432750323-6l2r3u7z.jpg",
-        imageAlt: "[עריכה: תיאור תמונה — חוויית המסעדה]",
+        imageAlt: "[עריכה: תיאור תמונה - חוויית המסעדה]",
         caption: "[עריכה: כיתוב אופציונלי לתמונה]"
       },
       {
         type: "quote",
-        text: "עקביות היא מה שגורם לכם לחזור — לא רק טעם טוב בפעם הראשונה.",
+        text: "עקביות היא מה שגורם לכם לחזור - לא רק טעם טוב בפעם הראשונה.",
         attribution: "NB BURGER"
       },
       {
         type: "split-text-image",
         kicker: "חוויה",
-        title: "[עריכה: כותרת מקטע — חוויית האורח]",
+        title: "[עריכה: כותרת מקטע - חוויית האורח]",
         body: "[עריכה: פסקה קצרה על חוויית הלקוח. התאימו לקול המותג.]",
         imageUrl: HOME_STORY_IMAGE,
-        imageAlt: "[עריכה: תיאור תמונה — חוויה]"
+        imageAlt: "[עריכה: תיאור תמונה - חוויה]"
       },
       {
         type: "cta",

@@ -82,15 +82,15 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
     items: [item("brand-logo", "לוגו NB BURGER", "כותרת האתר / לוגו", SITE_LOGO_SRC)]
   },
   {
-    title: "דף הבית — גיבור",
+    title: "דף הבית - גיבור",
     items: [
       item("hero-burger", "תמונת הגיבור", "סקשן הגיבור (ראש הדף)", HOME_HERO_IMAGE)
     ]
   },
   {
-    title: "דף הבית — על הפלנצ׳ה",
+    title: "דף הבית - על הפלנצ׳ה",
     items: [
-      item("plancha-hero", "תמונת גיבור — הפלנצ׳ה", "סקשן על הפלנצ׳ה (רקע עליון)", PLANCHA_HERO_IMAGE),
+      item("plancha-hero", "תמונת גיבור - הפלנצ׳ה", "סקשן על הפלנצ׳ה (רקע עליון)", PLANCHA_HERO_IMAGE),
       item("plancha-meat", "הבשר", "כרטיס: הבשר", PLANCHA_MEAT_IMAGE),
       item("plancha-sear", "הצריבה", "כרטיס: הצריבה", PLANCHA_SEAR_IMAGE),
       item("plancha-bite", "הביס", "כרטיס: הביס", PLANCHA_BITE_IMAGE),
@@ -98,7 +98,7 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
     ]
   },
   {
-    title: "דף הבית — מה יוצא מהמטבח",
+    title: "דף הבית - מה יוצא מהמטבח",
     items: [
       item("kitchen-burger", "המבורגרים", "כרטיס: המבורגרים", KITCHEN_BURGER_IMAGE),
       item("kitchen-sides", "תוספות", "כרטיס: תוספות", KITCHEN_SIDES_IMAGE),
@@ -107,7 +107,7 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
     ]
   },
   {
-    title: "דף הבית — האווירה",
+    title: "דף הבית - האווירה",
     items: [
       item("atmosphere-wide", "לחמנייה עליונה", "גלריית האווירה", ATMOSPHERE_WIDE_IMAGE),
       item("atmosphere-people", "אנשים נהנים", "גלריית האווירה", ATMOSPHERE_PEOPLE_IMAGE),
@@ -122,44 +122,44 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
       item("atmosphere-bottom", "לחמנייה תחתונה", "גלריית האווירה", ATMOSPHERE_BOTTOM_IMAGE),
       item(
         "atmosphere-slide-1",
-        "סלייד 1 — האווירה",
+        "סלייד 1 - האווירה",
         "סקשן האווירה (דף הבית)",
         HOME_ATMOSPHERE_SLIDE_1
       ),
       item(
         "atmosphere-slide-2",
-        "סלייד 2 — האווירה",
+        "סלייד 2 - האווירה",
         "סקשן האווירה (דף הבית)",
         HOME_ATMOSPHERE_SLIDE_2
       ),
       item(
         "atmosphere-slide-3",
-        "סלייד 3 — האווירה",
+        "סלייד 3 - האווירה",
         "סקשן האווירה (דף הבית)",
         HOME_ATMOSPHERE_SLIDE_3
       ),
       item(
         "atmosphere-third-1",
-        "קרוסלה תחתונה — סלייד 1",
+        "קרוסלה תחתונה - סלייד 1",
         "סקשן האווירה (דף הבית)",
         HOME_ATMOSPHERE_THIRD_1
       ),
       item(
         "atmosphere-third-2",
-        "קרוסלה תחתונה — סלייד 2",
+        "קרוסלה תחתונה - סלייד 2",
         "סקשן האווירה (דף הבית)",
         HOME_ATMOSPHERE_THIRD_2
       ),
       item(
         "atmosphere-third-3",
-        "קרוסלה תחתונה — סלייד 3",
+        "קרוסלה תחתונה - סלייד 3",
         "סקשן האווירה (דף הבית)",
         HOME_ATMOSPHERE_THIRD_3
       )
     ]
   },
   {
-    title: "דף הבית — לא עוד המבורגר",
+    title: "דף הבית - לא עוד המבורגר",
     items: [
       item(
         "home-story",
@@ -170,7 +170,7 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
     ]
   },
   {
-    title: "דף הבית — מיקום ושעות",
+    title: "דף הבית - מיקום ושעות",
     items: [
       item("location-exterior", "חזית המסעדה", "סקשן מיקום ושעות", LOCATION_EXTERIOR_IMAGE)
     ]
@@ -202,9 +202,9 @@ export const HOME_PAGE_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
   {
     title: "האווירה",
     items: [
-      item("atmosphere-slide-1", "פאנל עליון", "סקשן האווירה — תמונה 1", HOME_ATMOSPHERE_SLIDE_1),
-      item("atmosphere-slide-2", "פאנל אמצעי", "סקשן האווירה — תמונה 2", HOME_ATMOSPHERE_SLIDE_2),
-      item("atmosphere-third-1", "פאנל תחתון", "סקשן האווירה — תמונה 3", HOME_ATMOSPHERE_THIRD_1)
+      item("atmosphere-slide-1", "פאנל עליון", "סקשן האווירה - תמונה 1", HOME_ATMOSPHERE_SLIDE_1),
+      item("atmosphere-slide-2", "פאנל אמצעי", "סקשן האווירה - תמונה 2", HOME_ATMOSPHERE_SLIDE_2),
+      item("atmosphere-third-1", "פאנל תחתון", "סקשן האווירה - תמונה 3", HOME_ATMOSPHERE_THIRD_1)
     ]
   },
   {

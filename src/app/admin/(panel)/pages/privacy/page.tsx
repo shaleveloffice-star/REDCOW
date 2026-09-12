@@ -7,7 +7,7 @@ export default async function AdminPrivacySeoPage() {
 
   return (
     <AdminCard
-      title="מדיניות פרטיות — תוכן SEO"
+      title="מדיניות פרטיות - תוכן SEO"
       description="מבוא ותוכן תחתון אופציונלי לדף /privacy-policy (גוף המסמך המשפטי נשאר בקוד)."
     >
       <AdminSeoPageEditor

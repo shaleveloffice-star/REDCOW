@@ -677,7 +677,7 @@ export function AdminStoriesManager({
           >
             {restoredFromLocal ? (
               <p className="admin-form-hint" role="status">
-                שוחזרה טיוטה מקומית מהדפדפן — לחצו &quot;שמור טיוטה&quot; כדי לשמור בשרת.
+                שוחזרה טיוטה מקומית מהדפדפן - לחצו &quot;שמור טיוטה&quot; כדי לשמור בשרת.
               </p>
             ) : null}
             {localSaveHint && !restoredFromLocal ? (
@@ -729,7 +729,7 @@ export function AdminStoriesManager({
                 existingStories={existingForAutoFill}
                 onApply={(next) => {
                   setDraft(next);
-                  setServerSaveOk("טיוטה מה־AI הוחלה — עברו ל״ידני״ לעריכה ושמירה. לא פורסם.");
+                  setServerSaveOk("טיוטה מה־AI הוחלה - עברו ל״ידני״ לעריכה ושמירה. לא פורסם.");
                   setError(null);
                   setViewMode("manual");
                 }}
@@ -743,7 +743,7 @@ export function AdminStoriesManager({
               <input required value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} />
             </label>
             <label>
-              Slug (אופציונלי — ייווצר מהכותרת)
+              Slug (אופציונלי - ייווצר מהכותרת)
               <input value={draft.slug} onChange={(e) => setDraft({ ...draft, slug: e.target.value })} />
             </label>
             <label>

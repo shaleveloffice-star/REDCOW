@@ -74,7 +74,7 @@ export async function saveMenuCategory(input: MenuCategory, seoFields?: SeoPageF
   const normalized = normalizeMenuCategory(input);
   return mutateMenuRecords(({ items, categories, seo }) => {
     const slug = normalized.slug.trim().toLowerCase();
-    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error("Slug לא תקין — השתמשו באנגלית, מספרים ומקפים");
+    if (!/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(slug)) throw new Error("Slug לא תקין - השתמשו באנגלית, מספרים ומקפים");
     const taken = [...items.flatMap(getMenuItemSlugAliases), ...categories.filter(category => category.id !== input.id).flatMap(getCategorySlugAliases)];
     if (taken.includes(slug)) throw new Error("Slug כבר משמש מנה או קטגוריה אחרת");
     const current = categories.find(category => category.id === input.id);

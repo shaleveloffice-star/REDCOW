@@ -104,9 +104,9 @@ const SITE_IMAGE_SPECS: Record<string, AdminImageSpec> = {
     maxBytes: 80 * 1024,
     maxEdge: 800,
     aspectHint: "20:9",
-    note: "לוגו — עדיף PNG שקוף"
+    note: "לוגו - עדיף PNG שקוף"
   },
-  "hero-burger": { ...FULL_BLEED, note: "גיבור — מסך מלא" },
+  "hero-burger": { ...FULL_BLEED, note: "גיבור - מסך מלא" },
   "plancha-hero": FULL_BLEED,
   "plancha-meat": CARD_SQUARE,
   "plancha-sear": CARD_SQUARE,
@@ -141,12 +141,12 @@ const SITE_IMAGE_SPECS: Record<string, AdminImageSpec> = {
     note: "פורטרט"
   },
   "atmosphere-bottom": WIDE_MEDIA,
-  "atmosphere-slide-1": { ...FULL_BLEED, note: "פאנל אווירה — מסך מלא" },
-  "atmosphere-slide-2": { ...FULL_BLEED, note: "פאנל אווירה — מסך מלא" },
-  "atmosphere-slide-3": { ...FULL_BLEED, note: "פאנל אווירה — מסך מלא" },
-  "atmosphere-third-1": { ...FULL_BLEED, note: "פאנל אווירה — מסך מלא" },
-  "atmosphere-third-2": { ...FULL_BLEED, note: "פאנל אווירה — מסך מלא" },
-  "atmosphere-third-3": { ...FULL_BLEED, note: "פאנל אווירה — מסך מלא" },
+  "atmosphere-slide-1": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
+  "atmosphere-slide-2": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
+  "atmosphere-slide-3": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
+  "atmosphere-third-1": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
+  "atmosphere-third-2": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
+  "atmosphere-third-3": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
   "home-story": {
     width: 1400,
     height: 1750,
@@ -169,7 +169,7 @@ const MOBILE_FULL_BLEED: AdminImageSpec = {
   maxBytes: 280 * 1024,
   maxEdge: 1080,
   aspectHint: "9:16",
-  note: "מובייל — מסך מלא"
+  note: "מובייל - מסך מלא"
 };
 
 export function getAdminImageSpec(id: string): AdminImageSpec {
@@ -200,7 +200,7 @@ export function getAdminMobileImageSpec(id: string): AdminImageSpec {
       maxBytes: 250 * 1024,
       maxEdge: 1080,
       aspectHint: "4:5",
-      note: "מובייל — סיפור המותג"
+      note: "מובייל - סיפור המותג"
     };
   }
   const desktop = getAdminImageSpec(id);

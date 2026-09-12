@@ -69,7 +69,7 @@ export function applyMenuItemSmartPaste(
     if (categoryId) {
       nextDraft.categoryId = categoryId;
     } else {
-      warnings.push(`קטגוריה "${parsed.category}" לא זוהתה — יש לבחור ידנית.`);
+      warnings.push(`קטגוריה "${parsed.category}" לא זוהתה - יש לבחור ידנית.`);
     }
   }
 

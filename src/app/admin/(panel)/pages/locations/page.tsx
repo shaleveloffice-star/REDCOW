@@ -7,7 +7,7 @@ export default async function AdminLocationsSeoPage() {
 
   return (
     <AdminCard
-      title="מיקומים — תוכן SEO"
+      title="מיקומים - תוכן SEO"
       description="מבוא ותוכן תחתון לדף /locations. שדות ריקים משתמשים בברירת המחדל."
     >
       <AdminSeoPageEditor pageId="locations" initialDocument={seoDocument} />

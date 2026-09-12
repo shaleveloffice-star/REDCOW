@@ -11,8 +11,8 @@
 }
 
 .site-faq-shell {
-  width: min(920px, calc(100% - 50px));
-  margin: 0 auto;
+  width: var(--site-copy-column, min(760px, calc(100% - 48px)));
+  margin-inline: auto;
 }
 
 .site-faq-header {
@@ -21,6 +21,7 @@
 }
 
 .site-faq-kicker {
+  max-width: 100%;
   margin: 0 0 12px;
   color: #ffffff;
   font-family: ui-monospace, "Cascadia Mono", "Segoe UI Mono", Menlo, Consolas, monospace;
@@ -30,13 +31,15 @@
 }
 
 .site-faq-title {
+  max-width: 100%;
   margin: 0 0 14px;
   color: #ffffff;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(42px, 8vw, 92px);
+  font-size: clamp(32px, 6vw, 56px);
   font-weight: 400;
-  letter-spacing: -0.04em;
-  line-height: 0.92;
+  letter-spacing: -0.03em;
+  line-height: 0.98;
+  overflow-wrap: anywhere;
   text-transform: uppercase;
 }
 
@@ -122,10 +125,6 @@
 }
 
 @media (max-width: 640px) {
-  .site-faq-shell {
-    width: calc(100% - 40px);
-  }
-
   .site-faq-trigger {
     min-height: 64px;
     padding: 16px 0;

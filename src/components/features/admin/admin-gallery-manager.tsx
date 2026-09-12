@@ -135,7 +135,7 @@ export function AdminGalleryManager({
         <div className="admin-gallery-upload-copy">
           <strong>העלאת תמונות</strong>
           <p className="admin-form-hint">
-            JPG, PNG, WebP או GIF — {formatAdminImageSpec(GALLERY_IMAGE_SPEC)} · נדחס אוטומטית בהעלאה.
+            JPG, PNG, WebP או GIF - {formatAdminImageSpec(GALLERY_IMAGE_SPEC)} · נדחס אוטומטית בהעלאה.
           </p>
         </div>
         <div className="admin-gallery-upload-actions">
@@ -211,7 +211,7 @@ export function AdminGalleryManager({
           תמונות האתר ({libraryImages.length})
         </h3>
         <p className="admin-form-hint">
-          תמונות מהעיצוב, דף הבית, אודות, תפריט ועוד — לקריאה והעתקת URL. לעריכה השתמשו בהגדרות התמונות הרלוונטיות.
+          תמונות מהעיצוב, דף הבית, אודות, תפריט ועוד - לקריאה והעתקת URL. לעריכה השתמשו בהגדרות התמונות הרלוונטיות.
         </p>
         {libraryImages.length === 0 ? (
           <p className="admin-form-hint">לא נמצאו תמונות בספריית האתר.</p>
@@ -248,7 +248,7 @@ export function AdminGalleryManager({
               URL
               <input readOnly value={draft.imageUrl} />
             </label>
-            <p className="admin-image-spec">{formatAdminImageSpec(GALLERY_IMAGE_SPEC)} — נדחס אוטומטית בהעלאה</p>
+            <p className="admin-image-spec">{formatAdminImageSpec(GALLERY_IMAGE_SPEC)} - נדחס אוטומטית בהעלאה</p>
             <AdminFormFooter isPending={isPending} error={error} onCancel={close} submitLabel="עדכן" />
           </form>
         ) : null}

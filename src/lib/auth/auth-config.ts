@@ -67,7 +67,7 @@ export function getAdminAuthEnvDiagnostics(): EnvVarCheck[] {
           ? `length<${MIN_PASSWORD_LENGTH}`
           : process.env.ADMIN_PASSWORD?.trim()
             ? "set"
-            : "using ADMIN_DEV_PASSWORD fallback — rename to ADMIN_PASSWORD"
+            : "using ADMIN_DEV_PASSWORD fallback - rename to ADMIN_PASSWORD"
     },
     {
       name: "ADMIN_SESSION_SECRET",

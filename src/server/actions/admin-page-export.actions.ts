@@ -164,7 +164,7 @@ export async function getAdminPageExportAction(
     }
     case "/admin/pages/home": {
       const [seo, imageGroups] = await Promise.all([
-        seoPageExport("home", "SEO — דף הבית", page),
+        seoPageExport("home", "SEO - דף הבית", page),
         getHomePageSiteImagesAdminData()
       ]);
       return {
@@ -178,15 +178,15 @@ export async function getAdminPageExportAction(
       };
     }
     case "/admin/pages/about":
-      return seoPageExport("about", "SEO — אודות", page);
+      return seoPageExport("about", "SEO - אודות", page);
     case "/admin/pages/kosher":
-      return seoPageExport("kosher", "SEO — כשרות", page);
+      return seoPageExport("kosher", "SEO - כשרות", page);
     case "/admin/pages/locations":
-      return seoPageExport("locations", "SEO — מיקומים", page);
+      return seoPageExport("locations", "SEO - מיקומים", page);
     case "/admin/pages/privacy":
-      return seoPageExport("privacy", "SEO — פרטיות", page);
+      return seoPageExport("privacy", "SEO - פרטיות", page);
     case "/admin/pages/terms":
-      return seoPageExport("terms", "SEO — תקנון", page);
+      return seoPageExport("terms", "SEO - תקנון", page);
     case "/admin/settings": {
       const { settings, orderLinks } = await getSettingsAdminData();
       return {

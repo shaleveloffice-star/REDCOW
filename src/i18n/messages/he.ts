@@ -26,7 +26,7 @@ export const he: Messages = {
     popupTitle: "אנחנו מתכוננים לפתיחה",
     popupLead: "התפריט והתמונות המוצגים באתר כרגע הם להמחשה בלבד.",
     popupBody: "בקרוב נעדכן כאן את התפריט הרשמי והתמונות האמיתיות של NB BURGER.",
-    popupClosing: "שווה לעקוב — הדברים הטובים באמת בדרך.",
+    popupClosing: "שווה לעקוב - הדברים הטובים באמת בדרך.",
     popupCta: "הבנתי",
     popupClose: "סגור"
   },
@@ -99,7 +99,7 @@ export const he: Messages = {
     findLocal: "מצא סניף",
     ourLocations: "הסניפים שלנו",
     mapTitle: "מפת סניפי NB BURGER",
-    mapSummary: "מפת סניפי NB BURGER — רעננה, אחוזה 96",
+    mapSummary: "מפת סניפי NB BURGER - רעננה, אחוזה 96",
     navigate: "ניווט",
     deliveryZonesTitle: "אזורי המשלוחים",
     deliveryZones: [
@@ -181,7 +181,7 @@ export const he: Messages = {
     trustSafe: "המידע שלך נשאר אצלנו",
     trustTerms: "בלי עלות · בלי התחייבות",
     barBrandSub: "REAL BURGERS. REAL PEOPLE.",
-    barSlogan: "NB CLUB — MORE THAN A BURGER",
+    barSlogan: "NB CLUB - MORE THAN A BURGER",
     perksAria: "יתרונות המועדון",
     features: [
       { title: "מבצעים בלעדיים" },
@@ -262,7 +262,7 @@ export const he: Messages = {
   },
   contactForm: {
     title: "שלחו לנו הודעה",
-    lead: "נשמח לעזור — השאירו פרטים ונחזור אליכם.",
+    lead: "נשמח לעזור - השאירו פרטים ונחזור אליכם.",
     fullName: "שם מלא",
     phone: "טלפון",
     email: "אימייל",
@@ -291,7 +291,9 @@ export const he: Messages = {
     nav: "ניווט",
     menu: "תפריט",
     fullMenu: "לתפריט המלא",
-    clubCta: "הצטרפות למועדון הלקוחות",
+    clubTitle: "NB CLUB",
+    clubLead: "הצטרפו למועדון וקבלו הטבות והפתעות לחברי המועדון",
+    clubCta: "הצטרפו ל-NB CLUB",
     copyright: "© 2026 NB BURGER - כל הזכויות שמורות",
     privacy: "מדיניות פרטיות",
     terms: "תקנון האתר",
@@ -301,10 +303,10 @@ export const he: Messages = {
   stories: {
     breadcrumbLabel: "סיפורים",
     indexTitle: "סיפורים",
-    indexLead: "מאחורי הקלעים — עקביות, דיוק וחוויה.",
+    indexLead: "מאחורי הקלעים - עקביות, דיוק וחוויה.",
     indexMetaTitle: "סיפורים | NB BURGER",
     indexMetaDescription:
-      "סיפורים קצרים מ-NB BURGER — על המבורגר שחוזרים אליו, העקביות והחוויה שמאחורי כל ביס.",
+      "סיפורים קצרים מ-NB BURGER - על המבורגר שחוזרים אליו, העקביות והחוויה שמאחורי כל ביס.",
     readStory: "קראו את הסיפור",
     featuredLabel: "סיפור נבחר",
     moreStories: "עוד סיפורים",

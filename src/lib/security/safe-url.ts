@@ -70,7 +70,7 @@ export function sanitizePublicHref(value: string | undefined | null): string | u
   }
 
   if (!isSafePublicHref(trimmed)) {
-    throw new Error("קישור לא תקין — מותר רק http/https או נתיב יחסי באתר");
+    throw new Error("קישור לא תקין - מותר רק http/https או נתיב יחסי באתר");
   }
 
   return trimmed;

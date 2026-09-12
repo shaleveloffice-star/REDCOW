@@ -161,18 +161,18 @@ export function AdminMenuCategoriesManager({
               <input required value={draft.name} onChange={(e) => setDraft({ ...draft, name: e.target.value })} />
             </label>
             <label>
-              {adminFieldLabel("Slug (באנגלית, לקישור)", "זיהוי פנימי — לא מוצג למבקרים")}
+              {adminFieldLabel("Slug (באנגלית, לקישור)", "זיהוי פנימי - לא מוצג למבקרים")}
               <input required value={draft.slug} onChange={(e) => setDraft({ ...draft, slug: e.target.value })} />
             </label>
             <label>
-              {adminFieldLabel("תיאור כללי", "תיאור קטגוריה כללי — גיבוי ל-Meta Description ו-Schema")}
+              {adminFieldLabel("תיאור כללי", "תיאור קטגוריה כללי - גיבוי ל-Meta Description ו-Schema")}
               <textarea
                 rows={3}
                 value={draft.description ?? ""}
                 onChange={(e) => setDraft({ ...draft, description: e.target.value })}
               />
               <span className="admin-field-hint">
-                שדה legacy — לא מחליף את Meta Description בלשונית SEO. אם Meta Description ריק, ערך זה
+                שדה legacy - לא מחליף את Meta Description בלשונית SEO. אם Meta Description ריק, ערך זה
                 משמש כ-gיבוי בתוצאות החיפוש.
               </span>
             </label>

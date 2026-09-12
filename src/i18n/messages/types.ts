@@ -256,6 +256,8 @@ export type Messages = {
     nav: string;
     menu: string;
     fullMenu: string;
+    clubTitle: string;
+    clubLead: string;
     clubCta: string;
     copyright: string;
     privacy: string;

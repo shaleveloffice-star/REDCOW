@@ -8,7 +8,7 @@ import {
   type StoryAutoFillExistingStory
 } from "./types";
 
-export const STORY_GENERATE_BRAND_INSTRUCTIONS = `אתה כותב תוכן עבור NB BURGER — מסעדת המבורגרים ברעננה.
+export const STORY_GENERATE_BRAND_INSTRUCTIONS = `אתה כותב תוכן עבור NB BURGER - מסעדת המבורגרים ברעננה.
 
 שפה: עברית טבעית בלבד (חוץ מ-slug באנגלית).
 
@@ -39,7 +39,7 @@ export const STORY_GENERATE_BRAND_INSTRUCTIONS = `אתה כותב תוכן עב�
 
 SEO:
 - primaryKeyword היא מילת המפתח המרכזית
-- secondaryKeywords רק אם טבעי — בלי keyword stuffing
+- secondaryKeywords רק אם טבעי - בלי keyword stuffing
 - אל תחזור על exact match בצורה מלאכותית
 - H1 אחד בלבד (title)
 - Meta Title קצר וברור
@@ -61,7 +61,7 @@ SEO:
 - long-content
 
 כללי שדות במקטע:
-- שדות שלא רלוונטיים לסוג — מחרוזת ריקה ""
+- שדות שלא רלוונטיים לסוג - מחרוזת ריקה ""
 - imageUrl לא קיים בסכמה; אל תמציא כתובות תמונה
 - ל-split: מלא title, body, imageAlt
 - ל-long-content: מלא body (ו־title/kicker אם מתאים)
@@ -69,8 +69,8 @@ SEO:
 - ל-cta: label + href (/menu או /locations) + body קצר
 - ל-full-image: imageAlt (+ caption אופציונלי)
 
-אם יש CTA בבקשה — הוסף מקטע type "cta" בסוף.
-אם cta הוא none — אל תוסיף מקטע cta.
+אם יש CTA בבקשה - הוסף מקטע type "cta" בסוף.
+אם cta הוא none - אל תוסיף מקטע cta.
 
 אל תמציא ביקורות לקוחות או ציטוטים מיוחסים.`.trim();
 
@@ -103,7 +103,7 @@ export function buildStoryGenerateUserPrompt(options: {
     title: story.title,
     slug: story.slug,
     metaTitle: story.metaTitle,
-    topicHint: [story.title, story.subtitle, story.metaTitle].filter(Boolean).join(" — ").slice(0, 160)
+    topicHint: [story.title, story.subtitle, story.metaTitle].filter(Boolean).join(" - ").slice(0, 160)
   }));
 
   const lengthHint =
@@ -119,12 +119,12 @@ export function buildStoryGenerateUserPrompt(options: {
     `primaryKeyword: ${input.primaryKeyword.trim()}`,
     `secondaryKeywords: ${secondaries.length ? secondaries.join(" | ") : "(אין)"}`,
     `storyType: ${input.storyType} (${STORY_AUTO_FILL_TYPE_LABELS[input.storyType]})`,
-    `angle: ${input.angle.trim() || "(נגזר ממילת המפתח — בחר זווית עניינית)"}`,
+    `angle: ${input.angle.trim() || "(נגזר ממילת המפתח - בחר זווית עניינית)"}`,
     `length: ${input.length} (${STORY_AUTO_FILL_LENGTH_LABELS[input.length]}) → ${lengthHint}`,
     `goal: ${input.goal} (${STORY_AUTO_FILL_GOAL_LABELS[input.goal]})`,
     `cta: ${input.cta} (${STORY_AUTO_FILL_CTA_LABELS[input.cta]})`,
     "",
-    "הקשר קניבליזציה — עמודים/סיפורים קיימים (הימנע מחפיפה משמעותית בזווית ובמיקוד):",
+    "הקשר קניבליזציה - עמודים/סיפורים קיימים (הימנע מחפיפה משמעותית בזווית ובמיקוד):",
     JSON.stringify(existingSummary, null, 2),
     "",
     "החזר אך ורק לפי ה-JSON Schema שהוגדר (Structured Outputs)."

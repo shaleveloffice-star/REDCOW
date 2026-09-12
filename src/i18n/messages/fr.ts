@@ -26,7 +26,7 @@ export const fr: Messages = {
     popupTitle: "Nous préparons l'ouverture",
     popupLead: "Le menu et les images actuellement affichés sur le site sont uniquement à titre d'illustration.",
     popupBody: "Bientôt, nous mettrons à jour ici le menu officiel et les vraies photos de NB BURGER.",
-    popupClosing: "Restez à l'écoute — le meilleur arrive bientôt.",
+    popupClosing: "Restez à l'écoute - le meilleur arrive bientôt.",
     popupCta: "Compris",
     popupClose: "Fermer"
   },
@@ -81,7 +81,7 @@ export const fr: Messages = {
     longSectionAria: "Description complète",
     allergyGuide: "Guide des allergènes",
     relatedItemsTitle: "Autres plats",
-    relatedItemsLead: "De cette catégorie — trouvez votre prochaine bouchée.",
+    relatedItemsLead: "De cette catégorie - trouvez votre prochaine bouchée.",
     relatedItemsAria: "Autres plats de la catégorie",
     viewBranchHours: "Voir le restaurant et les horaires d'ouverture"
   },
@@ -95,11 +95,11 @@ export const fr: Messages = {
   },
   locations: {
     breadcrumbLabel: "Emplacements",
-    pageTitle: "Adresse et horaires — NB BURGER Raanana",
+    pageTitle: "Adresse et horaires - NB BURGER Raanana",
     findLocal: "Trouver un restaurant",
     ourLocations: "Nos restaurants",
     mapTitle: "Carte des restaurants NB BURGER",
-    mapSummary: "Carte NB BURGER — Raanana, Ahuzah 96",
+    mapSummary: "Carte NB BURGER - Raanana, Ahuzah 96",
     navigate: "Itinéraire",
     deliveryZonesTitle: "Zones de livraison",
     deliveryZones: [
@@ -181,7 +181,7 @@ export const fr: Messages = {
     trustSafe: "Vos infos restent chez nous",
     trustTerms: "Gratuit · Sans engagement",
     barBrandSub: "REAL BURGERS. REAL PEOPLE.",
-    barSlogan: "NB CLUB — MORE THAN A BURGER",
+    barSlogan: "NB CLUB - MORE THAN A BURGER",
     perksAria: "Avantages du club",
     features: [
       { title: "Offres exclusives" },
@@ -250,7 +250,7 @@ export const fr: Messages = {
     viewBranchDetails: "Tous les détails du restaurant",
     imageAlt: "Façade du restaurant",
     businessType: "Restaurant de burgers",
-    kosher: "Casher — sous supervision rabbinique locale"
+    kosher: "Casher - sous supervision rabbinique locale"
   },
   notFound: {
     title: "Page introuvable",
@@ -262,7 +262,7 @@ export const fr: Messages = {
   },
   contactForm: {
     title: "Envoyez-nous un message",
-    lead: "Nous serons ravis de vous répondre — laissez vos coordonnées.",
+    lead: "Nous serons ravis de vous répondre - laissez vos coordonnées.",
     fullName: "Nom complet",
     phone: "Téléphone",
     email: "E-mail",
@@ -291,7 +291,9 @@ export const fr: Messages = {
     nav: "Navigation",
     menu: "Carte",
     fullMenu: "Carte complète",
-    clubCta: "Rejoindre le club clients",
+    clubTitle: "NB CLUB",
+    clubLead: "Rejoignez le club et profitez d'avantages et de surprises réservés aux membres",
+    clubCta: "Rejoindre le NB CLUB",
     copyright: "© 2026 NB BURGER - Tous droits réservés",
     privacy: "Politique de confidentialité",
     terms: "Conditions d'utilisation",
@@ -301,10 +303,10 @@ export const fr: Messages = {
   stories: {
     breadcrumbLabel: "Histoires",
     indexTitle: "Histoires",
-    indexLead: "Dans les coulisses — constance, précision et expérience.",
+    indexLead: "Dans les coulisses - constance, précision et expérience.",
     indexMetaTitle: "Histoires | NB BURGER",
     indexMetaDescription:
-      "Courtes histoires de NB BURGER — sur le burger auquel on revient, la constance et l'expérience derrière chaque bouchée.",
+      "Courtes histoires de NB BURGER - sur le burger auquel on revient, la constance et l'expérience derrière chaque bouchée.",
     readStory: "Lire l'histoire",
     featuredLabel: "Histoire à la une",
     moreStories: "Plus d'histoires",

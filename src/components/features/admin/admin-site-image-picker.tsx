@@ -190,7 +190,7 @@ export function AdminImageUrlField({
       <p className="admin-image-spec">
         {formatAdminImageSpec(spec)}
         {spec.note ? ` · ${spec.note}` : ""}
-        {" — נדחס אוטומטית בהעלאה"}
+        {" - נדחס אוטומטית בהעלאה"}
       </p>
       {uploadError ? <p className="admin-form-error">{uploadError}</p> : null}
       {showPreview ? (

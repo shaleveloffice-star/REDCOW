@@ -104,7 +104,7 @@ export function AdminMenuItemSmartPasteModal({
       <div className="admin-smart-paste-modal">
         <p className="admin-field-hint">
           הדביקו טקסט עם כותרות שדות (שם המנה, מחיר, תיאור קצר, תיאור ארוך, כותרת מטא ועוד).
-          רק שדות שיזוהו ימולאו — ללא שמירה אוטומטית.
+          רק שדות שיזוהו ימולאו - ללא שמירה אוטומטית.
         </p>
 
         <label>

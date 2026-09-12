@@ -7,7 +7,7 @@ export const defaultAnnouncementPopupConfig = (): AnnouncementPopupConfig => ({
   body: [
     "התפריט והתמונות המוצגים באתר כרגע הם להמחשה בלבד.",
     "בקרוב נעדכן כאן את התפריט הרשמי והתמונות האמיתיות של NB BURGER.",
-    "שווה לעקוב — הדברים הטובים באמת בדרך."
+    "שווה לעקוב - הדברים הטובים באמת בדרך."
   ].join("\n\n"),
   ctaLabel: "הבנתי",
   ctaHref: "",

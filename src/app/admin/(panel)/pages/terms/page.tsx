@@ -7,7 +7,7 @@ export default async function AdminTermsSeoPage() {
 
   return (
     <AdminCard
-      title="תקנון — תוכן SEO"
+      title="תקנון - תוכן SEO"
       description="מבוא ותוכן תחתון אופציונלי לדף /terms (גוף המסמך המשפטי נשאר בקוד)."
     >
       <AdminSeoPageEditor

@@ -21,12 +21,12 @@ const PAGE_META_DEFAULTS: Record<
     home: {
       metaTitle: "NB BURGER | המבורגר ברעננה",
       metaDescription:
-        "מחפשים המבורגר ברעננה או המבורגר רעננה? NB BURGER באחוזה 96 — מסעדה כשרה ברעננה עם המבורגרים מבשר טרי הנטחן במקום, ארוחות ותוספות."
+        "מחפשים המבורגר ברעננה או המבורגר רעננה? NB BURGER באחוזה 96 - מסעדה כשרה ברעננה עם המבורגרים מבשר טרי הנטחן במקום, ארוחות ותוספות."
     },
     menu: {
       metaTitle: "תפריט המבורגרים ברעננה | NB BURGER",
       metaDescription:
-        "גלו את תפריט ההמבורגרים של NB BURGER ברעננה — המבורגרים על הפלנצ׳ה, תוספות ומנות ממסעדה כשרה ברחוב אחוזה 96."
+        "גלו את תפריט ההמבורגרים של NB BURGER ברעננה - המבורגרים על הפלנצ׳ה, תוספות ומנות ממסעדה כשרה ברחוב אחוזה 96."
     },
     locations: {
       metaTitle: "מיקום ושעות | NB BURGER רעננה",
@@ -36,16 +36,16 @@ const PAGE_META_DEFAULTS: Record<
     kosher: {
       metaTitle: "כשר בהשגחת רבנות | NB BURGER",
       metaDescription:
-        "NB BURGER — מסעדת המבורגרים כשרה בהשגחת רבנות. פרטי הכשרות והמידע המעודכן יופיעו כאן."
+        "NB BURGER - מסעדת המבורגרים כשרה בהשגחת רבנות. פרטי הכשרות והמידע המעודכן יופיעו כאן."
     },
     about: {
       metaTitle: "אודות NB BURGER | הסיפור שלנו",
       metaDescription:
-        "הסיפור של NB BURGER — המותג, החזון, הבשר והאנשים מאחורי המסעדה. איך בנינו חוויית המבורגר מדויקת ועקבית."
+        "הסיפור של NB BURGER - המותג, החזון, הבשר והאנשים מאחורי המסעדה. איך בנינו חוויית המבורגר מדויקת ועקבית."
     },
     privacy: {
       metaTitle: "מדיניות פרטיות | NB BURGER",
-      metaDescription: "מדיניות הפרטיות של NB BURGER — איסוף מידע, שימוש בנתונים וזכויות המשתמש."
+      metaDescription: "מדיניות הפרטיות של NB BURGER - איסוף מידע, שימוש בנתונים וזכויות המשתמש."
     },
     terms: {
       metaTitle: "תקנון האתר | NB BURGER",
@@ -56,16 +56,16 @@ const PAGE_META_DEFAULTS: Record<
     home: {
       metaTitle: "NB BURGER | Kosher Burgers Raanana",
       metaDescription:
-        "NB BURGER in Raanana — smash burgers on the plancha, fresh ingredients and bold flavor at Ahuzah 96."
+        "NB BURGER in Raanana - smash burgers on the plancha, fresh ingredients and bold flavor at Ahuzah 96."
     },
     menu: {
       metaTitle: "Burger Menu Raanana | NB BURGER",
       metaDescription:
-        "Explore the NB BURGER menu in Raanana — plancha burgers, sides and full meals at our kosher restaurant."
+        "Explore the NB BURGER menu in Raanana - plancha burgers, sides and full meals at our kosher restaurant."
     },
     locations: {
       metaTitle: "Location & Hours | NB BURGER Raanana",
-      metaDescription: "Find NB BURGER in Raanana — address, opening hours, directions and delivery."
+      metaDescription: "Find NB BURGER in Raanana - address, opening hours, directions and delivery."
     },
     kosher: {
       metaTitle: "Kosher Certification | NB BURGER",
@@ -75,11 +75,11 @@ const PAGE_META_DEFAULTS: Record<
     about: {
       metaTitle: "About | NB BURGER Raanana",
       metaDescription:
-        "Meet NB BURGER — Raanana's smash-burger spot. Quality beef, soft buns, plancha perfection."
+        "Meet NB BURGER - Raanana's smash-burger spot. Quality beef, soft buns, plancha perfection."
     },
     privacy: {
       metaTitle: "Privacy Policy | NB BURGER",
-      metaDescription: "NB BURGER privacy policy — data collection, usage and your rights."
+      metaDescription: "NB BURGER privacy policy - data collection, usage and your rights."
     },
     terms: {
       metaTitle: "Terms of Use | NB BURGER",
@@ -90,16 +90,16 @@ const PAGE_META_DEFAULTS: Record<
     home: {
       metaTitle: "NB BURGER | Burgers casher Raanana",
       metaDescription:
-        "NB BURGER à Raanana — burgers sur plancha, ingrédients frais et saveur intense, Ahuzah 96."
+        "NB BURGER à Raanana - burgers sur plancha, ingrédients frais et saveur intense, Ahuzah 96."
     },
     menu: {
       metaTitle: "Menu burgers Raanana | NB BURGER",
       metaDescription:
-        "Découvrez le menu NB BURGER à Raanana — burgers plancha, accompagnements et formules dans un restaurant casher."
+        "Découvrez le menu NB BURGER à Raanana - burgers plancha, accompagnements et formules dans un restaurant casher."
     },
     locations: {
       metaTitle: "Adresse & horaires | NB BURGER Raanana",
-      metaDescription: "NB BURGER à Raanana — adresse, horaires, itinéraire et livraison."
+      metaDescription: "NB BURGER à Raanana - adresse, horaires, itinéraire et livraison."
     },
     kosher: {
       metaTitle: "Cacherout | NB BURGER",
@@ -109,12 +109,12 @@ const PAGE_META_DEFAULTS: Record<
     about: {
       metaTitle: "À propos | NB BURGER Raanana",
       metaDescription:
-        "Découvrez NB BURGER — burgers smash à Raanana. Viande de qualité, buns moelleux, plancha maîtrisée."
+        "Découvrez NB BURGER - burgers smash à Raanana. Viande de qualité, buns moelleux, plancha maîtrisée."
     },
     privacy: {
       metaTitle: "Politique de confidentialité | NB BURGER",
       metaDescription:
-        "Politique de confidentialité NB BURGER — collecte, usage des données et vos droits."
+        "Politique de confidentialité NB BURGER - collecte, usage des données et vos droits."
     },
     terms: {
       metaTitle: "Conditions d'utilisation | NB BURGER",
@@ -182,58 +182,58 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
         sectionTitle: "הסיפור שמאחורי NB BURGER",
         introduction: joinParagraphs([
           "NB BURGER נולדה מתוך מחשבה פשוטה: להכין המבורגר מחומרי גלם איכותיים, בלי קיצורי דרך ובלי להתפשר על הטעם.",
-          "הבשר נטחן במקום מדי יום, כל מנה עולה לפלנצ׳ה רק אחרי ההזמנה, וכל מרכיב נבחר בקפידה — מהלחמנייה ועד הרטבים."
+          "הבשר נטחן במקום מדי יום, כל מנה עולה לפלנצ׳ה רק אחרי ההזמנה, וכל מרכיב נבחר בקפידה - מהלחמנייה ועד הרטבים."
         ]),
         bottomContent: joinParagraphs([
           "מאחורי המותג עומדים אנשים שאוהבים המבורגר אמיתי: דיוק בהכנה, עקביות בכל ביס, ושירות שמכבד את מי שבא אלינו.",
-          "רוצים להכיר את NB BURGER ברעננה מקרוב? בדף הבית תמצאו את החוויה המלאה, ובתפריט — את המנות עצמן."
+          "רוצים להכיר את NB BURGER ברעננה מקרוב? בדף הבית תמצאו את החוויה המלאה, ובתפריט - את המנות עצמן."
         ]),
         cta: {
           title: "הכירו את NB BURGER",
-          body: "לדף הבית של NB BURGER ברעננה — שם מתחיל הסיפור.",
+          body: "לדף הבית של NB BURGER ברעננה - שם מתחיל הסיפור.",
           buttonLabel: "לדף הבית",
           buttonHref: "/"
         }
       },
       menu: {
         introduction: joinParagraphs([
-          "ברוכים הבאים לתפריט המבורגרים של NB BURGER ברעננה — מסעדת המבורגרים הכשרה שבה כל מנה נולדת על הפלנצ׳ה החמה. כאן מרכזים חוויית המבורגר כשר: בשר בקר איכותי שנטחן במקום מדי יום, לחמנייה רכה, ירקות טריים ורטבים ביתיים. כל המבורגר נצלה לפי הזמנה — עסיסי, מדויק ובלתי מתפשר.",
-          "בתפריט תמצאו את כל מה שצריך לארוחה שלמה: המבורגרים שלנו — מהקלאסי ועד גרסאות עם איולי כמהין או שום קונפי; ארוחות שמשלבות מנה, תוספת לבחירה ושתייה קלה; תוספות כמו צ'יפס, כנפיים ונאגטס; סלטים טריים מהמטבח; רטבים שמכינים במקום; ושתייה קרה שמשלימה את הביס. בין אם אתם מגיעים לסניף, מזמינים לאיסוף עצמי או במשלוח — התפריט נשאר אותו דבר: איכות, טריות וטעם.",
-          "ב-NB BURGER אנחנו מאמינים שהמבורגר טוב מתחיל בחומרי גלם ומסתיים בחוויה שנשארת איתכם. גללו בין הקטגוריות, בחרו את המנה שמתאימה לכם, והזמינו לאיסוף עצמי או במשלוח. נתראה ברחוב אחוזה 96, רעננה — המקום שבו המבורגרים באמת מרגישים שונים."
+          "ברוכים הבאים לתפריט המבורגרים של NB BURGER ברעננה - מסעדת המבורגרים הכשרה שבה כל מנה נולדת על הפלנצ׳ה החמה. כאן מרכזים חוויית המבורגר כשר: בשר בקר איכותי שנטחן במקום מדי יום, לחמנייה רכה, ירקות טריים ורטבים ביתיים. כל המבורגר נצלה לפי הזמנה - עסיסי, מדויק ובלתי מתפשר.",
+          "בתפריט תמצאו את כל מה שצריך לארוחה שלמה: המבורגרים שלנו - מהקלאסי ועד גרסאות עם איולי כמהין או שום קונפי; ארוחות שמשלבות מנה, תוספת לבחירה ושתייה קלה; תוספות כמו צ'יפס, כנפיים ונאגטס; סלטים טריים מהמטבח; רטבים שמכינים במקום; ושתייה קרה שמשלימה את הביס. בין אם אתם מגיעים לסניף, מזמינים לאיסוף עצמי או במשלוח - התפריט נשאר אותו דבר: איכות, טריות וטעם.",
+          "ב-NB BURGER אנחנו מאמינים שהמבורגר טוב מתחיל בחומרי גלם ומסתיים בחוויה שנשארת איתכם. גללו בין הקטגוריות, בחרו את המנה שמתאימה לכם, והזמינו לאיסוף עצמי או במשלוח. נתראה ברחוב אחוזה 96, רעננה - המקום שבו המבורגרים באמת מרגישים שונים."
         ]),
         categoryIntros: {
           "cat-burgers":
-            "מחפשים המבורגר כשר? קציצות בקר שנטחנות במקום ועולות ישר לפלנצ׳ה — כולל סמאש בורגר ווריאציות הבית עם איולי כמהין, קונפי או גבינה נמסה.",
+            "מחפשים המבורגר כשר? קציצות בקר שנטחנות במקום ועולות ישר לפלנצ׳ה - כולל סמאש בורגר ווריאציות הבית עם איולי כמהין, קונפי או גבינה נמסה.",
           "cat-meals":
-            "ארוחת המבורגר בצלחת אחת — המבורגר שבחרתם, תוספת לבחירה ושתייה קלה. נוח לצהריים, לערב או עם חברים.",
+            "ארוחת המבורגר בצלחת אחת - המבורגר שבחרתם, תוספת לבחירה ושתייה קלה. נוח לצהריים, לערב או עם חברים.",
           "cat-sides":
-            "תוספות שמשלימות את הביס: צ'יפס פריך עם תיבול הבית, הום פרייז זהוב, כנפיים עסיסיות או נאגטס פריכים. אידיאלי ליד ההמבורגר, לשיתוף על השולחן או כמנה קלה בפני עצמה — תמיד טרי, תמיד מדויק.",
+            "תוספות שמשלימות את הביס: צ'יפס פריך עם תיבול הבית, הום פרייז זהוב, כנפיים עסיסיות או נאגטס פריכים. אידיאלי ליד ההמבורגר, לשיתוף על השולחן או כמנה קלה בפני עצמה - תמיד טרי, תמיד מדויק.",
           "cat-salads":
-            "סלטים טריים מהמטבח — עלי בייבי, חסה רומaine, קרוטונים, פרמזן ורטבים שמכינים במקום. איזון מושלם ליד המבורגר: קל, מרענן ועשיר בטעם, בלי להתפשר על איכות חומרי הגלם.",
+            "סלטים טריים מהמטבח - עלי בייבי, חסה רומaine, קרוטונים, פרמזן ורטבים שמכינים במקום. איזון מושלם ליד המבורגר: קל, מרענן ועשיר בטעם, בלי להתפשר על איכות חומרי הגלם.",
           "cat-sauces":
-            "רטבים ביתיים שמרימים כל מנה — מאיולי כמהין ועד צ'יפוטלה מעושן, דבש-חרדל, שום קונפי, קטשופ ומיונז קלאסי. כל רוטב מוכן אצלנו ומותאם ללחמנייה, לתוספות ולטעם האישי שלכם.",
+            "רטבים ביתיים שמרימים כל מנה - מאיולי כמהין ועד צ'יפוטלה מעושן, דבש-חרדל, שום קונפי, קטשופ ומיונז קלאסי. כל רוטב מוכן אצלנו ומותאם ללחמנייה, לתוספות ולטעם האישי שלכם.",
           "cat-soft-drinks":
-            "שתייה קלה וקרה שמשלימה את הארוחה — מים, סודה, לימונדה, קולה, ספרייט, פאנטה, ענבים ותה קר. בחירה פשוטה ומרעננת ליד ההמבורגר, הארוחה או התוספת שבחרתם.",
+            "שתייה קלה וקרה שמשלימה את הארוחה - מים, סודה, לימונדה, קולה, ספרייט, פאנטה, ענבים ותה קר. בחירה פשוטה ומרעננת ליד ההמבורגר, הארוחה או התוספת שבחרתם.",
           "cat-beers":
-            "בירות בקבוק מצוינות לליווי ארוחת המבורגר — קורונה, Stella Artois, Heineken וגולדסטאר. לשתות בקצב שלכם, ליד המנה שעל השולחן, באווירה הלא-פורמלית של NB BURGER."
+            "בירות בקבוק מצוינות לליווי ארוחת המבורגר - קורונה, Stella Artois, Heineken וגולדסטאר. לשתות בקצב שלכם, ליד המנה שעל השולחן, באווירה הלא-פורמלית של NB BURGER."
         },
         categoryPages: {
           "cat-burgers": {
             metaTitle: "המבורגר כשר | NB BURGER",
             metaDescription:
-              "המבורגר כשר של NB BURGER — בשר טרי הנטחן במקום, הכנה על הפלנצ׳ה, וסמאש בורגר לצד מגוון המבורגרים בתפריט."
+              "המבורגר כשר של NB BURGER - בשר טרי הנטחן במקום, הכנה על הפלנצ׳ה, וסמאש בורגר לצד מגוון המבורגרים בתפריט."
           },
           "cat-meals": {
             metaTitle: "ארוחת המבורגר | NB BURGER",
             metaDescription:
-              "ארוחות המבורגר של NB BURGER — המבורגר, תוספת ושתייה בארוחה אחת. נוח לצהריים, לערב או עם חברים."
+              "ארוחות המבורגר של NB BURGER - המבורגר, תוספת ושתייה בארוחה אחת. נוח לצהריים, לערב או עם חברים."
           }
         }
       },
       locations: {
         introduction: joinParagraphs([
           "עמוד המיקום והשעות של NB BURGER מרכז את פרטי הסניף ברעננה: כתובת, שעות פעילות, איך מגיעים, איסוף עצמי ואזורי משלוח.",
-          "לפני ביקור או הזמנה — בדקו כאן את השעות המעודכנות ואת אזורי החלוקה."
+          "לפני ביקור או הזמנה - בדקו כאן את השעות המעודכנות ואת אזורי החלוקה."
         ]),
         bottomContent: joinParagraphs([
           "הסניף ברחוב אחוזה 96 מציע ישיבה במקום, איסוף עצמי ומשלוחים לפי אזורי החלוקה.",
@@ -241,7 +241,7 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
         ]),
         cta: {
           title: "NB BURGER רעננה",
-          body: "לחוויית המסעדה המלאה — דף הבית של NB BURGER.",
+          body: "לחוויית המסעדה המלאה - דף הבית של NB BURGER.",
           buttonLabel: "לדף הבית",
           buttonHref: "/"
         }
@@ -250,7 +250,7 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
         sectionTitle: "כשר בהשגחת רבנות",
         introduction: joinParagraphs([
           "NB BURGER היא מסעדת המבורגרים כשרה בהשגחת רבנות.",
-          "בעמוד זה יופיע מידע מעודכן על הכשרות, ההשגחה ופרטים נוספים — התוכן יעודכן מהפאנל הניהולי."
+          "בעמוד זה יופיע מידע מעודכן על הכשרות, ההשגחה ופרטים נוספים - התוכן יעודכן מהפאנל הניהולי."
         ]),
         bottomContent: joinParagraphs([
           "שאלות על כשרות? צרו קשר עם הסניף או עקבו אחרי העדכונים כאן."
@@ -279,7 +279,7 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
           "Ingredients chosen with care."
         ]),
         bottomContent: joinParagraphs([
-          "Every burger is seared to order and served exactly as it should be — juicy, precise, and uncompromising.",
+          "Every burger is seared to order and served exactly as it should be - juicy, precise, and uncompromising.",
           "Because in the end, you don't need to reinvent the burger.",
           "Just make it the way it should be."
         ]),
@@ -322,41 +322,41 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
         }
       },
       about: {
-        sectionTitle: "NB BURGER — where every bite feels different",
+        sectionTitle: "NB BURGER - where every bite feels different",
         introduction: joinParagraphs([
           "Kosher burgers from quality beef, fresh ingredients, and a dining experience built from a real love of the craft.",
           "At NB BURGER we believe a great burger starts with ingredients and ends with an experience that stays with you. Every dish is made in-house with quality beef, fresh vegetables, special sauces, and carefully chosen buns."
         ]),
         bottomContent: joinParagraphs([
-          "We opened NB BURGER to bring Ra'anana a kosher burger experience at the highest level — without compromising on quality, taste, or service."
+          "We opened NB BURGER to bring Ra'anana a kosher burger experience at the highest level - without compromising on quality, taste, or service."
         ])
       },
       menu: {
         introduction: joinParagraphs([
-          "Welcome to the NB BURGER menu in Ra'anana — a kosher burger restaurant where every dish starts on a hot plancha. Premium kosher burgers: quality beef ground in-house daily, soft buns, fresh vegetables, and house-made sauces.",
+          "Welcome to the NB BURGER menu in Ra'anana - a kosher burger restaurant where every dish starts on a hot plancha. Premium kosher burgers: quality beef ground in-house daily, soft buns, fresh vegetables, and house-made sauces.",
           "Our full menu covers everything for a complete meal: burgers from classic to truffle aioli and confit garlic; combo meals with a side and soft drink; crispy sides; fresh salads; house sauces; and cold drinks.",
-          "Browse the categories, pick your dish, and order for pickup or delivery — 96 Ahuza St., Ra'anana."
+          "Browse the categories, pick your dish, and order for pickup or delivery - 96 Ahuza St., Ra'anana."
         ]),
         categoryIntros: {
           "cat-burgers":
-            "Beef patties ground in-house and seared on the plancha — where crust, juiciness, and depth of flavor come together.",
+            "Beef patties ground in-house and seared on the plancha - where crust, juiciness, and depth of flavor come together.",
           "cat-meals":
-            "Complete meals on one plate — your burger, a side of your choice, and a soft drink.",
+            "Complete meals on one plate - your burger, a side of your choice, and a soft drink.",
           "cat-sides":
             "Sides that complete the bite: crispy fries, golden home fries, juicy wings, or crunchy nuggets.",
           "cat-salads":
-            "Fresh salads from the kitchen — baby leaves, romaine, croutons, parmesan, and dressings made in-house.",
+            "Fresh salads from the kitchen - baby leaves, romaine, croutons, parmesan, and dressings made in-house.",
           "cat-sauces":
-            "House sauces that elevate every dish — from truffle aioli to smoky chipotle, honey mustard, confit garlic, ketchup, and classic mayo.",
+            "House sauces that elevate every dish - from truffle aioli to smoky chipotle, honey mustard, confit garlic, ketchup, and classic mayo.",
           "cat-soft-drinks":
-            "Cold soft drinks to round out your meal — water, soda, lemonade, cola, Sprite, Fanta, grape juice, and iced tea.",
+            "Cold soft drinks to round out your meal - water, soda, lemonade, cola, Sprite, Fanta, grape juice, and iced tea.",
           "cat-beers":
-            "Bottled beers that pair well with a burger meal — Corona, Stella Artois, Heineken, and Goldstar."
+            "Bottled beers that pair well with a burger meal - Corona, Stella Artois, Heineken, and Goldstar."
         }
       },
       locations: {
         introduction: joinParagraphs([
-          "Find NB BURGER in Ra'anana — address, hours, navigation, and delivery areas.",
+          "Find NB BURGER in Ra'anana - address, hours, navigation, and delivery areas.",
           "Dine in or order delivery to nearby zones."
         ])
       },
@@ -364,7 +364,7 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
         sectionTitle: "Kosher under rabbinate supervision",
         introduction: joinParagraphs([
           "NB BURGER is a kosher burger restaurant under rabbinate supervision.",
-          "Updated kashrut details will appear on this page — content is managed from the admin panel."
+          "Updated kashrut details will appear on this page - content is managed from the admin panel."
         ]),
         cta: {
           title: "Ready to order?",
@@ -389,7 +389,7 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
         "Des ingrédients choisis avec soin."
       ]),
       bottomContent: joinParagraphs([
-        "Chaque burger est saisi à la commande et servi exactement comme il se doit — juteux, précis, sans compromis.",
+        "Chaque burger est saisi à la commande et servi exactement comme il se doit - juteux, précis, sans compromis.",
         "Parce qu'au fond, il n'est pas nécessaire de réinventer le burger.",
         "Il suffit de le préparer comme il se doit."
       ]),
@@ -429,7 +429,7 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
       }
     },
     about: {
-      sectionTitle: "NB BURGER — où chaque bouchée compte",
+      sectionTitle: "NB BURGER - où chaque bouchée compte",
       introduction: joinParagraphs([
         "Burgers casher au bœuf de qualité, ingrédients frais et une expérience culinaire sincère.",
         "Chez NB BURGER, un bon burger commence par les ingrédients et se termine par une expérience mémorable."
@@ -440,24 +440,24 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
     },
     menu: {
       introduction: joinParagraphs([
-        "Bienvenue sur la carte des burgers NB BURGER à Ra'anana — restaurant casher où chaque plat naît sur la plancha.",
+        "Bienvenue sur la carte des burgers NB BURGER à Ra'anana - restaurant casher où chaque plat naît sur la plancha.",
         "Notre carte complète : burgers, formules, accompagnements, salades, sauces et boissons fraîches.",
-        "Parcourez les catégories et commandez — 96 rue Ahuza, Ra'anana."
+        "Parcourez les catégories et commandez - 96 rue Ahuza, Ra'anana."
       ]),
       categoryIntros: {
         "cat-burgers":
-          "Steaks hachés préparés sur place et saisis sur la plancha — croûte, jus et profondeur de saveur.",
-        "cat-meals": "Formules complètes — burger, accompagnement et boisson.",
+          "Steaks hachés préparés sur place et saisis sur la plancha - croûte, jus et profondeur de saveur.",
+        "cat-meals": "Formules complètes - burger, accompagnement et boisson.",
         "cat-sides": "Accompagnements croustillants : frites, wings, nuggets.",
         "cat-salads": "Salades fraîches du kitchen avec vinaigrettes maison.",
         "cat-sauces": "Sauces maison pour relever chaque plat.",
         "cat-soft-drinks": "Boissons fraîches pour compléter le repas.",
-        "cat-beers": "Bières en bouteille — Corona, Stella, Heineken, Goldstar."
+        "cat-beers": "Bières en bouteille - Corona, Stella, Heineken, Goldstar."
       }
     },
     locations: {
       introduction: joinParagraphs([
-        "Trouvez NB BURGER à Ra'anana — adresse, horaires et zones de livraison.",
+        "Trouvez NB BURGER à Ra'anana - adresse, horaires et zones de livraison.",
         "Sur place ou en livraison."
       ])
     },
@@ -465,7 +465,7 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
       sectionTitle: "Casher sous supervision rabbinique",
       introduction: joinParagraphs([
         "NB BURGER est un restaurant de burgers casher sous supervision rabbinique.",
-        "Les détails de cacherout mis à jour apparaîtront sur cette page — le contenu est géré depuis l'administration."
+        "Les détails de cacherout mis à jour apparaîtront sur cette page - le contenu est géré depuis l'administration."
       ]),
       cta: {
         title: "Prêt à commander ?",

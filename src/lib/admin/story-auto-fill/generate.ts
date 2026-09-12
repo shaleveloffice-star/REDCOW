@@ -64,7 +64,7 @@ function resolveCta(
   return {
     label: "לתפריט",
     href: "/menu",
-    body: "אם בא לכם להמשיך משם — התפריט מחכה."
+    body: "אם בא לכם להמשיך משם - התפריט מחכה."
   };
 }
 
@@ -93,7 +93,7 @@ function buildTitle(input: StoryAutoFillInput): string {
     case "guide":
       return angle ? `${primary}: ${angle}` : `מדריך קצר על ${primary}`;
     case "comparison":
-      return angle ? `${primary} — ${angle}` : `${primary}: נקודות להשוואה`;
+      return angle ? `${primary} - ${angle}` : `${primary}: נקודות להשוואה`;
     case "faq":
       return angle ? `${primary}: שאלות נפוצות` : `שאלות נפוצות על ${primary}`;
     case "brand":
@@ -111,11 +111,11 @@ function buildSubtitle(input: StoryAutoFillInput, title: string): string {
   const angle = trimSentence(input.angle);
   if (input.storyType === "magazine") {
     return angle
-      ? `מבט ענייני על ${primary}: ${angle}. בלי הגזמות — רק מה שרלוונטי להבנה.`
+      ? `מבט ענייני על ${primary}: ${angle}. בלי הגזמות - רק מה שרלוונטי להבנה.`
       : `מבט ענייני על ${primary}, מתוך ההקשר של מסעדה מקומית ברעננה.`;
   }
   if (input.storyType === "guide") {
-    return `הסבר מסודר על ${primary}${angle ? ` — ${angle}` : ""}, בצורה קריאה וברורה.`;
+    return `הסבר מסודר על ${primary}${angle ? ` - ${angle}` : ""}, בצורה קריאה וברורה.`;
   }
   if (input.storyType === "faq") {
     return `תשובות קצרות לשאלות נפוצות סביב ${primary}.`;
@@ -126,7 +126,7 @@ function buildSubtitle(input: StoryAutoFillInput, title: string): string {
   if (input.storyType === "food") {
     return `הסתכלות קולינרית על ${primary}${angle ? `: ${angle}` : ""}.`;
   }
-  return `הקשר קצר למותג סביב ${primary}${angle ? ` — ${angle}` : ""}. (${title})`.slice(0, 180);
+  return `הקשר קצר למותג סביב ${primary}${angle ? ` - ${angle}` : ""}. (${title})`.slice(0, 180);
 }
 
 function buildMeta(title: string, subtitle: string, primary: string): {
@@ -182,7 +182,7 @@ function faqBody(primary: string, secondaries: string[]): string {
     `הנקודה המרכזית היא בהירות: מה מחפשים, מה מקבלים, ומה כדאי לבדוק לפני שמזמינים או מגיעים.`,
     ``,
     `### איך ${s1} קשור לנושא?`,
-    `${s1} נכנס כאן כהקשר משלים — לא כסיסמה, אלא כחלק מהתמונה המלאה של הבחירה.`,
+    `${s1} נכנס כאן כהקשר משלים - לא כסיסמה, אלא כחלק מהתמונה המלאה של הבחירה.`,
     ``,
     `### איפה רואים ${s2}?`,
     `פרטים מעודכנים על מנות ואפשרויות מופיעים בתפריט. עמוד זה נועד להסביר, לא להחליף את עמוד ההזמנה.`
@@ -206,7 +206,7 @@ function sectionPlan(
     title: angle,
     body:
       input.storyType === "magazine"
-        ? `הכתבה הזו מסתכלת על ${primary} מזווית ${angle}. המטרה היא להסביר בקצרה מה חשוב לדעת — בלי להגזים ובלי להמציא סיפורים.`
+        ? `הכתבה הזו מסתכלת על ${primary} מזווית ${angle}. המטרה היא להסביר בקצרה מה חשוב לדעת - בלי להגזים ובלי להמציא סיפורים.`
         : `כאן מרכזים הסבר ברור על ${primary}, סביב הזווית: ${angle}. הטקסט נשאר ענייני וקצר ככל האפשר.`
   };
 
@@ -216,7 +216,7 @@ function sectionPlan(
     title: `מה עומד מאחורי ${primary}`,
     body: [
       `${primary} מעניין בעיקר כשיודעים מה לבדוק: ${s1}, ${s2}, והתאמה למה שמחפשים בארוחה.`,
-      `NB BURGER פועלת ברעננה. העמוד הזה לא מחליף את התפריט או את עמוד המיקום — הוא רק מוסיף הקשר לקריאה.`
+      `NB BURGER פועלת ברעננה. העמוד הזה לא מחליף את התפריט או את עמוד המיקום - הוא רק מוסיף הקשר לקריאה.`
     ].join("\n\n")
   };
 
@@ -233,7 +233,7 @@ function sectionPlan(
     title: "איך ניגשים לזה בפועל",
     body: [
       `אם המטרה היא ${angle}, התחילו מהשאלה הפשוטה: מה חשוב לכם בארוחה הזו.`,
-      `אחר כך אפשר לעבור לתפריט או לפרטי הסניף — לפי מה שרלוונטי לרגע.`
+      `אחר כך אפשר לעבור לתפריט או לפרטי הסניף - לפי מה שרלוונטי לרגע.`
     ].join("\n\n")
   };
 
@@ -241,7 +241,7 @@ function sectionPlan(
     kind: "split-a" as const,
     kicker: s2,
     title: `${s2} ו${s3}`,
-    body: `${s2} ו${s3} משלימים זה את זה. לא חייבים להעמיק בכל פרט — מספיק להבין מה משפיע על הבחירה סביב ${primary}.`
+    body: `${s2} ו${s3} משלימים זה את זה. לא חייבים להעמיק בכל פרט - מספיק להבין מה משפיע על הבחירה סביב ${primary}.`
   };
 
   const faq = {
@@ -254,7 +254,7 @@ function sectionPlan(
   const closing = {
     kind: "long" as const,
     title: "לסיכום",
-    body: `${title.replace(/\s*\|\s*NB BURGER$/i, "")} נשאר בנושא אחד: ${primary}. אם משהו כאן רלוונטי להמשך — התפריט או עמוד המיקום הם הצעד הבא.`
+    body: `${title.replace(/\s*\|\s*NB BURGER$/i, "")} נשאר בנושא אחד: ${primary}. אם משהו כאן רלוונטי להמשך - התפריט או עמוד המיקום הם הצעד הבא.`
   };
 
   const length: StoryAutoFillLength = input.length;

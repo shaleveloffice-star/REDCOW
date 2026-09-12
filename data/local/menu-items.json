@@ -3,7 +3,7 @@
     "id": "item-nb-burger-klasi",
     "name": "המבורגר NB קלאסי",
     "description": "קציצת בקר על הפלנצ׳ה, חסה, עגבנייה, בצל סגול ורוטב הבית.",
-    "longDescription": "הקלאסיקה של NB BURGER ברעננה — בשר טרי שנטחן במקום, נצרב על הפלנצ׳ה לקבלת קראסט מושלם, ומוגש בלחמנייה רכה עם ירקות טריים ורוטב הבית. מסעדת המבורגרים כשרה ברחוב אחוזה 96.",
+    "longDescription": "הקלאסיקה של NB BURGER ברעננה - בשר טרי שנטחן במקום, נצרב על הפלנצ׳ה לקבלת קראסט מושלם, ומוגש בלחמנייה רכה עם ירקות טריים ורוטב הבית. מסעדת המבורגרים כשרה ברחוב אחוזה 96.",
     "price": 58,
     "categoryId": "cat-burgers",
     "imageUrl": "",
@@ -12,7 +12,7 @@
     "imageAlt": "",
     "primaryKeyword": "המבורגר NB קלאסי רעננה",
     "metaTitle": "המבורגר NB קלאסי | NB BURGER רעננה",
-    "metaDescription": "המבורגר NB קלאסי ברעננה — קציצת בקר על הפלנצ׳ה, ירקות טריים ורוטב הבית. NB BURGER, מסעדת המבורגרים הכשרה באחוזה 96.",
+    "metaDescription": "המבורגר NB קלאסי ברעננה - קציצת בקר על הפלנצ׳ה, ירקות טריים ורוטב הבית. NB BURGER, מסעדת המבורגרים הכשרה באחוזה 96.",
     "isActive": true,
     "tags": [
       "המבורגר",
@@ -27,7 +27,7 @@
     "id": "item-nb-burger-kamhin",
     "name": "המבורגר NB כמהין",
     "description": "קציצת בקר, איולי כמהין, חסה, עגבנייה, בצל סגול וגבינה.",
-    "longDescription": "המבורגר NB כמהין משלב בשר עסיסי על הפלנצ׳ה עם איולי כמהין עשיר, גבינה נמסה וירקות טריים. חוויית המבורגר פרימיום ברעננה — NB BURGER, מסעדת המבורגרים הכשרה.",
+    "longDescription": "המבורגר NB כמהין משלב בשר עסיסי על הפלנצ׳ה עם איולי כמהין עשיר, גבינה נמסה וירקות טריים. חוויית המבורגר פרימיום ברעננה - NB BURGER, מסעדת המבורגרים הכשרה.",
     "price": 64,
     "categoryId": "cat-burgers",
     "imageUrl": "",
@@ -36,7 +36,7 @@
     "imageAlt": "",
     "primaryKeyword": "המבורגר כמהין רעננה",
     "metaTitle": "המבורגר NB כמהין | NB BURGER רעננה",
-    "metaDescription": "המבורגר NB כמהין ברעננה — בקר על הפלנצ׳ה, איולי כמהין וגבינה. NB BURGER, מסעדת המבורגרים הכשרה באחוזה 96.",
+    "metaDescription": "המבורגר NB כמהין ברעננה - בקר על הפלנצ׳ה, איולי כמהין וגבינה. NB BURGER, מסעדת המבורגרים הכשרה באחוזה 96.",
     "isActive": true,
     "tags": [
       "המבורגר",
@@ -50,7 +50,7 @@
     "id": "item-nb-burger-konfi",
     "name": "המבורגר NB קונפי",
     "description": "קציצת בקר, איולי שום קונפי, חסה, עגבנייה, בצל מקורמל וגבינה.",
-    "longDescription": "המבורגר NB קונפי — קציצת בקר שנצרבה על הפלנצ׳ה, איולי שום קונפי ארומטי, בצל מקורמל מתוק וגבינה נמסה. טעם עמוק ומדויק מ-NB BURGER, מסעדת ההמבורגרים ברעננה.",
+    "longDescription": "המבורגר NB קונפי - קציצת בקר שנצרבה על הפלנצ׳ה, איולי שום קונפי ארומטי, בצל מקורמל מתוק וגבינה נמסה. טעם עמוק ומדויק מ-NB BURGER, מסעדת ההמבורגרים ברעננה.",
     "price": 66,
     "categoryId": "cat-burgers",
     "imageUrl": "",
@@ -59,7 +59,7 @@
     "imageAlt": "",
     "primaryKeyword": "המבורגר קונפי רעננה",
     "metaTitle": "המבורגר NB קונפי | NB BURGER רעננה",
-    "metaDescription": "המבורגר NB קונפי ברעננה — בקר על הפלנצ׳ה, איולי שום קונפי ובצל מקורמל. NB BURGER, מסעדת המבורגרים הכשרה.",
+    "metaDescription": "המבורגר NB קונפי ברעננה - בקר על הפלנצ׳ה, איולי שום קונפי ובצל מקורמל. NB BURGER, מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "המבורגר",
@@ -73,7 +73,7 @@
     "id": "item-nb-burger-vegan",
     "name": "המבורגר NB טבעוני",
     "description": "קציצה טבעונית על הפלנצ׳ה, חסה, עגבנייה, בצל סגול, מלפפון חמוץ ורוטב הבית.",
-    "longDescription": "המבורגר NB טבעוני — קציצה צמחונית שנצרבה על הפלנצ׳ה עם ירקות טריים ורוטב הבית, בלחמנייה רכה. אופציה טבעונית מלאה ב-NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "המבורגר NB טבעוני - קציצה צמחונית שנצרבה על הפלנצ׳ה עם ירקות טריים ורוטב הבית, בלחמנייה רכה. אופציה טבעונית מלאה ב-NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 58,
     "categoryId": "cat-burgers",
     "imageUrl": "",
@@ -82,7 +82,7 @@
     "imageAlt": "",
     "primaryKeyword": "המבורגר טבעוני רעננה",
     "metaTitle": "המבורגר NB טבעוני | NB BURGER רעננה",
-    "metaDescription": "המבורגר NB טבעוני ברעננה — קציצה צמחונית על הפלנצ׳ה וירקות טריים. NB BURGER, מסעדת המבורגרים הכשרה באחוזה 96.",
+    "metaDescription": "המבורגר NB טבעוני ברעננה - קציצה צמחונית על הפלנצ׳ה וירקות טריים. NB BURGER, מסעדת המבורגרים הכשרה באחוזה 96.",
     "isActive": true,
     "tags": [
       "המבורגר",
@@ -96,7 +96,7 @@
     "id": "item-meal-nb-klasi",
     "name": "ארוחת NB קלאסי",
     "description": "המבורגר NB קלאסי, תוספת לבחירה ושתייה קלה.",
-    "longDescription": "ארוחת NB קלאסי — ההמבורגר הקלאסי שלנו עם תוספת לבחירה ושתייה קלה. ארוחה מלאה ומשביעה מ-NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
+    "longDescription": "ארוחת NB קלאסי - ההמבורגר הקלאסי שלנו עם תוספת לבחירה ושתייה קלה. ארוחה מלאה ומשביעה מ-NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
     "price": 78,
     "categoryId": "cat-meals",
     "imageUrl": "",
@@ -105,7 +105,7 @@
     "imageAlt": "",
     "primaryKeyword": "ארוחת המבורגר רעננה",
     "metaTitle": "ארוחת NB קלאסי | NB BURGER רעננה",
-    "metaDescription": "ארוחת NB קלאסי ברעננה — המבורגר קלאסי, תוספת ושתייה. NB BURGER, מסעדת המבורגרים הכשרה באחוזה 96.",
+    "metaDescription": "ארוחת NB קלאסי ברעננה - המבורגר קלאסי, תוספת ושתייה. NB BURGER, מסעדת המבורגרים הכשרה באחוזה 96.",
     "isActive": true,
     "tags": [
       "ארוחה"
@@ -118,7 +118,7 @@
     "id": "item-meal-nb-kamhin",
     "name": "ארוחת NB כמהין",
     "description": "המבורגר NB כמהין, תוספת לבחירה ושתייה קלה.",
-    "longDescription": "ארוחת NB כמהין — המבורגר עם איולי כמהין, תוספת לבחירה ושתייה קלה. ארוחה מלאה מ-NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "ארוחת NB כמהין - המבורגר עם איולי כמהין, תוספת לבחירה ושתייה קלה. ארוחה מלאה מ-NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 84,
     "categoryId": "cat-meals",
     "imageUrl": "",
@@ -127,7 +127,7 @@
     "imageAlt": "",
     "primaryKeyword": "ארוחת המבורגר כמהין רעננה",
     "metaTitle": "ארוחת NB כמהין | NB BURGER רעננה",
-    "metaDescription": "ארוחת NB כמהין ברעננה — המבורגר כמהין, תוספת ושתייה. NB BURGER, מסעדת המבורגרים הכשרה.",
+    "metaDescription": "ארוחת NB כמהין ברעננה - המבורגר כמהין, תוספת ושתייה. NB BURGER, מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "ארוחה"
@@ -140,7 +140,7 @@
     "id": "item-side-fries",
     "name": "צ'יפס",
     "description": "צ'יפס פריך עם תיבול הבית.",
-    "longDescription": "צ'יפס פריך וזהוב עם תיבול הבית — התוספת הקלאסית ליד ההמבורגר ב-NB BURGER רעננה. מושלם ליד כל מנה מהתפריט.",
+    "longDescription": "צ'יפס פריך וזהוב עם תיבול הבית - התוספת הקלאסית ליד ההמבורגר ב-NB BURGER רעננה. מושלם ליד כל מנה מהתפריט.",
     "price": 22,
     "categoryId": "cat-sides",
     "imageUrl": "",
@@ -149,7 +149,7 @@
     "imageAlt": "",
     "primaryKeyword": "צ'יפס רעננה",
     "metaTitle": "צ'יפס | NB BURGER רעננה",
-    "metaDescription": "צ'יפס פריך עם תיבול הבית — תוספת מ-NB BURGER, מסעדת המבורגרים הכשרה ברעננה. הזמינו ליד ההמבורגר.",
+    "metaDescription": "צ'יפס פריך עם תיבול הבית - תוספת מ-NB BURGER, מסעדת המבורגרים הכשרה ברעננה. הזמינו ליד ההמבורגר.",
     "isActive": true,
     "tags": [
       "תוספת"
@@ -162,7 +162,7 @@
     "id": "item-side-home-fries",
     "name": "הום פרייז",
     "description": "תפוחי אדמה חתוכים, מטוגנים ומתובלים.",
-    "longDescription": "הום פרייז — פרוסות תפוחי אדמה מטוגנות ומתובלות, פריכות מבחוץ ורכות מבפנים. תוספת מעולה מ-NB BURGER, מסעדת ההמבורגרים ברעננה.",
+    "longDescription": "הום פרייז - פרוסות תפוחי אדמה מטוגנות ומתובלות, פריכות מבחוץ ורכות מבפנים. תוספת מעולה מ-NB BURGER, מסעדת ההמבורגרים ברעננה.",
     "price": 26,
     "categoryId": "cat-sides",
     "imageUrl": "",
@@ -171,7 +171,7 @@
     "imageAlt": "",
     "primaryKeyword": "הום פרייז רעננה",
     "metaTitle": "הום פרייז | NB BURGER רעננה",
-    "metaDescription": "הום פרייז מ-NB BURGER ברעננה — תפוחי אדמה מתובלים ופריכים. מסעדת המבורגרים הכשרה באחוזה 96.",
+    "metaDescription": "הום פרייז מ-NB BURGER ברעננה - תפוחי אדמה מתובלים ופריכים. מסעדת המבורגרים הכשרה באחוזה 96.",
     "isActive": true,
     "tags": [
       "תוספת"
@@ -184,7 +184,7 @@
     "id": "item-side-wings",
     "name": "כנפיים",
     "description": "כנפיים עסיסיות עם רוטב לבחירה.",
-    "longDescription": "כנפיים עסיסיות ופריכות, מוגשות עם רוטב לבחירה. מנה מושלמת לשיתוף או כתוספת ליד ההמבורגר — NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "כנפיים עסיסיות ופריכות, מוגשות עם רוטב לבחירה. מנה מושלמת לשיתוף או כתוספת ליד ההמבורגר - NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 34,
     "categoryId": "cat-sides",
     "imageUrl": "",
@@ -193,7 +193,7 @@
     "imageAlt": "",
     "primaryKeyword": "כנפיים רעננה",
     "metaTitle": "כנפיים | NB BURGER רעננה",
-    "metaDescription": "כנפיים עסיסיות מ-NB BURGER ברעננה — תוספת מושלמת ליד ההמבורגר. מסעדת המבורגרים הכשרה.",
+    "metaDescription": "כנפיים עסיסיות מ-NB BURGER ברעננה - תוספת מושלמת ליד ההמבורגר. מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "תוספת"
@@ -215,7 +215,7 @@
     "imageAlt": "",
     "primaryKeyword": "נאגטס רעננה",
     "metaTitle": "4 נאגטס | NB BURGER רעננה",
-    "metaDescription": "4 נאגטס עוף פריכים מ-NB BURGER ברעננה. תוספת מושלמת ליד ההמבורגר — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "4 נאגטס עוף פריכים מ-NB BURGER ברעננה. תוספת מושלמת ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "תוספת",
@@ -229,7 +229,7 @@
     "id": "item-side-nuggets-7",
     "name": "7 יחידות נאגטס",
     "description": "7 נאגטס עוף פריכים, מוגשים עם רוטב לבחירה.",
-    "longDescription": "7 נאגטס עוף פריכים — מנה גדולה יותר לשיתוף או לרעב גדול. מ-NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
+    "longDescription": "7 נאגטס עוף פריכים - מנה גדולה יותר לשיתוף או לרעב גדול. מ-NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
     "price": 38,
     "categoryId": "cat-sides",
     "imageUrl": "",
@@ -238,7 +238,7 @@
     "imageAlt": "",
     "primaryKeyword": "נאגטס עוף רעננה",
     "metaTitle": "7 נאגטס | NB BURGER רעננה",
-    "metaDescription": "7 נאגטס עוף פריכים מ-NB BURGER ברעננה. תוספת עוף מושלמת — מסעדת המבורגרים הכשרה באחוזה 96.",
+    "metaDescription": "7 נאגטס עוף פריכים מ-NB BURGER ברעננה. תוספת עוף מושלמת - מסעדת המבורגרים הכשרה באחוזה 96.",
     "isActive": true,
     "tags": [
       "תוספת",
@@ -252,7 +252,7 @@
     "id": "item-salad-green",
     "name": "סלט ירוק",
     "description": "עלי בייבי, מלפפון, עגבנייה, בצל סגול ורוטב לבחירה.",
-    "longDescription": "סלט ירוק טרי עם עלי בייבי, ירקות חתוכים ורוטב לבחירה. אופציה קלה ורעננה ליד ההמבורגר — NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "סלט ירוק טרי עם עלי בייבי, ירקות חתוכים ורוטב לבחירה. אופציה קלה ורעננה ליד ההמבורגר - NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 28,
     "categoryId": "cat-salads",
     "imageUrl": "",
@@ -261,7 +261,7 @@
     "imageAlt": "",
     "primaryKeyword": "סלט ירוק רעננה",
     "metaTitle": "סלט ירוק | NB BURGER רעננה",
-    "metaDescription": "סלט ירוק טרי מ-NB BURGER ברעננה — ירקות טריים ורוטב לבחירה. מסעדת המבורגרים הכשרה.",
+    "metaDescription": "סלט ירוק טרי מ-NB BURGER ברעננה - ירקות טריים ורוטב לבחירה. מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "סלט"
@@ -274,7 +274,7 @@
     "id": "item-salad-caesar-small",
     "name": "סלט קיסר קטן",
     "description": "חסה רומaine, קרוטונים, פרמזן ורוטב קיסר.",
-    "longDescription": "סלט קיסר קטן — חסה פריכה, קרוטונים, פרמזן ורוטב קיסר קלאסי. מנה מושלמת לפתיחה או לצד ההמבורגר — NB BURGER רעננה.",
+    "longDescription": "סלט קיסר קטן - חסה פריכה, קרוטונים, פרמזן ורוטב קיסר קלאסי. מנה מושלמת לפתיחה או לצד ההמבורגר - NB BURGER רעננה.",
     "price": 32,
     "categoryId": "cat-salads",
     "imageUrl": "",
@@ -283,7 +283,7 @@
     "imageAlt": "",
     "primaryKeyword": "סלט קיסר רעננה",
     "metaTitle": "סלט קיסר קטן | NB BURGER רעננה",
-    "metaDescription": "סלט קיסר קטן מ-NB BURGER ברעננה — חסה, קרוטונים ופרמזן. מסעדת המבורגרים הכשרה.",
+    "metaDescription": "סלט קיסר קטן מ-NB BURGER ברעננה - חסה, קרוטונים ופרמזן. מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "סלט"
@@ -295,8 +295,8 @@
   {
     "id": "item-salad-caesar-large",
     "name": "סלט קיסר גדול",
-    "description": "חסה רומaine, קרוטונים, פרמזן ורוטב קיסר — מנה גדולה.",
-    "longDescription": "סלט קיסר גדול — מנה משביעה עם חסה רומaine, קרוטונים, פרמזן ורוטב קיסר. NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
+    "description": "חסה רומaine, קרוטונים, פרמזן ורוטב קיסר - מנה גדולה.",
+    "longDescription": "סלט קיסר גדול - מנה משביעה עם חסה רומaine, קרוטונים, פרמזן ורוטב קיסר. NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
     "price": 42,
     "categoryId": "cat-salads",
     "imageUrl": "",
@@ -305,7 +305,7 @@
     "imageAlt": "",
     "primaryKeyword": "סלט קיסר גדול רעננה",
     "metaTitle": "סלט קיסר גדול | NB BURGER רעננה",
-    "metaDescription": "סלט קיסר גדול מ-NB BURGER ברעננה — מנה משביעה עם חסה, קרוטונים ופרמזן. מסעדת המבורגרים הכשרה.",
+    "metaDescription": "סלט קיסר גדול מ-NB BURGER ברעננה - מנה משביעה עם חסה, קרוטונים ופרמזן. מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "סלט"
@@ -318,7 +318,7 @@
     "id": "item-sauce-aioli-konfi",
     "name": "איולי שום קונפי",
     "description": "איולי ביתי עם שום קונפי.",
-    "longDescription": "איולי שום קונפי ביתי — רוטב עשיר וארומטי שמשדרג כל המבורגר. מ-NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "איולי שום קונפי ביתי - רוטב עשיר וארומטי שמשדרג כל המבורגר. מ-NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 6,
     "categoryId": "cat-sauces",
     "imageUrl": "",
@@ -327,7 +327,7 @@
     "imageAlt": "",
     "primaryKeyword": "איולי שום קונפי",
     "metaTitle": "איולי שום קונפי | NB BURGER רעננה",
-    "metaDescription": "איולי שום קונפי ביתי מ-NB BURGER ברעננה. רוטב מושלם ליד ההמבורגר — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "איולי שום קונפי ביתי מ-NB BURGER ברעננה. רוטב מושלם ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "רטב"
@@ -340,7 +340,7 @@
     "id": "item-sauce-aioli-honey-mustard",
     "name": "איולי דבש וחרדל",
     "description": "איולי מתקתק עם דבש וחרדל.",
-    "longDescription": "איולי דבש וחרדל — שילוב מתקתק וחריף שמתאים לתוספות ולהמבורגר. מ-NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "איולי דבש וחרדל - שילוב מתקתק וחריף שמתאים לתוספות ולהמבורגר. מ-NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 6,
     "categoryId": "cat-sauces",
     "imageUrl": "",
@@ -349,7 +349,7 @@
     "imageAlt": "",
     "primaryKeyword": "איולי דבש וחרדל",
     "metaTitle": "איולי דבש וחרדל | NB BURGER רעננה",
-    "metaDescription": "איולי דבש וחרדל מ-NB BURGER ברעננה. רוטב מתקתק ליד ההמבורגר — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "איולי דבש וחרדל מ-NB BURGER ברעננה. רוטב מתקתק ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "רטב"
@@ -362,7 +362,7 @@
     "id": "item-sauce-aioli-kamhin",
     "name": "איולי כמהין",
     "description": "איולי כמהין עשיר וקרמי.",
-    "longDescription": "איולי כמהין — רוטב קרמי ועשיר בניחוח כמהין, מושלם ליד ההמבורגר או לתוספות. NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "איולי כמהין - רוטב קרמי ועשיר בניחוח כמהין, מושלם ליד ההמבורגר או לתוספות. NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 6,
     "categoryId": "cat-sauces",
     "imageUrl": "",
@@ -371,7 +371,7 @@
     "imageAlt": "",
     "primaryKeyword": "איולי כמהין",
     "metaTitle": "איולי כמהין | NB BURGER רעננה",
-    "metaDescription": "איולי כמהין מ-NB BURGER ברעננה — רוטב קרמי ועשיר. מסעדת המבורגרים הכשרה באחוזה 96.",
+    "metaDescription": "איולי כמהין מ-NB BURGER ברעננה - רוטב קרמי ועשיר. מסעדת המבורגרים הכשרה באחוזה 96.",
     "isActive": true,
     "tags": [
       "רטב"
@@ -384,7 +384,7 @@
     "id": "item-sauce-aioli-mint",
     "name": "איולי נענע",
     "description": "איולי רענן עם נענע.",
-    "longDescription": "איולי נענע — רוטב רענן וקליל שמאזן את עושר ההמבורגר. מ-NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "איולי נענע - רוטב רענן וקליל שמאזן את עושר ההמבורגר. מ-NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 6,
     "categoryId": "cat-sauces",
     "imageUrl": "",
@@ -393,7 +393,7 @@
     "imageAlt": "",
     "primaryKeyword": "איולי נענע",
     "metaTitle": "איולי נענע | NB BURGER רעננה",
-    "metaDescription": "איולי נענע מ-NB BURGER ברעננה. רוטב רענן ליד ההמבורגר — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "איולי נענע מ-NB BURGER ברעננה. רוטב רענן ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "רטב"
@@ -406,7 +406,7 @@
     "id": "item-sauce-aioli-chipotle",
     "name": "איולי צ'יפוטלה",
     "description": "איולי מעושן וחריף עם צ'יפוטלה.",
-    "longDescription": "איולי צ'יפוטלה — רוטב מעושן וחריף לחובבי טעם חזק. מ-NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
+    "longDescription": "איולי צ'יפוטלה - רוטב מעושן וחריף לחובבי טעם חזק. מ-NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
     "price": 6,
     "categoryId": "cat-sauces",
     "imageUrl": "",
@@ -415,7 +415,7 @@
     "imageAlt": "",
     "primaryKeyword": "איולי צ'יפוטלה",
     "metaTitle": "איולי צ'יפוטלה | NB BURGER רעננה",
-    "metaDescription": "איולי צ'יפוטלה מ-NB BURGER ברעננה — רוטב מעושן וחריף. מסעדת המבורגרים הכשרה.",
+    "metaDescription": "איולי צ'יפוטלה מ-NB BURGER ברעננה - רוטב מעושן וחריף. מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "רטב",
@@ -429,7 +429,7 @@
     "id": "item-sauce-ketchup",
     "name": "קטשופ",
     "description": "קטשופ קלאסי.",
-    "longDescription": "קטשופ קלאסי — הרוטב הבסיסי לצ'יפס, נאגטס ולכל תוספת. NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "קטשופ קלאסי - הרוטב הבסיסי לצ'יפס, נאגטס ולכל תוספת. NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 5,
     "categoryId": "cat-sauces",
     "imageUrl": "",
@@ -438,7 +438,7 @@
     "imageAlt": "",
     "primaryKeyword": "קטשופ",
     "metaTitle": "קטשופ | NB BURGER רעננה",
-    "metaDescription": "קטשופ מ-NB BURGER ברעננה. רוטב קלאסי ליד התוספות — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "קטשופ מ-NB BURGER ברעננה. רוטב קלאסי ליד התוספות - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "רטב"
@@ -451,7 +451,7 @@
     "id": "item-sauce-mayo",
     "name": "מיונז",
     "description": "מיונז קלאסי.",
-    "longDescription": "מיונז קלאסי — רוטב חלק ומוכר שמתאים לכל מנה. NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
+    "longDescription": "מיונז קלאסי - רוטב חלק ומוכר שמתאים לכל מנה. NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
     "price": 5,
     "categoryId": "cat-sauces",
     "imageUrl": "",
@@ -460,7 +460,7 @@
     "imageAlt": "",
     "primaryKeyword": "מיונז",
     "metaTitle": "מיונז | NB BURGER רעננה",
-    "metaDescription": "מיונז מ-NB BURGER ברעננה. רוטב קלאסי ליד ההמבורגר והתוספות — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "מיונז מ-NB BURGER ברעננה. רוטב קלאסי ליד ההמבורגר והתוספות - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "רטב"
@@ -473,7 +473,7 @@
     "id": "item-drink-water",
     "name": "מים מינרלים",
     "description": "בקבוק מים מינרלים.",
-    "longDescription": "מים מינרלים קרים — השתייה המושלמת ליד ההמבורגר. NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "מים מינרלים קרים - השתייה המושלמת ליד ההמבורגר. NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 8,
     "categoryId": "cat-soft-drinks",
     "imageUrl": "",
@@ -482,7 +482,7 @@
     "imageAlt": "",
     "primaryKeyword": "מים מינרלים רעננה",
     "metaTitle": "מים מינרלים | NB BURGER רעננה",
-    "metaDescription": "מים מינרלים מ-NB BURGER ברעננה. שתייה קלה ליד הארוחה — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "מים מינרלים מ-NB BURGER ברעננה. שתייה קלה ליד הארוחה - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "שתייה"
@@ -495,7 +495,7 @@
     "id": "item-drink-soda",
     "name": "סודה",
     "description": "סודה מוגזת.",
-    "longDescription": "סודה מוגזת וקרה — משקה מרענן ליד ההמבורגר. NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "סודה מוגזת וקרה - משקה מרענן ליד ההמבורגר. NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 10,
     "categoryId": "cat-soft-drinks",
     "imageUrl": "",
@@ -504,7 +504,7 @@
     "imageAlt": "",
     "primaryKeyword": "סודה רעננה",
     "metaTitle": "סודה | NB BURGER רעננה",
-    "metaDescription": "סודה מוגזת מ-NB BURGER ברעננה. שתייה קלה ליד הארוחה — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "סודה מוגזת מ-NB BURGER ברעננה. שתייה קלה ליד הארוחה - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "שתייה"
@@ -517,7 +517,7 @@
     "id": "item-drink-lemonade",
     "name": "לימונדה",
     "description": "לימונדה קרה ומרעננת.",
-    "longDescription": "לימונדה קרה ומרעננת — משקה מושלם ליד ההמבורגר בימים חמים. NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "לימונדה קרה ומרעננת - משקה מושלם ליד ההמבורגר בימים חמים. NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 14,
     "categoryId": "cat-soft-drinks",
     "imageUrl": "",
@@ -526,7 +526,7 @@
     "imageAlt": "",
     "primaryKeyword": "לימונדה רעננה",
     "metaTitle": "לימונדה | NB BURGER רעננה",
-    "metaDescription": "לימונדה קרה מ-NB BURGER ברעננה. שתייה מרעננת ליד ההמבורגר — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "לימונדה קרה מ-NB BURGER ברעננה. שתייה מרעננת ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "שתייה"
@@ -539,7 +539,7 @@
     "id": "item-drink-cola",
     "name": "קולה",
     "description": "קוקה קולה.",
-    "longDescription": "קוקה קולה קרה — הקלאסיקה ליד כל ארוחה. NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
+    "longDescription": "קוקה קולה קרה - הקלאסיקה ליד כל ארוחה. NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
     "price": 10,
     "categoryId": "cat-soft-drinks",
     "imageUrl": "",
@@ -548,7 +548,7 @@
     "imageAlt": "",
     "primaryKeyword": "קולה רעננה",
     "metaTitle": "קולה | NB BURGER רעננה",
-    "metaDescription": "קוקה קולה מ-NB BURGER ברעננה. שתייה קלה ליד ההמבורגר — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "קוקה קולה מ-NB BURGER ברעננה. שתייה קלה ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "שתייה"
@@ -561,7 +561,7 @@
     "id": "item-drink-cola-zero",
     "name": "קולה זירו",
     "description": "קוקה קולה זירו.",
-    "longDescription": "קוקה קולה זירו — אותו טעם, ללא סוכר. NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "קוקה קולה זירו - אותו טעם, ללא סוכר. NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 10,
     "categoryId": "cat-soft-drinks",
     "imageUrl": "",
@@ -570,7 +570,7 @@
     "imageAlt": "",
     "primaryKeyword": "קולה זירו רעננה",
     "metaTitle": "קולה זירו | NB BURGER רעננה",
-    "metaDescription": "קוקה קולה זירו מ-NB BURGER ברעננה. שתייה קלה ליד הארוחה — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "קוקה קולה זירו מ-NB BURGER ברעננה. שתייה קלה ליד הארוחה - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "שתייה"
@@ -583,7 +583,7 @@
     "id": "item-drink-sprite",
     "name": "ספרייט",
     "description": "ספרייט.",
-    "longDescription": "ספרייט מוגז ומרענן — משקה לימון-ליימון ליד ההמבורגר. NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "ספרייט מוגז ומרענן - משקה לימון-ליימון ליד ההמבורגר. NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 10,
     "categoryId": "cat-soft-drinks",
     "imageUrl": "",
@@ -592,7 +592,7 @@
     "imageAlt": "",
     "primaryKeyword": "ספרייט רעננה",
     "metaTitle": "ספרייט | NB BURGER רעננה",
-    "metaDescription": "ספרייט מ-NB BURGER ברעננה. שתייה קלה ליד ההמבורגר — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "ספרייט מ-NB BURGER ברעננה. שתייה קלה ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "שתייה"
@@ -605,7 +605,7 @@
     "id": "item-drink-sprite-zero",
     "name": "ספרייט זירו",
     "description": "ספרייט זירו.",
-    "longDescription": "ספרייט זירו — רעננות לימון-ליימון ללא סוכר. NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "ספרייט זירו - רעננות לימון-ליימון ללא סוכר. NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 10,
     "categoryId": "cat-soft-drinks",
     "imageUrl": "",
@@ -614,7 +614,7 @@
     "imageAlt": "",
     "primaryKeyword": "ספרייט זירו רעננה",
     "metaTitle": "ספרייט זירו | NB BURGER רעננה",
-    "metaDescription": "ספרייט זירו מ-NB BURGER ברעננה. שתייה קלה ליד הארוחה — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "ספרייט זירו מ-NB BURGER ברעננה. שתייה קלה ליד הארוחה - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "שתייה"
@@ -627,7 +627,7 @@
     "id": "item-drink-fanta",
     "name": "פאנטה",
     "description": "פאנטה תפוזים.",
-    "longDescription": "פאנטה תפוזים — משקה מוגז ומתוק ליד ההמבורגר. NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
+    "longDescription": "פאנטה תפוזים - משקה מוגז ומתוק ליד ההמבורגר. NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
     "price": 10,
     "categoryId": "cat-soft-drinks",
     "imageUrl": "",
@@ -636,7 +636,7 @@
     "imageAlt": "",
     "primaryKeyword": "פאנטה רעננה",
     "metaTitle": "פאנטה | NB BURGER רעננה",
-    "metaDescription": "פאנטה תפוזים מ-NB BURGER ברעננה. שתייה קלה ליד ההמבורגר — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "פאנטה תפוזים מ-NB BURGER ברעננה. שתייה קלה ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "שתייה"
@@ -649,7 +649,7 @@
     "id": "item-drink-grape",
     "name": "ענבים",
     "description": "משקה ענבים.",
-    "longDescription": "משקה ענבים מתוק ומרענן — NB BURGER, מסעדת המבורגרים ברעננה.",
+    "longDescription": "משקה ענבים מתוק ומרענן - NB BURGER, מסעדת המבורגרים ברעננה.",
     "price": 10,
     "categoryId": "cat-soft-drinks",
     "imageUrl": "",
@@ -658,7 +658,7 @@
     "imageAlt": "",
     "primaryKeyword": "משקה ענבים רעננה",
     "metaTitle": "ענבים | NB BURGER רעננה",
-    "metaDescription": "משקה ענבים מ-NB BURGER ברעננה. שתייה קלה ליד הארוחה — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "משקה ענבים מ-NB BURGER ברעננה. שתייה קלה ליד הארוחה - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "שתייה"
@@ -671,7 +671,7 @@
     "id": "item-drink-fuzetea",
     "name": "פיוז טי",
     "description": "תה קר פיוז טי.",
-    "longDescription": "פיוז טי — תה קר מרענן ליד ההמבורגר. NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
+    "longDescription": "פיוז טי - תה קר מרענן ליד ההמבורגר. NB BURGER, מסעדת המבורגרים הכשרה ברעננה.",
     "price": 12,
     "categoryId": "cat-soft-drinks",
     "imageUrl": "",
@@ -680,7 +680,7 @@
     "imageAlt": "",
     "primaryKeyword": "פיוז טי רעננה",
     "metaTitle": "פיוז טי | NB BURGER רעננה",
-    "metaDescription": "פיוז טי מ-NB BURGER ברעננה. תה קר ליד הארוחה — מסעדת המבורגרים הכשרה.",
+    "metaDescription": "פיוז טי מ-NB BURGER ברעננה. תה קר ליד הארוחה - מסעדת המבורגרים הכשרה.",
     "isActive": true,
     "tags": [
       "שתייה"
@@ -693,7 +693,7 @@
     "id": "item-beer-corona",
     "name": "בקבוק קורונה",
     "description": "בירה קורונה בבקבוק.",
-    "longDescription": "בירה קורונה בבקבוק — ליד ההמבורגר ב-NB BURGER, מסעדת המבורגרים ברעננה. לבני 18+ בלבד.",
+    "longDescription": "בירה קורונה בבקבוק - ליד ההמבורגר ב-NB BURGER, מסעדת המבורגרים ברעננה. לבני 18+ בלבד.",
     "price": 26,
     "categoryId": "cat-beers",
     "imageUrl": "",
@@ -702,7 +702,7 @@
     "imageAlt": "",
     "primaryKeyword": "בירה קורונה רעננה",
     "metaTitle": "בקבוק קורונה | NB BURGER רעננה",
-    "metaDescription": "בירה קורונה בבקבוק מ-NB BURGER ברעננה. ליד ההמבורגר — מסעדת המבורגרים הכשרה. 18+.",
+    "metaDescription": "בירה קורונה בבקבוק מ-NB BURGER ברעננה. ליד ההמבורגר - מסעדת המבורגרים הכשרה. 18+.",
     "isActive": true,
     "tags": [
       "בירה",
@@ -716,7 +716,7 @@
     "id": "item-beer-stella",
     "name": "בקבוק סטלה",
     "description": "בירה Stella Artois בבקבוק.",
-    "longDescription": "בירה Stella Artois בבקבוק — זוג מנצח ליד ההמבורגר. NB BURGER, מסעדת המבורגרים ברעננה. 18+.",
+    "longDescription": "בירה Stella Artois בבקבוק - זוג מנצח ליד ההמבורגר. NB BURGER, מסעדת המבורגרים ברעננה. 18+.",
     "price": 26,
     "categoryId": "cat-beers",
     "imageUrl": "",
@@ -725,7 +725,7 @@
     "imageAlt": "",
     "primaryKeyword": "בירה סטלה רעננה",
     "metaTitle": "בקבוק סטלה | NB BURGER רעננה",
-    "metaDescription": "בירה Stella Artois בבקבוק מ-NB BURGER ברעננה. ליד ההמבורגר — מסעדת המבורגרים הכשרה. 18+.",
+    "metaDescription": "בירה Stella Artois בבקבוק מ-NB BURGER ברעננה. ליד ההמבורגר - מסעדת המבורגרים הכשרה. 18+.",
     "isActive": true,
     "tags": [
       "בירה",
@@ -739,7 +739,7 @@
     "id": "item-beer-heineken",
     "name": "בקבוק הייניקן",
     "description": "בירה Heineken בבקבוק.",
-    "longDescription": "בירה Heineken בבקבוק — משקה מושלם ליד ארוחת ההמבורגר. NB BURGER, מסעדת המבורגרים ברעננה. 18+.",
+    "longDescription": "בירה Heineken בבקבוק - משקה מושלם ליד ארוחת ההמבורגר. NB BURGER, מסעדת המבורגרים ברעננה. 18+.",
     "price": 26,
     "categoryId": "cat-beers",
     "imageUrl": "",
@@ -748,7 +748,7 @@
     "imageAlt": "",
     "primaryKeyword": "בירה הייניקן רעננה",
     "metaTitle": "בקבוק הייניקן | NB BURGER רעננה",
-    "metaDescription": "בירה Heineken בבקבוק מ-NB BURGER ברעננה. ליד ההמבורגר — מסעדת המבורגרים הכשרה. 18+.",
+    "metaDescription": "בירה Heineken בבקבוק מ-NB BURGER ברעננה. ליד ההמבורגר - מסעדת המבורגרים הכשרה. 18+.",
     "isActive": true,
     "tags": [
       "בירה",
@@ -762,7 +762,7 @@
     "id": "item-beer-goldstar",
     "name": "בקבוק גולדסטאר",
     "description": "בירה גולדסטאר בבקבוק.",
-    "longDescription": "בירה גולדסטאר בבקבוק — בירה ישראלית קלאסית ליד ההמבורגר. NB BURGER, מסעדת המבורגרים הכשרה ברעננה. 18+.",
+    "longDescription": "בירה גולדסטאר בבקבוק - בירה ישראלית קלאסית ליד ההמבורגר. NB BURGER, מסעדת המבורגרים הכשרה ברעננה. 18+.",
     "price": 24,
     "categoryId": "cat-beers",
     "imageUrl": "",
@@ -771,7 +771,7 @@
     "imageAlt": "",
     "primaryKeyword": "בירה גולדסטאר רעננה",
     "metaTitle": "בקבוק גולדסטאר | NB BURGER רעננה",
-    "metaDescription": "בירה גולדסטאר בבקבוק מ-NB BURGER ברעננה. ליד ההמבורגר — מסעדת המבורגרים הכשרה. 18+.",
+    "metaDescription": "בירה גולדסטאר בבקבוק מ-NB BURGER ברעננה. ליד ההמבורגר - מסעדת המבורגרים הכשרה. 18+.",
     "isActive": true,
     "tags": [
       "בירה",

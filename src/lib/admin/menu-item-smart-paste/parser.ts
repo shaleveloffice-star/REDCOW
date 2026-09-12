@@ -89,7 +89,7 @@ export function parseMenuItemSmartPaste(text: string): MenuItemSmartPastePreview
       case "price": {
         const price = parsePriceValue(value);
         if (price === undefined) {
-          warnings.push("לא הצלחנו לזהות מחיר — השדה לא עודכן.");
+          warnings.push("לא הצלחנו לזהות מחיר - השדה לא עודכן.");
         } else {
           data.price = price;
           foundFields.push("price");
@@ -127,7 +127,7 @@ export function parseMenuItemSmartPaste(text: string): MenuItemSmartPastePreview
       case "sortOrder": {
         const sortOrder = parseSortOrderValue(value);
         if (sortOrder === undefined) {
-          warnings.push("לא הצלחנו לזהות סדר תצוגה — השדה לא עודכן.");
+          warnings.push("לא הצלחנו לזהות סדר תצוגה - השדה לא עודכן.");
         } else {
           data.sortOrder = sortOrder;
           foundFields.push("sortOrder");
@@ -137,7 +137,7 @@ export function parseMenuItemSmartPaste(text: string): MenuItemSmartPastePreview
       case "tags": {
         const tags = parseTagsValue(value);
         if (tags.length === 0) {
-          warnings.push("לא זוהו תגיות — השדה לא עודכן.");
+          warnings.push("לא זוהו תגיות - השדה לא עודכן.");
         } else {
           data.tags = tags;
           foundFields.push("tags");

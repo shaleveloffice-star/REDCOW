@@ -62,7 +62,7 @@ export function AdminMenuHeroEditor({ initialConfig, images }: {
           <>
             <label>
               תיאור המדיה לנגישות
-              <input value={draft.alt} maxLength={300} placeholder="ריק — שימוש בתיאור ברירת המחדל בשפת האתר"
+              <input value={draft.alt} maxLength={300} placeholder="ריק - שימוש בתיאור ברירת המחדל בשפת האתר"
                 onChange={(event) => change({ alt: event.target.value })} />
             </label>
             <div className="admin-menu-hero-heights">

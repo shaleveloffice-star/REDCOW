@@ -109,7 +109,7 @@ export async function getFirebaseAdminInitState(): Promise<FirebaseAdminInitStat
       status: "invalid_private_key",
       details: !keyDiag.hasPemHeader
         ? "FIREBASE_PRIVATE_KEY missing PEM header (BEGIN PRIVATE KEY)"
-        : "FIREBASE_PRIVATE_KEY has no newlines after normalize — paste with \\n escapes in Vercel"
+        : "FIREBASE_PRIVATE_KEY has no newlines after normalize - paste with \\n escapes in Vercel"
     };
     console.error("[FirebaseAdmin] invalid private key shape:", cachedState.details);
     return cachedState;

@@ -39,7 +39,7 @@ const archivoBlack = Archivo_Black({
 });
 
 const DEFAULT_DESCRIPTION =
-  "מסעדת המבורגרים NB BURGER ברעננה — המבורגרים על הפלנצ׳ה, אווירה וטעם מדויק.";
+  "מסעדת המבורגרים NB BURGER ברעננה - המבורגרים על הפלנצ׳ה, אווירה וטעם מדויק.";
 
 export const viewport: Viewport = {
   width: "device-width",

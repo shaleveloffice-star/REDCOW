@@ -217,7 +217,7 @@ export function AdminStoryAutoFillPanel({
         setBlocked(true);
         setPreview(null);
         setSuggestedAngle(payload.warning?.suggestedAngle ?? null);
-        setError("חפיפת SEO אפשרית — בדקו למטה או המשיכו בכל זאת.");
+        setError("חפיפת SEO אפשרית - בדקו למטה או המשיכו בכל זאת.");
         return;
       }
 
@@ -276,14 +276,14 @@ export function AdminStoryAutoFillPanel({
       {showTips ? (
         <div id="story-ai-tips" className="admin-story-auto-fill-tips" role="note">
           <ul>
-            <li>יוצר טיוטה בלבד — לא שומר ולא מפרסם.</li>
+            <li>יוצר טיוטה בלבד - לא שומר ולא מפרסם.</li>
             <li>אחרי יצירה עברו ל״ידני״ לעריכה ושמירה.</li>
             <li>סגנון צנוע: בלי הגזמות ובלי סיפורי מותג מומצאים.</li>
           </ul>
         </div>
       ) : null}
 
-      <p className="admin-form-hint">מלאו מילות מפתח ולחצו &quot;צור&quot; — או בקשו הצעות אוטומטיות.</p>
+      <p className="admin-form-hint">מלאו מילות מפתח ולחצו &quot;צור&quot; - או בקשו הצעות אוטומטיות.</p>
 
       <div className="admin-row-actions" style={{ marginBottom: 12 }}>
         <button
@@ -425,7 +425,7 @@ export function AdminStoryAutoFillPanel({
       {preview && !blocked ? (
         <div className="admin-story-auto-fill-preview">
           <p>
-            <strong>טיוטה מוכנה</strong> — {preview.title} · {preview.sections.length} מקטעים
+            <strong>טיוטה מוכנה</strong> - {preview.title} · {preview.sections.length} מקטעים
           </p>
         </div>
       ) : null}

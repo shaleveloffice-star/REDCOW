@@ -26,7 +26,7 @@ export const en: Messages = {
     popupTitle: "We're getting ready to open",
     popupLead: "The menu and images currently shown on the site are for illustration only.",
     popupBody: "Soon we'll update the official menu and real photos of NB BURGER here.",
-    popupClosing: "Stay tuned — the good stuff is on the way.",
+    popupClosing: "Stay tuned - the good stuff is on the way.",
     popupCta: "Got it",
     popupClose: "Close"
   },
@@ -81,7 +81,7 @@ export const en: Messages = {
     longSectionAria: "Full description",
     allergyGuide: "Allergy Guide",
     relatedItemsTitle: "More dishes",
-    relatedItemsLead: "From this category — discover your next bite.",
+    relatedItemsLead: "From this category - discover your next bite.",
     relatedItemsAria: "More dishes from this category",
     viewBranchHours: "View branch location and opening hours"
   },
@@ -95,11 +95,11 @@ export const en: Messages = {
   },
   locations: {
     breadcrumbLabel: "Locations",
-    pageTitle: "Location & Hours — NB BURGER Raanana",
+    pageTitle: "Location & Hours - NB BURGER Raanana",
     findLocal: "FIND MY LOCAL",
     ourLocations: "OUR LOCATIONS",
     mapTitle: "NB BURGER locations map",
-    mapSummary: "NB BURGER branch map — Raanana, Ahuzah 96",
+    mapSummary: "NB BURGER branch map - Raanana, Ahuzah 96",
     navigate: "Navigate",
     deliveryZonesTitle: "Delivery areas",
     deliveryZones: [
@@ -181,7 +181,7 @@ export const en: Messages = {
     trustSafe: "Your info stays with us",
     trustTerms: "Free · No commitment",
     barBrandSub: "REAL BURGERS. REAL PEOPLE.",
-    barSlogan: "NB CLUB — MORE THAN A BURGER",
+    barSlogan: "NB CLUB - MORE THAN A BURGER",
     perksAria: "Club benefits",
     features: [
       { title: "Exclusive offers" },
@@ -250,7 +250,7 @@ export const en: Messages = {
     viewBranchDetails: "Full branch details",
     imageAlt: "Restaurant exterior",
     businessType: "Burger restaurant",
-    kosher: "Kosher — local rabbinate supervision"
+    kosher: "Kosher - local rabbinate supervision"
   },
   notFound: {
     title: "Page not found",
@@ -262,7 +262,7 @@ export const en: Messages = {
   },
   contactForm: {
     title: "Send us a message",
-    lead: "We'd love to help — leave your details and we'll get back to you.",
+    lead: "We'd love to help - leave your details and we'll get back to you.",
     fullName: "Full name",
     phone: "Phone",
     email: "Email",
@@ -291,7 +291,9 @@ export const en: Messages = {
     nav: "Navigation",
     menu: "Menu",
     fullMenu: "Full Menu",
-    clubCta: "Join the customer club",
+    clubTitle: "NB CLUB",
+    clubLead: "Join the club and get member perks and surprises",
+    clubCta: "Join NB CLUB",
     copyright: "© 2026 NB BURGER - All rights reserved",
     privacy: "Privacy Policy",
     terms: "Terms of Use",
@@ -301,10 +303,10 @@ export const en: Messages = {
   stories: {
     breadcrumbLabel: "Stories",
     indexTitle: "Stories",
-    indexLead: "Behind the scenes — consistency, precision, and experience.",
+    indexLead: "Behind the scenes - consistency, precision, and experience.",
     indexMetaTitle: "Stories | NB BURGER",
     indexMetaDescription:
-      "Short stories from NB BURGER — about the burger you come back for, the consistency, and the experience behind every bite.",
+      "Short stories from NB BURGER - about the burger you come back for, the consistency, and the experience behind every bite.",
     readStory: "Read the story",
     featuredLabel: "Featured story",
     moreStories: "More stories",

@@ -22,14 +22,14 @@ export default async function AdminHomeSeoPage() {
   return (
     <>
       <AdminCard
-        title="דף הבית — תוכן SEO"
+        title="דף הבית - תוכן SEO"
         description="סיפור המותג, FAQ ותוכן SEO לדף הבית. שדות ריקים משתמשים בברירת המחדל."
       >
         <AdminSeoPageEditor pageId="home" initialDocument={seoDocument} />
       </AdminCard>
 
       <AdminCard
-        title="דף הבית — תמונות"
+        title="דף הבית - תמונות"
         description="החלפת תמונות לפי סקשנים. השינויים מוצגים מיד בדף הבית."
       >
         <AdminHomeSiteImagesEditor

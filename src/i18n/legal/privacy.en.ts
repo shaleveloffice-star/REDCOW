@@ -224,12 +224,12 @@ export function getPrivacyContentEn(): LegalDocument {
           {
             type: "list",
             items: [
-              "Google Analytics 4 — measuring website use",
-              "Firebase / Firestore — storing club registrations and website content",
-              "Instagram — displaying embedded social content",
-              "Leaflet, CARTO, and OpenStreetMap — displaying the branch map",
-              "Google Maps — a navigation link to the branch address",
-              "Vercel — hosting the website and media"
+              "Google Analytics 4 - measuring website use",
+              "Firebase / Firestore - storing club registrations and website content",
+              "Instagram - displaying embedded social content",
+              "Leaflet, CARTO, and OpenStreetMap - displaying the branch map",
+              "Google Maps - a navigation link to the branch address",
+              "Vercel - hosting the website and media"
             ]
           },
           {

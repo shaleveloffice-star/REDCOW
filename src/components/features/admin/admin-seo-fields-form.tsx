@@ -42,7 +42,7 @@ function MetaLengthCounter({
   return (
     <span className={overLimit ? "admin-field-warning" : "admin-field-hint"}>
       {length}/{recommendedMax}
-      {overLimit ? " — מומלץ לקצר לתוצאות חיפוש טובות יותר" : null}
+      {overLimit ? " - מומלץ לקצר לתוצאות חיפוש טובות יותר" : null}
     </span>
   );
 }

@@ -9,7 +9,7 @@
 
 /* Index */
 .stories-index {
-  padding-block: clamp(48px, 8vw, 96px) clamp(64px, 10vw, 120px);
+  padding: 0 0 clamp(64px, 10vw, 120px);
 }
 
 .stories-index-header {
@@ -221,7 +221,7 @@
 }
 
 .story-hero--no-image .story-hero-content {
-  padding-top: clamp(72px, 12vh, 120px);
+  padding-top: 0;
 }
 
 .story-hero-image-wrap {

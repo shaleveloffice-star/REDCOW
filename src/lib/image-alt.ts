@@ -109,7 +109,7 @@ function withBrand(name: string, locale: Locale): string {
     return `${label} של ${BRAND_NAME}`;
   }
   if (locale === "fr") {
-    return `${label} — ${BRAND_NAME}`;
+    return `${label} - ${BRAND_NAME}`;
   }
   return `${label} from ${BRAND_NAME}`;
 }
@@ -149,7 +149,7 @@ function generateMenuItemAlt(
   }
 
   if (category === "burgers" || /המבורגר|burger|smash/i.test(label) || /המבורגר|burger/i.test(tagText)) {
-    if (/של\s+NB BURGER|from NB BURGER|— NB BURGER/i.test(label)) return label;
+    if (/של\s+NB BURGER|from NB BURGER|(?:—|-)\s+NB BURGER/i.test(label)) return label;
     return withBrand(label, locale);
   }
 
@@ -202,14 +202,14 @@ function generateByKind(input: ResolveImageAltInput): string {
 
     case "menu-item-close-up": {
       const primary = trim(input.primaryAlt) || generateMenuItemAlt(name, locale, input.categoryId, input.tags);
-      return `${primary} — ${closeUpSuffix(locale)}`;
+      return `${primary} - ${closeUpSuffix(locale)}`;
     }
 
     case "hero":
       return locale === "he"
         ? `המבורגר של ${BRAND_NAME}`
         : locale === "fr"
-          ? `Burger — ${BRAND_NAME}`
+          ? `Burger - ${BRAND_NAME}`
           : `Burger from ${BRAND_NAME}`;
 
     case "restaurant":
@@ -230,10 +230,10 @@ function generateByKind(input: ResolveImageAltInput): string {
     case "branch": {
       const branch = trim(input.branchName) || name;
       return locale === "he"
-        ? `סניף ${BRAND_NAME}${branch ? ` — ${branch}` : ""}`
+        ? `סניף ${BRAND_NAME}${branch ? ` - ${branch}` : ""}`
         : locale === "fr"
-          ? `Restaurant ${BRAND_NAME}${branch ? ` — ${branch}` : ""}`
-          : `${BRAND_NAME} location${branch ? ` — ${branch}` : ""}`;
+          ? `Restaurant ${BRAND_NAME}${branch ? ` - ${branch}` : ""}`
+          : `${BRAND_NAME} location${branch ? ` - ${branch}` : ""}`;
     }
 
     case "delivery-zone": {
@@ -241,7 +241,7 @@ function generateByKind(input: ResolveImageAltInput): string {
       return locale === "he"
         ? `משלוחים ל${city || "אזור השירות"}`
         : locale === "fr"
-          ? `Livraison — ${city || "zone de service"}`
+          ? `Livraison - ${city || "zone de service"}`
           : `Delivery to ${city || "service area"}`;
     }
 
@@ -252,7 +252,7 @@ function generateByKind(input: ResolveImageAltInput): string {
       return locale === "he" ? `שף ${BRAND_NAME}` : locale === "fr" ? `Chef ${BRAND_NAME}` : `${BRAND_NAME} chef`;
 
     case "plancha":
-      return name ? withBrand(name, locale) : locale === "he" ? `על הפלנצ׳ה — ${BRAND_NAME}` : `${BRAND_NAME} plancha`;
+      return name ? withBrand(name, locale) : locale === "he" ? `על הפלנצ׳ה - ${BRAND_NAME}` : `${BRAND_NAME} plancha`;
 
     case "logo":
       return locale === "he" ? `לוגו ${BRAND_NAME}` : locale === "fr" ? `Logo ${BRAND_NAME}` : `${BRAND_NAME} logo`;

@@ -41,64 +41,64 @@ export const HOME_ATMOSPHERE_MARQUEE_COLUMNS: HomeAtmosphereMarqueeImage[][] = [
     {
       siteImageId: "atmosphere-slide-1",
       src: HOME_ATMOSPHERE_SLIDE_1,
-      alt: "NB BURGER — המבורגר"
+      alt: "NB BURGER - המבורגר"
     },
     {
       siteImageId: "atmosphere-third-1",
       src: HOME_ATMOSPHERE_THIRD_1,
-      alt: "NB BURGER — אווירה"
+      alt: "NB BURGER - אווירה"
     },
     {
       siteImageId: "atmosphere-slide-2",
       src: HOME_ATMOSPHERE_SLIDE_2,
-      alt: "NB BURGER — המבורגר"
+      alt: "NB BURGER - המבורגר"
     },
     {
       src: PLANCHA_BURGERS_IMAGE,
-      alt: "NB BURGER — על הפלנצ׳ה"
+      alt: "NB BURGER - על הפלנצ׳ה"
     }
   ],
   [
     {
       siteImageId: "atmosphere-burger-stack",
       src: ATMOSPHERE_BURGER_STACK_IMAGE,
-      alt: "NB BURGER — שכבות המבורגר"
+      alt: "NB BURGER - שכבות המבורגר"
     },
     {
       siteImageId: "atmosphere-slide-3",
       src: HOME_ATMOSPHERE_SLIDE_3,
-      alt: "NB BURGER — המבורגר"
+      alt: "NB BURGER - המבורגר"
     },
     {
       siteImageId: "atmosphere-third-2",
       src: HOME_ATMOSPHERE_THIRD_2,
-      alt: "NB BURGER — אווירה"
+      alt: "NB BURGER - אווירה"
     },
     {
       src: PLANCHA_BITE_IMAGE,
-      alt: "NB BURGER — ביס"
+      alt: "NB BURGER - ביס"
     }
   ],
   [
     {
       siteImageId: "atmosphere-third-3",
       src: HOME_ATMOSPHERE_THIRD_3,
-      alt: "NB BURGER — אווירה"
+      alt: "NB BURGER - אווירה"
     },
     {
       siteImageId: "atmosphere-slide-1",
       src: HOME_ATMOSPHERE_SLIDE_1,
-      alt: "NB BURGER — המבורגר"
+      alt: "NB BURGER - המבורגר"
     },
     {
       siteImageId: "atmosphere-slide-2",
       src: HOME_ATMOSPHERE_SLIDE_2,
-      alt: "NB BURGER — המבורגר"
+      alt: "NB BURGER - המבורגר"
     },
     {
       siteImageId: "atmosphere-third-1",
       src: HOME_ATMOSPHERE_THIRD_1,
-      alt: "NB BURGER — אווירה"
+      alt: "NB BURGER - אווירה"
     }
   ]
 ];

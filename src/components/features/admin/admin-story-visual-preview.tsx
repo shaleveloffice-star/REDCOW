@@ -88,7 +88,7 @@ export function AdminStoryVisualPreview({
     <div className="admin-story-visual-preview">
       <div className="admin-story-preview-intro">
         <strong>עריכה חזותית</strong>
-        <span>לחצו על טקסט לעריכה · על תמונה להחלפה · בכל מקטע — החלפת צד או סוג</span>
+        <span>לחצו על טקסט לעריכה · על תמונה להחלפה · בכל מקטע - החלפת צד או סוג</span>
       </div>
 
       {textEdit ? <AdminStoryEditBar request={textEdit} onClose={() => setTextEdit(null)} /> : null}

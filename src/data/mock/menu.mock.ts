@@ -71,7 +71,7 @@ export const mockMenuItems: MenuItem[] = [
       "הבשר שלנו יקר לנו. לכן אנחנו משתמשים בתערובת מיוחדת שמיישנים אצלנו במקום."
     ],
     longDescription:
-      "הקלאסיקה שלנו — בשר טרי על הפלנצ׳ה, שכבות ירקות פריכות ורוטב הבית.",
+      "הקלאסיקה שלנו - בשר טרי על הפלנצ׳ה, שכבות ירקות פריכות ורוטב הבית.",
     slug: "nb-classic",
     imageAlt: "המבורגר NB Classic של NB BURGER",
     isActive: true,
@@ -226,7 +226,7 @@ export const mockMenuItems: MenuItem[] = [
   {
     id: "item-soft-drink",
     name: "שתייה קלה",
-    description: "קולה / זירו / ספרייט — בקבוק 500 מ\"ל.",
+    description: "קולה / זירו / ספרייט - בקבוק 500 מ\"ל.",
     price: 12,
     categoryId: "cat-drinks",
     imageUrl: MENU_ITEM_IMAGE,
@@ -239,7 +239,7 @@ export const mockMenuItems: MenuItem[] = [
   {
     id: "item-milkshake",
     name: "מילקשייק",
-    description: "וניל, שוקולד או תות — עם קצפת.",
+    description: "וניל, שוקולד או תות - עם קצפת.",
     price: 28,
     categoryId: "cat-drinks",
     imageUrl: MENU_ITEM_IMAGE,

@@ -42,15 +42,22 @@ export async function KosherPageView({ seoContent }: KosherPageViewProps) {
             {paragraph}
           </p>
         ))}
-        <SeoCtaBlockView {...seoContent.cta} className="kosher-page-seo-cta seo-content-cta" />
-        <Link href="/" className="kosher-page-home">
-          {messages.kosherPage.backHome}
-        </Link>
       </section>
 
       {hasValidFaqItems(seoContent.faq) ? (
-        <SeoFaqSection faq={seoContent.faq} titleId="kosher-faq-title" />
+        <SeoFaqSection faq={seoContent.faq} titleId="kosher-faq-title" titleLevel="h2" />
       ) : null}
+
+      <div className="kosher-page-end">
+        <SeoCtaBlockView
+          {...seoContent.cta}
+          className="kosher-page-seo-cta seo-content-cta"
+          titleLevel="h2"
+        />
+        <Link href="/" className="kosher-page-home">
+          {messages.kosherPage.backHome}
+        </Link>
+      </div>
     </>
   );
 }

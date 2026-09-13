@@ -43,6 +43,10 @@ export function SeoFaqSection({
   const headingId = titleId ?? `${baseId}-title`;
   const TitleTag = titleLevel;
   const QuestionTag = questionLevel;
+  const hasKicker = Boolean(faq.kicker.trim());
+  const hasTitle = Boolean(faq.title.trim());
+  const hasLead = Boolean(faq.lead.trim());
+  const hasHeader = hasKicker || hasTitle || hasLead;
   // BEM block only — modifiers like "site-faq--nested" must not prefix child classes.
   const blockClass = className.trim().split(/\s+/).find(Boolean) || "site-faq";
 
@@ -50,18 +54,20 @@ export function SeoFaqSection({
     <section
       id={sectionId}
       className={className}
-      aria-labelledby={faq.title.trim() ? headingId : undefined}
+      aria-labelledby={hasTitle ? headingId : undefined}
     >
       <div className={`${blockClass}-shell`}>
-        <header className={`${blockClass}-header`}>
-          {faq.kicker.trim() ? <p className={`${blockClass}-kicker`}>{faq.kicker}</p> : null}
-          {faq.title.trim() ? (
-            <TitleTag id={headingId} className={`${blockClass}-title`}>
-              {faq.title}
-            </TitleTag>
-          ) : null}
-          {faq.lead.trim() ? <p className={`${blockClass}-lead`}>{faq.lead}</p> : null}
-        </header>
+        {hasHeader ? (
+          <header className={`${blockClass}-header`}>
+            {hasKicker ? <p className={`${blockClass}-kicker`}>{faq.kicker}</p> : null}
+            {hasTitle ? (
+              <TitleTag id={headingId} className={`${blockClass}-title`}>
+                {faq.title}
+              </TitleTag>
+            ) : null}
+            {hasLead ? <p className={`${blockClass}-lead`}>{faq.lead}</p> : null}
+          </header>
+        ) : null}
 
         <div className={`${blockClass}-list`}>
           {items.map((item, index) => {

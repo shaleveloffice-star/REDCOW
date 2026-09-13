@@ -20,6 +20,11 @@
   text-align: start;
 }
 
+.site-faq-header:empty {
+  display: none;
+  margin: 0;
+}
+
 .site-faq-kicker {
   max-width: 100%;
   margin: 0 0 12px;

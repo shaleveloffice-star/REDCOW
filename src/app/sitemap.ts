@@ -3,6 +3,7 @@ import type { MetadataRoute } from "next";
 import { resolveMenuItemSlug } from "@/lib/menu/product-slug";
 import { resolveCategorySlug } from "@/lib/menu/category-slug";
 import { resolveStorySlug } from "@/lib/stories/story-slug";
+import { getAboutPageEnabled } from "@/lib/cache/cached-data";
 import { SITE_URL } from "@/lib/seo";
 import { listMenuItems, listMenuCategories } from "@/services/menu.service";
 import { listBrandStories } from "@/services/stories.service";
@@ -33,8 +34,10 @@ function modificationDate(value: string): { lastModified?: Date } {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  const aboutEnabled = await getAboutPageEnabled();
+  const routes = PUBLIC_ROUTES.filter((route) => aboutEnabled || route.path !== "/about");
 
-  const staticEntries = PUBLIC_ROUTES.map(({ path, changeFrequency, priority }) => ({
+  const staticEntries = routes.map(({ path, changeFrequency, priority }) => ({
     url: `${SITE_URL}${path === "/" ? "" : path}`,
     changeFrequency,
     priority

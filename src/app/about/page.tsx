@@ -1,9 +1,10 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 
 import { AboutPageView } from "@/components/features/about/about-page-view";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
-import { getCachedResolvedSeoPageContent, getCachedSiteImagesMap } from "@/lib/cache/cached-data";
+import { getAboutPageEnabled, getCachedResolvedSeoPageContent, getCachedSiteImagesMap } from "@/lib/cache/cached-data";
 import { getDirection } from "@/i18n/config";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
@@ -13,11 +14,17 @@ import { getValidFaqItems } from "@/lib/seo/faq-utils";
 import type { SiteImagesMap } from "@/types/site-images";
 
 export async function generateMetadata(): Promise<Metadata> {
+  if (!(await getAboutPageEnabled())) {
+    return { robots: { index: false, follow: false } };
+  }
   const locale = await getServerLocale();
   return await getAboutPageMetadata(locale);
 }
 
 export default async function AboutPage() {
+  if (!(await getAboutPageEnabled())) {
+    notFound();
+  }
   const locale = await getServerLocale();
   const [siteImages, seoContent, messages] = await Promise.all([
     getCachedSiteImagesMap().catch(() => ({} as SiteImagesMap)),

@@ -35,6 +35,7 @@ type SiteNavbarProps = {
   orderUrl?: string;
   orderLinks?: OrderLink[];
   magazineStories?: MagazineNavStory[];
+  aboutEnabled?: boolean;
 };
 
 /** Touch / stylus / no-hover pointers — prefer tap-to-toggle over hover menus. */
@@ -126,7 +127,8 @@ export function SiteNavbar({
   overlay = false,
   orderUrl = "/locations",
   orderLinks = [],
-  magazineStories = []
+  magazineStories = [],
+  aboutEnabled = false
 }: SiteNavbarProps) {
   const t = useTranslations();
   const router = useRouter();
@@ -159,13 +161,14 @@ export function SiteNavbar({
   );
 
   const navLinks = useMemo(
-    () => [
-      { label: t.nav.home, href: "/" },
-      { label: t.nav.menu, href: "/menu" },
-      { label: t.nav.kosher, href: "/kosher" },
-      { label: t.nav.about, href: "/about" }
-    ],
-    [t]
+    () =>
+      [
+        { label: t.nav.home, href: "/" },
+        { label: t.nav.menu, href: "/menu" },
+        { label: t.nav.kosher, href: "/kosher" },
+        { label: t.nav.about, href: "/about" }
+      ].filter((link) => aboutEnabled || link.href !== "/about"),
+    [aboutEnabled, t]
   );
 
   const magazineItems = useMemo(

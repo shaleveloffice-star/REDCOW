@@ -3,7 +3,9 @@ import { unstable_cache } from "next/cache";
 
 import { CACHE_REVALIDATE_SECONDS } from "@/lib/constants";
 import { DEFAULT_MENU_HERO } from "@/lib/menu/menu-hero-config";
+import { DEFAULT_PAGE_VISIBILITY } from "@/lib/pages/page-visibility";
 import { getMenuHeroConfig } from "@/repositories/menu-hero.repository";
+import { getPageVisibility } from "@/repositories/page-visibility.repository";
 import {
   getHomepageMenuShowcase,
   getMenuForDisplay,
@@ -27,6 +29,7 @@ export const CACHE_TAGS = {
   menuCategories: "menu-categories",
   menuDisplay: "menu-display",
   menuHero: "menu-hero",
+  pageVisibility: "page-visibility",
   seoContent: "seo-content",
   brandStories: "brand-stories",
   announcementPopup: "announcement-popup"
@@ -39,6 +42,21 @@ export const getCachedMenuHero = unstable_cache(
 );
 
 // Keep the menu available during a CMS read failure; do not cache the fallback.
+export const getCachedPageVisibility = unstable_cache(
+  () => getPageVisibility(),
+  [CACHE_TAGS.pageVisibility],
+  { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.pageVisibility] }
+);
+
+export async function getAboutPageEnabled() {
+  try {
+    return (await getCachedPageVisibility()).aboutEnabled;
+  } catch (error) {
+    console.error("[page-visibility] read failed", error);
+    return DEFAULT_PAGE_VISIBILITY.aboutEnabled;
+  }
+}
+
 export async function getMenuHeroForDisplay() {
   try {
     return await getCachedMenuHero();

@@ -9,6 +9,7 @@ type SiteChromeProps = {
   orderLinks: OrderLink[];
   magazineStories?: MagazineNavStory[];
   announcementPopup: AnnouncementPopupConfig;
+  aboutEnabled?: boolean;
   children: React.ReactNode;
 };
 
@@ -17,6 +18,7 @@ export function SiteChrome({
   orderLinks,
   magazineStories = [],
   announcementPopup,
+  aboutEnabled = false,
   children
 }: SiteChromeProps) {
   return (
@@ -25,6 +27,7 @@ export function SiteChrome({
         orderLinks={orderLinks}
         magazineStories={magazineStories}
         announcementPopup={announcementPopup}
+        aboutEnabled={aboutEnabled}
       />
       <SiteChromeOffsetSync />
       <Suspense fallback={null}>

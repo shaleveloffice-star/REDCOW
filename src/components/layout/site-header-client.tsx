@@ -11,12 +11,14 @@ type SiteHeaderClientProps = {
   orderLinks: OrderLink[];
   magazineStories?: MagazineNavStory[];
   announcementPopup: AnnouncementPopupConfig;
+  aboutEnabled?: boolean;
 };
 
 export function SiteHeaderClient({
   orderLinks,
   magazineStories = [],
-  announcementPopup
+  announcementPopup,
+  aboutEnabled = false
 }: SiteHeaderClientProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -35,6 +37,7 @@ export function SiteHeaderClient({
         orderUrl={orderLinks[0]?.url ?? "/locations"}
         orderLinks={orderLinks}
         magazineStories={magazineStories}
+        aboutEnabled={aboutEnabled}
       />
     </>
   );

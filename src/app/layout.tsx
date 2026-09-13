@@ -17,7 +17,7 @@ import { SkipToContent } from "@/components/layout/skip-to-content";
 import { JsonLd } from "@/components/seo/json-ld";
 import { getDirection } from "@/i18n/config";
 import { getServerLocale } from "@/i18n/get-locale";
-import { getCachedActiveOrderLinks, getCachedMagazineStories, getCachedAnnouncementPopup } from "@/lib/cache/cached-data";
+import { getAboutPageEnabled, getCachedActiveOrderLinks, getCachedMagazineStories, getCachedAnnouncementPopup } from "@/lib/cache/cached-data";
 import { resolveStorySlug } from "@/lib/stories/story-slug";
 import { buildOrganizationJsonLd } from "@/lib/seo/json-ld";
 import { DEFAULT_OG_IMAGE, OG_LOCALE, SITE_NAME, SITE_URL } from "@/lib/seo";
@@ -88,10 +88,11 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   const locale = await getServerLocale();
-  const [orderLinks, brandStories, announcementPopup] = await Promise.all([
+  const [orderLinks, brandStories, announcementPopup, aboutEnabled] = await Promise.all([
     getCachedActiveOrderLinks(),
     getCachedMagazineStories(locale).catch(() => []),
-    getCachedAnnouncementPopup().catch(() => defaultAnnouncementPopupConfig())
+    getCachedAnnouncementPopup().catch(() => defaultAnnouncementPopupConfig()),
+    getAboutPageEnabled()
   ]);
   const dir = getDirection(locale);
   const magazineStories: MagazineNavStory[] = brandStories
@@ -112,6 +113,7 @@ export default async function RootLayout({
             orderLinks={orderLinks}
             magazineStories={magazineStories}
             announcementPopup={announcementPopup}
+            aboutEnabled={aboutEnabled}
           >
             {children}
           </SiteChrome>

@@ -46,6 +46,7 @@ export type Messages = {
     location: string;
     kosher: string;
     about: string;
+    recommendations: string;
     magazine: string;
     branches: string;
   };

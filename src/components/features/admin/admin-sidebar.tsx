@@ -21,6 +21,7 @@ import {
   ScrollText,
   Settings,
   Shield,
+  Star,
   UtensilsCrossed,
   Users
 } from "lucide-react";
@@ -56,6 +57,7 @@ const navGroups: NavGroup[] = [
       { href: "/admin/branches", label: "סניפים", icon: MapPin },
       { href: "/admin/press", label: "כתבות", icon: Newspaper },
       { href: "/admin/stories", label: "סיפורים", icon: BookOpen },
+      { href: "/admin/recommendations", label: "ממליצים ויוצרי תוכן", icon: Star },
       { href: "/admin/gallery", label: "גלריה", icon: Images },
       { href: "/admin/announcement-popup", label: "פופ־אפ הודעה", icon: Megaphone },
       { href: "/admin/order-links", label: "קישורי הזמנה", icon: Link2 }

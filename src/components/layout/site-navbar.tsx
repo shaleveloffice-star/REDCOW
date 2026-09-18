@@ -36,6 +36,7 @@ type SiteNavbarProps = {
   orderLinks?: OrderLink[];
   magazineStories?: MagazineNavStory[];
   aboutEnabled?: boolean;
+  recommendationsEnabled?: boolean;
 };
 
 /** Touch / stylus / no-hover pointers — prefer tap-to-toggle over hover menus. */
@@ -128,7 +129,8 @@ export function SiteNavbar({
   orderUrl = "/locations",
   orderLinks = [],
   magazineStories = [],
-  aboutEnabled = false
+  aboutEnabled = false,
+  recommendationsEnabled = false
 }: SiteNavbarProps) {
   const t = useTranslations();
   const router = useRouter();
@@ -166,9 +168,14 @@ export function SiteNavbar({
         { label: t.nav.home, href: "/" },
         { label: t.nav.menu, href: "/menu" },
         { label: t.nav.kosher, href: "/kosher" },
+        { label: t.nav.recommendations, href: "/recommendations" },
         { label: t.nav.about, href: "/about" }
-      ].filter((link) => aboutEnabled || link.href !== "/about"),
-    [aboutEnabled, t]
+      ].filter(
+        (link) =>
+          (aboutEnabled || link.href !== "/about") &&
+          (recommendationsEnabled || link.href !== "/recommendations")
+      ),
+    [aboutEnabled, recommendationsEnabled, t]
   );
 
   const magazineItems = useMemo(

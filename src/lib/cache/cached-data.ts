@@ -4,8 +4,10 @@ import { unstable_cache } from "next/cache";
 import { CACHE_REVALIDATE_SECONDS } from "@/lib/constants";
 import { DEFAULT_MENU_HERO } from "@/lib/menu/menu-hero-config";
 import { DEFAULT_PAGE_VISIBILITY } from "@/lib/pages/page-visibility";
+import { DEFAULT_RECOMMENDATIONS_CONFIG } from "@/lib/recommendations/recommendations-config";
 import { getMenuHeroConfig } from "@/repositories/menu-hero.repository";
 import { getPageVisibility } from "@/repositories/page-visibility.repository";
+import { getRecommendationsConfig } from "@/repositories/recommendations.repository";
 import {
   getHomepageMenuShowcase,
   getMenuForDisplay,
@@ -30,6 +32,7 @@ export const CACHE_TAGS = {
   menuDisplay: "menu-display",
   menuHero: "menu-hero",
   pageVisibility: "page-visibility",
+  recommendations: "recommendations",
   seoContent: "seo-content",
   brandStories: "brand-stories",
   announcementPopup: "announcement-popup"
@@ -47,6 +50,21 @@ export const getCachedPageVisibility = unstable_cache(
   [CACHE_TAGS.pageVisibility],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.pageVisibility] }
 );
+
+export const getCachedRecommendations = unstable_cache(
+  () => getRecommendationsConfig(),
+  [CACHE_TAGS.recommendations],
+  { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.recommendations] }
+);
+
+export async function getRecommendationsForDisplay() {
+  try {
+    return await getCachedRecommendations();
+  } catch (error) {
+    console.error("[recommendations] read failed", error);
+    return { ...DEFAULT_RECOMMENDATIONS_CONFIG, items: [] };
+  }
+}
 
 export async function getAboutPageEnabled() {
   try {

@@ -44,6 +44,7 @@ export const en: Messages = {
     location: "Location & Hours",
     kosher: "Kosher under rabbinate supervision",
     about: "About",
+    recommendations: "Recommendations",
     magazine: "Magazine",
     branches: "Locations"
   },

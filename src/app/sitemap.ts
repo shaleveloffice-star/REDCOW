@@ -3,7 +3,7 @@ import type { MetadataRoute } from "next";
 import { resolveMenuItemSlug } from "@/lib/menu/product-slug";
 import { resolveCategorySlug } from "@/lib/menu/category-slug";
 import { resolveStorySlug } from "@/lib/stories/story-slug";
-import { getAboutPageEnabled } from "@/lib/cache/cached-data";
+import { getAboutPageEnabled, getRecommendationsForDisplay } from "@/lib/cache/cached-data";
 import { SITE_URL } from "@/lib/seo";
 import { listMenuItems, listMenuCategories } from "@/services/menu.service";
 import { listBrandStories } from "@/services/stories.service";
@@ -21,6 +21,7 @@ const PUBLIC_ROUTES: SitemapEntryInput[] = [
   { path: "/", changeFrequency: "weekly", priority: 1 },
   { path: "/menu", changeFrequency: "weekly", priority: 0.9 },
   { path: "/about", changeFrequency: "monthly", priority: 0.7 },
+  { path: "/recommendations", changeFrequency: "weekly", priority: 0.75 },
   { path: "/locations", changeFrequency: "weekly", priority: 0.8 },
   { path: "/kosher", changeFrequency: "monthly", priority: 0.7 },
   { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
@@ -34,8 +35,15 @@ function modificationDate(value: string): { lastModified?: Date } {
 }
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const aboutEnabled = await getAboutPageEnabled();
-  const routes = PUBLIC_ROUTES.filter((route) => aboutEnabled || route.path !== "/about");
+  const [aboutEnabled, recommendations] = await Promise.all([
+    getAboutPageEnabled(),
+    getRecommendationsForDisplay()
+  ]);
+  const routes = PUBLIC_ROUTES.filter(
+    (route) =>
+      (aboutEnabled || route.path !== "/about") &&
+      (recommendations.enabled || route.path !== "/recommendations")
+  );
 
   const staticEntries = routes.map(({ path, changeFrequency, priority }) => ({
     url: `${SITE_URL}${path === "/" ? "" : path}`,

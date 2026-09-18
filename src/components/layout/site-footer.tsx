@@ -4,7 +4,7 @@ import { FooterCustomerClubCta } from "@/components/layout/footer-customer-club-
 import { IconMail, IconMapPin, IconPhone } from "@/components/shared/site-icons";
 import { SITE_WORDMARK_LIGHT_SRC, SITE_WORDMARK_LIGHT_WEBP_SRC } from "@/data/brand-assets";
 import { BUSINESS, branchMapsUrl, branchAddress } from "@/data/business";
-import { getAboutPageEnabled } from "@/lib/cache/cached-data";
+import { getAboutPageEnabled, getRecommendationsForDisplay } from "@/lib/cache/cached-data";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { resolveImageAlt } from "@/lib/image-alt";
@@ -49,11 +49,17 @@ export async function SiteFooter() {
   const phone = branch ? branch.phone : BUSINESS.phone;
   const mapsUrl = branchMapsUrl(branch);
 
-  const aboutEnabled = await getAboutPageEnabled();
+  const [aboutEnabled, recommendations] = await Promise.all([
+    getAboutPageEnabled(),
+    getRecommendationsForDisplay()
+  ]);
   const footerNavLinks = [
     { label: t.nav.home, href: "/" },
     { label: t.nav.menu, href: "/menu" },
     { label: t.nav.kosher, href: "/kosher" },
+    ...(recommendations.enabled
+      ? [{ label: t.nav.recommendations, href: "/recommendations" }]
+      : []),
     ...(aboutEnabled ? [{ label: t.nav.about, href: "/about" }] : [])
   ];
 

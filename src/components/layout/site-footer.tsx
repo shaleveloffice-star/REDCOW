@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { getPrimaryBranch } from "@/services/branches.service";
 import { TrackedAnchor } from "@/components/analytics/tracked-click";
 import { FooterCustomerClubCta } from "@/components/layout/footer-customer-club-cta";
@@ -71,18 +72,20 @@ export async function SiteFooter() {
         <div className="site-footer-grid">
           <section className="site-footer-club" aria-labelledby="footer-club-title">
             <div className="site-footer-logo-wrap">
-              <picture>
-                <source srcSet={SITE_WORDMARK_LIGHT_WEBP_SRC} type="image/webp" />
-                <img
-                  className="site-footer-logo"
-                  src={SITE_WORDMARK_LIGHT_SRC}
-                  alt={logoAlt}
-                  width={160}
-                  height={72}
-                  loading="lazy"
-                  decoding="async"
-                />
-              </picture>
+              <Link href="/" className="site-footer-logo-link" aria-label={t.nav.home}>
+                <picture>
+                  <source srcSet={SITE_WORDMARK_LIGHT_WEBP_SRC} type="image/webp" />
+                  <img
+                    className="site-footer-logo"
+                    src={SITE_WORDMARK_LIGHT_SRC}
+                    alt={logoAlt}
+                    width={160}
+                    height={72}
+                    loading="lazy"
+                    decoding="async"
+                  />
+                </picture>
+              </Link>
             </div>
             <h2 id="footer-club-title" className="site-footer-heading">
               {t.footer.clubTitle}

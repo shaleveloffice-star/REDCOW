@@ -6,11 +6,38 @@ import { useLocale } from "@/components/providers/locale-provider";
 import { IconLanguage } from "@/components/shared/site-icons";
 import { LOCALE_ACCESSIBLE_NAMES, LOCALE_LABELS, LOCALES, type Locale } from "@/i18n/config";
 
+const SCROLL_EXPAND_RATIO = 0.05;
+
 export function FloatingLanguageButton() {
   const { locale, setLocale, messages } = useLocale();
   const [open, setOpen] = useState(false);
+  const [expanded, setExpanded] = useState(false);
   const rootRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
+
+  useEffect(() => {
+    let frame = 0;
+
+    const updateExpanded = () => {
+      frame = 0;
+      const pageHeight = Math.max(document.documentElement.scrollHeight, 1);
+      setExpanded(window.scrollY >= pageHeight * SCROLL_EXPAND_RATIO);
+    };
+
+    const onScroll = () => {
+      if (frame) return;
+      frame = window.requestAnimationFrame(updateExpanded);
+    };
+
+    updateExpanded();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll);
+    return () => {
+      if (frame) window.cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onScroll);
+    };
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -39,7 +66,10 @@ export function FloatingLanguageButton() {
   };
 
   return (
-    <div ref={rootRef} className={`floating-lang${open ? " is-open" : ""}`}>
+    <div
+      ref={rootRef}
+      className={`floating-lang${open ? " is-open" : ""}${expanded ? " is-expanded" : ""}`}
+    >
       {open ? (
         <div id={menuId} className="floating-lang-menu" role="menu" aria-label={messages.lang.label}>
           {LOCALES.map((code) => {
@@ -72,7 +102,9 @@ export function FloatingLanguageButton() {
         onClick={() => setOpen((value) => !value)}
       >
         <IconLanguage className="floating-lang-icon" />
-        <span className="floating-lang-current">{LOCALE_LABELS[locale]}</span>
+        <span className="floating-lang-current" aria-hidden={!expanded}>
+          {LOCALE_LABELS[locale]}
+        </span>
       </button>
     </div>
   );

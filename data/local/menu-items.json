@@ -1,9 +1,9 @@
 [
   {
     "id": "item-nb-burger-klasi",
-    "name": "המבורגר SO WHAT קלאסי",
-    "description": "קציצת בקר על הפלנצ׳ה, חסה, עגבנייה, בצל סגול ורוטב הבית.",
-    "longDescription": "הקלאסיקה של SO WHAT ברעננה - בשר טרי שנטחן במקום, נצרב על הפלנצ׳ה לקבלת קראסט מושלם, ומוגש בלחמנייה רכה עם ירקות טריים ורוטב הבית. מסעדת המבורגרים כשרה ברחוב אחוזה 96.",
+    "name": "הקלאסי",
+    "description": "המבורגר, ירקות, קטשופ ומיונז",
+    "longDescription": "המבורגר, ירקות, קטשופ ומיונז",
     "price": 58,
     "categoryId": "cat-burgers",
     "imageUrl": "",
@@ -21,13 +21,13 @@
     ],
     "sortOrder": 1,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-nb-burger-kamhin",
-    "name": "המבורגר SO WHAT כמהין",
-    "description": "קציצת בקר, איולי כמהין, חסה, עגבנייה, בצל סגול וגבינה.",
-    "longDescription": "המבורגר SO WHAT כמהין משלב בשר עסיסי על הפלנצ׳ה עם איולי כמהין עשיר, גבינה נמסה וירקות טריים. חוויית המבורגר פרימיום ברעננה - SO WHAT, מסעדת המבורגרים הכשרה.",
+    "name": "הכמהין",
+    "description": "המבורגר, רוטב כמהין וארוגולה",
+    "longDescription": "המבורגר, רוטב כמהין וארוגולה",
     "price": 64,
     "categoryId": "cat-burgers",
     "imageUrl": "",
@@ -42,15 +42,15 @@
       "המבורגר",
       "כמהין"
     ],
-    "sortOrder": 2,
+    "sortOrder": 4,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-nb-burger-konfi",
-    "name": "המבורגר SO WHAT קונפי",
-    "description": "קציצת בקר, איולי שום קונפי, חסה, עגבנייה, בצל מקורמל וגבינה.",
-    "longDescription": "המבורגר SO WHAT קונפי - קציצת בקר שנצרבה על הפלנצ׳ה, איולי שום קונפי ארומטי, בצל מקורמל מתוק וגבינה נמסה. טעם עמוק ומדויק מ-SO WHAT, מסעדת ההמבורגרים ברעננה.",
+    "name": "הבית",
+    "description": "המבורגר, ירקות ורוטב הבית",
+    "longDescription": "המבורגר, ירקות ורוטב הבית",
     "price": 66,
     "categoryId": "cat-burgers",
     "imageUrl": "",
@@ -65,15 +65,15 @@
       "המבורגר",
       "קונפי"
     ],
-    "sortOrder": 3,
+    "sortOrder": 2,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-nb-burger-vegan",
-    "name": "המבורגר SO WHAT טבעוני",
-    "description": "קציצה טבעונית על הפלנצ׳ה, חסה, עגבנייה, בצל סגול, מלפפון חמוץ ורוטב הבית.",
-    "longDescription": "המבורגר SO WHAT טבעוני - קציצה צמחונית שנצרבה על הפלנצ׳ה עם ירקות טריים ורוטב הבית, בלחמנייה רכה. אופציה טבעונית מלאה ב-SO WHAT, מסעדת המבורגרים ברעננה.",
+    "name": "הטבעוני",
+    "description": "ירקות קלאסי",
+    "longDescription": "ירקות קלאסי",
     "price": 58,
     "categoryId": "cat-burgers",
     "imageUrl": "",
@@ -88,9 +88,9 @@
       "המבורגר",
       "טבעוני"
     ],
-    "sortOrder": 4,
+    "sortOrder": 5,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-meal-nb-klasi",
@@ -154,9 +154,9 @@
     "tags": [
       "תוספת"
     ],
-    "sortOrder": 1,
+    "sortOrder": 2,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-side-home-fries",
@@ -176,15 +176,15 @@
     "tags": [
       "תוספת"
     ],
-    "sortOrder": 2,
+    "sortOrder": 4,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-side-wings",
     "name": "כנפיים",
-    "description": "כנפיים עסיסיות עם רוטב לבחירה.",
-    "longDescription": "כנפיים עסיסיות ופריכות, מוגשות עם רוטב לבחירה. מנה מושלמת לשיתוף או כתוספת ליד ההמבורגר - SO WHAT, מסעדת המבורגרים ברעננה.",
+    "description": "6 יחידות / 10 יחידות",
+    "longDescription": "6 יחידות / 10 יחידות",
     "price": 34,
     "categoryId": "cat-sides",
     "imageUrl": "",
@@ -200,13 +200,13 @@
     ],
     "sortOrder": 3,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-side-nuggets-4",
-    "name": "4 יחידות נאגטס",
-    "description": "4 נאגטס עוף פריכים, מוגשים עם רוטב לבחירה.",
-    "longDescription": "4 נאגטס עוף פריכים וזהובים, מוגשים עם רוטב לבחירה. תוספת קלה וטעימה מ-SO WHAT, מסעדת המבורגרים הכשרה ברעננה.",
+    "name": "נגטס",
+    "description": "4 יחידות / 8 יחידות",
+    "longDescription": "4 יחידות / 8 יחידות",
     "price": 28,
     "categoryId": "cat-sides",
     "imageUrl": "",
@@ -221,9 +221,9 @@
       "תוספת",
       "עוף"
     ],
-    "sortOrder": 4,
+    "sortOrder": 1,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-side-nuggets-7",
@@ -239,14 +239,14 @@
     "primaryKeyword": "נאגטס עוף רעננה",
     "metaTitle": "7 נאגטס | SO WHAT רעננה",
     "metaDescription": "7 נאגטס עוף פריכים מ-SO WHAT ברעננה. תוספת עוף מושלמת - מסעדת המבורגרים הכשרה באחוזה 96.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "תוספת",
       "עוף"
     ],
     "sortOrder": 5,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-salad-green",
@@ -266,15 +266,15 @@
     "tags": [
       "סלט"
     ],
-    "sortOrder": 1,
+    "sortOrder": 2,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-salad-caesar-small",
-    "name": "סלט קיסר קטן",
-    "description": "חסה רומaine, קרוטונים, פרמזן ורוטב קיסר.",
-    "longDescription": "סלט קיסר קטן - חסה פריכה, קרוטונים, פרמזן ורוטב קיסר קלאסי. מנה מושלמת לפתיחה או לצד ההמבורגר - SO WHAT רעננה.",
+    "name": "קיסר",
+    "description": "רוטב קיסר וקרוטונים",
+    "longDescription": "רוטב קיסר וקרוטונים",
     "price": 32,
     "categoryId": "cat-salads",
     "imageUrl": "",
@@ -288,9 +288,9 @@
     "tags": [
       "סלט"
     ],
-    "sortOrder": 2,
+    "sortOrder": 1,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-salad-caesar-large",
@@ -306,13 +306,13 @@
     "primaryKeyword": "סלט קיסר גדול רעננה",
     "metaTitle": "סלט קיסר גדול | SO WHAT רעננה",
     "metaDescription": "סלט קיסר גדול מ-SO WHAT ברעננה - מנה משביעה עם חסה, קרוטונים ופרמזן. מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "סלט"
     ],
     "sortOrder": 3,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "item-sauce-aioli-konfi",
@@ -780,5 +780,115 @@
     "sortOrder": 4,
     "createdAt": "2026-07-29T14:01:40.906Z",
     "updatedAt": "2026-07-29T14:01:40.906Z"
+  },
+  {
+    "id": "item-nb-burger-french",
+    "name": "הצרפתי",
+    "description": "המבורגר, איולי דיז'ון, ארוגולה וחמוצים",
+    "longDescription": "המבורגר, איולי דיז'ון, ארוגולה וחמוצים",
+    "price": 0,
+    "categoryId": "cat-burgers",
+    "imageUrl": "",
+    "closeUpImageUrl": "",
+    "slug": "ha-tzarfati",
+    "imageAlt": "",
+    "primaryKeyword": "",
+    "metaTitle": "",
+    "metaDescription": "",
+    "isActive": true,
+    "tags": [
+      "המבורגר"
+    ],
+    "sortOrder": 3,
+    "createdAt": "2026-09-23T19:30:25.920Z",
+    "updatedAt": "2026-09-23T19:30:25.920Z"
+  },
+  {
+    "id": "item-smash-double",
+    "name": "הדאבל",
+    "description": "2 קציצות סמאש, מלפפון חמוץ, בצל צרוב ורוטב הבית",
+    "longDescription": "2 קציצות סמאש, מלפפון חמוץ, בצל צרוב ורוטב הבית",
+    "price": 0,
+    "categoryId": "cat-smashes",
+    "imageUrl": "",
+    "closeUpImageUrl": "",
+    "slug": "ha-double",
+    "imageAlt": "",
+    "primaryKeyword": "",
+    "metaTitle": "",
+    "metaDescription": "",
+    "isActive": true,
+    "tags": [
+      "סמאש"
+    ],
+    "sortOrder": 1,
+    "createdAt": "2026-09-23T19:30:25.920Z",
+    "updatedAt": "2026-09-23T19:30:25.920Z"
+  },
+  {
+    "id": "item-smash-triple",
+    "name": "הטריפל",
+    "description": "3 קציצות סמאש, מלפפון חמוץ, בצל צרוב ורוטב הבית",
+    "longDescription": "3 קציצות סמאש, מלפפון חמוץ, בצל צרוב ורוטב הבית",
+    "price": 0,
+    "categoryId": "cat-smashes",
+    "imageUrl": "",
+    "closeUpImageUrl": "",
+    "slug": "ha-triple",
+    "imageAlt": "",
+    "primaryKeyword": "",
+    "metaTitle": "",
+    "metaDescription": "",
+    "isActive": true,
+    "tags": [
+      "סמאש"
+    ],
+    "sortOrder": 2,
+    "createdAt": "2026-09-23T19:30:25.920Z",
+    "updatedAt": "2026-09-23T19:30:25.920Z"
+  },
+  {
+    "id": "item-special-crispy",
+    "name": "הקריספי",
+    "description": "קולסלאו, חמוצים ורוטב הבית",
+    "longDescription": "קולסלאו, חמוצים ורוטב הבית",
+    "price": 0,
+    "categoryId": "cat-specials",
+    "imageUrl": "",
+    "closeUpImageUrl": "",
+    "slug": "ha-crispy",
+    "imageAlt": "",
+    "primaryKeyword": "",
+    "metaTitle": "",
+    "metaDescription": "",
+    "isActive": true,
+    "tags": [
+      "מיוחד"
+    ],
+    "sortOrder": 1,
+    "createdAt": "2026-09-23T19:30:25.920Z",
+    "updatedAt": "2026-09-23T19:30:25.920Z"
+  },
+  {
+    "id": "item-special-sausage",
+    "name": "הנקניקייה",
+    "description": "נקניקיית עגל, איולי דיז'ון, ארוגולה וחמוצים",
+    "longDescription": "נקניקיית עגל, איולי דיז'ון, ארוגולה וחמוצים",
+    "price": 0,
+    "categoryId": "cat-specials",
+    "imageUrl": "",
+    "closeUpImageUrl": "",
+    "slug": "ha-naknikiya",
+    "imageAlt": "",
+    "primaryKeyword": "",
+    "metaTitle": "",
+    "metaDescription": "",
+    "isActive": true,
+    "tags": [
+      "מיוחד"
+    ],
+    "sortOrder": 2,
+    "createdAt": "2026-09-23T19:30:25.920Z",
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   }
 ]

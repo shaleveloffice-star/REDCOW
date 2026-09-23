@@ -307,7 +307,16 @@ export function SiteNavbar({
       <header className={navClass}>
         <nav className="site-navbar-inner" aria-label={t.nav.main}>
           <div className="site-navbar-start">
-            <Link href="/" className="site-navbar-brand">
+            <Link
+              href="/"
+              className="site-navbar-brand"
+              aria-label={t.nav.home}
+              onClick={() => {
+                if (pathname === "/") {
+                  window.scrollTo({ top: 0, behavior: "smooth" });
+                }
+              }}
+            >
               <span className="site-navbar-logo-stack">
                 <picture>
                   <source srcSet={SITE_WORDMARK_LIGHT_WEBP_SRC} type="image/webp" />
@@ -528,51 +537,10 @@ export function SiteNavbar({
                 {link.label}
               </a>
             ))}
-            {magazineItems.length > 0 ? <div
-              className="site-nav-overlay-magazine"
-              style={{ animationDelay: `${navLinks.length * 0.08}s` }}
-            >
-              <div className="site-nav-overlay-magazine-row">
-                <a
-                  href="/stories"
-                  className="site-nav-overlay-link site-nav-overlay-magazine-link"
-                  onClick={() => closeMenu(true)}
-                >
-                  {t.nav.magazine}
-                </a>
-                {magazineItems.length > 0 ? (
-                  <button
-                    type="button"
-                    className="site-nav-overlay-magazine-toggle"
-                    aria-expanded={mobileMagazineOpen}
-                    aria-controls={mobileMagazineId}
-                    aria-label={t.nav.magazine}
-                    onClick={() => setMobileMagazineOpen((open) => !open)}
-                  >
-                    <IconMagazineChevron open={mobileMagazineOpen} />
-                  </button>
-                ) : null}
-              </div>
-              {magazineItems.length > 0 && mobileMagazineOpen ? (
-                <ul id={mobileMagazineId} className="site-nav-overlay-magazine-list">
-                  {magazineItems.map((item) => (
-                    <li key={item.href}>
-                      <a
-                        href={item.href}
-                        className="site-nav-overlay-magazine-item"
-                        onClick={() => closeMenu(true)}
-                      >
-                        {item.title}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </div> : null}
             <button
               type="button"
               className="site-nav-overlay-link"
-              style={{ animationDelay: `${(navLinks.length + 1) * 0.08}s` }}
+              style={{ animationDelay: `${navLinks.length * 0.08}s` }}
               onClick={() => openOrderModal("mobile_nav_overlay", toggleRef.current)}
             >
               {t.hero.orderCta}
@@ -582,6 +550,7 @@ export function SiteNavbar({
               className="site-nav-overlay-link site-nav-overlay-social"
               target="_blank"
               rel="noreferrer"
+              style={{ animationDelay: `${(navLinks.length + 1) * 0.08}s` }}
               onClick={() => {
                 trackEvent("social_click", {
                   source: "mobile_nav_overlay",
@@ -592,6 +561,47 @@ export function SiteNavbar({
             >
               Instagram
             </a>
+            {magazineItems.length > 0 ? (
+              <div
+                className="site-nav-overlay-magazine"
+                style={{ animationDelay: `${(navLinks.length + 2) * 0.08}s` }}
+              >
+                <div className="site-nav-overlay-magazine-row">
+                  <a
+                    href="/stories"
+                    className="site-nav-overlay-link site-nav-overlay-magazine-link"
+                    onClick={() => closeMenu(true)}
+                  >
+                    {t.nav.magazine}
+                  </a>
+                  <button
+                    type="button"
+                    className="site-nav-overlay-magazine-toggle"
+                    aria-expanded={mobileMagazineOpen}
+                    aria-controls={mobileMagazineId}
+                    aria-label={t.nav.magazine}
+                    onClick={() => setMobileMagazineOpen((open) => !open)}
+                  >
+                    <IconMagazineChevron open={mobileMagazineOpen} />
+                  </button>
+                </div>
+                {mobileMagazineOpen ? (
+                  <ul id={mobileMagazineId} className="site-nav-overlay-magazine-list">
+                    {magazineItems.map((item) => (
+                      <li key={item.href}>
+                        <a
+                          href={item.href}
+                          className="site-nav-overlay-magazine-item"
+                          onClick={() => closeMenu(true)}
+                        >
+                          {item.title}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                ) : null}
+              </div>
+            ) : null}
           </div>
         </div>
       ) : null}

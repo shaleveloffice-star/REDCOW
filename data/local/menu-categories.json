@@ -7,66 +7,86 @@
     "sortOrder": 1,
     "isActive": true,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "cat-meals",
     "name": "ארוחות",
     "slug": "meals",
     "description": "ארוחות מלאות עם תוספת ושתייה.",
-    "sortOrder": 2,
+    "sortOrder": 4,
     "isActive": true,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "cat-sides",
     "name": "תוספות",
     "slug": "sides",
     "description": "תוספות ליד המנה או להמבורגר.",
-    "sortOrder": 3,
+    "sortOrder": 5,
     "isActive": true,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "cat-salads",
     "name": "סלטים",
     "slug": "salads",
     "description": "סלטים טריים מהמטבח.",
-    "sortOrder": 4,
+    "sortOrder": 6,
     "isActive": true,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "cat-sauces",
     "name": "רטבים",
     "slug": "sauces",
     "description": "רטבים ביתיים לבחירה.",
-    "sortOrder": 5,
+    "sortOrder": 7,
     "isActive": true,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "cat-soft-drinks",
     "name": "שתייה קלה",
     "slug": "soft-drinks",
     "description": "שתייה קלה וקלה.",
-    "sortOrder": 6,
+    "sortOrder": 8,
     "isActive": true,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   },
   {
     "id": "cat-beers",
     "name": "בירות",
     "slug": "beers",
     "description": "בירות בקבוק.",
-    "sortOrder": 7,
+    "sortOrder": 9,
     "isActive": true,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:30:25.920Z"
+  },
+  {
+    "id": "cat-smashes",
+    "name": "סמאשים",
+    "slug": "smashes",
+    "description": "סמאשים על הפלנצ׳ה.",
+    "sortOrder": 2,
+    "isActive": true,
+    "createdAt": "2026-09-23T19:30:25.920Z",
+    "updatedAt": "2026-09-23T19:30:25.920Z"
+  },
+  {
+    "id": "cat-specials",
+    "name": "המיוחדים שלנו",
+    "slug": "specials",
+    "description": "המיוחדים של SO WHAT.",
+    "sortOrder": 3,
+    "isActive": true,
+    "createdAt": "2026-09-23T19:30:25.920Z",
+    "updatedAt": "2026-09-23T19:30:25.920Z"
   }
 ]

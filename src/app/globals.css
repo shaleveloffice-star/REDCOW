@@ -1489,20 +1489,31 @@ html[data-a11y-motion="reduce"] *::after {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 0;
+  width: 56px;
   min-width: 56px;
   min-height: 56px;
-  padding: 0 14px;
+  padding: 0;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 999px;
   background: #ffffff;
   color: #111111;
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
   cursor: pointer;
+  overflow: hidden;
   transition:
+    width 0.28s ease,
+    padding 0.28s ease,
+    gap 0.28s ease,
     transform 0.2s ease,
     box-shadow 0.2s ease,
     background-color 0.2s ease;
+}
+
+.floating-lang.is-expanded .floating-lang-toggle {
+  width: auto;
+  gap: 8px;
+  padding: 0 14px;
 }
 
 .floating-lang-icon {
@@ -1512,12 +1523,24 @@ html[data-a11y-motion="reduce"] *::after {
 }
 
 .floating-lang-current {
+  max-width: 0;
+  opacity: 0;
+  overflow: hidden;
   font-family: var(--font-button);
   font-size: 12px;
   font-weight: 800;
   letter-spacing: 0.06em;
   text-transform: uppercase;
   line-height: 1;
+  white-space: nowrap;
+  transition:
+    max-width 0.28s ease,
+    opacity 0.2s ease;
+}
+
+.floating-lang.is-expanded .floating-lang-current {
+  max-width: 3rem;
+  opacity: 1;
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -5747,6 +5770,13 @@ a.menu-showcase-button.site-cta-btn {
   justify-content: center;
   width: 100%;
   margin: 0 0 4px;
+}
+
+.site-footer-logo-link {
+  display: inline-flex;
+  line-height: 0;
+  text-decoration: none;
+  color: inherit;
 }
 
 .site-footer-logo {

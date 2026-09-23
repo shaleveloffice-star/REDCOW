@@ -1468,6 +1468,132 @@ html[data-a11y-motion="reduce"] *::after {
   width: 100%;
 }
 
+/* Floating language FAB — opposite side from accessibility widget */
+.floating-lang {
+  position: fixed;
+  z-index: 85;
+  inset-inline-end: 16px;
+  bottom: calc(24px + env(safe-area-inset-bottom, 0px));
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+@media (max-width: 767px) {
+  .floating-lang {
+    bottom: calc(var(--site-mobile-cta-height, 84px) + 16px);
+  }
+}
+
+.floating-lang-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 56px;
+  min-height: 56px;
+  padding: 0 14px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 999px;
+  background: #ffffff;
+  color: #111111;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+  cursor: pointer;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.floating-lang-icon {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.floating-lang-current {
+  font-family: var(--font-button);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  line-height: 1;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .floating-lang-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.22);
+  }
+}
+
+.floating-lang-toggle:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 3px;
+}
+
+.floating-lang-menu {
+  display: grid;
+  gap: 4px;
+  min-width: 168px;
+  padding: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 16px;
+  background: #ffffff;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+}
+
+.floating-lang-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 12px;
+  background: transparent;
+  color: #111111;
+  cursor: pointer;
+  text-align: start;
+}
+
+.floating-lang-option-code {
+  font-family: var(--font-button);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+}
+
+.floating-lang-option-name {
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 500;
+  color: #555555;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .floating-lang-option:hover {
+    background: rgba(0, 0, 0, 0.05);
+  }
+}
+
+.floating-lang-option.is-active {
+  background: #111111;
+  color: #ffffff;
+}
+
+.floating-lang-option.is-active .floating-lang-option-name {
+  color: rgba(255, 255, 255, 0.78);
+}
+
+.floating-lang-option:focus-visible {
+  outline: 2px solid #111111;
+  outline-offset: 2px;
+}
+
 body:not(:has(.admin-layout)) h1,
 body:not(:has(.admin-layout)) h2,
 body:not(:has(.admin-layout)) h3,
@@ -2799,10 +2925,6 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
       transform: none;
     }
   }
-
-  .site-navbar-mobile-utilities {
-    transition: none;
-  }
 }
 
 @media (max-width: 767px) {
@@ -2826,14 +2948,12 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   .site-navbar-inner {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto auto;
-    grid-template-areas:
-      "brand back menu"
-      "utilities utilities utilities";
+    grid-template-areas: "brand back menu";
     align-items: center;
     column-gap: 12px;
-    row-gap: 10px;
+    row-gap: 0;
     width: calc(100% - 32px);
-    padding: 16px 0;
+    padding: 12px 0;
   }
 
   .site-navbar-end {
@@ -2858,36 +2978,10 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
     height: clamp(72px, 16vw, 96px);
   }
 
-  .site-navbar-mobile-utilities {
-    grid-area: utilities;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    width: 100%;
-    max-height: 56px;
-    opacity: 1;
-    overflow: hidden;
-    pointer-events: auto;
-  }
-
   .site-navbar--scrolled .site-navbar-inner {
-    grid-template-areas:
-      "brand back menu"
-      "utilities utilities utilities";
-    /* Keep padding stable — height changes mid-scroll cause hitching */
-    row-gap: 10px;
-    padding: 16px 0;
-  }
-
-  /* Keep utilities mounted — collapsing height mid-scroll causes jank when returning to hero */
-  .site-navbar--scrolled .site-navbar-mobile-utilities {
-    opacity: 1;
-  }
-
-  .site-navbar-mobile-utilities .site-navbar-language {
-    flex: none;
-    margin: 0;
+    grid-template-areas: "brand back menu";
+    row-gap: 0;
+    padding: 12px 0;
   }
 
   .site-navbar-back {
@@ -2912,8 +3006,8 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   }
 
   :root {
-    /* Two-row mobile bar (logo + utilities), not the collapsed scroll height. */
-    --site-navbar-height: 180px;
+    /* Single-row mobile bar after removing utilities row */
+    --site-navbar-height: 120px;
     --site-chrome-offset: calc(
       var(--site-opening-banner-height) + env(safe-area-inset-top, 0px) + var(--site-navbar-height)
     );

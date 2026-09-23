@@ -4,13 +4,10 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 
-import { LanguageSwitcher } from "@/components/layout/language-switcher";
 import { OrderModal } from "@/components/layout/order-modal";
 import {
   IconArrowBack,
-  IconClose,
-  IconLocationPinFilled,
-  IconShoppingBagFilled
+  IconClose
 } from "@/components/shared/site-icons";
 import {
   SITE_WORDMARK_DARK_SRC,
@@ -150,7 +147,6 @@ export function SiteNavbar({
   const toggleRef = useRef<HTMLButtonElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
-  const bagButtonRef = useRef<HTMLButtonElement>(null);
   const magazineRef = useRef<HTMLLIElement>(null);
   const orderReturnFocusRef = useRef<HTMLElement | null>(null);
   const navStackRef = useRef<string[]>([]);
@@ -306,12 +302,6 @@ export function SiteNavbar({
     .filter(Boolean)
     .join(" ");
 
-  const languageSwitcher = (
-    <div className="site-navbar-language">
-      <LanguageSwitcher />
-    </div>
-  );
-
   return (
     <>
       <header className={navClass}>
@@ -446,27 +436,6 @@ export function SiteNavbar({
                 </a>
               </li>
             </ul>
-
-            <div className="site-navbar-mobile-utilities">
-              <button
-                ref={bagButtonRef}
-                type="button"
-                className="site-navbar-icon-btn site-navbar-icon-order"
-                aria-label={t.hero.orderCta}
-                onClick={(event) => openOrderModal("mobile_navbar", event.currentTarget)}
-              >
-                <IconShoppingBagFilled className="site-navbar-icon" />
-              </button>
-              {languageSwitcher}
-              <Link
-                href="/locations"
-                className="site-navbar-icon-btn site-navbar-icon-location"
-                aria-label={t.locations.findLocal}
-                onClick={() => trackEvent("location_open", { source: "mobile_navbar" })}
-              >
-                <IconLocationPinFilled className="site-navbar-icon" />
-              </Link>
-            </div>
 
             <CtaButtons
               className="site-cta site-cta--desktop"

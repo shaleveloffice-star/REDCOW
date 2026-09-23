@@ -1,4 +1,5 @@
 import { SiteChromeOffsetSync } from "@/components/layout/site-chrome-offset-sync";
+import { FloatingLanguageButton } from "@/components/layout/floating-language-button";
 import { SiteHeaderClient } from "@/components/layout/site-header-client";
 import { PageTransitionLoader } from "@/components/layout/page-transition-loader";
 import type { MagazineNavStory } from "@/components/layout/site-navbar";
@@ -37,6 +38,7 @@ export function SiteChrome({
         <PageTransitionLoader />
       </Suspense>
       {children}
+      <FloatingLanguageButton />
     </>
   );
 }

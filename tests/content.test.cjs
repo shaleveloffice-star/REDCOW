@@ -38,9 +38,9 @@ test('static SEO metadata keeps CMS values and replaces video OG with a static i
   assert.equal(meta.openGraph.url, '/menu/burger');
 });
 
-test('legacy nbburger apex still normalizes to www for migration support', () => {
+test('stale legacy environment cannot restore the former canonical domain', () => {
   const load = createLoader({}, { process: { env: { NEXT_PUBLIC_APP_URL: 'https://nbburger.co.il' } } });
-  assert.equal(load('@/lib/seo').SITE_URL, 'https://www.nbburger.co.il');
+  assert.equal(load('@/lib/seo').SITE_URL, 'https://www.sowhat.co.il');
 });
 
 test('Hebrew category intent does not leak into English or French', () => {

@@ -1,0 +1,167 @@
+{
+  "pages": [
+    {
+      "route": "/",
+      "width": 1440,
+      "title": "SO WHAT | המבורגר ברעננה",
+      "h1": "המבורגר ברעננה",
+      "canonical": "https://www.sowhat.co.il/",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/menu",
+      "width": 1440,
+      "title": "תפריט המבורגרים ברעננה | SO WHAT",
+      "h1": "תפריט המבורגרים ברעננה",
+      "canonical": "https://www.sowhat.co.il/menu",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/kosher",
+      "width": 1440,
+      "title": "כשר בהשגחת רבנות | SO WHAT",
+      "h1": "כשר בהשגחת רבנות",
+      "canonical": "https://www.sowhat.co.il/kosher",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/locations",
+      "width": 1440,
+      "title": "מיקום ושעות | SO WHAT רעננה",
+      "h1": "מיקום ושעות - SO WHAT רעננה",
+      "canonical": "https://www.sowhat.co.il/locations",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/menu/burgers",
+      "width": 1440,
+      "title": "המבורגר כשר | SO WHAT",
+      "h1": "המבורגרים",
+      "canonical": "https://www.sowhat.co.il/menu/burgers",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/menu/nb-burger-klasi",
+      "width": 1440,
+      "title": "המבורגר SO WHAT קלאסי | SO WHAT רעננה",
+      "h1": "המבורגר SO WHAT קלאסי",
+      "canonical": "https://www.sowhat.co.il/menu/nb-burger-klasi",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 1440,
+      "title": "מדיניות פרטיות | SO WHAT",
+      "h1": "מדיניות פרטיות - SO WHAT",
+      "canonical": "https://www.sowhat.co.il/privacy-policy",
+      "horizontalOverflow": false,
+      "contactLinks": 2
+    },
+    {
+      "route": "/terms",
+      "width": 1440,
+      "title": "תקנון האתר | SO WHAT",
+      "h1": "תקנון אתר ותנאי שימוש – SO WHAT",
+      "canonical": "https://www.sowhat.co.il/terms",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/accessibility",
+      "width": 1440,
+      "title": "הצהרת נגישות | SO WHAT",
+      "h1": "הצהרת נגישות - SO WHAT",
+      "canonical": "https://www.sowhat.co.il/accessibility",
+      "horizontalOverflow": false,
+      "contactLinks": 2
+    },
+    {
+      "route": "/",
+      "width": 390,
+      "title": "SO WHAT | המבורגר ברעננה",
+      "h1": "המבורגר ברעננה",
+      "canonical": "https://www.sowhat.co.il/",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/menu",
+      "width": 390,
+      "title": "תפריט המבורגרים ברעננה | SO WHAT",
+      "h1": "תפריט המבורגרים ברעננה",
+      "canonical": "https://www.sowhat.co.il/menu",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/kosher",
+      "width": 390,
+      "title": "כשר בהשגחת רבנות | SO WHAT",
+      "h1": "כשר בהשגחת רבנות",
+      "canonical": "https://www.sowhat.co.il/kosher",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/locations",
+      "width": 390,
+      "title": "מיקום ושעות | SO WHAT רעננה",
+      "h1": "מיקום ושעות - SO WHAT רעננה",
+      "canonical": "https://www.sowhat.co.il/locations",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/menu/burgers",
+      "width": 390,
+      "title": "המבורגר כשר | SO WHAT",
+      "h1": "המבורגרים",
+      "canonical": "https://www.sowhat.co.il/menu/burgers",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/menu/nb-burger-klasi",
+      "width": 390,
+      "title": "המבורגר SO WHAT קלאסי | SO WHAT רעננה",
+      "h1": "המבורגר SO WHAT קלאסי",
+      "canonical": "https://www.sowhat.co.il/menu/nb-burger-klasi",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/privacy-policy",
+      "width": 390,
+      "title": "מדיניות פרטיות | SO WHAT",
+      "h1": "מדיניות פרטיות - SO WHAT",
+      "canonical": "https://www.sowhat.co.il/privacy-policy",
+      "horizontalOverflow": false,
+      "contactLinks": 2
+    },
+    {
+      "route": "/terms",
+      "width": 390,
+      "title": "תקנון האתר | SO WHAT",
+      "h1": "תקנון אתר ותנאי שימוש – SO WHAT",
+      "canonical": "https://www.sowhat.co.il/terms",
+      "horizontalOverflow": false,
+      "contactLinks": 1
+    },
+    {
+      "route": "/accessibility",
+      "width": 390,
+      "title": "הצהרת נגישות | SO WHAT",
+      "h1": "הצהרת נגישות - SO WHAT",
+      "canonical": "https://www.sowhat.co.il/accessibility",
+      "horizontalOverflow": false,
+      "contactLinks": 2
+    }
+  ],
+  "errors": []
+}

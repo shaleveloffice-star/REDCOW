@@ -19,7 +19,7 @@ import { getDirection } from "@/i18n/config";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getAboutPageEnabled, getCachedActiveOrderLinks, getCachedMagazineStories, getCachedAnnouncementPopup, getRecommendationsForDisplay } from "@/lib/cache/cached-data";
 import { resolveStorySlug } from "@/lib/stories/story-slug";
-import { buildOrganizationJsonLd } from "@/lib/seo/json-ld";
+import { buildOrganizationJsonLd, buildWebSiteJsonLd } from "@/lib/seo/json-ld";
 import { DEFAULT_OG_IMAGE, OG_LOCALE, SITE_NAME, SITE_URL } from "@/lib/seo";
 import type { MagazineNavStory } from "@/components/layout/site-navbar";
 import { defaultAnnouncementPopupConfig } from "@/data/announcement-popup-defaults";
@@ -109,6 +109,7 @@ export default async function RootLayout({
         <A11yBootScript />
         <LocaleProvider initialLocale={locale}>
           <JsonLd data={buildOrganizationJsonLd()} />
+          <JsonLd data={buildWebSiteJsonLd()} />
           <SkipToContent />
           <SiteChrome
             orderLinks={orderLinks}

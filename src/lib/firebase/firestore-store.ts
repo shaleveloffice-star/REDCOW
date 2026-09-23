@@ -14,6 +14,12 @@ import {
 } from "@/lib/firebase/admin-runtime";
 import { getFirestoreDb, getFirebaseMissingEnvKeys, isFirebaseConfigured } from "@/lib/firebase";
 import type { FirebaseCollectionName } from "@/types/firebase";
+import { rebrandCmsRecord, rebrandContent } from "@/lib/brand-migration";
+
+const PUBLIC_BRAND_COLLECTIONS = new Set<string>([
+  "menuItems", "menuCategories", "brandStories", "branches", "pressItems",
+  "siteImageOverrides", "galleryImages", "orderLinks"
+]);
 
 export type FirestoreAccess = "public" | "private";
 
@@ -125,7 +131,7 @@ export function createFirestoreCollectionStore<T extends { id: string }>(
   const access: FirestoreAccess = options.access ?? "public";
   const deletableFields = options.deletableFields;
 
-  return {
+  const store: DocumentStore<T> = {
     async getAll() {
       if (useLocalOnly()) {
         return localStore.getAll();
@@ -226,6 +232,20 @@ export function createFirestoreCollectionStore<T extends { id: string }>(
       }
     }
   };
+
+  return {
+    ...store,
+    async getAll() {
+      const rows = await store.getAll();
+      return access === "public" && PUBLIC_BRAND_COLLECTIONS.has(collectionName)
+        ? rows.map(row => rebrandCmsRecord(row, collectionName)) : rows;
+    },
+    async getById(id: string) {
+      const row = await store.getById(id);
+      return access === "public" && PUBLIC_BRAND_COLLECTIONS.has(collectionName)
+        ? rebrandCmsRecord(row, collectionName) : row;
+    }
+  };
 }
 
 export function createFirestoreDocumentStore<T extends Record<string, unknown>>(
@@ -236,7 +256,7 @@ export function createFirestoreDocumentStore<T extends Record<string, unknown>>(
   _unusedLocalDefault?: T
 ) {
   void _unusedLocalDefault;
-  return {
+  const store = {
     async get(): Promise<T> {
       if (useLocalOnly()) {
         return localStore.get();
@@ -274,6 +294,14 @@ export function createFirestoreDocumentStore<T extends Record<string, unknown>>(
         logFirestoreError(`admin set document ${documentId}`, collectionName, error);
         throw error;
       }
+    }
+  };
+  return {
+    ...store,
+    async get(): Promise<T> {
+      const value = await store.get();
+      return ["siteSettings", "announcementPopup", "homepageMenuShowcase"].includes(collectionName)
+        ? rebrandContent(value) : value;
     }
   };
 }

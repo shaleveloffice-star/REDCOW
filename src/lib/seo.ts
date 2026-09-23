@@ -2,15 +2,12 @@ import { isVideoMediaUrl } from "@/lib/menu-media";
 import type { Metadata } from "next";
 
 import { BUSINESS } from "@/data/business";
+import { migrateOwnedSiteUrl } from "@/data/site-domain";
+import { rebrandText } from "@/lib/brand-migration";
 import type { Locale } from "@/i18n/config";
 
-const rawSiteUrl = process.env.NEXT_PUBLIC_APP_URL ?? BUSINESS.website;
-
-const parsedSiteUrl = new URL(rawSiteUrl);
-/** Prefer www for the live brand; keep apex→www for the legacy domain during migration. */
-if (parsedSiteUrl.hostname === "sowhat.co.il") parsedSiteUrl.hostname = "www.sowhat.co.il";
-if (parsedSiteUrl.hostname === "nbburger.co.il") parsedSiteUrl.hostname = "www.nbburger.co.il";
-export const SITE_URL = parsedSiteUrl.toString().replace(/\/+$/, "");
+// Canonicals must never switch back to the former brand, localhost or a preview host.
+export const SITE_URL = BUSINESS.website;
 export const SITE_NAME = BUSINESS.name;
 export const DEFAULT_OG_IMAGE = "/images/hero/nb-burger-hero.webp";
 
@@ -37,9 +34,11 @@ export function buildPageMetadata({
   imageAlt,
   locale = "he"
 }: PageMetadataInput): Metadata {
-  const candidate = image?.trim();
+  title = rebrandText(title);
+  description = rebrandText(description);
+  const candidate = migrateOwnedSiteUrl(image?.trim() ?? "");
   const ogImage = candidate && !isVideoMediaUrl(candidate) ? candidate : DEFAULT_OG_IMAGE;
-  const ogAlt = imageAlt?.trim() || SITE_NAME;
+  const ogAlt = rebrandText(imageAlt?.trim() || SITE_NAME);
 
   return {
     title,

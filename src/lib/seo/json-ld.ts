@@ -1,4 +1,6 @@
 import { BUSINESS, usesDefaultBranchHours } from "@/data/business";
+import { migrateOwnedSiteUrl } from "@/data/site-domain";
+import { rebrandContent } from "@/lib/brand-migration";
 import { SITE_LOGO_SCHEMA_SRC } from "@/data/brand-assets";
 import { getLocalizedCategoryName, getLocalizedCategoryDescription } from "@/i18n/category-translations";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
@@ -21,7 +23,7 @@ export function absoluteUrl(pathOrUrl?: string | null): string {
     return SITE_URL;
   }
   if (/^https?:\/\//i.test(trimmed)) {
-    return trimmed;
+    return migrateOwnedSiteUrl(trimmed);
   }
   const path = trimmed.startsWith("/") ? trimmed : `/${trimmed}`;
   return `${SITE_URL}${path}`;
@@ -32,7 +34,7 @@ export function absoluteUrl(pathOrUrl?: string | null): string {
  * Escapes `<` to prevent script breakout / XSS.
  */
 export function serializeJsonLd(data: JsonLdObject | JsonLdObject[]): string {
-  return JSON.stringify(data).replace(/</g, "\\u003c");
+  return JSON.stringify(rebrandContent(data)).replace(/</g, "\\u003c");
 }
 
 function isStaticImageUrl(url?: string | null): boolean {
@@ -51,6 +53,7 @@ export function buildOrganizationJsonLd(): JsonLdObject {
     "@type": "Organization",
     "@id": `${SITE_URL}/#organization`,
     name: BUSINESS.name,
+    alternateName: BUSINESS.fullName,
     url: absoluteUrl("/"),
     logo: {
       "@type": "ImageObject",
@@ -67,12 +70,25 @@ export function buildOrganizationJsonLd(): JsonLdObject {
   };
 }
 
+export function buildWebSiteJsonLd(): JsonLdObject {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "@id": `${SITE_URL}/#website`,
+    name: BUSINESS.name,
+    alternateName: BUSINESS.fullName,
+    url: absoluteUrl("/"),
+    publisher: { "@id": `${SITE_URL}/#organization` }
+  };
+}
+
 export function buildRestaurantJsonLd(branch?: Branch): JsonLdObject {
   return {
     "@context": "https://schema.org",
     "@type": "Restaurant",
     "@id": `${SITE_URL}/#restaurant`,
     name: BUSINESS.name,
+    alternateName: BUSINESS.fullName,
     url: absoluteUrl("/"),
     email: BUSINESS.email,
     image: absoluteUrl(DEFAULT_OG_IMAGE),

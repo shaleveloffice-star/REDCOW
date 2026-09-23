@@ -4,6 +4,7 @@
  */
 
 import type { Branch } from "@/types/content";
+import { CANONICAL_SITE_ORIGIN } from "@/data/site-domain";
 
 export type BusinessLocale = "he" | "en" | "fr";
 
@@ -23,6 +24,7 @@ export type OpeningHoursInterval = {
 
 export const BUSINESS = {
   name: "SO WHAT",
+  fullName: "SO WHAT BURGER",
   businessTypeHe: "מסעדת המבורגרים",
   cuisineHe: "המבורגרים",
   kosherHe: "כשר בהשגחת רבנות",
@@ -60,7 +62,7 @@ export const BUSINESS = {
 
   email: "official.nbburger@gmail.com",
 
-  website: "https://www.sowhat.co.il",
+  website: CANONICAL_SITE_ORIGIN,
 
   social: {
     facebook: "https://www.facebook.com/profile.php?id=61590066758310",

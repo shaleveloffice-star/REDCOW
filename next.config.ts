@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 
 import { getMarketingShortLinkRedirects } from "./src/data/marketing-short-links";
+import { CANONICAL_SITE_ORIGIN, REDIRECT_SITE_HOSTS } from "./src/data/site-domain";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -65,6 +66,8 @@ const publicAssetCache = "public, max-age=86400, stale-while-revalidate=604800";
 
 const nextConfig: NextConfig = {
   reactStrictMode: true,
+  // Combine slash normalization with the domain move, avoiding an old-host intermediate hop.
+  skipTrailingSlashRedirect: true,
   // Externalize firebase-admin; load only via firebase-admin.cjs (CJS require condition).
   // ESM import()/bundling caused ERR_REQUIRE_ESM and slow cold starts on Vercel.
   serverExternalPackages: ["firebase-admin"],
@@ -116,7 +119,7 @@ const nextConfig: NextConfig = {
     };
   },
   async redirects() {
-    return [
+    const pathRedirects = [
       {
         source: "/branches",
         destination: "/locations",
@@ -127,7 +130,20 @@ const nextConfig: NextConfig = {
         destination: "/menu/:slug",
         permanent: true
       },
-      ...getMarketingShortLinkRedirects()
+      ...getMarketingShortLinkRedirects(),
+      { source: "/:path+/", destination: "/:path+", permanent: true }
+    ];
+    return [
+      ...REDIRECT_SITE_HOSTS.flatMap((host) => {
+        const has = [{ type: "host" as const, value: host.replaceAll(".", "\\.") }];
+        return [
+          // Existing redirects go directly to their final new-domain destination.
+          ...pathRedirects.map((rule) => ({ ...rule, has, permanent: true,
+            destination: `${CANONICAL_SITE_ORIGIN}${rule.destination}` })),
+          { source: "/:path*", has, destination: `${CANONICAL_SITE_ORIGIN}/:path*`, permanent: true }
+        ];
+      }),
+      ...pathRedirects
     ];
   },
   async headers() {

@@ -1,4 +1,5 @@
 import { withJsonFileLock } from "@/lib/admin/json-file-lock";
+import { rebrandContent } from "@/lib/brand-migration";
 import { getAdminFirestore } from "@/lib/firebase/admin-runtime";
 import { getFirestoreDb, isFirebaseConfigured } from "@/lib/firebase";
 import { localSeoContentStore } from "@/lib/admin/seo-content-json-store";
@@ -8,7 +9,7 @@ import type { SeoContentDocument, SeoLocaleBundle } from "@/types/seo-content";
 import { sanitizeSeoContentDocument, sanitizeSeoLocaleBundle } from "@/lib/seo-content/sanitize-seo-storage";
 
 export async function getSeoContentDocument(): Promise<SeoContentDocument> {
-  if (!isFirebaseConfigured()) return sanitizeSeoContentDocument(await localSeoContentStore.get());
+  if (!isFirebaseConfigured()) return rebrandContent(sanitizeSeoContentDocument(await localSeoContentStore.get()));
   const db = getFirestoreDb();
   if (!db) throw new Error("Firestore Client is required for SEO reads.");
   const locales: Locale[] = ["he", "en", "fr"];
@@ -16,7 +17,7 @@ export async function getSeoContentDocument(): Promise<SeoContentDocument> {
     const snapshot = await getDoc(doc(db, "seoContent", locale));
     return [locale, snapshot.exists() ? sanitizeSeoLocaleBundle(snapshot.data() as SeoLocaleBundle) : undefined] as const;
   }));
-  return sanitizeSeoContentDocument(Object.fromEntries(entries));
+  return rebrandContent(sanitizeSeoContentDocument(Object.fromEntries(entries)));
 }
 
 /** The callback runs against the latest document, including when Firestore retries. */

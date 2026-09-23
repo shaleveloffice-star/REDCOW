@@ -6,7 +6,7 @@ The current application runs on Next.js 16 with Node.js 22 or newer and is hoste
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_APP_URL` | Public origin used by canonical URLs, sitemap and JSON-LD. Use `https://www.sowhat.co.il` for production and the actual preview origin for previews. Apex `sowhat.co.il` / `nbburger.co.il` normalize to their `www` hosts in code. |
+| `NEXT_PUBLIC_APP_URL` | Public origin used by canonical URLs, sitemap and JSON-LD. Set `https://www.sowhat.co.il`. SEO uses the single origin in `src/data/site-domain.ts`, including on local/preview builds; stale environment values cannot publish old-domain canonicals. Protect preview deployments from indexing in Vercel. |
 | `NEXT_PUBLIC_FIREBASE_API_KEY`, `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`, `NEXT_PUBLIC_FIREBASE_PROJECT_ID`, `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`, `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `NEXT_PUBLIC_FIREBASE_APP_ID` | Existing Firebase Web App configuration for public content reads. All required by the current configuration check. |
 | `ADMIN_PASSWORD` | Server-only shared admin password. Required in production; code enforces at least six characters. Use a long random password. `ADMIN_DEV_PASSWORD` is a development fallback only. |
 | `ADMIN_SESSION_SECRET` | Server-only JWT secret, at least 32 characters. |

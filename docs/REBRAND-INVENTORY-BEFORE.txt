@@ -1,0 +1,138 @@
+Inventory captured before this task edits; existing SO WHAT work-in-progress retained.
+.\README.md:3:אתר המסעדה ופאנל הניהול, מבוססי Next.js 16. שם תיקיית הפרויקט ו־GitHub repository הוא עדיין REDCOW.
+.\docs\MAINTENANCE-FIXES.md:3:בוצעו תיקונים מקומיים על בסיס הבדיקות בפרויקט REDCOW/SO WHAT?. לא בוצעו commit, push, פריסה, שינוי משתני סביבה, שליחת מיילים או כתיבה לנתוני האתר החי.
+.\scripts\smoke-story-openai.mjs:136:        name: "nb_burger_story",
+.\data\local\site-image-overrides.json:18:    "imageUrl": "/images/site/nb_burger_hero_80kb-1779542522543.jpg",
+.\docs\LAUNCH.md:3:The current application runs on Next.js 16 with Node.js 22 or newer and is hosted on Vercel. Its canonical production origin is `https://www.sowhat.co.il`. The legacy domain `nbburger.co.il` may still be used for migration redirects. This guide describes the current password-based admin flow; older documents describing Firebase Auth modes or an admin email allowlist do not describe the active login implementation.
+.\docs\LAUNCH.md:9:| `NEXT_PUBLIC_APP_URL` | Public origin used by canonical URLs, sitemap and JSON-LD. Use `https://www.sowhat.co.il` for production and the actual preview origin for previews. Apex `sowhat.co.il` / `nbburger.co.il` normalize to their `www` hosts in code. |
+.\docs\LAUNCH.md:40:3. Confirm the production domain redirects to `www.sowhat.co.il`, matching canonical URLs. Keep `nbburger.co.il` available for migration redirects until cutover is complete. Do not change DNS merely to apply code fixes.
+.\scripts\seed-menu-data.mjs:113:    id: "item-nb-burger-klasi",
+.\scripts\seed-menu-data.mjs:117:    slug: "nb-burger-klasi",
+.\scripts\seed-menu-data.mjs:129:    id: "item-nb-burger-kamhin",
+.\scripts\seed-menu-data.mjs:133:    slug: "nb-burger-kamhin",
+.\scripts\seed-menu-data.mjs:145:    id: "item-nb-burger-konfi",
+.\scripts\seed-menu-data.mjs:149:    slug: "nb-burger-konfi",
+.\scripts\seed-menu-data.mjs:161:    id: "item-nb-burger-vegan",
+.\scripts\seed-menu-data.mjs:165:    slug: "nb-burger-vegan",
+.\scripts\seed-menu-data.mjs:179:    id: "item-meal-nb-klasi",
+.\scripts\seed-menu-data.mjs:183:    slug: "meal-nb-klasi",
+.\scripts\seed-menu-data.mjs:195:    id: "item-meal-nb-kamhin",
+.\scripts\seed-menu-data.mjs:199:    slug: "meal-nb-kamhin",
+.\scripts\apply-brand-logo.mjs:11:const wordmarkSource = path.join(brandSourcesDir, "nb-burger-logo-source.png");
+.\scripts\apply-brand-logo.mjs:12:const iconSource = path.join(brandSourcesDir, "nb-burger-icon-source.png");
+.\scripts\apply-brand-logo.mjs:122:  await fs.writeFile(path.join(brandDir, "nb-burger-logo.png"), logoMaster);
+.\scripts\apply-brand-logo.mjs:123:  console.log("wrote", path.join(brandDir, "nb-burger-logo.png"));
+.\scripts\apply-brand-logo.mjs:160:    ["nb-burger-wordmark-dark.png", darkPng],
+.\scripts\apply-brand-logo.mjs:161:    ["nb-burger-wordmark-dark.webp", await sharp(darkPng).webp({ quality: 92 }).toBuffer()],
+.\scripts\apply-brand-logo.mjs:162:    ["nb-burger-wordmark-light.png", lightPng],
+.\scripts\apply-brand-logo.mjs:163:    ["nb-burger-wordmark-light.webp", await sharp(lightPng).webp({ quality: 92 }).toBuffer()],
+.\scripts\apply-brand-logo.mjs:164:    ["nb-burger-wordmark-alpha.png", darkPng],
+.\scripts\apply-brand-logo.mjs:165:    ["nb-burger-wordmark-alpha.webp", await sharp(darkPng).webp({ quality: 92 }).toBuffer()]
+.\scripts\center-hero-burger.mjs:7:const input = path.join(root, "public/images/hero/nb-burger-hero-current.webp");
+.\scripts\center-hero-burger.mjs:8:const output = path.join(root, "public/images/hero/nb-burger-hero-desktop.webp");
+.\package.json:2:  "name": "nbburger-project",
+.\scripts\bootstrap-site-settings.mjs:73:    heroMediaUrl: "/videos/hero-nb-experience.mp4",
+.\scripts\bootstrap-site-settings.mjs:76:    email: "official.nbburger@gmail.com",
+.\scripts\bootstrap-site-settings.mjs:77:    instagramUrl: "https://www.instagram.com/nbburgeril/",
+.\scripts\bootstrap-site-settings.mjs:79:    tiktokUrl: "https://www.tiktok.com/@nb.burg",
+.\scripts\bootstrap-site-settings.mjs:82:    ogImageUrl: "/images/hero/nb-burger-hero-desktop.webp",
+.\data\local\menu-items.json:3:    "id": "item-nb-burger-klasi",
+.\data\local\menu-items.json:11:    "slug": "nb-burger-klasi",
+.\data\local\menu-items.json:27:    "id": "item-nb-burger-kamhin",
+.\data\local\menu-items.json:35:    "slug": "nb-burger-kamhin",
+.\data\local\menu-items.json:50:    "id": "item-nb-burger-konfi",
+.\data\local\menu-items.json:58:    "slug": "nb-burger-konfi",
+.\data\local\menu-items.json:73:    "id": "item-nb-burger-vegan",
+.\data\local\menu-items.json:81:    "slug": "nb-burger-vegan",
+.\data\local\menu-items.json:96:    "id": "item-meal-nb-klasi",
+.\data\local\menu-items.json:104:    "slug": "meal-nb-klasi",
+.\data\local\menu-items.json:118:    "id": "item-meal-nb-kamhin",
+.\data\local\menu-items.json:126:    "slug": "meal-nb-kamhin",
+.\data\local\brand-stories.json:8:    "heroImageUrl": "/images/hero/nb-burger-hero.webp",
+.\data\local\brand-stories.json:12:    "ogImageUrl": "/images/hero/nb-burger-hero.webp",
+.\scripts\generate-brand-icons.mjs:7:const source = path.join(root, "brand-sources/nb-burger-icon-source.png");
+.\src\i18n\config.ts:7:export const LOCALE_COOKIE = "nb-locale";
+.\src\data\site-images.registry.ts:7:export const HERO_DEFAULT_IMAGE_URL = "/images/hero/nb-burger-hero.jpg";
+.\src\data\site-images.registry.ts:8:export const HERO_DEFAULT_VIDEO_URL = "/videos/hero-nb-experience.mp4";
+.\src\data\site-images.registry.ts:35:export const HOME_HERO_IMAGE = "/images/hero/nb-burger-hero.webp";
+.\src\data\site-images.registry.ts:57:  classic: "/images/menu/nb-menu-burger.png",
+.\src\data\site-images.registry.ts:58:  fries: "/images/menu/nb-menu-burger.png",
+.\src\data\site-images.registry.ts:59:  experience: "/images/hero/nb-burger-hero.jpg",
+.\src\data\site-images.registry.ts:60:  smoked: "/images/menu/nb-menu-burger.png"
+.\tests\storage.test.cjs:9:  const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'nb-burger-tests-'));
+.\tests\storage.test.cjs:12:    assert.ok(path.basename(dir).startsWith('nb-burger-tests-'));
+.\src\components\shared\menu-item-image.tsx:29:const FALLBACK_IMAGE = "/images/menu/nb-menu-burger.png";
+.\tests\recommendations.test.cjs:55:  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'nb-recommendations-'));
+.\tests\menu-hero.test.cjs:28:  const directory = await fs.mkdtemp(path.join(os.tmpdir(), 'nb-menu-hero-'));
+.\tests\menu-hero.test.cjs:51:  assert.equal(defaults.videoUrl, '/videos/hero-nb-experience.mp4');
+.\src\data\mock\settings.mock.ts:11:  heroMediaUrl: "/videos/hero-nb-experience.mp4",
+.\src\data\mock\settings.mock.ts:20:  ogImageUrl: "/images/hero/nb-burger-hero.webp",
+.\tests\content.test.cjs:41:test('legacy nbburger apex still normalizes to www for migration support', () => {
+.\tests\content.test.cjs:42:  const load = createLoader({}, { process: { env: { NEXT_PUBLIC_APP_URL: 'https://nbburger.co.il' } } });
+.\tests\content.test.cjs:43:  assert.equal(load('@/lib/seo').SITE_URL, 'https://www.nbburger.co.il');
+.\src\data\mock\press.mock.ts:10:    url: "https://example.com/nb-burger-best-burger",
+.\src\data\mock\press.mock.ts:21:    url: "https://example.com/nb-burger-new-branch",
+.\src\data\mock\menu.mock.ts:6:export const MENU_ITEM_IMAGE = "/images/menu/nb-menu-burger.png";
+.\src\data\mock\menu.mock.ts:63:    id: "item-nb-classic",
+.\src\data\mock\menu.mock.ts:75:    slug: "nb-classic",
+.\src\data\mock\admin.mock.ts:8:    email: "admin@nbburger.co.il",
+.\src\data\menu-item-translations.ts:7:  "item-nb-burger-klasi": {
+.\src\data\menu-item-translations.ts:22:  "item-nb-burger-kamhin": {
+.\src\data\menu-item-translations.ts:37:  "item-nb-burger-konfi": {
+.\src\data\menu-item-translations.ts:53:  "item-nb-burger-vegan": {
+.\src\data\menu-item-translations.ts:69:  "item-meal-nb-klasi": {
+.\src\data\menu-item-translations.ts:83:  "item-meal-nb-kamhin": {
+.\src\data\menu-item-translation-lookup.ts:12:  "nb-burger-klasi": "item-nb-burger-klasi",
+.\src\data\menu-item-translation-lookup.ts:13:  "nb-burger-kamhin": "item-nb-burger-kamhin",
+.\src\data\menu-item-translation-lookup.ts:14:  "nb-burger-konfi": "item-nb-burger-konfi",
+.\src\data\menu-item-translation-lookup.ts:15:  "nb-burger-vegan": "item-nb-burger-vegan",
+.\src\data\menu-item-translation-lookup.ts:16:  "meal-nb-klasi": "item-meal-nb-klasi",
+.\src\data\menu-item-translation-lookup.ts:17:  "meal-nb-kamhin": "item-meal-nb-kamhin",
+.\src\data\menu-item-translation-lookup.ts:47:  "hamburger-nb-classic": "item-nb-burger-klasi",
+.\src\data\menu-item-translation-lookup.ts:48:  "hamburger-nb-truffle": "item-nb-burger-kamhin",
+.\src\data\menu-item-translation-lookup.ts:49:  "hamburger-nb-confit": "item-nb-burger-konfi",
+.\src\data\menu-item-translation-lookup.ts:50:  "hamburger-nb-vegan": "item-nb-burger-vegan",
+.\src\data\menu-item-translation-lookup.ts:51:  "nb-classic-meal": "item-meal-nb-klasi",
+.\src\data\menu-item-translation-lookup.ts:52:  "nb-truffle-meal": "item-meal-nb-kamhin",
+.\src\data\homepage-menu.ts:3:  "item-nb-classic",
+.\src\data\business.ts:61:  email: "official.nbburger@gmail.com",
+.\src\data\business.ts:67:    instagram: "https://www.instagram.com/nbburgeril/",
+.\src\data\business.ts:68:    tiktok: "https://www.tiktok.com/@nb.burg"
+.\src\data\brand-assets.ts:6:export const SITE_LOGO_SCHEMA_SRC = "/images/brand/nb-burger-logo.png";
+.\src\data\brand-assets.ts:12:export const SITE_WORDMARK_DARK_SRC = withVersion("/images/brand/nb-burger-wordmark-dark.png");
+.\src\data\brand-assets.ts:13:export const SITE_WORDMARK_DARK_WEBP_SRC = withVersion("/images/brand/nb-burger-wordmark-dark.webp");
+.\src\data\brand-assets.ts:16:export const SITE_WORDMARK_LIGHT_SRC = withVersion("/images/brand/nb-burger-wordmark-light.png");
+.\src\data\brand-assets.ts:17:export const SITE_WORDMARK_LIGHT_WEBP_SRC = withVersion("/images/brand/nb-burger-wordmark-light.webp");
+.\src\components\layout\site-opening-announcement.tsx:11:const STORAGE_PREFIX = "nb-announcement-popup:";
+.\src\components\layout\page-transition-loader.tsx:8:const LOADING_MARK_SRC = "/images/brand/nb-loading-mark.png";
+.\src\components\layout\a11y-boot-script.tsx:19:      id="nb-a11y-boot"
+.\src\app\admin\(panel)\settings\page.tsx:51:              placeholder="/images/hero/nb-burger-hero.jpg או /videos/hero.mp4"
+.\src\services\auth.service.ts:53:      email: "admin@nbburger.co.il",
+.\src\components\features\admin\admin-stories-manager.tsx:41:const STORY_DRAFT_STORAGE_PREFIX = "nb-admin-story-draft:";
+.\src\components\features\menu\menu-items-grid.tsx:14:const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
+.\src\components\features\menu\menu-item-detail-view.tsx:30:const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
+.\src\components\features\menu\menu-autoplay-media.tsx:5:const MENU_VIDEO_POSTER = "/images/menu/nb-menu-burger.png";
+.\src\components\features\admin\admin-menu-table.tsx:116:    imageUrl: "/images/menu/nb-menu-burger.png",
+.\src\components\features\admin\admin-homepage-menu-showcase.tsx:12:const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
+.\src\components\features\admin\admin-customer-club-manager.tsx:840:              <strong>From:</strong> SO WHAT? &lt;club@nbburger.co.il&gt;
+.\src\components\features\home\customer-club-signup-form.tsx:99:          src="/images/brand/nb-loading-mark.png"
+.\src\components\features\home\home-social-vibe-section.tsx:111:          <p className="home-vibe-handle">@NBBURGERIL</p>
+.\src\components\features\home\home-menu-showcase-section.tsx:19:const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
+.\src\components\features\home\hero-section.tsx:10:/** Bump when replacing public/images/hero/nb-burger-hero.webp (avoids stale browser cache). */
+.\src\lib\video-sources.ts:5:const KNOWN_LOCAL_WEBM = new Set<string>(["/videos/hero-nb-experience.webm"]);
+.\src\lib\seo.ts:12:if (parsedSiteUrl.hostname === "nbburger.co.il") parsedSiteUrl.hostname = "www.nbburger.co.il";
+.\src\lib\seo.ts:15:export const DEFAULT_OG_IMAGE = "/images/hero/nb-burger-hero.webp";
+.\src\lib\menu\normalize-menu.ts:108:  fallback = "/images/menu/nb-menu-burger.png"
+.\src\lib\menu\legacy-slugs.ts:15:  "item-nb-burger-klasi": ["hamburger-nb-classic"],
+.\src\lib\menu\legacy-slugs.ts:16:  "item-nb-burger-kamhin": ["hamburger-nb-truffle"],
+.\src\lib\menu\legacy-slugs.ts:17:  "item-nb-burger-konfi": ["hamburger-nb-confit"],
+.\src\lib\menu\legacy-slugs.ts:18:  "item-nb-burger-vegan": ["hamburger-nb-vegan"],
+.\src\lib\menu\legacy-slugs.ts:19:  "item-meal-nb-klasi": ["nb-classic-meal"],
+.\src\lib\menu\legacy-slugs.ts:20:  "item-meal-nb-kamhin": ["nb-truffle-meal"],
+.\src\lib\admin\upload-blob.ts:11: * Name in dashboard: nbburger-blob (store_YtiRgyBGU1IPJyak).
+.\src\lib\admin\upload-blob.ts:55:  // OIDC + BLOB_STORE_ID targets nbburger-blob (Access: Public) and avoids any
+.\src\lib\admin\upload-blob.ts:80:      "Vercel Blob (public) לא מוגדר מקומית. הוסיפו ל-.env.local את BLOB_READ_WRITE_TOKEN של ה-store הציבורי (nbburger-blob)."
+.\src\lib\admin\upload-blob.ts:146:          "העלאה נכשלה: נעשה שימוש ב-store פרטי. ודאו ש-BLOB_STORE_ID מצביע ל-store הציבורי (nbburger-blob / store_YtiRgyBGU1IPJyak) וש-BLOB_READ_WRITE_TOKEN שייך לאותו store."
+.\src\lib\a11y\preferences.ts:1:export const A11Y_STORAGE_KEY = "nb-a11y";
+.\src\lib\admin\story-auto-fill\openai-generate.ts:255:          name: "nb_burger_story",
+.\src\lib\admin\story-auto-fill\openai-suggest.ts:207:        name: "nb_burger_story_suggestions",

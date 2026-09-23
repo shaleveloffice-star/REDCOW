@@ -37,3 +37,9 @@ npm run build
 ראו [מדריך הפריסה](docs/LAUNCH.md) ו[פירוט התיקונים והבדיקות](docs/MAINTENANCE-FIXES.md).
 
 `npm run build` בונה מקומית בלבד. הוא אינו מפרסם קוד, כללי Firestore או נתונים. סקריפטים `seed:menu` ו־`bootstrap:site-settings` מיועדים לאתחול מכוון; אין להריץ אותם על נתונים קיימים עם `--force` בלי כוונה להחליפם.
+
+## מעבר המותג והדומיין
+
+המותג: **SO WHAT**, שם מלא: **SO WHAT BURGER**. הקנוניקל הקבוע הוא `https://www.sowhat.co.il`, ללא שינוי בנתיבי העמודים.
+
+דוח המעבר, ההפניות, הנכסים הגרפיים החסרים והפעולות ב־Vercel וב־Google: [docs/REBRAND-MIGRATION.md](docs/REBRAND-MIGRATION.md).

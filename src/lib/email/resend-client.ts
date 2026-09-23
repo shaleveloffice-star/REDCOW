@@ -1,6 +1,7 @@
 import "server-only";
 
 import { Resend } from "resend";
+import { rebrandText } from "@/lib/brand-migration";
 
 export type ResendFromConfig = {
   email: string;
@@ -10,7 +11,7 @@ export type ResendFromConfig = {
 
 export function getResendFromConfig(): ResendFromConfig | null {
   const email = process.env.RESEND_FROM_EMAIL?.trim();
-  const name = process.env.RESEND_FROM_NAME?.trim() || "SO WHAT";
+  const name = rebrandText(process.env.RESEND_FROM_NAME?.trim() || "SO WHAT");
   if (!email) return null;
   return {
     email,

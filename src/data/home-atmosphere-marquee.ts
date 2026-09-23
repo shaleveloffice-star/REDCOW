@@ -20,9 +20,9 @@ export const HOME_ATMOSPHERE_MARQUEE_VERSION = "20260903a";
 
 /** Fixed center headline — edit these lines anytime. */
 export const HOME_ATMOSPHERE_MARQUEE_HEADLINE = {
-  line1: "WE MAKE",
-  line2: "BURGERS.",
-  line3: "YOU REMEMBER."
+  line1: "SO WHAT?",
+  line2: "JUST TAKE",
+  line3: "A BITE."
 } as const;
 
 export type HomeAtmosphereMarqueeImage = {

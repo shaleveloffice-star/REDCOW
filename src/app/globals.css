@@ -446,7 +446,7 @@
   --secondary-border: rgba(255, 255, 255, 0.55);
   --secondary-border-strong: rgba(255, 255, 255, 0.72);
   --site-opening-banner-height: 40px;
-  --site-navbar-height: 120px;
+  --site-navbar-height: 132px;
   --site-chrome-offset: calc(
     var(--site-opening-banner-height) + env(safe-area-inset-top, 0px) + var(--site-navbar-height)
   );
@@ -2260,15 +2260,15 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 .site-navbar-logo {
   display: block;
   width: auto;
-  height: clamp(48px, 8vw, 64px);
-  max-width: min(200px, 52vw);
+  height: clamp(58px, 10vw, 80px);
+  max-width: min(260px, 58vw);
   object-fit: contain;
 }
 
 @media (min-width: 640px) {
   .site-navbar-logo {
-    height: 64px;
-    max-width: 200px;
+    height: 80px;
+    max-width: 260px;
   }
 }
 
@@ -2341,7 +2341,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   }
 
   :root {
-    --site-navbar-height: 128px;
+    --site-navbar-height: 140px;
   }
 }
 
@@ -2826,8 +2826,8 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   }
 
   .site-navbar-logo {
-    max-width: min(140px, 42vw);
-    height: clamp(40px, 11vw, 52px);
+    max-width: min(180px, 50vw);
+    height: clamp(50px, 13vw, 64px);
   }
 
   .site-navbar-mobile-utilities {
@@ -2888,7 +2888,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 
   :root {
     /* Two-row mobile bar (logo + utilities), not the collapsed scroll height. */
-    --site-navbar-height: 148px;
+    --site-navbar-height: 160px;
     --site-chrome-offset: calc(
       var(--site-opening-banner-height) + env(safe-area-inset-top, 0px) + var(--site-navbar-height)
     );

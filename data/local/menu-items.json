@@ -21,7 +21,7 @@
     ],
     "sortOrder": 1,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-nb-burger-kamhin",
@@ -44,7 +44,7 @@
     ],
     "sortOrder": 4,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-nb-burger-konfi",
@@ -67,7 +67,7 @@
     ],
     "sortOrder": 2,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-nb-burger-vegan",
@@ -90,7 +90,7 @@
     ],
     "sortOrder": 5,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-meal-nb-klasi",
@@ -106,13 +106,13 @@
     "primaryKeyword": "ארוחת המבורגר רעננה",
     "metaTitle": "ארוחת SO WHAT קלאסי | SO WHAT רעננה",
     "metaDescription": "ארוחת SO WHAT קלאסי ברעננה - המבורגר קלאסי, תוספת ושתייה. SO WHAT, מסעדת המבורגרים הכשרה באחוזה 96.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "ארוחה"
     ],
     "sortOrder": 1,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-meal-nb-kamhin",
@@ -128,13 +128,13 @@
     "primaryKeyword": "ארוחת המבורגר כמהין רעננה",
     "metaTitle": "ארוחת SO WHAT כמהין | SO WHAT רעננה",
     "metaDescription": "ארוחת SO WHAT כמהין ברעננה - המבורגר כמהין, תוספת ושתייה. SO WHAT, מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "ארוחה"
     ],
     "sortOrder": 2,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-side-fries",
@@ -156,7 +156,7 @@
     ],
     "sortOrder": 2,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-side-home-fries",
@@ -172,13 +172,13 @@
     "primaryKeyword": "הום פרייז רעננה",
     "metaTitle": "הום פרייז | SO WHAT רעננה",
     "metaDescription": "הום פרייז מ-SO WHAT ברעננה - תפוחי אדמה מתובלים ופריכים. מסעדת המבורגרים הכשרה באחוזה 96.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "תוספת"
     ],
     "sortOrder": 4,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-side-wings",
@@ -200,7 +200,7 @@
     ],
     "sortOrder": 3,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-side-nuggets-4",
@@ -223,7 +223,7 @@
     ],
     "sortOrder": 1,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-side-nuggets-7",
@@ -262,13 +262,13 @@
     "primaryKeyword": "סלט ירוק רעננה",
     "metaTitle": "סלט ירוק | SO WHAT רעננה",
     "metaDescription": "סלט ירוק טרי מ-SO WHAT ברעננה - ירקות טריים ורוטב לבחירה. מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "סלט"
     ],
     "sortOrder": 2,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-salad-caesar-small",
@@ -290,7 +290,7 @@
     ],
     "sortOrder": 1,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-salad-caesar-large",
@@ -328,13 +328,13 @@
     "primaryKeyword": "איולי שום קונפי",
     "metaTitle": "איולי שום קונפי | SO WHAT רעננה",
     "metaDescription": "איולי שום קונפי ביתי מ-SO WHAT ברעננה. רוטב מושלם ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "רטב"
     ],
     "sortOrder": 1,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-sauce-aioli-honey-mustard",
@@ -350,13 +350,13 @@
     "primaryKeyword": "איולי דבש וחרדל",
     "metaTitle": "איולי דבש וחרדל | SO WHAT רעננה",
     "metaDescription": "איולי דבש וחרדל מ-SO WHAT ברעננה. רוטב מתקתק ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "רטב"
     ],
     "sortOrder": 2,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-sauce-aioli-kamhin",
@@ -372,13 +372,13 @@
     "primaryKeyword": "איולי כמהין",
     "metaTitle": "איולי כמהין | SO WHAT רעננה",
     "metaDescription": "איולי כמהין מ-SO WHAT ברעננה - רוטב קרמי ועשיר. מסעדת המבורגרים הכשרה באחוזה 96.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "רטב"
     ],
     "sortOrder": 3,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-sauce-aioli-mint",
@@ -394,13 +394,13 @@
     "primaryKeyword": "איולי נענע",
     "metaTitle": "איולי נענע | SO WHAT רעננה",
     "metaDescription": "איולי נענע מ-SO WHAT ברעננה. רוטב רענן ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "רטב"
     ],
     "sortOrder": 4,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-sauce-aioli-chipotle",
@@ -416,14 +416,14 @@
     "primaryKeyword": "איולי צ'יפוטלה",
     "metaTitle": "איולי צ'יפוטלה | SO WHAT רעננה",
     "metaDescription": "איולי צ'יפוטלה מ-SO WHAT ברעננה - רוטב מעושן וחריף. מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "רטב",
       "חריף"
     ],
     "sortOrder": 5,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-sauce-ketchup",
@@ -439,13 +439,13 @@
     "primaryKeyword": "קטשופ",
     "metaTitle": "קטשופ | SO WHAT רעננה",
     "metaDescription": "קטשופ מ-SO WHAT ברעננה. רוטב קלאסי ליד התוספות - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "רטב"
     ],
     "sortOrder": 6,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-sauce-mayo",
@@ -461,13 +461,13 @@
     "primaryKeyword": "מיונז",
     "metaTitle": "מיונז | SO WHAT רעננה",
     "metaDescription": "מיונז מ-SO WHAT ברעננה. רוטב קלאסי ליד ההמבורגר והתוספות - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "רטב"
     ],
     "sortOrder": 7,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-drink-water",
@@ -483,13 +483,13 @@
     "primaryKeyword": "מים מינרלים רעננה",
     "metaTitle": "מים מינרלים | SO WHAT רעננה",
     "metaDescription": "מים מינרלים מ-SO WHAT ברעננה. שתייה קלה ליד הארוחה - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "שתייה"
     ],
     "sortOrder": 1,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-drink-soda",
@@ -505,13 +505,13 @@
     "primaryKeyword": "סודה רעננה",
     "metaTitle": "סודה | SO WHAT רעננה",
     "metaDescription": "סודה מוגזת מ-SO WHAT ברעננה. שתייה קלה ליד הארוחה - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "שתייה"
     ],
     "sortOrder": 2,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-drink-lemonade",
@@ -527,13 +527,13 @@
     "primaryKeyword": "לימונדה רעננה",
     "metaTitle": "לימונדה | SO WHAT רעננה",
     "metaDescription": "לימונדה קרה מ-SO WHAT ברעננה. שתייה מרעננת ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "שתייה"
     ],
     "sortOrder": 3,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-drink-cola",
@@ -549,13 +549,13 @@
     "primaryKeyword": "קולה רעננה",
     "metaTitle": "קולה | SO WHAT רעננה",
     "metaDescription": "קוקה קולה מ-SO WHAT ברעננה. שתייה קלה ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "שתייה"
     ],
     "sortOrder": 4,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-drink-cola-zero",
@@ -571,13 +571,13 @@
     "primaryKeyword": "קולה זירו רעננה",
     "metaTitle": "קולה זירו | SO WHAT רעננה",
     "metaDescription": "קוקה קולה זירו מ-SO WHAT ברעננה. שתייה קלה ליד הארוחה - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "שתייה"
     ],
     "sortOrder": 5,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-drink-sprite",
@@ -593,13 +593,13 @@
     "primaryKeyword": "ספרייט רעננה",
     "metaTitle": "ספרייט | SO WHAT רעננה",
     "metaDescription": "ספרייט מ-SO WHAT ברעננה. שתייה קלה ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "שתייה"
     ],
     "sortOrder": 6,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-drink-sprite-zero",
@@ -615,13 +615,13 @@
     "primaryKeyword": "ספרייט זירו רעננה",
     "metaTitle": "ספרייט זירו | SO WHAT רעננה",
     "metaDescription": "ספרייט זירו מ-SO WHAT ברעננה. שתייה קלה ליד הארוחה - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "שתייה"
     ],
     "sortOrder": 7,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-drink-fanta",
@@ -637,13 +637,13 @@
     "primaryKeyword": "פאנטה רעננה",
     "metaTitle": "פאנטה | SO WHAT רעננה",
     "metaDescription": "פאנטה תפוזים מ-SO WHAT ברעננה. שתייה קלה ליד ההמבורגר - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "שתייה"
     ],
     "sortOrder": 8,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-drink-grape",
@@ -659,13 +659,13 @@
     "primaryKeyword": "משקה ענבים רעננה",
     "metaTitle": "ענבים | SO WHAT רעננה",
     "metaDescription": "משקה ענבים מ-SO WHAT ברעננה. שתייה קלה ליד הארוחה - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "שתייה"
     ],
     "sortOrder": 9,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-drink-fuzetea",
@@ -681,13 +681,13 @@
     "primaryKeyword": "פיוז טי רעננה",
     "metaTitle": "פיוז טי | SO WHAT רעננה",
     "metaDescription": "פיוז טי מ-SO WHAT ברעננה. תה קר ליד הארוחה - מסעדת המבורגרים הכשרה.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "שתייה"
     ],
     "sortOrder": 10,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-beer-corona",
@@ -703,14 +703,14 @@
     "primaryKeyword": "בירה קורונה רעננה",
     "metaTitle": "בקבוק קורונה | SO WHAT רעננה",
     "metaDescription": "בירה קורונה בבקבוק מ-SO WHAT ברעננה. ליד ההמבורגר - מסעדת המבורגרים הכשרה. 18+.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "בירה",
       "18+"
     ],
     "sortOrder": 1,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-beer-stella",
@@ -726,14 +726,14 @@
     "primaryKeyword": "בירה סטלה רעננה",
     "metaTitle": "בקבוק סטלה | SO WHAT רעננה",
     "metaDescription": "בירה Stella Artois בבקבוק מ-SO WHAT ברעננה. ליד ההמבורגר - מסעדת המבורגרים הכשרה. 18+.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "בירה",
       "18+"
     ],
     "sortOrder": 2,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-beer-heineken",
@@ -749,14 +749,14 @@
     "primaryKeyword": "בירה הייניקן רעננה",
     "metaTitle": "בקבוק הייניקן | SO WHAT רעננה",
     "metaDescription": "בירה Heineken בבקבוק מ-SO WHAT ברעננה. ליד ההמבורגר - מסעדת המבורגרים הכשרה. 18+.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "בירה",
       "18+"
     ],
     "sortOrder": 3,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-beer-goldstar",
@@ -772,14 +772,14 @@
     "primaryKeyword": "בירה גולדסטאר רעננה",
     "metaTitle": "בקבוק גולדסטאר | SO WHAT רעננה",
     "metaDescription": "בירה גולדסטאר בבקבוק מ-SO WHAT ברעננה. ליד ההמבורגר - מסעדת המבורגרים הכשרה. 18+.",
-    "isActive": true,
+    "isActive": false,
     "tags": [
       "בירה",
       "18+"
     ],
     "sortOrder": 4,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-07-29T14:01:40.906Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-nb-burger-french",
@@ -801,7 +801,7 @@
     ],
     "sortOrder": 3,
     "createdAt": "2026-09-23T19:30:25.920Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-smash-double",
@@ -823,7 +823,7 @@
     ],
     "sortOrder": 1,
     "createdAt": "2026-09-23T19:30:25.920Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-smash-triple",
@@ -845,7 +845,7 @@
     ],
     "sortOrder": 2,
     "createdAt": "2026-09-23T19:30:25.920Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-special-crispy",
@@ -867,7 +867,7 @@
     ],
     "sortOrder": 1,
     "createdAt": "2026-09-23T19:30:25.920Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "item-special-sausage",
@@ -889,6 +889,6 @@
     ],
     "sortOrder": 2,
     "createdAt": "2026-09-23T19:30:25.920Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   }
 ]

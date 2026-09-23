@@ -7,7 +7,7 @@
     "sortOrder": 1,
     "isActive": true,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "cat-meals",
@@ -15,29 +15,29 @@
     "slug": "meals",
     "description": "ארוחות מלאות עם תוספת ושתייה.",
     "sortOrder": 4,
-    "isActive": true,
+    "isActive": false,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "cat-sides",
     "name": "תוספות",
     "slug": "sides",
     "description": "תוספות ליד המנה או להמבורגר.",
-    "sortOrder": 5,
+    "sortOrder": 4,
     "isActive": true,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "cat-salads",
     "name": "סלטים",
     "slug": "salads",
     "description": "סלטים טריים מהמטבח.",
-    "sortOrder": 6,
+    "sortOrder": 5,
     "isActive": true,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "cat-sauces",
@@ -45,9 +45,9 @@
     "slug": "sauces",
     "description": "רטבים ביתיים לבחירה.",
     "sortOrder": 7,
-    "isActive": true,
+    "isActive": false,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "cat-soft-drinks",
@@ -55,9 +55,9 @@
     "slug": "soft-drinks",
     "description": "שתייה קלה וקלה.",
     "sortOrder": 8,
-    "isActive": true,
+    "isActive": false,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "cat-beers",
@@ -65,9 +65,9 @@
     "slug": "beers",
     "description": "בירות בקבוק.",
     "sortOrder": 9,
-    "isActive": true,
+    "isActive": false,
     "createdAt": "2026-07-29T14:01:40.906Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "cat-smashes",
@@ -77,7 +77,7 @@
     "sortOrder": 2,
     "isActive": true,
     "createdAt": "2026-09-23T19:30:25.920Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   },
   {
     "id": "cat-specials",
@@ -87,6 +87,6 @@
     "sortOrder": 3,
     "isActive": true,
     "createdAt": "2026-09-23T19:30:25.920Z",
-    "updatedAt": "2026-09-23T19:30:25.920Z"
+    "updatedAt": "2026-09-23T19:36:25.633Z"
   }
 ]

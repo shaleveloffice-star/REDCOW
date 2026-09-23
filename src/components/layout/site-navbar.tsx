@@ -142,8 +142,6 @@ export function SiteNavbar({
   const [showBack, setShowBack] = useState(false);
   const [desktopMagazineOpen, setDesktopMagazineOpen] = useState(false);
   const [mobileMagazineOpen, setMobileMagazineOpen] = useState(false);
-  const wordmarkSrc = isScrolled ? SITE_WORDMARK_DARK_SRC : SITE_WORDMARK_LIGHT_SRC;
-  const wordmarkWebp = isScrolled ? SITE_WORDMARK_DARK_WEBP_SRC : SITE_WORDMARK_LIGHT_WEBP_SRC;
   const [isOrderOpen, setIsOrderOpen] = useState(false);
   const [orderSource, setOrderSource] = useState<AnalyticsSource>("desktop_navbar");
   const menuId = useId();
@@ -264,7 +262,12 @@ export function SiteNavbar({
 
   useEffect(() => {
     const onScroll = () => {
-      setIsScrolled(window.scrollY > 5);
+      const y = window.scrollY;
+      setIsScrolled((prev) => {
+        if (!prev && y > 28) return true;
+        if (prev && y < 8) return false;
+        return prev;
+      });
     };
 
     onScroll();
@@ -304,18 +307,33 @@ export function SiteNavbar({
         <nav className="site-navbar-inner" aria-label={t.nav.main}>
           <div className="site-navbar-start">
             <Link href="/" className="site-navbar-brand">
-              <picture>
-                <source srcSet={wordmarkWebp} type="image/webp" />
-                <img
-                  className="site-navbar-logo"
-                  src={wordmarkSrc}
-                  alt={logoAlt}
-                  width={320}
-                  height={144}
-                  decoding="async"
-                  fetchPriority="low"
-                />
-              </picture>
+              <span className="site-navbar-logo-stack">
+                <picture>
+                  <source srcSet={SITE_WORDMARK_LIGHT_WEBP_SRC} type="image/webp" />
+                  <img
+                    className="site-navbar-logo site-navbar-logo--light"
+                    src={SITE_WORDMARK_LIGHT_SRC}
+                    alt={logoAlt}
+                    width={320}
+                    height={144}
+                    decoding="async"
+                    fetchPriority="high"
+                  />
+                </picture>
+                <picture>
+                  <source srcSet={SITE_WORDMARK_DARK_WEBP_SRC} type="image/webp" />
+                  <img
+                    className="site-navbar-logo site-navbar-logo--dark"
+                    src={SITE_WORDMARK_DARK_SRC}
+                    alt=""
+                    aria-hidden="true"
+                    width={320}
+                    height={144}
+                    decoding="async"
+                    fetchPriority="low"
+                  />
+                </picture>
+              </span>
             </Link>
           </div>
 

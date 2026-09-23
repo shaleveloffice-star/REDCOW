@@ -19,16 +19,12 @@ export function SiteChromeOffsetSync() {
     if (mobileCta) observer.observe(mobileCta);
 
     window.addEventListener("resize", syncSiteChromeMetrics, { passive: true });
-    window.addEventListener("scroll", syncSiteChromeMetrics, { passive: true });
     window.visualViewport?.addEventListener("resize", syncSiteChromeMetrics);
-    window.visualViewport?.addEventListener("scroll", syncSiteChromeMetrics);
 
     return () => {
       observer.disconnect();
       window.removeEventListener("resize", syncSiteChromeMetrics);
-      window.removeEventListener("scroll", syncSiteChromeMetrics);
       window.visualViewport?.removeEventListener("resize", syncSiteChromeMetrics);
-      window.visualViewport?.removeEventListener("scroll", syncSiteChromeMetrics);
     };
   }, []);
 

@@ -517,6 +517,9 @@ a.menu-showcase-button.site-cta-btn {
   overflow: hidden;
   background: #000000;
   isolation: isolate;
+  contain: paint layout;
+  content-visibility: auto;
+  contain-intrinsic-size: 700px;
 }
 
 .home-atmosphere-marquee-columns {
@@ -540,17 +543,29 @@ a.menu-showcase-button.site-cta-btn {
   flex-direction: column;
   gap: 4px;
   width: 100%;
-  will-change: transform;
   backface-visibility: hidden;
   transform: translate3d(0, 0, 0);
+  animation-play-state: paused;
+}
+
+.home-atmosphere-marquee.is-inview .home-atmosphere-marquee-track {
+  will-change: transform;
+  animation-play-state: running;
 }
 
 .home-atmosphere-marquee-col--up .home-atmosphere-marquee-track {
   animation: home-atmosphere-marquee-up var(--home-atmosphere-marquee-duration, 42s) linear infinite;
+  animation-play-state: paused;
 }
 
 .home-atmosphere-marquee-col--down .home-atmosphere-marquee-track {
   animation: home-atmosphere-marquee-down var(--home-atmosphere-marquee-duration, 48s) linear infinite;
+  animation-play-state: paused;
+}
+
+.home-atmosphere-marquee.is-inview .home-atmosphere-marquee-col--up .home-atmosphere-marquee-track,
+.home-atmosphere-marquee.is-inview .home-atmosphere-marquee-col--down .home-atmosphere-marquee-track {
+  animation-play-state: running;
 }
 
 .home-atmosphere-marquee-cell {
@@ -653,8 +668,11 @@ a.menu-showcase-button.site-cta-btn {
 
 @media (prefers-reduced-motion: reduce) {
   .home-atmosphere-marquee-col--up .home-atmosphere-marquee-track,
-  .home-atmosphere-marquee-col--down .home-atmosphere-marquee-track {
+  .home-atmosphere-marquee-col--down .home-atmosphere-marquee-track,
+  .home-atmosphere-marquee.is-inview .home-atmosphere-marquee-col--up .home-atmosphere-marquee-track,
+  .home-atmosphere-marquee.is-inview .home-atmosphere-marquee-col--down .home-atmosphere-marquee-track {
     animation: none;
+    will-change: auto;
     transform: translate3d(0, 0, 0);
   }
 
@@ -672,6 +690,8 @@ a.menu-showcase-button.site-cta-btn {
   background: #ffffff;
   color: #1e1e1e;
   direction: ltr;
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
 }
 
 .home-vibe-header {

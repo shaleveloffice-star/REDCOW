@@ -115,7 +115,8 @@ export function AutoplayVideo({
           releasePlaybackSlot(video);
         }
       },
-      { threshold: 0.2, rootMargin: "8px" }
+      /* Unmount decode work earlier when scrolling away from hero/media */
+      { threshold: 0.15, rootMargin: "-12% 0px" }
     );
 
     observer.observe(video);

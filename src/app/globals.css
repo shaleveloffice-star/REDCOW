@@ -647,6 +647,7 @@ body:not(:has(.admin-layout)) .about-btn {
 
 html {
   scroll-behavior: auto;
+  overflow-x: clip;
   scroll-padding-top: calc(var(--site-chrome-offset, 160px) + 12px);
 }
 
@@ -1158,7 +1159,7 @@ html {
 }
 
 body:not(:has(.admin-layout)) {
-  overflow-x: hidden;
+  overflow-x: clip;
   max-width: 100%;
 }
 
@@ -1822,9 +1823,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   border-bottom: 0;
   background: transparent;
   backdrop-filter: none;
-  transition:
-    background-color 0.25s ease,
-    color 0.25s ease;
+  transition: background-color 0.2s ease;
 }
 
 .site-navbar--overlay {
@@ -2870,22 +2869,20 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
     opacity: 1;
     overflow: hidden;
     pointer-events: auto;
-    transition:
-      max-height 0.3s var(--motion-ease),
-      opacity 0.25s ease;
   }
 
   .site-navbar--scrolled .site-navbar-inner {
     grid-template-areas:
       "brand back menu"
       "utilities utilities utilities";
-    row-gap: 0;
-    padding: 12px 0;
+    /* Keep padding stable — height changes mid-scroll cause hitching */
+    row-gap: 10px;
+    padding: 16px 0;
   }
 
   /* Keep utilities mounted — collapsing height mid-scroll causes jank when returning to hero */
   .site-navbar--scrolled .site-navbar-mobile-utilities {
-    opacity: 0.92;
+    opacity: 1;
   }
 
   .site-navbar-mobile-utilities .site-navbar-language {
@@ -2924,7 +2921,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
     --site-mobile-cta-height: calc(84px + env(safe-area-inset-bottom, 0px));
     --home-atmosphere-sticky-top: var(--site-chrome-offset);
     --home-atmosphere-sticky-height: calc(
-      100dvh - var(--site-chrome-offset) - var(--site-mobile-cta-height)
+      100svh - var(--site-chrome-offset) - var(--site-mobile-cta-height)
     );
   }
 
@@ -9936,7 +9933,6 @@ body:not(:has(.admin-layout)) .footer-bottom a {
   left: 50%;
   width: 94%;
   translate: -50% 0;
-  will-change: transform, opacity;
 }
 
 .burger-assembly__layer--bunTop {

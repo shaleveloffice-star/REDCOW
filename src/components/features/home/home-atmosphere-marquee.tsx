@@ -1,4 +1,6 @@
-import type { CSSProperties } from "react";
+"use client";
+
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import {
   HOME_ATMOSPHERE_MARQUEE_COLUMNS,
@@ -74,12 +76,36 @@ function MarqueeColumn({
 }
 
 export function HomeAtmosphereMarquee({ ariaLabel, siteImages }: HomeAtmosphereMarqueeProps) {
+  const rootRef = useRef<HTMLElement>(null);
+  const [inView, setInView] = useState(false);
   const columns = HOME_ATMOSPHERE_MARQUEE_COLUMNS.map((column) =>
     resolveColumnImages(column, siteImages)
   );
 
+  useEffect(() => {
+    const node = rootRef.current;
+    if (!node) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (!entry) return;
+        setInView(entry.isIntersecting);
+      },
+      { rootMargin: "120px 0px", threshold: 0.01 }
+    );
+
+    observer.observe(node);
+    return () => observer.disconnect();
+  }, []);
+
   return (
-    <section id="atmosphere" className="home-atmosphere-marquee" aria-label={ariaLabel}>
+    <section
+      ref={rootRef}
+      id="atmosphere"
+      className={`home-atmosphere-marquee${inView ? " is-inview" : ""}`}
+      aria-label={ariaLabel}
+    >
       <div className="home-atmosphere-marquee-columns" aria-hidden="true">
         <MarqueeColumn images={columns[0] ?? []} direction="up" durationSec={42} />
         <MarqueeColumn images={columns[1] ?? []} direction="down" durationSec={48} />

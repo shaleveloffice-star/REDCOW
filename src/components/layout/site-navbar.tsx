@@ -261,8 +261,12 @@ export function SiteNavbar({
   }, [desktopMagazineOpen]);
 
   useEffect(() => {
-    const onScroll = () => {
-      const y = window.scrollY;
+    let ticking = false;
+    let latestY = window.scrollY;
+
+    const apply = () => {
+      ticking = false;
+      const y = latestY;
       setIsScrolled((prev) => {
         if (!prev && y > 28) return true;
         if (prev && y < 8) return false;
@@ -270,7 +274,14 @@ export function SiteNavbar({
       });
     };
 
-    onScroll();
+    const onScroll = () => {
+      latestY = window.scrollY;
+      if (ticking) return;
+      ticking = true;
+      window.requestAnimationFrame(apply);
+    };
+
+    apply();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", onScroll);

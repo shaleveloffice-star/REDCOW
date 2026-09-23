@@ -6,8 +6,13 @@ const METRIC_VARS = [
   "--home-atmosphere-sticky-height"
 ] as const;
 
+let lastCss = "";
+let rafId = 0;
+
 function applySiteChromeMetrics(offset: number, ctaHeight: number, stickyTop: number, stickyHeight: number): void {
   const css = `:root{${METRIC_VARS[0]}:${offset}px;${METRIC_VARS[1]}:${ctaHeight}px;${METRIC_VARS[2]}:${stickyTop}px;${METRIC_VARS[3]}:${stickyHeight}px;}`;
+  if (css === lastCss) return;
+  lastCss = css;
 
   let styleEl = document.getElementById(STYLE_ID) as HTMLStyleElement | null;
   if (!styleEl) {
@@ -45,4 +50,14 @@ export function syncSiteChromeMetrics(): void {
   const stickyHeight = isDesktop ? viewportHeight : Math.max(0, ctaTop - stickyTop);
 
   applySiteChromeMetrics(Math.ceil(bannerHeight + navbarHeight), ctaHeight, stickyTop, stickyHeight);
+}
+
+/** Coalesce bursty ResizeObserver/resize callbacks onto one animation frame. */
+export function scheduleSyncSiteChromeMetrics(): void {
+  if (typeof window === "undefined") return;
+  if (rafId) return;
+  rafId = window.requestAnimationFrame(() => {
+    rafId = 0;
+    syncSiteChromeMetrics();
+  });
 }

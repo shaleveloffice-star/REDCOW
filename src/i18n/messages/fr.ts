@@ -51,7 +51,7 @@ export const fr: Messages = {
   hero: {
     tagline: "Simplement un bon burger.",
     captionKicker: "REDÉFINIR L'EXPÉRIENCE BURGER",
-    captionTitle: "SO WHAT",
+    captionTitle: "SO WHAT?",
     menuCta: "Voir la carte",
     orderCta: "Commander",
     scroll: "Défiler",

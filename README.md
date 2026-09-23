@@ -2,7 +2,7 @@
 
 אתר המסעדה ופאנל הניהול, מבוססי Next.js 16. שם תיקיית הפרויקט ו־GitHub repository הוא עדיין REDCOW.
 
-האתר הציבורי: [www.nbburger.co.il](https://www.nbburger.co.il).
+האתר הציבורי (קנוני): [www.sowhat.co.il](https://www.sowhat.co.il).
 
 ## פיתוח ובדיקות
 

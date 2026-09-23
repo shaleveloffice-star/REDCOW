@@ -7,6 +7,8 @@ import type { Locale } from "@/i18n/config";
 const rawSiteUrl = process.env.NEXT_PUBLIC_APP_URL ?? BUSINESS.website;
 
 const parsedSiteUrl = new URL(rawSiteUrl);
+/** Prefer www for the live brand; keep apex→www for the legacy domain during migration. */
+if (parsedSiteUrl.hostname === "sowhat.co.il") parsedSiteUrl.hostname = "www.sowhat.co.il";
 if (parsedSiteUrl.hostname === "nbburger.co.il") parsedSiteUrl.hostname = "www.nbburger.co.il";
 export const SITE_URL = parsedSiteUrl.toString().replace(/\/+$/, "");
 export const SITE_NAME = BUSINESS.name;

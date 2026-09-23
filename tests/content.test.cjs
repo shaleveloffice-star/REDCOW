@@ -27,13 +27,20 @@ test('invalid slug path is rejected and historical product slugs stay reserved',
 });
 
 test('static SEO metadata keeps CMS values and replaces video OG with a static image', () => {
-  const load = createLoader({}, { process: { env: { NEXT_PUBLIC_APP_URL: 'https://nbburger.co.il' } } });
+  const load = createLoader({}, { process: { env: { NEXT_PUBLIC_APP_URL: 'https://sowhat.co.il' } } });
   const seo = load('@/lib/seo');
   const meta = seo.buildPageMetadata({ title: 'CMS title', description: 'CMS description', path: '/menu/burger', image: 'https://media.example.test/item.webm#t=1' });
   assert.equal(meta.title, 'CMS title');
   assert.equal(meta.openGraph.description, 'CMS description');
   assert.equal(meta.openGraph.images[0].url, seo.DEFAULT_OG_IMAGE);
-  assert.equal(seo.SITE_URL, 'https://www.nbburger.co.il');
+  assert.equal(seo.SITE_URL, 'https://www.sowhat.co.il');
+  assert.equal(meta.alternates.canonical, '/menu/burger');
+  assert.equal(meta.openGraph.url, '/menu/burger');
+});
+
+test('legacy nbburger apex still normalizes to www for migration support', () => {
+  const load = createLoader({}, { process: { env: { NEXT_PUBLIC_APP_URL: 'https://nbburger.co.il' } } });
+  assert.equal(load('@/lib/seo').SITE_URL, 'https://www.nbburger.co.il');
 });
 
 test('Hebrew category intent does not leak into English or French', () => {

@@ -1,12 +1,12 @@
 # SO WHAT — configuration and deployment
 
-The current application runs on Next.js 16 with Node.js 22 or newer and is hosted on Vercel. Its canonical production origin is `https://www.nbburger.co.il`. This guide describes the current password-based admin flow; older documents describing Firebase Auth modes or an admin email allowlist do not describe the active login implementation.
+The current application runs on Next.js 16 with Node.js 22 or newer and is hosted on Vercel. Its canonical production origin is `https://www.sowhat.co.il`. The legacy domain `nbburger.co.il` may still be used for migration redirects. This guide describes the current password-based admin flow; older documents describing Firebase Auth modes or an admin email allowlist do not describe the active login implementation.
 
 ## Environment
 
 | Variable | Purpose |
 | --- | --- |
-| `NEXT_PUBLIC_APP_URL` | Public origin used by canonical URLs, sitemap and JSON-LD. Use `https://www.nbburger.co.il` for production and the actual preview origin for previews. |
+| `NEXT_PUBLIC_APP_URL` | Public origin used by canonical URLs, sitemap and JSON-LD. Use `https://www.sowhat.co.il` for production and the actual preview origin for previews. Apex `sowhat.co.il` / `nbburger.co.il` normalize to their `www` hosts in code. |
 | `NEXT_PUBLIC_FIREBASE_API_KEY`, `NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN`, `NEXT_PUBLIC_FIREBASE_PROJECT_ID`, `NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET`, `NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID`, `NEXT_PUBLIC_FIREBASE_APP_ID` | Existing Firebase Web App configuration for public content reads. All required by the current configuration check. |
 | `ADMIN_PASSWORD` | Server-only shared admin password. Required in production; code enforces at least six characters. Use a long random password. `ADMIN_DEV_PASSWORD` is a development fallback only. |
 | `ADMIN_SESSION_SECRET` | Server-only JWT secret, at least 32 characters. |
@@ -37,7 +37,7 @@ No database migration or reseeding is required for the maintenance changes. `pre
 
 1. Run `npm run lint`, `npm test`, and `npm run build` locally.
 2. Retain the existing Vercel project, Git connection, production branch and external integrations. Use Node.js 22 or newer.
-3. Confirm the existing production domain redirects to `www.nbburger.co.il`, matching canonical URLs. Do not change DNS merely to apply code fixes.
+3. Confirm the production domain redirects to `www.sowhat.co.il`, matching canonical URLs. Keep `nbburger.co.il` available for migration redirects until cutover is complete. Do not change DNS merely to apply code fixes.
 4. Deploy code and publish the reviewed Firestore rules to the matching project when authorized.
 5. Verify admin login, public CMS reads and an approved save/refresh scenario in the deployed environment. Use a test recipient only when a live delivery test is explicitly authorized.
 

@@ -60,7 +60,7 @@ export const BUSINESS = {
 
   email: "official.nbburger@gmail.com",
 
-  website: "https://www.nbburger.co.il",
+  website: "https://www.sowhat.co.il",
 
   social: {
     facebook: "https://www.facebook.com/profile.php?id=61590066758310",

@@ -446,7 +446,7 @@
   --secondary-border: rgba(255, 255, 255, 0.55);
   --secondary-border-strong: rgba(255, 255, 255, 0.72);
   --site-opening-banner-height: 40px;
-  --site-navbar-height: 112px;
+  --site-navbar-height: 144px;
   --site-chrome-offset: calc(
     var(--site-opening-banner-height) + env(safe-area-inset-top, 0px) + var(--site-navbar-height)
   );
@@ -1845,7 +1845,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   justify-content: space-between;
   width: min(1400px, calc(100% - 64px));
   margin: 0 auto;
-  padding: 28px 0;
+  padding: 12px 0;
   direction: ltr;
   gap: 32px;
 }
@@ -1856,6 +1856,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   gap: 8px;
   flex-shrink: 0;
   min-width: 0;
+  overflow: visible;
 }
 
 .site-navbar-back {
@@ -2246,6 +2247,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   display: flex;
   align-items: center;
   flex-shrink: 0;
+  overflow: visible;
   color: #ffffff;
   font-family: var(--font-playfair-display);
   font-size: clamp(20px, 4.5vw, 28px);
@@ -2260,15 +2262,15 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 .site-navbar-logo {
   display: block;
   width: auto;
-  height: clamp(116px, 20vw, 160px);
-  max-width: min(520px, 90vw);
+  height: clamp(88px, 12vw, 120px);
+  max-width: none;
   object-fit: contain;
 }
 
 @media (min-width: 640px) {
   .site-navbar-logo {
-    height: 160px;
-    max-width: 520px;
+    height: 120px;
+    max-width: none;
   }
 }
 
@@ -2337,11 +2339,11 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   }
 
   .site-navbar-inner {
-    padding: 32px 0;
+    padding: 14px 0;
   }
 
   :root {
-    --site-navbar-height: 210px;
+    --site-navbar-height: 152px;
   }
 }
 
@@ -2826,8 +2828,8 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   }
 
   .site-navbar-logo {
-    max-width: min(360px, 90vw);
-    height: clamp(100px, 26vw, 128px);
+    max-width: none;
+    height: clamp(72px, 16vw, 96px);
   }
 
   .site-navbar-mobile-utilities {
@@ -2888,7 +2890,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 
   :root {
     /* Two-row mobile bar (logo + utilities), not the collapsed scroll height. */
-    --site-navbar-height: 240px;
+    --site-navbar-height: 180px;
     --site-chrome-offset: calc(
       var(--site-opening-banner-height) + env(safe-area-inset-top, 0px) + var(--site-navbar-height)
     );

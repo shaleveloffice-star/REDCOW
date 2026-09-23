@@ -1,3 +1,7 @@
+/**
+ * Legacy generator for black-ink-on-white sources.
+ * For the current SO WHAT ivory-on-black masters, use: node scripts/apply-sowhat-brand.mjs
+ */
 import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";

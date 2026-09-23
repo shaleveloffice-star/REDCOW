@@ -310,8 +310,8 @@ export function SiteNavbar({
                   className="site-navbar-logo"
                   src={wordmarkSrc}
                   alt={logoAlt}
-                  width={220}
-                  height={100}
+                  width={440}
+                  height={200}
                   decoding="async"
                   fetchPriority="low"
                 />

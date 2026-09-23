@@ -15,7 +15,7 @@ export type LocalizedMenuItem = {
 export function getLocalizedMenuItem(item: MenuItem, locale: Locale): LocalizedMenuItem {
   const hebrewNotes = (item.detailNotes ?? []).filter((note) => String(note).trim().length > 0);
   const hebrewLong = String(item.longDescription ?? "").trim();
-  const name = String(item.name ?? "").trim() || "NB BURGER";
+  const name = String(item.name ?? "").trim() || "SO WHAT";
   const description = String(item.description ?? "").trim();
 
   if (locale === "he") {

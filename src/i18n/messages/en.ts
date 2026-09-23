@@ -25,7 +25,7 @@ export const en: Messages = {
     message: "Opening soon",
     popupTitle: "We're getting ready to open",
     popupLead: "The menu and images currently shown on the site are for illustration only.",
-    popupBody: "Soon we'll update the official menu and real photos of NB BURGER here.",
+    popupBody: "Soon we'll update the official menu and real photos of SO WHAT here.",
     popupClosing: "Stay tuned - the good stuff is on the way.",
     popupCta: "Got it",
     popupClose: "Close"
@@ -51,7 +51,7 @@ export const en: Messages = {
   hero: {
     tagline: "Simply a good burger.",
     captionKicker: "REDEFINING THE BURGER EXPERIENCE",
-    captionTitle: "NB BURGER",
+    captionTitle: "SO WHAT",
     menuCta: "View Menu",
     orderCta: "Order Now",
     scroll: "Scroll",
@@ -70,7 +70,7 @@ export const en: Messages = {
     filterAll: "All",
     empty: "No dishes to show right now.",
     viewLocations: "View Our Locations",
-    heroAlt: "Dishes from the NB BURGER menu",
+    heroAlt: "Dishes from the SO WHAT menu",
     relatedCategories: "More categories"
   },
   menuItemDetail: {
@@ -87,7 +87,7 @@ export const en: Messages = {
     viewBranchHours: "View branch location and opening hours"
   },
   aboutPage: {
-    title: "About NB BURGER",
+    title: "About SO WHAT",
     backHome: "Back to home"
   },
   kosherPage: {
@@ -96,11 +96,11 @@ export const en: Messages = {
   },
   locations: {
     breadcrumbLabel: "Locations",
-    pageTitle: "Location & Hours - NB BURGER Raanana",
+    pageTitle: "Location & Hours - SO WHAT Raanana",
     findLocal: "FIND MY LOCAL",
     ourLocations: "OUR LOCATIONS",
-    mapTitle: "NB BURGER locations map",
-    mapSummary: "NB BURGER branch map - Raanana, Ahuzah 96",
+    mapTitle: "SO WHAT locations map",
+    mapSummary: "SO WHAT branch map - Raanana, Ahuzah 96",
     navigate: "Navigate",
     deliveryZonesTitle: "Delivery areas",
     deliveryZones: [
@@ -127,7 +127,7 @@ export const en: Messages = {
     next: "Next dishes"
   },
   homeStory: {
-    imageAlt: "NB BURGER hamburger"
+    imageAlt: "SO WHAT hamburger"
   },
   plancha: {
     title: "On the Plancha",
@@ -158,13 +158,13 @@ export const en: Messages = {
     burgerStackAlt: "Deconstructed burger",
     bottomAlt: "Bottom bun",
     carouselSlideAlts: [
-      "NB BURGER burger on branded paper",
-      "Juicy NB BURGER burger on a dark background",
-      "Close-up of an NB BURGER burger with sauce, pickles and tomato"
+      "SO WHAT burger on branded paper",
+      "Juicy SO WHAT burger on a dark background",
+      "Close-up of an SO WHAT burger with sauce, pickles and tomato"
     ]
   },
   customerClub: {
-    kicker: "NB CLUB",
+    kicker: "SO WHAT CLUB",
     title: "Customer Club",
     titlePrimary: "Customer",
     titleAccent: "Club",
@@ -172,8 +172,8 @@ export const en: Messages = {
     leadBefore: "",
     leadHighlight: "",
     leadAfter: "",
-    cardAlt: "NB Club member card",
-    burgerAlt: "NB burger",
+    cardAlt: "SO WHAT Club member card",
+    burgerAlt: "SO WHAT burger",
     formTitle: "Join now",
     formSubtitle: "And unlock a world of benefits",
     formHint: "Quick signup",
@@ -182,7 +182,7 @@ export const en: Messages = {
     trustSafe: "Your info stays with us",
     trustTerms: "Free · No commitment",
     barBrandSub: "REAL BURGERS. REAL PEOPLE.",
-    barSlogan: "NB CLUB - MORE THAN A BURGER",
+    barSlogan: "SO WHAT CLUB - MORE THAN A BURGER",
     perksAria: "Club benefits",
     features: [
       { title: "Exclusive offers" },
@@ -210,7 +210,7 @@ export const en: Messages = {
     submit: "Join now",
     submitting: "Sending...",
     successTitle: "You're in!",
-    successMessage: "Welcome to NB CLUB.\nFrom now on, you'll be first to enjoy our perks.",
+    successMessage: "Welcome to SO WHAT CLUB.\nFrom now on, you'll be first to enjoy our perks.",
     errors: {
       fullName: "Please enter your full name.",
       phone: "Please enter a valid phone number.",
@@ -292,10 +292,10 @@ export const en: Messages = {
     nav: "Navigation",
     menu: "Menu",
     fullMenu: "Full Menu",
-    clubTitle: "NB CLUB",
+    clubTitle: "SO WHAT CLUB",
     clubLead: "Join the club and get member perks and surprises",
-    clubCta: "Join NB CLUB",
-    copyright: "© 2026 NB BURGER - All rights reserved",
+    clubCta: "Join SO WHAT CLUB",
+    copyright: "© 2026 SO WHAT - All rights reserved",
     privacy: "Privacy Policy",
     terms: "Terms of Use",
     accessibility: "Accessibility Statement",
@@ -305,9 +305,9 @@ export const en: Messages = {
     breadcrumbLabel: "Stories",
     indexTitle: "Stories",
     indexLead: "Behind the scenes - consistency, precision, and experience.",
-    indexMetaTitle: "Stories | NB BURGER",
+    indexMetaTitle: "Stories | SO WHAT",
     indexMetaDescription:
-      "Short stories from NB BURGER - about the burger you come back for, the consistency, and the experience behind every bite.",
+      "Short stories from SO WHAT - about the burger you come back for, the consistency, and the experience behind every bite.",
     readStory: "Read the story",
     featuredLabel: "Featured story",
     moreStories: "More stories",

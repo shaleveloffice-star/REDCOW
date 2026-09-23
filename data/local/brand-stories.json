@@ -6,8 +6,8 @@
     "title": "מה הופך המבורגר טוב להמבורגר שחוזרים אליו?",
     "subtitle": "המבורגר טוב יכול לקרות פעם אחת. המבחן האמיתי הוא לקבל אותו בדיוק כמו שאהבתם גם בפעם הבאה.",
     "heroImageUrl": "/images/hero/nb-burger-hero.webp",
-    "heroImageAlt": "המבורגר NB BURGER",
-    "metaTitle": "מה הופך המבורגר טוב להמבורגר שחוזרים אליו? | NB BURGER",
+    "heroImageAlt": "המבורגר SO WHAT",
+    "metaTitle": "מה הופך המבורגר טוב להמבורגר שחוזרים אליו? | SO WHAT",
     "metaDescription": "סיפור קצר על עקביות, דיוק וחוויה - מה שמבדיל המבורגר שחוזרים אליו מזה שפוגשים פעם אחת.",
     "ogImageUrl": "/images/hero/nb-burger-hero.webp",
     "publishedAt": "2026-08-09T10:00:00.000Z",
@@ -41,7 +41,7 @@
       {
         "type": "quote",
         "text": "עקביות היא מה שגורם לכם לחזור - לא רק טעם טוב בפעם הראשונה.",
-        "attribution": "NB BURGER"
+        "attribution": "SO WHAT"
       },
       {
         "type": "split-text-image",

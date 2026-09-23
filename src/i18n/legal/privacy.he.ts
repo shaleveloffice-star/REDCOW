@@ -6,17 +6,17 @@ const CONTACT_EMAIL = BUSINESS.email;
 export function getPrivacyContentHe(): LegalDocument {
   return {
     lastUpdated: "תאריך עדכון אחרון: 18 באוגוסט 2026",
-    title: "מדיניות פרטיות - NB BURGER",
+    title: "מדיניות פרטיות - SO WHAT",
     introTitle: "מבוא",
     introBlocks: [
-      { type: "paragraph", text: "ברוכים הבאים לאתר NB BURGER." },
+      { type: "paragraph", text: "ברוכים הבאים לאתר SO WHAT." },
       {
         type: "paragraph",
         text: "מדיניות זו מסבירה איזה מידע נאסף באתר, כיצד הוא משמש וכיצד ניתן לפנות אלינו בנושא פרטיות."
       },
       {
         type: "paragraph",
-        text: "האתר משמש להצגת מידע על NB BURGER, לרבות המותג, התפריט, הסניף, שעות פעילות, מועדון לקוחות, פרטי התקשרות ותכנים נוספים."
+        text: "האתר משמש להצגת מידע על SO WHAT, לרבות המותג, התפריט, הסניף, שעות פעילות, מועדון לקוחות, פרטי התקשרות ותכנים נוספים."
       },
       {
         type: "paragraph",
@@ -24,7 +24,7 @@ export function getPrivacyContentHe(): LegalDocument {
       },
       {
         type: "paragraph",
-        text: 'NB BURGER מכבדת את פרטיות המשתמשים ופועלת בהתאם לדין החל בישראל, לרבות חוק הגנת הפרטיות, התשמ"א-1981.'
+        text: 'SO WHAT מכבדת את פרטיות המשתמשים ופועלת בהתאם לדין החל בישראל, לרבות חוק הגנת הפרטיות, התשמ"א-1981.'
       },
       {
         type: "paragraph",
@@ -43,7 +43,7 @@ export function getPrivacyContentHe(): LegalDocument {
       {
         title: "1. מי אנחנו",
         blocks: [
-          { type: "paragraph", text: "האתר מופעל על ידי NB BURGER." },
+          { type: "paragraph", text: "האתר מופעל על ידי SO WHAT." },
           {
             type: "list",
             items: [
@@ -156,7 +156,7 @@ export function getPrivacyContentHe(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER עשויה לשלוח למי שנרשם והסכים לכך הודעות שיווקיות, עדכונים, הטבות ומבצעים בערוצי תקשורת כגון SMS ובערוצים נוספים שבהם נמסרו פרטים והתקבלה הסכמה לקבלת דיוור."
+            text: "SO WHAT עשויה לשלוח למי שנרשם והסכים לכך הודעות שיווקיות, עדכונים, הטבות ומבצעים בערוצי תקשורת כגון SMS ובערוצים נוספים שבהם נמסרו פרטים והתקבלה הסכמה לקבלת דיוור."
           },
           {
             type: "paragraph",
@@ -215,7 +215,7 @@ export function getPrivacyContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER אינה מוכרת את המידע האישי שלך לצדדים שלישיים."
+            text: "SO WHAT אינה מוכרת את המידע האישי שלך לצדדים שלישיים."
           },
           {
             type: "paragraph",
@@ -277,7 +277,7 @@ export function getPrivacyContentHe(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: 'NB BURGER לא תבקש ממך לשלוח פרטי אשראי, סיסמאות או מידע רגיש אחר באמצעות דוא"ל, SMS או WhatsApp.'
+            text: 'SO WHAT לא תבקש ממך לשלוח פרטי אשראי, סיסמאות או מידע רגיש אחר באמצעות דוא"ל, SMS או WhatsApp.'
           }
         ]
       },
@@ -316,7 +316,7 @@ export function getPrivacyContentHe(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER אינה אחראית למדיניות הפרטיות או להתנהלות של שירותים חיצוניים. מומלץ לעיין במדיניות של כל שירות לפני מסירת פרטים בו."
+            text: "SO WHAT אינה אחראית למדיניות הפרטיות או להתנהלות של שירותים חיצוניים. מומלץ לעיין במדיניות של כל שירות לפני מסירת פרטים בו."
           }
         ]
       },
@@ -325,7 +325,7 @@ export function getPrivacyContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER רשאית לעדכן מדיניות זו מעת לעת. תאריך העדכון האחרון מופיע בראש המסמך."
+            text: "SO WHAT רשאית לעדכן מדיניות זו מעת לעת. תאריך העדכון האחרון מופיע בראש המסמך."
           }
         ]
       },

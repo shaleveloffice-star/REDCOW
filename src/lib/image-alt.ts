@@ -149,7 +149,7 @@ function generateMenuItemAlt(
   }
 
   if (category === "burgers" || /המבורגר|burger|smash/i.test(label) || /המבורגר|burger/i.test(tagText)) {
-    if (/של\s+NB BURGER|from NB BURGER|(?:—|-)\s+NB BURGER/i.test(label)) return label;
+    if (/של\s+SO WHAT|from SO WHAT|(?:—|-)\s+SO WHAT/i.test(label)) return label;
     return withBrand(label, locale);
   }
 

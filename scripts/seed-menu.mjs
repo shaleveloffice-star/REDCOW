@@ -1,5 +1,5 @@
 /**
- * Seed NB BURGER menu categories + items into local JSON and/or Firestore.
+ * Seed SO WHAT menu categories + items into local JSON and/or Firestore.
  *
  * Usage:
  *   node scripts/seed-menu.mjs              # local JSON (data/local/)
@@ -126,7 +126,7 @@ async function main() {
   const localOnly = process.argv.includes("--local-only") || !useFirestore;
   const force = process.argv.includes("--force");
 
-  console.info("[seed-menu] NB BURGER menu seed");
+  console.info("[seed-menu] SO WHAT menu seed");
   console.info(`[seed-menu] categories=${MENU_CATEGORIES.length} items=${MENU_ITEMS.length}`);
 
   if (localOnly || !useFirestore) {

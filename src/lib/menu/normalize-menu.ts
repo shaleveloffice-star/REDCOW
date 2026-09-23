@@ -46,7 +46,7 @@ function toIsoDate(value: unknown, fallback: string): string {
 export function normalizeMenuItem(raw: Partial<MenuItem> & { id: string }): MenuItem {
   const now = new Date().toISOString();
   const id = toText(raw.id);
-  const name = toText(raw.name) || "NB BURGER";
+  const name = toText(raw.name) || "SO WHAT";
 
   return {
     id: id || name,

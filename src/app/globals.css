@@ -649,7 +649,7 @@ html {
   scroll-padding-top: calc(var(--site-chrome-offset, 160px) + 12px);
 }
 
-/* Page transition — NB loading mark + progress bar */
+/* Page transition — brand loading mark + progress bar */
 .page-transition {
   position: fixed;
   inset: 0;
@@ -750,7 +750,7 @@ html {
   overflow-wrap: anywhere;
 }
 
-/* Opening announcement popup — NB B&W language */
+/* Opening announcement popup — brand B&W language */
 .opening-announce-root {
   position: fixed;
   inset: 0;
@@ -4125,7 +4125,7 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   --menu-showcase-media-inset: 10px;
 }
 
-/* Clean diagonal "NB BURGER" watermark — full words only */
+/* Clean diagonal "SO WHAT" watermark — full words only */
 .menu-showcase-section::before {
   content: "";
   position: absolute;

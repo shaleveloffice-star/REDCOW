@@ -12,7 +12,7 @@ import type {
 export const DEFAULT_RECOMMENDATIONS_CONFIG: RecommendationsConfig = {
   enabled: false,
   title: "ממליצים עלינו",
-  introduction: "יוצרי תוכן שביקרו ב־NB BURGER, טעמו ושיתפו את החוויה שלהם.",
+  introduction: "יוצרי תוכן שביקרו ב־SO WHAT, טעמו ושיתפו את החוויה שלהם.",
   items: [],
   updatedAt: new Date(0).toISOString()
 };

@@ -6,11 +6,11 @@ const CONTACT_EMAIL = BUSINESS.email;
 export function getTermsContentHe(): LegalDocument {
   return {
     lastUpdated: "תאריך עדכון אחרון: 18 באוגוסט 2026",
-    title: "תקנון אתר ותנאי שימוש – NB BURGER",
+    title: "תקנון אתר ותנאי שימוש – SO WHAT",
     introBlocks: [
       {
         type: "paragraph",
-        text: 'ברוכים הבאים לאתר NB BURGER (להלן: "האתר").'
+        text: 'ברוכים הבאים לאתר SO WHAT (להלן: "האתר").'
       },
       {
         type: "paragraph",
@@ -27,7 +27,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "האתר מופעל ומנוהל על ידי NB BURGER ומשמש להצגת מידע, תפריטים, מוצרים, שירותים, מבצעים, תוכן שיווקי, מועדון לקוחות, יצירת קשר ושירותים נוספים."
+            text: "האתר מופעל ומנוהל על ידי SO WHAT ומשמש להצגת מידע, תפריטים, מוצרים, שירותים, מבצעים, תוכן שיווקי, מועדון לקוחות, יצירת קשר ושירותים נוספים."
           },
           {
             type: "paragraph",
@@ -35,7 +35,7 @@ export function getTermsContentHe(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER רשאית לעדכן, לשנות, למחוק או להוסיף הוראות לתקנון זה בכל עת וללא הודעה מוקדמת. הנוסח המעודכן שיפורסם באתר יהיה הנוסח המחייב."
+            text: "SO WHAT רשאית לעדכן, לשנות, למחוק או להוסיף הוראות לתקנון זה בכל עת וללא הודעה מוקדמת. הנוסח המעודכן שיפורסם באתר יהיה הנוסח המחייב."
           },
           {
             type: "paragraph",
@@ -63,7 +63,7 @@ export function getTermsContentHe(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER רשאית למנוע גישה לאתר מכל משתמש אשר הפר הוראה מהוראות תקנון זה או פעל בניגוד לדין."
+            text: "SO WHAT רשאית למנוע גישה לאתר מכל משתמש אשר הפר הוראה מהוראות תקנון זה או פעל בניגוד לדין."
           }
         ]
       },
@@ -81,7 +81,7 @@ export function getTermsContentHe(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "במקרה של טעות במחיר, בתיאור או בפרט אחר המוצג באתר, NB BURGER רשאית לתקן את המידע באתר. המחיר הקובע להזמנה מקוונת הוא המחיר המוצג במערכת ההזמנות החיצונית בזמן ביצוע ההזמנה."
+            text: "במקרה של טעות במחיר, בתיאור או בפרט אחר המוצג באתר, SO WHAT רשאית לתקן את המידע באתר. המחיר הקובע להזמנה מקוונת הוא המחיר המוצג במערכת ההזמנות החיצונית בזמן ביצוע ההזמנה."
           }
         ]
       },
@@ -90,7 +90,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "האתר של NB BURGER עצמו אינו מערכת ההזמנות ואינו מעבד את ההזמנה או התשלום."
+            text: "האתר של SO WHAT עצמו אינו מערכת ההזמנות ואינו מעבד את ההזמנה או התשלום."
           },
           {
             type: "paragraph",
@@ -107,7 +107,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER אינה אוספת או שומרת באתר עצמו פרטי אשראי או פרטי תשלום של ההזמנה."
+            text: "SO WHAT אינה אוספת או שומרת באתר עצמו פרטי אשראי או פרטי תשלום של ההזמנה."
           },
           {
             type: "paragraph",
@@ -120,7 +120,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "מחירים יכולים להיות מוצגים באתר NB BURGER לצורכי הצגת התפריט."
+            text: "מחירים יכולים להיות מוצגים באתר SO WHAT לצורכי הצגת התפריט."
           },
           {
             type: "paragraph",
@@ -150,7 +150,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER מציעה אפשרות לאיסוף עצמי."
+            text: "SO WHAT מציעה אפשרות לאיסוף עצמי."
           },
           {
             type: "paragraph",
@@ -193,7 +193,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER כשר בהשגחת רבנות רעננה."
+            text: "SO WHAT כשר בהשגחת רבנות רעננה."
           }
         ]
       },
@@ -202,7 +202,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER מוכרת משקאות אלכוהוליים, לרבות בירות."
+            text: "SO WHAT מוכרת משקאות אלכוהוליים, לרבות בירות."
           },
           {
             type: "paragraph",
@@ -219,7 +219,7 @@ export function getTermsContentHe(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "לקוחות עם אלרגיה, רגישות או צורך תזונתי מיוחד מתבקשים לפנות לצוות NB BURGER לפני ביצוע ההזמנה."
+            text: "לקוחות עם אלרגיה, רגישות או צורך תזונתי מיוחד מתבקשים לפנות לצוות SO WHAT לפני ביצוע ההזמנה."
           }
         ]
       },
@@ -271,7 +271,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER פועלת בהתאם להוראות הדין בישראל בנושא הגנת הפרטיות."
+            text: "SO WHAT פועלת בהתאם להוראות הדין בישראל בנושא הגנת הפרטיות."
           },
           {
             type: "paragraph",
@@ -288,7 +288,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "כל זכויות הקניין הרוחני באתר שייכות ל-NB BURGER בלבד."
+            text: "כל זכויות הקניין הרוחני באתר שייכות ל-SO WHAT בלבד."
           },
           { type: "paragraph", text: "לרבות:" },
           {
@@ -319,14 +319,14 @@ export function getTermsContentHe(): LegalDocument {
           { type: "paragraph", text: "המשתמש אחראי למסור מידע מלא, נכון ומדויק באתר." },
           {
             type: "paragraph",
-            text: "NB BURGER לא תהיה אחראית לכל נזק או עיכוב הנובעים ממידע שגוי שנמסר על ידי המשתמש באתר."
+            text: "SO WHAT לא תהיה אחראית לכל נזק או עיכוב הנובעים ממידע שגוי שנמסר על ידי המשתמש באתר."
           }
         ]
       },
       {
         title: "19. זמינות האתר",
         blocks: [
-          { type: "paragraph", text: "NB BURGER אינה מתחייבת שהאתר יהיה זמין באופן רציף." },
+          { type: "paragraph", text: "SO WHAT אינה מתחייבת שהאתר יהיה זמין באופן רציף." },
           { type: "paragraph", text: "ייתכנו הפסקות עקב:" },
           {
             type: "list",
@@ -347,7 +347,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER לא תהיה אחראית לעיכוב או לאי מתן שירות הנובע ממלחמה, מבצע צבאי, מצב חירום, כוח עליון, שביתה, מגפה, אסון טבע, הפסקת חשמל, תקלות אינטרנט, החלטות רשויות או כל נסיבה שאינה בשליטתה."
+            text: "SO WHAT לא תהיה אחראית לעיכוב או לאי מתן שירות הנובע ממלחמה, מבצע צבאי, מצב חירום, כוח עליון, שביתה, מגפה, אסון טבע, הפסקת חשמל, תקלות אינטרנט, החלטות רשויות או כל נסיבה שאינה בשליטתה."
           }
         ]
       },
@@ -360,7 +360,7 @@ export function getTermsContentHe(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER אינה אחראית לתוכן, למידע, לשירותים או למדיניות הפרטיות של אותם אתרים ושירותים."
+            text: "SO WHAT אינה אחראית לתוכן, למידע, לשירותים או למדיניות הפרטיות של אותם אתרים ושירותים."
           }
         ]
       },
@@ -369,11 +369,11 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER עושה מאמצים לספק שירות איכותי ומידע מדויק, אולם אינה מתחייבת כי האתר יהיה נקי מתקלות או שגיאות."
+            text: "SO WHAT עושה מאמצים לספק שירות איכותי ומידע מדויק, אולם אינה מתחייבת כי האתר יהיה נקי מתקלות או שגיאות."
           },
           {
             type: "paragraph",
-            text: "ככל שהדבר מותר על פי דין, אחריותה של NB BURGER תהיה מוגבלת לאחריות הקבועה בדין בלבד."
+            text: "ככל שהדבר מותר על פי דין, אחריותה של SO WHAT תהיה מוגבלת לאחריות הקבועה בדין בלבד."
           },
           {
             type: "paragraph",
@@ -386,7 +386,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "אי־מימוש או עיכוב במימוש זכות כלשהי של NB BURGER לפי תקנון זה או לפי הדין, לא ייחשבו כוויתור על אותה זכות או על כל זכות אחרת."
+            text: "אי־מימוש או עיכוב במימוש זכות כלשהי של SO WHAT לפי תקנון זה או לפי הדין, לא ייחשבו כוויתור על אותה זכות או על כל זכות אחרת."
           }
         ]
       },
@@ -412,7 +412,7 @@ export function getTermsContentHe(): LegalDocument {
       {
         title: "26. יצירת קשר",
         blocks: [
-          { type: "paragraph", text: "NB BURGER" },
+          { type: "paragraph", text: "SO WHAT" },
           {
             type: "list",
             items: [

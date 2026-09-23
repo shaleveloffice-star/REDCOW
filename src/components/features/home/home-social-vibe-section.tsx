@@ -122,13 +122,13 @@ export function HomeSocialVibeSection() {
           <div className="home-vibe-phone-screen">
             <ReelEmbed
               reelId={activeReelId}
-              title={`Instagram Reel ${activeReelIndex + 1} של NB BURGER`}
+              title={`Instagram Reel ${activeReelIndex + 1} של SO WHAT`}
               className="home-vibe-embed"
               enabled={sectionNearView}
             />
             <ReelEmbed
               reelId={secondaryReelId}
-              title={`Instagram Reel ${secondaryReelIndex + 1} של NB BURGER`}
+              title={`Instagram Reel ${secondaryReelIndex + 1} של SO WHAT`}
               className="home-vibe-embed home-vibe-embed--secondary"
               enabled={sectionNearView && secondaryEmbedReady}
             />

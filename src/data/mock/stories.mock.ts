@@ -17,8 +17,8 @@ export const mockBrandStories: BrandStory[] = [
     subtitle:
       "המבורגר טוב יכול לקרות פעם אחת. המבחן האמיתי הוא לקבל אותו בדיוק כמו שאהבתם גם בפעם הבאה.",
     heroImageUrl: DEFAULT_OG_IMAGE,
-    heroImageAlt: "המבורגר NB BURGER",
-    metaTitle: "מה הופך המבורגר טוב להמבורגר שחוזרים אליו? | NB BURGER",
+    heroImageAlt: "המבורגר SO WHAT",
+    metaTitle: "מה הופך המבורגר טוב להמבורגר שחוזרים אליו? | SO WHAT",
     metaDescription:
       "סיפור קצר על עקביות, דיוק וחוויה - מה שמבדיל המבורגר שחוזרים אליו מזה שפוגשים פעם אחת.",
     ogImageUrl: DEFAULT_OG_IMAGE,
@@ -54,7 +54,7 @@ export const mockBrandStories: BrandStory[] = [
       {
         type: "quote",
         text: "עקביות היא מה שגורם לכם לחזור - לא רק טעם טוב בפעם הראשונה.",
-        attribution: "NB BURGER"
+        attribution: "SO WHAT"
       },
       {
         type: "split-text-image",

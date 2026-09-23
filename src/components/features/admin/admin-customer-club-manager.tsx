@@ -837,7 +837,7 @@ export function AdminCustomerClubManager({
         <div className="admin-form">
           <div className="admin-club-preview-meta">
             <p>
-              <strong>From:</strong> NB BURGER &lt;club@nbburger.co.il&gt;
+              <strong>From:</strong> SO WHAT &lt;club@nbburger.co.il&gt;
             </p>
             <p>
               <strong>Subject:</strong> {subject}

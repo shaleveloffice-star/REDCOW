@@ -91,20 +91,20 @@ export async function generateMetadata({ params }: MenuSlugPageProps): Promise<M
   const item = await getCachedMenuItemBySlug(normalized);
   if (!item) {
     return buildPageMetadata({
-      title: "מנה | NB BURGER רעננה",
-      description: "מנה מתוך תפריט NB BURGER.",
+      title: "מנה | SO WHAT רעננה",
+      description: "מנה מתוך תפריט SO WHAT.",
       path: `/menu/${slug}`
     });
   }
 
   const localized = getLocalizedMenuItem(item, locale);
   const resolvedSlug = resolveMenuItemSlug(item);
-  const title = item.metaTitle?.trim() || `${localized.name} | NB BURGER רעננה`;
+  const title = item.metaTitle?.trim() || `${localized.name} | SO WHAT רעננה`;
   const description =
     item.metaDescription?.trim() ||
     localized.description.trim() ||
     localized.longDescription.trim() ||
-    `${localized.name} - NB BURGER רעננה`;
+    `${localized.name} - SO WHAT רעננה`;
   const imageUrl = String(item.imageUrl ?? "").trim();
 
   return buildPageMetadata({

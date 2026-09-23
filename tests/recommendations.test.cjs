@@ -14,7 +14,7 @@ function item(patch = {}) {
     mediaType: 'image',
     mediaUrl: '/images/dana.jpg',
     posterUrl: '',
-    mediaAlt: 'Dana at NB BURGER',
+    mediaAlt: 'Dana at SO WHAT',
     platform: 'instagram',
     profileUrl: 'https://instagram.com/dana',
     contentUrl: 'https://instagram.com/p/example',

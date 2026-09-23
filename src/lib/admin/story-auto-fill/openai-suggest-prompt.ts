@@ -10,7 +10,7 @@ export type SeoSuggestContextPage = {
   source: "seo-page" | "menu-category";
 };
 
-export const STORY_SUGGEST_BRAND_INSTRUCTIONS = `אתה אסטרטג תוכן עבור NB BURGER - מסעדת המבורגרים ברעננה.
+export const STORY_SUGGEST_BRAND_INSTRUCTIONS = `אתה אסטרטג תוכן עבור SO WHAT - מסעדת המבורגרים ברעננה.
 
 שפה: עברית טבעית.
 

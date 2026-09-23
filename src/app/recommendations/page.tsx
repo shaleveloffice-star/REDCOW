@@ -13,9 +13,9 @@ export async function generateMetadata(): Promise<Metadata> {
     return { robots: { index: false, follow: false } };
   }
   return {
-    title: `${config.title} | NB BURGER`,
+    title: `${config.title} | SO WHAT`,
     description:
-      config.introduction || "יוצרי תוכן שממליצים על NB BURGER ברעננה."
+      config.introduction || "יוצרי תוכן שממליצים על SO WHAT ברעננה."
   };
 }
 

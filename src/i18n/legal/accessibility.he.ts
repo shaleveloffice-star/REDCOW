@@ -6,15 +6,15 @@ const ACCESSIBILITY_EMAIL = BUSINESS.email;
 export function getAccessibilityContentHe(): LegalDocument {
   return {
     lastUpdated: "תאריך עדכון אחרון: 18 באוגוסט 2026",
-    title: "הצהרת נגישות - NB BURGER",
-    metaTitle: "הצהרת נגישות | NB BURGER",
+    title: "הצהרת נגישות - SO WHAT",
+    metaTitle: "הצהרת נגישות | SO WHAT",
     metaDescription:
-      "הצהרת הנגישות של NB BURGER: התאמות שבוצעו באתר, הסדרי הנגישות בסניף באחוזה 96 ברעננה, ופניות בנושא נגישות.",
+      "הצהרת הנגישות של SO WHAT: התאמות שבוצעו באתר, הסדרי הנגישות בסניף באחוזה 96 ברעננה, ופניות בנושא נגישות.",
     introTitle: "מחויבות לנגישות",
     introBlocks: [
       {
         type: "paragraph",
-        text: "NB BURGER מחויבת לאפשר שימוש נוח ונגיש יותר באתר ובסניף, ולשפר את הנגישות באופן מתמשך."
+        text: "SO WHAT מחויבת לאפשר שימוש נוח ונגיש יותר באתר ובסניף, ולשפר את הנגישות באופן מתמשך."
       },
       {
         type: "paragraph",
@@ -57,7 +57,7 @@ export function getAccessibilityContentHe(): LegalDocument {
           {
             type: "list",
             items: [
-              "קיימות חניות נכים ציבוריות בסביבת הסניף. אין מדובר בחניות פרטיות של NB BURGER.",
+              "קיימות חניות נכים ציבוריות בסביבת הסניף. אין מדובר בחניות פרטיות של SO WHAT.",
               "הכניסה לסניף נגישה לכיסא גלגלים.",
               "קיימת ישיבה נגישה לכיסא גלגלים.",
               "קיים דלפק נגיש.",

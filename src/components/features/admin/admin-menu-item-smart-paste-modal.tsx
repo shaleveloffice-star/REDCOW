@@ -113,7 +113,7 @@ export function AdminMenuItemSmartPasteModal({
             className="admin-smart-paste-textarea"
             rows={14}
             value={rawText}
-            placeholder={`שם המנה\nNB Classic\n\nמחיר\n58\n\nתיאור קצר\n...\n\nתיאור ארוך\n...\n\nכותרת מטא\n...\n\nתיאור מטא\n...`}
+            placeholder={`שם המנה\nSO WHAT Classic\n\nמחיר\n58\n\nתיאור קצר\n...\n\nתיאור ארוך\n...\n\nכותרת מטא\n...\n\nתיאור מטא\n...`}
             onChange={(event) => {
               setRawText(event.target.value);
               setConfirmOverwrite(false);

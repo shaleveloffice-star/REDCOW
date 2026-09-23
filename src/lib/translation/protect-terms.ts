@@ -1,5 +1,5 @@
 const PROTECTED_PATTERNS: RegExp[] = [
-  /\bNB BURGER\b/gi,
+  /\bSO WHAT\b/gi,
   /https?:\/\/[^\s]+/gi,
   /\/(?:images|menu|icons|apple-touch-icon|favicon)[^\s"'<>]*/gi,
   /₪\s?\d+(?:[.,]\d+)?/g,

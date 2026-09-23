@@ -29,7 +29,7 @@ test('admin banner saves round-trip independently, reject unauthorized writes an
   t.after(() => fs.rm(directory, { recursive: true, force: true }));
   await fs.mkdir(path.join(directory, 'data', 'local'), { recursive: true });
   const settingsPath = path.join(directory, 'data', 'local', 'site-settings.json');
-  const original = JSON.stringify({ siteName: 'NB BURGER', heroMediaUrl: '/home.jpg' });
+  const original = JSON.stringify({ siteName: 'SO WHAT', heroMediaUrl: '/home.jpg' });
   await fs.writeFile(settingsPath, original);
   let authorized = false;
   const invalidated = [];
@@ -73,7 +73,7 @@ test('public banner renders configured image, video, height and accessible text,
   });
   const { MenuHero } = load('@/components/features/menu/menu-hero');
   const { DEFAULT_MENU_HERO } = load('@/lib/menu/menu-hero-config');
-  const render = config => renderToStaticMarkup(React.createElement(MenuHero, { config, locale: 'he', heroAlt: 'תפריט NB BURGER' }));
+  const render = config => renderToStaticMarkup(React.createElement(MenuHero, { config, locale: 'he', heroAlt: 'תפריט SO WHAT' }));
   const video = render({ ...DEFAULT_MENU_HERO, videoUrl: '/videos/custom.mp4', posterUrl: '/images/poster.jpg', alt: 'הבאנר שלי' });
   assert.match(video, /src="\/videos\/custom.mp4"/);
   assert.match(video, /poster="\/images\/poster.jpg"/);
@@ -81,7 +81,7 @@ test('public banner renders configured image, video, height and accessible text,
   const image = render({ ...DEFAULT_MENU_HERO, mediaType: 'image', imageUrl: '/images/custom.jpg', mobileHeight: 320 });
   assert.match(image, /src="\/images\/custom.jpg"/);
   assert.match(image, /--menu-hero-mobile-height:320px/);
-  assert.match(image, /alt="תפריט NB BURGER"/);
+  assert.match(image, /alt="תפריט SO WHAT"/);
   assert.doesNotMatch(image, /<video/);
   assert.equal(render({ ...DEFAULT_MENU_HERO, mediaType: 'none' }), '');
 });

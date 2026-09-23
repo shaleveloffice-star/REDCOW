@@ -6,17 +6,17 @@ const CONTACT_EMAIL = BUSINESS.email;
 export function getPrivacyContentFr(): LegalDocument {
   return {
     lastUpdated: "Dernière mise à jour : 18 août 2026",
-    title: "Politique de confidentialité - NB BURGER",
+    title: "Politique de confidentialité - SO WHAT",
     introTitle: "Introduction",
     introBlocks: [
-      { type: "paragraph", text: "Bienvenue sur le site de NB BURGER." },
+      { type: "paragraph", text: "Bienvenue sur le site de SO WHAT." },
       {
         type: "paragraph",
         text: "La présente politique explique quelles informations sont collectées sur le site, comment elles sont utilisées et comment nous contacter au sujet de la confidentialité."
       },
       {
         type: "paragraph",
-        text: "Le site sert à présenter des informations sur NB BURGER, notamment la marque, le menu, l'établissement, les horaires, le club clients, les coordonnées et d'autres contenus."
+        text: "Le site sert à présenter des informations sur SO WHAT, notamment la marque, le menu, l'établissement, les horaires, le club clients, les coordonnées et d'autres contenus."
       },
       {
         type: "paragraph",
@@ -24,7 +24,7 @@ export function getPrivacyContentFr(): LegalDocument {
       },
       {
         type: "paragraph",
-        text: "NB BURGER respecte la vie privée des utilisateurs et agit conformément au droit israélien applicable, notamment la loi sur la protection de la vie privée de 1981."
+        text: "SO WHAT respecte la vie privée des utilisateurs et agit conformément au droit israélien applicable, notamment la loi sur la protection de la vie privée de 1981."
       },
       {
         type: "paragraph",
@@ -43,7 +43,7 @@ export function getPrivacyContentFr(): LegalDocument {
       {
         title: "1. Qui sommes-nous",
         blocks: [
-          { type: "paragraph", text: "Le site est exploité par NB BURGER." },
+          { type: "paragraph", text: "Le site est exploité par SO WHAT." },
           {
             type: "list",
             items: [
@@ -156,7 +156,7 @@ export function getPrivacyContentFr(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER peut envoyer aux personnes inscrites et consentantes des messages marketing, actualités, avantages et promotions via des canaux tels que le SMS et d'autres canaux pour lesquels des coordonnées ont été fournies et un consentement a été donné."
+            text: "SO WHAT peut envoyer aux personnes inscrites et consentantes des messages marketing, actualités, avantages et promotions via des canaux tels que le SMS et d'autres canaux pour lesquels des coordonnées ont été fournies et un consentement a été donné."
           },
           {
             type: "paragraph",
@@ -215,7 +215,7 @@ export function getPrivacyContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER ne vend pas vos informations personnelles à des tiers."
+            text: "SO WHAT ne vend pas vos informations personnelles à des tiers."
           },
           {
             type: "paragraph",
@@ -277,7 +277,7 @@ export function getPrivacyContentFr(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER ne vous demandera pas d'envoyer des données de carte bancaire, des mots de passe ou d'autres informations sensibles par e-mail, SMS ou WhatsApp."
+            text: "SO WHAT ne vous demandera pas d'envoyer des données de carte bancaire, des mots de passe ou d'autres informations sensibles par e-mail, SMS ou WhatsApp."
           }
         ]
       },
@@ -316,7 +316,7 @@ export function getPrivacyContentFr(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER n'est pas responsable de la politique de confidentialité ni des pratiques des services externes. Il est recommandé de consulter la politique de chaque service avant d'y transmettre des données."
+            text: "SO WHAT n'est pas responsable de la politique de confidentialité ni des pratiques des services externes. Il est recommandé de consulter la politique de chaque service avant d'y transmettre des données."
           }
         ]
       },
@@ -325,7 +325,7 @@ export function getPrivacyContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER peut mettre à jour cette politique de temps à autre. La date de dernière mise à jour figure en tête du document."
+            text: "SO WHAT peut mettre à jour cette politique de temps à autre. La date de dernière mise à jour figure en tête du document."
           }
         ]
       },

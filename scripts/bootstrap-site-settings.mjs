@@ -66,12 +66,12 @@ function requireEnv(name) {
 function getDefaultSiteSettings() {
   const now = new Date().toISOString();
   return {
-    siteName: "NB BURGER",
-    seoTitle: "NB BURGER | המבורגרים, גריל ואווירה",
-    seoDescription: "NB BURGER מגישה המבורגרים, תוספות וארוחות בשר באווירה חמה.",
+    siteName: "SO WHAT",
+    seoTitle: "SO WHAT | המבורגרים, גריל ואווירה",
+    seoDescription: "SO WHAT מגישה המבורגרים, תוספות וארוחות בשר באווירה חמה.",
     heroMediaType: "video",
     heroMediaUrl: "/videos/hero-nb-experience.mp4",
-    heroMediaAlt: "חוויה במסעדת NB BURGER",
+    heroMediaAlt: "חוויה במסעדת SO WHAT",
     phone: "",
     email: "official.nbburger@gmail.com",
     instagramUrl: "https://www.instagram.com/nbburgeril/",

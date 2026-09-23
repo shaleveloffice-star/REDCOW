@@ -6,15 +6,15 @@ const ACCESSIBILITY_EMAIL = BUSINESS.email;
 export function getAccessibilityContentFr(): LegalDocument {
   return {
     lastUpdated: "Dernière mise à jour : 18 août 2026",
-    title: "Déclaration d'accessibilité - NB BURGER",
-    metaTitle: "Déclaration d'accessibilité | NB BURGER",
+    title: "Déclaration d'accessibilité - SO WHAT",
+    metaTitle: "Déclaration d'accessibilité | SO WHAT",
     metaDescription:
-      "Déclaration d'accessibilité de NB BURGER : aménagements du site, dispositions d'accessibilité du restaurant au 96 Ahuza, Ra'anana, et contact.",
+      "Déclaration d'accessibilité de SO WHAT : aménagements du site, dispositions d'accessibilité du restaurant au 96 Ahuza, Ra'anana, et contact.",
     introTitle: "Notre engagement",
     introBlocks: [
       {
         type: "paragraph",
-        text: "NB BURGER s'engage à rendre le site et le restaurant plus faciles à utiliser, et à améliorer l'accessibilité de manière continue."
+        text: "SO WHAT s'engage à rendre le site et le restaurant plus faciles à utiliser, et à améliorer l'accessibilité de manière continue."
       },
       {
         type: "paragraph",
@@ -57,7 +57,7 @@ export function getAccessibilityContentFr(): LegalDocument {
           {
             type: "list",
             items: [
-              "Des places de stationnement PMR publiques existent à proximité du restaurant. Il ne s'agit pas de places privées de NB BURGER.",
+              "Des places de stationnement PMR publiques existent à proximité du restaurant. Il ne s'agit pas de places privées de SO WHAT.",
               "L'entrée du restaurant est accessible en fauteuil roulant.",
               "Des places assises accessibles en fauteuil roulant sont disponibles.",
               "Un comptoir accessible est disponible.",

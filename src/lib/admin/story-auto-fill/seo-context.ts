@@ -39,7 +39,7 @@ function categoryPathFromKey(key: string): string {
 
 function keywordFromMeta(metaTitle: string, fallback: string): string {
   const cleaned = metaTitle
-    .replace(/\|\s*NB BURGER/gi, "")
+    .replace(/\|\s*SO WHAT/gi, "")
     .replace(/\s+/g, " ")
     .trim();
   if (cleaned.length >= 3) return cleaned.slice(0, 80);

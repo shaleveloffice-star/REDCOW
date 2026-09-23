@@ -19,106 +19,106 @@ const PAGE_META_DEFAULTS: Record<
 > = {
   he: {
     home: {
-      metaTitle: "NB BURGER | המבורגר ברעננה",
+      metaTitle: "SO WHAT | המבורגר ברעננה",
       metaDescription:
-        "מחפשים המבורגר ברעננה או המבורגר רעננה? NB BURGER באחוזה 96 - מסעדה כשרה ברעננה עם המבורגרים מבשר טרי הנטחן במקום, ארוחות ותוספות."
+        "מחפשים המבורגר ברעננה או המבורגר רעננה? SO WHAT באחוזה 96 - מסעדה כשרה ברעננה עם המבורגרים מבשר טרי הנטחן במקום, ארוחות ותוספות."
     },
     menu: {
-      metaTitle: "תפריט המבורגרים ברעננה | NB BURGER",
+      metaTitle: "תפריט המבורגרים ברעננה | SO WHAT",
       metaDescription:
-        "גלו את תפריט ההמבורגרים של NB BURGER ברעננה - המבורגרים על הפלנצ׳ה, תוספות ומנות ממסעדה כשרה ברחוב אחוזה 96."
+        "גלו את תפריט ההמבורגרים של SO WHAT ברעננה - המבורגרים על הפלנצ׳ה, תוספות ומנות ממסעדה כשרה ברחוב אחוזה 96."
     },
     locations: {
-      metaTitle: "מיקום ושעות | NB BURGER רעננה",
+      metaTitle: "מיקום ושעות | SO WHAT רעננה",
       metaDescription:
-        "כתובת NB BURGER ברחוב אחוזה 96, שעות פתיחה, ניווט, איסוף עצמי ואזורי משלוח. כל מה שצריך לפני שמגיעים לסניף רעננה."
+        "כתובת SO WHAT ברחוב אחוזה 96, שעות פתיחה, ניווט, איסוף עצמי ואזורי משלוח. כל מה שצריך לפני שמגיעים לסניף רעננה."
     },
     kosher: {
-      metaTitle: "כשר בהשגחת רבנות | NB BURGER",
+      metaTitle: "כשר בהשגחת רבנות | SO WHAT",
       metaDescription:
-        "NB BURGER - מסעדת המבורגרים כשרה בהשגחת רבנות. פרטי הכשרות והמידע המעודכן יופיעו כאן."
+        "SO WHAT - מסעדת המבורגרים כשרה בהשגחת רבנות. פרטי הכשרות והמידע המעודכן יופיעו כאן."
     },
     about: {
-      metaTitle: "אודות NB BURGER | הסיפור שלנו",
+      metaTitle: "אודות SO WHAT | הסיפור שלנו",
       metaDescription:
-        "הסיפור של NB BURGER - המותג, החזון, הבשר והאנשים מאחורי המסעדה. איך בנינו חוויית המבורגר מדויקת ועקבית."
+        "הסיפור של SO WHAT - המותג, החזון, הבשר והאנשים מאחורי המסעדה. איך בנינו חוויית המבורגר מדויקת ועקבית."
     },
     privacy: {
-      metaTitle: "מדיניות פרטיות | NB BURGER",
-      metaDescription: "מדיניות הפרטיות של NB BURGER - איסוף מידע, שימוש בנתונים וזכויות המשתמש."
+      metaTitle: "מדיניות פרטיות | SO WHAT",
+      metaDescription: "מדיניות הפרטיות של SO WHAT - איסוף מידע, שימוש בנתונים וזכויות המשתמש."
     },
     terms: {
-      metaTitle: "תקנון האתר | NB BURGER",
-      metaDescription: "תקנון השימוש באתר NB BURGER."
+      metaTitle: "תקנון האתר | SO WHAT",
+      metaDescription: "תקנון השימוש באתר SO WHAT."
     }
   },
   en: {
     home: {
-      metaTitle: "NB BURGER | Kosher Burgers Raanana",
+      metaTitle: "SO WHAT | Kosher Burgers Raanana",
       metaDescription:
-        "NB BURGER in Raanana - smash burgers on the plancha, fresh ingredients and bold flavor at Ahuzah 96."
+        "SO WHAT in Raanana - smash burgers on the plancha, fresh ingredients and bold flavor at Ahuzah 96."
     },
     menu: {
-      metaTitle: "Burger Menu Raanana | NB BURGER",
+      metaTitle: "Burger Menu Raanana | SO WHAT",
       metaDescription:
-        "Explore the NB BURGER menu in Raanana - plancha burgers, sides and full meals at our kosher restaurant."
+        "Explore the SO WHAT menu in Raanana - plancha burgers, sides and full meals at our kosher restaurant."
     },
     locations: {
-      metaTitle: "Location & Hours | NB BURGER Raanana",
-      metaDescription: "Find NB BURGER in Raanana - address, opening hours, directions and delivery."
+      metaTitle: "Location & Hours | SO WHAT Raanana",
+      metaDescription: "Find SO WHAT in Raanana - address, opening hours, directions and delivery."
     },
     kosher: {
-      metaTitle: "Kosher Certification | NB BURGER",
+      metaTitle: "Kosher Certification | SO WHAT",
       metaDescription:
-        "NB BURGER is a kosher burger restaurant under rabbinate supervision. Details will appear here."
+        "SO WHAT is a kosher burger restaurant under rabbinate supervision. Details will appear here."
     },
     about: {
-      metaTitle: "About | NB BURGER Raanana",
+      metaTitle: "About | SO WHAT Raanana",
       metaDescription:
-        "Meet NB BURGER - Raanana's smash-burger spot. Quality beef, soft buns, plancha perfection."
+        "Meet SO WHAT - Raanana's smash-burger spot. Quality beef, soft buns, plancha perfection."
     },
     privacy: {
-      metaTitle: "Privacy Policy | NB BURGER",
-      metaDescription: "NB BURGER privacy policy - data collection, usage and your rights."
+      metaTitle: "Privacy Policy | SO WHAT",
+      metaDescription: "SO WHAT privacy policy - data collection, usage and your rights."
     },
     terms: {
-      metaTitle: "Terms of Use | NB BURGER",
-      metaDescription: "Terms of use for the NB BURGER website."
+      metaTitle: "Terms of Use | SO WHAT",
+      metaDescription: "Terms of use for the SO WHAT website."
     }
   },
   fr: {
     home: {
-      metaTitle: "NB BURGER | Burgers casher Raanana",
+      metaTitle: "SO WHAT | Burgers casher Raanana",
       metaDescription:
-        "NB BURGER à Raanana - burgers sur plancha, ingrédients frais et saveur intense, Ahuzah 96."
+        "SO WHAT à Raanana - burgers sur plancha, ingrédients frais et saveur intense, Ahuzah 96."
     },
     menu: {
-      metaTitle: "Menu burgers Raanana | NB BURGER",
+      metaTitle: "Menu burgers Raanana | SO WHAT",
       metaDescription:
-        "Découvrez le menu NB BURGER à Raanana - burgers plancha, accompagnements et formules dans un restaurant casher."
+        "Découvrez le menu SO WHAT à Raanana - burgers plancha, accompagnements et formules dans un restaurant casher."
     },
     locations: {
-      metaTitle: "Adresse & horaires | NB BURGER Raanana",
-      metaDescription: "NB BURGER à Raanana - adresse, horaires, itinéraire et livraison."
+      metaTitle: "Adresse & horaires | SO WHAT Raanana",
+      metaDescription: "SO WHAT à Raanana - adresse, horaires, itinéraire et livraison."
     },
     kosher: {
-      metaTitle: "Cacherout | NB BURGER",
+      metaTitle: "Cacherout | SO WHAT",
       metaDescription:
-        "NB BURGER est un restaurant de burgers casher sous supervision rabbinique. Les détails apparaîtront ici."
+        "SO WHAT est un restaurant de burgers casher sous supervision rabbinique. Les détails apparaîtront ici."
     },
     about: {
-      metaTitle: "À propos | NB BURGER Raanana",
+      metaTitle: "À propos | SO WHAT Raanana",
       metaDescription:
-        "Découvrez NB BURGER - burgers smash à Raanana. Viande de qualité, buns moelleux, plancha maîtrisée."
+        "Découvrez SO WHAT - burgers smash à Raanana. Viande de qualité, buns moelleux, plancha maîtrisée."
     },
     privacy: {
-      metaTitle: "Politique de confidentialité | NB BURGER",
+      metaTitle: "Politique de confidentialité | SO WHAT",
       metaDescription:
-        "Politique de confidentialité NB BURGER - collecte, usage des données et vos droits."
+        "Politique de confidentialité SO WHAT - collecte, usage des données et vos droits."
     },
     terms: {
-      metaTitle: "Conditions d'utilisation | NB BURGER",
-      metaDescription: "Conditions d'utilisation du site NB BURGER."
+      metaTitle: "Conditions d'utilisation | SO WHAT",
+      metaDescription: "Conditions d'utilisation du site SO WHAT."
     }
   }
 };
@@ -129,7 +129,7 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
       home: {
         sectionTitle: "לא עוד המבורגר.",
         introduction: joinParagraphs([
-          "ב-NB BURGER אנחנו מאמינים שאיכות לא צריכה הסברים ארוכים.",
+          "ב-SO WHAT אנחנו מאמינים שאיכות לא צריכה הסברים ארוכים.",
           "בשר בקר איכותי, הנטחן במקום מדי יום.",
           "לחמניית בריוש טרייה.",
           "רטבים שמכינים במקום.",
@@ -148,30 +148,30 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
             {
               question: "איפה אפשר לאכול המבורגר כשר ברעננה?",
               answer:
-                "NB BURGER מציעה חוויית המבורגר כשרה ברעננה, עם המבורגרים עסיסיים, חומרי גלם איכותיים ומנות שמוכנות במקום. אפשר להגיע לסניף וליהנות מהארוחה במקום או להזמין במשלוח."
+                "SO WHAT מציעה חוויית המבורגר כשרה ברעננה, עם המבורגרים עסיסיים, חומרי גלם איכותיים ומנות שמוכנות במקום. אפשר להגיע לסניף וליהנות מהארוחה במקום או להזמין במשלוח."
             },
             {
-              question: "איזו כשרות יש ל-NB BURGER?",
+              question: "איזו כשרות יש ל-SO WHAT?",
               answer:
-                "NB BURGER היא מסעדה כשרה ופועלת תחת כשרות הרבנות. התפריט הבשרי שלנו מותאם לשומרי כשרות וכולל מגוון המבורגרים ומנות נוספות."
+                "SO WHAT היא מסעדה כשרה ופועלת תחת כשרות הרבנות. התפריט הבשרי שלנו מותאם לשומרי כשרות וכולל מגוון המבורגרים ומנות נוספות."
             },
             {
-              question: "מה מיוחד בסמאש בורגר של NB BURGER?",
+              question: "מה מיוחד בסמאש בורגר של SO WHAT?",
               answer:
                 "הסמאש בורגר שלנו מבוסס על קציצת בקר שנצרבת על משטח חם לקבלת השחמה וטעם עשיר, ומוגשת עם תוספות ורטבים שמשלימים את הביס."
             },
             {
-              question: "האם אפשר להזמין משלוח המבורגר מ-NB BURGER?",
+              question: "האם אפשר להזמין משלוח המבורגר מ-SO WHAT?",
               answer:
-                "כן. ניתן להזמין משלוחים מ-NB BURGER ברעננה ובאזורי המשלוח הזמינים וליהנות מהמנות שלנו גם בבית או בעבודה."
+                "כן. ניתן להזמין משלוחים מ-SO WHAT ברעננה ובאזורי המשלוח הזמינים וליהנות מהמנות שלנו גם בבית או בעבודה."
             },
             {
-              question: "מה שעות הפתיחה של NB BURGER?",
+              question: "מה שעות הפתיחה של SO WHAT?",
               answer:
                 "שעות הפעילות עשויות להשתנות בהתאם ליום ולמועדים. מומלץ לבדוק את שעות הפתיחה המעודכנות באתר לפני ההגעה או ביצוע ההזמנה."
             },
             {
-              question: "מה יש בתפריט של NB BURGER?",
+              question: "מה יש בתפריט של SO WHAT?",
               answer:
                 "בתפריט תמצאו מגוון המבורגרים, סמאש בורגר, תוספות, מנות צד ורטבים. ניתן לצפות בתפריט המלא באתר ולבחור את המנה שמתאימה לכם."
             }
@@ -179,27 +179,27 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
         }
       },
       about: {
-        sectionTitle: "הסיפור שמאחורי NB BURGER",
+        sectionTitle: "הסיפור שמאחורי SO WHAT",
         introduction: joinParagraphs([
-          "NB BURGER נולדה מתוך מחשבה פשוטה: להכין המבורגר מחומרי גלם איכותיים, בלי קיצורי דרך ובלי להתפשר על הטעם.",
+          "SO WHAT נולדה מתוך מחשבה פשוטה: להכין המבורגר מחומרי גלם איכותיים, בלי קיצורי דרך ובלי להתפשר על הטעם.",
           "הבשר נטחן במקום מדי יום, כל מנה עולה לפלנצ׳ה רק אחרי ההזמנה, וכל מרכיב נבחר בקפידה - מהלחמנייה ועד הרטבים."
         ]),
         bottomContent: joinParagraphs([
           "מאחורי המותג עומדים אנשים שאוהבים המבורגר אמיתי: דיוק בהכנה, עקביות בכל ביס, ושירות שמכבד את מי שבא אלינו.",
-          "רוצים להכיר את NB BURGER ברעננה מקרוב? בדף הבית תמצאו את החוויה המלאה, ובתפריט - את המנות עצמן."
+          "רוצים להכיר את SO WHAT ברעננה מקרוב? בדף הבית תמצאו את החוויה המלאה, ובתפריט - את המנות עצמן."
         ]),
         cta: {
-          title: "הכירו את NB BURGER",
-          body: "לדף הבית של NB BURGER ברעננה - שם מתחיל הסיפור.",
+          title: "הכירו את SO WHAT",
+          body: "לדף הבית של SO WHAT ברעננה - שם מתחיל הסיפור.",
           buttonLabel: "לדף הבית",
           buttonHref: "/"
         }
       },
       menu: {
         introduction: joinParagraphs([
-          "ברוכים הבאים לתפריט המבורגרים של NB BURGER ברעננה - מסעדת המבורגרים הכשרה שבה כל מנה נולדת על הפלנצ׳ה החמה. כאן מרכזים חוויית המבורגר כשר: בשר בקר איכותי שנטחן במקום מדי יום, לחמנייה רכה, ירקות טריים ורטבים ביתיים. כל המבורגר נצלה לפי הזמנה - עסיסי, מדויק ובלתי מתפשר.",
+          "ברוכים הבאים לתפריט המבורגרים של SO WHAT ברעננה - מסעדת המבורגרים הכשרה שבה כל מנה נולדת על הפלנצ׳ה החמה. כאן מרכזים חוויית המבורגר כשר: בשר בקר איכותי שנטחן במקום מדי יום, לחמנייה רכה, ירקות טריים ורטבים ביתיים. כל המבורגר נצלה לפי הזמנה - עסיסי, מדויק ובלתי מתפשר.",
           "בתפריט תמצאו את כל מה שצריך לארוחה שלמה: המבורגרים שלנו - מהקלאסי ועד גרסאות עם איולי כמהין או שום קונפי; ארוחות שמשלבות מנה, תוספת לבחירה ושתייה קלה; תוספות כמו צ'יפס, כנפיים ונאגטס; סלטים טריים מהמטבח; רטבים שמכינים במקום; ושתייה קרה שמשלימה את הביס. בין אם אתם מגיעים לסניף, מזמינים לאיסוף עצמי או במשלוח - התפריט נשאר אותו דבר: איכות, טריות וטעם.",
-          "ב-NB BURGER אנחנו מאמינים שהמבורגר טוב מתחיל בחומרי גלם ומסתיים בחוויה שנשארת איתכם. גללו בין הקטגוריות, בחרו את המנה שמתאימה לכם, והזמינו לאיסוף עצמי או במשלוח. נתראה ברחוב אחוזה 96, רעננה - המקום שבו המבורגרים באמת מרגישים שונים."
+          "ב-SO WHAT אנחנו מאמינים שהמבורגר טוב מתחיל בחומרי גלם ומסתיים בחוויה שנשארת איתכם. גללו בין הקטגוריות, בחרו את המנה שמתאימה לכם, והזמינו לאיסוף עצמי או במשלוח. נתראה ברחוב אחוזה 96, רעננה - המקום שבו המבורגרים באמת מרגישים שונים."
         ]),
         categoryIntros: {
           "cat-burgers":
@@ -215,33 +215,33 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
           "cat-soft-drinks":
             "שתייה קלה וקרה שמשלימה את הארוחה - מים, סודה, לימונדה, קולה, ספרייט, פאנטה, ענבים ותה קר. בחירה פשוטה ומרעננת ליד ההמבורגר, הארוחה או התוספת שבחרתם.",
           "cat-beers":
-            "בירות בקבוק מצוינות לליווי ארוחת המבורגר - קורונה, Stella Artois, Heineken וגולדסטאר. לשתות בקצב שלכם, ליד המנה שעל השולחן, באווירה הלא-פורמלית של NB BURGER."
+            "בירות בקבוק מצוינות לליווי ארוחת המבורגר - קורונה, Stella Artois, Heineken וגולדסטאר. לשתות בקצב שלכם, ליד המנה שעל השולחן, באווירה הלא-פורמלית של SO WHAT."
         },
         categoryPages: {
           "cat-burgers": {
-            metaTitle: "המבורגר כשר | NB BURGER",
+            metaTitle: "המבורגר כשר | SO WHAT",
             metaDescription:
-              "המבורגר כשר של NB BURGER - בשר טרי הנטחן במקום, הכנה על הפלנצ׳ה, וסמאש בורגר לצד מגוון המבורגרים בתפריט."
+              "המבורגר כשר של SO WHAT - בשר טרי הנטחן במקום, הכנה על הפלנצ׳ה, וסמאש בורגר לצד מגוון המבורגרים בתפריט."
           },
           "cat-meals": {
-            metaTitle: "ארוחת המבורגר | NB BURGER",
+            metaTitle: "ארוחת המבורגר | SO WHAT",
             metaDescription:
-              "ארוחות המבורגר של NB BURGER - המבורגר, תוספת ושתייה בארוחה אחת. נוח לצהריים, לערב או עם חברים."
+              "ארוחות המבורגר של SO WHAT - המבורגר, תוספת ושתייה בארוחה אחת. נוח לצהריים, לערב או עם חברים."
           }
         }
       },
       locations: {
         introduction: joinParagraphs([
-          "עמוד המיקום והשעות של NB BURGER מרכז את פרטי הסניף ברעננה: כתובת, שעות פעילות, איך מגיעים, איסוף עצמי ואזורי משלוח.",
+          "עמוד המיקום והשעות של SO WHAT מרכז את פרטי הסניף ברעננה: כתובת, שעות פעילות, איך מגיעים, איסוף עצמי ואזורי משלוח.",
           "לפני ביקור או הזמנה - בדקו כאן את השעות המעודכנות ואת אזורי החלוקה."
         ]),
         bottomContent: joinParagraphs([
           "הסניף ברחוב אחוזה 96 מציע ישיבה במקום, איסוף עצמי ומשלוחים לפי אזורי החלוקה.",
-          "רוצים להכיר קודם את המותג והתפריט? חזרו לדף הבית של NB BURGER או עברו לתפריט המלא."
+          "רוצים להכיר קודם את המותג והתפריט? חזרו לדף הבית של SO WHAT או עברו לתפריט המלא."
         ]),
         cta: {
-          title: "NB BURGER רעננה",
-          body: "לחוויית המסעדה המלאה - דף הבית של NB BURGER.",
+          title: "SO WHAT רעננה",
+          body: "לחוויית המסעדה המלאה - דף הבית של SO WHAT.",
           buttonLabel: "לדף הבית",
           buttonHref: "/"
         }
@@ -249,7 +249,7 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
       kosher: {
         sectionTitle: "כשר בהשגחת רבנות",
         introduction: joinParagraphs([
-          "NB BURGER היא מסעדת המבורגרים כשרה בהשגחת רבנות.",
+          "SO WHAT היא מסעדת המבורגרים כשרה בהשגחת רבנות.",
           "בעמוד זה יופיע מידע מעודכן על הכשרות, ההשגחה ופרטים נוספים - התוכן יעודכן מהפאנל הניהולי."
         ]),
         bottomContent: joinParagraphs([
@@ -272,7 +272,7 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
       home: {
         sectionTitle: "Not just another burger.",
         introduction: joinParagraphs([
-          "At NB BURGER, we believe quality doesn't need a long explanation.",
+          "At SO WHAT, we believe quality doesn't need a long explanation.",
           "Premium beef, ground in-house every day.",
           "Fresh brioche buns.",
           "House-made sauces.",
@@ -291,30 +291,30 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
             {
               question: "Where can I eat kosher burgers in Ra'anana?",
               answer:
-                "NB BURGER offers a kosher burger experience in Ra'anana with juicy burgers, quality ingredients, and food made fresh on site. Dine in or order delivery."
+                "SO WHAT offers a kosher burger experience in Ra'anana with juicy burgers, quality ingredients, and food made fresh on site. Dine in or order delivery."
             },
             {
-              question: "What kosher certification does NB BURGER have?",
+              question: "What kosher certification does SO WHAT have?",
               answer:
-                "NB BURGER is a kosher restaurant operating under rabbinical supervision. Our meat menu suits kosher-keeping guests and includes burgers and more."
+                "SO WHAT is a kosher restaurant operating under rabbinical supervision. Our meat menu suits kosher-keeping guests and includes burgers and more."
             },
             {
-              question: "What makes NB BURGER's smash burger special?",
+              question: "What makes SO WHAT's smash burger special?",
               answer:
                 "Our smash burger uses beef seared on a hot surface for a rich crust and deep flavor, served with toppings and sauces that complete the bite."
             },
             {
-              question: "Can I order NB BURGER delivery?",
+              question: "Can I order SO WHAT delivery?",
               answer:
                 "Yes. Order delivery in Ra'anana and available delivery zones and enjoy our food at home or work."
             },
             {
-              question: "What are NB BURGER's opening hours?",
+              question: "What are SO WHAT's opening hours?",
               answer:
                 "Hours may vary by day and season. Check the latest opening hours on the site before visiting or ordering."
             },
             {
-              question: "What's on the NB BURGER menu?",
+              question: "What's on the SO WHAT menu?",
               answer:
                 "The menu includes burgers, smash burgers, sides, and sauces. Browse the full menu online and pick your dish."
             }
@@ -322,18 +322,18 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
         }
       },
       about: {
-        sectionTitle: "NB BURGER - where every bite feels different",
+        sectionTitle: "SO WHAT - where every bite feels different",
         introduction: joinParagraphs([
           "Kosher burgers from quality beef, fresh ingredients, and a dining experience built from a real love of the craft.",
-          "At NB BURGER we believe a great burger starts with ingredients and ends with an experience that stays with you. Every dish is made in-house with quality beef, fresh vegetables, special sauces, and carefully chosen buns."
+          "At SO WHAT we believe a great burger starts with ingredients and ends with an experience that stays with you. Every dish is made in-house with quality beef, fresh vegetables, special sauces, and carefully chosen buns."
         ]),
         bottomContent: joinParagraphs([
-          "We opened NB BURGER to bring Ra'anana a kosher burger experience at the highest level - without compromising on quality, taste, or service."
+          "We opened SO WHAT to bring Ra'anana a kosher burger experience at the highest level - without compromising on quality, taste, or service."
         ])
       },
       menu: {
         introduction: joinParagraphs([
-          "Welcome to the NB BURGER menu in Ra'anana - a kosher burger restaurant where every dish starts on a hot plancha. Premium kosher burgers: quality beef ground in-house daily, soft buns, fresh vegetables, and house-made sauces.",
+          "Welcome to the SO WHAT menu in Ra'anana - a kosher burger restaurant where every dish starts on a hot plancha. Premium kosher burgers: quality beef ground in-house daily, soft buns, fresh vegetables, and house-made sauces.",
           "Our full menu covers everything for a complete meal: burgers from classic to truffle aioli and confit garlic; combo meals with a side and soft drink; crispy sides; fresh salads; house sauces; and cold drinks.",
           "Browse the categories, pick your dish, and order for pickup or delivery - 96 Ahuza St., Ra'anana."
         ]),
@@ -356,14 +356,14 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
       },
       locations: {
         introduction: joinParagraphs([
-          "Find NB BURGER in Ra'anana - address, hours, navigation, and delivery areas.",
+          "Find SO WHAT in Ra'anana - address, hours, navigation, and delivery areas.",
           "Dine in or order delivery to nearby zones."
         ])
       },
       kosher: {
         sectionTitle: "Kosher under rabbinate supervision",
         introduction: joinParagraphs([
-          "NB BURGER is a kosher burger restaurant under rabbinate supervision.",
+          "SO WHAT is a kosher burger restaurant under rabbinate supervision.",
           "Updated kashrut details will appear on this page - content is managed from the admin panel."
         ]),
         cta: {
@@ -382,7 +382,7 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
     home: {
       sectionTitle: "Pas un burger de plus.",
       introduction: joinParagraphs([
-        "Chez NB BURGER, nous croyons que la qualité n'a pas besoin de longs discours.",
+        "Chez SO WHAT, nous croyons que la qualité n'a pas besoin de longs discours.",
         "Bœuf de qualité, haché sur place chaque jour.",
         "Pains briochés frais.",
         "Sauces préparées sur place.",
@@ -401,20 +401,20 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
           {
             question: "Où manger un burger casher à Ra'anana ?",
             answer:
-              "NB BURGER propose une expérience burger casher à Ra'anana, avec des burgers juteux et des produits frais préparés sur place. Sur place ou en livraison."
+              "SO WHAT propose une expérience burger casher à Ra'anana, avec des burgers juteux et des produits frais préparés sur place. Sur place ou en livraison."
           },
           {
-            question: "Quelle certification casher pour NB BURGER ?",
+            question: "Quelle certification casher pour SO WHAT ?",
             answer:
-              "NB BURGER est un restaurant casher sous supervision rabbinique. Notre carte de viande convient aux observateurs de la cacherout."
+              "SO WHAT est un restaurant casher sous supervision rabbinique. Notre carte de viande convient aux observateurs de la cacherout."
           },
           {
-            question: "Qu'est-ce qui rend le smash burger NB BURGER spécial ?",
+            question: "Qu'est-ce qui rend le smash burger SO WHAT spécial ?",
             answer:
               "Notre smash burger utilise un bœuf saisi sur surface chaude pour une croûte riche et une saveur profonde."
           },
           {
-            question: "Livraison NB BURGER ?",
+            question: "Livraison SO WHAT ?",
             answer: "Oui. Commandez en livraison à Ra'anana et dans les zones disponibles."
           },
           {
@@ -429,18 +429,18 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
       }
     },
     about: {
-      sectionTitle: "NB BURGER - où chaque bouchée compte",
+      sectionTitle: "SO WHAT - où chaque bouchée compte",
       introduction: joinParagraphs([
         "Burgers casher au bœuf de qualité, ingrédients frais et une expérience culinaire sincère.",
-        "Chez NB BURGER, un bon burger commence par les ingrédients et se termine par une expérience mémorable."
+        "Chez SO WHAT, un bon burger commence par les ingrédients et se termine par une expérience mémorable."
       ]),
       bottomContent: joinParagraphs([
-        "Nous avons créé NB BURGER pour offrir à Ra'anana une expérience burger casher d'excellence."
+        "Nous avons créé SO WHAT pour offrir à Ra'anana une expérience burger casher d'excellence."
       ])
     },
     menu: {
       introduction: joinParagraphs([
-        "Bienvenue sur la carte des burgers NB BURGER à Ra'anana - restaurant casher où chaque plat naît sur la plancha.",
+        "Bienvenue sur la carte des burgers SO WHAT à Ra'anana - restaurant casher où chaque plat naît sur la plancha.",
         "Notre carte complète : burgers, formules, accompagnements, salades, sauces et boissons fraîches.",
         "Parcourez les catégories et commandez - 96 rue Ahuza, Ra'anana."
       ]),
@@ -457,14 +457,14 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
     },
     locations: {
       introduction: joinParagraphs([
-        "Trouvez NB BURGER à Ra'anana - adresse, horaires et zones de livraison.",
+        "Trouvez SO WHAT à Ra'anana - adresse, horaires et zones de livraison.",
         "Sur place ou en livraison."
       ])
     },
     kosher: {
       sectionTitle: "Casher sous supervision rabbinique",
       introduction: joinParagraphs([
-        "NB BURGER est un restaurant de burgers casher sous supervision rabbinique.",
+        "SO WHAT est un restaurant de burgers casher sous supervision rabbinique.",
         "Les détails de cacherout mis à jour apparaîtront sur cette page - le contenu est géré depuis l'administration."
       ]),
       cta: {

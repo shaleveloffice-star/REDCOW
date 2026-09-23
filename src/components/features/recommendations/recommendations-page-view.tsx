@@ -99,7 +99,7 @@ export function RecommendationsPageView({
             { label: copy.breadcrumb }
           ]}
         />
-        <p className="recommendations-kicker">NB BURGER · CREATORS</p>
+        <p className="recommendations-kicker">SO WHAT · CREATORS</p>
         <h1>{config.title}</h1>
         {config.introduction ? <p className="recommendations-intro">{config.introduction}</p> : null}
       </header>

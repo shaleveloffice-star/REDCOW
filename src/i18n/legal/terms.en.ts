@@ -6,11 +6,11 @@ const CONTACT_EMAIL = BUSINESS.email;
 export function getTermsContentEn(): LegalDocument {
   return {
     lastUpdated: "Last updated: 18 August 2026",
-    title: "Website Terms and Conditions of Use – NB BURGER",
+    title: "Website Terms and Conditions of Use – SO WHAT",
     introBlocks: [
       {
         type: "paragraph",
-        text: 'Welcome to the NB BURGER website (the "Website").'
+        text: 'Welcome to the SO WHAT website (the "Website").'
       },
       {
         type: "paragraph",
@@ -27,7 +27,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "The Website is operated and managed by NB BURGER and is used to display information, menus, products, services, promotions, marketing content, the customer club, contact options, and additional services."
+            text: "The Website is operated and managed by SO WHAT and is used to display information, menus, products, services, promotions, marketing content, the customer club, contact options, and additional services."
           },
           {
             type: "paragraph",
@@ -35,7 +35,7 @@ export function getTermsContentEn(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER may update, modify, delete, or add provisions to these Terms at any time without prior notice. The updated version published on the Website shall be the binding version."
+            text: "SO WHAT may update, modify, delete, or add provisions to these Terms at any time without prior notice. The updated version published on the Website shall be the binding version."
           },
           {
             type: "paragraph",
@@ -63,7 +63,7 @@ export function getTermsContentEn(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER may block access to the Website from any user who violates a provision of these Terms or acts contrary to law."
+            text: "SO WHAT may block access to the Website from any user who violates a provision of these Terms or acts contrary to law."
           }
         ]
       },
@@ -81,7 +81,7 @@ export function getTermsContentEn(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "In the event of an error in a price, description, or other detail displayed on the Website, NB BURGER may correct the information on the Website. The price that applies to an online order is the price shown in the external ordering system at the time the order is placed."
+            text: "In the event of an error in a price, description, or other detail displayed on the Website, SO WHAT may correct the information on the Website. The price that applies to an online order is the price shown in the external ordering system at the time the order is placed."
           }
         ]
       },
@@ -90,7 +90,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "The NB BURGER website itself is not the ordering system and does not process the order or the payment."
+            text: "The SO WHAT website itself is not the ordering system and does not process the order or the payment."
           },
           {
             type: "paragraph",
@@ -107,7 +107,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER does not collect or store credit-card details or order payment details on the Website itself."
+            text: "SO WHAT does not collect or store credit-card details or order payment details on the Website itself."
           },
           {
             type: "paragraph",
@@ -120,7 +120,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "Prices may be displayed on the NB BURGER website for the purpose of presenting the menu."
+            text: "Prices may be displayed on the SO WHAT website for the purpose of presenting the menu."
           },
           {
             type: "paragraph",
@@ -150,7 +150,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER offers a pickup option."
+            text: "SO WHAT offers a pickup option."
           },
           {
             type: "paragraph",
@@ -193,7 +193,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER is kosher under the supervision of the Ra'anana Rabbinate."
+            text: "SO WHAT is kosher under the supervision of the Ra'anana Rabbinate."
           }
         ]
       },
@@ -202,7 +202,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER sells alcoholic beverages, including beer."
+            text: "SO WHAT sells alcoholic beverages, including beer."
           },
           {
             type: "paragraph",
@@ -219,7 +219,7 @@ export function getTermsContentEn(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "Customers with an allergy, sensitivity, or special dietary need are asked to contact the NB BURGER team before placing an order."
+            text: "Customers with an allergy, sensitivity, or special dietary need are asked to contact the SO WHAT team before placing an order."
           }
         ]
       },
@@ -271,7 +271,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER operates in accordance with Israeli law regarding privacy protection."
+            text: "SO WHAT operates in accordance with Israeli law regarding privacy protection."
           },
           {
             type: "paragraph",
@@ -288,7 +288,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "All intellectual property rights in the Website belong exclusively to NB BURGER."
+            text: "All intellectual property rights in the Website belong exclusively to SO WHAT."
           },
           { type: "paragraph", text: "Including:" },
           {
@@ -319,14 +319,14 @@ export function getTermsContentEn(): LegalDocument {
           { type: "paragraph", text: "The user is responsible for providing complete, accurate, and correct information on the Website." },
           {
             type: "paragraph",
-            text: "NB BURGER shall not be liable for any damage or delay resulting from incorrect information submitted by the user on the Website."
+            text: "SO WHAT shall not be liable for any damage or delay resulting from incorrect information submitted by the user on the Website."
           }
         ]
       },
       {
         title: "19. Website availability",
         blocks: [
-          { type: "paragraph", text: "NB BURGER does not guarantee that the Website will be available continuously." },
+          { type: "paragraph", text: "SO WHAT does not guarantee that the Website will be available continuously." },
           { type: "paragraph", text: "Interruptions may occur due to:" },
           {
             type: "list",
@@ -347,7 +347,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER shall not be liable for delay or failure to provide service resulting from war, military operation, state of emergency, force majeure, strike, epidemic, natural disaster, power outage, internet failures, decisions of authorities, or any circumstance beyond its control."
+            text: "SO WHAT shall not be liable for delay or failure to provide service resulting from war, military operation, state of emergency, force majeure, strike, epidemic, natural disaster, power outage, internet failures, decisions of authorities, or any circumstance beyond its control."
           }
         ]
       },
@@ -360,7 +360,7 @@ export function getTermsContentEn(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER is not responsible for the content, information, services, or privacy policies of those websites and services."
+            text: "SO WHAT is not responsible for the content, information, services, or privacy policies of those websites and services."
           }
         ]
       },
@@ -369,11 +369,11 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER makes efforts to provide quality service and accurate information but does not guarantee that the Website will be free of malfunctions or errors."
+            text: "SO WHAT makes efforts to provide quality service and accurate information but does not guarantee that the Website will be free of malfunctions or errors."
           },
           {
             type: "paragraph",
-            text: "To the extent permitted by law, NB BURGER's liability shall be limited to the liability prescribed by law only."
+            text: "To the extent permitted by law, SO WHAT's liability shall be limited to the liability prescribed by law only."
           },
           {
             type: "paragraph",
@@ -386,7 +386,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "Failure or delay in exercising any right of NB BURGER under these Terms or under law shall not be deemed a waiver of that right or any other right."
+            text: "Failure or delay in exercising any right of SO WHAT under these Terms or under law shall not be deemed a waiver of that right or any other right."
           }
         ]
       },
@@ -412,7 +412,7 @@ export function getTermsContentEn(): LegalDocument {
       {
         title: "26. Contact",
         blocks: [
-          { type: "paragraph", text: "NB BURGER" },
+          { type: "paragraph", text: "SO WHAT" },
           {
             type: "list",
             items: [

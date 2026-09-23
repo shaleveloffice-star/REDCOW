@@ -6,17 +6,17 @@ const CONTACT_EMAIL = BUSINESS.email;
 export function getPrivacyContentEn(): LegalDocument {
   return {
     lastUpdated: "Last updated: 18 August 2026",
-    title: "Privacy Policy - NB BURGER",
+    title: "Privacy Policy - SO WHAT",
     introTitle: "Introduction",
     introBlocks: [
-      { type: "paragraph", text: "Welcome to the NB BURGER website." },
+      { type: "paragraph", text: "Welcome to the SO WHAT website." },
       {
         type: "paragraph",
         text: "This policy explains what information is collected on the website, how it is used, and how you can contact us about privacy."
       },
       {
         type: "paragraph",
-        text: "The website is used to present information about NB BURGER, including the brand, menu, branch, opening hours, customer club, contact details, and related content."
+        text: "The website is used to present information about SO WHAT, including the brand, menu, branch, opening hours, customer club, contact details, and related content."
       },
       {
         type: "paragraph",
@@ -24,7 +24,7 @@ export function getPrivacyContentEn(): LegalDocument {
       },
       {
         type: "paragraph",
-        text: "NB BURGER respects users' privacy and acts in accordance with applicable Israeli law, including the Protection of Privacy Law, 5741-1981."
+        text: "SO WHAT respects users' privacy and acts in accordance with applicable Israeli law, including the Protection of Privacy Law, 5741-1981."
       },
       {
         type: "paragraph",
@@ -43,7 +43,7 @@ export function getPrivacyContentEn(): LegalDocument {
       {
         title: "1. Who we are",
         blocks: [
-          { type: "paragraph", text: "The website is operated by NB BURGER." },
+          { type: "paragraph", text: "The website is operated by SO WHAT." },
           {
             type: "list",
             items: [
@@ -156,7 +156,7 @@ export function getPrivacyContentEn(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER may send people who registered and consented marketing messages, updates, benefits, and promotions through channels such as SMS and other channels for which details were provided and consent to receive communications was given."
+            text: "SO WHAT may send people who registered and consented marketing messages, updates, benefits, and promotions through channels such as SMS and other channels for which details were provided and consent to receive communications was given."
           },
           {
             type: "paragraph",
@@ -215,7 +215,7 @@ export function getPrivacyContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER does not sell your personal information to third parties."
+            text: "SO WHAT does not sell your personal information to third parties."
           },
           {
             type: "paragraph",
@@ -277,7 +277,7 @@ export function getPrivacyContentEn(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER will not ask you to send credit card details, passwords, or other sensitive information by email, SMS, or WhatsApp."
+            text: "SO WHAT will not ask you to send credit card details, passwords, or other sensitive information by email, SMS, or WhatsApp."
           }
         ]
       },
@@ -316,7 +316,7 @@ export function getPrivacyContentEn(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER is not responsible for the privacy policy or practices of external services. You should review each service's policy before submitting details there."
+            text: "SO WHAT is not responsible for the privacy policy or practices of external services. You should review each service's policy before submitting details there."
           }
         ]
       },
@@ -325,7 +325,7 @@ export function getPrivacyContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER may update this policy from time to time. The last-updated date appears at the top of this document."
+            text: "SO WHAT may update this policy from time to time. The last-updated date appears at the top of this document."
           }
         ]
       },

@@ -138,11 +138,11 @@ export function AdminSidebar() {
 
         <div className="admin-brand">
           <div className="admin-brand-mark" aria-hidden="true">
-            NB
+            SW
           </div>
           <div>
             <p className="admin-brand-kicker">Admin</p>
-            <h1 className="admin-brand-title">NB BURGER</h1>
+            <h1 className="admin-brand-title">SO WHAT</h1>
             <p className="admin-brand-sub">ניהול האתר</p>
           </div>
         </div>

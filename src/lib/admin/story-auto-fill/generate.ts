@@ -133,7 +133,7 @@ function buildMeta(title: string, subtitle: string, primary: string): {
   metaTitle: string;
   metaDescription: string;
 } {
-  const metaTitle = `${title} | NB BURGER`.slice(0, 60);
+  const metaTitle = `${title} | SO WHAT`.slice(0, 60);
   const metaDescription = trimSentence(
     `${subtitle} ${primary ? `מיקוד: ${primary}.` : ""}`.slice(0, 155)
   );
@@ -216,7 +216,7 @@ function sectionPlan(
     title: `מה עומד מאחורי ${primary}`,
     body: [
       `${primary} מעניין בעיקר כשיודעים מה לבדוק: ${s1}, ${s2}, והתאמה למה שמחפשים בארוחה.`,
-      `NB BURGER פועלת ברעננה. העמוד הזה לא מחליף את התפריט או את עמוד המיקום - הוא רק מוסיף הקשר לקריאה.`
+      `SO WHAT פועלת ברעננה. העמוד הזה לא מחליף את התפריט או את עמוד המיקום - הוא רק מוסיף הקשר לקריאה.`
     ].join("\n\n")
   };
 
@@ -254,7 +254,7 @@ function sectionPlan(
   const closing = {
     kind: "long" as const,
     title: "לסיכום",
-    body: `${title.replace(/\s*\|\s*NB BURGER$/i, "")} נשאר בנושא אחד: ${primary}. אם משהו כאן רלוונטי להמשך - התפריט או עמוד המיקום הם הצעד הבא.`
+    body: `${title.replace(/\s*\|\s*SO WHAT$/i, "")} נשאר בנושא אחד: ${primary}. אם משהו כאן רלוונטי להמשך - התפריט או עמוד המיקום הם הצעד הבא.`
   };
 
   const length: StoryAutoFillLength = input.length;

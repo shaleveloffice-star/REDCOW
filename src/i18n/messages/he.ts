@@ -25,7 +25,7 @@ export const he: Messages = {
     message: "בקרוב הפתיחה",
     popupTitle: "אנחנו מתכוננים לפתיחה",
     popupLead: "התפריט והתמונות המוצגים באתר כרגע הם להמחשה בלבד.",
-    popupBody: "בקרוב נעדכן כאן את התפריט הרשמי והתמונות האמיתיות של NB BURGER.",
+    popupBody: "בקרוב נעדכן כאן את התפריט הרשמי והתמונות האמיתיות של SO WHAT.",
     popupClosing: "שווה לעקוב - הדברים הטובים באמת בדרך.",
     popupCta: "הבנתי",
     popupClose: "סגור"
@@ -51,7 +51,7 @@ export const he: Messages = {
   hero: {
     tagline: "פשוט המבורגר טוב.",
     captionKicker: "מגדירים מחדש את חוויית ההמבורגר",
-    captionTitle: "NB BURGER",
+    captionTitle: "SO WHAT",
     menuCta: "לתפריט",
     orderCta: "להזמנה",
     scroll: "גלול",
@@ -70,7 +70,7 @@ export const he: Messages = {
     filterAll: "הכל",
     empty: "אין מנות להצגה כרגע.",
     viewLocations: "הסניפים שלנו",
-    heroAlt: "מנות מתוך תפריט NB BURGER",
+    heroAlt: "מנות מתוך תפריט SO WHAT",
     relatedCategories: "קטגוריות נוספות"
   },
   menuItemDetail: {
@@ -87,7 +87,7 @@ export const he: Messages = {
     viewBranchHours: "לצפייה בסניף ובשעות הפעילות"
   },
   aboutPage: {
-    title: "אודות NB BURGER",
+    title: "אודות SO WHAT",
     backHome: "חזרה לדף הבית"
   },
   kosherPage: {
@@ -96,11 +96,11 @@ export const he: Messages = {
   },
   locations: {
     breadcrumbLabel: "מיקומים",
-    pageTitle: "מיקום ושעות - NB BURGER רעננה",
+    pageTitle: "מיקום ושעות - SO WHAT רעננה",
     findLocal: "מצא סניף",
     ourLocations: "הסניפים שלנו",
-    mapTitle: "מפת סניפי NB BURGER",
-    mapSummary: "מפת סניפי NB BURGER - רעננה, אחוזה 96",
+    mapTitle: "מפת סניפי SO WHAT",
+    mapSummary: "מפת סניפי SO WHAT - רעננה, אחוזה 96",
     navigate: "ניווט",
     deliveryZonesTitle: "אזורי המשלוחים",
     deliveryZones: [
@@ -127,7 +127,7 @@ export const he: Messages = {
     next: "מנות הבאות"
   },
   homeStory: {
-    imageAlt: "המבורגר NB BURGER"
+    imageAlt: "המבורגר SO WHAT"
   },
   plancha: {
     title: "על הפלנצ׳ה",
@@ -158,13 +158,13 @@ export const he: Messages = {
     burgerStackAlt: "מבורגר מפורק",
     bottomAlt: "לחמנייה תחתונה",
     carouselSlideAlts: [
-      "המבורגר NB BURGER על נייר ממותג",
-      "המבורגר NB BURGER עסיסי על רקע כהה",
-      "תקריב המבורגר NB BURGER עם רוטב, חמוצים ועגבנייה"
+      "המבורגר SO WHAT על נייר ממותג",
+      "המבורגר SO WHAT עסיסי על רקע כהה",
+      "תקריב המבורגר SO WHAT עם רוטב, חמוצים ועגבנייה"
     ]
   },
   customerClub: {
-    kicker: "NB CLUB",
+    kicker: "SO WHAT CLUB",
     title: "מועדון הלקוחות",
     titlePrimary: "מועדון",
     titleAccent: "הלקוחות",
@@ -172,8 +172,8 @@ export const he: Messages = {
     leadBefore: "",
     leadHighlight: "",
     leadAfter: "",
-    cardAlt: "כרטיס חבר NB Club",
-    burgerAlt: "המבורגר NB",
+    cardAlt: "כרטיס חבר SO WHAT Club",
+    burgerAlt: "המבורגר SO WHAT",
     formTitle: "הצטרפו עכשיו",
     formSubtitle: "ומקבלים עולם של הטבות",
     formHint: "הרשמה מהירה",
@@ -182,7 +182,7 @@ export const he: Messages = {
     trustSafe: "המידע שלך נשאר אצלנו",
     trustTerms: "בלי עלות · בלי התחייבות",
     barBrandSub: "REAL BURGERS. REAL PEOPLE.",
-    barSlogan: "NB CLUB - MORE THAN A BURGER",
+    barSlogan: "SO WHAT CLUB - MORE THAN A BURGER",
     perksAria: "יתרונות המועדון",
     features: [
       { title: "מבצעים בלעדיים" },
@@ -210,7 +210,7 @@ export const he: Messages = {
     submit: "להצטרפות",
     submitting: "שולחים...",
     successTitle: "אתם בפנים!",
-    successMessage: "ברוכים הבאים ל-NB CLUB.\nמעכשיו אתם הראשונים ליהנות מההטבות שלנו.",
+    successMessage: "ברוכים הבאים ל-SO WHAT CLUB.\nמעכשיו אתם הראשונים ליהנות מההטבות שלנו.",
     errors: {
       fullName: "נא למלא שם מלא.",
       phone: "נא למלא מספר טלפון תקין.",
@@ -292,10 +292,10 @@ export const he: Messages = {
     nav: "ניווט",
     menu: "תפריט",
     fullMenu: "לתפריט המלא",
-    clubTitle: "NB CLUB",
+    clubTitle: "SO WHAT CLUB",
     clubLead: "הצטרפו למועדון וקבלו הטבות והפתעות לחברי המועדון",
-    clubCta: "הצטרפו ל-NB CLUB",
-    copyright: "© 2026 NB BURGER - כל הזכויות שמורות",
+    clubCta: "הצטרפו ל-SO WHAT CLUB",
+    copyright: "© 2026 SO WHAT - כל הזכויות שמורות",
     privacy: "מדיניות פרטיות",
     terms: "תקנון האתר",
     accessibility: "הצהרת נגישות",
@@ -305,9 +305,9 @@ export const he: Messages = {
     breadcrumbLabel: "סיפורים",
     indexTitle: "סיפורים",
     indexLead: "מאחורי הקלעים - עקביות, דיוק וחוויה.",
-    indexMetaTitle: "סיפורים | NB BURGER",
+    indexMetaTitle: "סיפורים | SO WHAT",
     indexMetaDescription:
-      "סיפורים קצרים מ-NB BURGER - על המבורגר שחוזרים אליו, העקביות והחוויה שמאחורי כל ביס.",
+      "סיפורים קצרים מ-SO WHAT - על המבורגר שחוזרים אליו, העקביות והחוויה שמאחורי כל ביס.",
     readStory: "קראו את הסיפור",
     featuredLabel: "סיפור נבחר",
     moreStories: "עוד סיפורים",

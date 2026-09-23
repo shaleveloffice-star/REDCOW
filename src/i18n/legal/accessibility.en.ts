@@ -6,15 +6,15 @@ const ACCESSIBILITY_EMAIL = BUSINESS.email;
 export function getAccessibilityContentEn(): LegalDocument {
   return {
     lastUpdated: "Last updated: 18 August 2026",
-    title: "Accessibility Statement - NB BURGER",
-    metaTitle: "Accessibility Statement | NB BURGER",
+    title: "Accessibility Statement - SO WHAT",
+    metaTitle: "Accessibility Statement | SO WHAT",
     metaDescription:
-      "NB BURGER accessibility statement: website accessibility adjustments, arrangements at the Ahuza 96, Ra'anana branch, and how to contact us about accessibility.",
+      "SO WHAT accessibility statement: website accessibility adjustments, arrangements at the Ahuza 96, Ra'anana branch, and how to contact us about accessibility.",
     introTitle: "Our commitment",
     introBlocks: [
       {
         type: "paragraph",
-        text: "NB BURGER is committed to making the website and branch easier to use, and to improving accessibility over time."
+        text: "SO WHAT is committed to making the website and branch easier to use, and to improving accessibility over time."
       },
       {
         type: "paragraph",
@@ -57,7 +57,7 @@ export function getAccessibilityContentEn(): LegalDocument {
           {
             type: "list",
             items: [
-              "There are public accessible parking spaces near the branch. These are not private parking spaces of NB BURGER.",
+              "There are public accessible parking spaces near the branch. These are not private parking spaces of SO WHAT.",
               "The branch entrance is wheelchair accessible.",
               "Wheelchair-accessible seating is available.",
               "An accessible counter is available.",

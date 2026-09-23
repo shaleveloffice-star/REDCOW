@@ -58,7 +58,7 @@ export function getCategoryMetaPlaceholders(
   const menuMeta = getDefaultPageMeta("he", "menu");
 
   return {
-    metaTitle: `${category.name} | NB BURGER`,
+    metaTitle: `${category.name} | SO WHAT`,
     metaDescription: category.description?.trim() || introLead || menuMeta.description
   };
 }

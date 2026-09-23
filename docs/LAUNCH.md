@@ -1,4 +1,4 @@
-# NB BURGER — configuration and deployment
+# SO WHAT — configuration and deployment
 
 The current application runs on Next.js 16 with Node.js 22 or newer and is hosted on Vercel. Its canonical production origin is `https://www.nbburger.co.il`. This guide describes the current password-based admin flow; older documents describing Firebase Auth modes or an admin email allowlist do not describe the active login implementation.
 
@@ -14,7 +14,7 @@ The current application runs on Next.js 16 with Node.js 22 or newer and is hoste
 | `BLOB_READ_WRITE_TOKEN` | Existing Vercel Blob upload token. The code also supports the existing Vercel OIDC/store binding; retain those settings when already configured. |
 | `BLOB_STORE_ID` | Optional explicit Blob store identifier. |
 | `OPENAI_API_KEY` | Server-only key for the existing story generation/suggestion tools. Retain existing optional model overrides. |
-| `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESEND_FROM_NAME` | Existing email provider and sender configuration. Sender name defaults to NB BURGER. |
+| `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESEND_FROM_NAME` | Existing email provider and sender configuration. Sender name defaults to SO WHAT. |
 | `GOOGLE_CLOUD_TRANSLATION_API_KEY` | Optional existing translation integration. Automatic translation remains disabled in code. |
 
 Do not replace existing deployment credentials while applying maintenance fixes. `.env*` and service-account files stay outside Git. The login flow does not use `ADMIN_AUTH_MODE`, `ADMIN_ALLOWED_EMAILS`, or Firebase Authentication.

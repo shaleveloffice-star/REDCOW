@@ -20,7 +20,7 @@ export type MenuCategoryWithDisplay = MenuCategory & Partial<MenuCategoryDisplay
 export type MenuGroupWithDisplay = MenuCategoryWithDisplay & { items: MenuItemWithDisplay[] };
 
 export function hebrewMenuItemOverlay(item: MenuItem): MenuItemDisplayOverlay {
-  const name = String(item.name ?? "").trim() || "NB BURGER";
+  const name = String(item.name ?? "").trim() || "SO WHAT";
   const description = String(item.description ?? "").trim();
   const longDescription = String(item.longDescription ?? "").trim();
   const detailNotes = (item.detailNotes ?? []).map(String).filter((note) => note.trim().length > 0);

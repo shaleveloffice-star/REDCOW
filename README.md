@@ -1,4 +1,4 @@
-# NB BURGER
+# SO WHAT
 
 אתר המסעדה ופאנל הניהול, מבוססי Next.js 16. שם תיקיית הפרויקט ו־GitHub repository הוא עדיין REDCOW.
 

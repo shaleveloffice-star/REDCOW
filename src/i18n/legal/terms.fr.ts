@@ -6,11 +6,11 @@ const CONTACT_EMAIL = BUSINESS.email;
 export function getTermsContentFr(): LegalDocument {
   return {
     lastUpdated: "Dernière mise à jour : 18 août 2026",
-    title: "Conditions générales d'utilisation du site – NB BURGER",
+    title: "Conditions générales d'utilisation du site – SO WHAT",
     introBlocks: [
       {
         type: "paragraph",
-        text: 'Bienvenue sur le site web de NB BURGER (ci-après le « Site »).'
+        text: 'Bienvenue sur le site web de SO WHAT (ci-après le « Site »).'
       },
       {
         type: "paragraph",
@@ -27,7 +27,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "Le Site est exploité et géré par NB BURGER et sert à présenter des informations, menus, produits, services, promotions, contenus marketing, le club clients, des options de contact et des services supplémentaires."
+            text: "Le Site est exploité et géré par SO WHAT et sert à présenter des informations, menus, produits, services, promotions, contenus marketing, le club clients, des options de contact et des services supplémentaires."
           },
           {
             type: "paragraph",
@@ -35,7 +35,7 @@ export function getTermsContentFr(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER peut mettre à jour, modifier, supprimer ou ajouter des dispositions aux présentes conditions à tout moment et sans préavis. La version mise à jour publiée sur le Site fera foi."
+            text: "SO WHAT peut mettre à jour, modifier, supprimer ou ajouter des dispositions aux présentes conditions à tout moment et sans préavis. La version mise à jour publiée sur le Site fera foi."
           },
           {
             type: "paragraph",
@@ -63,7 +63,7 @@ export function getTermsContentFr(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER peut bloquer l'accès au Site à tout utilisateur ayant enfreint une disposition des présentes conditions ou agi contrairement à la loi."
+            text: "SO WHAT peut bloquer l'accès au Site à tout utilisateur ayant enfreint une disposition des présentes conditions ou agi contrairement à la loi."
           }
         ]
       },
@@ -81,7 +81,7 @@ export function getTermsContentFr(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "En cas d'erreur de prix, de description ou de tout autre détail affiché sur le Site, NB BURGER peut corriger les informations sur le Site. Le prix applicable à une commande en ligne est le prix affiché dans le système de commande externe au moment de la commande."
+            text: "En cas d'erreur de prix, de description ou de tout autre détail affiché sur le Site, SO WHAT peut corriger les informations sur le Site. Le prix applicable à une commande en ligne est le prix affiché dans le système de commande externe au moment de la commande."
           }
         ]
       },
@@ -90,7 +90,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "Le site de NB BURGER lui-même n'est pas le système de commande et ne traite ni la commande ni le paiement."
+            text: "Le site de SO WHAT lui-même n'est pas le système de commande et ne traite ni la commande ni le paiement."
           },
           {
             type: "paragraph",
@@ -107,7 +107,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER ne collecte ni ne conserve sur le Site lui-même les données de carte bancaire ni les données de paiement de la commande."
+            text: "SO WHAT ne collecte ni ne conserve sur le Site lui-même les données de carte bancaire ni les données de paiement de la commande."
           },
           {
             type: "paragraph",
@@ -120,7 +120,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "Des prix peuvent être affichés sur le site de NB BURGER aux fins de présentation du menu."
+            text: "Des prix peuvent être affichés sur le site de SO WHAT aux fins de présentation du menu."
           },
           {
             type: "paragraph",
@@ -150,7 +150,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER propose une option de retrait."
+            text: "SO WHAT propose une option de retrait."
           },
           {
             type: "paragraph",
@@ -193,7 +193,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER est casher sous la supervision du rabbinat de Ra'anana."
+            text: "SO WHAT est casher sous la supervision du rabbinat de Ra'anana."
           }
         ]
       },
@@ -202,7 +202,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER vend des boissons alcoolisées, notamment de la bière."
+            text: "SO WHAT vend des boissons alcoolisées, notamment de la bière."
           },
           {
             type: "paragraph",
@@ -219,7 +219,7 @@ export function getTermsContentFr(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "Les clients présentant une allergie, une sensibilité ou un besoin alimentaire particulier sont priés de contacter l'équipe NB BURGER avant de passer commande."
+            text: "Les clients présentant une allergie, une sensibilité ou un besoin alimentaire particulier sont priés de contacter l'équipe SO WHAT avant de passer commande."
           }
         ]
       },
@@ -271,7 +271,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER agit conformément à la législation israélienne en matière de protection de la vie privée."
+            text: "SO WHAT agit conformément à la législation israélienne en matière de protection de la vie privée."
           },
           {
             type: "paragraph",
@@ -288,7 +288,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "Tous les droits de propriété intellectuelle sur le Site appartiennent exclusivement à NB BURGER."
+            text: "Tous les droits de propriété intellectuelle sur le Site appartiennent exclusivement à SO WHAT."
           },
           { type: "paragraph", text: "Notamment :" },
           {
@@ -319,14 +319,14 @@ export function getTermsContentFr(): LegalDocument {
           { type: "paragraph", text: "L'utilisateur est responsable de fournir des informations complètes, exactes et correctes sur le Site." },
           {
             type: "paragraph",
-            text: "NB BURGER ne sera pas responsable de tout dommage ou retard résultant d'informations incorrectes transmises par l'utilisateur sur le Site."
+            text: "SO WHAT ne sera pas responsable de tout dommage ou retard résultant d'informations incorrectes transmises par l'utilisateur sur le Site."
           }
         ]
       },
       {
         title: "19. Disponibilité du Site",
         blocks: [
-          { type: "paragraph", text: "NB BURGER ne garantit pas que le Site sera disponible en continu." },
+          { type: "paragraph", text: "SO WHAT ne garantit pas que le Site sera disponible en continu." },
           { type: "paragraph", text: "Des interruptions peuvent survenir en raison de :" },
           {
             type: "list",
@@ -347,7 +347,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER ne sera pas responsable d'un retard ou d'un défaut de prestation de service résultant d'une guerre, d'une opération militaire, d'un état d'urgence, d'un cas de force majeure, d'une grève, d'une épidémie, d'une catastrophe naturelle, d'une coupure d'électricité, de pannes Internet, de décisions des autorités ou de toute circonstance indépendante de sa volonté."
+            text: "SO WHAT ne sera pas responsable d'un retard ou d'un défaut de prestation de service résultant d'une guerre, d'une opération militaire, d'un état d'urgence, d'un cas de force majeure, d'une grève, d'une épidémie, d'une catastrophe naturelle, d'une coupure d'électricité, de pannes Internet, de décisions des autorités ou de toute circonstance indépendante de sa volonté."
           }
         ]
       },
@@ -360,7 +360,7 @@ export function getTermsContentFr(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "NB BURGER n'est pas responsable du contenu, des informations, des services ou des politiques de confidentialité de ces sites et services."
+            text: "SO WHAT n'est pas responsable du contenu, des informations, des services ou des politiques de confidentialité de ces sites et services."
           }
         ]
       },
@@ -369,11 +369,11 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "NB BURGER s'efforce de fournir un service de qualité et des informations exactes, mais ne garantit pas que le Site sera exempt de dysfonctionnements ou d'erreurs."
+            text: "SO WHAT s'efforce de fournir un service de qualité et des informations exactes, mais ne garantit pas que le Site sera exempt de dysfonctionnements ou d'erreurs."
           },
           {
             type: "paragraph",
-            text: "Dans la mesure autorisée par la loi, la responsabilité de NB BURGER sera limitée à la responsabilité prévue par la loi uniquement."
+            text: "Dans la mesure autorisée par la loi, la responsabilité de SO WHAT sera limitée à la responsabilité prévue par la loi uniquement."
           },
           {
             type: "paragraph",
@@ -386,7 +386,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "Le non-exercice ou le retard dans l'exercice d'un droit quelconque de NB BURGER en vertu des présentes conditions ou de la loi ne saurait être interprété comme une renonciation à ce droit ou à tout autre droit."
+            text: "Le non-exercice ou le retard dans l'exercice d'un droit quelconque de SO WHAT en vertu des présentes conditions ou de la loi ne saurait être interprété comme une renonciation à ce droit ou à tout autre droit."
           }
         ]
       },
@@ -412,7 +412,7 @@ export function getTermsContentFr(): LegalDocument {
       {
         title: "26. Contact",
         blocks: [
-          { type: "paragraph", text: "NB BURGER" },
+          { type: "paragraph", text: "SO WHAT" },
           {
             type: "list",
             items: [

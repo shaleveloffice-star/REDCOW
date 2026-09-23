@@ -79,7 +79,7 @@ function item(
 export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
   {
     title: "מיתוג",
-    items: [item("brand-logo", "לוגו NB BURGER", "כותרת האתר / לוגו", SITE_LOGO_SRC)]
+    items: [item("brand-logo", "לוגו SO WHAT", "כותרת האתר / לוגו", SITE_LOGO_SRC)]
   },
   {
     title: "דף הבית - גיבור",
@@ -111,7 +111,7 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
     items: [
       item("atmosphere-wide", "לחמנייה עליונה", "גלריית האווירה", ATMOSPHERE_WIDE_IMAGE),
       item("atmosphere-people", "אנשים נהנים", "גלריית האווירה", ATMOSPHERE_PEOPLE_IMAGE),
-      item("atmosphere-sign", "שלט NB BURGER", "גלריית האווירה", ATMOSPHERE_SIGN_IMAGE),
+      item("atmosphere-sign", "שלט SO WHAT", "גלריית האווירה", ATMOSPHERE_SIGN_IMAGE),
       item("atmosphere-food", "צילום מהרחפן", "גלריית האווירה", ATMOSPHERE_FOOD_IMAGE),
       item(
         "atmosphere-burger-stack",

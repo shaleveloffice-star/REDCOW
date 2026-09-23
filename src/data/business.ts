@@ -1,5 +1,5 @@
 /**
- * מקור מרכזי לפרטי העסק של NB BURGER.
+ * מקור מרכזי לפרטי העסק של SO WHAT.
  * נתונים מאושרים בלבד — אין placeholders או קישורים זמניים.
  */
 
@@ -22,7 +22,7 @@ export type OpeningHoursInterval = {
 };
 
 export const BUSINESS = {
-  name: "NB BURGER",
+  name: "SO WHAT",
   businessTypeHe: "מסעדת המבורגרים",
   cuisineHe: "המבורגרים",
   kosherHe: "כשר בהשגחת רבנות",

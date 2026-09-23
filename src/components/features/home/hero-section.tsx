@@ -26,7 +26,7 @@ export function HeroSection({ heroImageUrl, heroMobileImageUrl }: HeroSectionPro
   const mobileSrc = heroMobileImageUrl?.trim() || imageSrc;
 
   return (
-    <section id="hero" className="hero hero--cinematic hero--premier hero--solid" aria-label="NB BURGER">
+    <section id="hero" className="hero hero--cinematic hero--premier hero--solid" aria-label="SO WHAT">
       <h1 className="sr-only">{t.hero.srTitle}</h1>
 
       <div className={`hero-burger${isVideoMediaUrl(imageSrc) ? " hero-burger--video" : ""}`}>

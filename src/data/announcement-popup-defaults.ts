@@ -2,11 +2,11 @@ import type { AnnouncementPopupConfig } from "@/types/content";
 
 export const defaultAnnouncementPopupConfig = (): AnnouncementPopupConfig => ({
   enabled: true,
-  kicker: "NB BURGER",
+  kicker: "SO WHAT",
   title: "אנחנו מתכוננים לפתיחה",
   body: [
     "התפריט והתמונות המוצגים באתר כרגע הם להמחשה בלבד.",
-    "בקרוב נעדכן כאן את התפריט הרשמי והתמונות האמיתיות של NB BURGER.",
+    "בקרוב נעדכן כאן את התפריט הרשמי והתמונות האמיתיות של SO WHAT.",
     "שווה לעקוב - הדברים הטובים באמת בדרך."
   ].join("\n\n"),
   ctaLabel: "הבנתי",

@@ -5,7 +5,7 @@ import { BUSINESS } from "@/data/business";
 export default function manifest(): MetadataRoute.Manifest {
   return {
     name: BUSINESS.name,
-    short_name: "NB BURGER",
+    short_name: "SO WHAT",
     description: `${BUSINESS.businessTypeHe} ב${BUSINESS.address.addressLocality}`,
     start_url: "/",
     display: "standalone",

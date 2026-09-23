@@ -10,7 +10,7 @@ export const mockMenuCategories: MenuCategory[] = [
     id: "cat-burgers",
     name: "המבורגרים",
     slug: "burgers",
-    description: "הקלאסיקות של NB BURGER",
+    description: "הקלאסיקות של SO WHAT",
     sortOrder: 1,
     isActive: true,
     createdAt: now,
@@ -61,7 +61,7 @@ export const mockMenuCategories: MenuCategory[] = [
 export const mockMenuItems: MenuItem[] = [
   {
     id: "item-nb-classic",
-    name: "NB Classic",
+    name: "SO WHAT Classic",
     description: "קציצת בקר, חסה, עגבנייה, בצל סגול ורוטב הבית.",
     price: 58,
     categoryId: "cat-burgers",
@@ -73,7 +73,7 @@ export const mockMenuItems: MenuItem[] = [
     longDescription:
       "הקלאסיקה שלנו - בשר טרי על הפלנצ׳ה, שכבות ירקות פריכות ורוטב הבית.",
     slug: "nb-classic",
-    imageAlt: "המבורגר NB Classic של NB BURGER",
+    imageAlt: "המבורגר SO WHAT Classic של SO WHAT",
     isActive: true,
     tags: ["מומלץ", "בקר"],
     sortOrder: 1,
@@ -160,7 +160,7 @@ export const mockMenuItems: MenuItem[] = [
   },
   {
     id: "item-fries",
-    name: "צ'יפס NB",
+    name: "צ'יפס SO WHAT",
     description: "צ'יפס פריך עם תיבול הבית.",
     price: 22,
     categoryId: "cat-sides",

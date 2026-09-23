@@ -50,7 +50,7 @@ export function getMenuCategoryPageMetadata(
   }
 ) {
   const menuMeta = getDefaultPageMeta(locale, "menu");
-  const generatedTitle = `${category.name} | NB BURGER`;
+  const generatedTitle = `${category.name} | SO WHAT`;
   const title = category.metaTitle?.trim() || generatedTitle;
   const description =
     category.metaDescription?.trim() ||
@@ -124,7 +124,7 @@ export function getStoryPageMetadata(
 ) {
   const override = getStorySeoOverride(story.slug);
   const title =
-    story.metaTitle?.trim() || override?.metaTitle || `${story.title.trim()} | NB BURGER`;
+    story.metaTitle?.trim() || override?.metaTitle || `${story.title.trim()} | SO WHAT`;
   const description =
     story.metaDescription?.trim() ||
     override?.metaDescription ||

@@ -10,7 +10,7 @@ export type ResendFromConfig = {
 
 export function getResendFromConfig(): ResendFromConfig | null {
   const email = process.env.RESEND_FROM_EMAIL?.trim();
-  const name = process.env.RESEND_FROM_NAME?.trim() || "NB BURGER";
+  const name = process.env.RESEND_FROM_NAME?.trim() || "SO WHAT";
   if (!email) return null;
   return {
     email,

@@ -122,7 +122,7 @@ export function AdminAnnouncementPopupEditor({
             <input
               value={draft.kicker}
               onChange={(e) => update("kicker", e.target.value)}
-              placeholder="NB BURGER"
+              placeholder="SO WHAT"
             />
           </label>
           <label>

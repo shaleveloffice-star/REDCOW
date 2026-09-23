@@ -2387,7 +2387,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   position: relative;
   display: block;
   width: max-content;
-  height: clamp(88px, 12vw, 120px);
+  height: clamp(97px, 13.2vw, 132px);
 }
 
 .site-navbar-logo-stack picture {
@@ -2403,7 +2403,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 .site-navbar-logo {
   display: block;
   width: auto;
-  height: clamp(88px, 12vw, 120px);
+  height: clamp(97px, 13.2vw, 132px);
   max-width: none;
   object-fit: contain;
   transition: opacity 0.28s ease;
@@ -2425,7 +2425,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 @media (min-width: 640px) {
   .site-navbar-logo-stack,
   .site-navbar-logo {
-    height: 120px;
+    height: 132px;
   }
 }
 
@@ -2979,7 +2979,7 @@ body:not(:has(.admin-layout)) .hero-caption-title {
   .site-navbar-logo-stack,
   .site-navbar-logo {
     max-width: none;
-    height: clamp(72px, 16vw, 96px);
+    height: clamp(79px, 17.6vw, 106px);
   }
 
   .site-navbar--scrolled .site-navbar-inner {

@@ -74,7 +74,7 @@ function getDefaultSiteSettings() {
     heroMediaAlt: "חוויה במסעדת SO WHAT",
     phone: "",
     email: "official.nbburger@gmail.com",
-    instagramUrl: "https://www.instagram.com/nbburgeril/",
+    instagramUrl: "https://www.instagram.com/sowhat.il/",
     facebookUrl: "https://www.facebook.com/profile.php?id=61590066758310",
     tiktokUrl: "https://www.tiktok.com/@nb.burg",
     orderDeliveryUrl: "",

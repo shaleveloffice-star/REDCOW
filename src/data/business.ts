@@ -66,7 +66,7 @@ export const BUSINESS = {
 
   social: {
     facebook: "https://www.facebook.com/profile.php?id=61590066758310",
-    instagram: "https://www.instagram.com/nbburgeril/",
+    instagram: "https://www.instagram.com/sowhat.il/",
     tiktok: "https://www.tiktok.com/@nb.burg"
   },
 

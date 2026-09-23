@@ -108,7 +108,7 @@ export function HomeSocialVibeSection() {
     >
       <header className="home-vibe-header">
         <div>
-          <p className="home-vibe-handle">@NBBURGERIL</p>
+          <p className="home-vibe-handle">@sowhat.il</p>
           <h2 id="home-vibe-title" className="home-vibe-title">
             FOLLOW THE VIBE
           </h2>

@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Archivo_Black, Assistant, League_Gothic } from "next/font/google";
+import { Archivo_Black, Assistant, Oswald } from "next/font/google";
 import { Suspense } from "react";
 import "./globals.css";
 import "./homepage-ds.css";
@@ -38,10 +38,10 @@ const archivoBlack = Archivo_Black({
   display: "swap"
 });
 
-const leagueGothic = League_Gothic({
+const oswald = Oswald({
   subsets: ["latin"],
   weight: "400",
-  variable: "--font-league-gothic",
+  variable: "--font-oswald",
   display: "swap"
 });
 
@@ -112,7 +112,7 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
-      <body className={`${assistant.variable} ${archivoBlack.variable} ${leagueGothic.variable} ${assistant.className}`} suppressHydrationWarning>
+      <body className={`${assistant.variable} ${archivoBlack.variable} ${oswald.variable} ${assistant.className}`} suppressHydrationWarning>
         <A11yBootScript />
         <LocaleProvider initialLocale={locale}>
           <JsonLd data={buildOrganizationJsonLd()} />

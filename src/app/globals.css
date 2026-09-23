@@ -484,7 +484,6 @@
   /* Typography — Assistant */
   --font-assistant-stack: var(--font-assistant), "Assistant", sans-serif;
   --font-archivo-black-stack: var(--font-archivo-black), "Archivo Black", var(--font-assistant), "Assistant", sans-serif;
-  --font-league-gothic-stack: var(--font-league-gothic), "League Gothic", var(--font-archivo-black), "Archivo Black", sans-serif;
   --font-display: var(--font-assistant-stack);
   --font-editorial: var(--font-assistant-stack);
   --font-body: var(--font-assistant-stack);
@@ -2714,7 +2713,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 .hero-caption-title {
   margin: 0;
   color: #ffffff;
-  font-family: var(--font-league-gothic-stack);
+  font-family: var(--font-oswald), "Oswald", var(--font-archivo-black), "Archivo Black", sans-serif;
   font-size: clamp(76px, 21vw, 260px);
   font-weight: 400;
   letter-spacing: 0.01em;
@@ -2723,6 +2722,11 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   text-align: center;
   white-space: nowrap;
   padding-inline-end: 0;
+}
+
+/* Beat global [class*="-title"] bold so Oswald can stay Regular */
+body:not(:has(.admin-layout)) .hero-caption-title {
+  font-weight: 400;
 }
 
 /* Header CTAs — desktop in navbar, mobile sticky bottom */

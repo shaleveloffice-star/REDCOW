@@ -1,15 +1,18 @@
+import Image from "next/image";
+
 import { HOME_STORY_IMAGE } from "@/data/site-images.registry";
+import { HOME_STORY_IMAGE_VERSION } from "@/data/site-image-versions";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
-import { resolveSiteImagePair } from "@/lib/site-image-url";
+import { canOptimizeSiteImage, resolveSiteImagePair } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
-/** Bump when replacing public/images/home/story-section-burger.webp */
-const HOME_STORY_IMAGE_VERSION = "2";
+/** Full width up to 900px; ~46% column (scaled 1.15× in CSS) above. */
+const HOME_STORY_IMAGE_SIZES = "(max-width: 900px) 100vw, 55vw";
 
 type HomeBrandStorySectionProps = {
   siteImages?: SiteImagesMap;
@@ -31,6 +34,8 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
     HOME_STORY_IMAGE,
     HOME_STORY_IMAGE_VERSION
   );
+  const useOptimizedImage =
+    storyImages.desktop === storyImages.mobile && canOptimizeSiteImage(storyImages.desktop);
 
   return (
     <section id="story" className="home-story-section" aria-labelledby="home-story-title">
@@ -42,15 +47,28 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
 
       <div className="home-story-shell">
         <div className="home-story-media">
-          {/* Native img — avoids Next.js image cache; same pattern as hero unoptimized */}
-          <ResponsiveSiteImage
-            desktopSrc={storyImages.desktop}
-            mobileSrc={storyImages.mobile}
-            alt={imageAlt}
-            width={900}
-            height={600}
-            className="home-story-image"
-          />
+          {useOptimizedImage ? (
+            <Image
+              src={storyImages.desktop}
+              alt={imageAlt}
+              width={900}
+              height={600}
+              sizes={HOME_STORY_IMAGE_SIZES}
+              loading="lazy"
+              draggable={false}
+              className="home-story-image"
+            />
+          ) : (
+            <ResponsiveSiteImage
+              desktopSrc={storyImages.desktop}
+              mobileSrc={storyImages.mobile}
+              alt={imageAlt}
+              width={900}
+              height={600}
+              loading="lazy"
+              className="home-story-image"
+            />
+          )}
         </div>
 
         <div className="home-story-copy">

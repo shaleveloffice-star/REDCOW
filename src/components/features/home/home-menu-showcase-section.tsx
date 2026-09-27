@@ -115,7 +115,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
                           width={640}
                           height={640}
                           sizes="(max-width: 767px) 67vw, 247px"
-                          loading="eager"
+                          loading="lazy"
                           className="menu-showcase-card-image"
                         />
                       </div>

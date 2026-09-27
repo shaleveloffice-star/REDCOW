@@ -327,7 +327,6 @@ export function SiteNavbar({
                     width={320}
                     height={144}
                     decoding="async"
-                    fetchPriority="high"
                   />
                 </picture>
                 <picture>

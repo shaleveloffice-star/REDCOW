@@ -20,6 +20,7 @@ import { buildFaqPageJsonLd, buildRestaurantJsonLd } from "@/lib/seo/json-ld";
 import { getValidFaqItems } from "@/lib/seo/faq-utils";
 import { resolveSiteImagePair } from "@/lib/site-image-url";
 import { HOME_HERO_IMAGE } from "@/data/site-images.registry";
+import { HERO_IMAGE_VERSION } from "@/data/site-image-versions";
 import type { SiteImagesMap } from "@/types/site-images";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -44,7 +45,7 @@ export default async function HomePage() {
     listBranches({ activeOnly: true })
   ]);
   const homeFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(homeSeo.faq.items));
-  const heroImages = resolveSiteImagePair(siteImages, "hero-burger", HOME_HERO_IMAGE, "20260803");
+  const heroImages = resolveSiteImagePair(siteImages, "hero-burger", HOME_HERO_IMAGE, HERO_IMAGE_VERSION);
   return (
     <>
       <JsonLd data={buildRestaurantJsonLd(branches[0])} />

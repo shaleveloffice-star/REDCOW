@@ -2,6 +2,7 @@ import type { NextConfig } from "next";
 
 import { getMarketingShortLinkRedirects } from "./src/data/marketing-short-links";
 import { CANONICAL_SITE_ORIGIN, REDIRECT_SITE_HOSTS } from "./src/data/site-domain";
+import { SITE_IMAGE_VERSION_QUERIES } from "./src/data/site-image-versions";
 
 const isProd = process.env.NODE_ENV === "production";
 
@@ -82,6 +83,10 @@ const nextConfig: NextConfig = {
     turbopackFileSystemCacheForDev: false
   },
   images: {
+    localPatterns: [
+      { pathname: "**", search: "" },
+      ...SITE_IMAGE_VERSION_QUERIES.map((search) => ({ pathname: "**", search }))
+    ],
     remotePatterns: [
       {
         protocol: "https",

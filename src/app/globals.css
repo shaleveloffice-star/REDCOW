@@ -3187,6 +3187,14 @@ body:not(:has(.admin-layout)) .hero-caption-title {
   line-height: 0;
 }
 
+/* Admin-chosen tint over a section image; the parent must be positioned. */
+.site-image-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
 .hero-burger-image {
   display: block;
   width: min(98vw, 1064px);
@@ -10608,6 +10616,94 @@ body:not(:has(.admin-layout)) button:focus-visible {
 .admin-home-images-slots {
   display: grid;
   gap: 16px;
+}
+
+.admin-image-overlay {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) 1fr;
+  gap: 16px;
+  align-items: center;
+  margin-top: 16px;
+  padding: 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--admin-surface-strong);
+}
+
+.admin-image-overlay-preview {
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  border-radius: 8px;
+  background: #111;
+}
+
+.admin-image-overlay-preview img,
+.admin-image-overlay-preview video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-image-overlay-preview-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.admin-image-overlay-controls {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-image-overlay-colors,
+.admin-image-overlay-range {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.admin-image-overlay-colors input[type="color"] {
+  width: 44px;
+  height: 32px;
+  padding: 2px;
+  border: 1px solid var(--admin-border);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+}
+
+.admin-image-overlay-swatch {
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: 2px solid var(--admin-border);
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.admin-image-overlay-swatch.is-active {
+  border-color: var(--admin-accent);
+  box-shadow: 0 0 0 2px rgba(14, 165, 233, 0.35);
+}
+
+.admin-image-overlay-range input[type="range"] {
+  flex: 1 1 160px;
+  accent-color: var(--admin-accent);
+}
+
+.admin-image-overlay-range output {
+  min-width: 3.5ch;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 600px) {
+  .admin-image-overlay {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (min-width: 900px) {

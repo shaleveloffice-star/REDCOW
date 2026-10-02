@@ -5,6 +5,11 @@ import { useState } from "react";
 import { useAdminMutation } from "@/components/features/admin/admin-crud-ui";
 import { AdminImageUrlField } from "@/components/features/admin/admin-site-image-picker";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
+import { isVideoMediaUrl } from "@/lib/menu-media";
+import {
+  DEFAULT_SITE_IMAGE_OVERLAY_COLOR,
+  MAX_SITE_IMAGE_OVERLAY_OPACITY
+} from "@/lib/site-image-overlay";
 import {
   resetSiteImageOverrideAction,
   saveSiteImageOverrideAction,
@@ -19,7 +24,17 @@ type AdminHomeSiteImagesEditorProps = {
 type ImageDraft = {
   desktop: string;
   mobile: string;
+  overlayColor: string;
+  /** Whole percent, 0–90. */
+  overlayPercent: number;
 };
+
+const OVERLAY_PRESETS = [
+  { color: "#000000", label: "שחור" },
+  { color: "#ffffff", label: "לבן" }
+] as const;
+
+const MAX_OVERLAY_PERCENT = Math.round(MAX_SITE_IMAGE_OVERLAY_OPACITY * 100);
 
 function buildDrafts(groups: HomePageSiteImageAdminGroup[]): Record<string, ImageDraft> {
   const drafts: Record<string, ImageDraft> = {};
@@ -27,11 +42,32 @@ function buildDrafts(groups: HomePageSiteImageAdminGroup[]): Record<string, Imag
     for (const item of group.items) {
       drafts[item.id] = {
         desktop: item.desktopImageUrl || item.defaultImageUrl,
-        mobile: item.mobileImageUrl
+        mobile: item.mobileImageUrl,
+        overlayColor: item.overlayColor,
+        overlayPercent: Math.round(item.overlayOpacity * 100)
       };
     }
   }
   return drafts;
+}
+
+function OverlayPreview({ src, color, percent }: { src: string; color: string; percent: number }) {
+  return (
+    <div className="admin-image-overlay-preview">
+      {src ? (
+        isVideoMediaUrl(src) ? (
+          <video src={src} muted playsInline preload="metadata" />
+        ) : (
+          <img src={src} alt="" loading="lazy" />
+        )
+      ) : null}
+      <span
+        aria-hidden="true"
+        className="admin-image-overlay-preview-layer"
+        style={{ backgroundColor: color, opacity: percent / 100 }}
+      />
+    </div>
+  );
 }
 
 export function AdminHomeSiteImagesEditor({
@@ -49,16 +85,10 @@ export function AdminHomeSiteImagesEditor({
     }));
   };
 
-  const syncSavedState = (
-    id: string,
-    desktop: string,
-    mobile: string,
-    isOverridden: boolean,
-    defaultImageUrl: string
-  ) => {
+  const syncSavedState = (id: string, saved: ImageDraft, isOverridden: boolean, defaultImageUrl: string) => {
     setDrafts((current) => ({
       ...current,
-      [id]: { desktop, mobile }
+      [id]: saved
     }));
     setGroups((current) =>
       current.map((group) => ({
@@ -67,10 +97,12 @@ export function AdminHomeSiteImagesEditor({
           item.id === id
             ? {
                 ...item,
-                desktopImageUrl: isOverridden ? desktop : "",
-                mobileImageUrl: isOverridden ? mobile : "",
-                currentImageUrl: desktop || mobile || defaultImageUrl,
-                isOverridden
+                desktopImageUrl: isOverridden ? saved.desktop : "",
+                mobileImageUrl: isOverridden ? saved.mobile : "",
+                currentImageUrl: saved.desktop || saved.mobile || defaultImageUrl,
+                isOverridden,
+                overlayColor: saved.overlayColor,
+                overlayOpacity: saved.overlayPercent / 100
               }
             : item
         )
@@ -92,10 +124,17 @@ export function AdminHomeSiteImagesEditor({
             {group.items.map((item) => {
               const draft = drafts[item.id];
               const savedDesktop = item.desktopImageUrl || item.defaultImageUrl;
+              const savedPercent = Math.round(item.overlayOpacity * 100);
               const isDirty =
                 draft.desktop.trim() !== savedDesktop.trim() ||
-                draft.mobile.trim() !== item.mobileImageUrl.trim();
+                draft.mobile.trim() !== item.mobileImageUrl.trim() ||
+                draft.overlayPercent !== savedPercent ||
+                (draft.overlayPercent > 0 && draft.overlayColor !== item.overlayColor);
               const canSave = Boolean(draft.desktop.trim() || draft.mobile.trim());
+              const canReset = item.isOverridden || savedPercent > 0;
+              const previewSrc = draft.desktop.trim() || draft.mobile.trim() || item.defaultImageUrl;
+              const colorInputId = `overlay-color-${item.id}`;
+              const rangeInputId = `overlay-range-${item.id}`;
 
               return (
                 <article key={item.id} className="admin-home-images-item">
@@ -136,6 +175,61 @@ export function AdminHomeSiteImagesEditor({
                     </div>
                   </div>
 
+                  <div className="admin-image-overlay">
+                    <OverlayPreview
+                      src={previewSrc}
+                      color={draft.overlayColor}
+                      percent={draft.overlayPercent}
+                    />
+                    <div className="admin-image-overlay-controls">
+                      <strong>שכבת צבע מעל התמונה</strong>
+                      <div className="admin-image-overlay-colors">
+                        <label htmlFor={colorInputId}>צבע</label>
+                        <input
+                          id={colorInputId}
+                          type="color"
+                          value={draft.overlayColor}
+                          disabled={isPending}
+                          onChange={(e) => updateDraft(item.id, { overlayColor: e.target.value })}
+                        />
+                        {OVERLAY_PRESETS.map((preset) => (
+                          <button
+                            key={preset.color}
+                            type="button"
+                            className={`admin-image-overlay-swatch${
+                              draft.overlayColor === preset.color ? " is-active" : ""
+                            }`}
+                            style={{ backgroundColor: preset.color }}
+                            disabled={isPending}
+                            aria-label={preset.label}
+                            aria-pressed={draft.overlayColor === preset.color}
+                            title={preset.label}
+                            onClick={() => updateDraft(item.id, { overlayColor: preset.color })}
+                          />
+                        ))}
+                      </div>
+                      <div className="admin-image-overlay-range">
+                        <label htmlFor={rangeInputId}>עוצמה</label>
+                        <input
+                          id={rangeInputId}
+                          type="range"
+                          min={0}
+                          max={MAX_OVERLAY_PERCENT}
+                          step={1}
+                          value={draft.overlayPercent}
+                          disabled={isPending}
+                          onChange={(e) =>
+                            updateDraft(item.id, { overlayPercent: Number(e.target.value) })
+                          }
+                        />
+                        <output htmlFor={rangeInputId}>{draft.overlayPercent}%</output>
+                      </div>
+                      <p className="admin-field-hint">
+                        שחור מחשיך, לבן מבהיר, וכל צבע אחר צובע את התמונה. 0% = בלי שכבה.
+                      </p>
+                    </div>
+                  </div>
+
                   <div className="admin-form-actions admin-home-images-item-actions">
                     <button
                       className="button"
@@ -146,21 +240,27 @@ export function AdminHomeSiteImagesEditor({
                           await saveSiteImageOverrideAction({
                             id: item.id,
                             imageUrl: draft.desktop,
-                            mobileImageUrl: draft.mobile
+                            mobileImageUrl: draft.mobile,
+                            overlayColor: draft.overlayColor,
+                            overlayOpacity: draft.overlayPercent / 100
                           });
                           syncSavedState(
                             item.id,
-                            draft.desktop.trim(),
-                            draft.mobile.trim(),
+                            {
+                              desktop: draft.desktop.trim(),
+                              mobile: draft.mobile.trim(),
+                              overlayColor: draft.overlayColor,
+                              overlayPercent: draft.overlayPercent
+                            },
                             true,
                             item.defaultImageUrl
                           );
                         })
                       }
                     >
-                      {isPending ? "שומר…" : "שמור תמונות"}
+                      {isPending ? "שומר…" : "שמור"}
                     </button>
-                    {item.isOverridden ? (
+                    {canReset ? (
                       <button
                         className="button secondary"
                         disabled={isPending}
@@ -170,8 +270,12 @@ export function AdminHomeSiteImagesEditor({
                             await resetSiteImageOverrideAction(item.id);
                             syncSavedState(
                               item.id,
-                              item.defaultImageUrl,
-                              "",
+                              {
+                                desktop: item.defaultImageUrl,
+                                mobile: "",
+                                overlayColor: DEFAULT_SITE_IMAGE_OVERLAY_COLOR,
+                                overlayPercent: 0
+                              },
                               false,
                               item.defaultImageUrl
                             );

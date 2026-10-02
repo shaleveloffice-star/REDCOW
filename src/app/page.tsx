@@ -18,6 +18,7 @@ import { getServerLocale } from "@/i18n/get-locale";
 import { getHomePageMetadata } from "@/lib/page-metadata";
 import { buildFaqPageJsonLd, buildRestaurantJsonLd } from "@/lib/seo/json-ld";
 import { getValidFaqItems } from "@/lib/seo/faq-utils";
+import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
 import { resolveSiteImagePair } from "@/lib/site-image-url";
 import { HOME_HERO_IMAGE } from "@/data/site-images.registry";
 import { HERO_IMAGE_VERSION } from "@/data/site-image-versions";
@@ -51,7 +52,11 @@ export default async function HomePage() {
       <JsonLd data={buildRestaurantJsonLd(branches[0])} />
       {homeFaqJsonLd ? <JsonLd data={homeFaqJsonLd} /> : null}
       <main id="main-content">
-        <HeroSection heroImageUrl={heroImages.desktop} heroMobileImageUrl={heroImages.mobile} />
+        <HeroSection
+          heroImageUrl={heroImages.desktop}
+          heroMobileImageUrl={heroImages.mobile}
+          heroOverlay={pickSiteImageOverlay(siteImages, "hero-burger")}
+        />
         <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
         <HomeBrandStorySection siteImages={siteImages} />
         <HomeAtmosphereSection siteImages={siteImages} />

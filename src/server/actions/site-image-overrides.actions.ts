@@ -11,6 +11,7 @@ import {
 import { HOME_PAGE_SITE_IMAGE_GROUPS } from "@/data/site-images.registry";
 import { requireAdmin } from "@/lib/auth/admin-guard";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
+import { normalizeOverlayColor, normalizeOverlayOpacity } from "@/lib/site-image-overlay";
 import {
   clearSiteImageOverride,
   listSiteImageOverrides,
@@ -27,6 +28,8 @@ export type HomePageSiteImageAdminItem = {
   mobileImageUrl: string;
   currentImageUrl: string;
   isOverridden: boolean;
+  overlayColor: string;
+  overlayOpacity: number;
   spec: AdminImageSpec;
   mobileSpec: AdminImageSpec;
   recommendedSizeLabel: string;
@@ -75,6 +78,8 @@ function buildHomePageSiteImageGroups(
         mobileImageUrl,
         currentImageUrl: desktopImageUrl || mobileImageUrl || catalogItem.defaultImageUrl,
         isOverridden: Boolean(desktopImageUrl || mobileImageUrl),
+        overlayColor: normalizeOverlayColor(override?.overlayColor),
+        overlayOpacity: normalizeOverlayOpacity(override?.overlayOpacity),
         spec,
         mobileSpec,
         recommendedSizeLabel: formatAdminImageSpec(spec),
@@ -94,19 +99,24 @@ export async function saveSiteImageOverrideAction(input: {
   id: string;
   imageUrl?: string;
   mobileImageUrl?: string;
+  overlayColor?: string;
+  overlayOpacity?: number;
 }): Promise<{ ok: true; updatedAt: string }> {
   await requireAdminOrThrow();
 
   const imageUrl = input.imageUrl?.trim() ?? "";
   const mobileImageUrl = input.mobileImageUrl?.trim() ?? "";
-  if (!imageUrl && !mobileImageUrl) {
+  const overlayOpacity = normalizeOverlayOpacity(input.overlayOpacity);
+  if (!imageUrl && !mobileImageUrl && overlayOpacity === 0) {
     throw new Error("נדרשת לפחות תמונה אחת - מסך רחב או מובייל");
   }
 
   const saved = await upsertSiteImageOverride({
     id: input.id.trim(),
     imageUrl,
-    mobileImageUrl
+    mobileImageUrl,
+    overlayColor: normalizeOverlayColor(input.overlayColor),
+    overlayOpacity
   });
 
   revalidateSiteImages();

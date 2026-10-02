@@ -28,6 +28,10 @@ export type SiteImageOverride = {
   mobileImageUrl?: string;
   label?: string;
   hidden?: boolean;
+  /** #rrggbb tint drawn over the image on the public site. */
+  overlayColor?: string;
+  /** 0 = no overlay. */
+  overlayOpacity?: number;
   updatedAt: string;
 };
 

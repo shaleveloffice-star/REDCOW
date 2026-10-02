@@ -1,6 +1,8 @@
 import type { Branch } from "@/types/content";
 import { TrackedAnchor, TrackedLink } from "@/components/analytics/tracked-click";
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
+import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
+import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
 
 import { IconClock, IconMap, IconMapPin } from "@/components/shared/site-icons";
 import { branchAddress, branchMapsUrl, usesDefaultBranchHours } from "@/data/business";
@@ -111,6 +113,7 @@ export async function LocationSection({ siteImages, branch }: LocationSectionPro
             className="location-media-image"
             loading="eager"
           />
+          <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "location-exterior")} />
         </div>
       </div>
     </section>

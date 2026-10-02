@@ -4,6 +4,8 @@ import Image from "next/image";
 
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
+import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
+import type { SiteImageOverlay as SiteImageOverlayValue } from "@/lib/site-image-overlay";
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { canOptimizeSiteImage } from "@/lib/site-image-url";
@@ -20,9 +22,10 @@ const HERO_IMAGE_SIZES = "(max-width: 767px) 120vw, (max-width: 1085px) 98vw, 10
 type HeroSectionProps = {
   heroImageUrl?: string;
   heroMobileImageUrl?: string;
+  heroOverlay?: SiteImageOverlayValue | null;
 };
 
-export function HeroSection({ heroImageUrl, heroMobileImageUrl }: HeroSectionProps) {
+export function HeroSection({ heroImageUrl, heroMobileImageUrl, heroOverlay }: HeroSectionProps) {
   const t = useTranslations();
   const { locale } = useLocale();
   const captionDir = locale === "he" ? "rtl" : "ltr";
@@ -62,6 +65,7 @@ export function HeroSection({ heroImageUrl, heroMobileImageUrl }: HeroSectionPro
             className="hero-burger-image"
           />
         )}
+        <SiteImageOverlay overlay={heroOverlay} />
       </div>
 
       <div className="hero-caption">

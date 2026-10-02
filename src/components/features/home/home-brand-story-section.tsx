@@ -8,6 +8,8 @@ import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
+import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
+import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
 import { canOptimizeSiteImage, resolveSiteImagePair } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -69,6 +71,7 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
               className="home-story-image"
             />
           )}
+          <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "home-story")} />
         </div>
 
         <div className="home-story-copy">

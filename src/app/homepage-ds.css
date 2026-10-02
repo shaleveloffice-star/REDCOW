@@ -448,10 +448,16 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .home-story-media {
+  position: relative;
   width: 100%;
   line-height: 0;
   background: #ffffff;
   overflow: visible;
+}
+
+.home-story-media > .site-image-overlay {
+  transform: scale(1.15);
+  transform-origin: center center;
 }
 
 .home-story-media picture {

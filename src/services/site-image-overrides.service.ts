@@ -15,6 +15,8 @@ export async function upsertSiteImageOverride(input: {
   mobileImageUrl?: string;
   label?: string;
   hidden?: boolean;
+  overlayColor?: string;
+  overlayOpacity?: number;
 }): Promise<SiteImageOverride> {
   const existing = await getSiteImageOverrides();
   const current = existing.find((entry) => entry.id === input.id);
@@ -26,6 +28,9 @@ export async function upsertSiteImageOverride(input: {
       input.mobileImageUrl !== undefined ? input.mobileImageUrl : current?.mobileImageUrl,
     label: input.label !== undefined ? input.label : current?.label,
     hidden: input.hidden !== undefined ? input.hidden : current?.hidden,
+    overlayColor: input.overlayColor !== undefined ? input.overlayColor : current?.overlayColor,
+    overlayOpacity:
+      input.overlayOpacity !== undefined ? input.overlayOpacity : current?.overlayOpacity,
     updatedAt: new Date().toISOString()
   });
 }

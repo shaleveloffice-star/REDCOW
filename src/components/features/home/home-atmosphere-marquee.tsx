@@ -8,6 +8,11 @@ import {
   HOME_ATMOSPHERE_MARQUEE_VERSION,
   type HomeAtmosphereMarqueeImage
 } from "@/data/home-atmosphere-marquee";
+import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
+import {
+  pickSiteImageOverlay,
+  type SiteImageOverlay as SiteImageOverlayValue
+} from "@/lib/site-image-overlay";
 import { pickSiteImage } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -23,17 +28,20 @@ function withVersion(src: string): string {
   return `${base}${sep}v=${HOME_ATMOSPHERE_MARQUEE_VERSION}`;
 }
 
+type ResolvedMarqueeImage = HomeAtmosphereMarqueeImage & { overlay: SiteImageOverlayValue | null };
+
 function resolveColumnImages(
   column: HomeAtmosphereMarqueeImage[],
   siteImages?: SiteImagesMap
-): HomeAtmosphereMarqueeImage[] {
+): ResolvedMarqueeImage[] {
   return column.map((item) => {
     const resolved = item.siteImageId
       ? pickSiteImage(siteImages, item.siteImageId, item.src)
       : item.src;
     return {
       ...item,
-      src: withVersion(resolved)
+      src: withVersion(resolved),
+      overlay: item.siteImageId ? pickSiteImageOverlay(siteImages, item.siteImageId) : null
     };
   });
 }
@@ -43,7 +51,7 @@ function MarqueeColumn({
   direction,
   durationSec
 }: {
-  images: HomeAtmosphereMarqueeImage[];
+  images: ResolvedMarqueeImage[];
   direction: "up" | "down";
   durationSec: number;
 }) {
@@ -68,6 +76,7 @@ function MarqueeColumn({
               decoding="async"
               draggable={false}
             />
+            <SiteImageOverlay overlay={image.overlay} />
           </div>
         ))}
       </div>

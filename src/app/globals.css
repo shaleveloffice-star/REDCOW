@@ -6529,6 +6529,14 @@ a.menu-showcase-button.site-cta-btn {
   min-height: 40px;
 }
 
+.admin-public-page-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 40px;
+  text-decoration: none;
+}
+
 .admin-copy-page-data-status {
   margin: 0;
   color: var(--admin-text-muted, rgba(255, 255, 255, 0.65));

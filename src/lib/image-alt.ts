@@ -330,22 +330,6 @@ export function resolveMenuItemImageAlt(
   });
 }
 
-export function resolveMenuItemCloseUpAlt(
-  item: MenuItemAltInput,
-  locale: Locale,
-  displayName?: string
-): string {
-  const primaryAlt = resolveMenuItemImageAlt(item, locale, displayName);
-  return resolveImageAlt({
-    kind: "menu-item-close-up",
-    locale,
-    name: trim(displayName) || trim(item.name),
-    categoryId: item.categoryId,
-    tags: item.tags,
-    primaryAlt
-  });
-}
-
 export function isDecorativeImageAlt(alt: string): boolean {
   return alt === DECORATIVE_IMAGE_ALT;
 }

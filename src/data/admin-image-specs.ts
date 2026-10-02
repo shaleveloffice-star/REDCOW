@@ -16,15 +16,6 @@ export const MENU_PRIMARY_IMAGE_SPEC: AdminImageSpec = {
   note: "תמונת מנה ראשית"
 };
 
-export const MENU_CLOSEUP_IMAGE_SPEC: AdminImageSpec = {
-  width: 960,
-  height: 960,
-  maxBytes: 40 * 1024,
-  maxEdge: 960,
-  aspectHint: "1:1",
-  note: "תמונת מקרוב לעמוד המוצר"
-};
-
 export const GALLERY_IMAGE_SPEC: AdminImageSpec = {
   width: 1920,
   height: 1080,

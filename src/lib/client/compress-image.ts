@@ -1,12 +1,10 @@
 /** Client-only: compress an image file to a JPEG data-URL for admin upload. */
 
 export const MENU_PRIMARY_IMAGE_MAX_BYTES = 80 * 1024;
-export const MENU_CLOSEUP_IMAGE_MAX_BYTES = 40 * 1024;
 export const GALLERY_IMAGE_MAX_BYTES = 350 * 1024;
 export const GALLERY_IMAGE_MAX_EDGE = 1920;
 
 const DEFAULT_MAX_EDGE = 1200;
-const CLOSEUP_MAX_EDGE = 960;
 const MIN_EDGE = 480;
 const MIN_QUALITY = 0.32;
 
@@ -128,13 +126,6 @@ export async function compressMenuPrimaryImage(file: File): Promise<string> {
   return compressImageFileToDataUrl(file, {
     maxBytes: MENU_PRIMARY_IMAGE_MAX_BYTES,
     maxEdge: DEFAULT_MAX_EDGE
-  });
-}
-
-export async function compressMenuCloseUpImage(file: File): Promise<string> {
-  return compressImageFileToDataUrl(file, {
-    maxBytes: MENU_CLOSEUP_IMAGE_MAX_BYTES,
-    maxEdge: CLOSEUP_MAX_EDGE
   });
 }
 

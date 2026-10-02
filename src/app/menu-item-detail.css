@@ -18,10 +18,6 @@
   width: 100%;
 }
 
-.menu-item-detail-gallery--dual {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
 .menu-item-detail-gallery-cell {
   position: relative;
   aspect-ratio: 1 / 1;
@@ -64,11 +60,6 @@
   max-height: 78%;
   object-fit: contain;
   object-position: center center;
-}
-
-.menu-item-detail-gallery-image--detail {
-  object-position: 58% 42%;
-  transform: scale(1.08);
 }
 
 .menu-item-detail-intro {
@@ -152,17 +143,27 @@
 .menu-item-sauce-image { width: 48px; height: 48px; object-fit: contain; }
 .menu-item-sauce-description { margin: 0; padding: 4px 2px 8px; font-size: 13px; line-height: 1.6; white-space: pre-line; }
 
-.menu-item-sauces--moving { max-width: 312px; position: relative; }
-/* Anchor the oversized track at the left edge even inside a Hebrew RTL page.
-   Each sauce group retains its own text direction. */
-.menu-item-sauces--moving .menu-item-sauces-viewport { overflow-x: auto; direction: ltr; scrollbar-width: none; cursor: grab; }
-.menu-item-sauces--moving .menu-item-sauces-track { display: flex; direction: ltr; width: max-content; }
-.menu-item-sauces--moving .menu-item-sauces-list { flex: none; overflow: visible; justify-content: flex-start; padding-inline-end: 8px; }
-.menu-item-sauces--moving .menu-item-sauce { flex: 0 0 96px; width: 96px; }
-.menu-item-sauces--moving .menu-item-sauces-viewport::-webkit-scrollbar { display: none; }
-.menu-item-sauces--moving .menu-item-sauces-viewport:active { cursor: grabbing; }
-.menu-item-sauces--moving .menu-item-sauce-trigger { user-select: none; }
-.menu-item-sauces--moving img { -webkit-user-drag: none; }
+/* Wide screens: every sauce visible in a static row (wraps if needed) - no loop. */
+@media (min-width: 768px) {
+  .menu-item-sauces { width: min(100%, 760px); }
+  .menu-item-sauces-list { flex-wrap: wrap; justify-content: center; overflow: visible; }
+  .menu-item-sauce { flex: 0 0 96px; }
+}
+
+/* Narrow screens with more than three sauces: looping row (see NARROW_SCREEN_QUERY). */
+@media (max-width: 767px) {
+  .menu-item-sauces--moving { max-width: 312px; position: relative; }
+  /* Anchor the oversized track at the left edge even inside a Hebrew RTL page.
+     Each sauce group retains its own text direction. */
+  .menu-item-sauces--moving .menu-item-sauces-viewport { overflow-x: auto; direction: ltr; scrollbar-width: none; cursor: grab; }
+  .menu-item-sauces--moving .menu-item-sauces-track { display: flex; direction: ltr; width: max-content; }
+  .menu-item-sauces--moving .menu-item-sauces-list { flex: none; overflow: visible; justify-content: flex-start; padding-inline-end: 8px; }
+  .menu-item-sauces--moving .menu-item-sauce { flex: 0 0 96px; width: 96px; }
+  .menu-item-sauces--moving .menu-item-sauces-viewport::-webkit-scrollbar { display: none; }
+  .menu-item-sauces--moving .menu-item-sauces-viewport:active { cursor: grabbing; }
+  .menu-item-sauces--moving .menu-item-sauce-trigger { user-select: none; }
+  .menu-item-sauces--moving img { -webkit-user-drag: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   .menu-item-sauces--moving .menu-item-sauces-viewport { overflow-x: auto; }
   .menu-item-sauces--moving .menu-item-sauces-track { animation: none; }
@@ -368,10 +369,6 @@
 }
 
 @media (max-width: 767px) {
-  .menu-item-detail-gallery--dual {
-    grid-template-columns: 1fr;
-  }
-
   .menu-item-detail-cards {
     grid-template-columns: 1fr;
   }

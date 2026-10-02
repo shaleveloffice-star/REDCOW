@@ -9,15 +9,28 @@ import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import type { MenuItem } from "@/types/content";
 
+/** Must match the media query wrapping the `.menu-item-sauces--moving` rules in menu-item-detail.css. */
+const NARROW_SCREEN_QUERY = "(max-width: 767px)";
+
 export function MenuItemSauces({ sauces }: { sauces: MenuItem[] }) {
   const { locale } = useLocale();
   const viewportRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<MenuItem | null>(null);
   const triggerRef = useRef<HTMLElement | null>(null);
   const moving = sauces.length > 3;
+  // Wide screens show every sauce in a static row; only narrow screens loop.
+  const [looping, setLooping] = useState(false);
   useEffect(() => {
-    if (moving && viewportRef.current) return startSauceLoop(viewportRef.current);
-  }, [moving, sauces]);
+    if (!moving) return;
+    const narrow = window.matchMedia(NARROW_SCREEN_QUERY);
+    const sync = () => setLooping(narrow.matches);
+    sync();
+    narrow.addEventListener("change", sync);
+    return () => narrow.removeEventListener("change", sync);
+  }, [moving]);
+  useEffect(() => {
+    if (looping && viewportRef.current) return startSauceLoop(viewportRef.current);
+  }, [looping, sauces]);
   if (!sauces.length) return null;
   const labels = locale === "en"
     ? { title: "Sauces", empty: "No description yet." }
@@ -27,7 +40,7 @@ export function MenuItemSauces({ sauces }: { sauces: MenuItem[] }) {
   const selectedText = selected ? getLocalizedMenuItem(selected, locale) : null;
   return (
     <section className={`menu-item-sauces${moving ? " menu-item-sauces--moving" : ""}`} aria-label={labels.title}>
-      <div className="menu-item-sauces-viewport" ref={viewportRef} data-dialog-open={Boolean(selected)} tabIndex={moving ? 0 : undefined} role={moving ? "region" : undefined} aria-label={labels.title}>
+      <div className="menu-item-sauces-viewport" ref={viewportRef} data-dialog-open={Boolean(selected)} tabIndex={looping ? 0 : undefined} role={looping ? "region" : undefined} aria-label={labels.title}>
       <div className="menu-item-sauces-track">
       <div className="menu-item-sauces-list" dir={locale === "he" ? "rtl" : "ltr"}>
         {sauces.map(sauce => {

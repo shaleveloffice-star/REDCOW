@@ -12,8 +12,8 @@ import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { IconBurgerMark } from "@/components/shared/site-icons";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedCategoryName } from "@/i18n/category-translations";
-import { getLocalizedMenuItem, getMenuItemCloseUpImageUrl } from "@/i18n/menu-translations";
-import { resolveMenuItemCloseUpAlt, DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
+import { getLocalizedMenuItem } from "@/i18n/menu-translations";
+import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 import { getMenuCategoryHref } from "@/lib/menu/category-slug";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
@@ -52,10 +52,7 @@ export function MenuItemDetailView({
   const localized = getLocalizedMenuItem(item, locale);
   const categoryName = category ? getLocalizedCategoryName(category, locale) : undefined;
   const primaryMedia = resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
-  const closeUpMedia = getMenuItemCloseUpImageUrl(item);
-  const closeUpAlt = resolveMenuItemCloseUpAlt(item, locale, localized.name);
   const primaryIsVideo = isVideoMediaUrl(primaryMedia);
-  const closeUpIsVideo = closeUpMedia ? isVideoMediaUrl(closeUpMedia) : false;
   const [orderOpen, setOrderOpen] = useState(false);
   const orderButtonRef = useRef<HTMLButtonElement>(null);
 
@@ -66,10 +63,7 @@ export function MenuItemDetailView({
 
   return (
     <article className="menu-item-detail">
-      <div
-        className={`menu-item-detail-gallery${closeUpMedia ? " menu-item-detail-gallery--dual" : ""}`}
-        aria-label={t.menuItemDetail.galleryAria}
-      >
+      <div className="menu-item-detail-gallery" aria-label={t.menuItemDetail.galleryAria}>
         <div className="menu-item-detail-gallery-cell menu-item-detail-gallery-cell--primary">
           {primaryIsVideo ? (
             <MenuAutoplayMedia src={primaryMedia} name={localized.imageAlt} />
@@ -79,30 +73,12 @@ export function MenuItemDetailView({
               alt={localized.imageAlt}
               width={1200}
               height={1200}
-              sizes={closeUpMedia ? "50vw" : "100vw"}
+              sizes="100vw"
               loading="eager"
               className="menu-item-detail-gallery-image"
             />
           )}
         </div>
-
-        {closeUpMedia ? (
-          <div className="menu-item-detail-gallery-cell menu-item-detail-gallery-cell--secondary">
-            {closeUpIsVideo ? (
-              <MenuAutoplayMedia src={closeUpMedia} name={closeUpAlt} />
-            ) : (
-              <MenuItemImage
-                src={closeUpMedia}
-                alt={closeUpAlt}
-                width={1200}
-                height={1200}
-                sizes="50vw"
-                loading="eager"
-                className="menu-item-detail-gallery-image menu-item-detail-gallery-image--detail"
-              />
-            )}
-          </div>
-        ) : null}
       </div>
 
       <section className="menu-item-detail-intro" aria-labelledby="menu-item-detail-title">

@@ -12,15 +12,12 @@ import { adminFieldLabel } from "@/components/features/admin/admin-field-label";
 import { AdminSiteImagePicker } from "@/components/features/admin/admin-site-image-picker";
 import { isSauceCategory } from "@/lib/menu/item-sauces";
 import { StatusBadge } from "@/components/features/admin/status-badge";
-import { MENU_CLOSEUP_IMAGE_SPEC, MENU_PRIMARY_IMAGE_SPEC } from "@/data/admin-image-specs";
+import { MENU_PRIMARY_IMAGE_SPEC } from "@/data/admin-image-specs";
 import { createId } from "@/lib/admin/new-id";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
-import {
-  compressMenuCloseUpImage,
-  compressMenuPrimaryImage
-} from "@/lib/client/compress-image";
+import { compressMenuPrimaryImage } from "@/lib/client/compress-image";
 import { getMenuItemHref, resolveMenuItemSlug, slugifyProductName } from "@/lib/menu/product-slug";
-import { resolveMenuItemCloseUpAlt, resolveMenuItemImageAlt } from "@/lib/image-alt";
+import { resolveMenuItemImageAlt } from "@/lib/image-alt";
 import { deleteMenuItemAction } from "@/server/actions/menu.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
@@ -68,20 +65,6 @@ async function saveMenuItemViaApi(item: MenuItem): Promise<SaveMenuItemApiResult
     return { ok: false, error: primaryUpload.error };
   }
 
-  const closeUpRaw = String(item.closeUpImageUrl ?? "").trim();
-  let closeUpImageUrl = closeUpRaw;
-  if (closeUpRaw) {
-    const closeUpUpload = await uploadMenuImageDataUrl(
-      closeUpRaw,
-      "העלאת תמונת המקרוב",
-      `${item.name} מקרוב`
-    );
-    if (!closeUpUpload.ok) {
-      return { ok: false, error: closeUpUpload.error };
-    }
-    closeUpImageUrl = closeUpUpload.url;
-  }
-
   const response = await fetch("/api/admin/menu-item", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
@@ -89,7 +72,8 @@ async function saveMenuItemViaApi(item: MenuItem): Promise<SaveMenuItemApiResult
     body: JSON.stringify({
       ...item,
       imageUrl: primaryUpload.url,
-      closeUpImageUrl
+      // Dishes have a single image; saving clears any legacy close-up image.
+      closeUpImageUrl: ""
     })
   });
 
@@ -159,8 +143,7 @@ export function AdminMenuTable({
   const [smartPasteOpen, setSmartPasteOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
-  const [uploadingCloseUpImage, setUploadingCloseUpImage] = useState(false);
-  const [galleryTarget, setGalleryTarget] = useState<"primary" | "closeUp" | null>(null);
+  const [galleryOpen, setGalleryOpen] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   const isNew = draft ? !rows.some((i) => i.id === draft.id) : false;
 
@@ -214,29 +197,18 @@ export function AdminMenuTable({
   };
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
-    void uploadDraftImage(event, "primary");
+    void uploadDraftImage(event);
   };
 
-  const handleCloseUpImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
-    void uploadDraftImage(event, "closeUp");
-  };
-
-  const uploadDraftImage = async (
-    event: ChangeEvent<HTMLInputElement>,
-    target: "primary" | "closeUp"
-  ) => {
+  const uploadDraftImage = async (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (!file || !draft) return;
     const targetItemId = draft.id;
 
-    const setUploading = target === "primary" ? setUploadingImage : setUploadingCloseUpImage;
-    setUploading(true);
+    setUploadingImage(true);
     setError(null);
     try {
-      const dataUrl =
-        target === "closeUp"
-          ? await compressMenuCloseUpImage(file)
-          : await compressMenuPrimaryImage(file);
+      const dataUrl = await compressMenuPrimaryImage(file);
       const response = await fetch("/api/admin/menu-image", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -260,10 +232,6 @@ export function AdminMenuTable({
       const uploadedUrl = result.url;
       setDraft((prev) => {
         if (!prev || prev.id !== targetItemId) return prev;
-        if (target === "closeUp") {
-          return { ...prev, closeUpImageUrl: uploadedUrl };
-        }
-
         return { ...prev, imageUrl: uploadedUrl };
       });
     } catch (err) {
@@ -274,7 +242,7 @@ export function AdminMenuTable({
           : "העלאת התמונה נכשלה. נסו קובץ JPG או PNG.";
       setError(message);
     } finally {
-      setUploading(false);
+      setUploadingImage(false);
       event.target.value = "";
     }
   };
@@ -539,15 +507,6 @@ export function AdminMenuTable({
                 />
               </label>
               <label>
-                {adminFieldLabel("טקסט ALT לתמונה (אופציונלי)", "תיאור תמונה לנגישות - בכל האתר")}
-                <input
-                  maxLength={160}
-                  placeholder="נוצר אוטומטית אם ריק"
-                  value={draft.imageAlt ?? ""}
-                  onChange={(e) => setDraft({ ...draft, imageAlt: e.target.value })}
-                />
-              </label>
-              <label>
                 {adminFieldLabel("מילת מפתח ראשית", "שמירה פנימית - לא מוצג באתר")}
                 <input
                   maxLength={80}
@@ -597,10 +556,10 @@ export function AdminMenuTable({
             </p>
 
             <label>
-              {adminFieldLabel("תמונה ראשית (מוצגת בכל האתר)", "/menu, דף הבית, עמוד המוצר")}
+              {adminFieldLabel("תמונת המנה (מוצגת בכל האתר)", "/menu, דף הבית, עמוד המוצר")}
               <div className="admin-image-url-field">
                 <input accept="image/*" disabled={uploadingImage} type="file" onChange={handleImageUpload} />
-                <button className="button secondary" type="button" onClick={() => setGalleryTarget("primary")}>
+                <button className="button secondary" type="button" onClick={() => setGalleryOpen(true)}>
                   בחר מהגלריה
                 </button>
               </div>
@@ -608,7 +567,7 @@ export function AdminMenuTable({
             <p className="admin-image-spec">
               גודל מומלץ: 1200×1200px (1:1) · עד 80KB - נדחס אוטומטית בהעלאה
             </p>
-            {uploadingImage ? <p className="muted">דוחס תמונה ראשית עד 80KB…</p> : null}
+            {uploadingImage ? <p className="muted">דוחס תמונה עד 80KB…</p> : null}
             {draft.imageUrl ? (
               <div className="admin-image-preview">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -623,43 +582,14 @@ export function AdminMenuTable({
             ) : null}
 
             <label>
-              {adminFieldLabel("תמונה מקרוב מוצר (מוצגת רק בעמוד המוצר)", "עמוד המוצר /menu/[slug] בלבד")}
-              <div className="admin-image-url-field">
-                <input
-                  accept="image/*"
-                  disabled={uploadingCloseUpImage}
-                  type="file"
-                  onChange={handleCloseUpImageUpload}
-                />
-                <button className="button secondary" type="button" onClick={() => setGalleryTarget("closeUp")}>
-                  בחר מהגלריה
-                </button>
-              </div>
+              {adminFieldLabel("טקסט ALT לתמונה", "תיאור התמונה לנגישות ולגוגל - בכל האתר")}
+              <input
+                maxLength={160}
+                placeholder={`ריק = אוטומטי: "${resolveMenuItemImageAlt({ ...draft, imageAlt: "" }, "he")}"`}
+                value={draft.imageAlt ?? ""}
+                onChange={(e) => setDraft({ ...draft, imageAlt: e.target.value })}
+              />
             </label>
-            <p className="admin-image-spec">
-              גודל מומלץ: 960×960px (1:1) · עד 40KB - נדחס אוטומטית בהעלאה
-            </p>
-            {uploadingCloseUpImage ? <p className="muted">דוחס תמונת מקרוב עד 40KB…</p> : null}
-            {draft.closeUpImageUrl?.trim() ? (
-              <div className="admin-image-preview">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  alt={resolveMenuItemCloseUpAlt(draft, "he")}
-                  height={120}
-                  src={menuImageSrc(draft.closeUpImageUrl, draft.updatedAt)}
-                  width={120}
-                />
-                <button
-                  type="button"
-                  className="button secondary"
-                  onClick={() => setDraft((prev) => (prev ? { ...prev, closeUpImageUrl: "" } : prev))}
-                >
-                  הסר תמונת מקרוב
-                </button>
-              </div>
-            ) : (
-              <p className="muted">אופציונלי - תופיע לצד התמונה הראשית בעמוד המוצר בלבד.</p>
-            )}
 
             <label>
               {adminFieldLabel("סדר תצוגה", "סדר המנה בתוך הקטגוריה ב-/menu")}
@@ -705,19 +635,13 @@ export function AdminMenuTable({
       ) : null}
 
       <AdminSiteImagePicker
-        open={draft !== null && galleryTarget !== null}
+        open={draft !== null && galleryOpen}
         title="בחירת תמונה מהגלריה"
         images={pickableImages}
-        spec={galleryTarget === "closeUp" ? MENU_CLOSEUP_IMAGE_SPEC : MENU_PRIMARY_IMAGE_SPEC}
-        fieldLabel={galleryTarget === "closeUp" ? "תמונה מקרוב מוצר" : "תמונה ראשית"}
-        onClose={() => setGalleryTarget(null)}
-        onSelect={(url) => {
-          const target = galleryTarget;
-          setDraft((prev) => {
-            if (!prev) return prev;
-            return target === "closeUp" ? { ...prev, closeUpImageUrl: url } : { ...prev, imageUrl: url };
-          });
-        }}
+        spec={MENU_PRIMARY_IMAGE_SPEC}
+        fieldLabel="תמונת המנה"
+        onClose={() => setGalleryOpen(false)}
+        onSelect={(url) => setDraft((prev) => (prev ? { ...prev, imageUrl: url } : prev))}
       />
     </>
   );

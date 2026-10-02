@@ -56,7 +56,7 @@ export default async function AdminMenuPage() {
         title="ניהול תפריט"
         description="הוספה, עריכה ומחיקה - נשמר בקובץ מקומי (data/local) ומוצג באתר אחרי שמירה."
       >
-        <AdminMenuTable categories={categories} items={items} />
+        <AdminMenuTable categories={categories} items={items} pickableImages={pickableImages} />
       </AdminCard>
     </>
   );

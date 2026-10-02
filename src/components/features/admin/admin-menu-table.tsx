@@ -9,8 +9,11 @@ import {
 } from "@/components/features/admin/admin-crud-ui";
 import { AdminMenuItemSmartPasteModal } from "@/components/features/admin/admin-menu-item-smart-paste-modal";
 import { adminFieldLabel } from "@/components/features/admin/admin-field-label";
+import { AdminSiteImagePicker } from "@/components/features/admin/admin-site-image-picker";
 import { StatusBadge } from "@/components/features/admin/status-badge";
+import { MENU_CLOSEUP_IMAGE_SPEC, MENU_PRIMARY_IMAGE_SPEC } from "@/data/admin-image-specs";
 import { createId } from "@/lib/admin/new-id";
+import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import {
   compressMenuCloseUpImage,
   compressMenuPrimaryImage
@@ -135,10 +138,12 @@ function newMenuItem(categories: MenuCategory[], items: MenuItem[]): MenuItem {
 
 export function AdminMenuTable({
   items,
-  categories
+  categories,
+  pickableImages
 }: {
   items: MenuItem[];
   categories: MenuCategory[];
+  pickableImages: AdminPickableImage[];
 }) {
   const categoryById = Object.fromEntries(categories.map((c) => [c.id, c.name]));
   const sortedCategories = useMemo(
@@ -154,6 +159,7 @@ export function AdminMenuTable({
   const [toastMessage, setToastMessage] = useState<string | null>(null);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [uploadingCloseUpImage, setUploadingCloseUpImage] = useState(false);
+  const [galleryTarget, setGalleryTarget] = useState<"primary" | "closeUp" | null>(null);
   const formRef = useRef<HTMLFormElement>(null);
   const isNew = draft ? !rows.some((i) => i.id === draft.id) : false;
 
@@ -579,7 +585,12 @@ export function AdminMenuTable({
 
             <label>
               {adminFieldLabel("תמונה ראשית (מוצגת בכל האתר)", "/menu, דף הבית, עמוד המוצר")}
-              <input accept="image/*" disabled={uploadingImage} type="file" onChange={handleImageUpload} />
+              <div className="admin-image-url-field">
+                <input accept="image/*" disabled={uploadingImage} type="file" onChange={handleImageUpload} />
+                <button className="button secondary" type="button" onClick={() => setGalleryTarget("primary")}>
+                  בחר מהגלריה
+                </button>
+              </div>
             </label>
             <p className="admin-image-spec">
               גודל מומלץ: 1200×1200px (1:1) · עד 80KB - נדחס אוטומטית בהעלאה
@@ -600,12 +611,17 @@ export function AdminMenuTable({
 
             <label>
               {adminFieldLabel("תמונה מקרוב מוצר (מוצגת רק בעמוד המוצר)", "עמוד המוצר /menu/[slug] בלבד")}
-              <input
-                accept="image/*"
-                disabled={uploadingCloseUpImage}
-                type="file"
-                onChange={handleCloseUpImageUpload}
-              />
+              <div className="admin-image-url-field">
+                <input
+                  accept="image/*"
+                  disabled={uploadingCloseUpImage}
+                  type="file"
+                  onChange={handleCloseUpImageUpload}
+                />
+                <button className="button secondary" type="button" onClick={() => setGalleryTarget("closeUp")}>
+                  בחר מהגלריה
+                </button>
+              </div>
             </label>
             <p className="admin-image-spec">
               גודל מומלץ: 960×960px (1:1) · עד 40KB - נדחס אוטומטית בהעלאה
@@ -674,6 +690,22 @@ export function AdminMenuTable({
           }}
         />
       ) : null}
+
+      <AdminSiteImagePicker
+        open={draft !== null && galleryTarget !== null}
+        title="בחירת תמונה מהגלריה"
+        images={pickableImages}
+        spec={galleryTarget === "closeUp" ? MENU_CLOSEUP_IMAGE_SPEC : MENU_PRIMARY_IMAGE_SPEC}
+        fieldLabel={galleryTarget === "closeUp" ? "תמונה מקרוב מוצר" : "תמונה ראשית"}
+        onClose={() => setGalleryTarget(null)}
+        onSelect={(url) => {
+          const target = galleryTarget;
+          setDraft((prev) => {
+            if (!prev) return prev;
+            return target === "closeUp" ? { ...prev, closeUpImageUrl: url } : { ...prev, imageUrl: url };
+          });
+        }}
+      />
     </>
   );
 }

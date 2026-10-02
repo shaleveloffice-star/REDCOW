@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { MenuItemSauces } from "@/components/features/menu/menu-item-sauces";
 import { useMemo, useRef, useState } from "react";
 
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
@@ -23,6 +24,7 @@ type MenuItemDetailViewProps = {
   item: MenuItem;
   category?: Pick<MenuCategory, "id" | "name" | "slug">;
   relatedItems?: MenuItem[];
+  sauces?: MenuItem[];
   pickupUrl: string;
   deliveryUrl: string;
 };
@@ -41,6 +43,7 @@ export function MenuItemDetailView({
   item,
   category,
   relatedItems = [],
+  sauces = [],
   pickupUrl,
   deliveryUrl
 }: MenuItemDetailViewProps) {
@@ -121,6 +124,7 @@ export function MenuItemDetailView({
           <p className="menu-item-detail-short">{localized.description}</p>
         ) : null}
 
+        <MenuItemSauces sauces={sauces} />
         <button
           ref={orderButtonRef}
           type="button"

@@ -15,6 +15,8 @@ export type MenuCategory = {
 };
 
 export type MenuItem = {
+  /** Menu items from the sauces category shown above this dish's order button. */
+  sauceIds?: string[];
   id: string;
   name: string;
   /** Short description shown near title on the product page. */

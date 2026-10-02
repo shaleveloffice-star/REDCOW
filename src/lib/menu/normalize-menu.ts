@@ -77,6 +77,7 @@ export function normalizeMenuItem(raw: Partial<MenuItem> & { id: string }): Menu
       : {}),
     isActive: toBoolean(raw.isActive, true),
     tags: toStringArray(raw.tags),
+    ...(Array.isArray(raw.sauceIds) ? { sauceIds: [...new Set(toStringArray(raw.sauceIds))] } : {}),
     sortOrder: toNumber(raw.sortOrder, 0),
     createdAt: toIsoDate(raw.createdAt, now),
     updatedAt: toIsoDate(raw.updatedAt, now)

@@ -10,6 +10,7 @@ import {
 import { AdminMenuItemSmartPasteModal } from "@/components/features/admin/admin-menu-item-smart-paste-modal";
 import { adminFieldLabel } from "@/components/features/admin/admin-field-label";
 import { AdminSiteImagePicker } from "@/components/features/admin/admin-site-image-picker";
+import { isSauceCategory } from "@/lib/menu/item-sauces";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { MENU_CLOSEUP_IMAGE_SPEC, MENU_PRIMARY_IMAGE_SPEC } from "@/data/admin-image-specs";
 import { createId } from "@/lib/admin/new-id";
@@ -513,6 +514,18 @@ export function AdminMenuTable({
                 onChange={(e) => setDraft({ ...draft, description: e.target.value })}
               />
             </label>
+
+            <fieldset className="admin-seo-fieldset">
+              <legend>רטבים למנה — מעל כפתור ההזמנה</legend>
+              <p className="muted">בחרו רטבים להצגה בקטן בעמוד המנה. התמונה והתיאור נלקחים מהרוטב בקטגוריית ״רטבים״; ניתן לערוך אותם שם.</p>
+              {rows.filter(sauce => sauce.id !== draft.id && categories.some(c => c.id === sauce.categoryId && isSauceCategory(c))).map(sauce => (
+                <label key={sauce.id} className="admin-checkbox-row">
+                  <input type="checkbox" checked={(draft.sauceIds ?? []).includes(sauce.id)} onChange={event => setDraft({ ...draft, sauceIds: event.target.checked ? [...(draft.sauceIds ?? []), sauce.id] : (draft.sauceIds ?? []).filter(id => id !== sauce.id) })} />
+                  <span>{sauce.name}{!sauce.isActive || !categories.find(c => c.id === sauce.categoryId)?.isActive ? " (לא פעיל — לא יוצג באתר)" : ""}</span>
+                </label>
+              ))}
+              {!rows.some(sauce => sauce.id !== draft.id && categories.some(c => c.id === sauce.categoryId && isSauceCategory(c))) ? <p>אין רטבים לבחירה. הוסיפו פריט בקטגוריית ״רטבים״ עם תמונה ותיאור ושמרו אותו.</p> : null}
+            </fieldset>
 
             <fieldset className="admin-seo-fieldset">
               <legend>תוכן SEO</legend>

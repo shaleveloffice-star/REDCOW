@@ -160,6 +160,10 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
     const imageAlt = optionalTrim(input.imageAlt);
 
     const allItems = await listMenuItems({ activeOnly: false });
+    const sauceIds = input.sauceIds === undefined ? undefined : input.sauceIds;
+    if (sauceIds !== undefined && (!Array.isArray(sauceIds) || sauceIds.length > 50 || sauceIds.some(value => typeof value !== "string" || value.length > 200))) {
+      return { ok: false, error: "רשימת רטבים לא תקינה" };
+    }
     const desiredSlug =
       optionalTrim(input.slug) ||
       slugifyProductName(name) ||
@@ -183,6 +187,7 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
 
     const saved = await upsertMenuItem({
       id,
+      ...(sauceIds !== undefined ? { sauceIds: [...new Set(sauceIds.map(value => value.trim()).filter(value => value && value !== id))] } : {}),
       name,
       description,
       ...(longDescription ? { longDescription } : {}),

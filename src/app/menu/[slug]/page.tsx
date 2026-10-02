@@ -116,6 +116,8 @@ export async function generateMetadata({ params }: MenuSlugPageProps): Promise<M
   });
 }
 
+import { resolveItemSauces } from "@/lib/menu/item-sauces";
+
 export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
   const { slug } = await params;
   const locale = await getServerLocale();
@@ -222,6 +224,7 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
           item={item}
           category={itemCategory}
           relatedItems={relatedItems}
+          sauces={resolveItemSauces(item, groups.flatMap(group => group.items), categories)}
           pickupUrl={pickupUrl}
           deliveryUrl={deliveryUrl}
         />

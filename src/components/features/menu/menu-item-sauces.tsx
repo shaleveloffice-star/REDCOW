@@ -33,13 +33,14 @@ export function MenuItemSauces({ sauces }: { sauces: MenuItem[] }) {
   }, [looping, sauces]);
   if (!sauces.length) return null;
   const labels = locale === "en"
-    ? { title: "Sauces", empty: "No description yet." }
+    ? { title: "Sauces", choice: "Choice of 2 sauces", empty: "No description yet." }
     : locale === "fr"
-      ? { title: "Sauces", empty: "Pas encore de description." }
-      : { title: "הרטבים של המנה", empty: "טרם נוסף תיאור לרוטב." };
+      ? { title: "Sauces", choice: "2 sauces au choix", empty: "Pas encore de description." }
+      : { title: "הרטבים של המנה", choice: "2 רטבים לבחירה", empty: "טרם נוסף תיאור לרוטב." };
   const selectedText = selected ? getLocalizedMenuItem(selected, locale) : null;
   return (
     <section className={`menu-item-sauces${moving ? " menu-item-sauces--moving" : ""}`} aria-label={labels.title}>
+      <p className="menu-item-sauces-choice">{labels.choice}</p>
       <div className="menu-item-sauces-viewport" ref={viewportRef} data-dialog-open={Boolean(selected)} tabIndex={looping ? 0 : undefined} role={looping ? "region" : undefined} aria-label={labels.title}>
       <div className="menu-item-sauces-track">
       <div className="menu-item-sauces-list" dir={locale === "he" ? "rtl" : "ltr"}>

@@ -10,14 +10,12 @@ export function MenuItemSauces({ sauces }: { sauces: MenuItem[] }) {
   const { locale } = useLocale();
   if (!sauces.length) return null;
   const labels = locale === "en"
-    ? { title: "Sauces", hint: "Tap a sauce to read more", empty: "No description yet." }
+    ? { title: "Sauces", empty: "No description yet." }
     : locale === "fr"
-      ? { title: "Sauces", hint: "Appuyez sur une sauce pour en savoir plus", empty: "Pas encore de description." }
-      : { title: "הרטבים של המנה", hint: "לחצו על רוטב לפרטים", empty: "טרם נוסף תיאור לרוטב." };
+      ? { title: "Sauces", empty: "Pas encore de description." }
+      : { title: "הרטבים של המנה", empty: "טרם נוסף תיאור לרוטב." };
   return (
     <section className="menu-item-sauces" aria-label={labels.title}>
-      <p className="menu-item-sauces-title">{labels.title}</p>
-      <p className="menu-item-sauces-hint">{labels.hint}</p>
       <div className="menu-item-sauces-list">
         {sauces.map(sauce => {
           const localized = getLocalizedMenuItem(sauce, locale);

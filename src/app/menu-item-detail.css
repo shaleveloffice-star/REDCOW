@@ -142,7 +142,6 @@
   line-height: 1.45;
 }
 
-.menu-item-detail-price { margin: 12px 0 0; font-size: 24px; line-height: 1.3; font-weight: 700; color: inherit; }
 .menu-item-sauces { width: min(100%, 560px); margin: 18px auto 0; color: inherit; min-width: 0; }
 .menu-item-sauces-list { display: flex; flex-wrap: nowrap; align-items: flex-start; justify-content: safe center; gap: 8px; overflow-x: auto; padding: 4px 0; }
 .menu-item-sauce { flex: 0 0 calc((100% - 16px) / 3); min-width: 76px; max-width: 96px; border: 0; overflow-wrap: anywhere; }

@@ -3,9 +3,10 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import {
-  HOME_ATMOSPHERE_MARQUEE_COLUMNS,
+  buildAtmosphereColumns,
   HOME_ATMOSPHERE_MARQUEE_HEADLINE,
   HOME_ATMOSPHERE_MARQUEE_VERSION,
+  HOME_ATMOSPHERE_SLOTS,
   type HomeAtmosphereMarqueeImage
 } from "@/data/home-atmosphere-marquee";
 import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
@@ -30,11 +31,11 @@ function withVersion(src: string): string {
 
 type ResolvedMarqueeImage = HomeAtmosphereMarqueeImage & { overlay: SiteImageOverlayValue | null };
 
-function resolveColumnImages(
-  column: HomeAtmosphereMarqueeImage[],
+function resolveSlotImages(
+  slots: HomeAtmosphereMarqueeImage[],
   siteImages?: SiteImagesMap
 ): ResolvedMarqueeImage[] {
-  return column.flatMap((item) => {
+  return slots.flatMap((item) => {
     const resolved = item.siteImageId
       ? pickSiteImage(siteImages, item.siteImageId, item.src)
       : item.src;
@@ -90,9 +91,7 @@ function MarqueeColumn({
 export function HomeAtmosphereMarquee({ ariaLabel, siteImages }: HomeAtmosphereMarqueeProps) {
   const rootRef = useRef<HTMLElement>(null);
   const [inView, setInView] = useState(false);
-  const columns = HOME_ATMOSPHERE_MARQUEE_COLUMNS.map((column) =>
-    resolveColumnImages(column, siteImages)
-  );
+  const columns = buildAtmosphereColumns(resolveSlotImages(HOME_ATMOSPHERE_SLOTS, siteImages));
 
   useEffect(() => {
     const node = rootRef.current;

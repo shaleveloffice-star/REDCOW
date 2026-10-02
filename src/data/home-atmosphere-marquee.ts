@@ -39,16 +39,37 @@ export const HOME_ATMOSPHERE_SLOTS: HomeAtmosphereMarqueeImage[] = [
   { siteImageId: "atmosphere-third-3", src: HOME_ATMOSPHERE_THIRD_3, alt: "SO WHAT - אווירה" }
 ];
 
-function rotate<T>(items: T[], offset: number): T[] {
-  return items.map((_, index) => items[(index + offset) % items.length]);
-}
+export const HOME_ATMOSPHERE_COLUMN_COUNT = 3;
+
+/** Short mobile cells need this many entries per strip or the loop shows a gap. */
+const MIN_CELLS_PER_COLUMN = 4;
 
 /**
- * Three vertical strips, each cycling through all six slots from a different starting point.
- * Short mobile cells need several images per strip or the loop shows a gap.
+ * Splits images into strips with no image shared between strips (deduped by src), so the same
+ * photo never shows side by side. Slot 1 → strip 1, slot 2 → strip 2, slot 3 → strip 3, slot 4 → strip 1…
  */
-export const HOME_ATMOSPHERE_MARQUEE_COLUMNS: HomeAtmosphereMarqueeImage[][] = [
-  rotate(HOME_ATMOSPHERE_SLOTS, 0),
-  rotate(HOME_ATMOSPHERE_SLOTS, 2),
-  rotate(HOME_ATMOSPHERE_SLOTS, 4)
-];
+export function buildAtmosphereColumns<T extends { src: string }>(
+  images: T[],
+  columnCount = HOME_ATMOSPHERE_COLUMN_COUNT
+): T[][] {
+  const seen = new Set<string>();
+  const unique = images.filter((image) => {
+    const key = image.src.trim();
+    if (!key || seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+
+  const columns: T[][] = Array.from({ length: columnCount }, () => []);
+  if (unique.length === 0) return columns;
+
+  unique.forEach((image, index) => columns[index % columnCount].push(image));
+
+  return columns.map((column, columnIndex) => {
+    // Fewer unique images than strips: reuse from the list rather than leave a strip empty.
+    const own = column.length > 0 ? column : [unique[columnIndex % unique.length]];
+    const filled = [...own];
+    while (filled.length < MIN_CELLS_PER_COLUMN) filled.push(...own);
+    return filled;
+  });
+}

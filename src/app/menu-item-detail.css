@@ -153,7 +153,9 @@
 .menu-item-sauce-description { margin: 0; padding: 4px 2px 8px; font-size: 13px; line-height: 1.6; white-space: pre-line; }
 
 .menu-item-sauces--moving { max-width: 312px; position: relative; }
-.menu-item-sauces--moving .menu-item-sauces-viewport { overflow: hidden; }
+/* Anchor the oversized track at the left edge even inside a Hebrew RTL page.
+   Each sauce group retains its own text direction. */
+.menu-item-sauces--moving .menu-item-sauces-viewport { overflow: hidden; direction: ltr; }
 .menu-item-sauces--moving .menu-item-sauces-track { display: flex; direction: ltr; width: max-content; animation: sauce-loop var(--sauce-duration) linear infinite; }
 .menu-item-sauces--moving .menu-item-sauces-list { flex: none; overflow: visible; justify-content: flex-start; padding-inline-end: 8px; }
 .menu-item-sauces--moving .menu-item-sauce { flex: 0 0 96px; width: 96px; }

@@ -68,7 +68,7 @@ export function MenuItemDetailView({
           {primaryIsVideo ? (
             <MenuAutoplayMedia src={primaryMedia} name={localized.imageAlt} />
           ) : (
-            <MenuItemImage
+            <MenuItemImage zoom={item.imageZoom}
               src={primaryMedia}
               alt={localized.imageAlt}
               width={1200}

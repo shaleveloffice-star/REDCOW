@@ -1,3 +1,4 @@
+import { normalizeMenuImageZoom } from "@/lib/menu/image-zoom";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
 function toText(value: unknown): string {
@@ -58,6 +59,7 @@ export function normalizeMenuItem(raw: Partial<MenuItem> & { id: string }): Menu
     price: toNumber(raw.price, 0),
     categoryId: toText(raw.categoryId),
     imageUrl: toText(raw.imageUrl),
+    ...(raw.imageZoom !== undefined ? { imageZoom: normalizeMenuImageZoom(raw.imageZoom) } : {}),
     closeUpImageUrl: toText(raw.closeUpImageUrl),
     ...(toOptionalText(raw.slug) ? { slug: toOptionalText(raw.slug) } : {}),
     previousSlugs: toStringArray(raw.previousSlugs),

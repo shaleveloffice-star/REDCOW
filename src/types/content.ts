@@ -27,6 +27,8 @@ export type MenuItem = {
   categoryId: string;
   /** Primary image — shown across the site (menu, homepage, etc.). */
   imageUrl: string;
+  /** Centered visual zoom, 1 (original) through 3; does not modify the asset. */
+  imageZoom?: number;
   /** Close-up image — shown only on the product detail page beside the primary image. */
   closeUpImageUrl?: string;
   /** Public URL slug for /menu/[slug]. Generated from name when empty. */

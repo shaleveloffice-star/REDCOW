@@ -108,7 +108,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
                   <article key={item.id} className="menu-showcase-card" role="listitem">
                     <Link href={getMenuItemHref(item)} className="menu-showcase-card-link">
                       <div className="menu-showcase-card-media">
-                        <MenuItemImage
+                        <MenuItemImage zoom={item.imageZoom}
                           decorative
                           src={media}
                           alt={localized.imageAlt}

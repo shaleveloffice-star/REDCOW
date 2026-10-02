@@ -58,7 +58,7 @@ export function MenuItemsGrid({ items, large = false }: MenuItemsGridProps) {
               <Link href={getMenuItemHref(item)} className="menu-bleecker-card-link">
                 <article className="menu-bleecker-card">
                   <div className="menu-bleecker-card-media">
-                    <MenuItemImage
+                    <MenuItemImage zoom={item.imageZoom}
                       decorative
                       src={media}
                       alt={localized.imageAlt}

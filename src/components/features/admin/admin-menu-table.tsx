@@ -8,6 +8,7 @@ import {
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
 import { AdminMenuItemSmartPasteModal } from "@/components/features/admin/admin-menu-item-smart-paste-modal";
+import { menuImageZoomStyle, normalizeMenuImageZoom } from "@/lib/menu/image-zoom";
 import { adminFieldLabel } from "@/components/features/admin/admin-field-label";
 import { AdminSiteImagePicker } from "@/components/features/admin/admin-site-image-picker";
 import { isSauceCategory } from "@/lib/menu/item-sauces";
@@ -568,6 +569,12 @@ export function AdminMenuTable({
               גודל מומלץ: 1200×1200px (1:1) · עד 80KB - נדחס אוטומטית בהעלאה
             </p>
             {uploadingImage ? <p className="muted">דוחס תמונה עד 80KB…</p> : null}
+            <label>
+              זום למרכז התמונה — {Math.round(normalizeMenuImageZoom(draft.imageZoom) * 100)}%
+              <input type="range" min={1} max={3} step={0.05} value={normalizeMenuImageZoom(draft.imageZoom)} onChange={event => setDraft({ ...draft, imageZoom: Number(event.target.value) })} />
+            </label>
+            <button type="button" className="button secondary" onClick={() => setDraft({ ...draft, imageZoom: 1 })}>איפוס זום</button>
+            <p className="muted">הגדלה למרכז התמונה, ללא שינוי הקובץ המקורי. לחצו שמור להחלת הזום באתר. הזום חל על תמונות בלבד.</p>
             {draft.imageUrl ? (
               <div className="admin-image-preview">
                 {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -575,6 +582,7 @@ export function AdminMenuTable({
                   alt={resolveMenuItemImageAlt(draft, "he")}
                   height={120}
                   src={menuImageSrc(draft.imageUrl, draft.updatedAt)}
+                  style={menuImageZoomStyle(draft.imageZoom)}
                   width={120}
                 />
                 <p className="muted">התמונה נשמרת אוטומטית לאחר העלאה - לחצו שמור לשייך למנה</p>

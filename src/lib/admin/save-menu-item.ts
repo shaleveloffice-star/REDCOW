@@ -157,6 +157,9 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
       }
     }
 
+    if (input.imageZoom !== undefined && (typeof input.imageZoom !== "number" || !Number.isFinite(input.imageZoom) || input.imageZoom < 1 || input.imageZoom > 3)) {
+      return { ok: false, error: "זום התמונה חייב להיות בין 100% ל-300%" };
+    }
     const imageAlt = optionalTrim(input.imageAlt);
 
     const allItems = await listMenuItems({ activeOnly: false });
@@ -194,6 +197,7 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
       price,
       categoryId,
       imageUrl,
+      ...(input.imageZoom !== undefined ? { imageZoom: input.imageZoom } : {}),
       slug,
       ...(imageAlt ? { imageAlt } : {}),
       ...(primaryKeyword ? { primaryKeyword } : {}),

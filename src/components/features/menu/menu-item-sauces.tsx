@@ -50,7 +50,7 @@ export function MenuItemSauces({ sauces }: { sauces: MenuItem[] }) {
             <div className="menu-item-sauce" key={sauce.id}>
               <button className="menu-item-sauce-trigger" type="button" aria-haspopup="dialog" onClick={event => { triggerRef.current = event.currentTarget; setSelected(sauce); }}>
                 {sauce.imageUrl && !isVideoMediaUrl(sauce.imageUrl) ? (
-                  <MenuItemImage src={sauce.imageUrl} alt="" width={48} height={48} sizes="48px" className="menu-item-sauce-image" />
+                  <MenuItemImage zoom={sauce.imageZoom} src={sauce.imageUrl} alt="" width={48} height={48} sizes="48px" className="menu-item-sauce-image" />
                 ) : null}
                 <span>{localized.name}</span>
               </button>
@@ -60,7 +60,7 @@ export function MenuItemSauces({ sauces }: { sauces: MenuItem[] }) {
       </div>
       </div>
       </div>
-      {selected && selectedText ? <SauceDialog name={selectedText.name} description={selectedText.description || selectedText.longDescription || labels.empty} imageUrl={selected.imageUrl} closeLabel={locale === "he" ? "סגירה" : locale === "fr" ? "Fermer" : "Close"} onClose={() => setSelected(null)} trigger={triggerRef.current} dir={locale === "he" ? "rtl" : "ltr"} /> : null}
+      {selected && selectedText ? <SauceDialog imageZoom={selected.imageZoom} name={selectedText.name} description={selectedText.description || selectedText.longDescription || labels.empty} imageUrl={selected.imageUrl} closeLabel={locale === "he" ? "סגירה" : locale === "fr" ? "Fermer" : "Close"} onClose={() => setSelected(null)} trigger={triggerRef.current} dir={locale === "he" ? "rtl" : "ltr"} /> : null}
     </section>
   );
 }

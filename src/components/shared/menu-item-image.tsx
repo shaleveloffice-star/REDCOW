@@ -1,10 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import { menuImageZoomStyle } from "@/lib/menu/image-zoom";
 import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 
 type MenuItemImageProps = {
+  zoom?: number;
   src: string;
   alt: string;
   /** When true, image is hidden from AT (redundant with adjacent link text). */
@@ -31,6 +33,7 @@ const FALLBACK_IMAGE = "/images/menu/nb-menu-burger.png";
 /** Renders menu media; supports admin uploads (/api/media), data-URLs, and static paths. */
 export function MenuItemImage({
   src,
+  zoom,
   alt,
   decorative = false,
   width = 480,
@@ -58,6 +61,7 @@ export function MenuItemImage({
         height={height}
         loading={loading}
         className={className}
+        style={menuImageZoomStyle(zoom)}
         decoding="async"
       />
     );
@@ -73,6 +77,7 @@ export function MenuItemImage({
       sizes={sizes}
       loading={loading}
       className={className}
+        style={menuImageZoomStyle(zoom)}
     />
   );
 }

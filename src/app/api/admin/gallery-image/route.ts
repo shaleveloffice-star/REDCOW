@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 
 import { parseDataImageUrl } from "@/lib/admin/save-menu-image";
+import { registerUploadInGallery } from "@/lib/admin/register-gallery-upload";
 import { processGalleryImageUpload } from "@/lib/admin/save-gallery-image";
 import { getAdminApiSession } from "@/lib/auth/admin-api-session";
 
@@ -14,6 +15,7 @@ function jsonError(error: string, status = 400) {
 
 type JsonUploadBody = {
   dataUrl?: string;
+  title?: string;
 };
 
 export async function POST(request: Request) {
@@ -25,6 +27,7 @@ export async function POST(request: Request) {
 
     const contentType = request.headers.get("content-type") ?? "";
     let bytes: Buffer | null = null;
+    let title: unknown;
 
     if (contentType.includes("application/json")) {
       let body: JsonUploadBody;
@@ -33,6 +36,7 @@ export async function POST(request: Request) {
       } catch {
         return jsonError("גוף הבקשה לא תקין");
       }
+      title = body.title;
 
       if (typeof body.dataUrl === "string" && body.dataUrl.startsWith("data:image/")) {
         const parsed = parseDataImageUrl(body.dataUrl);
@@ -52,6 +56,7 @@ export async function POST(request: Request) {
       return NextResponse.json(result, { status: 400 });
     }
 
+    await registerUploadInGallery({ url: result.url, fileName: result.fileName, title });
     return NextResponse.json(result, { status: 200 });
   } catch (err) {
     console.error("[POST /api/admin/gallery-image]", err instanceof Error ? err.message : err);

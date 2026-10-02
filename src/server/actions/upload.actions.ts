@@ -1,6 +1,7 @@
 "use server";
 
 import { requireAdmin } from "@/lib/auth/admin-guard";
+import { registerUploadInGallery } from "@/lib/admin/register-gallery-upload";
 import { processMenuImageUpload, type ProcessMenuImageResult } from "@/lib/admin/save-menu-image";
 
 export type UploadImageResult = ProcessMenuImageResult;
@@ -30,7 +31,11 @@ export async function uploadMenuImageAction(formData: FormData): Promise<UploadI
     }
 
     const bytes = Buffer.from(await blob.arrayBuffer());
-    return processMenuImageUpload(bytes);
+    const result = await processMenuImageUpload(bytes);
+    if (result.ok) {
+      await registerUploadInGallery({ url: result.url, title: (value as File).name });
+    }
+    return result;
   } catch (err) {
     const detail = err instanceof Error ? err.message : "unknown";
     console.warn("[uploadMenuImageAction] failed:", detail);

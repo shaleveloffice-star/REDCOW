@@ -16,18 +16,21 @@ import {
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { compressGalleryImage } from "@/lib/client/compress-image";
 import {
-  createGalleryImageAction,
   deleteGalleryImageAction,
   deleteGalleryImagesAction,
   updateGalleryImageAction
 } from "@/server/actions/gallery.actions";
 import type { GalleryImage } from "@/types/gallery";
 
-async function uploadGalleryImageDataUrl(dataUrl: string): Promise<{ ok: true; url: string; fileName?: string } | { ok: false; error: string }> {
+/** The route also adds the gallery record, so callers must not create one themselves. */
+async function uploadGalleryImageDataUrl(
+  dataUrl: string,
+  title: string
+): Promise<{ ok: true; url: string; fileName?: string } | { ok: false; error: string }> {
   const response = await fetch("/api/admin/gallery-image", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ dataUrl })
+    body: JSON.stringify({ dataUrl, title })
   });
 
   const result = (await response.json()) as
@@ -39,10 +42,6 @@ async function uploadGalleryImageDataUrl(dataUrl: string): Promise<{ ok: true; u
   }
 
   return result;
-}
-
-function fileTitleFromName(name: string): string {
-  return name.replace(/\.[^.]+$/, "").replace(/[-_]+/g, " ").trim() || "תמונה מהגלריה";
 }
 
 function LibraryImageCard({ image }: { image: AdminPickableImage }) {
@@ -140,17 +139,10 @@ export function AdminGalleryManager({
       for (const file of Array.from(fileList)) {
         setUploadStatus(`מדחיס ומעלה: ${file.name}…`);
         const dataUrl = await compressGalleryImage(file);
-        const uploaded = await uploadGalleryImageDataUrl(dataUrl);
+        const uploaded = await uploadGalleryImageDataUrl(dataUrl, file.name);
         if (!uploaded.ok) {
           throw new Error(`${file.name}: ${uploaded.error}`);
         }
-
-        await createGalleryImageAction({
-          title: fileTitleFromName(file.name),
-          imageUrl: uploaded.url,
-          alt: fileTitleFromName(file.name),
-          fileName: uploaded.fileName
-        });
         successCount += 1;
       }
 

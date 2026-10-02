@@ -4,6 +4,7 @@ import {
   parseDataImageUrl,
   processMenuImageUpload
 } from "@/lib/admin/save-menu-image";
+import { registerUploadInGallery } from "@/lib/admin/register-gallery-upload";
 import { getAdminApiSession } from "@/lib/auth/admin-api-session";
 
 export const runtime = "nodejs";
@@ -20,6 +21,7 @@ type JsonUploadBody = {
   dataUrl?: string;
   base64?: string;
   mime?: string;
+  title?: string;
 };
 
 export async function POST(request: Request) {
@@ -31,6 +33,7 @@ export async function POST(request: Request) {
 
     const contentType = request.headers.get("content-type") ?? "";
     let bytes: Buffer | null = null;
+    let title: unknown;
 
     // Prefer JSON (base64) — multipart previously hung on OneDrive / Windows.
     if (contentType.includes("application/json")) {
@@ -40,6 +43,7 @@ export async function POST(request: Request) {
       } catch {
         return jsonError("גוף הבקשה לא תקין");
       }
+      title = body.title;
 
       if (typeof body.dataUrl === "string" && body.dataUrl.startsWith("data:image/")) {
         const parsed = parseDataImageUrl(body.dataUrl);
@@ -63,6 +67,7 @@ export async function POST(request: Request) {
       }
       const entry = formData.get("file");
       if (!entry || typeof entry === "string") return jsonError("לא נבחר קובץ תמונה");
+      title = formData.get("title") ?? (entry as File).name;
       const blob = entry as Blob;
       if (typeof blob.arrayBuffer !== "function" || blob.size <= 0) {
         return jsonError("לא נבחר קובץ תמונה");
@@ -79,6 +84,7 @@ export async function POST(request: Request) {
       return NextResponse.json(result, { status: 400 });
     }
 
+    await registerUploadInGallery({ url: result.url, title });
     return NextResponse.json(result, { status: 200 });
   } catch (err) {
     console.error("[POST /api/admin/menu-image]", err instanceof Error ? err.message : err);

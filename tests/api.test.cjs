@@ -11,6 +11,7 @@ test('all five admin API routes preserve 401 JSON and reject access before provi
     '@/lib/admin/save-menu-item': { saveMenuItemCore: forbidden },
     '@/lib/admin/save-menu-image': { parseDataImageUrl: forbidden, processMenuImageUpload: forbidden },
     '@/lib/admin/save-gallery-image': { processGalleryImageUpload: forbidden },
+    '@/lib/admin/register-gallery-upload': { registerUploadInGallery: forbidden },
     '@/lib/admin/story-auto-fill/openai-generate': { generateStoryWithOpenAI: forbidden },
     '@/lib/admin/story-auto-fill/openai-suggest': { suggestStoriesWithOpenAI: forbidden },
     '@/lib/security/rate-limit': { getRequestClientIp: forbidden, consumeRateLimitAsync: forbidden }
@@ -35,6 +36,44 @@ test('menu item API keeps success and validation-error response shapes', async (
   response = await route.POST(new Request('https://test.invalid', { method: 'POST', body: '{}' }));
   assert.equal(response.status, 400);
   assert.deepEqual(await response.json(), result);
+});
+
+test('menu and gallery image uploads are also registered in the gallery', async () => {
+  const registered = [];
+  const dataUrl = 'data:image/png;base64,AAAA';
+  const load = createLoader({
+    'next/server': { NextResponse },
+    '@/lib/auth/admin-api-session': { getAdminApiSession: async () => ({ role: 'owner' }) },
+    '@/lib/admin/save-menu-image': {
+      parseDataImageUrl: () => ({ bytes: Buffer.from('x') }),
+      processMenuImageUpload: async () => ({ ok: true, url: '/api/media/menu/img-1.webp' })
+    },
+    '@/lib/admin/save-gallery-image': {
+      processGalleryImageUpload: async () => ({ ok: true, url: '/api/media/gallery/gal-1.webp', fileName: 'gal-1.webp' })
+    },
+    '@/lib/admin/register-gallery-upload': { registerUploadInGallery: async (input) => { registered.push(input); } }
+  });
+  const post = (route, body) => load(`@/app/api/admin/${route}/route`).POST(new Request('https://test.invalid', {
+    method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body)
+  }));
+
+  assert.equal((await post('menu-image', { dataUrl, title: 'בורגר קלאסי' })).status, 200);
+  assert.equal((await post('gallery-image', { dataUrl, title: 'hero.jpg' })).status, 200);
+  assert.deepEqual(registered, [
+    { url: '/api/media/menu/img-1.webp', title: 'בורגר קלאסי' },
+    { url: '/api/media/gallery/gal-1.webp', fileName: 'gal-1.webp', title: 'hero.jpg' }
+  ]);
+});
+
+test('gallery upload titles are derived from file names safely', () => {
+  const { galleryTitleFromUpload } = createLoader({
+    'next/cache': { revalidatePath() {} },
+    '@/services/gallery.service': { upsertGalleryImage: async () => {} }
+  })('@/lib/admin/register-gallery-upload');
+  assert.equal(galleryTitleFromUpload('my_burger-photo.JPG'), 'my burger photo');
+  assert.equal(galleryTitleFromUpload('  '), 'תמונה שהועלתה');
+  assert.equal(galleryTitleFromUpload(undefined), 'תמונה שהועלתה');
+  assert.equal(galleryTitleFromUpload('x'.repeat(300)).length, 120);
 });
 
 test('JWT is accepted by server and proxy verifier, then revoked after password change', async () => {

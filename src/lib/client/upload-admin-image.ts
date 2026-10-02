@@ -14,7 +14,7 @@ export async function uploadCompressedAdminImage(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "same-origin",
-    body: JSON.stringify({ dataUrl })
+    body: JSON.stringify({ dataUrl, title: file.name })
   });
 
   const result = (await response.json()) as

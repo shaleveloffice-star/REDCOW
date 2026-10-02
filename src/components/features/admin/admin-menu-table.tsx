@@ -27,7 +27,8 @@ type SaveMenuItemApiResult =
 
 async function uploadMenuImageDataUrl(
   imageUrl: string,
-  failureLabel: string
+  failureLabel: string,
+  title: string
 ): Promise<{ ok: true; url: string } | { ok: false; error: string }> {
   if (!imageUrl.startsWith("data:image/")) {
     return { ok: true, url: imageUrl };
@@ -37,7 +38,7 @@ async function uploadMenuImageDataUrl(
     method: "POST",
     headers: { "Content-Type": "application/json" },
     credentials: "same-origin",
-    body: JSON.stringify({ dataUrl: imageUrl })
+    body: JSON.stringify({ dataUrl: imageUrl, title })
   });
 
   let uploadResult: { ok: true; url: string } | { ok: false; error: string };
@@ -58,7 +59,7 @@ async function uploadMenuImageDataUrl(
 }
 
 async function saveMenuItemViaApi(item: MenuItem): Promise<SaveMenuItemApiResult> {
-  const primaryUpload = await uploadMenuImageDataUrl(item.imageUrl, "העלאת התמונה הראשית");
+  const primaryUpload = await uploadMenuImageDataUrl(item.imageUrl, "העלאת התמונה הראשית", item.name);
   if (!primaryUpload.ok) {
     return { ok: false, error: primaryUpload.error };
   }
@@ -66,7 +67,11 @@ async function saveMenuItemViaApi(item: MenuItem): Promise<SaveMenuItemApiResult
   const closeUpRaw = String(item.closeUpImageUrl ?? "").trim();
   let closeUpImageUrl = closeUpRaw;
   if (closeUpRaw) {
-    const closeUpUpload = await uploadMenuImageDataUrl(closeUpRaw, "העלאת תמונת המקרוב");
+    const closeUpUpload = await uploadMenuImageDataUrl(
+      closeUpRaw,
+      "העלאת תמונת המקרוב",
+      `${item.name} מקרוב`
+    );
     if (!closeUpUpload.ok) {
       return { ok: false, error: closeUpUpload.error };
     }
@@ -229,7 +234,7 @@ export function AdminMenuTable({
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "same-origin",
-        body: JSON.stringify({ dataUrl })
+        body: JSON.stringify({ dataUrl, title: draft.name.trim() || file.name })
       });
 
       let result: { ok: true; url: string } | { ok: false; error: string };

@@ -164,7 +164,6 @@
 .menu-item-sauces--moving .menu-item-sauce-trigger { user-select: none; }
 .menu-item-sauces--moving img { -webkit-user-drag: none; }
 @media (prefers-reduced-motion: reduce) {
-  .menu-item-sauces-list[aria-hidden="true"] { display: none; }
   .menu-item-sauces--moving .menu-item-sauces-viewport { overflow-x: auto; }
   .menu-item-sauces--moving .menu-item-sauces-track { animation: none; }
 }

@@ -29,13 +29,12 @@ export function MenuItemSauces({ sauces }: { sauces: MenuItem[] }) {
     <section className={`menu-item-sauces${moving ? " menu-item-sauces--moving" : ""}`} aria-label={labels.title}>
       <div className="menu-item-sauces-viewport" ref={viewportRef} data-dialog-open={Boolean(selected)} tabIndex={moving ? 0 : undefined} role={moving ? "region" : undefined} aria-label={labels.title}>
       <div className="menu-item-sauces-track">
-      {(moving ? [0, 1] : [0]).map(copy => (
-      <div className="menu-item-sauces-list" key={copy} aria-hidden={copy === 1 ? true : undefined} dir={locale === "he" ? "rtl" : "ltr"}>
+      <div className="menu-item-sauces-list" dir={locale === "he" ? "rtl" : "ltr"}>
         {sauces.map(sauce => {
           const localized = getLocalizedMenuItem(sauce, locale);
           return (
             <div className="menu-item-sauce" key={sauce.id}>
-              <button className="menu-item-sauce-trigger" type="button" aria-haspopup="dialog" tabIndex={copy === 1 ? -1 : undefined} onClick={event => { triggerRef.current = event.currentTarget; setSelected(sauce); }}>
+              <button className="menu-item-sauce-trigger" type="button" aria-haspopup="dialog" onClick={event => { triggerRef.current = event.currentTarget; setSelected(sauce); }}>
                 {sauce.imageUrl && !isVideoMediaUrl(sauce.imageUrl) ? (
                   <MenuItemImage src={sauce.imageUrl} alt="" width={48} height={48} sizes="48px" className="menu-item-sauce-image" />
                 ) : null}
@@ -45,7 +44,6 @@ export function MenuItemSauces({ sauces }: { sauces: MenuItem[] }) {
           );
         })}
       </div>
-      ))}
       </div>
       </div>
       {selected && selectedText ? <SauceDialog name={selectedText.name} description={selectedText.description || selectedText.longDescription || labels.empty} imageUrl={selected.imageUrl} closeLabel={locale === "he" ? "סגירה" : locale === "fr" ? "Fermer" : "Close"} onClose={() => setSelected(null)} trigger={triggerRef.current} dir={locale === "he" ? "rtl" : "ltr"} /> : null}

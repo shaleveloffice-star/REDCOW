@@ -6,6 +6,7 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
   let previousTime = performance.now();
   let position = viewport.scrollLeft;
   let expectedScroll = position;
+  let direction = 1;
   let pointerHeld = false;
   let mouseStart: { x: number; scroll: number } | null = null;
   let dragged = false;
@@ -47,10 +48,12 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
   const tick = (now: number) => {
     const elapsed = Math.min(now - previousTime, 50);
     previousTime = now;
-    const group = viewport.querySelector<HTMLElement>(".menu-item-sauces-list");
-    const width = group?.getBoundingClientRect().width ?? 0;
-    if (!reducedMotion.matches && !pointerHeld && now >= resumeAt && viewport.dataset.dialogOpen !== "true" && width > 0) {
-      position = (position + elapsed * (104 / 6000)) % width;
+    const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
+    if (!reducedMotion.matches && !pointerHeld && now >= resumeAt && viewport.dataset.dialogOpen !== "true" && maxScroll > 0) {
+      // One real list: reverse smoothly at its edges instead of cloning items.
+      position = Math.max(0, Math.min(maxScroll, position + direction * elapsed * (104 / 6000)));
+      if (position >= maxScroll) direction = -1;
+      else if (position <= 0) direction = 1;
       viewport.scrollLeft = position;
       expectedScroll = viewport.scrollLeft;
     } else {

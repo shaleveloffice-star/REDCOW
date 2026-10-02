@@ -7811,6 +7811,63 @@ a.menu-showcase-button.site-cta-btn {
   color: var(--admin-text);
 }
 
+.admin-gallery-section-head {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.admin-gallery-section-head .admin-gallery-section-title {
+  margin: 0;
+}
+
+.admin-gallery-select-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+
+.admin-gallery-select-count {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--admin-text-muted);
+}
+
+.admin-gallery-grid--selecting .admin-gallery-card-image {
+  cursor: pointer;
+}
+
+.admin-gallery-card--selected {
+  outline: 3px solid var(--admin-accent, #9a7b4f);
+  outline-offset: -3px;
+}
+
+.admin-gallery-select-check {
+  position: absolute;
+  top: 10px;
+  inset-inline-start: 10px;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(0, 0, 0, 0.72);
+  cursor: pointer;
+}
+
+.admin-gallery-select-check input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  accent-color: var(--admin-accent, #9a7b4f);
+  cursor: pointer;
+}
+
 .admin-gallery-badge {
   position: absolute;
   top: 10px;

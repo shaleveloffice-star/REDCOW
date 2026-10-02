@@ -69,3 +69,22 @@ export async function deleteGalleryImageAction(id: string) {
   if (!ok) throw new Error("התמונה לא נמצאה");
   paths.forEach((path) => revalidatePath(path));
 }
+
+const MAX_BULK_DELETE = 200;
+
+export async function deleteGalleryImagesAction(ids: string[]) {
+  await requireAdminRole(["owner", "manager"]);
+  if (!Array.isArray(ids)) throw new Error("רשימת תמונות לא תקינה");
+  const uniqueIds = [...new Set(ids.filter((id) => typeof id === "string" && id.trim()))];
+  if (uniqueIds.length === 0) throw new Error("לא נבחרו תמונות");
+  if (uniqueIds.length > MAX_BULK_DELETE) {
+    throw new Error(`אפשר למחוק עד ${MAX_BULK_DELETE} תמונות בפעם אחת`);
+  }
+
+  let deleted = 0;
+  for (const id of uniqueIds) {
+    if (await removeGalleryImage(id)) deleted += 1;
+  }
+  paths.forEach((path) => revalidatePath(path));
+  return { deleted, missing: uniqueIds.length - deleted };
+}

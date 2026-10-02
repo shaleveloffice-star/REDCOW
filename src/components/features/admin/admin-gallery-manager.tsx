@@ -18,6 +18,7 @@ import { compressGalleryImage } from "@/lib/client/compress-image";
 import {
   createGalleryImageAction,
   deleteGalleryImageAction,
+  deleteGalleryImagesAction,
   updateGalleryImageAction
 } from "@/server/actions/gallery.actions";
 import type { GalleryImage } from "@/types/gallery";
@@ -82,11 +83,49 @@ export function AdminGalleryManager({
   const [draft, setDraft] = useState<GalleryImage | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
+  const [selectMode, setSelectMode] = useState(false);
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const selectedItems = uploadedItems.filter((item) => selectedIds.has(item.id));
+  const allSelected = uploadedItems.length > 0 && selectedItems.length === uploadedItems.length;
 
   const close = () => {
     setDraft(null);
     setError(null);
+  };
+
+  const exitSelectMode = () => {
+    setSelectMode(false);
+    setSelectedIds(new Set());
+  };
+
+  const toggleSelected = (id: string) => {
+    setSelectedIds((current) => {
+      const next = new Set(current);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
+      return next;
+    });
+  };
+
+  const toggleSelectAll = () => {
+    setSelectedIds(allSelected ? new Set() : new Set(uploadedItems.map((item) => item.id)));
+  };
+
+  const deleteSelected = () => {
+    const ids = selectedItems.map((item) => item.id);
+    if (ids.length === 0) return;
+    if (!window.confirm(`למחוק ${ids.length} תמונות מהגלריה? לא ניתן לשחזר.`)) return;
+    setUploadStatus(null);
+    run(async () => {
+      const result = await deleteGalleryImagesAction(ids);
+      setUploadStatus(
+        result.missing > 0
+          ? `נמחקו ${result.deleted} תמונות (${result.missing} כבר לא היו קיימות).`
+          : `נמחקו ${result.deleted} תמונות.`
+      );
+    }, exitSelectMode);
   };
 
   const handleFiles = async (fileList: FileList | null) => {
@@ -163,45 +202,106 @@ export function AdminGalleryManager({
       {error ? <p className="admin-form-error">{error}</p> : null}
 
       <section className="admin-gallery-section" aria-labelledby="gallery-uploads-heading">
-        <h3 id="gallery-uploads-heading" className="admin-gallery-section-title">
-          העלאות שלך ({uploadedItems.length})
-        </h3>
+        <div className="admin-gallery-section-head">
+          <h3 id="gallery-uploads-heading" className="admin-gallery-section-title">
+            העלאות שלך ({uploadedItems.length})
+          </h3>
+          {uploadedItems.length > 0 ? (
+            <div className="admin-gallery-select-toolbar">
+              {selectMode ? (
+                <>
+                  <span className="admin-gallery-select-count" aria-live="polite">
+                    נבחרו {selectedItems.length}
+                  </span>
+                  <button className="button secondary" disabled={isPending} type="button" onClick={toggleSelectAll}>
+                    {allSelected ? "נקה בחירה" : "בחר הכל"}
+                  </button>
+                  <button
+                    className="button secondary admin-btn-danger"
+                    disabled={isPending || selectedItems.length === 0}
+                    type="button"
+                    onClick={deleteSelected}
+                  >
+                    {isPending ? "מוחק…" : `מחק נבחרות (${selectedItems.length})`}
+                  </button>
+                  <button className="button secondary" disabled={isPending} type="button" onClick={exitSelectMode}>
+                    ביטול
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="button secondary"
+                  disabled={isPending || uploading}
+                  type="button"
+                  onClick={() => setSelectMode(true)}
+                >
+                  בחר
+                </button>
+              )}
+            </div>
+          ) : null}
+        </div>
         {uploadedItems.length === 0 ? (
           <p className="admin-form-hint">עדיין לא הועלו תמונות. השתמשו בכפתור למעלה.</p>
         ) : (
-          <ul className="admin-gallery-grid">
-            {uploadedItems.map((item) => (
-              <li key={item.id} className="admin-gallery-card">
-                <span className="admin-gallery-badge admin-gallery-badge--upload">העלאה</span>
-                <img src={item.imageUrl} alt={item.alt || item.title} className="admin-gallery-card-image" loading="lazy" />
-                <div className="admin-gallery-card-body">
-                  <strong>{item.title}</strong>
-                  <p className="admin-image-spec">{formatAdminImageSpec(GALLERY_IMAGE_SPEC)}</p>
-                  <code className="admin-gallery-url">{item.imageUrl}</code>
-                  <div className="admin-row-actions">
-                    <button
-                      className="button secondary"
-                      type="button"
-                      onClick={() => {
-                        void navigator.clipboard.writeText(item.imageUrl);
-                      }}
-                    >
-                      העתק URL
-                    </button>
-                    <AdminRowActions
-                      disabled={isPending || uploading}
-                      onEdit={() => setDraft({ ...item })}
-                      onDelete={() => {
-                        if (!confirmDelete(item.title)) return;
-                        run(async () => {
-                          await deleteGalleryImageAction(item.id);
-                        });
-                      }}
-                    />
+          <ul className={`admin-gallery-grid${selectMode ? " admin-gallery-grid--selecting" : ""}`}>
+            {uploadedItems.map((item) => {
+              const isSelected = selectedIds.has(item.id);
+              return (
+                <li
+                  key={item.id}
+                  className={`admin-gallery-card${isSelected ? " admin-gallery-card--selected" : ""}`}
+                >
+                  {selectMode ? (
+                    <label className="admin-gallery-select-check">
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        disabled={isPending}
+                        onChange={() => toggleSelected(item.id)}
+                      />
+                      <span className="sr-only">בחר את {item.title}</span>
+                    </label>
+                  ) : null}
+                  <span className="admin-gallery-badge admin-gallery-badge--upload">העלאה</span>
+                  <img
+                    src={item.imageUrl}
+                    alt={item.alt || item.title}
+                    className="admin-gallery-card-image"
+                    loading="lazy"
+                    onClick={selectMode && !isPending ? () => toggleSelected(item.id) : undefined}
+                  />
+                  <div className="admin-gallery-card-body">
+                    <strong>{item.title}</strong>
+                    <p className="admin-image-spec">{formatAdminImageSpec(GALLERY_IMAGE_SPEC)}</p>
+                    <code className="admin-gallery-url">{item.imageUrl}</code>
+                    {selectMode ? null : (
+                      <div className="admin-row-actions">
+                        <button
+                          className="button secondary"
+                          type="button"
+                          onClick={() => {
+                            void navigator.clipboard.writeText(item.imageUrl);
+                          }}
+                        >
+                          העתק URL
+                        </button>
+                        <AdminRowActions
+                          disabled={isPending || uploading}
+                          onEdit={() => setDraft({ ...item })}
+                          onDelete={() => {
+                            if (!confirmDelete(item.title)) return;
+                            run(async () => {
+                              await deleteGalleryImageAction(item.id);
+                            });
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
-                </div>
-              </li>
-            ))}
+                </li>
+              );
+            })}
           </ul>
         )}
       </section>

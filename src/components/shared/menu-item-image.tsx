@@ -16,7 +16,7 @@ type MenuItemImageProps = {
   loading?: "lazy" | "eager";
 };
 
-function shouldUsePlainImg(src: string) {
+export function shouldUsePlainImg(src: string) {
   return (
     src.startsWith("data:image/") ||
     src.startsWith("blob:") ||

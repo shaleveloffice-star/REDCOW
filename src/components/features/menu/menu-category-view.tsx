@@ -5,6 +5,7 @@ import { MenuCategorySeoBlock } from "@/components/features/menu/menu-category-s
 import { MenuFilters } from "@/components/features/menu/menu-filters";
 import { isBurgersCategory, MenuItemsGrid } from "@/components/features/menu/menu-items-grid";
 import { MenuOrderCtas } from "@/components/features/menu/menu-order-ctas";
+import { useAdjacentCategoryImagePrefetch } from "@/components/features/menu/use-adjacent-category-image-prefetch";
 import { SeoContentBody } from "@/components/shared/seo-content-body";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getLocalizedCategoryName } from "@/i18n/category-translations";
@@ -31,6 +32,7 @@ export function MenuCategoryView({
   const t = useTranslations();
   const { locale } = useLocale();
   const categoryName = getLocalizedCategoryName(group, locale);
+  useAdjacentCategoryImagePrefetch(allGroups, group.id);
 
   return (
     <div className="menu-bleecker menu-bleecker--category">

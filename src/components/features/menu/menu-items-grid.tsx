@@ -13,6 +13,11 @@ import type { MenuItem } from "@/types/content";
 
 const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
 
+/** The exact media URL a menu card renders - shared with the adjacent-category prefetch. */
+export function getMenuCardMediaUrl(item: MenuItem): string {
+  return resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
+}
+
 function formatPrice(price: number, locale: string) {
   if (locale === "he") {
     return `${price} ₪`;
@@ -34,7 +39,7 @@ export function MenuItemsGrid({ items, large = false }: MenuItemsGridProps) {
     <ul className={`menu-bleecker-grid${large ? " menu-bleecker-grid--burgers" : ""}`}>
       {items.map((item) => {
         const localized = getLocalizedMenuItem(item, locale);
-        const media = resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
+        const media = getMenuCardMediaUrl(item);
         return (
           <li key={item.id}>
             {isVideoMediaUrl(media) ? (

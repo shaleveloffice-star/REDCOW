@@ -2,6 +2,95 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createLoader, memoryStore } = require('./helpers.cjs');
 
+test('actual menu page issues 308 to production canonical URLs and renders both targets (local HTTP fixture)', async () => {
+  const http = require('node:http');
+  const category = { id: 'fixture-sides', slug: 'extras', name: 'תוספות', isActive: true };
+  const items = ['chili-chicken-wings', '4-piece-nuggets'].map((slug, i) => ({
+    id: `fixture-${i}`, slug, name: slug, description: '', price: 1,
+    categoryId: category.id, isActive: true, sortOrder: i
+  }));
+  const emptyView = () => null;
+  let service;
+  const load = createLoader({
+    'react/jsx-runtime': require('react/jsx-runtime'),
+    'next/navigation': require('next/navigation'),
+    '@/repositories/menu.repository': { getMenuItems: async () => items, getMenuCategories: async () => [category] },
+    '@/repositories/homepage-menu-showcase.repository': {},
+    '@/lib/cache/cached-data': {
+      getCachedMenuCategoryBySlug: async () => null,
+      getCachedMenuItemBySlug: slug => service.getMenuItemBySlugForDisplay(slug),
+      getCachedActiveOrderLinks: async () => [],
+      getCachedMenuCategories: async () => [category],
+      getCachedMenuForDisplay: async () => [{ ...category, items }]
+    },
+    '@/components/features/menu/menu-category-view': { MenuCategoryView: emptyView },
+    '@/components/features/menu/menu-item-detail-view': { MenuItemDetailView: emptyView },
+    '@/components/layout/site-footer': { SiteFooter: emptyView },
+    '@/components/seo/json-ld': { JsonLd: emptyView },
+    '@/i18n/category-translations': { getLocalizedCategoryName: c => c.name },
+    '@/i18n/get-localized-messages': { getLocalizedMessages: () => ({}) },
+    '@/i18n/get-locale': { getServerLocale: async () => 'he' },
+    '@/i18n/menu-translations': {},
+    '@/lib/page-metadata': {},
+    '@/lib/seo': {},
+    '@/lib/seo/json-ld': { buildProductJsonLd: () => ({}), buildProductBreadcrumbJsonLd: () => ({}) },
+    '@/lib/seo/faq-utils': {},
+    '@/lib/seo-content/resolve-seo-content': {},
+    '@/data/seo-intent-map': {},
+    '@/lib/seo-content/paragraphs': {}
+  });
+  service = load('@/services/menu.service');
+  const page = load('@/app/menu/[slug]/page').default;
+  // Transport harness uses the actual page, resolver and Next redirect exception.
+  // Repository fixtures and presentational dependencies are isolated from real data.
+  const server = http.createServer(async (req, res) => {
+    try {
+      assert.ok(await page({ params: Promise.resolve({ slug: req.url.split('/').pop() }) }));
+      res.writeHead(200); res.end('Rendered menu page');
+    } catch (error) {
+      if (error.digest?.startsWith('NEXT_REDIRECT;')) {
+        const [, , destination, status] = error.digest.split(';');
+        res.writeHead(Number(status), { Location: destination }); res.end();
+      } else { res.writeHead(500); res.end(String(error)); }
+    }
+  });
+  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
+  try {
+    const origin = `http://127.0.0.1:${server.address().port}`;
+    for (const [old, target] of [['wings', 'chili-chicken-wings'], ['nuggets-4', '4-piece-nuggets']]) {
+      const response = await fetch(`${origin}/menu/${old}`, { redirect: 'manual' });
+      assert.equal(response.status, 308);
+      assert.equal(response.headers.get('location'), `/menu/${target}`);
+      const final = await fetch(`${origin}/menu/${target}`, { redirect: 'manual' });
+      assert.equal(final.status, 200, await final.text());
+      console.log(`${old} -> 308 -> /menu/${target} -> 200 (local fixture)`);
+    }
+  } finally { server.closeAllConnections(); await new Promise(resolve => server.close(resolve)); }
+});
+
+test('verified wings and nuggets aliases resolve imported production records only', async () => {
+  const category = { id: 'imported-sides', slug: 'extras', isActive: true, sortOrder: 0 };
+  const pairs = [['wings', 'chili-chicken-wings'], ['nuggets-4', '4-piece-nuggets']];
+  const items = pairs.map(([, slug], i) => ({ id: `imported-${i}`, slug, categoryId: category.id, isActive: true, sortOrder: i }));
+  const load = createLoader({
+    '@/repositories/menu.repository': { getMenuItems: async () => items, getMenuCategories: async () => [category] },
+    '@/repositories/homepage-menu-showcase.repository': {}
+  });
+  const service = load('@/services/menu.service');
+  for (const [alias, canonical] of pairs) {
+    const item = await service.getMenuItemBySlugForDisplay(alias);
+    assert.equal(item.slug, canonical);
+    assert.equal((await service.getMenuItemBySlugForDisplay(canonical)).id, item.id);
+  }
+  for (const slug of ['smashes', 'specials', 'chips', 'ha-tzarfati', 'ha-double', 'ha-triple', 'ha-crispy', 'ha-naknikiya']) {
+    assert.equal(await service.getMenuItemBySlugForDisplay(slug), null);
+  }
+  assert.equal((await service.getMenuItemBySlugForDisplay('side-wings')).slug, pairs[0][1]);
+  assert.equal((await service.getMenuItemBySlugForDisplay('side-nuggets-4')).slug, pairs[1][1]);
+  items[0].isActive = false;
+  assert.equal(await service.getMenuItemBySlugForDisplay('wings'), null);
+});
+
 test('story hero category is rebranded without modifying unrelated category fields or storage', () => {
   const { rebrandCmsRecord } = createLoader()('@/lib/brand-migration');
   const story = { id: 's', title: 'Story', slug: 'restaurant-raanana', category: 'החוויה של NB' };

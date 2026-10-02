@@ -18,8 +18,8 @@ export const MENU_ITEM_LEGACY_SLUGS_BY_ID: Readonly<Record<string, readonly stri
   "item-nb-burger-vegan": ["hamburger-nb-vegan"],
   "item-meal-nb-klasi": ["nb-classic-meal"],
   "item-meal-nb-kamhin": ["nb-truffle-meal"],
-  "item-side-wings": ["chili-chicken-wings"],
-  "item-side-nuggets-4": ["4-piece-nuggets"],
+  "item-side-wings": ["chili-chicken-wings", "wings"],
+  "item-side-nuggets-4": ["4-piece-nuggets", "nuggets-4"],
   "item-salad-green": ["green-salad"],
   "item-salad-caesar-small": ["caesar-salad-small"],
   "item-salad-caesar-large": ["caesar-salad-large"]

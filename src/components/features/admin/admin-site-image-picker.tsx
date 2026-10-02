@@ -3,6 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 
 import { AdminModal } from "@/components/features/admin/admin-crud-ui";
+import { AdminImageFacts } from "@/components/features/admin/admin-image-facts";
 import {
   formatAdminImageSpec,
   GALLERY_IMAGE_SPEC,
@@ -16,6 +17,9 @@ type AdminSiteImagePickerProps = {
   open: boolean;
   title?: string;
   images: AdminPickableImage[];
+  /** Spec of the field being filled; enables a per-image "fits this field" check. */
+  spec?: AdminImageSpec;
+  fieldLabel?: string;
   onClose: () => void;
   onSelect: (imageUrl: string, image: AdminPickableImage) => void;
 };
@@ -32,6 +36,8 @@ export function AdminSiteImagePicker({
   open,
   title = "בחירת תמונה מהאתר",
   images,
+  spec,
+  fieldLabel,
   onClose,
   onSelect
 }: AdminSiteImagePickerProps) {
@@ -74,6 +80,13 @@ export function AdminSiteImagePicker({
           />
         </label>
 
+        {spec ? (
+          <p className="admin-image-picker-field-spec">
+            {fieldLabel ? `השדה "${fieldLabel}": ` : "השדה הזה: "}
+            {formatAdminImageSpec(spec)}
+          </p>
+        ) : null}
+
         {grouped.length === 0 ? (
           <p className="admin-form-hint">לא נמצאו תמונות.</p>
         ) : (
@@ -97,7 +110,7 @@ export function AdminSiteImagePicker({
                       <span className="admin-image-picker-meta">
                         <strong>{image.label}</strong>
                         <small>{image.location}</small>
-                        <small>{image.recommendedSizeLabel}</small>
+                        {open ? <AdminImageFacts url={image.imageUrl} spec={spec} /> : null}
                       </span>
                     </button>
                   </li>
@@ -196,11 +209,14 @@ export function AdminImageUrlField({
       {showPreview ? (
         <div className="admin-image-url-preview">
           <img src={value} alt="" className="admin-image-url-preview-image" loading="lazy" />
+          <AdminImageFacts url={value} spec={spec} />
         </div>
       ) : null}
       <AdminSiteImagePicker
         open={pickerOpen}
         images={images}
+        spec={spec}
+        fieldLabel={label}
         onClose={() => setPickerOpen(false)}
         onSelect={(url, image) => {
           onChange(url, { altSuggestion: image.label });

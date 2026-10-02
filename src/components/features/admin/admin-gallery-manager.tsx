@@ -9,6 +9,7 @@ import {
   AdminRowActions,
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
+import { AdminImageFacts } from "@/components/features/admin/admin-image-facts";
 import {
   formatAdminImageSpec,
   GALLERY_IMAGE_SPEC
@@ -18,6 +19,7 @@ import { compressGalleryImage } from "@/lib/client/compress-image";
 import {
   deleteGalleryImageAction,
   deleteGalleryImagesAction,
+  deleteSiteImagesByUrlAction,
   updateGalleryImageAction
 } from "@/server/actions/gallery.actions";
 import type { GalleryImage } from "@/types/gallery";
@@ -44,27 +46,71 @@ async function uploadGalleryImageDataUrl(
   return result;
 }
 
-function LibraryImageCard({ image }: { image: AdminPickableImage }) {
+function isDeletableLibraryImage(image: AdminPickableImage) {
+  return image.source !== "site";
+}
+
+function LibraryImageCard({
+  image,
+  selectMode,
+  selected,
+  disabled,
+  onToggle,
+  onDelete
+}: {
+  image: AdminPickableImage;
+  selectMode: boolean;
+  selected: boolean;
+  disabled: boolean;
+  onToggle: () => void;
+  onDelete: () => void;
+}) {
+  const deletable = isDeletableLibraryImage(image);
+  const selectable = selectMode && deletable;
+
   return (
-    <li className="admin-gallery-card admin-gallery-card--library">
+    <li
+      className={`admin-gallery-card admin-gallery-card--library${selected ? " admin-gallery-card--selected" : ""}${
+        selectMode && !deletable ? " admin-gallery-card--locked" : ""
+      }`}
+    >
+      {selectable ? (
+        <label className="admin-gallery-select-check">
+          <input type="checkbox" checked={selected} disabled={disabled} onChange={onToggle} />
+          <span className="sr-only">בחר את {image.label}</span>
+        </label>
+      ) : null}
       <span className="admin-gallery-badge">{image.group}</span>
-      <img src={image.imageUrl} alt={image.label} className="admin-gallery-card-image" loading="lazy" />
+      <img
+        src={image.imageUrl}
+        alt={image.label}
+        className="admin-gallery-card-image"
+        loading="lazy"
+        onClick={selectable && !disabled ? onToggle : undefined}
+      />
       <div className="admin-gallery-card-body">
         <strong>{image.label}</strong>
         <p className="admin-form-hint">{image.location}</p>
-        <p className="admin-image-spec">{image.recommendedSizeLabel}</p>
+        <AdminImageFacts url={image.imageUrl} />
         <code className="admin-gallery-url">{image.imageUrl}</code>
-        <div className="admin-row-actions">
-          <button
-            className="button secondary"
-            type="button"
-            onClick={() => {
-              void navigator.clipboard.writeText(image.imageUrl);
-            }}
-          >
-            העתק URL
-          </button>
-        </div>
+        {selectMode ? null : (
+          <div className="admin-row-actions">
+            <button
+              className="button secondary"
+              type="button"
+              onClick={() => {
+                void navigator.clipboard.writeText(image.imageUrl);
+              }}
+            >
+              העתק URL
+            </button>
+            {deletable ? (
+              <button className="button secondary admin-btn-danger" disabled={disabled} type="button" onClick={onDelete}>
+                מחק
+              </button>
+            ) : null}
+          </div>
+        )}
       </div>
     </li>
   );
@@ -84,7 +130,14 @@ export function AdminGalleryManager({
   const [uploadStatus, setUploadStatus] = useState<string | null>(null);
   const [selectMode, setSelectMode] = useState(false);
   const [selectedIds, setSelectedIds] = useState<Set<string>>(() => new Set());
+  const [librarySelectMode, setLibrarySelectMode] = useState(false);
+  const [selectedLibraryUrls, setSelectedLibraryUrls] = useState<Set<string>>(() => new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const deletableLibraryImages = libraryImages.filter(isDeletableLibraryImage);
+  const selectedLibraryImages = deletableLibraryImages.filter((image) => selectedLibraryUrls.has(image.imageUrl));
+  const allLibrarySelected =
+    deletableLibraryImages.length > 0 && selectedLibraryImages.length === deletableLibraryImages.length;
 
   const selectedItems = uploadedItems.filter((item) => selectedIds.has(item.id));
   const allSelected = uploadedItems.length > 0 && selectedItems.length === uploadedItems.length;
@@ -125,6 +178,45 @@ export function AdminGalleryManager({
           : `נמחקו ${result.deleted} תמונות.`
       );
     }, exitSelectMode);
+  };
+
+  const exitLibrarySelectMode = () => {
+    setLibrarySelectMode(false);
+    setSelectedLibraryUrls(new Set());
+  };
+
+  const toggleLibrarySelected = (url: string) => {
+    setSelectedLibraryUrls((current) => {
+      const next = new Set(current);
+      if (next.has(url)) next.delete(url);
+      else next.add(url);
+      return next;
+    });
+  };
+
+  const toggleSelectAllLibrary = () => {
+    setSelectedLibraryUrls(
+      allLibrarySelected ? new Set() : new Set(deletableLibraryImages.map((image) => image.imageUrl))
+    );
+  };
+
+  const deleteLibraryImages = (urls: string[], onDone?: () => void) => {
+    if (urls.length === 0) return;
+    const subject = urls.length === 1 ? "את התמונה" : `${urls.length} תמונות`;
+    if (
+      !window.confirm(
+        `למחוק ${subject} לגמרי מהמערכת? התמונה תוסר גם מכל המנות שמשתמשות בה ומהגלריה. לא ניתן לשחזר.`
+      )
+    ) {
+      return;
+    }
+    setUploadStatus(null);
+    run(async () => {
+      const result = await deleteSiteImagesByUrlAction(urls);
+      setUploadStatus(
+        `נמחקו ${result.images} תמונות · עודכנו ${result.menuItemsUpdated} מנות · הוסרו ${result.galleryRemoved} רשומות גלריה.`
+      );
+    }, onDone);
   };
 
   const handleFiles = async (fileList: FileList | null) => {
@@ -265,7 +357,7 @@ export function AdminGalleryManager({
                   />
                   <div className="admin-gallery-card-body">
                     <strong>{item.title}</strong>
-                    <p className="admin-image-spec">{formatAdminImageSpec(GALLERY_IMAGE_SPEC)}</p>
+                    <AdminImageFacts url={item.imageUrl} />
                     <code className="admin-gallery-url">{item.imageUrl}</code>
                     {selectMode ? null : (
                       <div className="admin-row-actions">
@@ -299,18 +391,78 @@ export function AdminGalleryManager({
       </section>
 
       <section className="admin-gallery-section" aria-labelledby="gallery-library-heading">
-        <h3 id="gallery-library-heading" className="admin-gallery-section-title">
-          תמונות האתר ({libraryImages.length})
-        </h3>
+        <div className="admin-gallery-section-head">
+          <h3 id="gallery-library-heading" className="admin-gallery-section-title">
+            תמונות האתר ({libraryImages.length})
+          </h3>
+          {deletableLibraryImages.length > 0 ? (
+            <div className="admin-gallery-select-toolbar">
+              {librarySelectMode ? (
+                <>
+                  <span className="admin-gallery-select-count" aria-live="polite">
+                    נבחרו {selectedLibraryImages.length}
+                  </span>
+                  <button
+                    className="button secondary"
+                    disabled={isPending}
+                    type="button"
+                    onClick={toggleSelectAllLibrary}
+                  >
+                    {allLibrarySelected ? "נקה בחירה" : "בחר הכל"}
+                  </button>
+                  <button
+                    className="button secondary admin-btn-danger"
+                    disabled={isPending || selectedLibraryImages.length === 0}
+                    type="button"
+                    onClick={() =>
+                      deleteLibraryImages(
+                        selectedLibraryImages.map((image) => image.imageUrl),
+                        exitLibrarySelectMode
+                      )
+                    }
+                  >
+                    {isPending ? "מוחק…" : `מחק נבחרות (${selectedLibraryImages.length})`}
+                  </button>
+                  <button
+                    className="button secondary"
+                    disabled={isPending}
+                    type="button"
+                    onClick={exitLibrarySelectMode}
+                  >
+                    ביטול
+                  </button>
+                </>
+              ) : (
+                <button
+                  className="button secondary"
+                  disabled={isPending || uploading}
+                  type="button"
+                  onClick={() => setLibrarySelectMode(true)}
+                >
+                  בחר
+                </button>
+              )}
+            </div>
+          ) : null}
+        </div>
         <p className="admin-form-hint">
-          תמונות מהעיצוב, דף הבית, אודות, תפריט ועוד - לקריאה והעתקת URL. לעריכה השתמשו בהגדרות התמונות הרלוונטיות.
+          תמונות מהעיצוב, דף הבית, אודות, תפריט ועוד. תמונות תפריט וגלריה אפשר למחוק לגמרי (הן יוסרו גם מהמנות).
+          תמונות העיצוב ודף הבית מוחלפות דרך הגדרות התמונות הרלוונטיות.
         </p>
         {libraryImages.length === 0 ? (
           <p className="admin-form-hint">לא נמצאו תמונות בספריית האתר.</p>
         ) : (
-          <ul className="admin-gallery-grid">
+          <ul className={`admin-gallery-grid${librarySelectMode ? " admin-gallery-grid--selecting" : ""}`}>
             {libraryImages.map((image) => (
-              <LibraryImageCard key={image.id} image={image} />
+              <LibraryImageCard
+                key={image.id}
+                image={image}
+                selectMode={librarySelectMode}
+                selected={selectedLibraryUrls.has(image.imageUrl)}
+                disabled={isPending || uploading}
+                onToggle={() => toggleLibrarySelected(image.imageUrl)}
+                onDelete={() => deleteLibraryImages([image.imageUrl])}
+              />
             ))}
           </ul>
         )}

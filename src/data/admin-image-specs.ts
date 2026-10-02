@@ -219,6 +219,6 @@ export function formatBytesShort(bytes: number): string {
 }
 
 export function formatAdminImageSpec(spec: AdminImageSpec): string {
-  const aspect = spec.aspectHint ? ` (${spec.aspectHint})` : "";
-  return `גודל מומלץ: ${spec.width}×${spec.height}px${aspect} · עד ${formatBytesShort(spec.maxBytes)}`;
+  const aspect = spec.aspectHint ? ` (\u2066${spec.aspectHint}\u2069)` : "";
+  return `גודל מומלץ: \u2066${spec.width}×${spec.height}px\u2069${aspect} · עד \u2066${formatBytesShort(spec.maxBytes)}\u2069`;
 }

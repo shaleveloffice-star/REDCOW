@@ -10,12 +10,15 @@ import type { MenuItem } from "@/types/content";
 import type { GalleryImage } from "@/types/gallery";
 import type { SiteImagesMap } from "@/types/site-images";
 
+export type AdminPickableImageSource = "site" | "menu" | "gallery";
+
 export type AdminPickableImage = {
   id: string;
   label: string;
   location: string;
   imageUrl: string;
   group: string;
+  source: AdminPickableImageSource;
   spec: AdminImageSpec;
   recommendedSizeLabel: string;
 };
@@ -43,6 +46,7 @@ export function buildAdminPickableImages(
         location: item.location,
         imageUrl: url,
         group: group.title,
+        source: "site",
         spec,
         recommendedSizeLabel: formatAdminImageSpec(spec)
       });
@@ -63,6 +67,7 @@ export function buildAdminPickableImages(
       location: "תמונת מנה",
       imageUrl: url,
       group: "תפריט",
+      source: "menu",
       spec,
       recommendedSizeLabel: formatAdminImageSpec(spec)
     });
@@ -82,6 +87,7 @@ export function buildAdminPickableImages(
       location: item.alt?.trim() || "גלריה",
       imageUrl: url,
       group: "גלריה",
+      source: "gallery",
       spec,
       recommendedSizeLabel: formatAdminImageSpec(spec)
     });

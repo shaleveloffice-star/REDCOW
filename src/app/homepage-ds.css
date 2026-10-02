@@ -449,6 +449,7 @@ a.menu-showcase-button.site-cta-btn {
 
 .home-story-media {
   position: relative;
+  align-self: center;
   width: 100%;
   line-height: 0;
   background: #ffffff;

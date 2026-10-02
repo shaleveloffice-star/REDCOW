@@ -2,12 +2,15 @@
 
 import { requireAdmin, requireAdminRole } from "@/lib/auth/admin-guard";
 import { createId } from "@/lib/admin/new-id";
-import { revalidatePath } from "next/cache";
+import { stripMenuItemImages } from "@/lib/admin/strip-menu-item-images";
+import { CACHE_TAGS } from "@/lib/cache/cached-data";
+import { revalidatePath, updateTag } from "next/cache";
 import {
   listGalleryImages,
   removeGalleryImage,
   upsertGalleryImage
 } from "@/services/gallery.service";
+import { listMenuItems, upsertMenuItem } from "@/services/menu.service";
 import type { GalleryImage } from "@/types/gallery";
 
 const paths = ["/admin/gallery", "/admin/stories"];
@@ -87,4 +90,46 @@ export async function deleteGalleryImagesAction(ids: string[]) {
   }
   paths.forEach((path) => revalidatePath(path));
   return { deleted, missing: uniqueIds.length - deleted };
+}
+
+/** Removes images everywhere they are stored: menu items (primary, close-up, extra) and gallery records. */
+export async function deleteSiteImagesByUrlAction(urls: string[]) {
+  await requireAdminRole(["owner", "manager"]);
+  if (!Array.isArray(urls)) throw new Error("רשימת תמונות לא תקינה");
+  const uniqueUrls = new Set(
+    urls.filter((url): url is string => typeof url === "string" && Boolean(url.trim())).map((url) => url.trim())
+  );
+  if (uniqueUrls.size === 0) throw new Error("לא נבחרו תמונות");
+  if (uniqueUrls.size > MAX_BULK_DELETE) {
+    throw new Error(`אפשר למחוק עד ${MAX_BULK_DELETE} תמונות בפעם אחת`);
+  }
+
+  const [menuItems, galleryImages] = await Promise.all([listMenuItems(), listGalleryImages()]);
+
+  let menuItemsUpdated = 0;
+  for (const item of menuItems) {
+    const stripped = stripMenuItemImages(item, uniqueUrls);
+    if (!stripped) continue;
+    await upsertMenuItem(stripped);
+    menuItemsUpdated += 1;
+  }
+
+  let galleryRemoved = 0;
+  for (const image of galleryImages) {
+    if (!uniqueUrls.has(image.imageUrl.trim())) continue;
+    if (await removeGalleryImage(image.id)) galleryRemoved += 1;
+  }
+
+  paths.forEach((path) => revalidatePath(path));
+  ["/admin/menu", "/"].forEach((path) => revalidatePath(path));
+  revalidatePath("/menu", "layout");
+  try {
+    updateTag(CACHE_TAGS.homepageMenu);
+    updateTag(CACHE_TAGS.menuCategories);
+    updateTag(CACHE_TAGS.menuDisplay);
+  } catch {
+    // data is already saved; cache refresh is best-effort
+  }
+
+  return { images: uniqueUrls.size, menuItemsUpdated, galleryRemoved };
 }

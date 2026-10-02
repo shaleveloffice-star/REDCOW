@@ -124,6 +124,16 @@ export function MenuItemDetailView({
           <p className="menu-item-detail-short">{localized.description}</p>
         ) : null}
 
+        {Number.isFinite(item.price) && item.price > 0 ? (
+          <p className="menu-item-detail-price">
+            <bdi>{new Intl.NumberFormat(locale === "he" ? "he-IL" : locale, {
+              style: "currency",
+              currency: "ILS",
+              minimumFractionDigits: 0,
+              maximumFractionDigits: 2
+            }).format(item.price)}</bdi>
+          </p>
+        ) : null}
         <MenuItemSauces sauces={sauces} />
         <button
           ref={orderButtonRef}

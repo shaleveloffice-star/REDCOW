@@ -91,7 +91,7 @@ export function getMenuItemSlugAliases(
   add(slugFromItemId(item.id));
   for (const slug of item.previousSlugs ?? []) add(slug);
 
-  for (const legacy of getMenuItemLegacySlugs(item.id)) {
+  for (const legacy of getMenuItemLegacySlugs(item.id, item.slug)) {
     add(legacy);
   }
 

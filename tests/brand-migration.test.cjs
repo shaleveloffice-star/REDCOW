@@ -2,6 +2,32 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createLoader, memoryStore } = require('./helpers.cjs');
 
+test('story hero category is rebranded without modifying unrelated category fields or storage', () => {
+  const { rebrandCmsRecord } = createLoader()('@/lib/brand-migration');
+  const story = { id: 's', title: 'Story', slug: 'restaurant-raanana', category: 'החוויה של NB' };
+  assert.equal(rebrandCmsRecord(story, 'brandStories').category, 'החוויה של SO WHAT');
+  assert.equal(story.category, 'החוויה של NB');
+  assert.equal(rebrandCmsRecord(story, 'menuItems').category, 'החוויה של NB');
+});
+
+test('known historical slugs work for imported IDs without changing canonical slugs', async () => {
+  const category = { id: 'imported-category', slug: 'extras', isActive: true, sortOrder: 0 };
+  const item = { id: 'imported-product', slug: 'hamburger-nb-classic', name: 'SO WHAT', categoryId: category.id, isActive: true, sortOrder: 0 };
+  const load = createLoader({
+    '@/repositories/menu.repository': { getMenuItems: async () => [item], getMenuCategories: async () => [category] },
+    '@/repositories/homepage-menu-showcase.repository': {}
+  });
+  const service = load('@/services/menu.service');
+  assert.equal((await service.getMenuItemBySlugForDisplay('nb-burger-klasi')).slug, item.slug);
+  assert.equal((await service.getMenuCategoryBySlugForDisplay('sides')).slug, category.slug);
+  assert.equal(await service.getMenuItemBySlugForDisplay('invented-burger'), null);
+  item.isActive = false;
+  assert.equal(await service.getMenuItemBySlugForDisplay('nb-burger-klasi'), null);
+  item.isActive = true;
+  category.isActive = false;
+  assert.equal(await service.getMenuItemBySlugForDisplay('nb-burger-klasi'), null);
+});
+
 test('domain migration keeps exact path/query/hash and never changes external accounts', () => {
   const { migrateOwnedSiteUrl: migrate } = createLoader()('@/data/site-domain');
   for (const host of ['nbburger.co.il', 'www.nbburger.co.il', 'sowhat.co.il', 'www.sowhat.co.il']) {

@@ -30,7 +30,7 @@ export function getCategorySlugAliases(category: Pick<MenuCategory, "id" | "slug
   add(category.id.replace(/^cat-/, ""));
   for (const slug of category.previousSlugs ?? []) add(slug);
 
-  for (const legacy of getCategoryLegacySlugs(category.id)) {
+  for (const legacy of getCategoryLegacySlugs(category.id, category.slug)) {
     add(legacy);
   }
 

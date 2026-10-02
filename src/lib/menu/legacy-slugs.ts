@@ -25,10 +25,26 @@ export const MENU_ITEM_LEGACY_SLUGS_BY_ID: Readonly<Record<string, readonly stri
   "item-salad-caesar-large": ["caesar-salad-large"]
 };
 
-export function getCategoryLegacySlugs(categoryId: string): string[] {
-  return [...(CATEGORY_LEGACY_SLUGS_BY_ID[categoryId] ?? [])];
+function knownAliases(
+  mappings: Readonly<Record<string, readonly string[]>>,
+  id: string,
+  slug: string | undefined,
+  prefix: string
+): string[] {
+  const current = slug?.trim().toLowerCase();
+  // Imported production records may have different IDs. Only recognize an exact
+  // slug from a documented equivalence group; never guess from names or substrings.
+  const aliases = Object.entries(mappings).flatMap(([legacyId, slugs]) => {
+    const group = [legacyId.replace(prefix, ""), ...slugs];
+    return legacyId === id || (current && group.includes(current)) ? group : [];
+  });
+  return [...new Set(aliases)];
 }
 
-export function getMenuItemLegacySlugs(itemId: string): string[] {
-  return [...(MENU_ITEM_LEGACY_SLUGS_BY_ID[itemId] ?? [])];
+export function getCategoryLegacySlugs(categoryId: string, slug?: string): string[] {
+  return knownAliases(CATEGORY_LEGACY_SLUGS_BY_ID, categoryId, slug, "cat-");
+}
+
+export function getMenuItemLegacySlugs(itemId: string, slug?: string): string[] {
+  return knownAliases(MENU_ITEM_LEGACY_SLUGS_BY_ID, itemId, slug, "item-");
 }

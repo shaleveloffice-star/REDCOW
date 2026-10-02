@@ -58,5 +58,9 @@ export function rebrandCmsRecord<T>(value: T, collectionName: string): T {
       ].filter(Boolean))] };
     }
   }
+  // Story.category is a visible hero label, not a menu category ID or enum.
+  if (collectionName === "brandStories" && typeof stable.category === "string") {
+    stable = { ...stable, category: rebrandText(stable.category) };
+  }
   return rebrandContent(stable) as T;
 }

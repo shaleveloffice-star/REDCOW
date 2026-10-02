@@ -16,8 +16,8 @@ import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 /** Single hero asset — used on mobile and desktop (responsive CSS handles layout). */
 export const HERO_BURGER_IMAGE = `${HOME_HERO_IMAGE}?v=${HERO_IMAGE_VERSION}`;
 
-/** Mobile slot is 120vw: the image is laid out at ≤92vw, then scaled 1.3× in CSS. */
-const HERO_IMAGE_SIZES = "(max-width: 767px) 120vw, (max-width: 1085px) 98vw, 1064px";
+/** Full-bleed: the image covers the whole hero section. */
+const HERO_IMAGE_SIZES = "100vw";
 
 type HeroSectionProps = {
   heroImageUrl?: string;

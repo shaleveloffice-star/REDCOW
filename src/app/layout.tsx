@@ -11,6 +11,7 @@ import "./menu-item-detail.css";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { A11yBootScript } from "@/components/layout/a11y-boot-script";
 import { AccessibilityWidget } from "@/components/layout/accessibility-widget";
+import { IntroLoader } from "@/components/layout/intro-loader";
 import { SiteChrome } from "@/components/layout/site-chrome";
 import { LocaleProvider } from "@/components/providers/locale-provider";
 import { SkipToContent } from "@/components/layout/skip-to-content";
@@ -113,6 +114,7 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
       <body className={`${assistant.variable} ${archivoBlack.variable} ${oswald.variable} ${assistant.className}`} suppressHydrationWarning>
+        <IntroLoader fontFamily={oswald.style.fontFamily} />
         <A11yBootScript />
         <LocaleProvider initialLocale={locale}>
           <JsonLd data={buildOrganizationJsonLd()} />

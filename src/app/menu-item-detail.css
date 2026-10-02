@@ -145,10 +145,10 @@
 .menu-item-sauces { width: min(100%, 560px); margin: 18px auto 0; color: inherit; min-width: 0; }
 .menu-item-sauces-list { display: flex; flex-wrap: nowrap; align-items: flex-start; justify-content: safe center; gap: 8px; overflow-x: auto; padding: 4px 0; }
 .menu-item-sauce { flex: 0 0 calc((100% - 16px) / 3); min-width: 76px; max-width: 96px; border: 0; overflow-wrap: anywhere; }
-.menu-item-sauce summary { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 4px 2px; cursor: pointer; font-size: 13px; line-height: 1.4; list-style: none; min-height: 44px; }
-.menu-item-sauce summary > span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-align: center; }
-.menu-item-sauce summary::-webkit-details-marker { display: none; }
-.menu-item-sauce summary:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; border-radius: 4px; }
+.menu-item-sauce .menu-item-sauce-trigger { width: 100%; border: 0; background: transparent; color: inherit; font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 4px 2px; cursor: pointer; font-size: 13px; line-height: 1.4; list-style: none; min-height: 44px; }
+.menu-item-sauce .menu-item-sauce-trigger > span { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; text-align: center; }
+.menu-item-sauce .menu-item-sauce-trigger::-webkit-details-marker { display: none; }
+.menu-item-sauce .menu-item-sauce-trigger:focus-visible { outline: 2px solid currentColor; outline-offset: -2px; border-radius: 4px; }
 .menu-item-sauce-image { width: 48px; height: 48px; object-fit: contain; }
 .menu-item-sauce-description { margin: 0; padding: 4px 2px 8px; font-size: 13px; line-height: 1.6; white-space: pre-line; }
 
@@ -161,7 +161,7 @@
 .menu-item-sauces--moving .menu-item-sauce { flex: 0 0 96px; width: 96px; }
 .menu-item-sauces--moving .menu-item-sauces-viewport::-webkit-scrollbar { display: none; }
 .menu-item-sauces--moving .menu-item-sauces-viewport:active { cursor: grabbing; }
-.menu-item-sauces--moving summary { user-select: none; }
+.menu-item-sauces--moving .menu-item-sauce-trigger { user-select: none; }
 .menu-item-sauces--moving img { -webkit-user-drag: none; }
 @media (prefers-reduced-motion: reduce) {
   .menu-item-sauces-list[aria-hidden="true"] { display: none; }
@@ -393,3 +393,12 @@
     transform: none;
   }
 }
+
+.sauce-dialog-root { position: fixed; inset: 0; z-index: 12000; display: grid; place-items: center; padding: 20px; }
+.sauce-dialog-backdrop { position: absolute; inset: 0; background: rgb(0 0 0 / 55%); }
+.sauce-dialog { position: relative; width: min(100%, 380px); max-height: 85dvh; overflow-y: auto; box-sizing: border-box; padding: 40px 24px 28px; border-radius: 18px; background: #fff; color: #111; text-align: center; box-shadow: 0 12px 48px #0004; }
+.sauce-dialog-close { position: absolute; top: 6px; inset-inline-end: 6px; width: 44px; height: 44px; border: 0; background: transparent; color: #111; font-size: 30px; cursor: pointer; }
+.sauce-dialog-image { display: block; width: min(100%, 200px); height: 180px; margin: 0 auto 16px; object-fit: contain; }
+.sauce-dialog h2 { margin: 0 0 12px; font-size: 23px; line-height: 1.35; overflow-wrap: anywhere; }
+.sauce-dialog p { margin: 0; font-size: 16px; line-height: 1.7; white-space: pre-line; overflow-wrap: anywhere; }
+.sauce-dialog-close:focus-visible { outline: 2px solid #111; border-radius: 6px; }

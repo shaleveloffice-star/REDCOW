@@ -49,7 +49,7 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
     previousTime = now;
     const group = viewport.querySelector<HTMLElement>(".menu-item-sauces-list");
     const width = group?.getBoundingClientRect().width ?? 0;
-    if (!reducedMotion.matches && !pointerHeld && now >= resumeAt && !viewport.querySelector("details[open]") && width > 0) {
+    if (!reducedMotion.matches && !pointerHeld && now >= resumeAt && viewport.dataset.dialogOpen !== "true" && width > 0) {
       position = (position + elapsed * (104 / 6000)) % width;
       viewport.scrollLeft = position;
       expectedScroll = viewport.scrollLeft;

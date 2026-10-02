@@ -33,10 +33,10 @@ export function MenuItemSauces({ sauces }: { sauces: MenuItem[] }) {
   }, [looping, sauces]);
   if (!sauces.length) return null;
   const labels = locale === "en"
-    ? { title: "Sauces", choice: "Choice of 2 sauces", empty: "No description yet." }
+    ? { title: "Sauces", choice: "Choice of 2 sauces included", empty: "No description yet." }
     : locale === "fr"
-      ? { title: "Sauces", choice: "2 sauces au choix", empty: "Pas encore de description." }
-      : { title: "הרטבים של המנה", choice: "2 רטבים לבחירה", empty: "טרם נוסף תיאור לרוטב." };
+      ? { title: "Sauces", choice: "2 sauces au choix incluses", empty: "Pas encore de description." }
+      : { title: "הרטבים של המנה", choice: "2 רטבים לבחירה בתוך המנה", empty: "טרם נוסף תיאור לרוטב." };
   const selectedText = selected ? getLocalizedMenuItem(selected, locale) : null;
   return (
     <section className={`menu-item-sauces${moving ? " menu-item-sauces--moving" : ""}`} aria-label={labels.title}>

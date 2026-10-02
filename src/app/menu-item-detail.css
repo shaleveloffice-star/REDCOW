@@ -139,7 +139,7 @@
 }
 
 .menu-item-sauces { width: min(100%, 560px); margin: 18px auto 0; color: inherit; min-width: 0; }
-.menu-item-sauces-choice { margin: 0 0 4px; color: #c8102e; font-size: 13px; font-weight: 700; line-height: 1.4; text-align: center; }
+.menu-item-sauces-choice { margin: 0 0 4px; color: #c8102e; font-size: 13px; font-weight: 400; line-height: 1.4; text-align: center; }
 .menu-item-sauces-list { display: flex; flex-wrap: nowrap; align-items: flex-start; justify-content: safe center; gap: 8px; overflow-x: auto; padding: 4px 0; }
 .menu-item-sauce { flex: 0 0 calc((100% - 16px) / 3); min-width: 76px; max-width: 96px; border: 0; overflow-wrap: anywhere; }
 .menu-item-sauce .menu-item-sauce-trigger { width: 100%; border: 0; background: transparent; color: inherit; font-family: inherit; display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 4px 2px; cursor: pointer; font-size: 13px; line-height: 1.4; list-style: none; min-height: 44px; }

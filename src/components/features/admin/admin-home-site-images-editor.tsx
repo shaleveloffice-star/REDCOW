@@ -36,13 +36,24 @@ const OVERLAY_PRESETS = [
 
 const MAX_OVERLAY_PERCENT = Math.round(MAX_SITE_IMAGE_OVERLAY_OPACITY * 100);
 
+type HomeImageItem = HomePageSiteImageAdminGroup["items"][number];
+
+function savedDesktopFor(item: HomeImageItem): string {
+  if (item.isHidden) return "";
+  return item.desktopImageUrl || (item.singleImage ? item.mobileImageUrl : "") || item.defaultImageUrl;
+}
+
+function savedMobileFor(item: HomeImageItem): string {
+  return item.singleImage ? "" : item.mobileImageUrl;
+}
+
 function buildDrafts(groups: HomePageSiteImageAdminGroup[]): Record<string, ImageDraft> {
   const drafts: Record<string, ImageDraft> = {};
   for (const group of groups) {
     for (const item of group.items) {
       drafts[item.id] = {
-        desktop: item.isHidden ? "" : item.desktopImageUrl || item.defaultImageUrl,
-        mobile: item.mobileImageUrl,
+        desktop: savedDesktopFor(item),
+        mobile: savedMobileFor(item),
         overlayColor: item.overlayColor,
         overlayPercent: Math.round(item.overlayOpacity * 100)
       };
@@ -124,11 +135,11 @@ export function AdminHomeSiteImagesEditor({
           <div className="admin-home-images-list">
             {group.items.map((item) => {
               const draft = drafts[item.id];
-              const savedDesktop = item.isHidden ? "" : item.desktopImageUrl || item.defaultImageUrl;
+              const savedDesktop = savedDesktopFor(item);
               const savedPercent = Math.round(item.overlayOpacity * 100);
               const isDirty =
                 draft.desktop.trim() !== savedDesktop.trim() ||
-                draft.mobile.trim() !== item.mobileImageUrl.trim() ||
+                draft.mobile.trim() !== savedMobileFor(item).trim() ||
                 draft.overlayPercent !== savedPercent ||
                 (draft.overlayPercent > 0 && draft.overlayColor !== item.overlayColor);
               const canSave = Boolean(draft.desktop.trim() || draft.mobile.trim());
@@ -161,7 +172,7 @@ export function AdminHomeSiteImagesEditor({
                   <div className="admin-home-images-slots">
                     <div className="admin-home-images-slot">
                       <AdminImageUrlField
-                        label="מסך רחב (מחשב / טאבלט)"
+                        label={item.singleImage ? "תמונה (מחשב ומובייל)" : "מסך רחב (מחשב / טאבלט)"}
                         value={draft.desktop}
                         images={pickableImages}
                         spec={item.spec}
@@ -171,18 +182,20 @@ export function AdminHomeSiteImagesEditor({
                         <p className="admin-image-spec">ריק - יוצג מהמובייל</p>
                       ) : null}
                     </div>
-                    <div className="admin-home-images-slot">
-                      <AdminImageUrlField
-                        label="מובייל"
-                        value={draft.mobile}
-                        images={pickableImages}
-                        spec={item.mobileSpec}
-                        onChange={(url) => updateDraft(item.id, { mobile: url })}
-                      />
-                      {!draft.mobile.trim() && draft.desktop.trim() ? (
-                        <p className="admin-image-spec">ריק - יוצג ממסך רחב</p>
-                      ) : null}
-                    </div>
+                    {item.singleImage ? null : (
+                      <div className="admin-home-images-slot">
+                        <AdminImageUrlField
+                          label="מובייל"
+                          value={draft.mobile}
+                          images={pickableImages}
+                          spec={item.mobileSpec}
+                          onChange={(url) => updateDraft(item.id, { mobile: url })}
+                        />
+                        {!draft.mobile.trim() && draft.desktop.trim() ? (
+                          <p className="admin-image-spec">ריק - יוצג ממסך רחב</p>
+                        ) : null}
+                      </div>
+                    )}
                   </div>
 
                   <div className="admin-image-overlay">

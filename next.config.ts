@@ -36,7 +36,10 @@ const contentSecurityPolicy = [
     "https://www.google-analytics.com",
     "https://analytics.google.com",
     "https://*.google-analytics.com",
-    "https://*.analytics.google.com"
+    "https://*.analytics.google.com",
+    // Admin reads image file sizes (HEAD) from the public stores the site already serves images from.
+    "https://*.public.blob.vercel-storage.com",
+    "https://media.base44.com"
   ].join(" "),
   "upgrade-insecure-requests"
 ].join("; ");

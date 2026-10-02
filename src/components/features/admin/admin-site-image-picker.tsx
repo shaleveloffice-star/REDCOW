@@ -10,7 +10,10 @@ import {
   type AdminImageSpec
 } from "@/data/admin-image-specs";
 import { isVideoMediaUrl } from "@/lib/menu-media";
-import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
+import {
+  sortPickableImagesByUploadDate,
+  type AdminPickableImage
+} from "@/lib/admin/pickable-site-images";
 import { uploadCompressedAdminImage } from "@/lib/client/upload-admin-image";
 
 type AdminSiteImagePickerProps = {
@@ -23,6 +26,19 @@ type AdminSiteImagePickerProps = {
   onClose: () => void;
   onSelect: (imageUrl: string, image: AdminPickableImage) => void;
 };
+
+const uploadDateFormatter = new Intl.DateTimeFormat("he-IL", {
+  day: "2-digit",
+  month: "2-digit",
+  year: "numeric",
+  hour: "2-digit",
+  minute: "2-digit"
+});
+
+function formatUploadDate(iso: string): string {
+  const date = new Date(iso);
+  return Number.isNaN(date.getTime()) ? "" : uploadDateFormatter.format(date);
+}
 
 function isPickablePreviewUrl(url: string): boolean {
   const trimmed = url.trim();
@@ -57,15 +73,7 @@ export function AdminSiteImagePicker({
     );
   }, [images, query]);
 
-  const grouped = useMemo(() => {
-    const map = new Map<string, AdminPickableImage[]>();
-    for (const image of filtered) {
-      const list = map.get(image.group) ?? [];
-      list.push(image);
-      map.set(image.group, list);
-    }
-    return [...map.entries()];
-  }, [filtered]);
+  const sorted = useMemo(() => sortPickableImagesByUploadDate(filtered), [filtered]);
 
   return (
     <AdminModal open={open} title={title} onClose={onClose} stacked>
@@ -87,37 +95,40 @@ export function AdminSiteImagePicker({
           </p>
         ) : null}
 
-        {grouped.length === 0 ? (
+        {sorted.length === 0 ? (
           <p className="admin-form-hint">לא נמצאו תמונות.</p>
         ) : (
-          grouped.map(([groupTitle, groupImages]) => (
-            <section key={groupTitle} className="admin-image-picker-group">
-              <h4 className="admin-image-picker-group-title">{groupTitle}</h4>
-              <ul className="admin-image-picker-grid">
-                {groupImages.map((image) => (
-                  <li key={image.id}>
-                    <button
-                      className="admin-image-picker-item"
-                      type="button"
-                      onClick={() => {
-                        onSelect(image.imageUrl, image);
-                        onClose();
-                      }}
-                    >
-                      <span className="admin-image-picker-thumb">
-                        <img src={image.imageUrl} alt="" className="admin-image-picker-image" loading="lazy" />
-                      </span>
-                      <span className="admin-image-picker-meta">
-                        <strong>{image.label}</strong>
-                        <small>{image.location}</small>
-                        {open ? <AdminImageFacts url={image.imageUrl} spec={spec} /> : null}
-                      </span>
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            </section>
-          ))
+          <ul className="admin-image-picker-grid">
+            {sorted.map((image) => (
+              <li key={image.id}>
+                <button
+                  className="admin-image-picker-item"
+                  type="button"
+                  onClick={() => {
+                    onSelect(image.imageUrl, image);
+                    onClose();
+                  }}
+                >
+                  <span className="admin-image-picker-thumb">
+                    <img src={image.imageUrl} alt="" className="admin-image-picker-image" loading="lazy" />
+                  </span>
+                  <span className="admin-image-picker-meta">
+                    <strong>{image.label}</strong>
+                    <small>
+                      {image.uploadedAt ? (
+                        <>
+                          הועלה: <bdi dir="ltr">{formatUploadDate(image.uploadedAt)}</bdi>
+                        </>
+                      ) : (
+                        "תמונה מקורית של האתר"
+                      )}
+                    </small>
+                    {open ? <AdminImageFacts url={image.imageUrl} spec={spec} /> : null}
+                  </span>
+                </button>
+              </li>
+            ))}
+          </ul>
         )}
       </div>
     </AdminModal>

@@ -97,6 +97,16 @@ const WIDE_MEDIA: AdminImageSpec = {
   note: "תמונה רחבה"
 };
 
+/** Marquee cells are portrait 3:4 at roughly a third of the viewport width (one size for all screens). */
+const ATMOSPHERE_PANEL: AdminImageSpec = {
+  width: 1080,
+  height: 1440,
+  maxBytes: 250 * 1024,
+  maxEdge: 1440,
+  aspectHint: "3:4",
+  note: "פורטרט - עמודה בסקשן האווירה"
+};
+
 const SITE_IMAGE_SPECS: Record<string, AdminImageSpec> = {
   "brand-logo": {
     width: 400,
@@ -141,12 +151,12 @@ const SITE_IMAGE_SPECS: Record<string, AdminImageSpec> = {
     note: "פורטרט"
   },
   "atmosphere-bottom": WIDE_MEDIA,
-  "atmosphere-slide-1": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
-  "atmosphere-slide-2": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
-  "atmosphere-slide-3": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
-  "atmosphere-third-1": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
-  "atmosphere-third-2": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
-  "atmosphere-third-3": { ...FULL_BLEED, note: "פאנל אווירה - מסך מלא" },
+  "atmosphere-slide-1": ATMOSPHERE_PANEL,
+  "atmosphere-slide-2": ATMOSPHERE_PANEL,
+  "atmosphere-slide-3": ATMOSPHERE_PANEL,
+  "atmosphere-third-1": ATMOSPHERE_PANEL,
+  "atmosphere-third-2": ATMOSPHERE_PANEL,
+  "atmosphere-third-3": ATMOSPHERE_PANEL,
   "home-story": {
     width: 1400,
     height: 1750,
@@ -215,7 +225,7 @@ export function getAdminMobileImageSpec(id: string): AdminImageSpec {
 export function formatBytesShort(bytes: number): string {
   if (bytes < 1024) return `${bytes}B`;
   if (bytes < 1024 * 1024) return `${Math.round(bytes / 1024)}KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)}MB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)}MB`;
 }
 
 export function formatAdminImageSpec(spec: AdminImageSpec): string {

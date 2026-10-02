@@ -120,42 +120,12 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
         ATMOSPHERE_BURGER_STACK_IMAGE
       ),
       item("atmosphere-bottom", "לחמנייה תחתונה", "גלריית האווירה", ATMOSPHERE_BOTTOM_IMAGE),
-      item(
-        "atmosphere-slide-1",
-        "סלייד 1 - האווירה",
-        "סקשן האווירה (דף הבית)",
-        HOME_ATMOSPHERE_SLIDE_1
-      ),
-      item(
-        "atmosphere-slide-2",
-        "סלייד 2 - האווירה",
-        "סקשן האווירה (דף הבית)",
-        HOME_ATMOSPHERE_SLIDE_2
-      ),
-      item(
-        "atmosphere-slide-3",
-        "סלייד 3 - האווירה",
-        "סקשן האווירה (דף הבית)",
-        HOME_ATMOSPHERE_SLIDE_3
-      ),
-      item(
-        "atmosphere-third-1",
-        "קרוסלה תחתונה - סלייד 1",
-        "סקשן האווירה (דף הבית)",
-        HOME_ATMOSPHERE_THIRD_1
-      ),
-      item(
-        "atmosphere-third-2",
-        "קרוסלה תחתונה - סלייד 2",
-        "סקשן האווירה (דף הבית)",
-        HOME_ATMOSPHERE_THIRD_2
-      ),
-      item(
-        "atmosphere-third-3",
-        "קרוסלה תחתונה - סלייד 3",
-        "סקשן האווירה (דף הבית)",
-        HOME_ATMOSPHERE_THIRD_3
-      )
+      item("atmosphere-slide-1", "אווירה - תמונה 1", "סקשן האווירה (דף הבית)", HOME_ATMOSPHERE_SLIDE_1),
+      item("atmosphere-slide-2", "אווירה - תמונה 2", "סקשן האווירה (דף הבית)", HOME_ATMOSPHERE_SLIDE_2),
+      item("atmosphere-third-1", "אווירה - תמונה 3", "סקשן האווירה (דף הבית)", HOME_ATMOSPHERE_THIRD_1),
+      item("atmosphere-slide-3", "אווירה - תמונה 4", "סקשן האווירה (דף הבית)", HOME_ATMOSPHERE_SLIDE_3),
+      item("atmosphere-third-2", "אווירה - תמונה 5", "סקשן האווירה (דף הבית)", HOME_ATMOSPHERE_THIRD_2),
+      item("atmosphere-third-3", "אווירה - תמונה 6", "סקשן האווירה (דף הבית)", HOME_ATMOSPHERE_THIRD_3)
     ]
   },
   {
@@ -202,9 +172,12 @@ export const HOME_PAGE_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
   {
     title: "האווירה",
     items: [
-      item("atmosphere-slide-1", "פאנל עליון", "סקשן האווירה - תמונה 1", HOME_ATMOSPHERE_SLIDE_1),
-      item("atmosphere-slide-2", "פאנל אמצעי", "סקשן האווירה - תמונה 2", HOME_ATMOSPHERE_SLIDE_2),
-      item("atmosphere-third-1", "פאנל תחתון", "סקשן האווירה - תמונה 3", HOME_ATMOSPHERE_THIRD_1)
+      item("atmosphere-slide-1", "תמונה 1", "סקשן האווירה", HOME_ATMOSPHERE_SLIDE_1),
+      item("atmosphere-slide-2", "תמונה 2", "סקשן האווירה", HOME_ATMOSPHERE_SLIDE_2),
+      item("atmosphere-third-1", "תמונה 3", "סקשן האווירה", HOME_ATMOSPHERE_THIRD_1),
+      item("atmosphere-slide-3", "תמונה 4", "סקשן האווירה", HOME_ATMOSPHERE_SLIDE_3),
+      item("atmosphere-third-2", "תמונה 5", "סקשן האווירה", HOME_ATMOSPHERE_THIRD_2),
+      item("atmosphere-third-3", "תמונה 6", "סקשן האווירה", HOME_ATMOSPHERE_THIRD_3)
     ]
   },
   {

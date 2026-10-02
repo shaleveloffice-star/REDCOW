@@ -30,6 +30,8 @@ export type HomePageSiteImageAdminItem = {
   isOverridden: boolean;
   /** Deleted from the gallery: the section renders without an image until a new one is saved. */
   isHidden: boolean;
+  /** The section uses one image on every screen size (no separate mobile version). */
+  singleImage: boolean;
   overlayColor: string;
   overlayOpacity: number;
   spec: AdminImageSpec;
@@ -81,6 +83,7 @@ function buildHomePageSiteImageGroups(
         currentImageUrl: desktopImageUrl || mobileImageUrl || catalogItem.defaultImageUrl,
         isOverridden: Boolean(desktopImageUrl || mobileImageUrl),
         isHidden: Boolean(override?.hidden),
+        singleImage: catalogItem.id.startsWith("atmosphere-"),
         overlayColor: normalizeOverlayColor(override?.overlayColor),
         overlayOpacity: normalizeOverlayOpacity(override?.overlayOpacity),
         spec,

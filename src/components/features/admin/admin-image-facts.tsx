@@ -94,13 +94,10 @@ export function AdminImageFacts({ url, spec }: { url: string; spec?: AdminImageS
   return (
     <span ref={rootRef} className="admin-image-facts">
       <span className="admin-image-facts-size">
-        גודל בפועל: <bdi dir="ltr">{`${facts.width}×${facts.height}px`}</bdi>
-        {facts.bytes !== null ? (
-          <>
-            {" · "}
-            <bdi dir="ltr">{formatBytesShort(facts.bytes)}</bdi>
-          </>
-        ) : null}
+        מידות: <bdi dir="ltr">{`${facts.width}×${facts.height}px`}</bdi>
+      </span>
+      <span className="admin-image-facts-size">
+        משקל: {facts.bytes !== null ? <bdi dir="ltr">{formatBytesShort(facts.bytes)}</bdi> : "לא ידוע"}
       </span>
       {fit ? (
         <>

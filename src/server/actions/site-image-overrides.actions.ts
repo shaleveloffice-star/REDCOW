@@ -28,6 +28,8 @@ export type HomePageSiteImageAdminItem = {
   mobileImageUrl: string;
   currentImageUrl: string;
   isOverridden: boolean;
+  /** Deleted from the gallery: the section renders without an image until a new one is saved. */
+  isHidden: boolean;
   overlayColor: string;
   overlayOpacity: number;
   spec: AdminImageSpec;
@@ -78,6 +80,7 @@ function buildHomePageSiteImageGroups(
         mobileImageUrl,
         currentImageUrl: desktopImageUrl || mobileImageUrl || catalogItem.defaultImageUrl,
         isOverridden: Boolean(desktopImageUrl || mobileImageUrl),
+        isHidden: Boolean(override?.hidden),
         overlayColor: normalizeOverlayColor(override?.overlayColor),
         overlayOpacity: normalizeOverlayOpacity(override?.overlayOpacity),
         spec,
@@ -115,6 +118,7 @@ export async function saveSiteImageOverrideAction(input: {
     id: input.id.trim(),
     imageUrl,
     mobileImageUrl,
+    ...(imageUrl || mobileImageUrl ? { hidden: false } : {}),
     overlayColor: normalizeOverlayColor(input.overlayColor),
     overlayOpacity
   });

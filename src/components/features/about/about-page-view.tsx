@@ -27,14 +27,16 @@ export async function AboutPageView({ siteImages, seoContent }: AboutPageViewPro
   return (
     <>
       <section className="about-simple" aria-labelledby="about-simple-title">
-        <Image
-          src={hero}
-          alt={imageAlt}
-          fill
-          priority
-          sizes="100vw"
-          className="about-simple-image"
-        />
+        {hero ? (
+          <Image
+            src={hero}
+            alt={imageAlt}
+            fill
+            priority
+            sizes="100vw"
+            className="about-simple-image"
+          />
+        ) : null}
         <div className="about-simple-overlay" aria-hidden="true" />
 
         <div className="about-simple-content">

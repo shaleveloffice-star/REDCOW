@@ -7930,15 +7930,6 @@ a.menu-showcase-button.site-cta-btn {
   outline: 3px solid var(--admin-accent, #9a7b4f);
   outline-offset: -3px;
 }
-
-.admin-gallery-grid--selecting .admin-gallery-card--locked {
-  opacity: 0.45;
-}
-
-.admin-gallery-grid--selecting .admin-gallery-card--locked .admin-gallery-card-image {
-  cursor: default;
-}
-
 .admin-gallery-select-check {
   position: absolute;
   top: 10px;
@@ -10684,6 +10675,16 @@ body:not(:has(.admin-layout)) button:focus-visible {
   font-size: 0.75rem;
   background: rgba(255, 193, 7, 0.15);
   color: #ffc107;
+}
+
+.admin-home-images-badge--deleted {
+  background: rgba(220, 38, 38, 0.12);
+  color: #dc2626;
+}
+
+.admin-home-images-deleted-hint {
+  margin: 0;
+  color: #b91c1c;
 }
 
 .admin-home-images-item-actions {

@@ -132,19 +132,21 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
           {cards.map((card) => (
             <li key={card.id}>
               <article className="locations-card">
-                <div className="locations-card-media">
-                  <Image
-                    src={card.image}
-                    alt={resolveImageAlt({
-                      kind: "branch",
-                      locale,
-                      branchName: card.name
-                    })}
-                    fill
-                    sizes="(max-width: 768px) 100vw, 33vw"
-                    className="locations-card-image"
-                  />
-                </div>
+                {card.image ? (
+                  <div className="locations-card-media">
+                    <Image
+                      src={card.image}
+                      alt={resolveImageAlt({
+                        kind: "branch",
+                        locale,
+                        branchName: card.name
+                      })}
+                      fill
+                      sizes="(max-width: 768px) 100vw, 33vw"
+                      className="locations-card-image"
+                    />
+                  </div>
+                ) : null}
                 <h3 className="locations-card-name">{card.name}</h3>
                 <p className="locations-card-address">{card.address}</p>
                 <p className="locations-card-hours">{card.hours}</p>

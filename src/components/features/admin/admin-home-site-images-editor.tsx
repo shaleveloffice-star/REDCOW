@@ -41,7 +41,7 @@ function buildDrafts(groups: HomePageSiteImageAdminGroup[]): Record<string, Imag
   for (const group of groups) {
     for (const item of group.items) {
       drafts[item.id] = {
-        desktop: item.desktopImageUrl || item.defaultImageUrl,
+        desktop: item.isHidden ? "" : item.desktopImageUrl || item.defaultImageUrl,
         mobile: item.mobileImageUrl,
         overlayColor: item.overlayColor,
         overlayPercent: Math.round(item.overlayOpacity * 100)
@@ -101,6 +101,7 @@ export function AdminHomeSiteImagesEditor({
                 mobileImageUrl: isOverridden ? saved.mobile : "",
                 currentImageUrl: saved.desktop || saved.mobile || defaultImageUrl,
                 isOverridden,
+                isHidden: false,
                 overlayColor: saved.overlayColor,
                 overlayOpacity: saved.overlayPercent / 100
               }
@@ -123,7 +124,7 @@ export function AdminHomeSiteImagesEditor({
           <div className="admin-home-images-list">
             {group.items.map((item) => {
               const draft = drafts[item.id];
-              const savedDesktop = item.desktopImageUrl || item.defaultImageUrl;
+              const savedDesktop = item.isHidden ? "" : item.desktopImageUrl || item.defaultImageUrl;
               const savedPercent = Math.round(item.overlayOpacity * 100);
               const isDirty =
                 draft.desktop.trim() !== savedDesktop.trim() ||
@@ -131,8 +132,9 @@ export function AdminHomeSiteImagesEditor({
                 draft.overlayPercent !== savedPercent ||
                 (draft.overlayPercent > 0 && draft.overlayColor !== item.overlayColor);
               const canSave = Boolean(draft.desktop.trim() || draft.mobile.trim());
-              const canReset = item.isOverridden || savedPercent > 0;
-              const previewSrc = draft.desktop.trim() || draft.mobile.trim() || item.defaultImageUrl;
+              const canReset = item.isOverridden || item.isHidden || savedPercent > 0;
+              const previewSrc =
+                draft.desktop.trim() || draft.mobile.trim() || (item.isHidden ? "" : item.defaultImageUrl);
               const colorInputId = `overlay-color-${item.id}`;
               const rangeInputId = `overlay-range-${item.id}`;
 
@@ -143,10 +145,18 @@ export function AdminHomeSiteImagesEditor({
                       <strong>{item.label}</strong>
                       <p className="admin-field-hint">{item.location}</p>
                     </div>
-                    {item.isOverridden ? (
+                    {item.isHidden ? (
+                      <span className="admin-home-images-badge admin-home-images-badge--deleted">נמחקה</span>
+                    ) : item.isOverridden ? (
                       <span className="admin-home-images-badge">מותאם</span>
                     ) : null}
                   </div>
+                  {item.isHidden ? (
+                    <p className="admin-form-hint admin-home-images-deleted-hint">
+                      התמונה נמחקה מהגלריה - הסקשן מוצג באתר בלי תמונה. בחרו תמונה חדשה ושמרו, או לחצו
+                      &quot;איפוס לברירת מחדל&quot; כדי להחזיר את התמונה המקורית.
+                    </p>
+                  ) : null}
 
                   <div className="admin-home-images-slots">
                     <div className="admin-home-images-slot">

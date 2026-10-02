@@ -11,6 +11,9 @@ import {
   upsertGalleryImage
 } from "@/services/gallery.service";
 import { listMenuItems, upsertMenuItem } from "@/services/menu.service";
+import { upsertSiteImageOverride } from "@/services/site-image-overrides.service";
+import { resolveStaticSiteImagesMap } from "@/services/site-images-resolver.service";
+import { STATIC_SITE_IMAGE_GROUPS } from "@/data/site-images.registry";
 import type { GalleryImage } from "@/types/gallery";
 
 const paths = ["/admin/gallery", "/admin/stories"];
@@ -92,7 +95,10 @@ export async function deleteGalleryImagesAction(ids: string[]) {
   return { deleted, missing: uniqueIds.length - deleted };
 }
 
-/** Removes images everywhere they are stored: menu items (primary, close-up, extra) and gallery records. */
+/**
+ * Removes images everywhere they are stored: menu items (primary, close-up, extra), gallery records,
+ * and design slots (hidden, so the section renders without an image until a new one is saved).
+ */
 export async function deleteSiteImagesByUrlAction(urls: string[]) {
   await requireAdminRole(["owner", "manager"]);
   if (!Array.isArray(urls)) throw new Error("רשימת תמונות לא תקינה");
@@ -104,7 +110,18 @@ export async function deleteSiteImagesByUrlAction(urls: string[]) {
     throw new Error(`אפשר למחוק עד ${MAX_BULK_DELETE} תמונות בפעם אחת`);
   }
 
-  const [menuItems, galleryImages] = await Promise.all([listMenuItems(), listGalleryImages()]);
+  const [menuItems, galleryImages, siteImagesMap] = await Promise.all([
+    listMenuItems(),
+    listGalleryImages(),
+    resolveStaticSiteImagesMap()
+  ]);
+
+  const siteImageIds = [
+    ...new Set(STATIC_SITE_IMAGE_GROUPS.flatMap((group) => group.items.map((entry) => entry.id)))
+  ].filter((id) => uniqueUrls.has(siteImagesMap[id]?.trim() ?? ""));
+  for (const id of siteImageIds) {
+    await upsertSiteImageOverride({ id, hidden: true, imageUrl: "", mobileImageUrl: "" });
+  }
 
   let menuItemsUpdated = 0;
   for (const item of menuItems) {
@@ -121,15 +138,21 @@ export async function deleteSiteImagesByUrlAction(urls: string[]) {
   }
 
   paths.forEach((path) => revalidatePath(path));
-  ["/admin/menu", "/"].forEach((path) => revalidatePath(path));
+  ["/admin/menu", "/admin/pages/home", "/", "/locations", "/about"].forEach((path) => revalidatePath(path));
   revalidatePath("/menu", "layout");
   try {
     updateTag(CACHE_TAGS.homepageMenu);
     updateTag(CACHE_TAGS.menuCategories);
     updateTag(CACHE_TAGS.menuDisplay);
+    updateTag(CACHE_TAGS.siteImages);
   } catch {
     // data is already saved; cache refresh is best-effort
   }
 
-  return { images: uniqueUrls.size, menuItemsUpdated, galleryRemoved };
+  return {
+    images: uniqueUrls.size,
+    menuItemsUpdated,
+    galleryRemoved,
+    siteImagesHidden: siteImageIds.length
+  };
 }

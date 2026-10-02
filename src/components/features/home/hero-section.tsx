@@ -39,7 +39,7 @@ export function HeroSection({ heroImageUrl, heroMobileImageUrl, heroOverlay }: H
       <h1 className="sr-only">{t.hero.srTitle}</h1>
 
       <div className={`hero-burger${isVideo ? " hero-burger--video" : ""}`}>
-        {isVideo ? (
+        {!imageSrc ? null : isVideo ? (
           <AutoplayVideo src={imageSrc} className="hero-burger-image" preload="metadata" />
         ) : useOptimizedImage ? (
           <Image
@@ -65,7 +65,7 @@ export function HeroSection({ heroImageUrl, heroMobileImageUrl, heroOverlay }: H
             className="hero-burger-image"
           />
         )}
-        <SiteImageOverlay overlay={heroOverlay} />
+        {imageSrc ? <SiteImageOverlay overlay={heroOverlay} /> : null}
       </div>
 
       <div className="hero-caption">

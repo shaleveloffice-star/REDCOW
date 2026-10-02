@@ -105,16 +105,18 @@ export async function LocationSection({ siteImages, branch }: LocationSectionPro
           </div>
         </div>
 
-        <div className="location-media">
-          <ResponsiveSiteImage
-            desktopSrc={exteriorImages.desktop}
-            mobileSrc={exteriorImages.mobile}
-            alt={imageAlt}
-            className="location-media-image"
-            loading="eager"
-          />
-          <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "location-exterior")} />
-        </div>
+        {exteriorImages.desktop ? (
+          <div className="location-media">
+            <ResponsiveSiteImage
+              desktopSrc={exteriorImages.desktop}
+              mobileSrc={exteriorImages.mobile}
+              alt={imageAlt}
+              className="location-media-image"
+              loading="eager"
+            />
+            <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "location-exterior")} />
+          </div>
+        ) : null}
       </div>
     </section>
   );

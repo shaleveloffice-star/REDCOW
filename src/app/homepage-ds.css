@@ -435,6 +435,14 @@ a.menu-showcase-button.site-cta-btn {
   align-items: start;
 }
 
+.home-story-shell--no-media {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.home-story-shell--no-media .home-story-copy {
+  max-width: 72ch;
+}
+
 .home-story-title {
   margin: 0;
   color: #000000;

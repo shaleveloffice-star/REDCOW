@@ -36,6 +36,7 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
     HOME_STORY_IMAGE,
     HOME_STORY_IMAGE_VERSION
   );
+  const hasImage = Boolean(storyImages.desktop || storyImages.mobile);
   const useOptimizedImage =
     storyImages.desktop === storyImages.mobile && canOptimizeSiteImage(storyImages.desktop);
 
@@ -47,32 +48,34 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
         </h2>
       </header>
 
-      <div className="home-story-shell">
-        <div className="home-story-media">
-          {useOptimizedImage ? (
-            <Image
-              src={storyImages.desktop}
-              alt={imageAlt}
-              width={900}
-              height={600}
-              sizes={HOME_STORY_IMAGE_SIZES}
-              loading="lazy"
-              draggable={false}
-              className="home-story-image"
-            />
-          ) : (
-            <ResponsiveSiteImage
-              desktopSrc={storyImages.desktop}
-              mobileSrc={storyImages.mobile}
-              alt={imageAlt}
-              width={900}
-              height={600}
-              loading="lazy"
-              className="home-story-image"
-            />
-          )}
-          <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "home-story")} />
-        </div>
+      <div className={`home-story-shell${hasImage ? "" : " home-story-shell--no-media"}`}>
+        {hasImage ? (
+          <div className="home-story-media">
+            {useOptimizedImage ? (
+              <Image
+                src={storyImages.desktop}
+                alt={imageAlt}
+                width={900}
+                height={600}
+                sizes={HOME_STORY_IMAGE_SIZES}
+                loading="lazy"
+                draggable={false}
+                className="home-story-image"
+              />
+            ) : (
+              <ResponsiveSiteImage
+                desktopSrc={storyImages.desktop}
+                mobileSrc={storyImages.mobile}
+                alt={imageAlt}
+                width={900}
+                height={600}
+                loading="lazy"
+                className="home-story-image"
+              />
+            )}
+            <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "home-story")} />
+          </div>
+        ) : null}
 
         <div className="home-story-copy">
           <p className="home-story-lead">{story.intro}</p>

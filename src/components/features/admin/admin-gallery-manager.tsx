@@ -46,10 +46,6 @@ async function uploadGalleryImageDataUrl(
   return result;
 }
 
-function isDeletableLibraryImage(image: AdminPickableImage) {
-  return image.source !== "site";
-}
-
 function LibraryImageCard({
   image,
   selectMode,
@@ -65,16 +61,9 @@ function LibraryImageCard({
   onToggle: () => void;
   onDelete: () => void;
 }) {
-  const deletable = isDeletableLibraryImage(image);
-  const selectable = selectMode && deletable;
-
   return (
-    <li
-      className={`admin-gallery-card admin-gallery-card--library${selected ? " admin-gallery-card--selected" : ""}${
-        selectMode && !deletable ? " admin-gallery-card--locked" : ""
-      }`}
-    >
-      {selectable ? (
+    <li className={`admin-gallery-card admin-gallery-card--library${selected ? " admin-gallery-card--selected" : ""}`}>
+      {selectMode ? (
         <label className="admin-gallery-select-check">
           <input type="checkbox" checked={selected} disabled={disabled} onChange={onToggle} />
           <span className="sr-only">בחר את {image.label}</span>
@@ -86,7 +75,7 @@ function LibraryImageCard({
         alt={image.label}
         className="admin-gallery-card-image"
         loading="lazy"
-        onClick={selectable && !disabled ? onToggle : undefined}
+        onClick={selectMode && !disabled ? onToggle : undefined}
       />
       <div className="admin-gallery-card-body">
         <strong>{image.label}</strong>
@@ -104,11 +93,9 @@ function LibraryImageCard({
             >
               העתק URL
             </button>
-            {deletable ? (
-              <button className="button secondary admin-btn-danger" disabled={disabled} type="button" onClick={onDelete}>
-                מחק
-              </button>
-            ) : null}
+            <button className="button secondary admin-btn-danger" disabled={disabled} type="button" onClick={onDelete}>
+              מחק
+            </button>
           </div>
         )}
       </div>
@@ -134,10 +121,9 @@ export function AdminGalleryManager({
   const [selectedLibraryUrls, setSelectedLibraryUrls] = useState<Set<string>>(() => new Set());
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const deletableLibraryImages = libraryImages.filter(isDeletableLibraryImage);
-  const selectedLibraryImages = deletableLibraryImages.filter((image) => selectedLibraryUrls.has(image.imageUrl));
+  const selectedLibraryImages = libraryImages.filter((image) => selectedLibraryUrls.has(image.imageUrl));
   const allLibrarySelected =
-    deletableLibraryImages.length > 0 && selectedLibraryImages.length === deletableLibraryImages.length;
+    libraryImages.length > 0 && selectedLibraryImages.length === libraryImages.length;
 
   const selectedItems = uploadedItems.filter((item) => selectedIds.has(item.id));
   const allSelected = uploadedItems.length > 0 && selectedItems.length === uploadedItems.length;
@@ -196,16 +182,22 @@ export function AdminGalleryManager({
 
   const toggleSelectAllLibrary = () => {
     setSelectedLibraryUrls(
-      allLibrarySelected ? new Set() : new Set(deletableLibraryImages.map((image) => image.imageUrl))
+      allLibrarySelected ? new Set() : new Set(libraryImages.map((image) => image.imageUrl))
     );
   };
 
   const deleteLibraryImages = (urls: string[], onDone?: () => void) => {
     if (urls.length === 0) return;
     const subject = urls.length === 1 ? "את התמונה" : `${urls.length} תמונות`;
+    const includesDesign = libraryImages.some(
+      (image) => image.source === "site" && urls.includes(image.imageUrl)
+    );
+    const designWarning = includesDesign
+      ? "\nתמונות עיצוב: הסקשן באתר יוצג בלי תמונה עד שתבחרו חדשה (או איפוס בעמוד הבית)."
+      : "";
     if (
       !window.confirm(
-        `למחוק ${subject} לגמרי מהמערכת? התמונה תוסר גם מכל המנות שמשתמשות בה ומהגלריה. לא ניתן לשחזר.`
+        `למחוק ${subject} לגמרי מהמערכת? התמונה תוסר מכל מקום באתר - מנות, גלריה ועיצוב.${designWarning}`
       )
     ) {
       return;
@@ -213,9 +205,11 @@ export function AdminGalleryManager({
     setUploadStatus(null);
     run(async () => {
       const result = await deleteSiteImagesByUrlAction(urls);
-      setUploadStatus(
-        `נמחקו ${result.images} תמונות · עודכנו ${result.menuItemsUpdated} מנות · הוסרו ${result.galleryRemoved} רשומות גלריה.`
-      );
+      const parts = [`נמחקו ${result.images} תמונות`];
+      if (result.menuItemsUpdated) parts.push(`עודכנו ${result.menuItemsUpdated} מנות`);
+      if (result.galleryRemoved) parts.push(`הוסרו ${result.galleryRemoved} רשומות גלריה`);
+      if (result.siteImagesHidden) parts.push(`הוסרו ${result.siteImagesHidden} תמונות עיצוב מהאתר`);
+      setUploadStatus(`${parts.join(" · ")}.`);
     }, onDone);
   };
 
@@ -395,7 +389,7 @@ export function AdminGalleryManager({
           <h3 id="gallery-library-heading" className="admin-gallery-section-title">
             תמונות האתר ({libraryImages.length})
           </h3>
-          {deletableLibraryImages.length > 0 ? (
+          {libraryImages.length > 0 ? (
             <div className="admin-gallery-select-toolbar">
               {librarySelectMode ? (
                 <>
@@ -446,8 +440,8 @@ export function AdminGalleryManager({
           ) : null}
         </div>
         <p className="admin-form-hint">
-          תמונות מהעיצוב, דף הבית, אודות, תפריט ועוד. תמונות תפריט וגלריה אפשר למחוק לגמרי (הן יוסרו גם מהמנות).
-          תמונות העיצוב ודף הבית מוחלפות דרך הגדרות התמונות הרלוונטיות.
+          תמונות מהעיצוב, דף הבית, אודות, תפריט ועוד. מחיקה מסירה את התמונה מכל מקום באתר. תמונת עיצוב שנמחקה
+          אפשר להחזיר מעמוד הבית באדמין (בחירת תמונה חדשה או &quot;איפוס לברירת מחדל&quot;).
         </p>
         {libraryImages.length === 0 ? (
           <p className="admin-form-hint">לא נמצאו תמונות בספריית האתר.</p>

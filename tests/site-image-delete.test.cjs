@@ -34,7 +34,23 @@ test('deleting an image clears it from primary, close-up and extra menu images o
   assert.equal(stripMenuItemImages(baseItem, new Set(['/images/other.webp'])), null);
 });
 
-test('only menu and gallery images are marked deletable in the admin library', () => {
+test('a deleted design image disappears from the site map and the admin library', async () => {
+  const overrides = [{ id: 'home-story', hidden: true, imageUrl: '', mobileImageUrl: '', updatedAt: 'x' }];
+  const load = createLoader({
+    '@/services/site-image-overrides.service': { listSiteImageOverrides: async () => overrides }
+  });
+  const map = await load('@/services/site-images-resolver.service').resolveStaticSiteImagesMap();
+  assert.equal(map['home-story'], '');
+  assert.equal(map['home-story__mobile'], '');
+
+  const urlTools = load('@/lib/site-image-url');
+  assert.deepEqual(urlTools.resolveSiteImagePair(map, 'home-story', '/fallback.webp', 'v1'), { desktop: '', mobile: '' });
+
+  const { buildAdminPickableImages } = load('@/lib/admin/pickable-site-images');
+  assert.equal(buildAdminPickableImages(map).some((image) => image.id === 'home-story'), false);
+});
+
+test('admin library images are tagged with where they come from', () => {
   const { buildAdminPickableImages } = createLoader()('@/lib/admin/pickable-site-images');
   const images = buildAdminPickableImages({}, [baseItem], [
     { id: 'g1', title: 'Upload', imageUrl: 'https://x.public.blob.vercel-storage.com/gallery/g.jpg', createdAt: 'x', updatedAt: 'x' }

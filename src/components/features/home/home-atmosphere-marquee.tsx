@@ -34,15 +34,18 @@ function resolveColumnImages(
   column: HomeAtmosphereMarqueeImage[],
   siteImages?: SiteImagesMap
 ): ResolvedMarqueeImage[] {
-  return column.map((item) => {
+  return column.flatMap((item) => {
     const resolved = item.siteImageId
       ? pickSiteImage(siteImages, item.siteImageId, item.src)
       : item.src;
-    return {
-      ...item,
-      src: withVersion(resolved),
-      overlay: item.siteImageId ? pickSiteImageOverlay(siteImages, item.siteImageId) : null
-    };
+    if (!resolved.trim()) return [];
+    return [
+      {
+        ...item,
+        src: withVersion(resolved),
+        overlay: item.siteImageId ? pickSiteImageOverlay(siteImages, item.siteImageId) : null
+      }
+    ];
   });
 }
 

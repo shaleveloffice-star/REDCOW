@@ -24,6 +24,8 @@ export type MenuItem = {
   sauceMode?: MenuItemSauceMode;
   /** Absent on legacy items, which behave as 2. */
   sauceChoiceCount?: number;
+  /** Ingredients (siteSettings/menu-ingredients) shown beside the sauces on the dish page. */
+  ingredientIds?: string[];
   id: string;
   name: string;
   /** Short description shown near title on the product page. */

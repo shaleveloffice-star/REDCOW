@@ -11128,6 +11128,24 @@ body:not(:has(.admin-layout)) button:focus-visible {
   color: #fff;
 }
 
+.admin-menu-page-tabs {
+  justify-self: start;
+}
+
+.admin-menu-page-tabs .admin-club-tab {
+  font-size: 15px;
+}
+
+.admin-menu-page-panel {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 18px;
+}
+
+.admin-menu-page-panel[hidden] {
+  display: none;
+}
+
 .admin-club-tab-count {
   display: inline-flex;
   align-items: center;

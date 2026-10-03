@@ -81,6 +81,7 @@ export function normalizeMenuItem(raw: Partial<MenuItem> & { id: string }): Menu
     isActive: toBoolean(raw.isActive, true),
     tags: toStringArray(raw.tags),
     ...(Array.isArray(raw.sauceIds) ? { sauceIds: [...new Set(toStringArray(raw.sauceIds))] } : {}),
+    ...(Array.isArray(raw.ingredientIds) ? { ingredientIds: [...new Set(toStringArray(raw.ingredientIds))] } : {}),
     ...(raw.sauceMode !== undefined ? { sauceMode: normalizeSauceMode(raw.sauceMode) } : {}),
     ...(raw.sauceChoiceCount !== undefined ? { sauceChoiceCount: normalizeSauceChoiceCount(raw.sauceChoiceCount) } : {}),
     sortOrder: toNumber(raw.sortOrder, 0),

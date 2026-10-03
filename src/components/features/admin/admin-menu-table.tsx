@@ -23,6 +23,7 @@ import { getMenuItemHref, resolveMenuItemSlug, slugifyProductName } from "@/lib/
 import { resolveMenuItemImageAlt } from "@/lib/image-alt";
 import { deleteMenuItemAction } from "@/server/actions/menu.actions";
 import type { MenuCategory, MenuItem } from "@/types/content";
+import type { MenuIngredient } from "@/types/menu-ingredients";
 import { useEffect, useMemo, useRef, useState, type ChangeEvent } from "react";
 
 type SaveMenuItemApiResult =
@@ -127,10 +128,12 @@ function newMenuItem(categories: MenuCategory[], items: MenuItem[]): MenuItem {
 export function AdminMenuTable({
   items,
   categories,
+  ingredients,
   pickableImages
 }: {
   items: MenuItem[];
   categories: MenuCategory[];
+  ingredients: MenuIngredient[];
   pickableImages: AdminPickableImage[];
 }) {
   const categoryById = Object.fromEntries(categories.map((c) => [c.id, c.name]));
@@ -488,7 +491,7 @@ export function AdminMenuTable({
             </label>
 
             <fieldset className="admin-seo-fieldset">
-              <legend>רטבים למנה — מעל כפתור ההזמנה</legend>
+              <legend>רטבים ומרכיבים — מעל כפתור ההזמנה</legend>
               <p className="muted">בחרו רטבים להצגה בקטן בעמוד המנה. התמונה והתיאור נלקחים מהרוטב בקטגוריית ״רטבים״; ניתן לערוך אותם שם.</p>
               <label className="admin-checkbox-row">
                 <input type="radio" name="sauce-mode" checked={normalizeSauceMode(draft.sauceMode) === "choice"} onChange={() => setDraft({ ...draft, sauceMode: "choice" })} />
@@ -524,6 +527,22 @@ export function AdminMenuTable({
                 </label>
               ))}
               {!rows.some(sauce => sauce.id !== draft.id && categories.some(c => c.id === sauce.categoryId && isSauceCategory(c))) ? <p>אין רטבים לבחירה. הוסיפו פריט בקטגוריית ״רטבים״ עם תמונה ותיאור ושמרו אותו.</p> : null}
+
+              <strong>מרכיבים במנה</strong>
+              <p className="muted">מוצגים בעמוד המנה באותה שורה, אחרי הרטבים. מוסיפים ועורכים מרכיבים בטאב ״מרכיבים״ בראש העמוד.</p>
+              {ingredients.length > 0 ? (
+                <div className="admin-row-actions">
+                  <button type="button" className="button secondary" onClick={() => setDraft({ ...draft, ingredientIds: ingredients.map(ingredient => ingredient.id) })}>סמן את כל המרכיבים</button>
+                  <button type="button" className="button secondary" onClick={() => setDraft({ ...draft, ingredientIds: [] })}>נקה מרכיבים</button>
+                </div>
+              ) : null}
+              {ingredients.map(ingredient => (
+                <label key={ingredient.id} className="admin-checkbox-row">
+                  <input type="checkbox" checked={(draft.ingredientIds ?? []).includes(ingredient.id)} onChange={event => setDraft({ ...draft, ingredientIds: event.target.checked ? [...(draft.ingredientIds ?? []), ingredient.id] : (draft.ingredientIds ?? []).filter(id => id !== ingredient.id) })} />
+                  <span>{ingredient.name}{!ingredient.isActive ? " (לא פעיל — לא יוצג באתר)" : ""}</span>
+                </label>
+              ))}
+              {ingredients.length === 0 ? <p>עדיין אין מרכיבים. הוסיפו מרכיבים בטאב ״מרכיבים״ ואז חזרו לכאן.</p> : null}
             </fieldset>
 
             <fieldset className="admin-seo-fieldset">

@@ -6,6 +6,7 @@ import { DEFAULT_MENU_HERO } from "@/lib/menu/menu-hero-config";
 import { DEFAULT_PAGE_VISIBILITY } from "@/lib/pages/page-visibility";
 import { DEFAULT_RECOMMENDATIONS_CONFIG } from "@/lib/recommendations/recommendations-config";
 import { getMenuHeroConfig } from "@/repositories/menu-hero.repository";
+import { getMenuIngredients } from "@/repositories/menu-ingredients.repository";
 import { getPageVisibility } from "@/repositories/page-visibility.repository";
 import { getRecommendationsConfig } from "@/repositories/recommendations.repository";
 import {
@@ -31,6 +32,7 @@ export const CACHE_TAGS = {
   menuCategories: "menu-categories",
   menuDisplay: "menu-display",
   menuHero: "menu-hero",
+  menuIngredients: "menu-ingredients",
   pageVisibility: "page-visibility",
   recommendations: "recommendations",
   seoContent: "seo-content",
@@ -72,6 +74,22 @@ export async function getAboutPageEnabled() {
   } catch (error) {
     console.error("[page-visibility] read failed", error);
     return DEFAULT_PAGE_VISIBILITY.aboutEnabled;
+  }
+}
+
+export const getCachedMenuIngredients = unstable_cache(
+  () => getMenuIngredients(),
+  [CACHE_TAGS.menuIngredients, "v1"],
+  { revalidate: CACHE_REVALIDATE_SECONDS.menu, tags: [CACHE_TAGS.menuIngredients] }
+);
+
+/** A failed ingredients read must not break the dish page. */
+export async function getMenuIngredientsForDisplay() {
+  try {
+    return await getCachedMenuIngredients();
+  } catch (error) {
+    console.error("[menu-ingredients] read failed", error);
+    return [];
   }
 }
 

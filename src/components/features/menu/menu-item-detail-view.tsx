@@ -19,12 +19,14 @@ import { isVideoMediaUrl } from "@/lib/menu-media";
 import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
 import { trackEvent } from "@/lib/analytics";
 import type { MenuCategory, MenuItem } from "@/types/content";
+import type { MenuIngredient } from "@/types/menu-ingredients";
 
 type MenuItemDetailViewProps = {
   item: MenuItem;
   category?: Pick<MenuCategory, "id" | "name" | "slug">;
   relatedItems?: MenuItem[];
   sauces?: MenuItem[];
+  ingredients?: MenuIngredient[];
   pickupUrl: string;
   deliveryUrl: string;
 };
@@ -44,6 +46,7 @@ export function MenuItemDetailView({
   category,
   relatedItems = [],
   sauces = [],
+  ingredients,
   pickupUrl,
   deliveryUrl
 }: MenuItemDetailViewProps) {
@@ -100,7 +103,7 @@ export function MenuItemDetailView({
           <p className="menu-item-detail-short">{localized.description}</p>
         ) : null}
 
-        <MenuItemSauces sauces={sauces} mode={item.sauceMode} choiceCount={item.sauceChoiceCount} />
+        <MenuItemSauces sauces={sauces} ingredients={ingredients} mode={item.sauceMode} choiceCount={item.sauceChoiceCount} />
         <button
           ref={orderButtonRef}
           type="button"

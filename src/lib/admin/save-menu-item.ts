@@ -168,6 +168,10 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
     if (sauceIds !== undefined && (!Array.isArray(sauceIds) || sauceIds.length > 50 || sauceIds.some(value => typeof value !== "string" || value.length > 200))) {
       return { ok: false, error: "רשימת רטבים לא תקינה" };
     }
+    const ingredientIds = input.ingredientIds;
+    if (ingredientIds !== undefined && (!Array.isArray(ingredientIds) || ingredientIds.length > 50 || ingredientIds.some(value => typeof value !== "string" || value.length > 200))) {
+      return { ok: false, error: "רשימת מרכיבים לא תקינה" };
+    }
     if (input.sauceMode !== undefined && input.sauceMode !== "choice" && input.sauceMode !== "included") {
       return { ok: false, error: "סוג תצוגת הרטבים לא תקין" };
     }
@@ -198,6 +202,7 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
     const saved = await upsertMenuItem({
       id,
       ...(sauceIds !== undefined ? { sauceIds: [...new Set(sauceIds.map(value => value.trim()).filter(value => value && value !== id))] } : {}),
+      ...(ingredientIds !== undefined ? { ingredientIds: [...new Set(ingredientIds.map(value => value.trim()).filter(Boolean))] } : {}),
       ...(input.sauceMode !== undefined ? { sauceMode: input.sauceMode } : {}),
       ...(input.sauceChoiceCount !== undefined ? { sauceChoiceCount: input.sauceChoiceCount } : {}),
       name,

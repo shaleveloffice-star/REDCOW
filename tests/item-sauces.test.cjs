@@ -41,9 +41,9 @@ test('sauce mode and choice count: heading text, normalization, legacy defaults 
   assert.equal(sauceHeadingText('he', undefined, undefined), '2 רטבים לבחירה בתוך המנה');
   assert.equal(sauceHeadingText('he', 'choice', 3), '3 רטבים לבחירה בתוך המנה');
   assert.equal(sauceHeadingText('he', 'choice', 1), 'רוטב 1 לבחירה בתוך המנה');
-  assert.equal(sauceHeadingText('he', 'included', 4), 'הרטבים בתוך המנה');
+  assert.equal(sauceHeadingText('he', 'included', 4), 'רטבים ומרכיבים');
   assert.equal(sauceHeadingText('en', 'choice', 1), 'Choice of 1 sauce included');
-  assert.equal(sauceHeadingText('fr', 'included', 2), 'Sauces dans ce plat');
+  assert.equal(sauceHeadingText('fr', 'included', 2), 'Sauces et ingrédients');
   assert.equal(sauceHeadingText('he', 'bogus', 99), '10 רטבים לבחירה בתוך המנה');
 
   const { normalizeMenuItem } = createLoader()('@/lib/menu/normalize-menu');

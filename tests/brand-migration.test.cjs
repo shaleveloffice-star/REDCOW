@@ -21,7 +21,8 @@ test('actual menu page issues 308 to production canonical URLs and renders both 
       getCachedMenuItemBySlug: slug => service.getMenuItemBySlugForDisplay(slug),
       getCachedActiveOrderLinks: async () => [],
       getCachedMenuCategories: async () => [category],
-      getCachedMenuForDisplay: async () => [{ ...category, items }]
+      getCachedMenuForDisplay: async () => [{ ...category, items }],
+      getMenuIngredientsForDisplay: async () => []
     },
     '@/components/features/menu/menu-category-view': { MenuCategoryView: emptyView },
     '@/components/features/menu/menu-item-detail-view': { MenuItemDetailView: emptyView },

@@ -15,7 +15,8 @@ import {
   getCachedMenuForDisplay,
   getCachedMenuCategoryBySlug,
   getCachedMenuItemBySlug,
-  getCachedResolvedSeoPageContent
+  getCachedResolvedSeoPageContent,
+  getMenuIngredientsForDisplay
 } from "@/lib/cache/cached-data";
 import { getCategorySlugAliases, resolveCategorySlug } from "@/lib/menu/category-slug";
 import { normalizeMenuSlugParam, resolveMenuOrderUrls } from "@/lib/menu/menu-page-utils";
@@ -117,6 +118,7 @@ export async function generateMetadata({ params }: MenuSlugPageProps): Promise<M
 }
 
 import { resolveItemSauces } from "@/lib/menu/item-sauces";
+import { resolveItemIngredients } from "@/lib/menu/menu-ingredients";
 
 export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
   const { slug } = await params;
@@ -192,11 +194,12 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
     permanentRedirect(`/menu/${resolvedSlug}`);
   }
 
-  const [orderLinks, categories, groups, messages] = await Promise.all([
+  const [orderLinks, categories, groups, messages, ingredients] = await Promise.all([
     getCachedActiveOrderLinks(),
     getCachedMenuCategories(),
     getCachedMenuForDisplay(),
-    Promise.resolve(getLocalizedMessages(locale))
+    Promise.resolve(getLocalizedMessages(locale)),
+    getMenuIngredientsForDisplay()
   ]);
   const itemCategory = categories.find((entry) => entry.id === item.categoryId);
   const categoryName = itemCategory ? getLocalizedCategoryName(itemCategory, locale) : undefined;
@@ -225,6 +228,7 @@ export default async function MenuSlugPage({ params }: MenuSlugPageProps) {
           category={itemCategory}
           relatedItems={relatedItems}
           sauces={resolveItemSauces(item, groups.flatMap(group => group.items), categories)}
+          ingredients={resolveItemIngredients(item, ingredients)}
           pickupUrl={pickupUrl}
           deliveryUrl={deliveryUrl}
         />

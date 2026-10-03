@@ -1,4 +1,8 @@
-/** Native scrolling and auto-scrolling share one position, so dragging cannot expose an empty track. */
+/**
+ * Native scrolling and auto-scrolling share one position, so dragging cannot expose an empty track.
+ * The track holds the list twice; whenever the position passes one full copy it jumps back by exactly
+ * that distance, so the row keeps turning in one direction like a carousel.
+ */
 export function startSauceLoop(viewport: HTMLElement): () => void {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   let resumeAt = 0;
@@ -6,16 +10,34 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
   let previousTime = performance.now();
   let position = viewport.scrollLeft;
   let expectedScroll = position;
-  let direction = 1;
   let pointerHeld = false;
   let mouseStart: { x: number; scroll: number } | null = null;
   let dragged = false;
   const pause = () => { resumeAt = performance.now() + 3000; };
+  const cycleWidth = () => {
+    const lists = viewport.querySelectorAll<HTMLElement>(".menu-item-sauces-list");
+    if (lists.length < 2) return 0;
+    const width = lists[1].offsetLeft - lists[0].offsetLeft;
+    return width > 0 && viewport.scrollWidth - viewport.clientWidth > width ? width : 0;
+  };
+  // Keeps the position in [1, width + 1) so there is always room to scroll back without hitting 0.
+  const wrap = (value: number) => {
+    const width = cycleWidth();
+    if (!width) return value;
+    if (value >= width + 1) return value - width;
+    if (value < 1) return value + width;
+    return value;
+  };
+  // Browsers round scrollLeft, so the sub-pixel position is tracked separately or slow steps would stall.
+  const write = (value: number) => {
+    viewport.scrollLeft = value;
+    position = value;
+    expectedScroll = viewport.scrollLeft;
+  };
   const onScroll = () => {
     // Browser-generated scroll events also follow our own writes; only user/momentum changes pause.
     if (Math.abs(viewport.scrollLeft - expectedScroll) > 1) {
-      position = viewport.scrollLeft;
-      expectedScroll = position;
+      write(wrap(viewport.scrollLeft));
       pause();
     }
   };
@@ -33,7 +55,10 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
     if (Math.abs(distance) > 4) dragged = true;
     if (dragged) {
       event.preventDefault();
-      viewport.scrollLeft = mouseStart.scroll - distance;
+      const target = mouseStart.scroll - distance;
+      const wrapped = wrap(target);
+      if (wrapped !== target) mouseStart = { x: mouseStart.x, scroll: mouseStart.scroll + (wrapped - target) };
+      write(wrapped);
       pause();
     }
   };
@@ -48,19 +73,14 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
   const tick = (now: number) => {
     const elapsed = Math.min(now - previousTime, 50);
     previousTime = now;
-    const maxScroll = Math.max(0, viewport.scrollWidth - viewport.clientWidth);
-    if (!reducedMotion.matches && !pointerHeld && now >= resumeAt && viewport.dataset.dialogOpen !== "true" && maxScroll > 0) {
-      // One real list: reverse smoothly at its edges instead of cloning items.
-      position = Math.max(0, Math.min(maxScroll, position + direction * elapsed * (104 / 6000)));
-      if (position >= maxScroll) direction = -1;
-      else if (position <= 0) direction = 1;
-      viewport.scrollLeft = position;
-      expectedScroll = viewport.scrollLeft;
+    if (!reducedMotion.matches && !pointerHeld && now >= resumeAt && viewport.dataset.dialogOpen !== "true" && cycleWidth() > 0) {
+      write(wrap(position + elapsed * (104 / 6000)));
     } else {
       position = viewport.scrollLeft;
     }
     frame = requestAnimationFrame(tick);
   };
+  write(wrap(position));
   viewport.addEventListener("scroll", onScroll, { passive: true });
   viewport.addEventListener("wheel", pause, { passive: true });
   viewport.addEventListener("touchmove", pause, { passive: true });

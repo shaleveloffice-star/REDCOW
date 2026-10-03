@@ -62,10 +62,11 @@ export function MenuItemSauces({ sauces, ingredients = NO_INGREDIENTS, mode, cho
       <p className="menu-item-sauces-choice">{heading}</p>
       <div className="menu-item-sauces-viewport" ref={viewportRef} data-dialog-open={Boolean(selected)} tabIndex={looping ? 0 : undefined} role={looping ? "region" : undefined} aria-label={labels.title}>
       <div className="menu-item-sauces-track">
-      <div className="menu-item-sauces-list" dir={locale === "he" ? "rtl" : "ltr"}>
+      {(looping ? [false, true] : [false]).map(isCopy => (
+      <div className="menu-item-sauces-list" dir={locale === "he" ? "rtl" : "ltr"} key={isCopy ? "copy" : "list"} aria-hidden={isCopy || undefined}>
         {entries.map(entry => (
           <div className="menu-item-sauce" key={entry.key}>
-            <button className="menu-item-sauce-trigger" type="button" aria-haspopup="dialog" onClick={event => { triggerRef.current = event.currentTarget; setSelected(entry); }}>
+            <button className="menu-item-sauce-trigger" type="button" aria-haspopup="dialog" tabIndex={isCopy ? -1 : undefined} onClick={event => { triggerRef.current = event.currentTarget; setSelected(entry); }}>
               {entry.imageUrl && !isVideoMediaUrl(entry.imageUrl) ? (
                 <MenuItemImage zoom={entry.imageZoom} src={entry.imageUrl} alt="" width={48} height={48} sizes="48px" className="menu-item-sauce-image" />
               ) : null}
@@ -74,6 +75,7 @@ export function MenuItemSauces({ sauces, ingredients = NO_INGREDIENTS, mode, cho
           </div>
         ))}
       </div>
+      ))}
       </div>
       </div>
       {selected ? <SauceDialog imageZoom={selected.imageZoom} name={selected.name} description={selected.description || labels.empty} imageUrl={selected.imageUrl} closeLabel={locale === "he" ? "סגירה" : locale === "fr" ? "Fermer" : "Close"} onClose={() => setSelected(null)} trigger={triggerRef.current} dir={locale === "he" ? "rtl" : "ltr"} /> : null}

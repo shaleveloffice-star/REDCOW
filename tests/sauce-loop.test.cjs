@@ -20,25 +20,38 @@ test('sauce preview renders each selected sauce exactly once, including lists ov
   for (const sauce of sauces) assert.equal(html.split(sauce.name).length - 1, 1);
 });
 
-test('single sauce list reverses at both edges and manual scroll still pauses for three seconds', () => {
+test('doubled sauce list turns in one direction and wraps seamlessly; manual scroll still pauses for three seconds', () => {
   let now = 0, tick;
   const listeners = new Map();
-  const viewport = { scrollLeft: 0, scrollWidth: 416, clientWidth: 312, dataset: {},
+  const cycle = 416;
+  const lists = [{ offsetLeft: 0 }, { offsetLeft: cycle }];
+  const viewport = { scrollLeft: 0, scrollWidth: cycle * 2, clientWidth: 312, dataset: {},
+    querySelectorAll: () => lists,
     addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: name => listeners.delete(name) };
   const load = createLoader({}, {
     window: { matchMedia: () => ({ matches: false }), addEventListener() {}, removeEventListener() {} },
     performance: { now: () => now }, requestAnimationFrame: fn => { tick = fn; return 1; }, cancelAnimationFrame() {}
   });
   const stop = load('@/lib/menu/sauce-loop').startSauceLoop(viewport);
-  const run = duration => { for (let i = 0; i < duration / 50; i++) { now += 50; tick(now); assert.ok(viewport.scrollLeft >= 0 && viewport.scrollLeft <= 104); } };
-  run(6100);
-  const rightEdge = viewport.scrollLeft;
-  run(500);
-  assert.ok(viewport.scrollLeft < rightEdge, 'reverses at right edge');
-  run(5700);
-  const nearLeft = viewport.scrollLeft;
-  run(500);
-  assert.ok(viewport.scrollLeft > nearLeft, 'reverses at left edge');
+  assert.ok(viewport.scrollLeft >= 1 && viewport.scrollLeft < cycle + 1, 'starts inside one copy with room to scroll back');
+  let wraps = 0;
+  const run = duration => {
+    for (let i = 0; i < duration / 50; i++) {
+      const before = viewport.scrollLeft;
+      now += 50; tick(now);
+      assert.ok(viewport.scrollLeft >= 1 && viewport.scrollLeft < cycle + 1);
+      if (viewport.scrollLeft < before) { wraps++; assert.ok(before - viewport.scrollLeft > cycle - 5, 'only jumps by a full copy'); }
+    }
+  };
+  run(30000);
+  assert.ok(wraps >= 1, 'keeps moving forward past the end of the list');
+  viewport.scrollLeft = cycle + 10;
+  listeners.get('scroll')();
+  assert.equal(viewport.scrollLeft, 10, 'manual scroll past one copy wraps back');
+  now += 3500;
+  viewport.scrollLeft = 0.5;
+  listeners.get('scroll')();
+  assert.equal(viewport.scrollLeft, cycle + 0.5, 'manual scroll to the start wraps forward');
   viewport.scrollLeft = 40;
   listeners.get('scroll')();
   run(2950);

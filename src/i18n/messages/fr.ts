@@ -22,7 +22,7 @@ export const fr: Messages = {
     switchTo: "Changer de langue"
   },
   openingBanner: {
-    message: "Ouverture bientôt",
+    message: "Casher",
     popupTitle: "Nous préparons l'ouverture",
     popupLead: "Le menu et les images actuellement affichés sur le site sont uniquement à titre d'illustration.",
     popupBody: "Bientôt, nous mettrons à jour ici le menu officiel et les vraies photos de SO WHAT.",

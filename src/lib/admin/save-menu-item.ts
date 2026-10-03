@@ -2,6 +2,7 @@ import "server-only";
 
 import { materializeMenuImageUrl } from "@/lib/admin/save-menu-image";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
+import { MAX_SAUCE_CHOICE_COUNT } from "@/lib/menu/item-sauces";
 import {
   ensureUniqueProductSlug,
   resolveMenuItemSlug,
@@ -167,6 +168,12 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
     if (sauceIds !== undefined && (!Array.isArray(sauceIds) || sauceIds.length > 50 || sauceIds.some(value => typeof value !== "string" || value.length > 200))) {
       return { ok: false, error: "רשימת רטבים לא תקינה" };
     }
+    if (input.sauceMode !== undefined && input.sauceMode !== "choice" && input.sauceMode !== "included") {
+      return { ok: false, error: "סוג תצוגת הרטבים לא תקין" };
+    }
+    if (input.sauceChoiceCount !== undefined && (!Number.isInteger(input.sauceChoiceCount) || input.sauceChoiceCount < 1 || input.sauceChoiceCount > MAX_SAUCE_CHOICE_COUNT)) {
+      return { ok: false, error: `מספר הרטבים לבחירה חייב להיות בין 1 ל-${MAX_SAUCE_CHOICE_COUNT}` };
+    }
     const desiredSlug =
       optionalTrim(input.slug) ||
       slugifyProductName(name) ||
@@ -191,6 +198,8 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
     const saved = await upsertMenuItem({
       id,
       ...(sauceIds !== undefined ? { sauceIds: [...new Set(sauceIds.map(value => value.trim()).filter(value => value && value !== id))] } : {}),
+      ...(input.sauceMode !== undefined ? { sauceMode: input.sauceMode } : {}),
+      ...(input.sauceChoiceCount !== undefined ? { sauceChoiceCount: input.sauceChoiceCount } : {}),
       name,
       description,
       ...(longDescription ? { longDescription } : {}),

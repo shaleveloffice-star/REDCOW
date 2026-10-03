@@ -14,9 +14,16 @@ export type MenuCategory = {
   updatedAt: ISODateString;
 };
 
+/** "choice": guests pick `sauceChoiceCount` of the listed sauces; "included": the listed sauces already come in the dish. */
+export type MenuItemSauceMode = "choice" | "included";
+
 export type MenuItem = {
   /** Menu items from the sauces category shown above this dish's order button. */
   sauceIds?: string[];
+  /** Absent on legacy items, which behave as "choice". */
+  sauceMode?: MenuItemSauceMode;
+  /** Absent on legacy items, which behave as 2. */
+  sauceChoiceCount?: number;
   id: string;
   name: string;
   /** Short description shown near title on the product page. */

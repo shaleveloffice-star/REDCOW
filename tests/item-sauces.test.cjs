@@ -35,3 +35,36 @@ test('shared menu save persists and clears sauce selections; rejects malformed i
   assert.equal((await saveMenuItemCore({ ...dish, sauceIds: 'a' })).ok, false);
   assert.equal(saved.length, 2);
 });
+
+test('sauce mode and choice count: heading text, normalization, legacy defaults and save validation', async () => {
+  const { sauceHeadingText } = createLoader()('@/lib/menu/item-sauces');
+  assert.equal(sauceHeadingText('he', undefined, undefined), '2 רטבים לבחירה בתוך המנה');
+  assert.equal(sauceHeadingText('he', 'choice', 3), '3 רטבים לבחירה בתוך המנה');
+  assert.equal(sauceHeadingText('he', 'choice', 1), 'רוטב 1 לבחירה בתוך המנה');
+  assert.equal(sauceHeadingText('he', 'included', 4), 'הרטבים בתוך המנה');
+  assert.equal(sauceHeadingText('en', 'choice', 1), 'Choice of 1 sauce included');
+  assert.equal(sauceHeadingText('fr', 'included', 2), 'Sauces dans ce plat');
+  assert.equal(sauceHeadingText('he', 'bogus', 99), '10 רטבים לבחירה בתוך המנה');
+
+  const { normalizeMenuItem } = createLoader()('@/lib/menu/normalize-menu');
+  assert.equal(normalizeMenuItem({}).sauceMode, undefined);
+  assert.equal(normalizeMenuItem({}).sauceChoiceCount, undefined);
+  assert.equal(normalizeMenuItem({ sauceMode: 'included', sauceChoiceCount: '3' }).sauceMode, 'included');
+  assert.equal(normalizeMenuItem({ sauceMode: 'x', sauceChoiceCount: 0 }).sauceChoiceCount, 2);
+
+  const saved = [];
+  const load = createLoader({
+    '@/lib/admin/save-menu-image': { materializeMenuImageUrl: async url => ({ ok: true, url }) },
+    'next/cache': { revalidatePath() {}, revalidateTag() {} },
+    '@/services/menu.service': { listMenuItems: async () => [], upsertMenuItem: async item => { saved.push(item); return item; } }
+  });
+  const { saveMenuItemCore } = load('@/lib/admin/save-menu-item');
+  const dish = { id: 'dish', name: 'Dish', slug: 'dish', categoryId: 'burgers', price: 20, isActive: true, imageUrl: '' };
+  assert.equal((await saveMenuItemCore({ ...dish, sauceMode: 'included', sauceChoiceCount: 3 })).ok, true);
+  assert.equal(saved.at(-1).sauceMode, 'included');
+  assert.equal(saved.at(-1).sauceChoiceCount, 3);
+  assert.equal((await saveMenuItemCore({ ...dish, sauceMode: 'all' })).ok, false);
+  assert.equal((await saveMenuItemCore({ ...dish, sauceChoiceCount: 0 })).ok, false);
+  assert.equal((await saveMenuItemCore({ ...dish, sauceChoiceCount: 1.5 })).ok, false);
+  assert.equal(saved.length, 1);
+});

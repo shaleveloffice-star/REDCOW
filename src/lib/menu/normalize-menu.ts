@@ -1,4 +1,5 @@
 import { normalizeMenuImageZoom } from "@/lib/menu/image-zoom";
+import { normalizeSauceChoiceCount, normalizeSauceMode } from "@/lib/menu/item-sauces";
 import type { MenuCategory, MenuItem } from "@/types/content";
 
 function toText(value: unknown): string {
@@ -80,6 +81,8 @@ export function normalizeMenuItem(raw: Partial<MenuItem> & { id: string }): Menu
     isActive: toBoolean(raw.isActive, true),
     tags: toStringArray(raw.tags),
     ...(Array.isArray(raw.sauceIds) ? { sauceIds: [...new Set(toStringArray(raw.sauceIds))] } : {}),
+    ...(raw.sauceMode !== undefined ? { sauceMode: normalizeSauceMode(raw.sauceMode) } : {}),
+    ...(raw.sauceChoiceCount !== undefined ? { sauceChoiceCount: normalizeSauceChoiceCount(raw.sauceChoiceCount) } : {}),
     sortOrder: toNumber(raw.sortOrder, 0),
     createdAt: toIsoDate(raw.createdAt, now),
     updatedAt: toIsoDate(raw.updatedAt, now)

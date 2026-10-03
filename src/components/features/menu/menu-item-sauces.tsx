@@ -7,12 +7,13 @@ import { useLocale } from "@/components/providers/locale-provider";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { isVideoMediaUrl } from "@/lib/menu-media";
-import type { MenuItem } from "@/types/content";
+import { sauceHeadingText } from "@/lib/menu/item-sauces";
+import type { MenuItem, MenuItemSauceMode } from "@/types/content";
 
 /** Must match the media query wrapping the `.menu-item-sauces--moving` rules in menu-item-detail.css. */
 const NARROW_SCREEN_QUERY = "(max-width: 767px)";
 
-export function MenuItemSauces({ sauces }: { sauces: MenuItem[] }) {
+export function MenuItemSauces({ sauces, mode, choiceCount }: { sauces: MenuItem[]; mode?: MenuItemSauceMode; choiceCount?: number }) {
   const { locale } = useLocale();
   const viewportRef = useRef<HTMLDivElement>(null);
   const [selected, setSelected] = useState<MenuItem | null>(null);
@@ -33,14 +34,15 @@ export function MenuItemSauces({ sauces }: { sauces: MenuItem[] }) {
   }, [looping, sauces]);
   if (!sauces.length) return null;
   const labels = locale === "en"
-    ? { title: "Sauces", choice: "Choice of 2 sauces included", empty: "No description yet." }
+    ? { title: "Sauces", empty: "No description yet." }
     : locale === "fr"
-      ? { title: "Sauces", choice: "2 sauces au choix incluses", empty: "Pas encore de description." }
-      : { title: "הרטבים של המנה", choice: "2 רטבים לבחירה בתוך המנה", empty: "טרם נוסף תיאור לרוטב." };
+      ? { title: "Sauces", empty: "Pas encore de description." }
+      : { title: "הרטבים של המנה", empty: "טרם נוסף תיאור לרוטב." };
+  const heading = sauceHeadingText(locale, mode, choiceCount);
   const selectedText = selected ? getLocalizedMenuItem(selected, locale) : null;
   return (
     <section className={`menu-item-sauces${moving ? " menu-item-sauces--moving" : ""}`} aria-label={labels.title}>
-      <p className="menu-item-sauces-choice">{labels.choice}</p>
+      <p className="menu-item-sauces-choice">{heading}</p>
       <div className="menu-item-sauces-viewport" ref={viewportRef} data-dialog-open={Boolean(selected)} tabIndex={looping ? 0 : undefined} role={looping ? "region" : undefined} aria-label={labels.title}>
       <div className="menu-item-sauces-track">
       <div className="menu-item-sauces-list" dir={locale === "he" ? "rtl" : "ltr"}>

@@ -100,7 +100,7 @@ export function MenuItemDetailView({
           <p className="menu-item-detail-short">{localized.description}</p>
         ) : null}
 
-        <MenuItemSauces sauces={sauces} />
+        <MenuItemSauces sauces={sauces} mode={item.sauceMode} choiceCount={item.sauceChoiceCount} />
         <button
           ref={orderButtonRef}
           type="button"

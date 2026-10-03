@@ -13,7 +13,7 @@ import { AdminMenuItemSmartPasteModal } from "@/components/features/admin/admin-
 import { menuImageZoomStyle, normalizeMenuImageZoom } from "@/lib/menu/image-zoom";
 import { adminFieldLabel } from "@/components/features/admin/admin-field-label";
 import { AdminSiteImagePicker } from "@/components/features/admin/admin-site-image-picker";
-import { isSauceCategory } from "@/lib/menu/item-sauces";
+import { isSauceCategory, MAX_SAUCE_CHOICE_COUNT, normalizeSauceChoiceCount, normalizeSauceMode, sauceHeadingText } from "@/lib/menu/item-sauces";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { MENU_PRIMARY_IMAGE_SPEC } from "@/data/admin-image-specs";
 import { createId } from "@/lib/admin/new-id";
@@ -490,6 +490,33 @@ export function AdminMenuTable({
             <fieldset className="admin-seo-fieldset">
               <legend>רטבים למנה — מעל כפתור ההזמנה</legend>
               <p className="muted">בחרו רטבים להצגה בקטן בעמוד המנה. התמונה והתיאור נלקחים מהרוטב בקטגוריית ״רטבים״; ניתן לערוך אותם שם.</p>
+              <label className="admin-checkbox-row">
+                <input type="radio" name="sauce-mode" checked={normalizeSauceMode(draft.sauceMode) === "choice"} onChange={() => setDraft({ ...draft, sauceMode: "choice" })} />
+                <span>רטבים לבחירה — הלקוח בוחר מתוך הרטבים המסומנים</span>
+              </label>
+              <label className="admin-checkbox-row">
+                <input type="radio" name="sauce-mode" checked={normalizeSauceMode(draft.sauceMode) === "included"} onChange={() => setDraft({ ...draft, sauceMode: "included" })} />
+                <span>רטבים שכבר בתוך המנה — בלי בחירה</span>
+              </label>
+              {normalizeSauceMode(draft.sauceMode) === "choice" ? (
+                <label>
+                  {adminFieldLabel("כמה רטבים לבחירה", `יוצג באתר: "${sauceHeadingText("he", "choice", draft.sauceChoiceCount)}"`)}
+                  <input
+                    type="number"
+                    min={1}
+                    max={MAX_SAUCE_CHOICE_COUNT}
+                    step={1}
+                    value={normalizeSauceChoiceCount(draft.sauceChoiceCount)}
+                    onChange={event => setDraft({ ...draft, sauceChoiceCount: normalizeSauceChoiceCount(event.target.value) })}
+                  />
+                </label>
+              ) : (
+                <p className="muted">יוצג באתר: &quot;{sauceHeadingText("he", "included", undefined)}&quot; — סמנו למטה את הרטבים שכבר נמצאים במנה.</p>
+              )}
+              <div className="admin-row-actions">
+                <button type="button" className="button secondary" onClick={() => setDraft({ ...draft, sauceIds: rows.filter(sauce => sauce.id !== draft.id && categories.some(c => c.id === sauce.categoryId && isSauceCategory(c))).map(sauce => sauce.id) })}>סמן את כל הרטבים</button>
+                <button type="button" className="button secondary" onClick={() => setDraft({ ...draft, sauceIds: [] })}>נקה הכל</button>
+              </div>
               {rows.filter(sauce => sauce.id !== draft.id && categories.some(c => c.id === sauce.categoryId && isSauceCategory(c))).map(sauce => (
                 <label key={sauce.id} className="admin-checkbox-row">
                   <input type="checkbox" checked={(draft.sauceIds ?? []).includes(sauce.id)} onChange={event => setDraft({ ...draft, sauceIds: event.target.checked ? [...(draft.sauceIds ?? []), sauce.id] : (draft.sauceIds ?? []).filter(id => id !== sauce.id) })} />

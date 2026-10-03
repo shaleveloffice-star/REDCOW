@@ -127,9 +127,11 @@ export type CustomerClubSignup = {
   email: string;
   birthDate?: string;
   marketingConsent: boolean;
+  consentRecordedAt?: ISODateString;
+  consentVersion?: string;
   createdAt: ISODateString;
   status: RecordStatus;
-  /** Future unsubscribe support — campaigns skip when set. */
+  /** Campaigns skip unsubscribed recipients. */
   unsubscribedAt?: ISODateString;
   unsubscribeToken?: string;
 };

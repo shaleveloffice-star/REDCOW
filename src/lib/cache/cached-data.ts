@@ -40,20 +40,20 @@ export const CACHE_TAGS = {
 
 export const getCachedMenuHero = unstable_cache(
   () => getMenuHeroConfig(),
-  [CACHE_TAGS.menuHero, "sowhat-domain-migration-v1"],
+  [CACHE_TAGS.menuHero, "sowhat-compliance-v2"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.menuHero] }
 );
 
 // Keep the menu available during a CMS read failure; do not cache the fallback.
 export const getCachedPageVisibility = unstable_cache(
   () => getPageVisibility(),
-  [CACHE_TAGS.pageVisibility, "sowhat-domain-migration-v1"],
+  [CACHE_TAGS.pageVisibility, "sowhat-compliance-v2"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.pageVisibility] }
 );
 
 export const getCachedRecommendations = unstable_cache(
   () => getRecommendationsConfig(),
-  [CACHE_TAGS.recommendations, "sowhat-domain-migration-v1"],
+  [CACHE_TAGS.recommendations, "sowhat-compliance-v2"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.recommendations] }
 );
 
@@ -86,37 +86,37 @@ export async function getMenuHeroForDisplay() {
 
 export const getCachedSettings = unstable_cache(
   () => getSettings(),
-  [CACHE_TAGS.settings, "sowhat-domain-migration-v1"],
+  [CACHE_TAGS.settings, "sowhat-compliance-v2"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.settings] }
 );
 
 export const getCachedActiveOrderLinks = unstable_cache(
   () => listOrderLinks({ activeOnly: true }),
-  [CACHE_TAGS.orderLinksActive, "sowhat-domain-migration-v1"],
+  [CACHE_TAGS.orderLinksActive, "sowhat-compliance-v2"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.orderLinksActive] }
 );
 
 export const getCachedSiteImagesMap = unstable_cache(
   () => resolveStaticSiteImagesMap(),
-  [CACHE_TAGS.siteImages, "sowhat-domain-migration-v1"],
+  [CACHE_TAGS.siteImages, "sowhat-compliance-v2"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.siteImages] }
 );
 
 export const getCachedHomepageMenu = unstable_cache(
   () => getHomepageMenuShowcase(),
-  [CACHE_TAGS.homepageMenu, "sowhat-domain-migration-v1"],
+  [CACHE_TAGS.homepageMenu, "sowhat-compliance-v2"],
   { revalidate: CACHE_REVALIDATE_SECONDS.menu, tags: [CACHE_TAGS.homepageMenu] }
 );
 
 export const getCachedMenuCategories = unstable_cache(
   () => listMenuCategories({ activeOnly: true }),
-  [CACHE_TAGS.menuCategories, "sowhat-domain-migration-v1"],
+  [CACHE_TAGS.menuCategories, "sowhat-compliance-v2"],
   { revalidate: CACHE_REVALIDATE_SECONDS.menu, tags: [CACHE_TAGS.menuCategories] }
 );
 
 export const getCachedMenuForDisplay = unstable_cache(
   () => getMenuForDisplay(),
-  [CACHE_TAGS.menuDisplay, "sowhat-domain-migration-v1"],
+  [CACHE_TAGS.menuDisplay, "sowhat-compliance-v2"],
   {
     revalidate: CACHE_REVALIDATE_SECONDS.menu,
     tags: [CACHE_TAGS.menuDisplay, CACHE_TAGS.menuCategories, CACHE_TAGS.homepageMenu]
@@ -145,7 +145,7 @@ export function getCachedResolvedSeoPageContent(locale: string, pageId: string) 
       locale,
       pageId,
       pageId === "menu" ? "menu-intent-slug-v1" : "v0",
-      "sowhat-domain-migration-v1",
+      "sowhat-compliance-v2",
       "smash-story-v1"
     ],
     {
@@ -160,7 +160,7 @@ export const getCachedBrandStories = unstable_cache(
     const stories = await listBrandStories({ activeOnly: true });
     return localizeBrandStories(stories, locale);
   },
-  [CACHE_TAGS.brandStories, "list", "sowhat-domain-migration-v1"],
+  [CACHE_TAGS.brandStories, "list", "sowhat-compliance-v2"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.brandStories] }
 );
 
@@ -170,7 +170,7 @@ export async function getCachedMagazineStories(locale: Locale) {
       const stories = await listBrandStories({ activeOnly: true, magazineOnly: true });
       return localizeBrandStories(stories, locale);
     },
-    [CACHE_TAGS.brandStories, "magazine", locale, "sowhat-domain-migration-v1"],
+    [CACHE_TAGS.brandStories, "magazine", locale, "sowhat-compliance-v2"],
     { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.brandStories] }
   )();
 }
@@ -185,6 +185,6 @@ export const getCachedAnnouncementPopup = unstable_cache(
     const { getAnnouncementPopup } = await import("@/services/announcement-popup.service");
     return getAnnouncementPopup();
   },
-  [CACHE_TAGS.announcementPopup, "v1", "sowhat-domain-migration-v1"],
+  [CACHE_TAGS.announcementPopup, "v1", "sowhat-compliance-v2"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.announcementPopup] }
 );

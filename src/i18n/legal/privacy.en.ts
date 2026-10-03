@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getPrivacyContentEn(): LegalDocument {
   return {
-    lastUpdated: "Last updated: 18 August 2026",
+    lastUpdated: "Last updated: 3 October 2026",
     title: "Privacy Policy - SO WHAT",
     introTitle: "Introduction",
     introBlocks: [
@@ -40,6 +40,7 @@ export function getPrivacyContentEn(): LegalDocument {
       }
     ],
     sections: [
+      { title: "Cookie preferences", blocks: [{ type: "paragraph", text: "Allow or decline analytics in Cookie preferences and change your choice using the button at the bottom of the website. Google Analytics does not load without permission. Your choice is stored in your browser. Essential storage supports language, accessibility and admin login. Google Maps and Instagram embeds load only after you click their load button; this is separate from analytics permission." }] },
       {
         title: "1. Who we are",
         blocks: [
@@ -76,6 +77,7 @@ export function getPrivacyContentEn(): LegalDocument {
             items: [
               "Name",
               "Phone number",
+              "Email address, if provided (optional)",
               "Date of birth, if provided (optional)",
               "Consent to receive marketing communications"
             ]
@@ -95,7 +97,7 @@ export function getPrivacyContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "When you browse the website, technical information is collected through Google Analytics 4, including pages viewed, general actions on the site (such as clicking an order option), device and browser type, and referral source where the tool provides it."
+            text: "With your analytics permission, technical information is collected through Google Analytics 4, including pages viewed, general actions on the site (such as clicking an order option), device and browser type, and referral source where the tool provides it."
           },
           {
             type: "paragraph",
@@ -164,7 +166,7 @@ export function getPrivacyContentEn(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "The website does not currently include an unsubscribe button."
+            text: "Marketing emails sent through this website include an unsubscribe link. Opening it displays a confirmation page; confirming stops marketing to that email address. You can also contact us by email."
           }
         ]
       },
@@ -227,8 +229,8 @@ export function getPrivacyContentEn(): LegalDocument {
               "Google Analytics 4 - measuring website use",
               "Firebase / Firestore - storing club registrations and website content",
               "Instagram - displaying embedded social content",
-              "Leaflet, CARTO, and OpenStreetMap - displaying the branch map",
-              "Google Maps - a navigation link to the branch address",
+              "Resend - marketing email delivery to consenting recipients; Beecomm - external ordering system",
+              "Google Maps - embedded map and navigation link; loading the map shares technical information with the provider",
               "Vercel - hosting the website and media"
             ]
           },

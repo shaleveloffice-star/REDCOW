@@ -7,6 +7,7 @@ function fixture(options = {}) {
   const signups = memoryStore(options.signups ?? [{ id: 'yes', email: 'yes@example.test', marketingConsent: true }]);
   const delivered = new Map(), calls = [];
   const stubs = {
+    "@/lib/email/unsubscribe-token": { createUnsubscribeToken: email => Buffer.from(email).toString("base64url") + ".test-signature" },
     ...storageStubs({ localEmailCampaignsStore: campaigns, localCustomerClubSignupsStore: signups }),
     '@/lib/email/resend-client': {
       getResendFromConfig: () => ({ email: 'sender@example.test', name: 'Test' }),
@@ -89,4 +90,16 @@ test('legacy campaigns without a lease are not replayed automatically', async ()
   const result = await f.service.sendCustomerClubCampaign(f.input);
   assert.equal(result.ok, false);
   assert.equal(f.calls.length, 0);
+});
+
+test('campaigns include unsubscribe instructions and reject unknown manual recipients', async () => {
+  const f=fixture();
+  const result=await f.service.sendCustomerClubCampaign({...f.input,manualEmails:['unknown@example.test']});
+  assert.equal(result.ok,true);
+  assert.equal(f.calls.length,1);
+  const mail=f.calls[0].payload;
+  assert.match(mail.text,/unsubscribe\?token=/);
+  assert.match(mail.html,/href="https:\/\/www.sowhat.co.il\/unsubscribe/);
+  assert.equal(mail.headers['List-Unsubscribe-Post'],'List-Unsubscribe=One-Click');
+  assert.ok(mail.replyTo);
 });

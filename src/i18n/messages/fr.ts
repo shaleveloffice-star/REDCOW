@@ -22,7 +22,7 @@ export const fr: Messages = {
     switchTo: "Changer de langue"
   },
   openingBanner: {
-    message: "Le meilleur burger casher au monde",
+    message: "Burgers casher à Ra’anana",
     popupTitle: "Nous préparons l'ouverture",
     popupLead: "Le menu et les images actuellement affichés sur le site sont uniquement à titre d'illustration.",
     popupBody: "Bientôt, nous mettrons à jour ici le menu officiel et les vraies photos de SO WHAT.",
@@ -50,7 +50,7 @@ export const fr: Messages = {
   },
   hero: {
     tagline: "Simplement un bon burger.",
-    captionKicker: "LE MEILLEUR BURGER CASHER. POINT.",
+    captionKicker: "Le burger casher, à notre façon.",
     captionTitle: "SO WHAT?",
     menuCta: "Voir la carte",
     orderCta: "Commander",
@@ -206,9 +206,9 @@ export const fr: Messages = {
       fullName: "Nom complet",
       phone: "Téléphone",
       email: "E-mail (facultatif)",
-      birthDate: "Date de naissance"
+      birthDate: "Date de naissance (facultative, offres anniversaire)"
     },
-    consentPrefix: "J'accepte de recevoir actus et cadeaux",
+    consentPrefix: "J’accepte de recevoir les publicités, actualités et offres de SO WHAT par e-mail et SMS. Je peux me désinscrire à tout moment.",
     privacyLink: "Confidentialité",
     submit: "S'inscrire",
     submitting: "Envoi...",

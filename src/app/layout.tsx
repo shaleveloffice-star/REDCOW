@@ -8,6 +8,7 @@ import "./locations-page.css";
 import "./menu-page.css";
 import "./menu-item-detail.css";
 
+import { CookiePreferences } from "@/components/analytics/cookie-preferences";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
 import { A11yBootScript } from "@/components/layout/a11y-boot-script";
 import { AccessibilityWidget } from "@/components/layout/accessibility-widget";
@@ -131,6 +132,7 @@ export default async function RootLayout({
           </SiteChrome>
           <AccessibilityWidget />
           <Suspense fallback={null}>
+            <CookiePreferences />
             <GoogleAnalytics />
           </Suspense>
         </LocaleProvider>

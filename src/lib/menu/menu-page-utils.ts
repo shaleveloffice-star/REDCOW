@@ -1,3 +1,4 @@
+import { resolveOrderUrl } from "@/lib/orders";
 import type { OrderLink } from "@/types/content";
 
 export function resolveMenuOrderUrls(orderLinks: OrderLink[]) {
@@ -8,7 +9,7 @@ export function resolveMenuOrderUrls(orderLinks: OrderLink[]) {
       (link) => (link.type === "delivery" || link.type === "marketplace") && link.isActive
     )?.url ?? "/locations";
 
-  return { pickupUrl: pickup, deliveryUrl: delivery };
+  return { pickupUrl: resolveOrderUrl(pickup), deliveryUrl: resolveOrderUrl(delivery) };
 }
 
 export function normalizeMenuSlugParam(slug: string): string {

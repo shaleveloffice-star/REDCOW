@@ -1,3 +1,4 @@
+import { resolveOrderUrl } from "@/lib/orders";
 import {
   deleteOrderLink,
   getOrderLinks,
@@ -18,6 +19,7 @@ export async function updateSettings(input: SiteSettings): Promise<SiteSettings>
 export async function listOrderLinks(options: { activeOnly?: boolean } = {}): Promise<OrderLink[]> {
   const links = await getOrderLinks();
   return links
+    .map(link => ({ ...link, url: resolveOrderUrl(link.url) }))
     .filter((link) => (options.activeOnly ? link.isActive : true))
     .sort((a, b) => a.sortOrder - b.sortOrder);
 }

@@ -1,4 +1,6 @@
 import "server-only";
+import { createUnsubscribeToken } from "@/lib/email/unsubscribe-token";
+import { BUSINESS } from "@/data/business";
 
 import { createId } from "@/lib/admin/new-id";
 import {
@@ -80,6 +82,7 @@ export async function sendCustomerClubCampaign(
     };
   }
 
+  try { createUnsubscribeToken("config-check@example.test"); } catch { return { ok: false, error: "חסר מפתח חתימה להסרה מדיוור." }; }
   const signups = await getCustomerClubSignups();
   const signupById = new Map(signups.map((signup) => [signup.id, signup]));
   const recipients: EmailCampaignRecipient[] = [];
@@ -122,7 +125,7 @@ export async function sendCustomerClubCampaign(
 
   for (const raw of input.manualEmails) {
     const email = normalizeEmail(raw);
-    if (suppressedEmails.has(email)) {
+    if (suppressedEmails.has(email) || !signups.some(row => normalizeEmail(row.email ?? "") === email && row.marketingConsent && !row.unsubscribedAt)) {
       recipients.push({ email, source: "manual", status: "skipped", error: "אין הרשאה לדיוור לכתובת זו" });
       continue;
     }
@@ -178,14 +181,14 @@ export async function sendCustomerClubCampaign(
   }
   campaign = claim.campaign;
 
-  const html = plainTextBodyToHtml(campaign.body);
   const updatedRecipients = [...campaign.recipients];
 
   for (let i = 0; i < updatedRecipients.length; i += 1) {
     const recipient = updatedRecipients[i];
     if (recipient.status !== "pending") continue;
 
-    if (suppressedEmails.has(recipient.email)) {
+    const matching = (await getCustomerClubSignups()).filter(row => normalizeEmail(row.email ?? "") === recipient.email);
+    if (!matching.length || matching.some(row => !row.marketingConsent || row.unsubscribedAt)) {
       updatedRecipients[i] = { ...recipient, status: "skipped", error: "אין הרשאה לדיוור לכתובת זו" };
       campaign = await checkpointEmailCampaign({ ...campaign, recipients: updatedRecipients });
       continue;
@@ -200,12 +203,16 @@ export async function sendCustomerClubCampaign(
     campaign = await checkpointEmailCampaign({ ...campaign, recipients: updatedRecipients });
 
     try {
+      const unsubscribeUrl = `${BUSINESS.website}/unsubscribe?token=${createUnsubscribeToken(recipient.email)}`;
+      const message = `${campaign.body}\n\nSO WHAT · ${BUSINESS.address.formatted.he}\n${BUSINESS.email}\nלהסרה מדיוור / Unsubscribe: ${unsubscribeUrl}\nאפשר גם להשיב להודעה ולבקש הסרה.`;
       const result = await resend.emails.send({
         from: `${campaign.fromName} <${campaign.fromEmail}>`,
         to: [recipient.email],
-        subject: campaign.subject,
-        html,
-        text: campaign.body
+        subject: campaign.subject.startsWith("פרסומת") ? campaign.subject : `פרסומת | ${campaign.subject}`,
+        replyTo: BUSINESS.email,
+        headers: { "List-Unsubscribe": `<${unsubscribeUrl}>`, "List-Unsubscribe-Post": "List-Unsubscribe=One-Click" },
+        html: plainTextBodyToHtml(message) + `<p><a href="${unsubscribeUrl}">הסרה מדיוור / Unsubscribe</a></p>`,
+        text: message
       }, { idempotencyKey: `${campaign.id}/${i}` });
 
       if (result.error) {

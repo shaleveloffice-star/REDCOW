@@ -36,7 +36,7 @@ export function escapeHtml(value: string): string {
 }
 
 /** Plain textarea body → simple HTML paragraphs for email clients.
- * Future: append unsubscribe footer + List-Unsubscribe header once tokens exist.
+ * Campaign service appends the recipient-specific unsubscribe footer and headers.
  */
 export function plainTextBodyToHtml(body: string): string {
   const trimmed = body.replace(/\r\n/g, "\n").trim();

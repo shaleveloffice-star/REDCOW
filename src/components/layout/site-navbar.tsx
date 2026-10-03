@@ -20,6 +20,7 @@ import { BUSINESS } from "@/data/business";
 import { useTranslations, useLocale } from "@/components/providers/locale-provider";
 import { focusElement, isFocusRestoreTarget, mountModal } from "@/lib/a11y/focus-trap";
 import { trackEvent, type AnalyticsSource } from "@/lib/analytics";
+import { resolveOrderUrl } from "@/lib/orders";
 import type { OrderLink } from "@/types/content";
 
 export type MagazineNavStory = {
@@ -118,7 +119,7 @@ function resolveOrderUrls(orderLinks: OrderLink[], fallbackOrderUrl: string) {
     fallbackOrderUrl ??
     "/locations";
 
-  return { pickupUrl: pickup, deliveryUrl: delivery };
+  return { pickupUrl: resolveOrderUrl(pickup), deliveryUrl: resolveOrderUrl(delivery) };
 }
 
 export function SiteNavbar({

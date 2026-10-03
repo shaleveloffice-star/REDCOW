@@ -1,3 +1,4 @@
+import { analyticsAllowed } from "@/lib/analytics-consent";
 export const GA_MEASUREMENT_ID = "G-2TM782BRGC";
 
 export type AnalyticsSource =
@@ -56,18 +57,18 @@ function debugParams(): { debug_mode?: true } {
 
 /** Current path (+ search) for explicit `page` on business events. */
 export function getAnalyticsPage(): string {
-  if (typeof window === "undefined") {
+  if (typeof window === "undefined" || !analyticsAllowed()) {
     return "";
   }
-  return `${window.location.pathname}${window.location.search}`;
+  return window.location.pathname;
 }
 
 export function isAdminAnalyticsPath(path: string): boolean {
-  return path === "/admin" || path.startsWith("/admin/");
+  return path === "/unsubscribe" || path === "/admin" || path.startsWith("/admin/");
 }
 
 export function trackPageView(url: string): void {
-  if (typeof window === "undefined") {
+  if (typeof window === "undefined" || !analyticsAllowed()) {
     return;
   }
   if (isAdminAnalyticsPath(url.split("?")[0] ?? url)) {
@@ -77,8 +78,8 @@ export function trackPageView(url: string): void {
   // Bootstrap config uses send_page_view: false. Fire SPA page_view explicitly once
   // per route change — do not call gtag('config') again for the same hit.
   ensureGtag()("event", "page_view", {
-    page_path: url,
-    page_location: window.location.href,
+    page_path: url.split(/[?#]/)[0],
+    page_location: `${window.location.origin}${window.location.pathname}`,
     ...debugParams()
   });
 }
@@ -88,7 +89,7 @@ export function trackPageView(url: string): void {
  * `location` (= source) for existing GA4 reports.
  */
 export function trackEvent(eventName: string, params: TrackEventParams): void {
-  if (typeof window === "undefined") {
+  if (typeof window === "undefined" || !analyticsAllowed()) {
     return;
   }
 
@@ -103,7 +104,7 @@ export function trackEvent(eventName: string, params: TrackEventParams): void {
     ...rest,
     source,
     location: source,
-    page,
+    page: page.split(/[?#]/)[0],
     ...debugParams()
   });
 }

@@ -35,6 +35,8 @@ export async function createOrUpdateCustomerClubSignup(
     email: emailNorm,
     birthDate: input.birthDate,
     marketingConsent: input.marketingConsent,
+    consentRecordedAt: new Date().toISOString(),
+    consentVersion: "2026-10-03",
     id: createId("club"),
     createdAt: new Date().toISOString(),
     status: "new"

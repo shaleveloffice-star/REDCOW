@@ -61,7 +61,7 @@ function newSignup(): CustomerClubSignup {
     phone: "",
     email: "",
     birthDate: "",
-    marketingConsent: true,
+    marketingConsent: false,
     createdAt: now,
     status: "new"
   };
@@ -270,6 +270,10 @@ export function AdminCustomerClubManager({
     }
     if (manualEmails.includes(email) || selectedClubEmails.includes(email)) {
       setManualError("האימייל כבר ברשימת הנמענים.");
+      return;
+    }
+    if (!signups.some(signup => normalizeEmail(signup.email ?? "") === email && signup.marketingConsent && !signup.unsubscribedAt)) {
+      setManualError("יש להוסיף תחילה רשומת לקוח עם הסכמה מפורשת ומתועדת לדיוור.");
       return;
     }
     setManualEmails((prev) => [...prev, email]);
@@ -695,7 +699,7 @@ export function AdminCustomerClubManager({
                 checked={draft.marketingConsent}
                 onChange={(e) => setDraft({ ...draft, marketingConsent: e.target.checked })}
               />
-              אישור קבלת עדכונים
+              התקבלה הסכמה מפורשת לדיוור שיווקי (יש לשמור אסמכתה)
             </label>
             <label>
               סטטוס
@@ -738,7 +742,7 @@ export function AdminCustomerClubManager({
           </div>
 
           <p className="admin-form-hint">
-            בחרו חברים בטבלה לפני או תוך כדי הכתיבה. אפשר גם להוסיף אימיילים ידניים כאן.
+            בחרו חברים בטבלה לפני או תוך כדי הכתיבה. אפשר להוסיף כאן רק אימיילים של לקוחות שהסכמתם לדיוור מתועדת במועדון.
           </p>
 
           <div className="admin-club-compose-manual">

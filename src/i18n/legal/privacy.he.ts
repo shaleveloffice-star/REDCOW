@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getPrivacyContentHe(): LegalDocument {
   return {
-    lastUpdated: "תאריך עדכון אחרון: 18 באוגוסט 2026",
+    lastUpdated: "תאריך עדכון אחרון: 3 באוקטובר 2026",
     title: "מדיניות פרטיות - SO WHAT",
     introTitle: "מבוא",
     introBlocks: [
@@ -40,14 +40,15 @@ export function getPrivacyContentHe(): LegalDocument {
       }
     ],
     sections: [
+      { title: "העדפות עוגיות", blocks: [{ type: "paragraph", text: "ניתן לאשר או לדחות אנליטיקה בחלון העדפות העוגיות ולשנות את הבחירה בכפתור שבתחתית האתר. ללא אישור, Google Analytics אינו נטען. הבחירה נשמרת בדפדפן. אחסון חיוני משמש לשפה, לנגישות ולהתחברות לניהול. מפות Google ותוכן Instagram נטענים רק לאחר לחיצה על כפתור הטעינה שלהם; הבחירה הזאת נפרדת מאישור האנליטיקה." }] },
       {
         title: "1. מי אנחנו",
         blocks: [
-          { type: "paragraph", text: "האתר מופעל על ידי SO WHAT." },
+          { type: "paragraph", text: "האתר מופעל על ידי מסעדת SO WHAT." },
           {
             type: "list",
             items: [
-              `שם העסק: ${BUSINESS.name}`,
+              `שם העסק: מסעדת ${BUSINESS.name}`,
               "תחום פעילות: מסעדה / שירותי מזון",
               `דוא"ל: ${CONTACT_EMAIL}`,
               `כתובת העסק: ${BUSINESS.address.formattedWithCountry.he}`
@@ -76,6 +77,7 @@ export function getPrivacyContentHe(): LegalDocument {
             items: [
               "שם",
               "מספר טלפון",
+              "אימייל, אם נמסר (שדה אופציונלי)",
               "תאריך לידה, אם נמסר (שדה אופציונלי)",
               "אישור לקבלת דיוור שיווקי"
             ]
@@ -95,7 +97,7 @@ export function getPrivacyContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "בעת גלישה באתר נאסף מידע טכני באמצעות Google Analytics 4, לרבות עמודים שנצפו, פעולות כלליות באתר (כגון לחיצה על אפשרות הזמנה), סוג מכשיר ודפדפן, ומקור הגעה ככל שהכלי מספק."
+            text: "בכפוף לאישור אנליטיקה, נאסף מידע טכני באמצעות Google Analytics 4, לרבות עמודים שנצפו, פעולות כלליות באתר (כגון לחיצה על אפשרות הזמנה), סוג מכשיר ודפדפן, ומקור הגעה ככל שהכלי מספק."
           },
           {
             type: "paragraph",
@@ -164,7 +166,7 @@ export function getPrivacyContentHe(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "אין באתר כרגע כפתור הסרה מדיוור."
+            text: "במיילים שיווקיים שנשלחים באמצעות האתר מצורף קישור להסרה. פתיחת הקישור מציגה מסך אישור; אישור הבקשה מפסיק דיוור שיווקי לכתובת זו. אפשר גם לפנות אלינו באימייל."
           }
         ]
       },
@@ -227,8 +229,8 @@ export function getPrivacyContentHe(): LegalDocument {
               "Google Analytics 4 - מדידת שימוש באתר",
               "Firebase / Firestore - שמירת הרשמות למועדון ותוכן האתר",
               "Instagram - הצגת תוכן מוטמע מהרשת החברתית",
-              "Leaflet, CARTO ו-OpenStreetMap - הצגת מפת הסניף",
-              "Google Maps - קישור ניווט לכתובת הסניף",
+              "Resend - משלוח מיילים שיווקיים לנמענים שהסכימו; Beecomm - מערכת הזמנות חיצונית",
+              "Google Maps - מפה מוטמעת וקישור ניווט; טעינת המפה מעבירה מידע טכני לספק",
               "Vercel - אחסון האתר ומדיה"
             ]
           },
@@ -339,7 +341,7 @@ export function getPrivacyContentHe(): LegalDocument {
           {
             type: "list",
             items: [
-              `שם העסק: ${BUSINESS.name}`,
+              `שם העסק: מסעדת ${BUSINESS.name}`,
               `דוא"ל: ${CONTACT_EMAIL}`,
               `כתובת: ${BUSINESS.address.formattedWithCountry.he}`
             ]

@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getTermsContentHe(): LegalDocument {
   return {
-    lastUpdated: "תאריך עדכון אחרון: 18 באוגוסט 2026",
+    lastUpdated: "תאריך עדכון אחרון: 3 באוקטובר 2026",
     title: "תקנון אתר ותנאי שימוש – SO WHAT",
     introBlocks: [
       {
@@ -27,7 +27,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "האתר מופעל ומנוהל על ידי SO WHAT ומשמש להצגת מידע, תפריטים, מוצרים, שירותים, מבצעים, תוכן שיווקי, מועדון לקוחות, יצירת קשר ושירותים נוספים."
+            text: "האתר מופעל ומנוהל על ידי מסעדת SO WHAT ומשמש להצגת מידע, תפריטים, מוצרים, שירותים, מבצעים, תוכן שיווקי, מועדון לקוחות, יצירת קשר ושירותים נוספים."
           },
           {
             type: "paragraph",
@@ -174,6 +174,7 @@ export function getTermsContentHe(): LegalDocument {
       {
         title: "10. ביטולים, שינויים והחזרים",
         blocks: [
+          { type: "paragraph", text: "לפנייה בנושא ביטול, שינוי, הזמנה חסרה או החזר, פנו בהקדם באמצעות פרטי הקשר שבהזמנת Beecomm או ל־official.nbburger@gmail.com וציינו מספר הזמנה ופרטי הפנייה, ללא פרטי אשראי. תנאי ההזמנה וזכויות הצרכן לפי הדין חלים גם כשהתשלום מתבצע אצל ספק חיצוני." },
           {
             type: "paragraph",
             text: "הזמנות מקוונות מנוהלות באמצעות מערכת ההזמנות החיצונית."
@@ -235,6 +236,7 @@ export function getTermsContentHe(): LegalDocument {
             items: [
               "שם",
               "מספר טלפון",
+              "אימייל, אם נמסר (שדה אופציונלי)",
               "תאריך לידה, אם נמסר (שדה אופציונלי)",
               "הסכמה לדיוור"
             ]
@@ -288,7 +290,7 @@ export function getTermsContentHe(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "כל זכויות הקניין הרוחני באתר שייכות ל-SO WHAT בלבד."
+            text: "זכויות בתכני SO WHAT שייכות לעסק או לבעלי הזכויות שנתנו רשות שימוש. ספריות קוד, גופנים ונכסים של צדדים שלישיים כפופים לרישיונות שלהם. אין בסעיף זה כדי לגרוע מזכויות בעלי אותם נכסים."
           },
           { type: "paragraph", text: "לרבות:" },
           {
@@ -412,7 +414,7 @@ export function getTermsContentHe(): LegalDocument {
       {
         title: "26. יצירת קשר",
         blocks: [
-          { type: "paragraph", text: "SO WHAT" },
+          { type: "paragraph", text: "מסעדת SO WHAT" },
           {
             type: "list",
             items: [

@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getTermsContentEn(): LegalDocument {
   return {
-    lastUpdated: "Last updated: 18 August 2026",
+    lastUpdated: "Last updated: 3 October 2026",
     title: "Website Terms and Conditions of Use – SO WHAT",
     introBlocks: [
       {
@@ -174,6 +174,7 @@ export function getTermsContentEn(): LegalDocument {
       {
         title: "10. Cancellations, changes, and refunds",
         blocks: [
+          { type: "paragraph", text: "For cancellation, changes, missing items or refund enquiries, promptly use the contact details on your Beecomm order or email official.nbburger@gmail.com with your order number and enquiry, without card details. Applicable consumer rights remain in effect when payment is handled by an external provider." },
           {
             type: "paragraph",
             text: "Online orders are managed through the external ordering system."
@@ -235,6 +236,7 @@ export function getTermsContentEn(): LegalDocument {
             items: [
               "Name",
               "Phone number",
+              "Email address, if provided (optional)",
               "Date of birth, if provided (optional field)",
               "Consent to marketing communications"
             ]
@@ -288,7 +290,7 @@ export function getTermsContentEn(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "All intellectual property rights in the Website belong exclusively to SO WHAT."
+            text: "Rights in SO WHAT content belong to the business or the owners who licensed it. Third-party libraries, fonts and assets remain subject to their respective licences and ownership."
           },
           { type: "paragraph", text: "Including:" },
           {

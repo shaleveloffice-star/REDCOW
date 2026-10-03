@@ -22,7 +22,7 @@ export const en: Messages = {
     switchTo: "Change language"
   },
   openingBanner: {
-    message: "The best kosher burger in the world",
+    message: "Kosher burgers in Ra’anana",
     popupTitle: "We're getting ready to open",
     popupLead: "The menu and images currently shown on the site are for illustration only.",
     popupBody: "Soon we'll update the official menu and real photos of SO WHAT here.",
@@ -50,7 +50,7 @@ export const en: Messages = {
   },
   hero: {
     tagline: "Simply a good burger.",
-    captionKicker: "THE BEST KOSHER BURGER. PERIOD.",
+    captionKicker: "Kosher burgers, our way.",
     captionTitle: "SO WHAT?",
     menuCta: "View Menu",
     orderCta: "Order Now",
@@ -206,9 +206,9 @@ export const en: Messages = {
       fullName: "Full name",
       phone: "Phone",
       email: "Email (optional)",
-      birthDate: "Birth date"
+      birthDate: "Date of birth (optional, for birthday offers)"
     },
-    consentPrefix: "I agree to receive updates and gifts",
+    consentPrefix: "I agree to receive SO WHAT advertising, news and offers by email and SMS. I can unsubscribe at any time.",
     privacyLink: "Privacy",
     submit: "Join now",
     submitting: "Sending...",

@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getPrivacyContentFr(): LegalDocument {
   return {
-    lastUpdated: "Dernière mise à jour : 18 août 2026",
+    lastUpdated: "Dernière mise à jour : 3 octobre 2026",
     title: "Politique de confidentialité - SO WHAT",
     introTitle: "Introduction",
     introBlocks: [
@@ -40,6 +40,7 @@ export function getPrivacyContentFr(): LegalDocument {
       }
     ],
     sections: [
+      { title: "Préférences cookies", blocks: [{ type: "paragraph", text: "Vous pouvez accepter ou refuser les statistiques dans les préférences cookies et modifier ce choix avec le bouton en bas du site. Google Analytics ne se charge pas sans accord. Votre choix est enregistré dans le navigateur. Le stockage essentiel sert à la langue, à l’accessibilité et à la connexion administrateur. Google Maps et Instagram se chargent uniquement après un clic sur leur bouton de chargement ; ce choix est distinct du consentement aux statistiques." }] },
       {
         title: "1. Qui sommes-nous",
         blocks: [
@@ -76,6 +77,7 @@ export function getPrivacyContentFr(): LegalDocument {
             items: [
               "Nom",
               "Numéro de téléphone",
+              "Adresse e-mail, si fournie (facultative)",
               "Date de naissance, si elle est fournie (facultatif)",
               "Consentement à recevoir des communications marketing"
             ]
@@ -95,7 +97,7 @@ export function getPrivacyContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "Lors de la navigation, des informations techniques sont collectées via Google Analytics 4, notamment les pages consultées, des actions générales sur le site (par exemple un clic sur une option de commande), le type d'appareil et de navigateur, et la source d'arrivée lorsque l'outil la fournit."
+            text: "Avec votre accord pour les statistiques, des informations techniques sont collectées via Google Analytics 4, notamment les pages consultées, des actions générales sur le site (par exemple un clic sur une option de commande), le type d'appareil et de navigateur, et la source d'arrivée lorsque l'outil la fournit."
           },
           {
             type: "paragraph",
@@ -164,7 +166,7 @@ export function getPrivacyContentFr(): LegalDocument {
           },
           {
             type: "paragraph",
-            text: "Le site ne comporte pas actuellement de bouton de désinscription."
+            text: "Les e-mails marketing envoyés par ce site contiennent un lien de désinscription. Son ouverture affiche une page de confirmation ; confirmer arrête les envois marketing à cette adresse. Vous pouvez aussi nous contacter par e-mail."
           }
         ]
       },
@@ -227,8 +229,8 @@ export function getPrivacyContentFr(): LegalDocument {
               "Google Analytics 4 - mesure de l'usage du site",
               "Firebase / Firestore - conservation des inscriptions au club et du contenu du site",
               "Instagram - affichage de contenus intégrés",
-              "Leaflet, CARTO et OpenStreetMap - affichage de la carte de l'établissement",
-              "Google Maps - lien d'itinéraire vers l'adresse",
+              "Resend - envoi de messages marketing aux destinataires consentants ; Beecomm - système de commande externe",
+              "Google Maps - carte intégrée et lien de navigation ; son chargement transmet des informations techniques au fournisseur",
               "Vercel - hébergement du site et des médias"
             ]
           },

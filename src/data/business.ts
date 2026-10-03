@@ -1,3 +1,4 @@
+import { ORDER_URL } from "@/lib/orders";
 /**
  * מקור מרכזי לפרטי העסק של SO WHAT.
  * נתונים מאושרים בלבד — אין placeholders או קישורים זמניים.
@@ -73,11 +74,11 @@ export const BUSINESS = {
   serviceOptions: {
     dineIn: true,
     delivery: true,
-    /** No approved delivery URL yet */
-    deliveryUrl: null as string | null,
-    takeaway: false,
-    /** No approved pickup URL yet */
-    takeawayUrl: null as string | null
+    /** Approved ordering provider */
+    deliveryUrl: ORDER_URL,
+    takeaway: true,
+    /** Approved ordering provider */
+    takeawayUrl: ORDER_URL
   },
 
   /**

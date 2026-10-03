@@ -42,3 +42,12 @@ export async function saveCustomerClubSignup(input: CustomerClubSignup): Promise
 export async function deleteCustomerClubSignup(id: string): Promise<boolean> {
   return customerClubStore.remove(id);
 }
+
+/** Apply opt-out atomically to every record sharing this email. */
+export async function unsubscribeCustomerEmail(email: string): Promise<void> {
+  await mutateCollection("customerClubSignups", localCustomerClubSignupsStore, rows => ({
+    result: undefined,
+    upserts: rows.filter(row => normalizeEmail(row.email ?? "") === normalizeEmail(email))
+      .map(row => ({ ...row, marketingConsent: false, unsubscribedAt: row.unsubscribedAt || new Date().toISOString() }))
+  }));
+}

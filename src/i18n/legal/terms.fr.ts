@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getTermsContentFr(): LegalDocument {
   return {
-    lastUpdated: "Dernière mise à jour : 18 août 2026",
+    lastUpdated: "Dernière mise à jour : 3 octobre 2026",
     title: "Conditions générales d'utilisation du site – SO WHAT",
     introBlocks: [
       {
@@ -174,6 +174,7 @@ export function getTermsContentFr(): LegalDocument {
       {
         title: "10. Annulations, modifications et remboursements",
         blocks: [
+          { type: "paragraph", text: "Pour toute annulation, modification, produit manquant ou demande de remboursement, utilisez rapidement les coordonnées de votre commande Beecomm ou écrivez à official.nbburger@gmail.com en précisant le numéro de commande, sans données bancaires. Les droits légaux des consommateurs restent applicables avec un prestataire de paiement externe." },
           {
             type: "paragraph",
             text: "Les commandes en ligne sont gérées via le système de commande externe."
@@ -235,6 +236,7 @@ export function getTermsContentFr(): LegalDocument {
             items: [
               "Nom",
               "Numéro de téléphone",
+              "Adresse e-mail, si fournie (facultative)",
               "Date de naissance, si elle est fournie (champ facultatif)",
               "Consentement aux communications marketing"
             ]
@@ -288,7 +290,7 @@ export function getTermsContentFr(): LegalDocument {
         blocks: [
           {
             type: "paragraph",
-            text: "Tous les droits de propriété intellectuelle sur le Site appartiennent exclusivement à SO WHAT."
+            text: "Les droits sur les contenus SO WHAT appartiennent à l’entreprise ou aux titulaires ayant autorisé leur utilisation. Les bibliothèques, polices et ressources tierces restent soumises à leurs licences et droits respectifs."
           },
           { type: "paragraph", text: "Notamment :" },
           {

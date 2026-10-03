@@ -22,7 +22,7 @@ export const he: Messages = {
     switchTo: "החלף שפה"
   },
   openingBanner: {
-    message: "ההמבורגר הכשר הטוב בעולם",
+    message: "המבורגר כשר ברעננה",
     popupTitle: "אנחנו מתכוננים לפתיחה",
     popupLead: "התפריט והתמונות המוצגים באתר כרגע הם להמחשה בלבד.",
     popupBody: "בקרוב נעדכן כאן את התפריט הרשמי והתמונות האמיתיות של SO WHAT.",
@@ -50,7 +50,7 @@ export const he: Messages = {
   },
   hero: {
     tagline: "פשוט המבורגר טוב.",
-    captionKicker: "ההמבורגר הכי טוב בכשר. נקודה.",
+    captionKicker: "המבורגר כשר. בדרך שלנו.",
     captionTitle: "SO WHAT?",
     menuCta: "לתפריט",
     orderCta: "להזמנה",
@@ -206,9 +206,9 @@ export const he: Messages = {
       fullName: "שם מלא",
       phone: "טלפון",
       email: "אימייל (לא חובה)",
-      birthDate: "תאריך לידה"
+      birthDate: "תאריך לידה (לא חובה, להטבת יום הולדת)"
     },
-    consentPrefix: "מאשר/ת קבלת עדכונים ומתנות",
+    consentPrefix: "מאשר/ת קבלת פרסומות, עדכונים והטבות מ־SO WHAT באימייל וב־SMS. ניתן להסיר את ההרשמה בכל עת.",
     privacyLink: "פרטיות",
     submit: "להצטרפות",
     submitting: "שולחים...",

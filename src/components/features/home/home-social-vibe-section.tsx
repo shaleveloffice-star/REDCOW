@@ -1,4 +1,5 @@
 "use client";
+import { ExternalContentConsent } from "@/components/shared/external-content-consent";
 
 import { useEffect, useRef, useState } from "react";
 
@@ -44,7 +45,7 @@ function ReelEmbed({
   }
 
   return (
-    <iframe
+    <ExternalContentConsent provider="Instagram" className={className}><iframe
       src={`https://www.instagram.com/reel/${reelId}/embed/`}
       title={title}
       className={className}
@@ -52,7 +53,8 @@ function ReelEmbed({
       scrolling="no"
       allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
       allowFullScreen
-    />
+      referrerPolicy="no-referrer"
+    /></ExternalContentConsent>
   );
 }
 

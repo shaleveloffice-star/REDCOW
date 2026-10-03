@@ -8,7 +8,8 @@ export function rebrandText(value: string): string {
   return value.split(protectedTokens).map((part, index) => {
     if (index % 2) return migrateOwnedSiteUrl(part);
     return part.replace(/\bNB[\s_-]*BURGER\b/gi, "SO WHAT")
-      .replace(/\bNB\b/g, "SO WHAT");
+      .replace(/\bNB\b/g, "SO WHAT")
+      .replace(/אן[־\s]+בי[־\s]+בורגר/g, "SO WHAT");
   }).join("");
 }
 

@@ -454,7 +454,7 @@ export function SiteNavbar({
               menuLabel={t.hero.menuCta}
             />
 
-            {showBack ? (
+            {showBack && pathname !== "/" ? (
               <button
                 type="button"
                 className="site-navbar-icon-btn site-navbar-back"

@@ -174,7 +174,7 @@ export function getTermsContentEn(): LegalDocument {
       {
         title: "10. Cancellations, changes, and refunds",
         blocks: [
-          { type: "paragraph", text: "For cancellation, changes, missing items or refund enquiries, promptly use the contact details on your Beecomm order or email official.nbburger@gmail.com with your order number and enquiry, without card details. Applicable consumer rights remain in effect when payment is handled by an external provider." },
+          { type: "paragraph", text: `For cancellation, changes, missing items or refund enquiries, promptly use the contact details on your Beecomm order or email ${CONTACT_EMAIL} with your order number and enquiry, without card details. Applicable consumer rights remain in effect when payment is handled by an external provider.` },
           {
             type: "paragraph",
             text: "Online orders are managed through the external ordering system."

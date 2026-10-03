@@ -1,3 +1,4 @@
+import { BUSINESS } from "@/data/business";
 import { readUnsubscribeToken } from "@/lib/email/unsubscribe-token";
 import { unsubscribeCustomerEmail } from "@/repositories/customer-club.repository";
 
@@ -12,7 +13,7 @@ function page(message: string, token?: string, status = 200) {
 // GET never changes consent: email security scanners may visit links automatically.
 export async function GET(request: Request) {
   const token = new URL(request.url).searchParams.get("token") ?? "";
-  return readUnsubscribeToken(token) ? page("לחצו לאישור הפסקת הדיוור השיווקי. No login required — confirm below to unsubscribe.", token) : page("קישור לא תקין. אפשר לפנות ל־official.nbburger@gmail.com להסרה.", undefined, 400);
+  return readUnsubscribeToken(token) ? page("לחצו לאישור הפסקת הדיוור השיווקי. No login required — confirm below to unsubscribe.", token) : page(`קישור לא תקין. אפשר לפנות ל־${BUSINESS.email} להסרה.`, undefined, 400);
 }
 
 export async function POST(request: Request) {
@@ -23,5 +24,5 @@ export async function POST(request: Request) {
   try {
     await unsubscribeCustomerEmail(email);
     return page("הבקשה בוצעה. לא יישלח אליכם דיוור שיווקי נוסף. You have been unsubscribed.");
-  } catch { return page("לא הצלחנו להשלים את הבקשה. נסו שוב או פנו ל־official.nbburger@gmail.com.", token, 503); }
+  } catch { return page(`לא הצלחנו להשלים את הבקשה. נסו שוב או פנו ל־${BUSINESS.email}.`, token, 503); }
 }

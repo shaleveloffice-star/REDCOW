@@ -174,7 +174,7 @@ export function getTermsContentFr(): LegalDocument {
       {
         title: "10. Annulations, modifications et remboursements",
         blocks: [
-          { type: "paragraph", text: "Pour toute annulation, modification, produit manquant ou demande de remboursement, utilisez rapidement les coordonnées de votre commande Beecomm ou écrivez à official.nbburger@gmail.com en précisant le numéro de commande, sans données bancaires. Les droits légaux des consommateurs restent applicables avec un prestataire de paiement externe." },
+          { type: "paragraph", text: `Pour toute annulation, modification, produit manquant ou demande de remboursement, utilisez rapidement les coordonnées de votre commande Beecomm ou écrivez à ${CONTACT_EMAIL} en précisant le numéro de commande, sans données bancaires. Les droits légaux des consommateurs restent applicables avec un prestataire de paiement externe.` },
           {
             type: "paragraph",
             text: "Les commandes en ligne sont gérées via le système de commande externe."

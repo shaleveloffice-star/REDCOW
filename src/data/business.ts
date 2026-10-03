@@ -61,14 +61,14 @@ export const BUSINESS = {
   /** No approved phone yet — do not invent one */
   phone: null as string | null,
 
-  email: "official.nbburger@gmail.com",
+  email: "swhat.burger@gmail.com",
 
   website: CANONICAL_SITE_ORIGIN,
 
   social: {
-    facebook: "https://www.facebook.com/profile.php?id=61590066758310",
+    facebook: "https://www.facebook.com/SOWHAT.IL",
     instagram: "https://www.instagram.com/sowhat.il/",
-    tiktok: "https://www.tiktok.com/@nb.burg"
+    tiktok: "https://www.tiktok.com/@sowhat.il"
   },
 
   serviceOptions: {

@@ -22,7 +22,7 @@ export const he: Messages = {
     switchTo: "החלף שפה"
   },
   openingBanner: {
-    message: "המבורגר כשר ברעננה",
+    message: "ההמבורגר הכשר הטוב בעולם",
     popupTitle: "אנחנו מתכוננים לפתיחה",
     popupLead: "התפריט והתמונות המוצגים באתר כרגע הם להמחשה בלבד.",
     popupBody: "בקרוב נעדכן כאן את התפריט הרשמי והתמונות האמיתיות של SO WHAT.",
@@ -50,7 +50,7 @@ export const he: Messages = {
   },
   hero: {
     tagline: "פשוט המבורגר טוב.",
-    captionKicker: "המבורגר כשר. בדרך שלנו.",
+    captionKicker: "ההמבורגר הכי טוב בכשר. נקודה.",
     captionTitle: "SO WHAT?",
     menuCta: "לתפריט",
     orderCta: "להזמנה",

@@ -83,6 +83,7 @@ export function AdminSeoPageEditor({ pageId, initialDocument, fieldFlags }: Admi
           flags={flags}
           onChange={setDraft}
           idPrefix={`page-${pageId}`}
+          contentLegend={pageId === "home" ? "תוכן בדף - סקשן הסיפור שלנו" : undefined}
         />
 
         {error ? <p className="admin-form-error">{error}</p> : null}

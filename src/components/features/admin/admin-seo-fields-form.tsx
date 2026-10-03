@@ -30,6 +30,7 @@ type AdminSeoFieldsFormProps = {
   onChange: (next: SeoPageFieldsInput) => void;
   idPrefix?: string;
   fieldWhere?: AdminSeoFieldWhere;
+  contentLegend?: string;
 };
 
 function MetaLengthCounter({
@@ -54,7 +55,8 @@ export function AdminSeoFieldsForm({
   flags,
   onChange,
   idPrefix = "seo",
-  fieldWhere
+  fieldWhere,
+  contentLegend = "תוכן בדף"
 }: AdminSeoFieldsFormProps) {
   const update = (patch: Partial<SeoPageFieldsInput>) => onChange({ ...draft, ...patch });
 
@@ -114,7 +116,7 @@ export function AdminSeoFieldsForm({
       ) : null}
 
       <fieldset className="admin-seo-fieldset">
-        <legend>תוכן בדף</legend>
+        <legend>{contentLegend}</legend>
 
         {flags.sectionTitle ? (
           <label>
@@ -158,188 +160,188 @@ export function AdminSeoFieldsForm({
             <span className="admin-field-hint">{SEO_PARAGRAPH_HINT}</span>
           </label>
         ) : null}
-
-        {flags.smashStory ? (
-          <fieldset className="admin-seo-fieldset admin-seo-fieldset--nested">
-            <legend>
-              {adminFieldLabel("סקשן סמאש", "דף הבית - מתחת לתמונות המתחלפות")}
-            </legend>
-            <label>
-              כותרת
-              <input
-                value={draft.smashStory?.title ?? ""}
-                placeholder={defaults.smashStory?.title ?? ""}
-                onChange={(event) => updateSmashStory({ title: event.target.value })}
-              />
-            </label>
-            <label>
-              פתיח
-              <textarea
-                rows={5}
-                value={draft.smashStory?.introduction ?? ""}
-                placeholder={defaults.smashStory?.introduction ?? ""}
-                onChange={(event) => updateSmashStory({ introduction: event.target.value })}
-              />
-              <span className="admin-field-hint">
-                הפסקה הראשונה היא פסקת הפתיחה, והפסקאות שאחריה מוצגות כשורות מודגשות בקו תחתון.{" "}
-                {SEO_PARAGRAPH_HINT}
-              </span>
-            </label>
-            <label>
-              סיום
-              <textarea
-                rows={4}
-                value={draft.smashStory?.bottomContent ?? ""}
-                placeholder={defaults.smashStory?.bottomContent ?? ""}
-                onChange={(event) => updateSmashStory({ bottomContent: event.target.value })}
-              />
-              <span className="admin-field-hint">{SEO_PARAGRAPH_HINT}</span>
-            </label>
-          </fieldset>
-        ) : null}
-
-        {flags.faq ? (
-          <fieldset className="admin-seo-fieldset admin-seo-fieldset--nested">
-            <legend>
-              {fieldWhere?.faqLegend
-                ? adminFieldLabel("שאלות ותשובות (FAQ)", fieldWhere.faqLegend)
-                : "שאלות ותשובות (FAQ)"}
-            </legend>
-            <label>
-              {fieldWhere?.faqKicker
-                ? adminFieldLabel("כותרת עליונה", fieldWhere.faqKicker)
-                : "כותרת עליונה"}
-              <input
-                value={draft.faq?.kicker ?? ""}
-                placeholder={defaults.faq?.kicker ?? ""}
-                onChange={(event) => updateFaq({ kicker: event.target.value })}
-              />
-            </label>
-            <label>
-              {fieldWhere?.faqTitle ? adminFieldLabel("כותרת", fieldWhere.faqTitle) : "כותרת"}
-              <input
-                value={draft.faq?.title ?? ""}
-                placeholder={defaults.faq?.title ?? ""}
-                onChange={(event) => updateFaq({ title: event.target.value })}
-              />
-            </label>
-            <label>
-              {fieldWhere?.faqLead ? adminFieldLabel("פסקת פתיחה", fieldWhere.faqLead) : "פסקת פתיחה"}
-              <textarea
-                rows={2}
-                value={draft.faq?.lead ?? ""}
-                placeholder={defaults.faq?.lead ?? ""}
-                onChange={(event) => updateFaq({ lead: event.target.value })}
-              />
-            </label>
-
-            {(draft.faq?.items ?? []).map((_item, index) => (
-              <div key={`${idPrefix}-faq-${index}`} className="admin-seo-faq-item">
-                <label>
-                  {fieldWhere?.faqQuestion
-                    ? adminFieldLabel(`שאלה ${index + 1}`, fieldWhere.faqQuestion)
-                    : `שאלה ${index + 1}`}
-                  <input
-                    value={draft.faq?.items?.[index]?.question ?? ""}
-                    onChange={(event) => updateFaqItem(index, { question: event.target.value })}
-                  />
-                </label>
-                <label>
-                  {fieldWhere?.faqAnswer
-                    ? adminFieldLabel("תשובה", fieldWhere.faqAnswer)
-                    : "תשובה"}
-                  <textarea
-                    rows={3}
-                    value={draft.faq?.items?.[index]?.answer ?? ""}
-                    onChange={(event) => updateFaqItem(index, { answer: event.target.value })}
-                  />
-                </label>
-                <button
-                  type="button"
-                  className="button secondary admin-btn-danger"
-                  onClick={() =>
-                    onChange({
-                      ...draft,
-                      faq: {
-                        ...(draft.faq ?? {}),
-                        items: (draft.faq?.items ?? []).filter((_, itemIndex) => itemIndex !== index)
-                      }
-                    })
-                  }
-                >
-                  הסר שאלה
-                </button>
-              </div>
-            ))}
-
-            <button
-              type="button"
-              className="button secondary"
-              onClick={() =>
-                onChange({
-                  ...draft,
-                  faq: {
-                    ...(draft.faq ?? {}),
-                    items: [...(draft.faq?.items ?? []), { question: "", answer: "" }]
-                  }
-                })
-              }
-            >
-              הוסף שאלה
-            </button>
-          </fieldset>
-        ) : null}
-
-        {flags.cta ? (
-          <fieldset className="admin-seo-fieldset admin-seo-fieldset--nested">
-            <legend>
-              {fieldWhere?.ctaLegend
-                ? adminFieldLabel("בלוק CTA (אופציונלי)", fieldWhere.ctaLegend)
-                : "בלוק CTA (אופציונלי)"}
-            </legend>
-            <p className="admin-form-hint">
-              ריק = הבלוק לא יופיע באתר. אין מילוי אוטומטי מטקסט לדוגמה.
-            </p>
-            <label>
-              {fieldWhere?.ctaTitle ? adminFieldLabel("כותרת", fieldWhere.ctaTitle) : "כותרת"}
-              <input
-                value={draft.cta?.title ?? ""}
-                placeholder={defaults.cta?.title ?? ""}
-                onChange={(event) => updateCta({ title: event.target.value })}
-              />
-            </label>
-            <label>
-              {fieldWhere?.ctaBody ? adminFieldLabel("טקסט", fieldWhere.ctaBody) : "טקסט"}
-              <textarea
-                rows={3}
-                value={draft.cta?.body ?? ""}
-                placeholder={defaults.cta?.body ?? ""}
-                onChange={(event) => updateCta({ body: event.target.value })}
-              />
-            </label>
-            <label>
-              {fieldWhere?.ctaButtonLabel
-                ? adminFieldLabel("טקסט כפתור", fieldWhere.ctaButtonLabel)
-                : "טקסט כפתור"}
-              <input
-                value={draft.cta?.buttonLabel ?? ""}
-                placeholder={defaults.cta?.buttonLabel ?? ""}
-                onChange={(event) => updateCta({ buttonLabel: event.target.value })}
-              />
-            </label>
-            <label>
-              {fieldWhere?.ctaButtonHref
-                ? adminFieldLabel("קישור כפתור", fieldWhere.ctaButtonHref)
-                : "קישור כפתור"}
-              <input
-                value={draft.cta?.buttonHref ?? ""}
-                placeholder={defaults.cta?.buttonHref ?? "/menu"}
-                onChange={(event) => updateCta({ buttonHref: event.target.value })}
-              />
-            </label>
-          </fieldset>
-        ) : null}
       </fieldset>
+
+      {flags.smashStory ? (
+        <fieldset className="admin-seo-fieldset admin-seo-fieldset--nested">
+          <legend>
+            {adminFieldLabel("סקשן סמאש", "דף הבית - מתחת לתמונות המתחלפות")}
+          </legend>
+          <label>
+            כותרת
+            <input
+              value={draft.smashStory?.title ?? ""}
+              placeholder={defaults.smashStory?.title ?? ""}
+              onChange={(event) => updateSmashStory({ title: event.target.value })}
+            />
+          </label>
+          <label>
+            פתיח
+            <textarea
+              rows={5}
+              value={draft.smashStory?.introduction ?? ""}
+              placeholder={defaults.smashStory?.introduction ?? ""}
+              onChange={(event) => updateSmashStory({ introduction: event.target.value })}
+            />
+            <span className="admin-field-hint">
+              הפסקה הראשונה היא פסקת הפתיחה, והפסקאות שאחריה מוצגות כשורות מודגשות בקו תחתון.{" "}
+              {SEO_PARAGRAPH_HINT}
+            </span>
+          </label>
+          <label>
+            סיום
+            <textarea
+              rows={4}
+              value={draft.smashStory?.bottomContent ?? ""}
+              placeholder={defaults.smashStory?.bottomContent ?? ""}
+              onChange={(event) => updateSmashStory({ bottomContent: event.target.value })}
+            />
+            <span className="admin-field-hint">{SEO_PARAGRAPH_HINT}</span>
+          </label>
+        </fieldset>
+      ) : null}
+
+      {flags.faq ? (
+        <fieldset className="admin-seo-fieldset admin-seo-fieldset--nested">
+          <legend>
+            {fieldWhere?.faqLegend
+              ? adminFieldLabel("שאלות ותשובות (FAQ)", fieldWhere.faqLegend)
+              : "שאלות ותשובות (FAQ)"}
+          </legend>
+          <label>
+            {fieldWhere?.faqKicker
+              ? adminFieldLabel("כותרת עליונה", fieldWhere.faqKicker)
+              : "כותרת עליונה"}
+            <input
+              value={draft.faq?.kicker ?? ""}
+              placeholder={defaults.faq?.kicker ?? ""}
+              onChange={(event) => updateFaq({ kicker: event.target.value })}
+            />
+          </label>
+          <label>
+            {fieldWhere?.faqTitle ? adminFieldLabel("כותרת", fieldWhere.faqTitle) : "כותרת"}
+            <input
+              value={draft.faq?.title ?? ""}
+              placeholder={defaults.faq?.title ?? ""}
+              onChange={(event) => updateFaq({ title: event.target.value })}
+            />
+          </label>
+          <label>
+            {fieldWhere?.faqLead ? adminFieldLabel("פסקת פתיחה", fieldWhere.faqLead) : "פסקת פתיחה"}
+            <textarea
+              rows={2}
+              value={draft.faq?.lead ?? ""}
+              placeholder={defaults.faq?.lead ?? ""}
+              onChange={(event) => updateFaq({ lead: event.target.value })}
+            />
+          </label>
+
+          {(draft.faq?.items ?? []).map((_item, index) => (
+            <div key={`${idPrefix}-faq-${index}`} className="admin-seo-faq-item">
+              <label>
+                {fieldWhere?.faqQuestion
+                  ? adminFieldLabel(`שאלה ${index + 1}`, fieldWhere.faqQuestion)
+                  : `שאלה ${index + 1}`}
+                <input
+                  value={draft.faq?.items?.[index]?.question ?? ""}
+                  onChange={(event) => updateFaqItem(index, { question: event.target.value })}
+                />
+              </label>
+              <label>
+                {fieldWhere?.faqAnswer
+                  ? adminFieldLabel("תשובה", fieldWhere.faqAnswer)
+                  : "תשובה"}
+                <textarea
+                  rows={3}
+                  value={draft.faq?.items?.[index]?.answer ?? ""}
+                  onChange={(event) => updateFaqItem(index, { answer: event.target.value })}
+                />
+              </label>
+              <button
+                type="button"
+                className="button secondary admin-btn-danger"
+                onClick={() =>
+                  onChange({
+                    ...draft,
+                    faq: {
+                      ...(draft.faq ?? {}),
+                      items: (draft.faq?.items ?? []).filter((_, itemIndex) => itemIndex !== index)
+                    }
+                  })
+                }
+              >
+                הסר שאלה
+              </button>
+            </div>
+          ))}
+
+          <button
+            type="button"
+            className="button secondary"
+            onClick={() =>
+              onChange({
+                ...draft,
+                faq: {
+                  ...(draft.faq ?? {}),
+                  items: [...(draft.faq?.items ?? []), { question: "", answer: "" }]
+                }
+              })
+            }
+          >
+            הוסף שאלה
+          </button>
+        </fieldset>
+      ) : null}
+
+      {flags.cta ? (
+        <fieldset className="admin-seo-fieldset admin-seo-fieldset--nested">
+          <legend>
+            {fieldWhere?.ctaLegend
+              ? adminFieldLabel("בלוק CTA (אופציונלי)", fieldWhere.ctaLegend)
+              : "בלוק CTA (אופציונלי)"}
+          </legend>
+          <p className="admin-form-hint">
+            ריק = הבלוק לא יופיע באתר. אין מילוי אוטומטי מטקסט לדוגמה.
+          </p>
+          <label>
+            {fieldWhere?.ctaTitle ? adminFieldLabel("כותרת", fieldWhere.ctaTitle) : "כותרת"}
+            <input
+              value={draft.cta?.title ?? ""}
+              placeholder={defaults.cta?.title ?? ""}
+              onChange={(event) => updateCta({ title: event.target.value })}
+            />
+          </label>
+          <label>
+            {fieldWhere?.ctaBody ? adminFieldLabel("טקסט", fieldWhere.ctaBody) : "טקסט"}
+            <textarea
+              rows={3}
+              value={draft.cta?.body ?? ""}
+              placeholder={defaults.cta?.body ?? ""}
+              onChange={(event) => updateCta({ body: event.target.value })}
+            />
+          </label>
+          <label>
+            {fieldWhere?.ctaButtonLabel
+              ? adminFieldLabel("טקסט כפתור", fieldWhere.ctaButtonLabel)
+              : "טקסט כפתור"}
+            <input
+              value={draft.cta?.buttonLabel ?? ""}
+              placeholder={defaults.cta?.buttonLabel ?? ""}
+              onChange={(event) => updateCta({ buttonLabel: event.target.value })}
+            />
+          </label>
+          <label>
+            {fieldWhere?.ctaButtonHref
+              ? adminFieldLabel("קישור כפתור", fieldWhere.ctaButtonHref)
+              : "קישור כפתור"}
+            <input
+              value={draft.cta?.buttonHref ?? ""}
+              placeholder={defaults.cta?.buttonHref ?? "/menu"}
+              onChange={(event) => updateCta({ buttonHref: event.target.value })}
+            />
+          </label>
+        </fieldset>
+      ) : null}
     </div>
   );
 }

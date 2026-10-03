@@ -10888,7 +10888,9 @@ body:not(:has(.admin-layout)) button:focus-visible {
 
 .admin-seo-fieldset legend {
   padding: 0 6px;
-  font-weight: 600;
+  font-size: 2em;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
 .admin-seo-faq-item {

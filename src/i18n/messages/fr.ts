@@ -50,7 +50,7 @@ export const fr: Messages = {
   },
   hero: {
     tagline: "Simplement un bon burger.",
-    captionKicker: "REDÉFINIR L'EXPÉRIENCE BURGER",
+    captionKicker: "LE MEILLEUR BURGER CASHER. POINT.",
     captionTitle: "SO WHAT?",
     menuCta: "Voir la carte",
     orderCta: "Commander",

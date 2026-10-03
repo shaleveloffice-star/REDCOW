@@ -50,7 +50,7 @@ export const he: Messages = {
   },
   hero: {
     tagline: "פשוט המבורגר טוב.",
-    captionKicker: "מגדירים מחדש את חוויית ההמבורגר",
+    captionKicker: "ההמבורגר הכי טוב בכשר. נקודה.",
     captionTitle: "SO WHAT?",
     menuCta: "לתפריט",
     orderCta: "להזמנה",

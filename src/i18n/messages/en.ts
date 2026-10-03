@@ -50,7 +50,7 @@ export const en: Messages = {
   },
   hero: {
     tagline: "Simply a good burger.",
-    captionKicker: "REDEFINING THE BURGER EXPERIENCE",
+    captionKicker: "THE BEST KOSHER BURGER. PERIOD.",
     captionTitle: "SO WHAT?",
     menuCta: "View Menu",
     orderCta: "Order Now",

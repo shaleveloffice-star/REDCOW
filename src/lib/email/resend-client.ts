@@ -1,7 +1,7 @@
 import "server-only";
 
 import { Resend } from "resend";
-import { rebrandText } from "@/lib/brand-migration";
+import { CAMPAIGN_FROM_EMAIL, CAMPAIGN_FROM_NAME } from "@/lib/email/campaign-sender";
 
 export type ResendFromConfig = {
   email: string;
@@ -9,14 +9,11 @@ export type ResendFromConfig = {
   formatted: string;
 };
 
-export function getResendFromConfig(): ResendFromConfig | null {
-  const email = process.env.RESEND_FROM_EMAIL?.trim();
-  const name = rebrandText(process.env.RESEND_FROM_NAME?.trim() || "SO WHAT");
-  if (!email) return null;
+export function getResendFromConfig(): ResendFromConfig {
   return {
-    email,
-    name,
-    formatted: `${name} <${email}>`
+    email: CAMPAIGN_FROM_EMAIL,
+    name: CAMPAIGN_FROM_NAME,
+    formatted: `${CAMPAIGN_FROM_NAME} <${CAMPAIGN_FROM_EMAIL}>`
   };
 }
 

@@ -75,10 +75,10 @@ export async function sendCustomerClubCampaign(
 
   const from = getResendFromConfig();
   const resend = getResendClient();
-  if (!from || !resend) {
+  if (!resend) {
     return {
       ok: false,
-      error: "Resend לא מוגדר בשרת. בדקו RESEND_API_KEY / RESEND_FROM_EMAIL / RESEND_FROM_NAME."
+      error: "Resend לא מוגדר בשרת. בדקו RESEND_API_KEY."
     };
   }
 

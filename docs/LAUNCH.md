@@ -14,7 +14,7 @@ The current application runs on Next.js 16 with Node.js 22 or newer and is hoste
 | `BLOB_READ_WRITE_TOKEN` | Existing Vercel Blob upload token. The code also supports the existing Vercel OIDC/store binding; retain those settings when already configured. |
 | `BLOB_STORE_ID` | Optional explicit Blob store identifier. |
 | `OPENAI_API_KEY` | Server-only key for the existing story generation/suggestion tools. Retain existing optional model overrides. |
-| `RESEND_API_KEY`, `RESEND_FROM_EMAIL`, `RESEND_FROM_NAME` | Existing email provider and sender configuration. Sender name defaults to SO WHAT. |
+| `RESEND_API_KEY` | Email provider key. Campaign sender is fixed in code as `SO WHAT <no-reply@sowhat.co.il>` (`src/lib/email/campaign-sender.ts`); `sowhat.co.il` must be verified in Resend. |
 | `GOOGLE_CLOUD_TRANSLATION_API_KEY` | Optional existing translation integration. Automatic translation remains disabled in code. |
 
 Do not replace existing deployment credentials while applying maintenance fixes. `.env*` and service-account files stay outside Git. The login flow does not use `ADMIN_AUTH_MODE`, `ADMIN_ALLOWED_EMAILS`, or Firebase Authentication.

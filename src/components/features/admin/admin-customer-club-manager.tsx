@@ -7,6 +7,7 @@ import {
 } from "@/components/features/admin/admin-crud-ui";
 import { createId } from "@/lib/admin/new-id";
 import { isValidEmailFormat, normalizeEmail } from "@/lib/customer-club/normalize";
+import { CAMPAIGN_FROM_EMAIL, CAMPAIGN_FROM_NAME } from "@/lib/email/campaign-sender";
 import {
   deleteCustomerClubSignupAction,
   saveCustomerClubSignupAction
@@ -841,7 +842,7 @@ export function AdminCustomerClubManager({
         <div className="admin-form">
           <div className="admin-club-preview-meta">
             <p>
-              <strong>From:</strong> SO WHAT &lt;club@nbburger.co.il&gt;
+              <strong>From:</strong> {CAMPAIGN_FROM_NAME} &lt;{CAMPAIGN_FROM_EMAIL}&gt;
             </p>
             <p>
               <strong>Subject:</strong> {subject}

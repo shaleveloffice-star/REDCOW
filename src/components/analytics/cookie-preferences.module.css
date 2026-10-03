@@ -7,3 +7,9 @@
 .panel button { flex:1; }
 .panel button:focus-visible,.reopen:focus-visible { outline:3px solid #1769aa; outline-offset:3px; }
 .reopen { display:block; margin:16px auto 100px; font-size:14px; }
+
+.options { margin:16px 0 0; padding:12px; border:1px solid #777; border-radius:6px; }
+.options legend { padding-inline:6px; font-weight:700; }
+.options label { display:flex; align-items:center; gap:8px; min-height:44px; line-height:1.4; cursor:pointer; }
+.options input { width:18px; height:18px; flex-shrink:0; accent-color:#111; }
+.options button { margin-top:12px; width:100%; }

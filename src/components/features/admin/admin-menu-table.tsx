@@ -1,5 +1,7 @@
 "use client";
 
+import { AdminMenuAiPromptButton } from "@/components/features/admin/admin-menu-ai-prompt-button";
+
 import {
   AdminFormFooter,
   AdminModal,
@@ -431,6 +433,7 @@ export function AdminMenuTable({
             }}
           >
             <div className="admin-form-toolbar">
+              <AdminMenuAiPromptButton />
               <button
                 type="button"
                 className="button secondary"

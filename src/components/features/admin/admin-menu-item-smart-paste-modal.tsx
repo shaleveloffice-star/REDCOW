@@ -1,5 +1,7 @@
 "use client";
 
+import { AdminMenuAiPromptButton } from "@/components/features/admin/admin-menu-ai-prompt-button";
+
 import { useMemo, useState } from "react";
 
 import { AdminModal } from "@/components/features/admin/admin-crud-ui";
@@ -102,6 +104,7 @@ export function AdminMenuItemSmartPasteModal({
   return (
     <AdminModal open={open} stacked title="הדבקה חכמה" onClose={handleClose}>
       <div className="admin-smart-paste-modal">
+        <AdminMenuAiPromptButton />
         <p className="admin-field-hint">
           הדביקו טקסט עם כותרות שדות (שם המנה, מחיר, תיאור קצר, תיאור ארוך, כותרת מטא ועוד).
           רק שדות שיזוהו ימולאו - ללא שמירה אוטומטית.

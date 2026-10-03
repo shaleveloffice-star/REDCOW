@@ -1,8 +1,15 @@
-import { joinParagraphs, normalizePasteLine } from "@/lib/admin/category-smart-paste/labels";
+import { joinParagraphs } from "@/lib/admin/category-smart-paste/labels";
 
 import type { MenuItemSmartPasteFieldKey } from "./types";
 
-export { joinParagraphs, normalizePasteLine };
+export { joinParagraphs };
+
+export function normalizePasteLine(line: string): string {
+  return line.replace(/[\u200B-\u200F\u202A-\u202E\u2066-\u2069\uFEFF]/g, "")
+    .trim().replace(/^(?:#{1,6}\s+|[-*•]\s+|\d+[.)]\s+)/u, "")
+    .replace(/[*_`]/g, "").trim().replace(/[:：]\s*$/, "").trim()
+    .replace(/\s+/g, " ");
+}
 
 const MAIN_LABELS: Record<string, MenuItemSmartPasteFieldKey> = {
   "שם המנה": "name",
@@ -37,35 +44,29 @@ const MAIN_LABELS: Record<string, MenuItemSmartPasteFieldKey> = {
 const SEO_SECTION_MARKERS = ["תוכן SEO"] as const;
 
 export type LabelMatch =
-  | { type: "field"; key: MenuItemSmartPasteFieldKey; rawLabel: string }
+  | { type: "field"; key: MenuItemSmartPasteFieldKey; rawLabel: string; inlineValue?: string }
   | { type: "unknown"; rawLabel: string };
+
+function resolveLabel(label: string): MenuItemSmartPasteFieldKey | undefined {
+  const normalized = normalizePasteLine(label).replace(/\s*\([^)]*\)\s*$/u, "").toLowerCase();
+  return Object.entries(MAIN_LABELS).find(([key]) => normalizePasteLine(key).replace(/\s*\([^)]*\)\s*$/u, "").toLowerCase() === normalized)?.[1];
+}
 
 export function matchLabelLine(line: string): LabelMatch | null {
   const normalized = normalizePasteLine(line);
-  if (!normalized) return null;
-
-  if (SEO_SECTION_MARKERS.some((marker) => marker === normalized)) {
-    return null;
+  if (!normalized || SEO_SECTION_MARKERS.some(marker => marker === normalized)) return null;
+  const key = resolveLabel(normalized);
+  if (key) return { type: "field", key, rawLabel: normalized };
+  const separator = line.search(/[:：]/);
+  if (separator >= 0) {
+    const inlineKey = resolveLabel(line.slice(0, separator));
+    if (inlineKey) return { type: "field", key: inlineKey, rawLabel: normalizePasteLine(line.slice(0, separator)), inlineValue: line.slice(separator + 1).replace(/^[*_]+\s*/, "").trim() };
   }
-
-  if (normalized in MAIN_LABELS) {
-    return { type: "field", key: MAIN_LABELS[normalized]!, rawLabel: normalized };
-  }
-
-  if (looksLikeStandaloneHeading(normalized)) {
+  // Plain values (dish names, slugs and paragraphs) are never heading boundaries.
+  if (normalized.length <= 80 && (/[:：]\s*(?:\*\*)?\s*$/.test(line) || /^\s*#{1,6}\s+/.test(line))) {
     return { type: "unknown", rawLabel: normalized };
   }
-
   return null;
-}
-
-function looksLikeStandaloneHeading(line: string): boolean {
-  if (line.length > 80) return false;
-  if (/^[\d.)\-–—]/.test(line)) return false;
-  if (line in MAIN_LABELS || SEO_SECTION_MARKERS.some((marker) => marker === line)) {
-    return false;
-  }
-  return /^[\p{L}\d\s()'"/\-–—:]+$/u.test(line);
 }
 
 export function parsePriceValue(raw: string): number | undefined {

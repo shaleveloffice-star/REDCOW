@@ -11009,6 +11009,10 @@ body:not(:has(.admin-layout)) button:focus-visible {
 }
 
 .admin-smart-paste-textarea {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   min-height: 280px;
   resize: vertical;
   font-family: inherit;

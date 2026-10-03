@@ -21,7 +21,7 @@ function collectMarkers(lines: string[]): MarkerEntry[] {
   const markers: MarkerEntry[] = [];
 
   lines.forEach((rawLine, lineIndex) => {
-    const labelMatch = matchLabelLine(normalizePasteLine(rawLine));
+    const labelMatch = matchLabelLine(rawLine);
     if (labelMatch) {
       markers.push({ lineIndex, match: labelMatch });
     }
@@ -54,7 +54,7 @@ function countResolvedFields(data: MenuItemSmartPasteData): number {
 
 export function parseMenuItemSmartPaste(text: string): MenuItemSmartPastePreview {
   const normalized = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-  const lines = normalized.split("\n");
+  const lines = normalized.split("\n").filter(line => !/^\s*```/.test(line) && normalizePasteLine(line) !== "תוכן SEO");
   const markers = collectMarkers(lines);
 
   const data: MenuItemSmartPasteData = {};
@@ -72,7 +72,8 @@ export function parseMenuItemSmartPaste(text: string): MenuItemSmartPastePreview
     }
 
     const nextMarkerLine = markers[i + 1]?.lineIndex ?? lines.length;
-    const value = extractValue(lines, lineIndex, nextMarkerLine);
+    const body = extractValue(lines, lineIndex, nextMarkerLine);
+    const value = [match.inlineValue, body].filter(Boolean).join("\n");
     if (!value.trim() && match.key !== "price" && match.key !== "sortOrder") {
       continue;
     }

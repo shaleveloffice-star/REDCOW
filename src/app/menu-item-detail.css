@@ -158,10 +158,11 @@
 
 /* Narrow screens with more than three sauces: looping row (see NARROW_SCREEN_QUERY). */
 @media (max-width: 767px) {
-  .menu-item-sauces--moving { max-width: 312px; position: relative; }
+  .menu-item-sauces--moving { position: relative; }
   /* Anchor the oversized track at the left edge even inside a Hebrew RTL page.
-     Each sauce group retains its own text direction. */
-  .menu-item-sauces--moving .menu-item-sauces-viewport { overflow-x: auto; direction: ltr; scrollbar-width: none; cursor: grab; }
+     Each sauce group retains its own text direction.
+     Full-bleed to the screen edges; html/body clip horizontal overflow so 100vw cannot add a page scrollbar. */
+  .menu-item-sauces--moving .menu-item-sauces-viewport { width: 100vw; margin-inline: calc(50% - 50vw); overflow-x: auto; direction: ltr; scrollbar-width: none; cursor: grab; }
   .menu-item-sauces--moving .menu-item-sauces-track { display: flex; direction: ltr; width: max-content; }
   .menu-item-sauces--moving .menu-item-sauces-list { flex: none; overflow: visible; justify-content: flex-start; padding-inline-end: 8px; }
   .menu-item-sauces--moving .menu-item-sauce { flex: 0 0 96px; width: 96px; }

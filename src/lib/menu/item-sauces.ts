@@ -21,14 +21,15 @@ export function sauceHeadingText(locale: string, rawMode: unknown, rawCount: unk
   const mode = normalizeSauceMode(rawMode);
   const count = normalizeSauceChoiceCount(rawCount);
   if (locale === "en") {
-    return mode === "included" ? "Sauces & ingredients" : `Choice of ${count} sauce${count === 1 ? "" : "s"} included`;
+    if (mode === "included") return "Sauces & ingredients";
+    return count === 1 ? "Sauces & ingredients - choose 1 sauce in this dish." : `Sauces & ingredients - choose up to ${count} sauces in this dish.`;
   }
   if (locale === "fr") {
     if (mode === "included") return "Sauces et ingrédients";
-    return count === 1 ? "1 sauce au choix incluse" : `${count} sauces au choix incluses`;
+    return count === 1 ? "Sauces et ingrédients - 1 sauce au choix dans ce plat." : `Sauces et ingrédients - jusqu'à ${count} sauces au choix dans ce plat.`;
   }
   if (mode === "included") return "רטבים ומרכיבים";
-  return count === 1 ? "רוטב 1 לבחירה בתוך המנה" : `${count} רטבים לבחירה בתוך המנה`;
+  return count === 1 ? "רטבים ומרכיבים - ניתן לבחור רוטב 1 בתוך המנה." : `רטבים ומרכיבים - ניתן לבחור עד ${count} רטבים בתוך המנה.`;
 }
 
 /** Heading for a dish that lists ingredients but no sauces, where a sauce-choice label would be wrong. */

@@ -38,13 +38,15 @@ test('shared menu save persists and clears sauce selections; rejects malformed i
 
 test('sauce mode and choice count: heading text, normalization, legacy defaults and save validation', async () => {
   const { sauceHeadingText } = createLoader()('@/lib/menu/item-sauces');
-  assert.equal(sauceHeadingText('he', undefined, undefined), '2 רטבים לבחירה בתוך המנה');
-  assert.equal(sauceHeadingText('he', 'choice', 3), '3 רטבים לבחירה בתוך המנה');
-  assert.equal(sauceHeadingText('he', 'choice', 1), 'רוטב 1 לבחירה בתוך המנה');
+  assert.equal(sauceHeadingText('he', undefined, undefined), 'רטבים ומרכיבים - ניתן לבחור עד 2 רטבים בתוך המנה.');
+  assert.equal(sauceHeadingText('he', 'choice', 3), 'רטבים ומרכיבים - ניתן לבחור עד 3 רטבים בתוך המנה.');
+  assert.equal(sauceHeadingText('he', 'choice', 1), 'רטבים ומרכיבים - ניתן לבחור רוטב 1 בתוך המנה.');
   assert.equal(sauceHeadingText('he', 'included', 4), 'רטבים ומרכיבים');
-  assert.equal(sauceHeadingText('en', 'choice', 1), 'Choice of 1 sauce included');
+  assert.equal(sauceHeadingText('en', 'choice', 1), 'Sauces & ingredients - choose 1 sauce in this dish.');
+  assert.equal(sauceHeadingText('en', 'choice', 2), 'Sauces & ingredients - choose up to 2 sauces in this dish.');
+  assert.equal(sauceHeadingText('fr', 'choice', 2), "Sauces et ingrédients - jusqu'à 2 sauces au choix dans ce plat.");
   assert.equal(sauceHeadingText('fr', 'included', 2), 'Sauces et ingrédients');
-  assert.equal(sauceHeadingText('he', 'bogus', 99), '10 רטבים לבחירה בתוך המנה');
+  assert.equal(sauceHeadingText('he', 'bogus', 99), 'רטבים ומרכיבים - ניתן לבחור עד 10 רטבים בתוך המנה.');
 
   const { normalizeMenuItem } = createLoader()('@/lib/menu/normalize-menu');
   assert.equal(normalizeMenuItem({}).sauceMode, undefined);

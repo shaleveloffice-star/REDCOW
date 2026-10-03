@@ -22,7 +22,7 @@ export const he: Messages = {
     switchTo: "החלף שפה"
   },
   openingBanner: {
-    message: "כשר",
+    message: "ההמבורגר הכשר הטוב בעולם",
     popupTitle: "אנחנו מתכוננים לפתיחה",
     popupLead: "התפריט והתמונות המוצגים באתר כרגע הם להמחשה בלבד.",
     popupBody: "בקרוב נעדכן כאן את התפריט הרשמי והתמונות האמיתיות של SO WHAT.",

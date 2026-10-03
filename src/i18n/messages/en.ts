@@ -22,7 +22,7 @@ export const en: Messages = {
     switchTo: "Change language"
   },
   openingBanner: {
-    message: "Kosher",
+    message: "The best kosher burger in the world",
     popupTitle: "We're getting ready to open",
     popupLead: "The menu and images currently shown on the site are for illustration only.",
     popupBody: "Soon we'll update the official menu and real photos of SO WHAT here.",

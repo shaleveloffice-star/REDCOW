@@ -25,8 +25,10 @@ test('doubled sauce list turns in one direction and wraps seamlessly; manual scr
   const listeners = new Map();
   const cycle = 416;
   const lists = [{ offsetLeft: 0 }, { offsetLeft: cycle }];
+  const track = { style: { width: '', overflow: '' } };
   const viewport = { scrollLeft: 0, scrollWidth: cycle * 2, clientWidth: 312, dataset: {},
     querySelectorAll: () => lists,
+    querySelector: () => track,
     addEventListener: (name, fn) => listeners.set(name, fn), removeEventListener: name => listeners.delete(name) };
   const load = createLoader({}, {
     window: { matchMedia: () => ({ matches: false }), addEventListener() {}, removeEventListener() {} },
@@ -48,6 +50,7 @@ test('doubled sauce list turns in one direction and wraps seamlessly; manual scr
   viewport.scrollLeft = cycle + 10;
   listeners.get('scroll')();
   assert.equal(viewport.scrollLeft, 10, 'manual scroll moves invisibly into the first copy');
+  assert.equal(track.style.width, `${cycle}px`, 'track is shortened so the browser stops at the last item');
   viewport.scrollLeft = 300;
   listeners.get('scroll')();
   assert.equal(viewport.scrollLeft, cycle - viewport.clientWidth, 'manual scroll stops at the last item instead of repeating');
@@ -56,6 +59,7 @@ test('doubled sauce list turns in one direction and wraps seamlessly; manual scr
   assert.equal(viewport.scrollLeft, 0, 'manual scroll stops at the first item instead of wrapping');
   run(3100);
   assert.ok(viewport.scrollLeft > 0, 'auto-scroll resumes after the pause and loops again');
+  assert.equal(track.style.width, '', 'full track is restored for the loop');
   viewport.scrollLeft = 40;
   listeners.get('scroll')();
   run(2950);

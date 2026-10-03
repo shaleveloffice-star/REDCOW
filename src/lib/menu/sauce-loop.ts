@@ -37,6 +37,7 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
   };
   // Upper scroll bound while the visitor is browsing; null while the auto-scroll is in control.
   let manualMax: number | null = null;
+  const track = viewport.querySelector<HTMLElement>(".menu-item-sauces-track");
   const enterManual = () => {
     if (manualMax !== null) return;
     const width = cycleWidth();
@@ -45,13 +46,29 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
     const current = viewport.scrollLeft >= width ? viewport.scrollLeft - width : viewport.scrollLeft;
     write(current);
     manualMax = Math.max(width - viewport.clientWidth, current);
+    // Shortening the track lets the browser itself stop at the last item; correcting scrollLeft from
+    // scroll events instead fights touch momentum and makes the row stutter.
+    if (track) {
+      track.style.width = `${manualMax + viewport.clientWidth}px`;
+      track.style.overflow = "hidden";
+    }
+  };
+  const exitManual = () => {
+    if (manualMax === null) return;
+    manualMax = null;
+    if (track) {
+      track.style.width = "";
+      track.style.overflow = "";
+    }
   };
   const clampManual = (value: number) => manualMax === null ? value : Math.min(Math.max(value, 0), manualMax);
   const onScroll = () => {
     // Browser-generated scroll events also follow our own writes; only user/momentum changes pause.
     if (Math.abs(viewport.scrollLeft - expectedScroll) > 1) {
       enterManual();
-      write(clampManual(viewport.scrollLeft));
+      const clamped = clampManual(viewport.scrollLeft);
+      if (clamped !== viewport.scrollLeft) write(clamped);
+      else { position = clamped; expectedScroll = clamped; }
       pause();
     }
   };
@@ -85,8 +102,9 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
   const tick = (now: number) => {
     const elapsed = Math.min(now - previousTime, 50);
     previousTime = now;
-    if (!reducedMotion.matches && !pointerHeld && now >= resumeAt && viewport.dataset.dialogOpen !== "true" && cycleWidth() > 0) {
-      manualMax = null;
+    const canMove = !reducedMotion.matches && !pointerHeld && now >= resumeAt && viewport.dataset.dialogOpen !== "true";
+    if (canMove) exitManual();
+    if (canMove && cycleWidth() > 0) {
       write(wrap(position + elapsed * (104 / 6000)));
     } else {
       position = viewport.scrollLeft;
@@ -106,6 +124,7 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
   frame = requestAnimationFrame(tick);
   return () => {
     cancelAnimationFrame(frame);
+    exitManual();
     viewport.removeEventListener("scroll", onScroll);
     viewport.removeEventListener("wheel", pause);
     viewport.removeEventListener("touchmove", pause);

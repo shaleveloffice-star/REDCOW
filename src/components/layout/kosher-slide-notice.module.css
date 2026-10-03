@@ -1,0 +1,39 @@
+.notice {
+  position: fixed;
+  left: 0;
+  top: calc(var(--site-chrome-offset, 184px) + 16px);
+  z-index: 45;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3px;
+  width: 92px;
+  height: 46px;
+  border-radius: 0 12px 12px 0;
+  background: #111;
+  color: #fff;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 15%);
+  font-size: 22px;
+  font-weight: 700;
+  pointer-events: none;
+  animation: slide 20s ease-in-out 3s infinite both;
+}
+
+.notice span { animation-duration: 20s; animation-delay: 3s; animation-iteration-count: infinite; animation-fill-mode: both; animation-timing-function: steps(1, end); }
+.first { animation-name: firstLetter; }
+.second { animation-name: secondLetter; }
+.third { animation-name: thirdLetter; }
+
+/* Enter in 400ms; type at 600/1000/1400ms; hold the whole word for 1s; exit by 2800ms. */
+@keyframes slide {
+  0%, 14%, 100% { transform: translateX(calc(-100% - 16px)); visibility: hidden; }
+  0.01% { visibility: visible; }
+  2%, 12% { transform: translateX(0); visibility: visible; }
+  13.99% { visibility: visible; }
+}
+@keyframes firstLetter { 0%, 14%, 100% { opacity: 0; } 3% { opacity: 1; } }
+@keyframes secondLetter { 0%, 14%, 100% { opacity: 0; } 5% { opacity: 1; } }
+@keyframes thirdLetter { 0%, 14%, 100% { opacity: 0; } 7% { opacity: 1; } }
+
+:global(html[data-a11y-motion="reduce"]) .notice { display: none; }
+@media (prefers-reduced-motion: reduce) { .notice { display: none; } }

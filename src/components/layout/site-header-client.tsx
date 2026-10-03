@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 
 import { SiteOpeningAnnouncement } from "@/components/layout/site-opening-announcement";
 import { SiteOpeningBanner } from "@/components/layout/site-opening-banner";
+import { KosherSlideNotice } from "@/components/layout/kosher-slide-notice";
 import { SiteNavbar, type MagazineNavStory } from "@/components/layout/site-navbar";
 import type { AnnouncementPopupConfig, OrderLink } from "@/types/content";
 
@@ -33,6 +34,7 @@ export function SiteHeaderClient({
   return (
     <>
       <SiteOpeningBanner />
+      <KosherSlideNotice />
       <SiteOpeningAnnouncement config={announcementPopup} />
       <SiteNavbar
         overlay={isHome}

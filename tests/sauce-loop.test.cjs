@@ -39,7 +39,7 @@ test('doubled sauce list turns in one direction and wraps seamlessly; manual scr
     for (let i = 0; i < duration / 50; i++) {
       const before = viewport.scrollLeft;
       now += 50; tick(now);
-      assert.ok(viewport.scrollLeft >= 1 && viewport.scrollLeft < cycle + 1);
+      assert.ok(viewport.scrollLeft >= 0 && viewport.scrollLeft < cycle + 1);
       if (viewport.scrollLeft < before) { wraps++; assert.ok(before - viewport.scrollLeft > cycle - 5, 'only jumps by a full copy'); }
     }
   };
@@ -47,11 +47,15 @@ test('doubled sauce list turns in one direction and wraps seamlessly; manual scr
   assert.ok(wraps >= 1, 'keeps moving forward past the end of the list');
   viewport.scrollLeft = cycle + 10;
   listeners.get('scroll')();
-  assert.equal(viewport.scrollLeft, 10, 'manual scroll past one copy wraps back');
-  now += 3500;
-  viewport.scrollLeft = 0.5;
+  assert.equal(viewport.scrollLeft, 10, 'manual scroll moves invisibly into the first copy');
+  viewport.scrollLeft = 300;
   listeners.get('scroll')();
-  assert.equal(viewport.scrollLeft, cycle + 0.5, 'manual scroll to the start wraps forward');
+  assert.equal(viewport.scrollLeft, cycle - viewport.clientWidth, 'manual scroll stops at the last item instead of repeating');
+  viewport.scrollLeft = 0;
+  listeners.get('scroll')();
+  assert.equal(viewport.scrollLeft, 0, 'manual scroll stops at the first item instead of wrapping');
+  run(3100);
+  assert.ok(viewport.scrollLeft > 0, 'auto-scroll resumes after the pause and loops again');
   viewport.scrollLeft = 40;
   listeners.get('scroll')();
   run(2950);

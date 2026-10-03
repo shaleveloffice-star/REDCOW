@@ -1,7 +1,8 @@
 /**
  * Native scrolling and auto-scrolling share one position, so dragging cannot expose an empty track.
- * The track holds the list twice; whenever the position passes one full copy it jumps back by exactly
+ * The track holds the list twice; whenever the auto-scroll passes one full copy it jumps back by exactly
  * that distance, so the row keeps turning in one direction like a carousel.
+ * Manual scrolling never wraps: it is clamped to a single copy so the visitor browses each item once.
  */
 export function startSauceLoop(viewport: HTMLElement): () => void {
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -34,16 +35,30 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
     position = value;
     expectedScroll = viewport.scrollLeft;
   };
+  // Upper scroll bound while the visitor is browsing; null while the auto-scroll is in control.
+  let manualMax: number | null = null;
+  const enterManual = () => {
+    if (manualMax !== null) return;
+    const width = cycleWidth();
+    if (!width) return;
+    // Both copies look identical, so moving into the first copy is invisible.
+    const current = viewport.scrollLeft >= width ? viewport.scrollLeft - width : viewport.scrollLeft;
+    write(current);
+    manualMax = Math.max(width - viewport.clientWidth, current);
+  };
+  const clampManual = (value: number) => manualMax === null ? value : Math.min(Math.max(value, 0), manualMax);
   const onScroll = () => {
     // Browser-generated scroll events also follow our own writes; only user/momentum changes pause.
     if (Math.abs(viewport.scrollLeft - expectedScroll) > 1) {
-      write(wrap(viewport.scrollLeft));
+      enterManual();
+      write(clampManual(viewport.scrollLeft));
       pause();
     }
   };
   const onDown = (event: PointerEvent) => {
     pointerHeld = true;
     dragged = false;
+    enterManual();
     pause();
     if (event.pointerType === "mouse" && event.button === 0) {
       mouseStart = { x: event.clientX, scroll: viewport.scrollLeft };
@@ -55,10 +70,7 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
     if (Math.abs(distance) > 4) dragged = true;
     if (dragged) {
       event.preventDefault();
-      const target = mouseStart.scroll - distance;
-      const wrapped = wrap(target);
-      if (wrapped !== target) mouseStart = { x: mouseStart.x, scroll: mouseStart.scroll + (wrapped - target) };
-      write(wrapped);
+      write(clampManual(mouseStart.scroll - distance));
       pause();
     }
   };
@@ -74,6 +86,7 @@ export function startSauceLoop(viewport: HTMLElement): () => void {
     const elapsed = Math.min(now - previousTime, 50);
     previousTime = now;
     if (!reducedMotion.matches && !pointerHeld && now >= resumeAt && viewport.dataset.dialogOpen !== "true" && cycleWidth() > 0) {
+      manualMax = null;
       write(wrap(position + elapsed * (104 / 6000)));
     } else {
       position = viewport.scrollLeft;

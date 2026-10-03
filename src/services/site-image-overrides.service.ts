@@ -17,6 +17,7 @@ export async function upsertSiteImageOverride(input: {
   hidden?: boolean;
   overlayColor?: string;
   overlayOpacity?: number;
+  imageZoom?: number;
 }): Promise<SiteImageOverride> {
   const existing = await getSiteImageOverrides();
   const current = existing.find((entry) => entry.id === input.id);
@@ -31,6 +32,7 @@ export async function upsertSiteImageOverride(input: {
     overlayColor: input.overlayColor !== undefined ? input.overlayColor : current?.overlayColor,
     overlayOpacity:
       input.overlayOpacity !== undefined ? input.overlayOpacity : current?.overlayOpacity,
+    imageZoom: input.imageZoom !== undefined ? input.imageZoom : current?.imageZoom,
     updatedAt: new Date().toISOString()
   });
 }

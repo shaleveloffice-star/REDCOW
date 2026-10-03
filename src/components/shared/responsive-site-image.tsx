@@ -1,3 +1,5 @@
+import type { CSSProperties } from "react";
+
 type ResponsiveSiteImageProps = {
   desktopSrc: string;
   mobileSrc?: string;
@@ -10,6 +12,7 @@ type ResponsiveSiteImageProps = {
   fetchPriority?: "high" | "low" | "auto";
   decoding?: "async" | "auto" | "sync";
   draggable?: boolean;
+  style?: CSSProperties;
 };
 
 const MOBILE_MEDIA = "(max-width: 767px)";
@@ -25,7 +28,8 @@ export function ResponsiveSiteImage({
   loading,
   fetchPriority,
   decoding = "async",
-  draggable = false
+  draggable = false,
+  style
 }: ResponsiveSiteImageProps) {
   const desktop = desktopSrc.trim();
   const mobile = (mobileSrc ?? desktop).trim() || desktop;
@@ -45,6 +49,7 @@ export function ResponsiveSiteImage({
       fetchPriority={fetchPriority}
       decoding={decoding}
       draggable={draggable}
+      style={style}
     />
   );
 

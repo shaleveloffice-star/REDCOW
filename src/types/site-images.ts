@@ -32,6 +32,8 @@ export type SiteImageOverride = {
   overlayColor?: string;
   /** 0 = no overlay. */
   overlayOpacity?: number;
+  /** Centered visual zoom, 1 (original) through 3; the image file is untouched. */
+  imageZoom?: number;
   updatedAt: string;
 };
 

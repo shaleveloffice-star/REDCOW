@@ -8,6 +8,8 @@ import { resolveImageAlt } from "@/lib/image-alt";
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
 import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
 import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
+import { pickSiteImageZoom } from "@/lib/site-image-zoom";
+import { menuImageZoomStyle } from "@/lib/menu/image-zoom";
 import { canOptimizeSiteImage, resolveSiteImagePair } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -34,6 +36,7 @@ export async function HomeSmashStorySection({ siteImages }: HomeSmashStorySectio
   });
   const images = resolveSiteImagePair(siteImages, "home-smash", HOME_SMASH_IMAGE);
   const hasImage = Boolean(images.desktop || images.mobile);
+  const zoomStyle = menuImageZoomStyle(pickSiteImageZoom(siteImages, "home-smash"));
   const useOptimizedImage = images.desktop === images.mobile && canOptimizeSiteImage(images.desktop);
 
   return (
@@ -63,6 +66,7 @@ export async function HomeSmashStorySection({ siteImages }: HomeSmashStorySectio
                 loading="lazy"
                 draggable={false}
                 className="home-story-image"
+                style={zoomStyle}
               />
             ) : (
               <ResponsiveSiteImage
@@ -73,6 +77,7 @@ export async function HomeSmashStorySection({ siteImages }: HomeSmashStorySectio
                 height={900}
                 loading="lazy"
                 className="home-story-image"
+                style={zoomStyle}
               />
             )}
             <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "home-smash")} />

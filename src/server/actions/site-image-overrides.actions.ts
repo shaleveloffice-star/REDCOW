@@ -12,6 +12,7 @@ import { HOME_PAGE_SITE_IMAGE_GROUPS } from "@/data/site-images.registry";
 import { requireAdmin } from "@/lib/auth/admin-guard";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
 import { normalizeOverlayColor, normalizeOverlayOpacity } from "@/lib/site-image-overlay";
+import { normalizeSiteImageZoom } from "@/lib/site-image-zoom";
 import {
   clearSiteImageOverride,
   listSiteImageOverrides,
@@ -34,6 +35,7 @@ export type HomePageSiteImageAdminItem = {
   singleImage: boolean;
   overlayColor: string;
   overlayOpacity: number;
+  imageZoom: number;
   spec: AdminImageSpec;
   mobileSpec: AdminImageSpec;
   recommendedSizeLabel: string;
@@ -86,6 +88,7 @@ function buildHomePageSiteImageGroups(
         singleImage: catalogItem.id.startsWith("atmosphere-"),
         overlayColor: normalizeOverlayColor(override?.overlayColor),
         overlayOpacity: normalizeOverlayOpacity(override?.overlayOpacity),
+        imageZoom: normalizeSiteImageZoom(override?.imageZoom),
         spec,
         mobileSpec,
         recommendedSizeLabel: formatAdminImageSpec(spec),
@@ -107,13 +110,15 @@ export async function saveSiteImageOverrideAction(input: {
   mobileImageUrl?: string;
   overlayColor?: string;
   overlayOpacity?: number;
+  imageZoom?: number;
 }): Promise<{ ok: true; updatedAt: string }> {
   await requireAdminOrThrow();
 
   const imageUrl = input.imageUrl?.trim() ?? "";
   const mobileImageUrl = input.mobileImageUrl?.trim() ?? "";
   const overlayOpacity = normalizeOverlayOpacity(input.overlayOpacity);
-  if (!imageUrl && !mobileImageUrl && overlayOpacity === 0) {
+  const imageZoom = normalizeSiteImageZoom(input.imageZoom);
+  if (!imageUrl && !mobileImageUrl && overlayOpacity === 0 && imageZoom === 1) {
     throw new Error("נדרשת לפחות תמונה אחת - מסך רחב או מובייל");
   }
 
@@ -123,7 +128,8 @@ export async function saveSiteImageOverrideAction(input: {
     mobileImageUrl,
     ...(imageUrl || mobileImageUrl ? { hidden: false } : {}),
     overlayColor: normalizeOverlayColor(input.overlayColor),
-    overlayOpacity
+    overlayOpacity,
+    imageZoom
   });
 
   revalidateSiteImages();

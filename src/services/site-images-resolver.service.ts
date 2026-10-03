@@ -1,6 +1,7 @@
 import { STATIC_SITE_IMAGE_GROUPS } from "@/data/site-images.registry";
 import { encodeSiteImageOverlay, siteImageOverlayId } from "@/lib/site-image-overlay";
 import { siteImageMobileId } from "@/lib/site-image-url";
+import { encodeSiteImageZoom, siteImageZoomId } from "@/lib/site-image-zoom";
 import { listSiteImageOverrides } from "@/services/site-image-overrides.service";
 import type { SiteImageCatalogItem, SiteImagesMap } from "@/types/site-images";
 
@@ -45,6 +46,8 @@ export async function resolveStaticSiteImagesMap(): Promise<SiteImagesMap> {
       map[siteImageMobileId(entry.id)] = mobile || desktop || entry.imageUrl;
       const overlay = encodeSiteImageOverlay(override?.overlayColor, override?.overlayOpacity);
       if (overlay) map[siteImageOverlayId(entry.id)] = overlay;
+      const zoom = encodeSiteImageZoom(override?.imageZoom);
+      if (zoom) map[siteImageZoomId(entry.id)] = zoom;
     }
   }
 

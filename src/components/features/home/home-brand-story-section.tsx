@@ -10,6 +10,8 @@ import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
 import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
 import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
+import { pickSiteImageZoom } from "@/lib/site-image-zoom";
+import { menuImageZoomStyle } from "@/lib/menu/image-zoom";
 import { canOptimizeSiteImage, resolveSiteImagePair } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -37,6 +39,7 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
     HOME_STORY_IMAGE_VERSION
   );
   const hasImage = Boolean(storyImages.desktop || storyImages.mobile);
+  const zoomStyle = menuImageZoomStyle(pickSiteImageZoom(siteImages, "home-story"));
   const useOptimizedImage =
     storyImages.desktop === storyImages.mobile && canOptimizeSiteImage(storyImages.desktop);
 
@@ -61,6 +64,7 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
                 loading="lazy"
                 draggable={false}
                 className="home-story-image"
+                style={zoomStyle}
               />
             ) : (
               <ResponsiveSiteImage
@@ -71,6 +75,7 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
                 height={600}
                 loading="lazy"
                 className="home-story-image"
+                style={zoomStyle}
               />
             )}
             <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "home-story")} />

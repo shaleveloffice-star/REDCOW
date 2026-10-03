@@ -20,6 +20,7 @@ import { getHomePageMetadata } from "@/lib/page-metadata";
 import { buildFaqPageJsonLd, buildRestaurantJsonLd } from "@/lib/seo/json-ld";
 import { getValidFaqItems } from "@/lib/seo/faq-utils";
 import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
+import { pickSiteImageZoom } from "@/lib/site-image-zoom";
 import { resolveSiteImagePair } from "@/lib/site-image-url";
 import { HOME_HERO_IMAGE } from "@/data/site-images.registry";
 import { HERO_IMAGE_VERSION } from "@/data/site-image-versions";
@@ -57,6 +58,7 @@ export default async function HomePage() {
           heroImageUrl={heroImages.desktop}
           heroMobileImageUrl={heroImages.mobile}
           heroOverlay={pickSiteImageOverlay(siteImages, "hero-burger")}
+          heroZoom={pickSiteImageZoom(siteImages, "hero-burger")}
         />
         <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
         <HomeBrandStorySection siteImages={siteImages} />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { useTranslations } from "@/components/providers/locale-provider";
 import { videoSourcesForMp4 } from "@/lib/video-sources";
@@ -8,6 +8,7 @@ import { videoSourcesForMp4 } from "@/lib/video-sources";
 type AutoplayVideoProps = {
   src: string;
   className?: string;
+  style?: CSSProperties;
   poster?: string;
   preload?: "auto" | "metadata" | "none";
   "aria-label"?: string;
@@ -38,6 +39,7 @@ function releasePlaybackSlot(video: HTMLVideoElement) {
 export function AutoplayVideo({
   src,
   className,
+  style,
   poster,
   preload = "none",
   "aria-label": ariaLabel,
@@ -175,6 +177,7 @@ export function AutoplayVideo({
       <video
         ref={videoRef}
         className={className}
+        style={style}
         autoPlay={false}
         loop
         muted

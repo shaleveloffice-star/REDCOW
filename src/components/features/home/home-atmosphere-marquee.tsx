@@ -15,6 +15,8 @@ import {
   type SiteImageOverlay as SiteImageOverlayValue
 } from "@/lib/site-image-overlay";
 import { pickSiteImage } from "@/lib/site-image-url";
+import { pickSiteImageZoom } from "@/lib/site-image-zoom";
+import { menuImageZoomStyle } from "@/lib/menu/image-zoom";
 import type { SiteImagesMap } from "@/types/site-images";
 
 type HomeAtmosphereMarqueeProps = {
@@ -29,7 +31,10 @@ function withVersion(src: string): string {
   return `${base}${sep}v=${HOME_ATMOSPHERE_MARQUEE_VERSION}`;
 }
 
-type ResolvedMarqueeImage = HomeAtmosphereMarqueeImage & { overlay: SiteImageOverlayValue | null };
+type ResolvedMarqueeImage = HomeAtmosphereMarqueeImage & {
+  overlay: SiteImageOverlayValue | null;
+  zoom: number;
+};
 
 function resolveSlotImages(
   slots: HomeAtmosphereMarqueeImage[],
@@ -44,7 +49,8 @@ function resolveSlotImages(
       {
         ...item,
         src: withVersion(resolved),
-        overlay: item.siteImageId ? pickSiteImageOverlay(siteImages, item.siteImageId) : null
+        overlay: item.siteImageId ? pickSiteImageOverlay(siteImages, item.siteImageId) : null,
+        zoom: item.siteImageId ? pickSiteImageZoom(siteImages, item.siteImageId) : 1
       }
     ];
   });
@@ -79,6 +85,7 @@ function MarqueeColumn({
               loading="lazy"
               decoding="async"
               draggable={false}
+              style={menuImageZoomStyle(image.zoom)}
             />
             <SiteImageOverlay overlay={image.overlay} />
           </div>

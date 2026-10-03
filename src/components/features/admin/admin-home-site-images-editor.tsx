@@ -6,6 +6,7 @@ import { useAdminMutation } from "@/components/features/admin/admin-crud-ui";
 import { AdminImageUrlField } from "@/components/features/admin/admin-site-image-picker";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { isVideoMediaUrl } from "@/lib/menu-media";
+import { menuImageZoomStyle } from "@/lib/menu/image-zoom";
 import {
   DEFAULT_SITE_IMAGE_OVERLAY_COLOR,
   MAX_SITE_IMAGE_OVERLAY_OPACITY
@@ -27,6 +28,8 @@ type ImageDraft = {
   overlayColor: string;
   /** Whole percent, 0–90. */
   overlayPercent: number;
+  /** 1 (original) through 3. */
+  zoom: number;
 };
 
 const OVERLAY_PRESETS = [
@@ -55,21 +58,33 @@ function buildDrafts(groups: HomePageSiteImageAdminGroup[]): Record<string, Imag
         desktop: savedDesktopFor(item),
         mobile: savedMobileFor(item),
         overlayColor: item.overlayColor,
-        overlayPercent: Math.round(item.overlayOpacity * 100)
+        overlayPercent: Math.round(item.overlayOpacity * 100),
+        zoom: item.imageZoom
       };
     }
   }
   return drafts;
 }
 
-function OverlayPreview({ src, color, percent }: { src: string; color: string; percent: number }) {
+function OverlayPreview({
+  src,
+  color,
+  percent,
+  zoom
+}: {
+  src: string;
+  color: string;
+  percent: number;
+  zoom: number;
+}) {
+  const zoomStyle = menuImageZoomStyle(zoom);
   return (
     <div className="admin-image-overlay-preview">
       {src ? (
         isVideoMediaUrl(src) ? (
-          <video src={src} muted playsInline preload="metadata" />
+          <video src={src} muted playsInline preload="metadata" style={zoomStyle} />
         ) : (
-          <img src={src} alt="" loading="lazy" />
+          <img src={src} alt="" loading="lazy" style={zoomStyle} />
         )
       ) : null}
       <span
@@ -114,7 +129,8 @@ export function AdminHomeSiteImagesEditor({
                 isOverridden,
                 isHidden: false,
                 overlayColor: saved.overlayColor,
-                overlayOpacity: saved.overlayPercent / 100
+                overlayOpacity: saved.overlayPercent / 100,
+                imageZoom: saved.zoom
               }
             : item
         )
@@ -141,13 +157,16 @@ export function AdminHomeSiteImagesEditor({
                 draft.desktop.trim() !== savedDesktop.trim() ||
                 draft.mobile.trim() !== savedMobileFor(item).trim() ||
                 draft.overlayPercent !== savedPercent ||
-                (draft.overlayPercent > 0 && draft.overlayColor !== item.overlayColor);
+                (draft.overlayPercent > 0 && draft.overlayColor !== item.overlayColor) ||
+                draft.zoom !== item.imageZoom;
               const canSave = Boolean(draft.desktop.trim() || draft.mobile.trim());
-              const canReset = item.isOverridden || item.isHidden || savedPercent > 0;
+              const canReset =
+                item.isOverridden || item.isHidden || savedPercent > 0 || item.imageZoom !== 1;
               const previewSrc =
                 draft.desktop.trim() || draft.mobile.trim() || (item.isHidden ? "" : item.defaultImageUrl);
               const colorInputId = `overlay-color-${item.id}`;
               const rangeInputId = `overlay-range-${item.id}`;
+              const zoomInputId = `zoom-range-${item.id}`;
 
               return (
                 <article key={item.id} className="admin-home-images-item">
@@ -203,6 +222,7 @@ export function AdminHomeSiteImagesEditor({
                       src={previewSrc}
                       color={draft.overlayColor}
                       percent={draft.overlayPercent}
+                      zoom={draft.zoom}
                     />
                     <div className="admin-image-overlay-controls">
                       <strong>שכבת צבע מעל התמונה</strong>
@@ -250,6 +270,35 @@ export function AdminHomeSiteImagesEditor({
                       <p className="admin-field-hint">
                         שחור מחשיך, לבן מבהיר, וכל צבע אחר צובע את התמונה. 0% = בלי שכבה.
                       </p>
+
+                      <strong>זום למרכז התמונה</strong>
+                      <div className="admin-image-overlay-range">
+                        <label htmlFor={zoomInputId}>זום</label>
+                        <input
+                          id={zoomInputId}
+                          type="range"
+                          min={1}
+                          max={3}
+                          step={0.05}
+                          value={draft.zoom}
+                          disabled={isPending}
+                          onChange={(e) => updateDraft(item.id, { zoom: Number(e.target.value) })}
+                        />
+                        <output htmlFor={zoomInputId}>{Math.round(draft.zoom * 100)}%</output>
+                      </div>
+                      {draft.zoom !== 1 ? (
+                        <button
+                          type="button"
+                          className="button secondary"
+                          disabled={isPending}
+                          onClick={() => updateDraft(item.id, { zoom: 1 })}
+                        >
+                          איפוס זום
+                        </button>
+                      ) : null}
+                      <p className="admin-field-hint">
+                        מגדיל את מרכז התמונה בתוך אותה מסגרת. הקובץ עצמו לא משתנה. 100% = בלי זום.
+                      </p>
                     </div>
                   </div>
 
@@ -265,7 +314,8 @@ export function AdminHomeSiteImagesEditor({
                             imageUrl: draft.desktop,
                             mobileImageUrl: draft.mobile,
                             overlayColor: draft.overlayColor,
-                            overlayOpacity: draft.overlayPercent / 100
+                            overlayOpacity: draft.overlayPercent / 100,
+                            imageZoom: draft.zoom
                           });
                           syncSavedState(
                             item.id,
@@ -273,7 +323,8 @@ export function AdminHomeSiteImagesEditor({
                               desktop: draft.desktop.trim(),
                               mobile: draft.mobile.trim(),
                               overlayColor: draft.overlayColor,
-                              overlayPercent: draft.overlayPercent
+                              overlayPercent: draft.overlayPercent,
+                              zoom: draft.zoom
                             },
                             true,
                             item.defaultImageUrl
@@ -297,7 +348,8 @@ export function AdminHomeSiteImagesEditor({
                                 desktop: item.defaultImageUrl,
                                 mobile: "",
                                 overlayColor: DEFAULT_SITE_IMAGE_OVERLAY_COLOR,
-                                overlayPercent: 0
+                                overlayPercent: 0,
+                                zoom: 1
                               },
                               false,
                               item.defaultImageUrl

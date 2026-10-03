@@ -4,11 +4,13 @@ import { splitParagraphs } from "@/lib/seo-content/paragraphs";
 import type {
   ResolvedCategorySeoContent,
   ResolvedSeoPageContent,
+  ResolvedSeoStoryBlock,
   SeoCtaBlock,
   SeoFaqBlock,
   SeoFaqItem,
   SeoPageFieldsInput,
-  SeoPageId
+  SeoPageId,
+  SeoStoryBlock
 } from "@/types/seo-content";
 
 const EMPTY_FAQ: Required<SeoFaqBlock> & { items: SeoFaqItem[] } = {
@@ -48,6 +50,17 @@ function pickCta(stored: SeoCtaBlock | undefined): SeoCtaBlock {
     body: stored?.body?.trim() || undefined,
     buttonLabel: stored?.buttonLabel?.trim() || undefined,
     buttonHref: stored?.buttonHref?.trim() || undefined
+  };
+}
+
+function pickStoryBlock(
+  stored: SeoStoryBlock | undefined,
+  fallback: SeoStoryBlock | undefined
+): ResolvedSeoStoryBlock {
+  return {
+    title: pickText(stored?.title, fallback?.title),
+    introductionParagraphs: splitParagraphs(pickText(stored?.introduction, fallback?.introduction)),
+    bottomParagraphs: splitParagraphs(pickText(stored?.bottomContent, fallback?.bottomContent))
   };
 }
 
@@ -134,6 +147,7 @@ export function resolveSeoPageContent(
     bottomParagraphs: splitParagraphs(bottomContent),
     faq: pickFaqBlock(source.faq, defaults.faq),
     cta: pickCta(source.cta),
+    smashStory: pickStoryBlock(source.smashStory, defaults.smashStory),
     categoryIntros,
     categoryPages: buildCategoryPagesMap(source, categoryIntros, defaults)
   };

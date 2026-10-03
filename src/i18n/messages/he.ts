@@ -129,6 +129,9 @@ export const he: Messages = {
   homeStory: {
     imageAlt: "המבורגר SO WHAT"
   },
+  homeSmash: {
+    imageAlt: "קציצת סמאש נצרבת על הפלנצ׳ה ב-SO WHAT"
+  },
   plancha: {
     title: "על הפלנצ׳ה",
     lead: "הבשר מגיע טרי, ניטחן במקום ועולה ישר לאש.",

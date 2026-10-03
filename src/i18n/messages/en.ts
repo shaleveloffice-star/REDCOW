@@ -129,6 +129,9 @@ export const en: Messages = {
   homeStory: {
     imageAlt: "SO WHAT hamburger"
   },
+  homeSmash: {
+    imageAlt: "Smash patty searing on the plancha at SO WHAT"
+  },
   plancha: {
     title: "On the Plancha",
     lead: "Fresh beef, ground in-house, straight onto the heat.",

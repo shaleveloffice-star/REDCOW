@@ -139,7 +139,15 @@ export function getCachedResolvedSeoPageContent(locale: string, pageId: string) 
       return getResolvedSeoPageContent(resolvedLocale, pageId as import("@/types/seo-content").SeoPageId);
     },
     // menu-intent-slug-v1: bust stale menu category SEO after slug-based intent fix
-    [CACHE_TAGS.seoContent, locale, pageId, pageId === "menu" ? "menu-intent-slug-v1" : "v0", "sowhat-domain-migration-v1"],
+    // smash-story-v1: resolved content gained `smashStory`; older cache entries lack it
+    [
+      CACHE_TAGS.seoContent,
+      locale,
+      pageId,
+      pageId === "menu" ? "menu-intent-slug-v1" : "v0",
+      "sowhat-domain-migration-v1",
+      "smash-story-v1"
+    ],
     {
       revalidate: CACHE_REVALIDATE_SECONDS.slow,
       tags: [CACHE_TAGS.seoContent]

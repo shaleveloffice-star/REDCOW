@@ -5,6 +5,7 @@ import { HomeAtmosphereSection } from "@/components/features/home/home-atmospher
 import { HomeBrandStorySection } from "@/components/features/home/home-brand-story-section";
 import { HeroSection } from "@/components/features/home/hero-section";
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
+import { HomeSmashStorySection } from "@/components/features/home/home-smash-story-section";
 import { HomeSocialVibeSection } from "@/components/features/home/home-social-vibe-section";
 import { SeoFaqSection } from "@/components/shared/seo-faq-section";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -60,6 +61,7 @@ export default async function HomePage() {
         <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
         <HomeBrandStorySection siteImages={siteImages} />
         <HomeAtmosphereSection siteImages={siteImages} />
+        <HomeSmashStorySection siteImages={siteImages} />
         <HomeSocialVibeSection />
         <SeoFaqSection
           faq={homeSeo.faq}

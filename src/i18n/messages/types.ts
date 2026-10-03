@@ -151,6 +151,9 @@ export type Messages = {
   homeStory: {
     imageAlt: string;
   };
+  homeSmash: {
+    imageAlt: string;
+  };
   plancha: {
     title: string;
     lead: string;

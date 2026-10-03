@@ -156,6 +156,14 @@ const SITE_IMAGE_SPECS: Record<string, AdminImageSpec> = {
     aspectHint: "4:5",
     note: "תמונת סיפור המותג"
   },
+  "home-smash": {
+    width: 1400,
+    height: 1750,
+    maxBytes: 300 * 1024,
+    maxEdge: 1600,
+    aspectHint: "4:5",
+    note: "תמונת סקשן הסמאש"
+  },
   "location-exterior": { ...WIDE_MEDIA, note: "חזית / מיקום" },
   "about-hero": FULL_BLEED,
   "about-classic": CARD_SQUARE,
@@ -194,14 +202,14 @@ export function getAdminMobileImageSpec(id: string): AdminImageSpec {
   ) {
     return MOBILE_FULL_BLEED;
   }
-  if (id === "home-story") {
+  if (id === "home-story" || id === "home-smash") {
     return {
       width: 1080,
       height: 1350,
       maxBytes: 250 * 1024,
       maxEdge: 1080,
       aspectHint: "4:5",
-      note: "מובייל - סיפור המותג"
+      note: id === "home-smash" ? "מובייל - סקשן הסמאש" : "מובייל - סיפור המותג"
     };
   }
   const desktop = getAdminImageSpec(id);

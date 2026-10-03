@@ -20,6 +20,7 @@ export type AdminSeoFieldsFlags = {
   bottomContent?: boolean;
   faq?: boolean;
   cta?: boolean;
+  smashStory?: boolean;
 };
 
 type AdminSeoFieldsFormProps = {
@@ -68,6 +69,9 @@ export function AdminSeoFieldsForm({
 
   const updateCta = (patch: Partial<NonNullable<SeoPageFieldsInput["cta"]>>) =>
     onChange({ ...draft, cta: { ...(draft.cta ?? {}), ...patch } });
+
+  const updateSmashStory = (patch: Partial<NonNullable<SeoPageFieldsInput["smashStory"]>>) =>
+    onChange({ ...draft, smashStory: { ...(draft.smashStory ?? {}), ...patch } });
 
   const showMeta = flags.meta !== false;
   const metaTitleLength = (draft.metaTitle ?? "").length;
@@ -153,6 +157,45 @@ export function AdminSeoFieldsForm({
             />
             <span className="admin-field-hint">{SEO_PARAGRAPH_HINT}</span>
           </label>
+        ) : null}
+
+        {flags.smashStory ? (
+          <fieldset className="admin-seo-fieldset admin-seo-fieldset--nested">
+            <legend>
+              {adminFieldLabel("סקשן סמאש", "דף הבית - מתחת לתמונות המתחלפות")}
+            </legend>
+            <label>
+              כותרת
+              <input
+                value={draft.smashStory?.title ?? ""}
+                placeholder={defaults.smashStory?.title ?? ""}
+                onChange={(event) => updateSmashStory({ title: event.target.value })}
+              />
+            </label>
+            <label>
+              פתיח
+              <textarea
+                rows={5}
+                value={draft.smashStory?.introduction ?? ""}
+                placeholder={defaults.smashStory?.introduction ?? ""}
+                onChange={(event) => updateSmashStory({ introduction: event.target.value })}
+              />
+              <span className="admin-field-hint">
+                הפסקה הראשונה היא פסקת הפתיחה, והפסקאות שאחריה מוצגות כשורות מודגשות בקו תחתון.{" "}
+                {SEO_PARAGRAPH_HINT}
+              </span>
+            </label>
+            <label>
+              סיום
+              <textarea
+                rows={4}
+                value={draft.smashStory?.bottomContent ?? ""}
+                placeholder={defaults.smashStory?.bottomContent ?? ""}
+                onChange={(event) => updateSmashStory({ bottomContent: event.target.value })}
+              />
+              <span className="admin-field-hint">{SEO_PARAGRAPH_HINT}</span>
+            </label>
+          </fieldset>
         ) : null}
 
         {flags.faq ? (
@@ -313,6 +356,7 @@ export function flagsFromPageDefinition(
     bottomContent: true,
     faq: definition?.supportsFaq ?? false,
     cta: definition?.supportsCta ?? false,
+    smashStory: pageId === "home",
     ...overrides
   };
 }

@@ -24,6 +24,19 @@ export type SeoCtaBlock = {
   buttonHref?: string;
 };
 
+/** Editorial block laid out like the home brand story (title, lead + punch lines, closing). */
+export type SeoStoryBlock = {
+  title?: string;
+  introduction?: string;
+  bottomContent?: string;
+};
+
+export type ResolvedSeoStoryBlock = {
+  title: string;
+  introductionParagraphs: string[];
+  bottomParagraphs: string[];
+};
+
 /** Editable SEO body fields for a single page (stored values may be partial). */
 export type SeoPageFieldsInput = {
   metaTitle?: string;
@@ -33,6 +46,8 @@ export type SeoPageFieldsInput = {
   bottomContent?: string;
   faq?: SeoFaqBlock;
   cta?: SeoCtaBlock;
+  /** Home page only: the smash burger section below the atmosphere gallery. */
+  smashStory?: SeoStoryBlock;
   categoryIntros?: Record<string, string>;
   /** Per-category SEO body (intro/bottom/faq/cta) — stored under menu page bundle. */
   categoryPages?: Record<string, SeoPageFieldsInput>;
@@ -59,6 +74,7 @@ export type ResolvedSeoPageContent = {
   bottomParagraphs: string[];
   faq: Required<SeoFaqBlock> & { items: SeoFaqItem[] };
   cta: SeoCtaBlock;
+  smashStory: ResolvedSeoStoryBlock;
   categoryIntros: Record<string, string>;
   categoryPages: Record<string, ResolvedCategorySeoContent>;
 };

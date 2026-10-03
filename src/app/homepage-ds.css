@@ -511,6 +511,17 @@ a.menu-showcase-button.site-cta-btn {
   text-underline-offset: 4px;
 }
 
+/* Smash section: same editorial layout, mirrored (copy first, image second) on desktop. */
+@media (min-width: 901px) {
+  .home-story-shell--reverse:not(.home-story-shell--no-media) {
+    grid-template-columns: minmax(0, 1.08fr) minmax(0, 0.92fr);
+  }
+
+  .home-story-shell--reverse .home-story-media {
+    order: 2;
+  }
+}
+
 @media (max-width: 900px) {
   .home-story-shell {
     grid-template-columns: 1fr;

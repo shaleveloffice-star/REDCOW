@@ -140,6 +140,19 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
           "כי בסוף, לא צריך להמציא מחדש את ההמבורגר.",
           "רק להכין אותו כמו שצריך."
         ]),
+        smashStory: {
+          title: "סמאש. צרוב עד הקצה.",
+          introduction: joinParagraphs([
+            "הסמאש שלנו מתחיל בכדור בשר בקר טרי, שנטחן במקום ונלחץ בכוח על פלנצ׳ה לוהטת.",
+            "לחיצה אחת חזקה.",
+            "שוליים פריכים ומקורמלים.",
+            "מרכז עסיסי."
+          ]),
+          bottomContent: joinParagraphs([
+            "המגע הישיר עם הפלנצ׳ה יוצר את הקראסט שהופך סמאש לסמאש - טעם עמוק, צרוב ומרוכז בכל ביס.",
+            "קציצות דקות, רטבי הבית ולחמנייה רכה. פשוט, מדויק, ובדיוק כמו שסמאש צריך להיות."
+          ])
+        },
         faq: {
           kicker: "FAQ",
           title: "שאלות ותשובות",
@@ -283,6 +296,19 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
           "Because in the end, you don't need to reinvent the burger.",
           "Just make it the way it should be."
         ]),
+        smashStory: {
+          title: "Smash. Seared to the edge.",
+          introduction: joinParagraphs([
+            "Our smash starts with a ball of fresh beef, ground in-house and pressed hard onto a blazing plancha.",
+            "One hard press.",
+            "Crispy, caramelized edges.",
+            "A juicy center."
+          ]),
+          bottomContent: joinParagraphs([
+            "Direct contact with the plancha builds the crust that makes a smash a smash - deep, seared flavor in every bite.",
+            "Thin patties, house sauces, and a soft bun. Simple, precise, and exactly what a smash should be."
+          ])
+        },
         faq: {
           kicker: "FAQ",
           title: "Questions & Answers",
@@ -393,6 +419,19 @@ function pagesForLocale(locale: Locale): Record<SeoPageId, SeoPageFieldsInput> {
         "Parce qu'au fond, il n'est pas nécessaire de réinventer le burger.",
         "Il suffit de le préparer comme il se doit."
       ]),
+      smashStory: {
+        title: "Smash. Saisi jusqu'au bord.",
+        introduction: joinParagraphs([
+          "Notre smash commence par une boule de bœuf frais, hachée sur place et pressée fort sur une plancha brûlante.",
+          "Une pression franche.",
+          "Des bords croustillants et caramélisés.",
+          "Un cœur juteux."
+        ]),
+        bottomContent: joinParagraphs([
+          "Le contact direct avec la plancha crée la croûte qui fait le smash - une saveur saisie et intense à chaque bouchée.",
+          "Des steaks fins, des sauces maison et un pain moelleux. Simple, précis, exactement comme un smash doit être."
+        ])
+      },
       faq: {
         kicker: "FAQ",
         title: "Questions & réponses",

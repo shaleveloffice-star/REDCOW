@@ -51,6 +51,7 @@ export const BURGER_ASSEMBLY_IMAGES = {
 
 export const LOCATION_EXTERIOR_IMAGE = "/images/location/exterior.jpg";
 export const HOME_STORY_IMAGE = "/images/home/story-section-burger.webp";
+export const HOME_SMASH_IMAGE = PLANCHA_SEAR_IMAGE;
 
 export const ABOUT_PAGE_IMAGES = {
   hero: "/images/hero/burger-hero.png",
@@ -140,6 +141,10 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
     ]
   },
   {
+    title: "דף הבית - סמאש",
+    items: [item("home-smash", "תמונת הסקשן", "סקשן סמאש (דף הבית)", HOME_SMASH_IMAGE)]
+  },
+  {
     title: "דף הבית - מיקום ושעות",
     items: [
       item("location-exterior", "חזית המסעדה", "סקשן מיקום ושעות", LOCATION_EXTERIOR_IMAGE)
@@ -179,6 +184,10 @@ export const HOME_PAGE_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
       item("atmosphere-third-2", "תמונה 5", "סקשן האווירה", HOME_ATMOSPHERE_THIRD_2),
       item("atmosphere-third-3", "תמונה 6", "סקשן האווירה", HOME_ATMOSPHERE_THIRD_3)
     ]
+  },
+  {
+    title: "סמאש",
+    items: [item("home-smash", "תמונת הסקשן", "סקשן סמאש", HOME_SMASH_IMAGE)]
   },
   {
     title: "מיקום ושעות",

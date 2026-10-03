@@ -40,7 +40,7 @@ export function getPrivacyContentFr(): LegalDocument {
       }
     ],
     sections: [
-      { title: "Préférences cookies", blocks: [{ type: "paragraph", text: "Vous pouvez accepter ou refuser les statistiques dans les préférences cookies et modifier ce choix avec le bouton en bas du site. Google Analytics ne se charge pas sans accord. Votre choix est enregistré dans le navigateur. Le stockage essentiel sert à la langue, à l’accessibilité et à la connexion administrateur. Google Maps et Instagram se chargent uniquement après un clic sur leur bouton de chargement ; ce choix est distinct du consentement aux statistiques." }] },
+      { title: "Préférences cookies", blocks: [{ type: "paragraph", text: "Vous pouvez accepter ou refuser les statistiques dans les préférences cookies et modifier ce choix avec le bouton en bas du site. Google Analytics ne se charge pas sans accord. Votre choix est enregistré dans le navigateur. Le stockage essentiel sert à la langue, à l’accessibilité et à la connexion administrateur. Google Maps se charge après un clic sur son bouton. Le contenu Instagram se charge automatiquement à l’approche de sa section, sans clic et indépendamment du consentement aux statistiques ; ce chargement transmet des informations techniques à Instagram et peut permettre ses cookies." }] },
       {
         title: "1. Qui sommes-nous",
         blocks: [

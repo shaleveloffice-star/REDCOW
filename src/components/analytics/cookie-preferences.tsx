@@ -12,11 +12,11 @@ export function CookiePreferences() {
   useEffect(() => { try { setOpen(!localStorage.getItem(CONSENT_KEY)); } catch { setOpen(true); } }, []);
   if (pathname.startsWith("/admin") || pathname === "/unsubscribe") return null;
   const t = locale === "en" ? {
-    title: "Cookie preferences", text: "Essential storage supports language and accessibility settings. Google Analytics loads only if you allow analytics. You can change your choice here at any time.", yes: "Allow analytics", no: "Essential only", privacy: "Privacy policy"
+    title: "Cookie preferences", text: "Essential storage supports language and accessibility settings. Google Analytics loads only if you allow analytics. You can change your choice here at any time.", yes: "Accept", no: "Decline", preferences: "Update preferences", privacy: "Privacy policy"
   } : locale === "fr" ? {
-    title: "Préférences cookies", text: "Le stockage essentiel conserve la langue et les réglages d’accessibilité. Google Analytics se charge uniquement avec votre accord. Vous pouvez modifier ce choix ici à tout moment.", yes: "Autoriser les statistiques", no: "Essentiels uniquement", privacy: "Confidentialité"
+    title: "Préférences cookies", text: "Le stockage essentiel conserve la langue et les réglages d’accessibilité. Google Analytics se charge uniquement avec votre accord. Vous pouvez modifier ce choix ici à tout moment.", yes: "Accepter", no: "Refuser", preferences: "Modifier les préférences", privacy: "Confidentialité"
   } : {
-    title: "העדפות עוגיות", text: "אחסון חיוני משמש לשפה ולהתאמות נגישות. Google Analytics ייטען רק באישורכם. אפשר לשנות את הבחירה כאן בכל עת.", yes: "אישור אנליטיקה", no: "חיוניות בלבד", privacy: "מדיניות פרטיות"
+    title: "העדפות עוגיות", text: "אחסון חיוני משמש לשפה ולהתאמות נגישות. Google Analytics ייטען רק באישורכם. אפשר לשנות את הבחירה כאן בכל עת.", yes: "מאשר", no: "מסרב", preferences: "עדכון העדפות", privacy: "מדיניות פרטיות"
   };
   function choose(value: "granted" | "denied") {
     try { localStorage.setItem(CONSENT_KEY, value); } catch { /* Stay denied when storage is unavailable. */ }
@@ -37,6 +37,6 @@ export function CookiePreferences() {
   }
   return open ? <section className={styles.panel} aria-label={t.title}>
     <h2>{t.title}</h2><p>{t.text} <a href="/privacy-policy">{t.privacy}</a></p>
-    <div><button onClick={() => choose("denied")}>{t.no}</button><button onClick={() => choose("granted")}>{t.yes}</button></div>
-  </section> : <button className={styles.reopen} onClick={() => setOpen(true)}>{t.title}</button>;
+    <div><button onClick={() => choose("granted")}>{t.yes}</button><button onClick={() => choose("denied")}>{t.no}</button></div>
+  </section> : <button className={styles.reopen} onClick={() => setOpen(true)}>{t.preferences}</button>;
 }

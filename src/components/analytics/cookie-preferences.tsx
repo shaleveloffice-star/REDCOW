@@ -15,11 +15,11 @@ export function CookiePreferences() {
   useEffect(() => { try { setOpen(!localStorage.getItem(CONSENT_KEY)); } catch { setOpen(true); } }, []);
   if (pathname.startsWith("/admin") || pathname === "/unsubscribe") return null;
   const t = locale === "en" ? {
-    title: "Cookie preferences", text: "Analytics only with your permission.", yes: "Accept", no: "Decline", preferences: "Update preferences", privacy: "Privacy policy", essential: "Essential cookies (always active)", analytics: "Google Analytics — usage statistics", save: "Save preferences"
+    title: "Cookie preferences", text: "Essential storage supports language and accessibility settings. Google Analytics loads only if you allow analytics. You can change your choice here at any time.", yes: "Accept", no: "Decline", preferences: "Update preferences", privacy: "Privacy policy", essential: "Essential cookies (always active)", analytics: "Google Analytics — usage statistics", save: "Save preferences"
   } : locale === "fr" ? {
-    title: "Préférences cookies", text: "Statistiques uniquement avec votre accord.", yes: "Accepter", no: "Refuser", preferences: "Modifier les préférences", privacy: "Confidentialité", essential: "Cookies essentiels (toujours actifs)", analytics: "Google Analytics — statistiques", save: "Enregistrer les préférences"
+    title: "Préférences cookies", text: "Le stockage essentiel conserve la langue et les réglages d’accessibilité. Google Analytics se charge uniquement avec votre accord. Vous pouvez modifier ce choix ici à tout moment.", yes: "Accepter", no: "Refuser", preferences: "Modifier les préférences", privacy: "Confidentialité", essential: "Cookies essentiels (toujours actifs)", analytics: "Google Analytics — statistiques", save: "Enregistrer les préférences"
   } : {
-    title: "העדפות עוגיות", text: "אנליטיקה רק באישורכם.", yes: "מאשר", no: "מסרב", preferences: "עדכון העדפות", privacy: "מדיניות פרטיות", essential: "עוגיות חיוניות (פעילות תמיד)", analytics: "Google Analytics — מדידת שימוש באתר", save: "שמירת העדפות"
+    title: "העדפות עוגיות", text: "אחסון חיוני משמש לשפה ולהתאמות נגישות. Google Analytics ייטען רק באישורכם. אפשר לשנות את הבחירה כאן בכל עת.", yes: "מאשר", no: "מסרב", preferences: "עדכון העדפות", privacy: "מדיניות פרטיות", essential: "עוגיות חיוניות (פעילות תמיד)", analytics: "Google Analytics — מדידת שימוש באתר", save: "שמירת העדפות"
   };
   function choose(value: "granted" | "denied") {
     try { localStorage.setItem(CONSENT_KEY, value); } catch { /* Stay denied when storage is unavailable. */ }

@@ -119,7 +119,7 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
         };
       }
 
-      const materialized = await materializeMenuImageUrl(imageUrl);
+      const materialized = await materializeMenuImageUrl(imageUrl, name);
       if (!materialized.ok) {
         return { ok: false, error: materialized.error };
       }
@@ -144,7 +144,7 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
         };
       }
 
-      const closeUpMaterialized = await materializeMenuImageUrl(closeUpImageUrl);
+      const closeUpMaterialized = await materializeMenuImageUrl(closeUpImageUrl, name);
       if (!closeUpMaterialized.ok) {
         return { ok: false, error: closeUpMaterialized.error };
       }

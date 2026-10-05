@@ -75,7 +75,7 @@ async function materializeImageUrl(
     }
     throw new Error(`${fieldLabel}: כתובת תמונה נדרשת`);
   }
-  const materialized = await materializeMenuImageUrl(safe);
+  const materialized = await materializeMenuImageUrl(safe, fieldLabel);
   if (!materialized.ok) {
     throw new Error(`${fieldLabel}: ${materialized.error}`);
   }

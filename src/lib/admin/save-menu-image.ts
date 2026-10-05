@@ -1,5 +1,6 @@
 import "server-only";
 
+import { registerUploadInGallery } from "@/lib/admin/register-gallery-upload";
 import { writeBytes } from "@/lib/admin/write-upload-bytes";
 import path from "path";
 
@@ -201,8 +202,8 @@ export async function processMenuImageUpload(bytes: Buffer): Promise<ProcessMenu
   }
 }
 
-/** If admin saved a data URL, persist it and return a short Blob/local URL. */
-export async function materializeMenuImageUrl(imageUrl: string): Promise<ProcessMenuImageResult> {
+/** If admin saved a data URL, persist it (also listing it in the gallery) and return a short Blob/local URL. */
+export async function materializeMenuImageUrl(imageUrl: string, galleryTitle?: string): Promise<ProcessMenuImageResult> {
   const trimmed = imageUrl.trim();
   if (!trimmed.startsWith("data:image/")) {
     return { ok: true, url: trimmed };
@@ -213,5 +214,9 @@ export async function materializeMenuImageUrl(imageUrl: string): Promise<Process
     return { ok: false, error: "תמונת data URL לא תקינה" };
   }
 
-  return processMenuImageUpload(parsed.bytes);
+  const result = await processMenuImageUpload(parsed.bytes);
+  if (result.ok) {
+    await registerUploadInGallery({ url: result.url, title: galleryTitle });
+  }
+  return result;
 }

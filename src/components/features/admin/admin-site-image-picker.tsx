@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { useMemo, useRef, useState } from "react";
 
 import { AdminModal } from "@/components/features/admin/admin-crud-ui";
@@ -155,6 +156,7 @@ export function AdminImageUrlField({
   allowUpload = true,
   onChange
 }: AdminImageUrlFieldProps) {
+  const router = useRouter();
   const [pickerOpen, setPickerOpen] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -170,6 +172,8 @@ export function AdminImageUrlField({
     try {
       const uploaded = await uploadCompressedAdminImage(file, spec);
       onChange(uploaded.url);
+      // The upload is now in the gallery; refresh so "בחר מהגלריה" lists it without a reload (client drafts are kept).
+      router.refresh();
     } catch (err) {
       setUploadError(err instanceof Error ? err.message : "העלאה נכשלה");
     } finally {

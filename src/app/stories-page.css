@@ -3,8 +3,8 @@
 .stories-page,
 .story-page {
   --stories-edge: clamp(20px, 4vw, 40px);
-  background: #ffffff;
-  color: #000000;
+  background: #000000;
+  color: #ffffff;
 }
 
 /* Index */
@@ -33,7 +33,7 @@
   font-family: var(--font-assistant-stack);
   font-size: clamp(15px, 1.6vw, 18px);
   line-height: 1.6;
-  color: #000000;
+  color: rgba(255, 255, 255, 0.8);
 }
 
 .stories-index-empty {
@@ -47,16 +47,25 @@
 }
 
 .stories-grid-items {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: clamp(16px, 2.5vw, 24px);
+  --stories-grid-gap: clamp(16px, 2.5vw, 24px);
+  --stories-grid-columns: 3;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--stories-grid-gap);
   list-style: none;
   margin: 0;
   padding: 0;
 }
 
+.stories-grid-item {
+  flex: 0 0
+    calc((100% - (var(--stories-grid-columns) - 1) * var(--stories-grid-gap)) / var(--stories-grid-columns));
+  min-width: 0;
+}
+
 .stories-grid-item--featured {
-  grid-column: 1 / -1;
+  flex-basis: 100%;
 }
 
 .stories-card {
@@ -91,6 +100,7 @@
 
 .stories-card-media--placeholder {
   background:
+    url("/images/brand/nb-burger-wordmark-light.webp") center / min(38%, 180px) auto no-repeat,
     linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
     #111111;
 }
@@ -169,7 +179,7 @@
 }
 
 .stories-card:focus-visible {
-  outline: 2px solid #000000;
+  outline: 2px solid #ffffff;
   outline-offset: 4px;
 }
 
@@ -187,7 +197,7 @@
 
 @media (max-width: 1024px) {
   .stories-grid-items {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    --stories-grid-columns: 2;
   }
 }
 
@@ -199,7 +209,7 @@
 
 @media (max-width: 640px) {
   .stories-grid-items {
-    grid-template-columns: 1fr;
+    --stories-grid-columns: 1;
   }
 }
 
@@ -217,11 +227,21 @@
 .story-hero--no-image {
   min-height: auto;
   align-items: stretch;
-  background: linear-gradient(160deg, #111111 0%, #1c1c1c 55%, #0a0a0a 100%);
+  background: transparent;
+}
+
+.story-hero-breadcrumbs {
+  margin-bottom: clamp(16px, 2.5vw, 24px);
+  font-family: var(--font-assistant-stack);
+  font-size: 13px;
 }
 
 .story-hero--no-image .story-hero-content {
   padding-top: 0;
+}
+
+.story-page .story-hero:not(.story-hero--no-image) .story-hero-content {
+  padding-top: calc(var(--site-chrome-offset, 160px) + clamp(24px, 4vw, 48px));
 }
 
 .story-hero-image-wrap {
@@ -651,7 +671,10 @@
 }
 
 .story-back-nav {
-  padding: 24px var(--stories-edge) 0;
+  display: grid;
+  grid-template-columns: min(720px, 100%);
+  justify-content: center;
+  padding: clamp(28px, 4vw, 40px) var(--stories-edge) clamp(40px, 6vw, 64px);
 }
 
 .story-back-link {

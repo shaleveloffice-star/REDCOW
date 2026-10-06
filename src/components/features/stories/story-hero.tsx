@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { ReactNode } from "react";
 
 import { resolveImageAlt } from "@/lib/image-alt";
 import { storyEditableHit, StoryEditableImageWrap } from "@/lib/stories/story-editable-ui";
@@ -10,9 +11,10 @@ type StoryHeroProps = {
   story: BrandStory;
   locale: Locale;
   editor?: StoryPreviewEditor;
+  breadcrumbs?: ReactNode;
 };
 
-export function StoryHero({ story, locale, editor }: StoryHeroProps) {
+export function StoryHero({ story, locale, editor, breadcrumbs }: StoryHeroProps) {
   const heroAlt = resolveImageAlt({
     kind: "story",
     locale,
@@ -50,6 +52,7 @@ export function StoryHero({ story, locale, editor }: StoryHeroProps) {
         </StoryEditableImageWrap>
       ) : null}
       <div className="story-hero-content">
+        {breadcrumbs ? <div className="story-hero-breadcrumbs">{breadcrumbs}</div> : null}
         {story.category.trim() || editor?.active ? (
           <p
             className="story-hero-kicker"

@@ -24,16 +24,19 @@ export function StoryPageView({ story, locale, messages }: StoryPageViewProps) {
 
   return (
     <>
-      <div className="story-back-nav">
-        <MenuBreadcrumbs
-          items={[
-            { label: messages.nav.home, href: "/" },
-            { label: messages.stories.breadcrumbLabel, href: "/stories" },
-            { label: story.title }
-          ]}
-        />
-      </div>
-      <StoryHero story={story} locale={locale} />
+      <StoryHero
+        story={story}
+        locale={locale}
+        breadcrumbs={
+          <MenuBreadcrumbs
+            items={[
+              { label: messages.nav.home, href: "/" },
+              { label: messages.stories.breadcrumbLabel, href: "/stories" },
+              { label: story.title }
+            ]}
+          />
+        }
+      />
       <StorySections sections={sections} locale={locale} />
       <nav className="story-back-nav" aria-label={messages.stories.backToStories}>
         <Link href="/stories" className="story-back-link">

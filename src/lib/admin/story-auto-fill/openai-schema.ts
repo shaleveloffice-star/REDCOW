@@ -1,4 +1,5 @@
-import { STORY_SECTION_TYPES, type StorySection } from "@/types/story";
+import { convertStorySectionType } from "@/lib/stories/convert-section-type";
+import { STORY_SECTION_TYPES, type StorySection, type StorySectionType } from "@/types/story";
 
 import type { StoryAutoFillDraftFields, StoryAutoFillLength } from "./types";
 
@@ -182,7 +183,7 @@ export type StoryGenerateValidationResult =
 
 export function validateAndNormalizeStoryGeneratePayload(
   payload: unknown,
-  options?: { length?: StoryAutoFillLength; expectCta?: boolean }
+  options?: { length?: StoryAutoFillLength; expectCta?: boolean; sectionLayout?: StorySectionType[] }
 ): StoryGenerateValidationResult {
   if (!payload || typeof payload !== "object") {
     return { ok: false, error: "תשובת OpenAI אינה אובייקט תקין." };
@@ -227,6 +228,20 @@ export function validateAndNormalizeStoryGeneratePayload(
 
   if (sections.length === 0) {
     return { ok: false, error: "התשובה לא כללה מקטעים. לא עודכן הטופס." };
+  }
+
+  const layout = options?.sectionLayout;
+  if (layout && layout.length > 0) {
+    if (sections.length !== layout.length) {
+      return {
+        ok: false,
+        error: `נבחרו ${layout.length} מקטעים במבנה, אבל התקבלו ${sections.length}. נסו שוב.`
+      };
+    }
+    for (let i = 0; i < layout.length; i += 1) {
+      sections[i] = convertStorySectionType(sections[i], layout[i]);
+    }
+    return { ok: true, fields: buildDraftFields(data, sections) };
   }
 
   const contentSections = sections.filter((section) => section.type !== "cta");
@@ -274,24 +289,25 @@ export function validateAndNormalizeStoryGeneratePayload(
     return { ok: false, error: `סוג מקטע לא מורשה: ${invalidType.type}` };
   }
 
+  return { ok: true, fields: buildDraftFields(data, sections) };
+}
+
+function buildDraftFields(data: Record<string, unknown>, sections: StorySection[]): StoryAutoFillDraftFields {
   return {
-    ok: true,
-    fields: {
-      title: String(data.title).trim().slice(0, 120),
-      slug: String(data.slug)
-        .trim()
-        .toLowerCase()
-        .replace(/[^a-z0-9-]+/g, "-")
-        .replace(/-+/g, "-")
-        .replace(/^-|-$/g, "")
-        .slice(0, 80),
-      category: String(data.category).trim().slice(0, 60),
-      subtitle: String(data.subtitle).trim().slice(0, 240),
-      heroImageAlt: String(data.heroAlt).trim().slice(0, 160),
-      metaTitle: String(data.metaTitle).trim().slice(0, 70),
-      metaDescription: String(data.metaDescription).trim().slice(0, 170),
-      ogImageSuggestion: "",
-      sections
-    }
+    title: String(data.title).trim().slice(0, 120),
+    slug: String(data.slug)
+      .trim()
+      .toLowerCase()
+      .replace(/[^a-z0-9-]+/g, "-")
+      .replace(/-+/g, "-")
+      .replace(/^-|-$/g, "")
+      .slice(0, 80),
+    category: String(data.category).trim().slice(0, 60),
+    subtitle: String(data.subtitle).trim().slice(0, 240),
+    heroImageAlt: String(data.heroAlt).trim().slice(0, 160),
+    metaTitle: String(data.metaTitle).trim().slice(0, 70),
+    metaDescription: String(data.metaDescription).trim().slice(0, 170),
+    ogImageSuggestion: "",
+    sections
   };
 }

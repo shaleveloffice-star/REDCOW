@@ -4,21 +4,13 @@ import type { ReactNode } from "react";
 
 import { resolveImageAlt } from "@/lib/image-alt";
 import { convertStorySectionType, flipSplitSectionType } from "@/lib/stories/convert-section-type";
+import { STORY_SECTION_TYPE_LABELS as SECTION_TYPE_LABELS } from "@/lib/stories/section-type-labels";
 import { storyEditableHit, StoryEditableImageWrap } from "@/lib/stories/story-editable-ui";
 import type { Locale } from "@/i18n/config";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
 import { StoryLongContentBody } from "@/components/features/stories/story-long-content-body";
 import { STORY_SECTION_TYPES, type BrandStory, type StorySection, type StorySectionType } from "@/types/story";
 import type { StoryPreviewEditor } from "@/types/story-preview-editor";
-
-const SECTION_TYPE_LABELS: Record<StorySectionType, string> = {
-  "split-text-image": "טקסט + תמונה (ימין)",
-  "split-image-text": "תמונה + טקסט (שמאל)",
-  "full-image": "תמונה מלאה",
-  quote: "ציטוט",
-  cta: "קריאה לפעולה",
-  "long-content": "כתבה - טקסט רציף עם כותרות"
-};
 
 type StorySectionsProps = {
   sections: BrandStory["sections"];

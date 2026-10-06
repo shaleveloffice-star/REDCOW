@@ -7863,6 +7863,48 @@ a.menu-showcase-button.site-cta-btn {
   line-height: 1.5;
 }
 
+.admin-story-layout-field {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.admin-story-layout-title {
+  font-weight: 600;
+}
+
+.admin-story-layout-list {
+  display: grid;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-story-layout-list li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.admin-story-layout-item-actions,
+.admin-story-layout-add {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.admin-story-layout-item-actions .button {
+  min-width: 36px;
+  padding: 4px 8px;
+}
+
+.admin-story-layout-add select {
+  flex: 1 1 220px;
+  width: auto;
+}
+
 .admin-story-view-toggle {
   display: flex;
   flex-wrap: wrap;

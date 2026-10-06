@@ -12,6 +12,7 @@ import {
   STORY_AUTO_FILL_GOALS,
   STORY_AUTO_FILL_LENGTH_LABELS,
   STORY_AUTO_FILL_LENGTHS,
+  STORY_AUTO_FILL_MAX_LAYOUT_SECTIONS,
   STORY_AUTO_FILL_TYPE_LABELS,
   STORY_AUTO_FILL_TYPES,
   type StoryAutoFillCta,
@@ -24,7 +25,8 @@ import {
   type StoryCannibalizationHit,
   type StorySuggestion
 } from "@/lib/admin/story-auto-fill";
-import type { BrandStory } from "@/types/story";
+import { STORY_SECTION_TYPE_LABELS } from "@/lib/stories/section-type-labels";
+import { STORY_SECTION_TYPES, type BrandStory, type StorySectionType } from "@/types/story";
 
 const EMPTY_INPUT: StoryAutoFillInput = {
   primaryKeyword: "",
@@ -33,8 +35,110 @@ const EMPTY_INPUT: StoryAutoFillInput = {
   angle: "",
   length: "medium",
   goal: "seo",
-  cta: "auto"
+  cta: "auto",
+  sectionLayout: []
 };
+
+function StoryLayoutField({
+  value,
+  onChange,
+  disabled
+}: {
+  value: StorySectionType[];
+  onChange: (next: StorySectionType[]) => void;
+  disabled: boolean;
+}) {
+  const [nextType, setNextType] = useState<StorySectionType>("split-text-image");
+  const full = value.length >= STORY_AUTO_FILL_MAX_LAYOUT_SECTIONS;
+
+  const move = (index: number, delta: number) => {
+    const target = index + delta;
+    if (target < 0 || target >= value.length) return;
+    const next = [...value];
+    [next[index], next[target]] = [next[target], next[index]];
+    onChange(next);
+  };
+
+  return (
+    <div className="admin-story-layout-field">
+      <span className="admin-story-layout-title">מבנה המקטעים (אופציונלי)</span>
+      <p className="admin-form-hint">
+        בחרו סוגי מקטעים לפי הסדר, וה־AI ייצור את הסיפור בדיוק במבנה הזה. השאירו ריק כדי שה־AI יבחר לבד
+        לפי האורך.
+      </p>
+      {value.length > 0 ? (
+        <ol className="admin-story-layout-list">
+          {value.map((type, index) => (
+            <li key={`${index}-${type}`}>
+              <span>
+                {index + 1}. {STORY_SECTION_TYPE_LABELS[type]}
+              </span>
+              <span className="admin-story-layout-item-actions">
+                <button
+                  type="button"
+                  className="button secondary"
+                  onClick={() => move(index, -1)}
+                  disabled={disabled || index === 0}
+                  aria-label={`הזז למעלה: מקטע ${index + 1}`}
+                >
+                  ↑
+                </button>
+                <button
+                  type="button"
+                  className="button secondary"
+                  onClick={() => move(index, 1)}
+                  disabled={disabled || index === value.length - 1}
+                  aria-label={`הזז למטה: מקטע ${index + 1}`}
+                >
+                  ↓
+                </button>
+                <button
+                  type="button"
+                  className="button secondary"
+                  onClick={() => onChange(value.filter((_, i) => i !== index))}
+                  disabled={disabled}
+                  aria-label={`הסר: מקטע ${index + 1}`}
+                >
+                  ✕
+                </button>
+              </span>
+            </li>
+          ))}
+        </ol>
+      ) : null}
+      <div className="admin-story-layout-add">
+        <select
+          aria-label="סוג מקטע להוספה למבנה"
+          value={nextType}
+          onChange={(e) => setNextType(e.target.value as StorySectionType)}
+          disabled={disabled || full}
+        >
+          {STORY_SECTION_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {STORY_SECTION_TYPE_LABELS[type]}
+            </option>
+          ))}
+        </select>
+        <button
+          type="button"
+          className="button secondary"
+          onClick={() => onChange([...value, nextType])}
+          disabled={disabled || full}
+        >
+          הוסף למבנה
+        </button>
+        {value.length > 0 ? (
+          <button type="button" className="button secondary" onClick={() => onChange([])} disabled={disabled}>
+            נקה מבנה
+          </button>
+        ) : null}
+      </div>
+      {full ? (
+        <p className="admin-form-hint">אפשר עד {STORY_AUTO_FILL_MAX_LAYOUT_SECTIONS} מקטעים.</p>
+      ) : null}
+    </div>
+  );
+}
 
 type GenerateApiSuccess = {
   ok: true;
@@ -91,6 +195,9 @@ export function AdminStoryAutoFillPanel({
   };
 
   const busy = loading || suggestLoading;
+  const layout = input.sectionLayout ?? [];
+  const hasLayout = layout.length > 0;
+  const layoutWithoutCta = hasLayout && !layout.includes("cta");
 
   const runSuggest = async () => {
     if (suggestInFlightRef.current) return;
@@ -144,7 +251,8 @@ export function AdminStoryAutoFillPanel({
       angle: suggestion.angle,
       length: input.length || "medium",
       goal: suggestion.goal,
-      cta: suggestion.cta
+      cta: suggestion.cta,
+      sectionLayout: input.sectionLayout
     });
     setSuggestOpen(false);
     setSuggestions([]);
@@ -170,6 +278,7 @@ export function AdminStoryAutoFillPanel({
           length: input.length,
           goal: input.goal,
           cta: input.cta,
+          sectionLayout: layout,
           excludeStoryId: draft.id,
           acknowledgeOverlaps
         })
@@ -338,12 +447,17 @@ export function AdminStoryAutoFillPanel({
           disabled={busy}
         />
       </label>
+      <StoryLayoutField
+        value={layout}
+        onChange={(next) => update("sectionLayout", next)}
+        disabled={busy}
+      />
       <label>
         אורך
         <select
           value={input.length}
           onChange={(e) => update("length", e.target.value as StoryAutoFillLength)}
-          disabled={busy}
+          disabled={busy || hasLayout}
         >
           {STORY_AUTO_FILL_LENGTHS.map((length) => (
             <option key={length} value={length}>
@@ -351,6 +465,7 @@ export function AdminStoryAutoFillPanel({
             </option>
           ))}
         </select>
+        {hasLayout ? <span className="admin-form-hint">נקבע לפי מבנה המקטעים ({layout.length}).</span> : null}
       </label>
       <label>
         מטרה
@@ -371,7 +486,7 @@ export function AdminStoryAutoFillPanel({
         <select
           value={input.cta}
           onChange={(e) => update("cta", e.target.value as StoryAutoFillCta)}
-          disabled={busy}
+          disabled={busy || layoutWithoutCta}
         >
           {STORY_AUTO_FILL_CTAS.map((cta) => (
             <option key={cta} value={cta}>
@@ -379,6 +494,9 @@ export function AdminStoryAutoFillPanel({
             </option>
           ))}
         </select>
+        {layoutWithoutCta ? (
+          <span className="admin-form-hint">אין &quot;קריאה לפעולה&quot; במבנה - לא יתווסף CTA.</span>
+        ) : null}
       </label>
 
       <div className="admin-row-actions" style={{ marginTop: 8 }}>

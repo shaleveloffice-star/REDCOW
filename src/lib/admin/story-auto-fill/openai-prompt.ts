@@ -1,3 +1,5 @@
+import type { StorySectionType } from "@/types/story";
+
 import { buildStoryContextSummaries } from "./story-context";
 import {
   STORY_AUTO_FILL_CTA_LABELS,
@@ -72,7 +74,22 @@ SEO:
 אם יש CTA בבקשה - הוסף מקטע type "cta" בסוף.
 אם cta הוא none - אל תוסיף מקטע cta.
 
+אם בבקשה מופיע sectionLayout - הוא גובר על כללי length ועל כללי ה-CTA שלמעלה:
+- החזר בדיוק את מספר המקטעים שבו, כל מקטע מהסוג שנקבע לו, באותו סדר בדיוק
+- אל תוסיף, אל תשמיט ואל תחליף סדר של מקטעים
+- quote שנבחר: כתוב משפט תובנה כללי בלי לייחס אותו לאדם אמיתי (attribution ריק או "SO WHAT")
+- long-content שנבחר: כתבה רציפה ב-body עם כותרות markdown (## ו-###) ופסקאות
+
 אל תמציא ביקורות לקוחות או ציטוטים מיוחסים.`.trim();
+
+const SECTION_LAYOUT_HINTS: Record<StorySectionType, string> = {
+  "split-text-image": "טקסט + תמונה: title + body + imageAlt",
+  "split-image-text": "תמונה + טקסט: title + body + imageAlt",
+  "full-image": "תמונה מלאה: imageAlt + caption",
+  quote: "ציטוט: text",
+  cta: "קריאה לפעולה: label + href + body קצר",
+  "long-content": "כתבה רציפה: body עם כותרות markdown (+ title/kicker אם מתאים)"
+};
 
 function secondaryList(input: string): string[] {
   return input
@@ -113,6 +130,14 @@ export function buildStoryGenerateUserPrompt(options: {
         ? "4 מקטעי תוכן, FAQ רק אם מתאים, + CTA אם נדרש"
         : "5–6 מקטעי תוכן, FAQ אם מתאים, + CTA אם נדרש";
 
+  const layout = input.sectionLayout ?? [];
+  const structureLines = layout.length
+    ? [
+        `sectionLayout: בדיוק ${layout.length} מקטעים, בסדר הזה (length לא רלוונטי):`,
+        ...layout.map((type, index) => `${index + 1}. ${type} - ${SECTION_LAYOUT_HINTS[type]}`)
+      ]
+    : [`length: ${input.length} (${STORY_AUTO_FILL_LENGTH_LABELS[input.length]}) → ${lengthHint}`];
+
   return [
     "צור טיוטת Story מלאה לפי הפרמטרים הבאים.",
     "",
@@ -120,7 +145,7 @@ export function buildStoryGenerateUserPrompt(options: {
     `secondaryKeywords: ${secondaries.length ? secondaries.join(" | ") : "(אין)"}`,
     `storyType: ${input.storyType} (${STORY_AUTO_FILL_TYPE_LABELS[input.storyType]})`,
     `angle: ${input.angle.trim() || "(נגזר ממילת המפתח - בחר זווית עניינית)"}`,
-    `length: ${input.length} (${STORY_AUTO_FILL_LENGTH_LABELS[input.length]}) → ${lengthHint}`,
+    ...structureLines,
     `goal: ${input.goal} (${STORY_AUTO_FILL_GOAL_LABELS[input.goal]})`,
     `cta: ${input.cta} (${STORY_AUTO_FILL_CTA_LABELS[input.cta]})`,
     "",

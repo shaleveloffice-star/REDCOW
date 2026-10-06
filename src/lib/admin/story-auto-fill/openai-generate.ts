@@ -5,6 +5,7 @@ import { APIError } from "openai";
 
 import { DEFAULT_OG_IMAGE } from "@/lib/seo";
 import { listBrandStories } from "@/services/stories.service";
+import { STORY_SECTION_TYPES, type StorySectionType } from "@/types/story";
 
 import { findStoryCannibalizationHits, isBlockingCannibalization } from "./cannibalization";
 import {
@@ -28,6 +29,7 @@ import {
   STORY_AUTO_FILL_CTAS,
   STORY_AUTO_FILL_GOALS,
   STORY_AUTO_FILL_LENGTHS,
+  STORY_AUTO_FILL_MAX_LAYOUT_SECTIONS,
   STORY_AUTO_FILL_TYPES
 } from "./types";
 
@@ -107,6 +109,28 @@ export function parseStoryGenerateRequestBody(body: unknown):
     return { ok: false, error: "CTA לא תקין." };
   }
 
+  let sectionLayout: StorySectionType[] | undefined;
+  if (raw.sectionLayout !== undefined && raw.sectionLayout !== null) {
+    if (
+      !Array.isArray(raw.sectionLayout) ||
+      raw.sectionLayout.length > STORY_AUTO_FILL_MAX_LAYOUT_SECTIONS ||
+      !raw.sectionLayout.every((type) => isOneOf(type, STORY_SECTION_TYPES))
+    ) {
+      return { ok: false, error: "מבנה המקטעים לא תקין." };
+    }
+    sectionLayout = raw.sectionLayout.length > 0 ? (raw.sectionLayout as StorySectionType[]) : undefined;
+  }
+
+  let cta = raw.cta;
+  if (sectionLayout) {
+    const layoutHasCta = sectionLayout.includes("cta");
+    if (!layoutHasCta) {
+      cta = "none";
+    } else if (cta === "none") {
+      cta = "auto";
+    }
+  }
+
   const angle = typeof raw.angle === "string" ? raw.angle.trim() : "";
   const excludeStoryId =
     typeof raw.excludeStoryId === "string" && raw.excludeStoryId.trim()
@@ -123,7 +147,8 @@ export function parseStoryGenerateRequestBody(body: unknown):
       angle,
       length: raw.length,
       goal: raw.goal,
-      cta: raw.cta
+      cta,
+      ...(sectionLayout ? { sectionLayout } : {})
     },
     excludeStoryId,
     acknowledgeOverlaps
@@ -282,7 +307,8 @@ export async function generateStoryWithOpenAI(options: {
     const expectCta = options.input.cta !== "none";
     const validated = validateAndNormalizeStoryGeneratePayload(parsed, {
       length: options.input.length,
-      expectCta
+      expectCta,
+      sectionLayout: options.input.sectionLayout
     });
 
     if (!validated.ok) {

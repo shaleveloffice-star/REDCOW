@@ -26,6 +26,7 @@ import {
   convertStorySectionType,
   createDefaultStorySection
 } from "@/lib/stories/convert-section-type";
+import { STORY_SECTION_TYPE_LABELS as SECTION_TYPE_LABELS } from "@/lib/stories/section-type-labels";
 import { resolveStorySlug, isStoryInMagazine } from "@/lib/stories/story-slug";
 import { deleteBrandStoryAction, saveBrandStoryAction, toggleStoryMagazineAction } from "@/server/actions/stories.actions";
 import {
@@ -111,15 +112,6 @@ function preferLocalDraft(serverStory: BrandStory): { story: BrandStory; fromLoc
   }
   return { story: { ...serverStory, sections: [...serverStory.sections] }, fromLocal: false };
 }
-
-const SECTION_TYPE_LABELS: Record<StorySectionType, string> = {
-  "split-text-image": "טקסט + תמונה (ימין)",
-  "split-image-text": "תמונה + טקסט (שמאל)",
-  "full-image": "תמונה מלאה",
-  quote: "ציטוט",
-  cta: "קריאה לפעולה",
-  "long-content": "כתבה - טקסט רציף עם כותרות"
-};
 
 const ARTICLE_HEADING_LEVELS = [1, 2, 3, 4, 5] as const;
 

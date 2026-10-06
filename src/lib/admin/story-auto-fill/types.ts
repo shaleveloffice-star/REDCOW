@@ -63,6 +63,8 @@ export const STORY_AUTO_FILL_CTA_LABELS: Record<StoryAutoFillCta, string> = {
   auto: "אוטומטי"
 };
 
+export const STORY_AUTO_FILL_MAX_LAYOUT_SECTIONS = 12;
+
 export type StoryAutoFillInput = {
   primaryKeyword: string;
   secondaryKeywords: string;
@@ -71,6 +73,8 @@ export type StoryAutoFillInput = {
   length: StoryAutoFillLength;
   goal: StoryAutoFillGoal;
   cta: StoryAutoFillCta;
+  /** When set, the story must use exactly these section types in this order (overrides length). */
+  sectionLayout?: import("@/types/story").StorySectionType[];
 };
 
 export type StoryCannibalizationHit = {

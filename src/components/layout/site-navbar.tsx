@@ -408,6 +408,7 @@ export function SiteNavbar({
                   <ul
                     id={magazineMenuId}
                     className="site-navbar-magazine-menu"
+                    dir={locale === "he" ? "rtl" : "ltr"}
                     role="menu"
                     aria-label={t.nav.magazine}
                     hidden={!desktopMagazineOpen}

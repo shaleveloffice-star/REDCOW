@@ -18,7 +18,7 @@ export function getMenuCardMediaUrl(item: MenuItem): string {
   return resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
 }
 
-function formatPrice(price: number, locale: string) {
+export function formatPrice(price: number, locale: string) {
   if (locale === "he") {
     return `${price} ₪`;
   }

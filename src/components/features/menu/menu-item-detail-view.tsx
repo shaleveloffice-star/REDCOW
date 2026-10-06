@@ -7,7 +7,7 @@ import { useMemo, useRef, useState } from "react";
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { OrderModal } from "@/components/layout/order-modal";
-import { isBurgersCategory, MenuItemsGrid } from "@/components/features/menu/menu-items-grid";
+import { formatPrice, isBurgersCategory, MenuItemsGrid } from "@/components/features/menu/menu-items-grid";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { IconBurgerMark } from "@/components/shared/site-icons";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
@@ -101,6 +101,9 @@ export function MenuItemDetailView({
         </h1>
         {localized.description.trim() ? (
           <p className="menu-item-detail-short">{localized.description}</p>
+        ) : null}
+        {item.price > 0 ? (
+          <p className="menu-item-detail-price">{formatPrice(item.price, locale)}</p>
         ) : null}
 
         <MenuItemSauces sauces={sauces} ingredients={ingredients} mode={item.sauceMode} choiceCount={item.sauceChoiceCount} />

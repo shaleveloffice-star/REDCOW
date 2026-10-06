@@ -4,6 +4,8 @@ import { useRouter } from "next/navigation";
 import { useId, useRef, useLayoutEffect, useState, useTransition, type ReactNode } from "react";
 import { mountModal } from "@/lib/a11y/focus-trap";
 
+const EXPANDED_MODAL_KEY = "admin-modal-expanded";
+
 export function AdminToolbar({
   onAdd,
   label = "הוסף חדש",
@@ -52,6 +54,7 @@ export function AdminModal({
   onClose,
   stacked = false,
   size = "default",
+  expandable = false,
   children
 }: {
   title: string;
@@ -59,9 +62,20 @@ export function AdminModal({
   onClose: () => void;
   stacked?: boolean;
   size?: "default" | "wide" | "xl";
+  /** Shows a toggle that stretches the dialog to the full screen; the choice is remembered. */
+  expandable?: boolean;
   children: ReactNode;
 }) {
   const titleId = useId();
+  const [expanded, setExpanded] = useState(false);
+  useLayoutEffect(() => {
+    if (expandable && open) setExpanded(window.localStorage.getItem(EXPANDED_MODAL_KEY) === "1");
+  }, [expandable, open]);
+  const toggleExpanded = () => {
+    const next = !expanded;
+    setExpanded(next);
+    window.localStorage.setItem(EXPANDED_MODAL_KEY, next ? "1" : "0");
+  };
   const rootRef = useRef<HTMLDivElement>(null);
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef(onClose);
@@ -88,10 +102,19 @@ export function AdminModal({
         tabIndex={-1}
         aria-modal="true"
         aria-labelledby={titleId}
-        className={`admin-modal${size === "wide" ? " admin-modal--wide" : ""}${size === "xl" ? " admin-modal--xl" : ""}`}
+        className={`admin-modal${size === "wide" ? " admin-modal--wide" : ""}${size === "xl" ? " admin-modal--xl" : ""}${expandable && expanded ? " admin-modal--full" : ""}`}
         role="dialog"
       >
-        <h3 id={titleId}>{title}</h3>
+        {expandable ? (
+          <div className="admin-modal-head">
+            <h3 id={titleId}>{title}</h3>
+            <button className="button secondary" type="button" aria-pressed={expanded} onClick={toggleExpanded}>
+              {expanded ? "צמצם חלון" : "הרחב חלון"}
+            </button>
+          </div>
+        ) : (
+          <h3 id={titleId}>{title}</h3>
+        )}
         {children}
       </div>
     </div>

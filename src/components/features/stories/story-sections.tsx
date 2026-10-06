@@ -17,7 +17,7 @@ const SECTION_TYPE_LABELS: Record<StorySectionType, string> = {
   "full-image": "תמונה מלאה",
   quote: "ציטוט",
   cta: "קריאה לפעולה",
-  "long-content": "תוכן ארוך"
+  "long-content": "כתבה - טקסט רציף עם כותרות"
 };
 
 type StorySectionsProps = {

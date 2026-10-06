@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 
 import {
   AdminModal,
@@ -118,8 +118,67 @@ const SECTION_TYPE_LABELS: Record<StorySectionType, string> = {
   "full-image": "תמונה מלאה",
   quote: "ציטוט",
   cta: "קריאה לפעולה",
-  "long-content": "תוכן ארוך"
+  "long-content": "כתבה - טקסט רציף עם כותרות"
 };
+
+const ARTICLE_HEADING_LEVELS = [1, 2, 3, 4, 5] as const;
+
+/** Markdown textarea with buttons that turn the caret's line into an H1–H5 heading (or back into text). */
+function ArticleBodyField({ value, onChange }: { value: string; onChange: (value: string) => void }) {
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  const textareaId = useId();
+
+  const setLineLevel = (level: number) => {
+    const textarea = textareaRef.current;
+    const caret = textarea ? textarea.selectionStart : value.length;
+    const lineStart = value.lastIndexOf("\n", caret - 1) + 1;
+    const lineEndIndex = value.indexOf("\n", caret);
+    const lineEnd = lineEndIndex === -1 ? value.length : lineEndIndex;
+    const text = value.slice(lineStart, lineEnd).replace(/^#{1,6}\s*/, "");
+    const line = level > 0 ? `${"#".repeat(level)} ${text}` : text;
+    onChange(value.slice(0, lineStart) + line + value.slice(lineEnd));
+    requestAnimationFrame(() => {
+      if (!textarea) return;
+      textarea.focus();
+      textarea.setSelectionRange(lineStart + line.length, lineStart + line.length);
+    });
+  };
+
+  return (
+    <div className="admin-article-body-field">
+      <label htmlFor={textareaId}>תוכן הכתבה</label>
+      <div className="admin-row-actions" role="toolbar" aria-label="סוג שורה">
+        {ARTICLE_HEADING_LEVELS.map((level) => (
+          <button
+            key={level}
+            className="button secondary"
+            type="button"
+            onMouseDown={(e) => e.preventDefault()}
+            onClick={() => setLineLevel(level)}
+          >
+            H{level}
+          </button>
+        ))}
+        <button
+          className="button secondary"
+          type="button"
+          onMouseDown={(e) => e.preventDefault()}
+          onClick={() => setLineLevel(0)}
+        >
+          טקסט רגיל
+        </button>
+      </div>
+      <textarea
+        id={textareaId}
+        ref={textareaRef}
+        required
+        rows={14}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+      />
+    </div>
+  );
+}
 
 function newStory(items: BrandStory[]): BrandStory {
   const now = new Date().toISOString();
@@ -399,18 +458,11 @@ function SectionEditor({
               onChange={(e) => onChange({ ...section, title: e.target.value })}
             />
           </label>
-          <label>
-            תוכן ארוך
-            <textarea
-              required
-              rows={10}
-              value={section.body}
-              onChange={(e) => onChange({ ...section, body: e.target.value })}
-            />
-          </label>
+          <ArticleBodyField value={section.body} onChange={(body) => onChange({ ...section, body })} />
           <p className="admin-form-hint">
-            ניתן לחלק לפסקאות עם שורה ריקה בין פסקה לפסקה. ניתן להשתמש ב-## לכותרת משנה
-            וב-### לכותרת פנימית.
+            עמדו על שורה ולחצו H1–H5 כדי להפוך אותה לכותרת, או &quot;טקסט רגיל&quot; כדי לבטל.
+            שורה ריקה בין פסקאות מחלקת לפסקאות. כותרת הסיפור היא ה-H1 של העמוד, ולכן H1 בתוך הכתבה
+            מוצג בגודל H1 אבל נשמר לגוגל כ-H2.
           </p>
         </>
       )}
@@ -666,7 +718,7 @@ export function AdminStoriesManager({
         </tbody>
       </table>
 
-      <AdminModal open={Boolean(draft)} title={isNew ? "הוספת סיפור" : "עריכת סיפור"} onClose={close} stacked>
+      <AdminModal open={Boolean(draft)} title={isNew ? "הוספת סיפור" : "עריכת סיפור"} onClose={close} stacked expandable>
         {draft ? (
           <form
             className="admin-form"

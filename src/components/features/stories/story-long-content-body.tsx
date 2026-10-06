@@ -47,13 +47,14 @@ function StoryMarkdownLink({
   );
 }
 
+// The story title is the page's only <h1>, so a body "H1" keeps the H1 look but is an <h2> in the markup.
 const markdownComponents: Components = {
-  h1: ({ children }) => <h2 className="story-long-content-h2">{children}</h2>,
+  h1: ({ children }) => <h2 className="story-long-content-h1">{children}</h2>,
   h2: ({ children }) => <h2 className="story-long-content-h2">{children}</h2>,
   h3: ({ children }) => <h3 className="story-long-content-h3">{children}</h3>,
-  h4: ({ children }) => <h3 className="story-long-content-h3">{children}</h3>,
-  h5: ({ children }) => <h3 className="story-long-content-h3">{children}</h3>,
-  h6: ({ children }) => <h3 className="story-long-content-h3">{children}</h3>,
+  h4: ({ children }) => <h4 className="story-long-content-h4">{children}</h4>,
+  h5: ({ children }) => <h5 className="story-long-content-h5">{children}</h5>,
+  h6: ({ children }) => <h5 className="story-long-content-h5">{children}</h5>,
   p: ({ children }) => <p>{children}</p>,
   strong: ({ children }) => <strong>{children}</strong>,
   em: ({ children }) => <em>{children}</em>,
@@ -71,15 +72,17 @@ export function StoryLongContentBody({ body, editor, onSave }: StoryLongContentB
     return null;
   }
 
+  const { className: hitClassName, ...hitProps } = storyEditableHit(editor, {
+    label: "תוכן מקטע",
+    value: body,
+    multiline: true,
+    onSave
+  });
+
   return (
     <div
-      className="story-long-content-body story-section-body"
-      {...storyEditableHit(editor, {
-        label: "תוכן מקטע",
-        value: body,
-        multiline: true,
-        onSave
-      })}
+      {...hitProps}
+      className={["story-long-content-body story-section-body", hitClassName].filter(Boolean).join(" ")}
     >
       <ReactMarkdown remarkPlugins={[remarkGfm]} components={markdownComponents}>
         {displaySource}

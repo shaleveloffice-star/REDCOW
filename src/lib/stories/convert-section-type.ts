@@ -42,6 +42,7 @@ export function createDefaultStorySection(type: StorySectionType): StorySection 
     case "long-content":
       return {
         type,
+        background: "light",
         kicker: "",
         title: "",
         body: "",

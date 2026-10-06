@@ -263,6 +263,7 @@
   z-index: 1;
   width: 100%;
   padding: clamp(32px, 5vw, 56px) var(--stories-edge) clamp(40px, 6vw, 72px);
+  text-align: center;
 }
 
 .story-hero-kicker {
@@ -276,7 +277,7 @@
 }
 
 .story-hero-title {
-  margin: 0 0 0.35em;
+  margin: 0 auto 0.35em;
   max-width: calc(18ch * 1.3);
   font-family: var(--font-archivo-black-stack);
   font-size: clamp(32px, 7vw, 72px);
@@ -288,7 +289,7 @@
 }
 
 .story-hero-subtitle {
-  margin: 0;
+  margin: 0 auto;
   max-width: calc(48ch * 1.3);
   font-family: var(--font-assistant-stack);
   font-size: clamp(15px, 1.6vw, 18px);

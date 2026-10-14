@@ -1,9 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { resolveOrderUrl } from "@/lib/orders";
 
-import { OrderModal } from "@/components/layout/order-modal";
 import {
   IconBurgerMark,
   IconDeliveryMark,
@@ -19,28 +18,25 @@ type MenuOrderCtasProps = {
 
 export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
   const t = useTranslations();
-  const [orderOpen, setOrderOpen] = useState(false);
-  const orderButtonRef = useRef<HTMLButtonElement>(null);
 
   return (
     <>
       <section className="menu-bleecker-ctas" aria-label={t.orderModal.title}>
-        <button
-          ref={orderButtonRef}
-          type="button"
+        <a
+          href={resolveOrderUrl(pickupUrl)}
           className="menu-bleecker-cta"
           onClick={() => {
             trackEvent("order_open", { source: "menu" });
-            setOrderOpen(true);
+            trackEvent("order_pickup", { source: "menu" });
           }}
         >
           <IconBurgerMark className="menu-bleecker-cta-icon" />
           <span>{t.orderModal.pickup}</span>
-        </button>
+        </a>
 
         <a
           className="menu-bleecker-cta"
-          href={deliveryUrl}
+          href={resolveOrderUrl(deliveryUrl)}
           onClick={() => {
             // Consistent funnel: open intent, then known delivery choice.
             trackEvent("order_open", { source: "menu" });
@@ -61,14 +57,6 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
         </Link>
       </section>
 
-      <OrderModal
-        open={orderOpen}
-        onClose={() => setOrderOpen(false)}
-        pickupUrl={pickupUrl}
-        deliveryUrl={deliveryUrl}
-        source="menu"
-        returnFocusRef={orderButtonRef}
-      />
     </>
   );
 }

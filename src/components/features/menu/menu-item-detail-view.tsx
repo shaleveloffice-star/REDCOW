@@ -1,12 +1,12 @@
 "use client";
 
 import Link from "next/link";
+import { resolveOrderUrl } from "@/lib/orders";
 import { MenuItemSauces } from "@/components/features/menu/menu-item-sauces";
-import { useMemo, useRef, useState } from "react";
+import { useMemo } from "react";
 
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
-import { OrderModal } from "@/components/layout/order-modal";
 import { formatPrice, isBurgersCategory, MenuItemsGrid } from "@/components/features/menu/menu-items-grid";
 import { MenuItemImage } from "@/components/shared/menu-item-image";
 import { IconBurgerMark } from "@/components/shared/site-icons";
@@ -47,7 +47,6 @@ export function MenuItemDetailView({
   relatedItems = [],
   sauces = [],
   ingredients,
-  pickupUrl,
   deliveryUrl
 }: MenuItemDetailViewProps) {
   const t = useTranslations();
@@ -56,8 +55,6 @@ export function MenuItemDetailView({
   const categoryName = category ? getLocalizedCategoryName(category, locale) : undefined;
   const primaryMedia = resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
   const primaryIsVideo = isVideoMediaUrl(primaryMedia);
-  const [orderOpen, setOrderOpen] = useState(false);
-  const orderButtonRef = useRef<HTMLButtonElement>(null);
 
   const longParagraphs = useMemo(
     () => splitLongDescription(localized.longDescription),
@@ -107,17 +104,15 @@ export function MenuItemDetailView({
         {item.price > 0 ? (
           <p className="menu-item-detail-price">{formatPrice(item.price, locale)}</p>
         ) : null}
-        <button
-          ref={orderButtonRef}
-          type="button"
+        <a
+          href={resolveOrderUrl(deliveryUrl)}
           className="menu-item-detail-order"
           onClick={() => {
             trackEvent("order_open", { source: "menu_item" });
-            setOrderOpen(true);
           }}
         >
           {t.menuItemDetail.orderNow}
-        </button>
+        </a>
       </section>
 
       {longParagraphs.length > 0 ? (
@@ -176,14 +171,6 @@ export function MenuItemDetailView({
         </Link>
       </div>
 
-      <OrderModal
-        open={orderOpen}
-        onClose={() => setOrderOpen(false)}
-        pickupUrl={pickupUrl}
-        deliveryUrl={deliveryUrl}
-        source="menu_item"
-        returnFocusRef={orderButtonRef}
-      />
     </article>
   );
 }

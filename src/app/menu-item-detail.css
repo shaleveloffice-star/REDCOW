@@ -186,6 +186,7 @@
 }
 
 .menu-item-detail-order {
+  text-decoration: none;
   box-sizing: border-box;
   display: inline-flex;
   align-items: center;

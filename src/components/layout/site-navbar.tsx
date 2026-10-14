@@ -4,7 +4,6 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 
-import { OrderModal } from "@/components/layout/order-modal";
 import {
   IconArrowBack,
   IconArrowUpRight,
@@ -76,12 +75,14 @@ function IconMagazineChevron({ open = false }: { open?: boolean }) {
 
 function CtaButtons({
   onOrderClick,
+  orderHref,
   onMenuClick,
   orderLabel,
   menuLabel,
   className
 }: {
-  onOrderClick: (opener: HTMLElement) => void;
+  onOrderClick: () => void;
+  orderHref: string;
   onMenuClick: () => void;
   orderLabel: string;
   menuLabel: string;
@@ -89,13 +90,13 @@ function CtaButtons({
 }) {
   return (
     <div className={className} dir="ltr">
-      <button
-        type="button"
+      <a
+        href={orderHref}
         className="site-cta-btn site-cta-btn--solid"
-        onClick={(event) => onOrderClick(event.currentTarget)}
+        onClick={onOrderClick}
       >
         <span className="site-cta-btn-label">{orderLabel}</span>
-      </button>
+      </a>
       <a
         className="site-cta-btn site-cta-btn--outline"
         href="/menu"
@@ -141,8 +142,6 @@ export function SiteNavbar({
   const [showBack, setShowBack] = useState(false);
   const [desktopMagazineOpen, setDesktopMagazineOpen] = useState(false);
   const [mobileMagazineOpen, setMobileMagazineOpen] = useState(false);
-  const [isOrderOpen, setIsOrderOpen] = useState(false);
-  const [orderSource, setOrderSource] = useState<AnalyticsSource>("desktop_navbar");
   const menuId = useId();
   const magazineMenuId = useId();
   const mobileMagazineId = useId();
@@ -150,10 +149,9 @@ export function SiteNavbar({
   const dialogRef = useRef<HTMLDivElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const magazineRef = useRef<HTMLLIElement>(null);
-  const orderReturnFocusRef = useRef<HTMLElement | null>(null);
   const navStackRef = useRef<string[]>([]);
 
-  const { pickupUrl, deliveryUrl } = useMemo(
+  const { deliveryUrl } = useMemo(
     () => resolveOrderUrls(orderLinks, orderUrl),
     [orderLinks, orderUrl]
   );
@@ -185,17 +183,9 @@ export function SiteNavbar({
     [magazineStories]
   );
 
-  const openOrderModal = useCallback((source: AnalyticsSource, opener?: HTMLElement | null) => {
+  const trackOrder = (source: AnalyticsSource) => {
     trackEvent("order_open", { source });
-    orderReturnFocusRef.current = opener ?? null;
-    setOrderSource(source);
-    setIsOpen(false);
-    setIsOrderOpen(true);
-  }, []);
-
-  const closeOrderModal = useCallback(() => {
-    setIsOrderOpen(false);
-  }, []);
+  };
 
   const closeMenu = (restoreFocus = true) => {
     setIsOpen(false);
@@ -450,7 +440,8 @@ export function SiteNavbar({
 
             <CtaButtons
               className="site-cta site-cta--desktop"
-              onOrderClick={(opener) => openOrderModal("desktop_navbar", opener)}
+              orderHref={deliveryUrl}
+              onOrderClick={() => trackOrder("desktop_navbar")}
               onMenuClick={() => trackEvent("menu_open", { source: "desktop_navbar" })}
               orderLabel={t.hero.orderCta}
               menuLabel={t.hero.menuCta}
@@ -494,20 +485,13 @@ export function SiteNavbar({
 
       <CtaButtons
         className="site-cta site-cta--mobile"
-        onOrderClick={(opener) => openOrderModal("mobile_sticky_cta", opener)}
+        orderHref={deliveryUrl}
+        onOrderClick={() => trackOrder("mobile_sticky_cta")}
         onMenuClick={() => trackEvent("menu_open", { source: "mobile_sticky_cta" })}
         orderLabel={t.hero.orderCta}
         menuLabel={t.hero.menuCta}
       />
 
-      <OrderModal
-        open={isOrderOpen}
-        onClose={closeOrderModal}
-        pickupUrl={pickupUrl}
-        deliveryUrl={deliveryUrl}
-        source={orderSource}
-        returnFocusRef={orderReturnFocusRef}
-      />
 
       {isOpen ? (
         <div
@@ -539,14 +523,14 @@ export function SiteNavbar({
                 {link.label}
               </a>
             ))}
-            <button
-              type="button"
+            <a
+              href={deliveryUrl}
               className="site-nav-overlay-link"
               style={{ animationDelay: `${navLinks.length * 0.08}s` }}
-              onClick={() => openOrderModal("mobile_nav_overlay", toggleRef.current)}
+              onClick={() => trackOrder("mobile_nav_overlay")}
             >
               {t.hero.orderCta}
-            </button>
+            </a>
             <a
               href={BUSINESS.social.instagram}
               className="site-nav-overlay-link site-nav-overlay-social"

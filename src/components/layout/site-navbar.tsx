@@ -7,6 +7,7 @@ import { useCallback, useEffect, useId, useLayoutEffect, useMemo, useRef, useSta
 import { OrderModal } from "@/components/layout/order-modal";
 import {
   IconArrowBack,
+  IconArrowUpRight,
   IconClose
 } from "@/components/shared/site-icons";
 import {
@@ -102,7 +103,7 @@ function CtaButtons({
       >
         <span className="site-cta-btn-label">{menuLabel}</span>
         <span className="site-cta-arrow" aria-hidden="true">
-          ↗
+          <IconArrowUpRight />
         </span>
       </a>
     </div>

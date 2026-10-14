@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { IconArrowUpRight } from "@/components/shared/site-icons";
 import type { MenuItem } from "@/types/content";
 import { getLocalizedMenuItem } from "@/i18n/menu-translations";
 import { getMenuItemHref } from "@/lib/menu/product-slug";
@@ -59,7 +60,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
             >
               <span className="site-cta-btn-label">{t.menuShowcase.fullMenu}</span>
               <span className="site-cta-arrow" aria-hidden="true">
-                ↗
+                <IconArrowUpRight />
               </span>
             </Link>
           </div>
@@ -136,7 +137,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
           >
             <span className="site-cta-btn-label">{t.menuShowcase.fullMenu}</span>
             <span className="site-cta-arrow" aria-hidden="true">
-              ↗
+              <IconArrowUpRight />
             </span>
           </Link>
         </div>

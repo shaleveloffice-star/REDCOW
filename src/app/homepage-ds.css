@@ -901,11 +901,14 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .home-vibe-cta {
-  display: inline-flex;
+  display: flex;
+  width: fit-content;
+  max-width: calc(100% - 40px);
+  justify-content: center;
   align-items: center;
   gap: 14px;
   min-height: 58px;
-  margin: clamp(36px, 5vw, 64px) 25px 0;
+  margin: clamp(36px, 5vw, 64px) auto 0;
   padding: 0 24px;
   border: 1px solid #1e1e1e;
   background: #1e1e1e;
@@ -1048,7 +1051,7 @@ a.menu-showcase-button.site-cta-btn {
   }
 
   .home-vibe-cta {
-    margin-inline: 20px;
+    margin-inline: auto;
   }
 }
 

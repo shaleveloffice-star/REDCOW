@@ -4,6 +4,28 @@ type IconProps = {
   className?: string;
 };
 
+/** Vector arrow avoids platform-dependent emoji rendering of the Unicode arrow. */
+export function IconArrowUpRight({ className }: IconProps) {
+  return (
+    <svg
+      className={className}
+      width="1em"
+      height="1em"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.75}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      focusable="false"
+      style={{ display: "block" }}
+    >
+      <path d="M5 19 19 5M5 5h14v14" />
+    </svg>
+  );
+}
+
 export function IconMapPin({ className }: IconProps) {
   return (
     <svg

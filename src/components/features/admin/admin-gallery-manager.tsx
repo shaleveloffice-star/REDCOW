@@ -256,7 +256,11 @@ export function AdminGalleryManager({
           file.type.startsWith("video/") || /\.(mp4|webm|mov|m4v)$/i.test(file.name);
         if (isVideo) {
           setUploadStatus(`מעלה סרטון: ${file.name}…`);
-          await uploadAdminGalleryVideo(file);
+          await uploadAdminGalleryVideo(file, (percentage) => {
+            setUploadStatus(percentage < 100
+              ? `מעלה סרטון: ${file.name} — ${percentage}%`
+              : `שומר בגלריה: ${file.name}…`);
+          });
           videoCount += 1;
         } else {
           setUploadStatus(`מדחיס ומעלה: ${file.name}…`);

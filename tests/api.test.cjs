@@ -7,7 +7,8 @@ test('all five admin API routes preserve 401 JSON and reject access before provi
   const forbidden = () => { throw new Error('Provider must not be called'); };
   const load = createLoader({
     'next/server': { NextResponse },
-    '@vercel/blob/client': { handleUpload: forbidden },
+    '@vercel/blob/client': { handleUploadPresigned: forbidden },
+    '@vercel/blob': { issueSignedToken: forbidden },
     '@/lib/auth/admin-api-session': { getAdminApiSession: async () => null },
     '@/lib/admin/save-menu-item': { saveMenuItemCore: forbidden },
     '@/lib/admin/save-menu-image': { parseDataImageUrl: forbidden, processMenuImageUpload: forbidden },

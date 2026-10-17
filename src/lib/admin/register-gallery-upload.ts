@@ -24,6 +24,7 @@ export async function registerUploadInGallery(input: {
   url: string;
   fileName?: string;
   title?: unknown;
+  strict?: boolean;
 }): Promise<void> {
   try {
     const title = galleryTitleFromUpload(input.title);
@@ -40,6 +41,7 @@ export async function registerUploadInGallery(input: {
     revalidatePath("/admin/gallery");
     revalidatePath("/admin/stories");
   } catch (err) {
+    if (input.strict) throw err;
     console.warn(
       "[registerUploadInGallery] failed:",
       err instanceof Error ? err.message : err

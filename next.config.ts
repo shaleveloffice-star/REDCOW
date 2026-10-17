@@ -24,6 +24,7 @@ const contentSecurityPolicy = [
   "font-src 'self' data:",
   [
     "connect-src 'self'",
+    "https://vercel.com/api/blob",
     "https://*.googleapis.com",
     "https://*.firebaseio.com",
     "https://*.cloudfunctions.net",

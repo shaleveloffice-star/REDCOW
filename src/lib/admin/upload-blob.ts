@@ -45,7 +45,7 @@ type PutAuth =
  * Prefer OIDC + BLOB_STORE_ID on Vercel so uploads always hit the PUBLIC store,
  * never a leftover private-store RW token.
  */
-function resolvePutAuth(): PutAuth | { mode: "missing"; error: string } {
+export function resolvePutAuth(): PutAuth | { mode: "missing"; error: string } {
   const storeId = getPublicBlobStoreId();
   const oidcToken = process.env.VERCEL_OIDC_TOKEN?.trim();
   const rwToken = getReadWriteToken();

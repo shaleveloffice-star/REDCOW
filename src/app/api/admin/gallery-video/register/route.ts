@@ -32,6 +32,7 @@ export async function POST(request: Request) {
     }
 
     await registerUploadInGallery({
+      strict: true,
       url,
       fileName: typeof body.fileName === "string" ? body.fileName : undefined,
       title: body.title

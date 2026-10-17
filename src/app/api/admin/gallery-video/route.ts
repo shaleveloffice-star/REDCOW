@@ -1,4 +1,5 @@
-import { handleUpload, type HandleUploadBody } from "@vercel/blob/client";
+import { handleUploadPresigned, type HandleUploadPresignedBody } from "@vercel/blob/client";
+import { issueSignedToken } from "@vercel/blob";
 import { NextResponse } from "next/server";
 
 import {
@@ -10,7 +11,7 @@ import {
 } from "@/lib/admin/media-mime";
 import { registerUploadInGallery } from "@/lib/admin/register-gallery-upload";
 import { processGalleryVideoUpload } from "@/lib/admin/save-gallery-video";
-import { isVercelBlobConfigured } from "@/lib/admin/upload-blob";
+import { isVercelBlobConfigured, resolvePutAuth } from "@/lib/admin/upload-blob";
 import { getAdminApiSession } from "@/lib/auth/admin-api-session";
 
 export const runtime = "nodejs";
@@ -38,22 +39,22 @@ export async function POST(request: Request) {
     if (contentType.includes("application/json")) {
       if (!isVercelBlobConfigured()) {
         return jsonError(
-          "העלאת סרטון ישירה ל-Blob לא זמינה. העלו דרך בחירת קובץ (מצב מקומי) או הגדירו BLOB."
+          "אחסון הסרטונים לא מוגדר. יש לחבר את Vercel Blob לפרויקט לפני העלאה."
         );
       }
 
-      let body: HandleUploadBody;
+      let body: HandleUploadPresignedBody;
       try {
-        body = (await request.json()) as HandleUploadBody;
+        body = (await request.json()) as HandleUploadPresignedBody;
       } catch {
         return jsonError("גוף הבקשה לא תקין");
       }
 
       try {
-        const jsonResponse = await handleUpload({
+        const jsonResponse = await handleUploadPresigned({
           body,
           request,
-          onBeforeGenerateToken: async (pathname) => {
+          getSignedToken: async (pathname) => {
             const lower = pathname.toLowerCase();
             if (!lower.startsWith("gallery/")) {
               throw new Error("נתיב העלאה לא תקין");
@@ -61,26 +62,24 @@ export async function POST(request: Request) {
             if (!detectVideoMimeFromFileName(pathname)) {
               throw new Error("סוג קובץ לא נתמך. השתמשו ב-MP4, WebM או MOV");
             }
-            return {
+            const auth = resolvePutAuth();
+            if (auth.mode === "missing") throw new Error(auth.error);
+            const constraints = {
               allowedContentTypes: [...VIDEO_MIME_TYPES],
-              maximumSizeInBytes: GALLERY_VIDEO_MAX_BYTES,
-              addRandomSuffix: true,
-              tokenPayload: JSON.stringify({ title: pathname.split("/").pop() ?? "video" })
+              maximumSizeInBytes: GALLERY_VIDEO_MAX_BYTES
             };
-          },
-          onUploadCompleted: async ({ blob, tokenPayload }) => {
-            let title: unknown = blob.pathname.split("/").pop();
-            try {
-              const parsed = tokenPayload ? (JSON.parse(tokenPayload) as { title?: string }) : null;
-              if (parsed?.title) title = parsed.title;
-            } catch {
-              // keep pathname title
-            }
-            await registerUploadInGallery({
-              url: blob.url,
-              fileName: blob.pathname.split("/").pop(),
-              title
+            const token = await issueSignedToken({
+              ...(auth.mode === "oidc"
+                ? { storeId: auth.storeId, oidcToken: auth.oidcToken }
+                : { token: auth.token }),
+              pathname,
+              operations: ["put"],
+              ...constraints
             });
+            return {
+              token,
+              urlOptions: { ...constraints, addRandomSuffix: true }
+            };
           }
         });
         return NextResponse.json(jsonResponse);

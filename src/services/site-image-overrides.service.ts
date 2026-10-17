@@ -18,6 +18,8 @@ export async function upsertSiteImageOverride(input: {
   overlayColor?: string;
   overlayOpacity?: number;
   imageZoom?: number;
+  imageFocusDesktop?: { x: number; y: number };
+  imageFocusMobile?: { x: number; y: number };
 }): Promise<SiteImageOverride> {
   const existing = await getSiteImageOverrides();
   const current = existing.find((entry) => entry.id === input.id);
@@ -33,6 +35,12 @@ export async function upsertSiteImageOverride(input: {
     overlayOpacity:
       input.overlayOpacity !== undefined ? input.overlayOpacity : current?.overlayOpacity,
     imageZoom: input.imageZoom !== undefined ? input.imageZoom : current?.imageZoom,
+    imageFocusDesktop:
+      input.imageFocusDesktop !== undefined
+        ? input.imageFocusDesktop
+        : current?.imageFocusDesktop,
+    imageFocusMobile:
+      input.imageFocusMobile !== undefined ? input.imageFocusMobile : current?.imageFocusMobile,
     updatedAt: new Date().toISOString()
   });
 }

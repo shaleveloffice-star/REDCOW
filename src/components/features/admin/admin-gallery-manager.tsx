@@ -14,8 +14,11 @@ import {
   formatAdminImageSpec,
   GALLERY_IMAGE_SPEC
 } from "@/data/admin-image-specs";
+import { formatBytesShort, GALLERY_VIDEO_MAX_BYTES } from "@/lib/admin/media-mime";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { compressGalleryImage } from "@/lib/client/compress-image";
+import { uploadAdminGalleryVideo } from "@/lib/client/upload-admin-video";
+import { isVideoMediaUrl } from "@/lib/menu-media";
 import {
   deleteGalleryImageAction,
   deleteGalleryImagesAction,
@@ -23,6 +26,32 @@ import {
   updateGalleryImageAction
 } from "@/server/actions/gallery.actions";
 import type { GalleryImage } from "@/types/gallery";
+
+function GalleryMediaThumb({
+  url,
+  alt,
+  className,
+  onClick
+}: {
+  url: string;
+  alt: string;
+  className?: string;
+  onClick?: () => void;
+}) {
+  if (isVideoMediaUrl(url)) {
+    return (
+      <video
+        src={url}
+        className={className}
+        muted
+        playsInline
+        preload="metadata"
+        onClick={onClick}
+      />
+    );
+  }
+  return <img src={url} alt={alt} className={className} loading="lazy" onClick={onClick} />;
+}
 
 /** The route also adds the gallery record, so callers must not create one themselves. */
 async function uploadGalleryImageDataUrl(
@@ -70,11 +99,10 @@ function LibraryImageCard({
         </label>
       ) : null}
       <span className="admin-gallery-badge">{image.group}</span>
-      <img
-        src={image.imageUrl}
+      <GalleryMediaThumb
+        url={image.imageUrl}
         alt={image.label}
         className="admin-gallery-card-image"
-        loading="lazy"
         onClick={selectMode && !disabled ? onToggle : undefined}
       />
       <div className="admin-gallery-card-body">
@@ -221,18 +249,30 @@ export function AdminGalleryManager({
     setError(null);
 
     try {
-      let successCount = 0;
+      let imageCount = 0;
+      let videoCount = 0;
       for (const file of Array.from(fileList)) {
-        setUploadStatus(`מדחיס ומעלה: ${file.name}…`);
-        const dataUrl = await compressGalleryImage(file);
-        const uploaded = await uploadGalleryImageDataUrl(dataUrl, file.name);
-        if (!uploaded.ok) {
-          throw new Error(`${file.name}: ${uploaded.error}`);
+        const isVideo =
+          file.type.startsWith("video/") || /\.(mp4|webm|mov|m4v)$/i.test(file.name);
+        if (isVideo) {
+          setUploadStatus(`מעלה סרטון: ${file.name}…`);
+          await uploadAdminGalleryVideo(file);
+          videoCount += 1;
+        } else {
+          setUploadStatus(`מדחיס ומעלה: ${file.name}…`);
+          const dataUrl = await compressGalleryImage(file);
+          const uploaded = await uploadGalleryImageDataUrl(dataUrl, file.name);
+          if (!uploaded.ok) {
+            throw new Error(`${file.name}: ${uploaded.error}`);
+          }
+          imageCount += 1;
         }
-        successCount += 1;
       }
 
-      setUploadStatus(`הועלו ${successCount} תמונות בהצלחה (עם דחיסה אוטומטית).`);
+      const parts = [];
+      if (imageCount) parts.push(`${imageCount} תמונות`);
+      if (videoCount) parts.push(`${videoCount} סרטונים`);
+      setUploadStatus(`הועלו ${parts.join(" ו־")} בהצלחה.`);
       if (fileInputRef.current) {
         fileInputRef.current.value = "";
       }
@@ -250,15 +290,16 @@ export function AdminGalleryManager({
     <>
       <div className="admin-gallery-upload">
         <div className="admin-gallery-upload-copy">
-          <strong>העלאת תמונות</strong>
+          <strong>העלאת תמונות וסרטונים</strong>
           <p className="admin-form-hint">
-            JPG, PNG, WebP או GIF - {formatAdminImageSpec(GALLERY_IMAGE_SPEC)} · נדחס אוטומטית בהעלאה.
+            תמונות: JPG, PNG, WebP או GIF - {formatAdminImageSpec(GALLERY_IMAGE_SPEC)} · נדחסות
+            אוטומטית. סרטונים: MP4, WebM או MOV עד {formatBytesShort(GALLERY_VIDEO_MAX_BYTES)}.
           </p>
         </div>
         <div className="admin-gallery-upload-actions">
           <input
             ref={fileInputRef}
-            accept="image/*"
+            accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov,.m4v"
             className="admin-gallery-file-input"
             disabled={uploading || isPending}
             multiple
@@ -271,7 +312,7 @@ export function AdminGalleryManager({
             type="button"
             onClick={() => fileInputRef.current?.click()}
           >
-            {uploading ? "מעלה…" : "בחר תמונות להעלאה"}
+            {uploading ? "מעלה…" : "בחר קבצים להעלאה"}
           </button>
         </div>
       </div>
@@ -341,12 +382,13 @@ export function AdminGalleryManager({
                       <span className="sr-only">בחר את {item.title}</span>
                     </label>
                   ) : null}
-                  <span className="admin-gallery-badge admin-gallery-badge--upload">העלאה</span>
-                  <img
-                    src={item.imageUrl}
+                  <span className="admin-gallery-badge admin-gallery-badge--upload">
+                    {isVideoMediaUrl(item.imageUrl) ? "סרטון" : "העלאה"}
+                  </span>
+                  <GalleryMediaThumb
+                    url={item.imageUrl}
                     alt={item.alt || item.title}
                     className="admin-gallery-card-image"
-                    loading="lazy"
                     onClick={selectMode && !isPending ? () => toggleSelected(item.id) : undefined}
                   />
                   <div className="admin-gallery-card-body">

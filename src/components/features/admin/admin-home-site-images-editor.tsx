@@ -6,7 +6,11 @@ import { useAdminMutation } from "@/components/features/admin/admin-crud-ui";
 import { AdminImageUrlField } from "@/components/features/admin/admin-site-image-picker";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { isVideoMediaUrl } from "@/lib/menu-media";
-import { menuImageZoomStyle } from "@/lib/menu/image-zoom";
+import { menuImageMediaStyle } from "@/lib/menu/image-zoom";
+import {
+  DEFAULT_SITE_IMAGE_FOCUS,
+  type SiteImageFocus
+} from "@/lib/site-image-focus";
 import {
   DEFAULT_SITE_IMAGE_OVERLAY_COLOR,
   MAX_SITE_IMAGE_OVERLAY_OPACITY
@@ -30,6 +34,8 @@ type ImageDraft = {
   overlayPercent: number;
   /** 1 (original) through 3. */
   zoom: number;
+  focusDesktop: SiteImageFocus;
+  focusMobile: SiteImageFocus;
 };
 
 const OVERLAY_PRESETS = [
@@ -59,7 +65,9 @@ function buildDrafts(groups: HomePageSiteImageAdminGroup[]): Record<string, Imag
         mobile: savedMobileFor(item),
         overlayColor: item.overlayColor,
         overlayPercent: Math.round(item.overlayOpacity * 100),
-        zoom: item.imageZoom
+        zoom: item.imageZoom,
+        focusDesktop: item.imageFocusDesktop,
+        focusMobile: item.imageFocusMobile
       };
     }
   }
@@ -70,21 +78,39 @@ function OverlayPreview({
   src,
   color,
   percent,
-  zoom
+  zoom,
+  focusDesktop,
+  focusMobile,
+  previewMode
 }: {
   src: string;
   color: string;
   percent: number;
   zoom: number;
+  focusDesktop: SiteImageFocus;
+  focusMobile: SiteImageFocus;
+  previewMode: "desktop" | "mobile";
 }) {
-  const zoomStyle = menuImageZoomStyle(zoom);
+  const mediaStyle = menuImageMediaStyle({
+    zoom,
+    focusDesktop: previewMode === "desktop" ? focusDesktop : focusMobile,
+    focusMobile: previewMode === "desktop" ? focusDesktop : focusMobile
+  });
+  const focus = previewMode === "desktop" ? focusDesktop : focusMobile;
   return (
     <div className="admin-image-overlay-preview">
       {src ? (
         isVideoMediaUrl(src) ? (
-          <video src={src} muted playsInline preload="metadata" style={zoomStyle} />
+          <video
+            src={src}
+            muted
+            playsInline
+            preload="metadata"
+            className="site-media-focus"
+            style={mediaStyle}
+          />
         ) : (
-          <img src={src} alt="" loading="lazy" style={zoomStyle} />
+          <img src={src} alt="" loading="lazy" className="site-media-focus" style={mediaStyle} />
         )
       ) : null}
       <span
@@ -92,6 +118,61 @@ function OverlayPreview({
         className="admin-image-overlay-preview-layer"
         style={{ backgroundColor: color, opacity: percent / 100 }}
       />
+      <span
+        aria-hidden="true"
+        className="admin-image-focus-crosshair"
+        style={{ left: `${focus.x}%`, top: `${focus.y}%` }}
+      />
+    </div>
+  );
+}
+
+function FocusAxisControls({
+  id,
+  label,
+  value,
+  disabled,
+  onChange
+}: {
+  id: string;
+  label: string;
+  value: SiteImageFocus;
+  disabled: boolean;
+  onChange: (next: SiteImageFocus) => void;
+}) {
+  const xId = `${id}-x`;
+  const yId = `${id}-y`;
+  return (
+    <div className="admin-image-focus-group">
+      <strong>{label}</strong>
+      <div className="admin-image-overlay-range">
+        <label htmlFor={xId}>אופקי</label>
+        <input
+          id={xId}
+          type="range"
+          min={0}
+          max={100}
+          step={1}
+          value={value.x}
+          disabled={disabled}
+          onChange={(e) => onChange({ ...value, x: Number(e.target.value) })}
+        />
+        <output htmlFor={xId}>{value.x}%</output>
+      </div>
+      <div className="admin-image-overlay-range">
+        <label htmlFor={yId}>אנכי</label>
+        <input
+          id={yId}
+          type="range"
+          min={0}
+          max={100}
+          step={1}
+          value={value.y}
+          disabled={disabled}
+          onChange={(e) => onChange({ ...value, y: Number(e.target.value) })}
+        />
+        <output htmlFor={yId}>{value.y}%</output>
+      </div>
     </div>
   );
 }
@@ -103,6 +184,7 @@ export function AdminHomeSiteImagesEditor({
   const { isPending, error, run } = useAdminMutation();
   const [groups, setGroups] = useState(initialGroups);
   const [drafts, setDrafts] = useState(() => buildDrafts(initialGroups));
+  const [previewModes, setPreviewModes] = useState<Record<string, "desktop" | "mobile">>({});
 
   const updateDraft = (id: string, patch: Partial<ImageDraft>) => {
     setDrafts((current) => ({
@@ -110,6 +192,8 @@ export function AdminHomeSiteImagesEditor({
       [id]: { ...current[id], ...patch }
     }));
   };
+
+  const previewModeFor = (id: string) => previewModes[id] ?? "desktop";
 
   const syncSavedState = (id: string, saved: ImageDraft, isOverridden: boolean, defaultImageUrl: string) => {
     setDrafts((current) => ({
@@ -130,7 +214,9 @@ export function AdminHomeSiteImagesEditor({
                 isHidden: false,
                 overlayColor: saved.overlayColor,
                 overlayOpacity: saved.overlayPercent / 100,
-                imageZoom: saved.zoom
+                imageZoom: saved.zoom,
+                imageFocusDesktop: saved.focusDesktop,
+                imageFocusMobile: saved.focusMobile
               }
             : item
         )
@@ -153,20 +239,36 @@ export function AdminHomeSiteImagesEditor({
               const draft = drafts[item.id];
               const savedDesktop = savedDesktopFor(item);
               const savedPercent = Math.round(item.overlayOpacity * 100);
+              const focusDesktopDirty =
+                draft.focusDesktop.x !== item.imageFocusDesktop.x ||
+                draft.focusDesktop.y !== item.imageFocusDesktop.y;
+              const focusMobileDirty =
+                draft.focusMobile.x !== item.imageFocusMobile.x ||
+                draft.focusMobile.y !== item.imageFocusMobile.y;
               const isDirty =
                 draft.desktop.trim() !== savedDesktop.trim() ||
                 draft.mobile.trim() !== savedMobileFor(item).trim() ||
                 draft.overlayPercent !== savedPercent ||
                 (draft.overlayPercent > 0 && draft.overlayColor !== item.overlayColor) ||
-                draft.zoom !== item.imageZoom;
+                draft.zoom !== item.imageZoom ||
+                focusDesktopDirty ||
+                focusMobileDirty;
               const canSave = Boolean(draft.desktop.trim() || draft.mobile.trim());
               const canReset =
-                item.isOverridden || item.isHidden || savedPercent > 0 || item.imageZoom !== 1;
+                item.isOverridden ||
+                item.isHidden ||
+                savedPercent > 0 ||
+                item.imageZoom !== 1 ||
+                item.imageFocusDesktop.x !== 50 ||
+                item.imageFocusDesktop.y !== 50 ||
+                item.imageFocusMobile.x !== 50 ||
+                item.imageFocusMobile.y !== 50;
               const previewSrc =
                 draft.desktop.trim() || draft.mobile.trim() || (item.isHidden ? "" : item.defaultImageUrl);
               const colorInputId = `overlay-color-${item.id}`;
               const rangeInputId = `overlay-range-${item.id}`;
               const zoomInputId = `zoom-range-${item.id}`;
+              const previewMode = previewModeFor(item.id);
 
               return (
                 <article key={item.id} className="admin-home-images-item">
@@ -218,12 +320,41 @@ export function AdminHomeSiteImagesEditor({
                   </div>
 
                   <div className="admin-image-overlay">
-                    <OverlayPreview
-                      src={previewSrc}
-                      color={draft.overlayColor}
-                      percent={draft.overlayPercent}
-                      zoom={draft.zoom}
-                    />
+                    <div className="admin-image-overlay-preview-wrap">
+                      <div className="admin-image-focus-preview-toggle" role="group" aria-label="תצוגת מיקום">
+                        <button
+                          type="button"
+                          className={`button secondary${previewMode === "desktop" ? " is-active" : ""}`}
+                          disabled={isPending}
+                          aria-pressed={previewMode === "desktop"}
+                          onClick={() =>
+                            setPreviewModes((current) => ({ ...current, [item.id]: "desktop" }))
+                          }
+                        >
+                          מסך רחב
+                        </button>
+                        <button
+                          type="button"
+                          className={`button secondary${previewMode === "mobile" ? " is-active" : ""}`}
+                          disabled={isPending}
+                          aria-pressed={previewMode === "mobile"}
+                          onClick={() =>
+                            setPreviewModes((current) => ({ ...current, [item.id]: "mobile" }))
+                          }
+                        >
+                          טלפון
+                        </button>
+                      </div>
+                      <OverlayPreview
+                        src={previewSrc}
+                        color={draft.overlayColor}
+                        percent={draft.overlayPercent}
+                        zoom={draft.zoom}
+                        focusDesktop={draft.focusDesktop}
+                        focusMobile={draft.focusMobile}
+                        previewMode={previewMode}
+                      />
+                    </div>
                     <div className="admin-image-overlay-controls">
                       <strong>שכבת צבע מעל התמונה</strong>
                       <div className="admin-image-overlay-colors">
@@ -297,7 +428,44 @@ export function AdminHomeSiteImagesEditor({
                         </button>
                       ) : null}
                       <p className="admin-field-hint">
-                        מגדיל את מרכז התמונה בתוך אותה מסגרת. הקובץ עצמו לא משתנה. 100% = בלי זום.
+                        מגדיל סביב נקודת המיקום שבחרתם. הקובץ עצמו לא משתנה. 100% = בלי זום.
+                      </p>
+
+                      <strong>מיקום מרכז הסרטון / התמונה</strong>
+                      <FocusAxisControls
+                        id={`focus-desktop-${item.id}`}
+                        label="מסך רחב"
+                        value={draft.focusDesktop}
+                        disabled={isPending}
+                        onChange={(focusDesktop) => updateDraft(item.id, { focusDesktop })}
+                      />
+                      <FocusAxisControls
+                        id={`focus-mobile-${item.id}`}
+                        label="טלפון"
+                        value={draft.focusMobile}
+                        disabled={isPending}
+                        onChange={(focusMobile) => updateDraft(item.id, { focusMobile })}
+                      />
+                      {draft.focusDesktop.x !== 50 ||
+                      draft.focusDesktop.y !== 50 ||
+                      draft.focusMobile.x !== 50 ||
+                      draft.focusMobile.y !== 50 ? (
+                        <button
+                          type="button"
+                          className="button secondary"
+                          disabled={isPending}
+                          onClick={() =>
+                            updateDraft(item.id, {
+                              focusDesktop: { ...DEFAULT_SITE_IMAGE_FOCUS },
+                              focusMobile: { ...DEFAULT_SITE_IMAGE_FOCUS }
+                            })
+                          }
+                        >
+                          איפוס מיקום למרכז
+                        </button>
+                      ) : null}
+                      <p className="admin-field-hint">
+                        קובע איזה חלק של הסרטון או התמונה יישאר במרכז כשיש זום או חיתוך למסגרת.
                       </p>
                     </div>
                   </div>
@@ -315,7 +483,9 @@ export function AdminHomeSiteImagesEditor({
                             mobileImageUrl: draft.mobile,
                             overlayColor: draft.overlayColor,
                             overlayOpacity: draft.overlayPercent / 100,
-                            imageZoom: draft.zoom
+                            imageZoom: draft.zoom,
+                            imageFocusDesktop: draft.focusDesktop,
+                            imageFocusMobile: draft.focusMobile
                           });
                           syncSavedState(
                             item.id,
@@ -324,7 +494,9 @@ export function AdminHomeSiteImagesEditor({
                               mobile: draft.mobile.trim(),
                               overlayColor: draft.overlayColor,
                               overlayPercent: draft.overlayPercent,
-                              zoom: draft.zoom
+                              zoom: draft.zoom,
+                              focusDesktop: draft.focusDesktop,
+                              focusMobile: draft.focusMobile
                             },
                             true,
                             item.defaultImageUrl
@@ -349,7 +521,9 @@ export function AdminHomeSiteImagesEditor({
                                 mobile: "",
                                 overlayColor: DEFAULT_SITE_IMAGE_OVERLAY_COLOR,
                                 overlayPercent: 0,
-                                zoom: 1
+                                zoom: 1,
+                                focusDesktop: { ...DEFAULT_SITE_IMAGE_FOCUS },
+                                focusMobile: { ...DEFAULT_SITE_IMAGE_FOCUS }
                               },
                               false,
                               item.defaultImageUrl

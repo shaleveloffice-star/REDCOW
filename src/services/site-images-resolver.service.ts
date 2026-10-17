@@ -1,4 +1,9 @@
 import { STATIC_SITE_IMAGE_GROUPS } from "@/data/site-images.registry";
+import {
+  encodeSiteImageFocus,
+  siteImageFocusDesktopId,
+  siteImageFocusMobileId
+} from "@/lib/site-image-focus";
 import { encodeSiteImageOverlay, siteImageOverlayId } from "@/lib/site-image-overlay";
 import { siteImageMobileId } from "@/lib/site-image-url";
 import { encodeSiteImageZoom, siteImageZoomId } from "@/lib/site-image-zoom";
@@ -48,6 +53,10 @@ export async function resolveStaticSiteImagesMap(): Promise<SiteImagesMap> {
       if (overlay) map[siteImageOverlayId(entry.id)] = overlay;
       const zoom = encodeSiteImageZoom(override?.imageZoom);
       if (zoom) map[siteImageZoomId(entry.id)] = zoom;
+      const focusDesktop = encodeSiteImageFocus(override?.imageFocusDesktop);
+      if (focusDesktop) map[siteImageFocusDesktopId(entry.id)] = focusDesktop;
+      const focusMobile = encodeSiteImageFocus(override?.imageFocusMobile);
+      if (focusMobile) map[siteImageFocusMobileId(entry.id)] = focusMobile;
     }
   }
 

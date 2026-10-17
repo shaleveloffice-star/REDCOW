@@ -34,6 +34,10 @@ export type SiteImageOverride = {
   overlayOpacity?: number;
   /** Centered visual zoom, 1 (original) through 3; the image file is untouched. */
   imageZoom?: number;
+  /** Focal point on wide screens (0–100%). Used with zoom / object-fit cover. */
+  imageFocusDesktop?: { x: number; y: number };
+  /** Focal point on phones (0–100%). Falls back to desktop when omitted. */
+  imageFocusMobile?: { x: number; y: number };
   updatedAt: string;
 };
 

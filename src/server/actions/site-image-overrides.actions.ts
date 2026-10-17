@@ -11,6 +11,11 @@ import {
 import { HOME_PAGE_SITE_IMAGE_GROUPS } from "@/data/site-images.registry";
 import { requireAdmin } from "@/lib/auth/admin-guard";
 import { CACHE_TAGS } from "@/lib/cache/cached-data";
+import {
+  DEFAULT_SITE_IMAGE_FOCUS,
+  normalizeSiteImageFocus,
+  type SiteImageFocus
+} from "@/lib/site-image-focus";
 import { normalizeOverlayColor, normalizeOverlayOpacity } from "@/lib/site-image-overlay";
 import { normalizeSiteImageZoom } from "@/lib/site-image-zoom";
 import {
@@ -36,6 +41,8 @@ export type HomePageSiteImageAdminItem = {
   overlayColor: string;
   overlayOpacity: number;
   imageZoom: number;
+  imageFocusDesktop: SiteImageFocus;
+  imageFocusMobile: SiteImageFocus;
   spec: AdminImageSpec;
   mobileSpec: AdminImageSpec;
   recommendedSizeLabel: string;
@@ -89,6 +96,10 @@ function buildHomePageSiteImageGroups(
         overlayColor: normalizeOverlayColor(override?.overlayColor),
         overlayOpacity: normalizeOverlayOpacity(override?.overlayOpacity),
         imageZoom: normalizeSiteImageZoom(override?.imageZoom),
+        imageFocusDesktop: normalizeSiteImageFocus(override?.imageFocusDesktop),
+        imageFocusMobile: normalizeSiteImageFocus(
+          override?.imageFocusMobile ?? override?.imageFocusDesktop
+        ),
         spec,
         mobileSpec,
         recommendedSizeLabel: formatAdminImageSpec(spec),
@@ -111,6 +122,8 @@ export async function saveSiteImageOverrideAction(input: {
   overlayColor?: string;
   overlayOpacity?: number;
   imageZoom?: number;
+  imageFocusDesktop?: SiteImageFocus;
+  imageFocusMobile?: SiteImageFocus;
 }): Promise<{ ok: true; updatedAt: string }> {
   await requireAdminOrThrow();
 
@@ -118,7 +131,24 @@ export async function saveSiteImageOverrideAction(input: {
   const mobileImageUrl = input.mobileImageUrl?.trim() ?? "";
   const overlayOpacity = normalizeOverlayOpacity(input.overlayOpacity);
   const imageZoom = normalizeSiteImageZoom(input.imageZoom);
-  if (!imageUrl && !mobileImageUrl && overlayOpacity === 0 && imageZoom === 1) {
+  const imageFocusDesktop = normalizeSiteImageFocus(
+    input.imageFocusDesktop ?? DEFAULT_SITE_IMAGE_FOCUS
+  );
+  const imageFocusMobile = normalizeSiteImageFocus(
+    input.imageFocusMobile ?? imageFocusDesktop
+  );
+  const focusIsDefault =
+    imageFocusDesktop.x === 50 &&
+    imageFocusDesktop.y === 50 &&
+    imageFocusMobile.x === 50 &&
+    imageFocusMobile.y === 50;
+  if (
+    !imageUrl &&
+    !mobileImageUrl &&
+    overlayOpacity === 0 &&
+    imageZoom === 1 &&
+    focusIsDefault
+  ) {
     throw new Error("נדרשת לפחות תמונה אחת - מסך רחב או מובייל");
   }
 
@@ -129,7 +159,9 @@ export async function saveSiteImageOverrideAction(input: {
     ...(imageUrl || mobileImageUrl ? { hidden: false } : {}),
     overlayColor: normalizeOverlayColor(input.overlayColor),
     overlayOpacity,
-    imageZoom
+    imageZoom,
+    imageFocusDesktop,
+    imageFocusMobile
   });
 
   revalidateSiteImages();

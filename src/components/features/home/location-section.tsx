@@ -3,8 +3,7 @@ import { TrackedAnchor, TrackedLink } from "@/components/analytics/tracked-click
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
 import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
 import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
-import { pickSiteImageZoom } from "@/lib/site-image-zoom";
-import { menuImageZoomStyle } from "@/lib/menu/image-zoom";
+import { pickSiteImageMediaStyle } from "@/lib/site-image-media-style";
 
 import { IconClock, IconMap, IconMapPin } from "@/components/shared/site-icons";
 import { branchAddress, branchMapsUrl, usesDefaultBranchHours } from "@/data/business";
@@ -113,9 +112,9 @@ export async function LocationSection({ siteImages, branch }: LocationSectionPro
               desktopSrc={exteriorImages.desktop}
               mobileSrc={exteriorImages.mobile}
               alt={imageAlt}
-              className="location-media-image"
+              className="location-media-image site-media-focus"
               loading="eager"
-              style={menuImageZoomStyle(pickSiteImageZoom(siteImages, "location-exterior"))}
+              style={pickSiteImageMediaStyle(siteImages, "location-exterior")}
             />
             <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "location-exterior")} />
           </div>

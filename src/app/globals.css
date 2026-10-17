@@ -10808,6 +10808,38 @@ body:not(:has(.admin-layout)) button:focus-visible {
   background: var(--admin-surface-strong);
 }
 
+.site-media-focus {
+  --media-focus-x: 50%;
+  --media-focus-y: 50%;
+  --media-focus-x-mobile: var(--media-focus-x);
+  --media-focus-y-mobile: var(--media-focus-y);
+  object-position: var(--media-focus-x) var(--media-focus-y);
+  transform-origin: var(--media-focus-x) var(--media-focus-y);
+}
+
+@media (max-width: 767px) {
+  .site-media-focus {
+    object-position: var(--media-focus-x-mobile) var(--media-focus-y-mobile);
+    transform-origin: var(--media-focus-x-mobile) var(--media-focus-y-mobile);
+  }
+}
+
+.admin-image-overlay-preview-wrap {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-image-focus-preview-toggle {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.admin-image-focus-preview-toggle .button.is-active {
+  border-color: var(--secondary, #fff);
+  background: rgba(255, 255, 255, 0.12);
+}
+
 .admin-image-overlay-preview {
   position: relative;
   overflow: hidden;
@@ -10828,6 +10860,25 @@ body:not(:has(.admin-layout)) button:focus-visible {
   position: absolute;
   inset: 0;
   pointer-events: none;
+}
+
+.admin-image-focus-crosshair {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.admin-image-focus-group {
+  display: grid;
+  gap: 8px;
+  padding: 10px 0 0;
+  border-top: 1px solid var(--admin-border, rgba(255, 255, 255, 0.12));
 }
 
 .admin-image-overlay-controls {

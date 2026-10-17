@@ -12,7 +12,8 @@ import { canOptimizeSiteImage } from "@/lib/site-image-url";
 import { HOME_HERO_IMAGE } from "@/data/site-images.registry";
 import { HERO_IMAGE_VERSION } from "@/data/site-image-versions";
 import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
-import { menuImageZoomStyle } from "@/lib/menu/image-zoom";
+import { menuImageMediaStyle } from "@/lib/menu/image-zoom";
+import type { SiteImageFocus } from "@/lib/site-image-focus";
 
 /** Single hero asset — used on mobile and desktop (responsive CSS handles layout). */
 export const HERO_BURGER_IMAGE = `${HOME_HERO_IMAGE}?v=${HERO_IMAGE_VERSION}`;
@@ -25,13 +26,17 @@ type HeroSectionProps = {
   heroMobileImageUrl?: string;
   heroOverlay?: SiteImageOverlayValue | null;
   heroZoom?: number;
+  heroFocusDesktop?: SiteImageFocus;
+  heroFocusMobile?: SiteImageFocus;
 };
 
 export function HeroSection({
   heroImageUrl,
   heroMobileImageUrl,
   heroOverlay,
-  heroZoom
+  heroZoom,
+  heroFocusDesktop,
+  heroFocusMobile
 }: HeroSectionProps) {
   const t = useTranslations();
   const { locale } = useLocale();
@@ -40,7 +45,11 @@ export function HeroSection({
   const mobileSrc = heroMobileImageUrl?.trim() || imageSrc;
   const isVideo = isVideoMediaUrl(imageSrc);
   const useOptimizedImage = mobileSrc === imageSrc && canOptimizeSiteImage(imageSrc);
-  const zoomStyle = menuImageZoomStyle(heroZoom);
+  const mediaStyle = menuImageMediaStyle({
+    zoom: heroZoom,
+    focusDesktop: heroFocusDesktop,
+    focusMobile: heroFocusMobile
+  });
 
   return (
     <section id="hero" className="hero hero--cinematic hero--premier hero--solid" aria-label="SO WHAT?">
@@ -50,8 +59,8 @@ export function HeroSection({
         {!imageSrc ? null : isVideo ? (
           <AutoplayVideo
             src={imageSrc}
-            className="hero-burger-image"
-            style={zoomStyle}
+            className="hero-burger-image site-media-focus"
+            style={mediaStyle}
             preload="metadata"
           />
         ) : useOptimizedImage ? (
@@ -64,8 +73,8 @@ export function HeroSection({
             preload
             fetchPriority="high"
             draggable={false}
-            className="hero-burger-image"
-            style={zoomStyle}
+            className="hero-burger-image site-media-focus"
+            style={mediaStyle}
           />
         ) : (
           <ResponsiveSiteImage
@@ -76,8 +85,8 @@ export function HeroSection({
             height={1366}
             loading="eager"
             fetchPriority="high"
-            className="hero-burger-image"
-            style={zoomStyle}
+            className="hero-burger-image site-media-focus"
+            style={mediaStyle}
           />
         )}
         {imageSrc ? <SiteImageOverlay overlay={heroOverlay} /> : null}

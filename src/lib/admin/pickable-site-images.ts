@@ -70,6 +70,7 @@ export function buildAdminPickableImages(
   for (const group of STATIC_SITE_IMAGE_GROUPS) {
     for (const item of group.items) {
       const url = pickSiteImage(siteImagesMap, item.id, item.imageUrl);
+      // Bundled design slots stay images-only; uploaded gallery videos are listed below.
       if (!url || isVideoMediaUrl(url) || seen.has(url)) {
         continue;
       }
@@ -113,18 +114,19 @@ export function buildAdminPickableImages(
 
   for (const item of galleryImages) {
     const url = item.imageUrl?.trim();
-    if (!url || isVideoMediaUrl(url) || seen.has(url)) {
+    if (!url || seen.has(url)) {
       continue;
     }
 
     const spec = getAdminImageSpec(`gallery-${item.id}`);
+    const isVideo = isVideoMediaUrl(url);
     seen.add(url);
     result.push({
       id: `gallery-${item.id}`,
       label: item.title,
-      location: item.alt?.trim() || "גלריה",
+      location: item.alt?.trim() || (isVideo ? "גלריה · סרטון" : "גלריה"),
       imageUrl: url,
-      group: "גלריה",
+      group: isVideo ? "גלריה · סרטונים" : "גלריה",
       source: "gallery",
       uploadedAt: uploadedAtFor(url),
       spec,

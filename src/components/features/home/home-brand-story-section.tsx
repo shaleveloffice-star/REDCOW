@@ -1,17 +1,18 @@
 import Image from "next/image";
 
+import { AutoplayVideo } from "@/components/shared/autoplay-video";
+import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
+import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
 import { HOME_STORY_IMAGE } from "@/data/site-images.registry";
 import { HOME_STORY_IMAGE_VERSION } from "@/data/site-image-versions";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
+import { isVideoMediaUrl } from "@/lib/menu-media";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
-import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
-import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
+import { pickSiteImageMediaStyle } from "@/lib/site-image-media-style";
 import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
-import { pickSiteImageZoom } from "@/lib/site-image-zoom";
-import { menuImageZoomStyle } from "@/lib/menu/image-zoom";
 import { canOptimizeSiteImage, resolveSiteImagePair } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -39,9 +40,12 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
     HOME_STORY_IMAGE_VERSION
   );
   const hasImage = Boolean(storyImages.desktop || storyImages.mobile);
-  const zoomStyle = menuImageZoomStyle(pickSiteImageZoom(siteImages, "home-story"));
+  const mediaStyle = pickSiteImageMediaStyle(siteImages, "home-story");
+  const isVideo = isVideoMediaUrl(storyImages.desktop);
   const useOptimizedImage =
-    storyImages.desktop === storyImages.mobile && canOptimizeSiteImage(storyImages.desktop);
+    !isVideo &&
+    storyImages.desktop === storyImages.mobile &&
+    canOptimizeSiteImage(storyImages.desktop);
 
   return (
     <section id="story" className="home-story-section" aria-labelledby="home-story-title">
@@ -54,7 +58,14 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
       <div className={`home-story-shell${hasImage ? "" : " home-story-shell--no-media"}`}>
         {hasImage ? (
           <div className="home-story-media">
-            {useOptimizedImage ? (
+            {isVideo ? (
+              <AutoplayVideo
+                src={storyImages.desktop}
+                className="home-story-image site-media-focus"
+                style={mediaStyle}
+                preload="metadata"
+              />
+            ) : useOptimizedImage ? (
               <Image
                 src={storyImages.desktop}
                 alt={imageAlt}
@@ -63,8 +74,8 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
                 sizes={HOME_STORY_IMAGE_SIZES}
                 loading="lazy"
                 draggable={false}
-                className="home-story-image"
-                style={zoomStyle}
+                className="home-story-image site-media-focus"
+                style={mediaStyle}
               />
             ) : (
               <ResponsiveSiteImage
@@ -74,8 +85,8 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
                 width={900}
                 height={600}
                 loading="lazy"
-                className="home-story-image"
-                style={zoomStyle}
+                className="home-story-image site-media-focus"
+                style={mediaStyle}
               />
             )}
             <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "home-story")} />

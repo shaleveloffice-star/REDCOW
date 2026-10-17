@@ -7,16 +7,19 @@ test('all five admin API routes preserve 401 JSON and reject access before provi
   const forbidden = () => { throw new Error('Provider must not be called'); };
   const load = createLoader({
     'next/server': { NextResponse },
+    '@vercel/blob/client': { handleUpload: forbidden },
     '@/lib/auth/admin-api-session': { getAdminApiSession: async () => null },
     '@/lib/admin/save-menu-item': { saveMenuItemCore: forbidden },
     '@/lib/admin/save-menu-image': { parseDataImageUrl: forbidden, processMenuImageUpload: forbidden },
     '@/lib/admin/save-gallery-image': { processGalleryImageUpload: forbidden },
+    '@/lib/admin/save-gallery-video': { processGalleryVideoUpload: forbidden },
+    '@/lib/admin/upload-blob': { isVercelBlobConfigured: () => false },
     '@/lib/admin/register-gallery-upload': { registerUploadInGallery: forbidden },
     '@/lib/admin/story-auto-fill/openai-generate': { generateStoryWithOpenAI: forbidden },
     '@/lib/admin/story-auto-fill/openai-suggest': { suggestStoriesWithOpenAI: forbidden },
     '@/lib/security/rate-limit': { getRequestClientIp: forbidden, consumeRateLimitAsync: forbidden }
   });
-  for (const route of ['menu-item', 'menu-image', 'gallery-image', 'stories/generate', 'stories/suggest']) {
+  for (const route of ['menu-item', 'menu-image', 'gallery-image', 'gallery-video', 'stories/generate', 'stories/suggest']) {
     const response = await load(`@/app/api/admin/${route}/route`).POST(new Request(`https://test.invalid/api/admin/${route}`, { method: 'POST' }));
     assert.equal(response.status, 401, route);
     const body = await response.json();

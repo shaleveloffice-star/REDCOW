@@ -7,7 +7,12 @@ test('center zoom keeps legacy images unchanged and clips the scaled image to it
   for (const value of [undefined, null, NaN, Infinity, '2', -5]) assert.equal(normalizeMenuImageZoom(value), 1);
   assert.equal(normalizeMenuImageZoom(20), 3);
   assert.equal(menuImageZoomStyle(1), undefined);
-  assert.deepEqual(menuImageZoomStyle(2), { scale: 2, transformOrigin: 'center center', clipPath: 'inset(25%)' });
+  assert.deepEqual(menuImageZoomStyle(2), {
+    scale: 2,
+    objectPosition: '50% 50%',
+    transformOrigin: '50% 50%',
+    clipPath: 'inset(25%)'
+  });
   const { normalizeMenuItem } = createLoader()('@/lib/menu/normalize-menu');
   assert.equal(normalizeMenuItem({ imageZoom: 2.5 }).imageZoom, 2.5);
   assert.equal(normalizeMenuItem({ imageZoom: 1 }).imageZoom, 1);

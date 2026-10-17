@@ -16,6 +16,7 @@ import {
   type AdminPickableImage
 } from "@/lib/admin/pickable-site-images";
 import { uploadCompressedAdminImage } from "@/lib/client/upload-admin-image";
+import { uploadAdminGalleryVideo } from "@/lib/client/upload-admin-video";
 
 type AdminSiteImagePickerProps = {
   open: boolean;
@@ -46,7 +47,7 @@ function isPickablePreviewUrl(url: string): boolean {
   if (!trimmed || trimmed.startsWith("data:") || trimmed.startsWith("blob:")) {
     return false;
   }
-  return !isVideoMediaUrl(trimmed);
+  return true;
 }
 
 export function AdminSiteImagePicker({
@@ -70,7 +71,8 @@ export function AdminSiteImagePicker({
         image.label.toLowerCase().includes(q) ||
         image.location.toLowerCase().includes(q) ||
         image.group.toLowerCase().includes(q) ||
-        image.imageUrl.toLowerCase().includes(q)
+        image.imageUrl.toLowerCase().includes(q) ||
+        (isVideoMediaUrl(image.imageUrl) && "סרטון".includes(q))
     );
   }, [images, query]);
 
@@ -111,10 +113,23 @@ export function AdminSiteImagePicker({
                   }}
                 >
                   <span className="admin-image-picker-thumb">
-                    <img src={image.imageUrl} alt="" className="admin-image-picker-image" loading="lazy" />
+                    {isVideoMediaUrl(image.imageUrl) ? (
+                      <video
+                        src={image.imageUrl}
+                        className="admin-image-picker-image"
+                        muted
+                        playsInline
+                        preload="metadata"
+                      />
+                    ) : (
+                      <img src={image.imageUrl} alt="" className="admin-image-picker-image" loading="lazy" />
+                    )}
                   </span>
                   <span className="admin-image-picker-meta">
-                    <strong>{image.label}</strong>
+                    <strong>
+                      {image.label}
+                      {isVideoMediaUrl(image.imageUrl) ? " · סרטון" : ""}
+                    </strong>
                     <small>
                       {image.uploadedAt ? (
                         <>
@@ -170,7 +185,11 @@ export function AdminImageUrlField({
     setUploading(true);
     setUploadError(null);
     try {
-      const uploaded = await uploadCompressedAdminImage(file, spec);
+      const isVideo =
+        file.type.startsWith("video/") || /\.(mp4|webm|mov|m4v)$/i.test(file.name);
+      const uploaded = isVideo
+        ? await uploadAdminGalleryVideo(file)
+        : await uploadCompressedAdminImage(file, spec);
       onChange(uploaded.url);
       // The upload is now in the gallery; refresh so "בחר מהגלריה" lists it without a reload (client drafts are kept).
       router.refresh();
@@ -194,7 +213,7 @@ export function AdminImageUrlField({
             <>
               <input
                 ref={fileInputRef}
-                accept="image/jpeg,image/png,image/webp,image/gif"
+                accept="image/jpeg,image/png,image/webp,image/gif,video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov,.m4v"
                 className="admin-gallery-file-input"
                 disabled={uploading}
                 type="file"
@@ -206,7 +225,7 @@ export function AdminImageUrlField({
                 type="button"
                 onClick={() => fileInputRef.current?.click()}
               >
-                {uploading ? "דוחס ומעלה…" : "העלה תמונה"}
+                {uploading ? "מעלה…" : "העלה תמונה / סרטון"}
               </button>
             </>
           ) : null}
@@ -223,7 +242,18 @@ export function AdminImageUrlField({
       {uploadError ? <p className="admin-form-error">{uploadError}</p> : null}
       {showPreview ? (
         <div className="admin-image-url-preview">
-          <img src={value} alt="" className="admin-image-url-preview-image" loading="lazy" />
+          {isVideoMediaUrl(value) ? (
+            <video
+              src={value}
+              className="admin-image-url-preview-image"
+              muted
+              playsInline
+              preload="metadata"
+              controls
+            />
+          ) : (
+            <img src={value} alt="" className="admin-image-url-preview-image" loading="lazy" />
+          )}
           <AdminImageFacts url={value} spec={spec} />
         </div>
       ) : null}

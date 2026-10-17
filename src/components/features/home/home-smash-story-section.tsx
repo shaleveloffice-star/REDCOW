@@ -1,15 +1,16 @@
 import Image from "next/image";
 
+import { AutoplayVideo } from "@/components/shared/autoplay-video";
+import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
+import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
 import { HOME_SMASH_IMAGE } from "@/data/site-images.registry";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
-import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
-import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
+import { isVideoMediaUrl } from "@/lib/menu-media";
+import { pickSiteImageMediaStyle } from "@/lib/site-image-media-style";
 import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
-import { pickSiteImageZoom } from "@/lib/site-image-zoom";
-import { menuImageZoomStyle } from "@/lib/menu/image-zoom";
 import { canOptimizeSiteImage, resolveSiteImagePair } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
@@ -36,8 +37,10 @@ export async function HomeSmashStorySection({ siteImages }: HomeSmashStorySectio
   });
   const images = resolveSiteImagePair(siteImages, "home-smash", HOME_SMASH_IMAGE);
   const hasImage = Boolean(images.desktop || images.mobile);
-  const zoomStyle = menuImageZoomStyle(pickSiteImageZoom(siteImages, "home-smash"));
-  const useOptimizedImage = images.desktop === images.mobile && canOptimizeSiteImage(images.desktop);
+  const mediaStyle = pickSiteImageMediaStyle(siteImages, "home-smash");
+  const isVideo = isVideoMediaUrl(images.desktop);
+  const useOptimizedImage =
+    !isVideo && images.desktop === images.mobile && canOptimizeSiteImage(images.desktop);
 
   return (
     <section
@@ -56,7 +59,14 @@ export async function HomeSmashStorySection({ siteImages }: HomeSmashStorySectio
       >
         {hasImage ? (
           <div className="home-story-media">
-            {useOptimizedImage ? (
+            {isVideo ? (
+              <AutoplayVideo
+                src={images.desktop}
+                className="home-story-image site-media-focus"
+                style={mediaStyle}
+                preload="metadata"
+              />
+            ) : useOptimizedImage ? (
               <Image
                 src={images.desktop}
                 alt={imageAlt}
@@ -65,8 +75,8 @@ export async function HomeSmashStorySection({ siteImages }: HomeSmashStorySectio
                 sizes={HOME_SMASH_IMAGE_SIZES}
                 loading="lazy"
                 draggable={false}
-                className="home-story-image"
-                style={zoomStyle}
+                className="home-story-image site-media-focus"
+                style={mediaStyle}
               />
             ) : (
               <ResponsiveSiteImage
@@ -76,8 +86,8 @@ export async function HomeSmashStorySection({ siteImages }: HomeSmashStorySectio
                 width={1600}
                 height={900}
                 loading="lazy"
-                className="home-story-image"
-                style={zoomStyle}
+                className="home-story-image site-media-focus"
+                style={mediaStyle}
               />
             )}
             <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "home-smash")} />

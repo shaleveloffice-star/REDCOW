@@ -445,10 +445,11 @@
   --secondary-muted: rgba(255, 255, 255, 0.82);
   --secondary-border: rgba(255, 255, 255, 0.55);
   --secondary-border-strong: rgba(255, 255, 255, 0.72);
-  --site-opening-banner-height: 40px;
+  --site-opening-banner-height: 28px;
+  --site-header-safe-top: min(env(safe-area-inset-top, 0px), 8px);
   --site-navbar-height: 144px;
   --site-chrome-offset: calc(
-    var(--site-opening-banner-height) + env(safe-area-inset-top, 0px) + var(--site-navbar-height)
+    var(--site-opening-banner-height) + var(--site-header-safe-top) + var(--site-navbar-height)
   );
   /* Breathing room after the fixed header on internal pages (desktop 48–72). */
   --site-content-gap: 56px;
@@ -825,8 +826,8 @@ html:not(.sw-intro-go) .sw-intro-letter {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: calc(var(--site-opening-banner-height) + env(safe-area-inset-top, 0px));
-  padding: calc(8px + env(safe-area-inset-top, 0px)) 16px 8px;
+  min-height: calc(var(--site-opening-banner-height) + var(--site-header-safe-top));
+  padding: calc(4px + var(--site-header-safe-top)) 16px 4px;
   background: var(--secondary);
   color: #000000;
   text-align: center;
@@ -2057,7 +2058,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 .site-navbar {
   position: fixed;
   inset: auto 0 auto;
-  top: calc(var(--site-opening-banner-height, 0px) + env(safe-area-inset-top, 0px));
+  top: calc(var(--site-opening-banner-height, 0px) + var(--site-header-safe-top));
   z-index: 50;
   border-bottom: 0;
   background: transparent;
@@ -2630,7 +2631,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 
 .site-nav-overlay-close {
   position: absolute;
-  top: calc(28px + var(--site-opening-banner-height, 0px) + env(safe-area-inset-top, 0px));
+  top: calc(28px + var(--site-opening-banner-height, 0px) + var(--site-header-safe-top));
   right: max(28px, env(safe-area-inset-right, 0px));
   left: auto;
   display: grid;
@@ -3127,7 +3128,7 @@ body:not(:has(.admin-layout)) .hero-caption-title {
     /* Single-row mobile bar after removing utilities row */
     --site-navbar-height: 120px;
     --site-chrome-offset: calc(
-      var(--site-opening-banner-height) + env(safe-area-inset-top, 0px) + var(--site-navbar-height)
+      var(--site-opening-banner-height) + var(--site-header-safe-top) + var(--site-navbar-height)
     );
     --site-content-gap: 32px;
     --site-mobile-cta-height: calc(84px + env(safe-area-inset-bottom, 0px));
@@ -8900,7 +8901,7 @@ a.menu-showcase-button.site-cta-btn {
   }
 
   .site-nav-overlay-close {
-    top: calc(18px + var(--site-opening-banner-height, 0px) + env(safe-area-inset-top, 0px));
+    top: calc(18px + var(--site-opening-banner-height, 0px) + var(--site-header-safe-top));
     right: max(20px, env(safe-area-inset-right, 0px));
     left: auto;
   }

@@ -1,5 +1,6 @@
 "use server";
 
+import { validateVideoTrim } from "@/lib/video-trim";
 import { revalidatePath, updateTag } from "next/cache";
 
 import {
@@ -41,6 +42,8 @@ export type HomePageSiteImageAdminItem = {
   overlayColor: string;
   overlayOpacity: number;
   imageZoom: number;
+  videoStart: number;
+  videoEnd: number | null;
   imageFocusDesktop: SiteImageFocus;
   imageFocusMobile: SiteImageFocus;
   spec: AdminImageSpec;
@@ -95,6 +98,8 @@ function buildHomePageSiteImageGroups(
         singleImage: catalogItem.id.startsWith("atmosphere-"),
         overlayColor: normalizeOverlayColor(override?.overlayColor),
         overlayOpacity: normalizeOverlayOpacity(override?.overlayOpacity),
+        videoStart: override?.videoStart ?? 0,
+        videoEnd: override?.videoEnd ?? null,
         imageZoom: normalizeSiteImageZoom(override?.imageZoom),
         imageFocusDesktop: normalizeSiteImageFocus(override?.imageFocusDesktop),
         imageFocusMobile: normalizeSiteImageFocus(
@@ -122,6 +127,8 @@ export async function saveSiteImageOverrideAction(input: {
   overlayColor?: string;
   overlayOpacity?: number;
   imageZoom?: number;
+  videoStart?: number;
+  videoEnd?: number | null;
   imageFocusDesktop?: SiteImageFocus;
   imageFocusMobile?: SiteImageFocus;
 }): Promise<{ ok: true; updatedAt: string }> {
@@ -152,7 +159,10 @@ export async function saveSiteImageOverrideAction(input: {
     throw new Error("נדרשת לפחות תמונה אחת - מסך רחב או מובייל");
   }
 
+  const trim = validateVideoTrim(input.videoStart ?? 0, input.videoEnd ?? null);
   const saved = await upsertSiteImageOverride({
+    videoStart: trim.start,
+    videoEnd: trim.end,
     id: input.id.trim(),
     imageUrl,
     mobileImageUrl,

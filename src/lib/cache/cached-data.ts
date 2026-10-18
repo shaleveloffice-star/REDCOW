@@ -116,7 +116,7 @@ export const getCachedActiveOrderLinks = unstable_cache(
 
 export const getCachedSiteImagesMap = unstable_cache(
   () => resolveStaticSiteImagesMap(),
-  [CACHE_TAGS.siteImages, "sowhat-compliance-v2"],
+  [CACHE_TAGS.siteImages, "video-trim-v1"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.siteImages] }
 );
 

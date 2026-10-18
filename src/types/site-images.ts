@@ -38,6 +38,8 @@ export type SiteImageOverride = {
   imageFocusDesktop?: { x: number; y: number };
   /** Focal point on phones (0–100%). Falls back to desktop when omitted. */
   imageFocusMobile?: { x: number; y: number };
+  videoStart?: number;
+  videoEnd?: number | null;
   updatedAt: string;
 };
 

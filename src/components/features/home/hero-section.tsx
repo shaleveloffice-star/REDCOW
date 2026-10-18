@@ -26,6 +26,8 @@ type HeroSectionProps = {
   heroMobileImageUrl?: string;
   heroOverlay?: SiteImageOverlayValue | null;
   heroZoom?: number;
+  videoStart?: number;
+  videoEnd?: number | null;
   heroFocusDesktop?: SiteImageFocus;
   heroFocusMobile?: SiteImageFocus;
 };
@@ -35,6 +37,8 @@ export function HeroSection({
   heroMobileImageUrl,
   heroOverlay,
   heroZoom,
+  videoStart,
+  videoEnd,
   heroFocusDesktop,
   heroFocusMobile
 }: HeroSectionProps) {
@@ -59,6 +63,8 @@ export function HeroSection({
         {!imageSrc ? null : isVideo ? (
           <AutoplayVideo
             src={imageSrc}
+            videoStart={videoStart}
+            videoEnd={videoEnd}
             className="hero-burger-image site-media-focus"
             style={mediaStyle}
             preload="metadata"

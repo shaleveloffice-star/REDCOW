@@ -18,6 +18,8 @@ export async function upsertSiteImageOverride(input: {
   overlayColor?: string;
   overlayOpacity?: number;
   imageZoom?: number;
+  videoStart?: number;
+  videoEnd?: number | null;
   imageFocusDesktop?: { x: number; y: number };
   imageFocusMobile?: { x: number; y: number };
 }): Promise<SiteImageOverride> {
@@ -41,6 +43,8 @@ export async function upsertSiteImageOverride(input: {
         : current?.imageFocusDesktop,
     imageFocusMobile:
       input.imageFocusMobile !== undefined ? input.imageFocusMobile : current?.imageFocusMobile,
+    videoStart: input.videoStart ?? current?.videoStart ?? 0,
+    videoEnd: input.videoEnd !== undefined ? input.videoEnd : current?.videoEnd ?? null,
     updatedAt: new Date().toISOString()
   });
 }

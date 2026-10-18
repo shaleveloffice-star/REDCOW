@@ -3,10 +3,13 @@
 import { useEffect, useRef, useState, type CSSProperties } from "react";
 
 import { useTranslations } from "@/components/providers/locale-provider";
+import { useVideoTrim } from "@/components/shared/use-video-trim";
 import { videoSourcesForMp4 } from "@/lib/video-sources";
 
 type AutoplayVideoProps = {
   src: string;
+  videoStart?: number;
+  videoEnd?: number | null;
   className?: string;
   style?: CSSProperties;
   poster?: string;
@@ -38,6 +41,8 @@ function releasePlaybackSlot(video: HTMLVideoElement) {
 
 export function AutoplayVideo({
   src,
+  videoStart = 0,
+  videoEnd = null,
   className,
   style,
   poster,
@@ -47,6 +52,7 @@ export function AutoplayVideo({
 }: AutoplayVideoProps) {
   const t = useTranslations();
   const videoRef = useRef<HTMLVideoElement>(null);
+  useVideoTrim(videoRef, src, videoStart, videoEnd);
   const userPausedRef = useRef(false);
   const inViewRef = useRef(false);
   const [paused, setPaused] = useState(false);
@@ -179,7 +185,7 @@ export function AutoplayVideo({
         className={className}
         style={style}
         autoPlay={false}
-        loop
+        loop={videoStart === 0 && videoEnd === null}
         muted
         playsInline
         controls={false}

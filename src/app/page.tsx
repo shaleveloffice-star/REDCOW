@@ -60,6 +60,8 @@ export default async function HomePage() {
           heroMobileImageUrl={heroImages.mobile}
           heroOverlay={pickSiteImageOverlay(siteImages, "hero-burger")}
           heroZoom={pickSiteImageZoom(siteImages, "hero-burger")}
+          videoStart={Number(siteImages["hero-burger__videoStart"] || 0)}
+          videoEnd={siteImages["hero-burger__videoEnd"] ? Number(siteImages["hero-burger__videoEnd"]) : null}
           heroFocusDesktop={pickSiteImageFocus(siteImages, "hero-burger", "desktop")}
           heroFocusMobile={pickSiteImageFocus(siteImages, "hero-burger", "mobile")}
         />

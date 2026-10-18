@@ -49,6 +49,8 @@ export async function resolveStaticSiteImagesMap(): Promise<SiteImagesMap> {
       const mobile = override?.mobileImageUrl?.trim() || "";
       map[entry.id] = desktop || mobile || entry.imageUrl;
       map[siteImageMobileId(entry.id)] = mobile || desktop || entry.imageUrl;
+      map[`${entry.id}__videoStart`] = String(override?.videoStart ?? 0);
+      map[`${entry.id}__videoEnd`] = override?.videoEnd == null ? "" : String(override.videoEnd);
       const overlay = encodeSiteImageOverlay(override?.overlayColor, override?.overlayOpacity);
       if (overlay) map[siteImageOverlayId(entry.id)] = overlay;
       const zoom = encodeSiteImageZoom(override?.imageZoom);

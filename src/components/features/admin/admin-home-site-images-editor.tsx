@@ -1,7 +1,8 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 
+import { useVideoTrim } from "@/components/shared/use-video-trim";
 import { useAdminMutation } from "@/components/features/admin/admin-crud-ui";
 import { AdminImageUrlField } from "@/components/features/admin/admin-site-image-picker";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
@@ -34,6 +35,8 @@ type ImageDraft = {
   overlayPercent: number;
   /** 1 (original) through 3. */
   zoom: number;
+  videoStart: number;
+  videoEnd: number | null;
   focusDesktop: SiteImageFocus;
   focusMobile: SiteImageFocus;
 };
@@ -66,12 +69,49 @@ function buildDrafts(groups: HomePageSiteImageAdminGroup[]): Record<string, Imag
         overlayColor: item.overlayColor,
         overlayPercent: Math.round(item.overlayOpacity * 100),
         zoom: item.imageZoom,
+        videoStart: item.videoStart,
+        videoEnd: item.videoEnd,
         focusDesktop: item.imageFocusDesktop,
         focusMobile: item.imageFocusMobile
       };
     }
   }
   return drafts;
+}
+
+function VideoTrimEditor({ src, start, end, disabled, valid, onChange, onDuration }: {
+  src: string; start: number; end: number | null; disabled: boolean; valid: boolean;
+  onChange: (start: number, end: number | null) => void;
+  onDuration: (duration: number) => void;
+}) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [duration, setDuration] = useState<number | null>(null);
+  useVideoTrim(ref, src, valid ? start : 0, valid ? end : null);
+  return (
+    <fieldset disabled={disabled} className="admin-home-images-slot">
+      <legend>חיתוך סרטון לפי זמן</legend>
+      <p className="admin-field-hint">הזינו זמנים בשניות, כולל עשיריות. רק הקטע שנבחר יתנגן בלולאה באתר. קובץ המקור נשאר שלם. ההגדרה חלה על ההירו במחשב ובמובייל.</p>
+      <label>זמן התחלה (שניות)
+        <input type="number" min="0" step="0.1" value={start}
+          onChange={(e) => onChange(Number(e.target.value), end)} />
+      </label>
+      <label>זמן סיום (שניות)
+        <input type="number" min="0" step="0.1" value={end ?? ""} placeholder="עד סוף הסרטון"
+          onChange={(e) => onChange(start, e.target.value === "" ? null : Number(e.target.value))} />
+      </label>
+      {!valid ? <p role="alert">זמן הסיום חייב להיות גדול מזמן ההתחלה, והזמנים אינם יכולים להיות שליליים.</p> : null}
+      {duration !== null ? <p className="admin-field-hint">אורך מלא: {duration.toFixed(2)} שניות.
+        {start >= duration ? " זמן ההתחלה מעבר לסוף הסרטון — יש לבחור זמן קצר יותר." : ""}
+        {end !== null && end > duration ? " זמן הסיום חורג מאורך הסרטון ויוגבל לסופו." : ""}
+      </p> : null}
+      <video key={src} ref={ref} src={src} controls muted playsInline preload="metadata"
+        aria-label="תצוגה מקדימה של חיתוך הסרטון"
+        style={{ width: "100%", maxHeight: 280, objectFit: "contain", background: "#111" }}
+        onLoadedMetadata={(e) => { setDuration(e.currentTarget.duration); onDuration(e.currentTarget.duration); }} />
+      <button type="button" className="button secondary" onClick={() => onChange(0, null)}>ביטול חיתוך</button>
+      <p className="admin-field-hint">לחצו על ניגון לתצוגה מקדימה, ואז על שמור כדי לעדכן את האתר.</p>
+    </fieldset>
+  );
 }
 
 function OverlayPreview({
@@ -184,6 +224,7 @@ export function AdminHomeSiteImagesEditor({
   const { isPending, error, run } = useAdminMutation();
   const [groups, setGroups] = useState(initialGroups);
   const [drafts, setDrafts] = useState(() => buildDrafts(initialGroups));
+  const [durations, setDurations] = useState<Record<string, number>>({});
   const [previewModes, setPreviewModes] = useState<Record<string, "desktop" | "mobile">>({});
 
   const updateDraft = (id: string, patch: Partial<ImageDraft>) => {
@@ -215,6 +256,8 @@ export function AdminHomeSiteImagesEditor({
                 overlayColor: saved.overlayColor,
                 overlayOpacity: saved.overlayPercent / 100,
                 imageZoom: saved.zoom,
+                videoStart: saved.videoStart,
+                videoEnd: saved.videoEnd,
                 imageFocusDesktop: saved.focusDesktop,
                 imageFocusMobile: saved.focusMobile
               }
@@ -251,9 +294,15 @@ export function AdminHomeSiteImagesEditor({
                 draft.overlayPercent !== savedPercent ||
                 (draft.overlayPercent > 0 && draft.overlayColor !== item.overlayColor) ||
                 draft.zoom !== item.imageZoom ||
+                draft.videoStart !== item.videoStart ||
+                draft.videoEnd !== item.videoEnd ||
                 focusDesktopDirty ||
                 focusMobileDirty;
-              const canSave = Boolean(draft.desktop.trim() || draft.mobile.trim());
+              const validTrim = Number.isFinite(draft.videoStart) && draft.videoStart >= 0 &&
+                (draft.videoEnd === null || (Number.isFinite(draft.videoEnd) && draft.videoEnd > draft.videoStart));
+              const duration = durations[draft.desktop.trim() || draft.mobile.trim()];
+              const canSave = Boolean(draft.desktop.trim() || draft.mobile.trim()) && validTrim &&
+                (duration === undefined || draft.videoStart < duration);
               const canReset =
                 item.isOverridden ||
                 item.isHidden ||
@@ -319,6 +368,12 @@ export function AdminHomeSiteImagesEditor({
                     )}
                   </div>
 
+                  {item.id === "hero-burger" && isVideoMediaUrl(previewSrc) ? (
+                    <VideoTrimEditor src={previewSrc} start={draft.videoStart} end={draft.videoEnd}
+                      disabled={isPending} valid={validTrim}
+                      onDuration={(value) => setDurations((current) => ({ ...current, [previewSrc]: value }))}
+                      onChange={(videoStart, videoEnd) => updateDraft(item.id, { videoStart, videoEnd })} />
+                  ) : null}
                   <div className="admin-image-overlay">
                     <div className="admin-image-overlay-preview-wrap">
                       <div className="admin-image-focus-preview-toggle" role="group" aria-label="תצוגת מיקום">
@@ -484,6 +539,8 @@ export function AdminHomeSiteImagesEditor({
                             overlayColor: draft.overlayColor,
                             overlayOpacity: draft.overlayPercent / 100,
                             imageZoom: draft.zoom,
+                            videoStart: draft.videoStart,
+                            videoEnd: draft.videoEnd,
                             imageFocusDesktop: draft.focusDesktop,
                             imageFocusMobile: draft.focusMobile
                           });
@@ -495,6 +552,8 @@ export function AdminHomeSiteImagesEditor({
                               overlayColor: draft.overlayColor,
                               overlayPercent: draft.overlayPercent,
                               zoom: draft.zoom,
+                              videoStart: draft.videoStart,
+                              videoEnd: draft.videoEnd,
                               focusDesktop: draft.focusDesktop,
                               focusMobile: draft.focusMobile
                             },
@@ -522,6 +581,8 @@ export function AdminHomeSiteImagesEditor({
                                 overlayColor: DEFAULT_SITE_IMAGE_OVERLAY_COLOR,
                                 overlayPercent: 0,
                                 zoom: 1,
+                                videoStart: 0,
+                                videoEnd: null,
                                 focusDesktop: { ...DEFAULT_SITE_IMAGE_FOCUS },
                                 focusMobile: { ...DEFAULT_SITE_IMAGE_FOCUS }
                               },

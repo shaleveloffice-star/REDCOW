@@ -48,6 +48,7 @@ export type SeoPageFieldsInput = {
   cta?: SeoCtaBlock;
   /** Home page only: the smash burger section below the atmosphere gallery. */
   smashStory?: SeoStoryBlock;
+  grindingStory?: SeoStoryBlock;
   categoryIntros?: Record<string, string>;
   /** Per-category SEO body (intro/bottom/faq/cta) — stored under menu page bundle. */
   categoryPages?: Record<string, SeoPageFieldsInput>;
@@ -75,6 +76,7 @@ export type ResolvedSeoPageContent = {
   faq: Required<SeoFaqBlock> & { items: SeoFaqItem[] };
   cta: SeoCtaBlock;
   smashStory: ResolvedSeoStoryBlock;
+  grindingStory: ResolvedSeoStoryBlock;
   categoryIntros: Record<string, string>;
   categoryPages: Record<string, ResolvedCategorySeoContent>;
 };

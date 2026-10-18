@@ -66,6 +66,7 @@ export default async function HomePage() {
         <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
         <HomeBrandStorySection siteImages={siteImages} />
         <HomeAtmosphereSection siteImages={siteImages} />
+          <HomeSmashStorySection siteImages={siteImages} variant="grinding" />
         <HomeSmashStorySection siteImages={siteImages} />
         <HomeSocialVibeSection />
         <SeoFaqSection

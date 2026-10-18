@@ -21,6 +21,7 @@ export type AdminSeoFieldsFlags = {
   faq?: boolean;
   cta?: boolean;
   smashStory?: boolean;
+  grindingStory?: boolean;
 };
 
 type AdminSeoFieldsFormProps = {
@@ -74,6 +75,8 @@ export function AdminSeoFieldsForm({
 
   const updateSmashStory = (patch: Partial<NonNullable<SeoPageFieldsInput["smashStory"]>>) =>
     onChange({ ...draft, smashStory: { ...(draft.smashStory ?? {}), ...patch } });
+  const updateGrindingStory = (patch: Partial<NonNullable<SeoPageFieldsInput["grindingStory"]>>) =>
+    onChange({ ...draft, grindingStory: { ...(draft.grindingStory ?? {}), ...patch } });
 
   const showMeta = flags.meta !== false;
   const metaTitleLength = (draft.metaTitle ?? "").length;
@@ -161,6 +164,45 @@ export function AdminSeoFieldsForm({
           </label>
         ) : null}
       </fieldset>
+
+      {flags.grindingStory ? (
+        <fieldset className="admin-seo-fieldset admin-seo-fieldset--nested">
+          <legend>
+            {adminFieldLabel("סקשן טחינה במקום", "דף הבית - אחרי האווירה")}
+          </legend>
+          <label>
+            כותרת
+            <input
+              value={draft.grindingStory?.title ?? ""}
+              placeholder={defaults.grindingStory?.title ?? ""}
+              onChange={(event) => updateGrindingStory({ title: event.target.value })}
+            />
+          </label>
+          <label>
+            פתיח
+            <textarea
+              rows={5}
+              value={draft.grindingStory?.introduction ?? ""}
+              placeholder={defaults.grindingStory?.introduction ?? ""}
+              onChange={(event) => updateGrindingStory({ introduction: event.target.value })}
+            />
+            <span className="admin-field-hint">
+              הפסקה הראשונה היא פסקת הפתיחה, והפסקאות שאחריה מוצגות כשורות מודגשות בקו תחתון.{" "}
+              {SEO_PARAGRAPH_HINT}
+            </span>
+          </label>
+          <label>
+            סיום
+            <textarea
+              rows={4}
+              value={draft.grindingStory?.bottomContent ?? ""}
+              placeholder={defaults.grindingStory?.bottomContent ?? ""}
+              onChange={(event) => updateGrindingStory({ bottomContent: event.target.value })}
+            />
+            <span className="admin-field-hint">{SEO_PARAGRAPH_HINT}</span>
+          </label>
+        </fieldset>
+      ) : null}
 
       {flags.smashStory ? (
         <fieldset className="admin-seo-fieldset admin-seo-fieldset--nested">
@@ -359,6 +401,7 @@ export function flagsFromPageDefinition(
     faq: definition?.supportsFaq ?? false,
     cta: definition?.supportsCta ?? false,
     smashStory: pageId === "home",
+    grindingStory: pageId === "home",
     ...overrides
   };
 }

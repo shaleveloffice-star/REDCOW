@@ -1,3 +1,4 @@
+import { GRINDING_STORY_DEFAULTS } from "@/data/grinding-story-defaults";
 import type { Locale } from "@/i18n/config";
 import { joinParagraphs } from "@/lib/seo-content/paragraphs";
 import type { SeoPageFieldsInput, SeoPageId } from "@/types/seo-content";
@@ -528,7 +529,8 @@ export function getDefaultSeoPageFields(
 
   return {
     ...metaDefaults,
-    ...pageDefaults
+    ...pageDefaults,
+    ...(pageId === "home" ? { grindingStory: GRINDING_STORY_DEFAULTS[locale] } : {})
   };
 }
 

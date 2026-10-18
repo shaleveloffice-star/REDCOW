@@ -156,6 +156,7 @@ const SITE_IMAGE_SPECS: Record<string, AdminImageSpec> = {
     aspectHint: "4:5",
     note: "תמונת סיפור המותג"
   },
+  "home-grinding": { ...WIDE_MEDIA, note: "טחינת בשר במקום" },
   "home-smash": {
     width: 1400,
     height: 1750,

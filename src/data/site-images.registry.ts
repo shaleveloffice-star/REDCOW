@@ -141,6 +141,10 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
     ]
   },
   {
+    title: "דף הבית - טחינה במקום",
+    items: [item("home-grinding", "תמונת הסקשן", "סקשן טחינה במקום", "/images/home/fresh-grinding.jpg")]
+  },
+  {
     title: "דף הבית - סמאש",
     items: [item("home-smash", "תמונת הסקשן", "סקשן סמאש (דף הבית)", HOME_SMASH_IMAGE)]
   },
@@ -184,6 +188,10 @@ export const HOME_PAGE_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
       item("atmosphere-third-2", "תמונה 5", "סקשן האווירה", HOME_ATMOSPHERE_THIRD_2),
       item("atmosphere-third-3", "תמונה 6", "סקשן האווירה", HOME_ATMOSPHERE_THIRD_3)
     ]
+  },
+  {
+    title: "טחינה במקום",
+    items: [item("home-grinding", "תמונת הסקשן", "סקשן טחינה במקום", "/images/home/fresh-grinding.jpg")]
   },
   {
     title: "סמאש",

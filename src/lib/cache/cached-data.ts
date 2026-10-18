@@ -164,7 +164,7 @@ export function getCachedResolvedSeoPageContent(locale: string, pageId: string) 
       pageId,
       pageId === "menu" ? "menu-intent-slug-v1" : "v0",
       "sowhat-compliance-v2",
-      "smash-story-v1"
+      "grinding-story-v1"
     ],
     {
       revalidate: CACHE_REVALIDATE_SECONDS.slow,

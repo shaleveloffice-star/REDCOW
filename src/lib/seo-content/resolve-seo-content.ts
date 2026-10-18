@@ -148,6 +148,7 @@ export function resolveSeoPageContent(
     faq: pickFaqBlock(source.faq, defaults.faq),
     cta: pickCta(source.cta),
     smashStory: pickStoryBlock(source.smashStory, defaults.smashStory),
+    grindingStory: pickStoryBlock(source.grindingStory, defaults.grindingStory),
     categoryIntros,
     categoryPages: buildCategoryPagesMap(source, categoryIntros, defaults)
   };

@@ -18,38 +18,41 @@ const HOME_SMASH_IMAGE_SIZES = "(max-width: 900px) 100vw, 55vw";
 
 type HomeSmashStorySectionProps = {
   siteImages?: SiteImagesMap;
+  variant?: "smash" | "grinding";
 };
 
-export async function HomeSmashStorySection({ siteImages }: HomeSmashStorySectionProps) {
+export async function HomeSmashStorySection({ siteImages, variant = "smash" }: HomeSmashStorySectionProps) {
   const locale = await getServerLocale();
   const t = await getLocalizedMessages(locale);
   const seoContent = await getCachedResolvedSeoPageContent(locale, "home");
-  const title = seoContent.smashStory?.title ?? "";
-  const [intro = "", ...punchLines] = seoContent.smashStory?.introductionParagraphs ?? [];
-  const bottomParagraphs = seoContent.smashStory?.bottomParagraphs ?? [];
+  const story = variant === "grinding" ? seoContent.grindingStory : seoContent.smashStory;
+  const mediaId = variant === "grinding" ? "home-grinding" : "home-smash";
+  const title = story?.title ?? "";
+  const [intro = "", ...punchLines] = story?.introductionParagraphs ?? [];
+  const bottomParagraphs = story?.bottomParagraphs ?? [];
 
   if (!title && !intro) return null;
 
   const imageAlt = resolveImageAlt({
     kind: "brand-story",
     locale,
-    customAlt: t.homeSmash.imageAlt
+    customAlt: variant === "grinding" ? (locale === "he" ? "טחינת בשר טרי במקום במסעדת SO WHAT" : locale === "fr" ? "Viande fraîche hachée sur place chez SO WHAT" : "Fresh beef ground in-house at SO WHAT") : t.homeSmash.imageAlt
   });
-  const images = resolveSiteImagePair(siteImages, "home-smash", HOME_SMASH_IMAGE);
+  const images = resolveSiteImagePair(siteImages, mediaId, variant === "grinding" ? "/images/home/fresh-grinding.jpg" : HOME_SMASH_IMAGE);
   const hasImage = Boolean(images.desktop || images.mobile);
-  const mediaStyle = pickSiteImageMediaStyle(siteImages, "home-smash");
+  const mediaStyle = pickSiteImageMediaStyle(siteImages, mediaId);
   const isVideo = isVideoMediaUrl(images.desktop);
   const useOptimizedImage =
     !isVideo && images.desktop === images.mobile && canOptimizeSiteImage(images.desktop);
 
   return (
     <section
-      id="smash"
+      id={variant}
       className="home-story-section home-story-section--smash"
-      aria-labelledby="home-smash-title"
+      aria-labelledby={mediaId + "-title"}
     >
       <header className="home-story-header">
-        <h2 id="home-smash-title" className="home-story-title">
+        <h2 id={mediaId + "-title"} className="home-story-title">
           {title}
         </h2>
       </header>
@@ -90,7 +93,7 @@ export async function HomeSmashStorySection({ siteImages }: HomeSmashStorySectio
                 style={mediaStyle}
               />
             )}
-            <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "home-smash")} />
+            <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, mediaId)} />
           </div>
         ) : null}
 

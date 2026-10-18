@@ -2,16 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
-import { BUSINESS } from "@/data/business";
 import { trackEvent } from "@/lib/analytics";
 
-const VIBE_REELS = [
-  "DZJhDpgolz1",
-  "DZGEerQx4ro",
-  "DZG6jdooaVB",
-  "DZHtdgxN0Lw",
-  "DZJg3oKo5gH"
-] as const;
+const INSTAGRAM_PROFILE_URL = "https://www.instagram.com/sowhat.il?vrfl=MTU0cXpzYXM4enhiaw==";
+const INSTAGRAM_EMBED_URL = "https://www.instagram.com/sowhat.il/embed/";
 
 function InstagramIcon() {
   return (
@@ -23,13 +17,11 @@ function InstagramIcon() {
   );
 }
 
-function ReelEmbed({
-  reelId,
+function ProfileEmbed({
   title,
   className,
   enabled
 }: {
-  reelId: string;
   title: string;
   className?: string;
   enabled: boolean;
@@ -45,7 +37,7 @@ function ReelEmbed({
 
   return (
     <iframe
-      src={`https://www.instagram.com/reel/${reelId}/embed/`}
+      src={INSTAGRAM_EMBED_URL}
       title={title}
       className={className}
       loading="lazy"
@@ -59,12 +51,7 @@ function ReelEmbed({
 
 export function HomeSocialVibeSection() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [activeReelIndex, setActiveReelIndex] = useState(0);
   const [sectionNearView, setSectionNearView] = useState(false);
-  const [secondaryEmbedReady, setSecondaryEmbedReady] = useState(false);
-  const activeReelId = VIBE_REELS[activeReelIndex];
-  const secondaryReelIndex = (activeReelIndex + 1) % VIBE_REELS.length;
-  const secondaryReelId = VIBE_REELS[secondaryReelIndex];
 
   useEffect(() => {
     const node = sectionRef.current;
@@ -84,23 +71,6 @@ export function HomeSocialVibeSection() {
     return () => observer.disconnect();
   }, []);
 
-  useEffect(() => {
-    if (!sectionNearView) return;
-    // Defer the second iframe so Samsung / mid-tier devices are not hit with two embeds at once.
-    const timer = window.setTimeout(() => setSecondaryEmbedReady(true), 1200);
-    return () => window.clearTimeout(timer);
-  }, [sectionNearView, activeReelIndex]);
-
-  const showPreviousReel = () => {
-    setSecondaryEmbedReady(false);
-    setActiveReelIndex((current) => (current - 1 + VIBE_REELS.length) % VIBE_REELS.length);
-  };
-
-  const showNextReel = () => {
-    setSecondaryEmbedReady(false);
-    setActiveReelIndex((current) => (current + 1) % VIBE_REELS.length);
-  };
-
   return (
     <section
       ref={sectionRef}
@@ -118,39 +88,20 @@ export function HomeSocialVibeSection() {
       </header>
 
       <div className="home-vibe-gallery">
-        <div key={activeReelId} className="home-vibe-card home-vibe-card--embed">
+        <div className="home-vibe-card home-vibe-card--embed">
           <span className="home-vibe-phone-island" aria-hidden="true" />
-          <div className="home-vibe-phone-screen">
-            <ReelEmbed
-              reelId={activeReelId}
-              title={`Instagram Reel ${activeReelIndex + 1} של SO WHAT`}
+          <div className="home-vibe-phone-screen home-vibe-phone-screen--profile">
+            <ProfileEmbed
+              title="Instagram — @sowhat.il"
               className="home-vibe-embed"
               enabled={sectionNearView}
-            />
-            <ReelEmbed
-              reelId={secondaryReelId}
-              title={`Instagram Reel ${secondaryReelIndex + 1} של SO WHAT`}
-              className="home-vibe-embed home-vibe-embed--secondary"
-              enabled={sectionNearView && secondaryEmbedReady}
             />
           </div>
         </div>
       </div>
 
-      <div className="home-vibe-controls" aria-label="ניווט בין סרטוני Instagram">
-        <button type="button" onClick={showPreviousReel} aria-label="הסרטון הקודם">
-          <span aria-hidden="true">←</span>
-        </button>
-        <span className="home-vibe-counter" aria-live="polite">
-          {String(activeReelIndex + 1).padStart(2, "0")} / {String(VIBE_REELS.length).padStart(2, "0")}
-        </span>
-        <button type="button" onClick={showNextReel} aria-label="הסרטון הבא">
-          <span aria-hidden="true">→</span>
-        </button>
-      </div>
-
       <a
-        href={BUSINESS.social.instagram}
+        href={INSTAGRAM_PROFILE_URL}
         className="home-vibe-cta"
         target="_blank"
         rel="noopener noreferrer"

@@ -815,6 +815,10 @@ a.menu-showcase-button.site-cta-btn {
   transform: translateX(-50%);
 }
 
+.home-vibe-phone-screen.home-vibe-phone-screen--profile {
+  display: block;
+}
+
 .home-vibe-embed {
   position: absolute;
   inset: 0;

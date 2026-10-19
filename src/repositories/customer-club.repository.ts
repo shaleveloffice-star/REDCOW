@@ -5,15 +5,30 @@ import type { CustomerClubSignup } from "@/types/content";
 import { mutateCollection } from "@/lib/firebase/atomic-collection";
 import { normalizeEmail, normalizePhoneDigits } from "@/lib/customer-club/normalize";
 
+export type RegisterCustomerClubSignupResult = {
+  signup: CustomerClubSignup;
+  /** False when phone/email already existed — identity and consent are never overwritten. */
+  created: boolean;
+};
+
 /** Public repeat submissions never modify an existing identity or its consent. */
-export async function registerCustomerClubSignup(input: CustomerClubSignup): Promise<CustomerClubSignup> {
-  return mutateCollection("customerClubSignups", localCustomerClubSignupsStore, rows => {
-    const match = rows.find(row =>
-      normalizePhoneDigits(row.phone) === normalizePhoneDigits(input.phone) ||
-      (Boolean(input.email) && normalizeEmail(row.email ?? "") === normalizeEmail(input.email))
-    );
-    return match ? { result: match } : { result: input, upserts: [input] };
-  });
+export async function registerCustomerClubSignup(
+  input: CustomerClubSignup
+): Promise<RegisterCustomerClubSignupResult> {
+  return mutateCollection<CustomerClubSignup, RegisterCustomerClubSignupResult>(
+    "customerClubSignups",
+    localCustomerClubSignupsStore,
+    (rows) => {
+      const match = rows.find(
+        (row) =>
+          normalizePhoneDigits(row.phone) === normalizePhoneDigits(input.phone) ||
+          (Boolean(input.email) && normalizeEmail(row.email ?? "") === normalizeEmail(input.email))
+      );
+      return match
+        ? { result: { signup: match, created: false } }
+        : { result: { signup: input, created: true }, upserts: [input] };
+    }
+  );
 }
 
 const customerClubStore = createFirestoreCollectionStore(
@@ -43,11 +58,34 @@ export async function deleteCustomerClubSignup(id: string): Promise<boolean> {
   return customerClubStore.remove(id);
 }
 
-/** Apply opt-out atomically to every record sharing this email. */
-export async function unsubscribeCustomerEmail(email: string): Promise<void> {
-  await mutateCollection("customerClubSignups", localCustomerClubSignupsStore, rows => ({
-    result: undefined,
-    upserts: rows.filter(row => normalizeEmail(row.email ?? "") === normalizeEmail(email))
-      .map(row => ({ ...row, marketingConsent: false, unsubscribedAt: row.unsubscribedAt || new Date().toISOString() }))
-  }));
+export type UnsubscribeCustomerEmailResult = {
+  matched: number;
+  /** True when every matching record was already opted out. */
+  alreadyUnsubscribed: boolean;
+};
+
+/** Apply opt-out atomically to every record sharing this email. Membership stays active. */
+export async function unsubscribeCustomerEmail(
+  email: string
+): Promise<UnsubscribeCustomerEmailResult> {
+  return mutateCollection("customerClubSignups", localCustomerClubSignupsStore, (rows) => {
+    const matching = rows.filter(
+      (row) => normalizeEmail(row.email ?? "") === normalizeEmail(email)
+    );
+    if (!matching.length) {
+      return { result: { matched: 0, alreadyUnsubscribed: false } };
+    }
+    const alreadyUnsubscribed = matching.every(
+      (row) => Boolean(row.unsubscribedAt) || !row.marketingConsent
+    );
+    const now = new Date().toISOString();
+    return {
+      result: { matched: matching.length, alreadyUnsubscribed },
+      upserts: matching.map((row) => ({
+        ...row,
+        marketingConsent: false,
+        unsubscribedAt: row.unsubscribedAt || now
+      }))
+    };
+  });
 }

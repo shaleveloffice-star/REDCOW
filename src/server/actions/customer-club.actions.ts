@@ -11,6 +11,7 @@ import {
 } from "@/lib/customer-club/normalize";
 import { consumeRateLimitAsync, getRequestClientIp } from "@/lib/security/rate-limit";
 import { revalidatePath } from "next/cache";
+import { sendClubWelcomeEmailIfEligible } from "@/lib/email/club-welcome-email";
 import {
   createOrUpdateCustomerClubSignup,
   listCustomerClubSignups,
@@ -26,7 +27,6 @@ export type CustomerClubSignupErrorCode =
   | "phone"
   | "email"
   | "birthDate"
-  | "consent"
   | "generic";
 
 export type CustomerClubSignupResult =
@@ -68,17 +68,33 @@ export async function submitCustomerClubSignupAction(
   const birthParsed = parseOptionalBirthDate(birthDateRaw);
   if (!birthParsed.ok) return { ok: false, code: "birthDate" };
 
-  if (!marketingConsent) return { ok: false, code: "consent" };
-
   try {
-    const saved = await createOrUpdateCustomerClubSignup({
+    const { signup, created } = await createOrUpdateCustomerClubSignup({
       fullName,
       phone: phoneRaw,
       email,
       birthDate: birthParsed.value,
       marketingConsent
     });
-    console.info("[CustomerClub] submitCustomerClubSignupAction saved", { id: saved.id });
+    console.info("[CustomerClub] submitCustomerClubSignupAction saved", {
+      id: signup.id,
+      created,
+      marketingConsent
+    });
+
+    // Welcome email only for brand-new signups with email + explicit marketing consent.
+    // Repeat submissions must not re-send. Failures never fail membership.
+    if (created) {
+      try {
+        await sendClubWelcomeEmailIfEligible(signup);
+      } catch (err) {
+        console.error(
+          "[CustomerClub] welcome email unexpected error",
+          err instanceof Error ? err.message : err
+        );
+      }
+    }
+
     return { ok: true };
   } catch (error) {
     console.error(

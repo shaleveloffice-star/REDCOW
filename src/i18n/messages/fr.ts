@@ -208,7 +208,8 @@ export const fr: Messages = {
       email: "E-mail (facultatif)",
       birthDate: "Date de naissance (facultative, offres anniversaire)"
     },
-    consentPrefix: "J’accepte de recevoir les publicités, actualités et offres de SO WHAT par e-mail et SMS. Je peux me désinscrire à tout moment.",
+    consentPrefix:
+      "J’accepte de recevoir des actualités, offres et contenus marketing de SO WHAT par e-mail. Je peux retirer mon consentement à tout moment.",
     privacyLink: "Confidentialité",
     submit: "S'inscrire",
     submitting: "Envoi...",
@@ -219,7 +220,6 @@ export const fr: Messages = {
       phone: "Veuillez saisir un numéro de téléphone valide.",
       email: "Veuillez saisir une adresse e-mail valide si renseignée.",
       birthDate: "Veuillez saisir une date de naissance valide.",
-      consent: "Veuillez accepter les conditions du club.",
       generic: "Une erreur est survenue. Veuillez réessayer."
     },
     datePicker: {

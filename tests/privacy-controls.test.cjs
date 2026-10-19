@@ -29,13 +29,22 @@ test('unsubscribe GET does not mutate; valid POST opts out all matching records,
   const get = await route.GET({url:'https://site.test/unsubscribe?token='+token});
   assert.equal(get.status,200);
   assert.equal(get.headers.get('cache-control'),'no-store');
+  const getHtml = await get.text();
+  assert.match(getHtml,/SO WHAT CLUB/);
+  assert.match(getHtml,/לא מעוניינים לקבל מאיתנו עדכונים במייל/);
+  assert.match(getHtml,/הסרה מדיוור/);
   assert.equal((await signups.getAll()).filter(r=>r.marketingConsent).length,3);
   const request = {url:'https://site.test/unsubscribe?token='+token,formData:async()=>new Map()};
-  assert.equal((await route.POST(request)).status,200);
-  assert.equal((await route.POST(request)).status,200);
+  const firstPost = await route.POST(request);
+  assert.equal(firstPost.status,200);
+  assert.match(await firstPost.text(),/הוסרת בהצלחה מרשימת הדיוור של SO WHAT/);
+  const secondPost = await route.POST(request);
+  assert.equal(secondPost.status,200);
+  assert.match(await secondPost.text(),/כבר הוסרת מרשימת הדיוור/);
   const rows = await signups.getAll();
   assert.equal(rows.filter(r=>r.marketingConsent).length,1);
   assert.ok(rows.find(r=>r.id==='a').unsubscribedAt);
+  assert.equal(rows.find(r=>r.id==='c').marketingConsent, true);
   assert.equal((await route.POST({url:'https://site.test',formData:async()=>new Map([['token','forged']])})).status,400);
 });
 

@@ -212,7 +212,6 @@ export type Messages = {
       phone: string;
       email: string;
       birthDate: string;
-      consent: string;
       generic: string;
     };
     datePicker: {

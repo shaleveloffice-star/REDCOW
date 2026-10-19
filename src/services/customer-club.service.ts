@@ -2,8 +2,10 @@ import {
   deleteCustomerClubSignup,
   getCustomerClubSignups,
   saveCustomerClubSignup,
-  registerCustomerClubSignup
+  registerCustomerClubSignup,
+  type RegisterCustomerClubSignupResult
 } from "@/repositories/customer-club.repository";
+import { CUSTOMER_CLUB_MARKETING_CONSENT_VERSION } from "@/lib/customer-club/consent";
 import { normalizeEmail } from "@/lib/customer-club/normalize";
 import { createId } from "@/lib/admin/new-id";
 import type { CustomerClubSignup } from "@/types/content";
@@ -27,19 +29,25 @@ export type CustomerClubSignupInput = {
  */
 export async function createOrUpdateCustomerClubSignup(
   input: CustomerClubSignupInput
-): Promise<CustomerClubSignup> {
+): Promise<RegisterCustomerClubSignupResult> {
   const emailNorm = normalizeEmail(input.email);
+  const now = new Date().toISOString();
   return registerCustomerClubSignup({
     fullName: input.fullName,
     phone: input.phone.trim(),
     email: emailNorm,
     birthDate: input.birthDate,
     marketingConsent: input.marketingConsent,
-    consentRecordedAt: new Date().toISOString(),
-    consentVersion: "2026-10-03",
+    ...(input.marketingConsent
+      ? {
+          consentRecordedAt: now,
+          consentVersion: CUSTOMER_CLUB_MARKETING_CONSENT_VERSION
+        }
+      : {}),
     id: createId("club"),
-    createdAt: new Date().toISOString(),
-    status: "new"
+    createdAt: now,
+    status: "new",
+    welcomeEmailStatus: "pending"
   });
 }
 
@@ -47,13 +55,14 @@ export async function createOrUpdateCustomerClubSignup(
 export async function createCustomerClubSignup(
   input: Omit<CustomerClubSignup, "id" | "createdAt" | "status">
 ): Promise<CustomerClubSignup> {
-  return createOrUpdateCustomerClubSignup({
+  const result = await createOrUpdateCustomerClubSignup({
     fullName: input.fullName,
     phone: input.phone,
     email: input.email,
     birthDate: input.birthDate,
     marketingConsent: input.marketingConsent
   });
+  return result.signup;
 }
 
 export async function upsertCustomerClubSignup(input: CustomerClubSignup): Promise<CustomerClubSignup> {

@@ -56,7 +56,7 @@ for (const production of [false, true]) test(`repeat club signup preserves ident
   const load = createLoader(storageStubs({ localCustomerClubSignupsStore: store }, db));
   const { registerCustomerClubSignup } = load('@/repositories/customer-club.repository');
   const results = await Promise.all(Array.from({ length: 10 }, (_, i) => registerCustomerClubSignup({ ...original, id: `attack-${i}`, phone: '+972501234567', email: '', fullName: 'Changed', marketingConsent: true })));
-  assert.ok(results.every(result => result.fullName === 'Original' && !result.marketingConsent && result.email === original.email));
+  assert.ok(results.every(result => !result.created && result.signup.fullName === 'Original' && !result.signup.marketingConsent && result.signup.email === original.email));
   assert.equal(production ? Object.keys(db.dump().customerClubSignups).length : (await store.getAll()).length, 1);
 });
 
@@ -64,7 +64,8 @@ test('simultaneous new signup creates a single contact', async () => {
   const store = memoryStore();
   const load = createLoader(storageStubs({ localCustomerClubSignupsStore: store }));
   const { registerCustomerClubSignup } = load('@/repositories/customer-club.repository');
-  await Promise.all(Array.from({ length: 15 }, (_, i) => registerCustomerClubSignup({ id: String(i), fullName: 'New', email: 'new@example.test', phone: '0501234567', marketingConsent: true })));
+  const results = await Promise.all(Array.from({ length: 15 }, (_, i) => registerCustomerClubSignup({ id: String(i), fullName: 'New', email: 'new@example.test', phone: '0501234567', marketingConsent: true })));
+  assert.equal(results.filter(result => result.created).length, 1);
   assert.equal((await store.getAll()).length, 1);
 });
 

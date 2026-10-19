@@ -15,10 +15,10 @@ import { trackEvent, type AnalyticsSource } from "@/lib/analytics";
 
 import "./customer-club.css";
 
-type FieldKey = "fullName" | "phone" | "email" | "consent";
+type FieldKey = "fullName" | "phone" | "email";
 
 function fieldForError(code: CustomerClubSignupErrorCode): FieldKey | null {
-  if (code === "fullName" || code === "phone" || code === "email" || code === "consent") {
+  if (code === "fullName" || code === "phone" || code === "email") {
     return code;
   }
   return null;
@@ -49,7 +49,6 @@ export function CustomerClubSignupForm({
   const fullNameRef = useRef<HTMLInputElement>(null);
   const phoneRef = useRef<HTMLInputElement>(null);
   const emailRef = useRef<HTMLInputElement>(null);
-  const consentRef = useRef<HTMLInputElement>(null);
   const errorRef = useRef<HTMLParagraphElement>(null);
 
   const errorMessage = errorCode ? t.customerClub.errors[errorCode] : null;
@@ -65,9 +64,7 @@ export function CustomerClubSignupForm({
           ? phoneRef.current
           : invalidField === "email"
             ? emailRef.current
-            : invalidField === "consent"
-              ? consentRef.current
-              : errorRef.current;
+            : errorRef.current;
 
     window.requestAnimationFrame(() => {
       target?.focus();
@@ -203,14 +200,10 @@ export function CustomerClubSignupForm({
 
       <label className="customer-club-consent" htmlFor={consentId}>
         <input
-          ref={consentRef}
           id={consentId}
           name="marketingConsent"
           type="checkbox"
-          required
           disabled={isPending}
-          aria-invalid={invalidField === "consent" ? true : undefined}
-          aria-describedby={invalidField === "consent" ? errorId : undefined}
         />
         <span>
           {t.customerClub.consentPrefix}

@@ -129,20 +129,27 @@ export type CareerApplication = {
   status: RecordStatus;
 };
 
+export type CustomerClubWelcomeEmailStatus = "pending" | "sent" | "skipped" | "failed";
+
 export type CustomerClubSignup = {
   id: string;
   fullName: string;
   phone: string;
   email: string;
   birthDate?: string;
+  /** Explicit opt-in for marketing email. Independent of club membership. */
   marketingConsent: boolean;
   consentRecordedAt?: ISODateString;
   consentVersion?: string;
   createdAt: ISODateString;
   status: RecordStatus;
-  /** Campaigns skip unsubscribed recipients. */
+  /** Campaigns skip unsubscribed recipients. Club membership stays active. */
   unsubscribedAt?: ISODateString;
   unsubscribeToken?: string;
+  welcomeEmailStatus?: CustomerClubWelcomeEmailStatus;
+  welcomeEmailSentAt?: ISODateString;
+  welcomeEmailResendId?: string;
+  welcomeEmailError?: string;
 };
 
 export type OrderLink = {

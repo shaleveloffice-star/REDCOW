@@ -208,7 +208,8 @@ export const en: Messages = {
       email: "Email (optional)",
       birthDate: "Date of birth (optional, for birthday offers)"
     },
-    consentPrefix: "I agree to receive SO WHAT advertising, news and offers by email and SMS. I can unsubscribe at any time.",
+    consentPrefix:
+      "I agree to receive updates, offers and marketing content from SO WHAT by email. I can withdraw consent at any time.",
     privacyLink: "Privacy",
     submit: "Join now",
     submitting: "Sending...",
@@ -219,7 +220,6 @@ export const en: Messages = {
       phone: "Please enter a valid phone number.",
       email: "Please enter a valid email address if provided.",
       birthDate: "Please enter a valid birth date.",
-      consent: "Please accept the club terms to continue.",
       generic: "Something went wrong. Please try again."
     },
     datePicker: {

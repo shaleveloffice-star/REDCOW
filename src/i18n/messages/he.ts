@@ -248,6 +248,7 @@ export const he: Messages = {
     },
     hours: {
       sunThu: BUSINESS.displayHours.weekday,
+      fri: "סגור",
       sat: BUSINESS.displayHours.saturday
     },
     navigate: "נווטו אלינו",

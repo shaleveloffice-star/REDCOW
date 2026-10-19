@@ -1,3 +1,4 @@
+import { getBusinessHoursText, isLegacyBusinessHours } from "@/data/business";
 import { mockBranches } from "@/data/mock/branches.mock";
 import { createFirestoreCollectionStore } from "@/lib/firebase/firestore-store";
 import { localBranchesStore } from "@/lib/firebase/local-stores";
@@ -9,11 +10,12 @@ const branchesStore = createFirestoreCollectionStore("branches", localBranchesSt
 });
 
 export async function getBranches(): Promise<Branch[]> {
-  return branchesStore.getAll();
+  return (await branchesStore.getAll()).map(withCurrentDefaultHours);
 }
 
 export async function getBranchById(id: string): Promise<Branch | null> {
-  return branchesStore.getById(id);
+  const branch = await branchesStore.getById(id);
+  return branch ? withCurrentDefaultHours(branch) : null;
 }
 
 export async function saveBranch(input: Branch): Promise<Branch> {
@@ -22,4 +24,10 @@ export async function saveBranch(input: Branch): Promise<Branch> {
 
 export async function deleteBranch(id: string): Promise<boolean> {
   return branchesStore.remove(id);
+}
+
+function withCurrentDefaultHours(branch: Branch): Branch {
+  return isLegacyBusinessHours(branch.openingHours)
+    ? { ...branch, openingHours: getBusinessHoursText() }
+    : branch;
 }

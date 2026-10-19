@@ -248,6 +248,7 @@ export const fr: Messages = {
     },
     hours: {
       sunThu: BUSINESS.displayHours.weekday,
+      fri: "Fermé",
       sat: BUSINESS.displayHours.saturday
     },
     navigate: "Itinéraire",

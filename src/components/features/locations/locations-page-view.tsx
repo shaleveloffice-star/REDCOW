@@ -10,7 +10,7 @@ import { LabelWithNote } from "@/components/shared/label-with-note";
 import { SeoContentBody, SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import { SeoFaqSection } from "@/components/shared/seo-faq-section";
 import { IconLocationPinFilled } from "@/components/shared/site-icons";
-import { BUSINESS, getBusinessMapsSearchUrl, branchMapsUrl, branchAddress } from "@/data/business";
+import { BUSINESS, getBusinessHoursText, usesDefaultBranchHours, getBusinessMapsSearchUrl, branchMapsUrl, branchAddress } from "@/data/business";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { hasValidFaqItems } from "@/lib/seo/faq-utils";
 import { resolveImageAlt } from "@/lib/image-alt";
@@ -39,7 +39,7 @@ function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "e
       id: branch.id,
       name: branch.name,
       address: branchAddress(branch, locale),
-      hours: branch.openingHours,
+      hours: usesDefaultBranchHours(branch) ? getBusinessHoursText(locale) : branch.openingHours,
       mapsUrl: branchMapsUrl(branch),
       image: exteriorImage
     }));
@@ -55,12 +55,7 @@ function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "e
           : locale === "fr"
             ? BUSINESS.address.formatted.fr
             : BUSINESS.address.formatted.en,
-      hours:
-        locale === "he"
-          ? `א׳–ה׳ ${BUSINESS.displayHours.weekday} · שבת ${BUSINESS.displayHours.saturday}`
-          : locale === "fr"
-            ? `Dim–Jeu ${BUSINESS.displayHours.weekday} · Sam ${BUSINESS.displayHours.saturday}`
-            : `Sun–Thu ${BUSINESS.displayHours.weekday} · Sat ${BUSINESS.displayHours.saturday}`,
+      hours: getBusinessHoursText(locale),
       mapsUrl: getBusinessMapsSearchUrl(),
       image: exteriorImage
     }

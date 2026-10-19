@@ -83,26 +83,25 @@ export const BUSINESS = {
 
   /**
    * Approved opening hours only.
-   * Friday is intentionally omitted — no approved hours.
-   * Intervals that close at `00:00` cross midnight into the next calendar day.
+   * Friday is closed and therefore omitted from the open intervals.
    */
   openingHours: [
     {
       dayOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
       opens: "11:00",
-      closes: "00:00"
+      closes: "23:00"
     },
     {
       dayOfWeek: ["Saturday"],
       opens: "20:00",
-      closes: "00:00"
+      closes: "23:00"
     }
   ] as const satisfies ReadonlyArray<OpeningHoursInterval>,
 
-  /** Display strings for the location hours UI (no Friday row) */
+  /** Display strings for the location hours UI */
   displayHours: {
-    weekday: "11:00–00:00",
-    saturday: "20:00–00:00"
+    weekday: "11:00–23:00",
+    saturday: "20:00–23:00"
   } as const
 } as const;
 
@@ -143,5 +142,17 @@ export function branchMapsEmbedUrl(branch?: Branch): string {
 }
 
 export function usesDefaultBranchHours(branch?: Branch): boolean {
-  return !branch || branch.openingHours === `א׳–ה׳ ${BUSINESS.displayHours.weekday} · שבת ${BUSINESS.displayHours.saturday}`;
+  return !branch || branch.openingHours === getBusinessHoursText() || isLegacyBusinessHours(branch.openingHours);
+}
+
+/** Exact historical defaults only; custom admin schedules remain editable. */
+export function isLegacyBusinessHours(hours: string): boolean {
+  return hours === "א׳–ה׳ 11:00–00:00 · שבת 20:00–00:00";
+}
+
+export function getBusinessHoursText(locale: BusinessLocale = "he"): string {
+  const { weekday, saturday } = BUSINESS.displayHours;
+  if (locale === "en") return `Sun–Thu ${weekday} · Friday closed · Sat ${saturday}`;
+  if (locale === "fr") return `Dim–Jeu ${weekday} · Vendredi fermé · Sam ${saturday}`;
+  return `א׳–ה׳ ${weekday} · שישי סגור · שבת ${saturday}`;
 }

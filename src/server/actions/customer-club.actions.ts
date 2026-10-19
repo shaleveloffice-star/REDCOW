@@ -76,23 +76,39 @@ export async function submitCustomerClubSignupAction(
       birthDate: birthParsed.value,
       marketingConsent
     });
+    const emailNorm = normalizeEmail(signup.email ?? "");
     console.info("[CustomerClub] submitCustomerClubSignupAction saved", {
       id: signup.id,
       created,
-      marketingConsent
+      formMarketingConsent: marketingConsent,
+      storedMarketingConsent: signup.marketingConsent,
+      hasEmail: Boolean(emailNorm),
+      welcomeEmailStatus: signup.welcomeEmailStatus ?? null
     });
 
     // Welcome email only for brand-new signups with email + explicit marketing consent.
     // Repeat submissions must not re-send. Failures never fail membership.
     if (created) {
       try {
-        await sendClubWelcomeEmailIfEligible(signup);
+        const welcome = await sendClubWelcomeEmailIfEligible(signup);
+        console.info("[CustomerClub] welcome email result", {
+          id: signup.id,
+          sent: welcome.sent,
+          skipped: welcome.skipped ?? null,
+          error: welcome.error ?? null
+        });
       } catch (err) {
-        console.error(
-          "[CustomerClub] welcome email unexpected error",
-          err instanceof Error ? err.message : err
-        );
+        console.error("[CustomerClub] welcome email unexpected error", {
+          id: signup.id,
+          error: err instanceof Error ? err.message : err
+        });
       }
+    } else {
+      console.info("[CustomerClub] welcome email not attempted — existing member", {
+        id: signup.id,
+        storedMarketingConsent: signup.marketingConsent,
+        welcomeEmailStatus: signup.welcomeEmailStatus ?? null
+      });
     }
 
     return { ok: true };

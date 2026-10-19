@@ -4,12 +4,23 @@ import { BUSINESS } from "@/data/business";
 import { SITE_WORDMARK_LIGHT_SRC } from "@/data/brand-assets";
 import { CANONICAL_SITE_ORIGIN } from "@/data/site-domain";
 import { createUnsubscribeToken } from "@/lib/email/unsubscribe-token";
-import { escapeHtml, getResendClient, getResendFromConfig } from "@/lib/email/resend-client";
+import {
+  escapeHtml,
+  getResendClient,
+  getResendFromConfig,
+  getResendRuntimeDiagnostics
+} from "@/lib/email/resend-client";
 import { isValidEmailFormat, normalizeEmail } from "@/lib/customer-club/normalize";
 import { saveCustomerClubSignup } from "@/repositories/customer-club.repository";
 import type { CustomerClubSignup } from "@/types/content";
 
 export const CLUB_WELCOME_SUBJECT = "WELCOME TO SO WHAT CLUB 🍔";
+
+function redactEmail(email: string): string {
+  const at = email.indexOf("@");
+  if (at < 1) return email ? "(set)" : "";
+  return `${email[0]}***${email.slice(at)}`;
+}
 
 function absoluteBrandAsset(pathWithQuery: string): string {
   const path = pathWithQuery.startsWith("http")
@@ -140,17 +151,33 @@ export async function sendClubWelcomeEmailIfEligible(
   signup: CustomerClubSignup,
   options?: { force?: boolean }
 ): Promise<{ sent: boolean; skipped?: string; error?: string }> {
+  const diagnostics = getResendRuntimeDiagnostics();
+  const emailForLog = normalizeEmail(signup.email ?? "");
+
   if (!options?.force && !shouldSendClubWelcomeEmail(signup)) {
-    const email = normalizeEmail(signup.email ?? "");
-    const reason = !email
-      ? "no-email"
-      : !signup.marketingConsent
-        ? "no-consent"
-        : signup.unsubscribedAt
-          ? "unsubscribed"
-          : signup.welcomeEmailStatus === "sent"
-            ? "already-sent"
-            : "skipped";
+    const email = emailForLog;
+    const reason =
+      !email || !isValidEmailFormat(email)
+        ? "no-email"
+        : !signup.marketingConsent
+          ? "no-consent"
+          : signup.unsubscribedAt
+            ? "unsubscribed"
+            : signup.welcomeEmailStatus === "sent"
+              ? "already-sent"
+              : signup.welcomeEmailStatus === "skipped"
+                ? "already-skipped"
+                : "skipped";
+
+    console.info("[CustomerClub] welcome email skipped", {
+      id: signup.id,
+      email: redactEmail(email),
+      reason,
+      marketingConsent: signup.marketingConsent,
+      welcomeEmailStatus: signup.welcomeEmailStatus ?? null,
+      hasResendKey: diagnostics.hasApiKey,
+      fromEmail: diagnostics.fromEmail
+    });
 
     if (signup.welcomeEmailStatus !== "sent" && signup.welcomeEmailStatus !== "skipped") {
       try {
@@ -166,8 +193,23 @@ export async function sendClubWelcomeEmailIfEligible(
   }
 
   const email = normalizeEmail(signup.email);
+  console.info("[CustomerClub] welcome email attempt", {
+    id: signup.id,
+    email: redactEmail(email),
+    marketingConsent: signup.marketingConsent,
+    welcomeEmailStatus: signup.welcomeEmailStatus ?? null,
+    hasResendKey: diagnostics.hasApiKey,
+    fromEmail: diagnostics.fromEmail,
+    force: Boolean(options?.force)
+  });
+
   const resend = getResendClient();
   if (!resend) {
+    console.error("[CustomerClub] welcome email failed", {
+      id: signup.id,
+      error: "RESEND_API_KEY missing",
+      fromEmail: diagnostics.fromEmail
+    });
     try {
       await saveCustomerClubSignup({
         ...signup,
@@ -183,7 +225,13 @@ export async function sendClubWelcomeEmailIfEligible(
   let unsubscribeUrl: string;
   try {
     unsubscribeUrl = `${CANONICAL_SITE_ORIGIN}/unsubscribe?token=${createUnsubscribeToken(email)}`;
-  } catch {
+  } catch (err) {
+    const message = err instanceof Error ? err.message : "unsubscribe secret missing";
+    console.error("[CustomerClub] welcome email failed", {
+      id: signup.id,
+      error: "unsubscribe secret missing",
+      detail: message
+    });
     try {
       await saveCustomerClubSignup({
         ...signup,
@@ -221,24 +269,47 @@ export async function sendClubWelcomeEmailIfEligible(
     );
 
     if (result.error) {
+      const errorMessage = result.error.message || "Resend error";
+      console.error("[CustomerClub] welcome email failed", {
+        id: signup.id,
+        email: redactEmail(email),
+        fromEmail: from.email,
+        error: errorMessage,
+        errorName: result.error.name,
+        idempotencyKey
+      });
       await saveCustomerClubSignup({
         ...signup,
         welcomeEmailStatus: "failed",
-        welcomeEmailError: result.error.message || "Resend error"
+        welcomeEmailError: errorMessage
       });
-      return { sent: false, error: result.error.message || "Resend error" };
+      return { sent: false, error: errorMessage };
     }
 
+    const resendId = result.data?.id;
+    console.info("[CustomerClub] welcome email sent", {
+      id: signup.id,
+      email: redactEmail(email),
+      fromEmail: from.email,
+      resendId: resendId ?? null,
+      idempotencyKey
+    });
     await saveCustomerClubSignup({
       ...signup,
       welcomeEmailStatus: "sent",
       welcomeEmailSentAt: new Date().toISOString(),
-      welcomeEmailResendId: result.data?.id,
+      welcomeEmailResendId: resendId,
       welcomeEmailError: undefined
     });
     return { sent: true };
   } catch (err) {
     const message = err instanceof Error ? err.message : "שליחת מייל ברוכים הבאים נכשלה";
+    console.error("[CustomerClub] welcome email failed", {
+      id: signup.id,
+      email: redactEmail(email),
+      fromEmail: from.email,
+      error: message
+    });
     try {
       await saveCustomerClubSignup({
         ...signup,
@@ -248,7 +319,6 @@ export async function sendClubWelcomeEmailIfEligible(
     } catch {
       // ignore
     }
-    console.error("[CustomerClub] welcome email failed", message);
     return { sent: false, error: message };
   }
 }

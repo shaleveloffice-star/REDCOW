@@ -10,10 +10,16 @@ export type ResendFromConfig = {
 };
 
 export function getResendFromConfig(): ResendFromConfig {
+  // Optional email override — only @sowhat.co.il. Display name stays the current brand
+  // (ignore legacy RESEND_FROM_NAME values such as "NB BURGER").
+  const envEmail = process.env.RESEND_FROM_EMAIL?.trim();
+  const email =
+    envEmail && /@sowhat\.co\.il$/i.test(envEmail) ? envEmail : CAMPAIGN_FROM_EMAIL;
+  const name = CAMPAIGN_FROM_NAME;
   return {
-    email: CAMPAIGN_FROM_EMAIL,
-    name: CAMPAIGN_FROM_NAME,
-    formatted: `${CAMPAIGN_FROM_NAME} <${CAMPAIGN_FROM_EMAIL}>`
+    email,
+    name,
+    formatted: `${name} <${email}>`
   };
 }
 
@@ -21,6 +27,20 @@ export function getResendClient(): Resend | null {
   const apiKey = process.env.RESEND_API_KEY?.trim();
   if (!apiKey) return null;
   return new Resend(apiKey);
+}
+
+/** Safe diagnostics — never returns the key itself. */
+export function getResendRuntimeDiagnostics(): {
+  hasApiKey: boolean;
+  fromEmail: string;
+  fromName: string;
+} {
+  const from = getResendFromConfig();
+  return {
+    hasApiKey: Boolean(process.env.RESEND_API_KEY?.trim()),
+    fromEmail: from.email,
+    fromName: from.name
+  };
 }
 
 export function escapeHtml(value: string): string {

@@ -34,6 +34,11 @@ function welcomeFixture(signupOverrides = {}, options = {}) {
         .replace(/"/g, '&quot;')
         .replace(/'/g, '&#39;'),
       getResendFromConfig: () => ({ email: 'no-reply@sowhat.co.il', name: 'SO WHAT' }),
+      getResendRuntimeDiagnostics: () => ({
+        hasApiKey: resendEnabled,
+        fromEmail: 'no-reply@sowhat.co.il',
+        fromName: 'SO WHAT'
+      }),
       getResendClient: () => {
         if (!resendEnabled) return null;
         return {
@@ -126,6 +131,75 @@ test('welcome email skips unsubscribed members and missing Resend config', async
   assert.equal(unsubscribed.calls.length, 0);
   assert.equal(noResend.calls.length, 0);
   assert.equal((await noResend.signups.getAll())[0].welcomeEmailStatus, 'failed');
+});
+
+test('Resend API error is persisted as failed and does not throw', async () => {
+  const signup = {
+    id: 'club-fail',
+    fullName: 'Fail Case',
+    phone: '0501234567',
+    email: 'fail@example.test',
+    marketingConsent: true,
+    createdAt: '2026-10-19T10:00:00.000Z',
+    status: 'new',
+    welcomeEmailStatus: 'pending'
+  };
+  const signups = memoryStore([signup]);
+  const stubs = {
+    ...storageStubs({ localCustomerClubSignupsStore: signups }),
+    '@/lib/email/unsubscribe-token': {
+      createUnsubscribeToken: (email) => Buffer.from(email).toString('base64url') + '.test-signature'
+    },
+    '@/lib/email/resend-client': {
+      escapeHtml: (value) => String(value),
+      getResendFromConfig: () => ({ email: 'no-reply@sowhat.co.il', name: 'SO WHAT' }),
+      getResendRuntimeDiagnostics: () => ({
+        hasApiKey: true,
+        fromEmail: 'no-reply@sowhat.co.il',
+        fromName: 'SO WHAT'
+      }),
+      getResendClient: () => ({
+        emails: {
+          async send() {
+            return { data: null, error: { name: 'validation_error', message: 'Invalid from address' } };
+          }
+        }
+      })
+    }
+  };
+  const module = createLoader(stubs, {
+    Buffer,
+    process: { env: { ADMIN_SESSION_SECRET: 'a'.repeat(40), RESEND_API_KEY: 're_test' } }
+  })('@/lib/email/club-welcome-email');
+
+  const result = await module.sendClubWelcomeEmailIfEligible(signup);
+  assert.equal(result.sent, false);
+  assert.match(result.error || '', /Invalid from address/);
+  const saved = (await signups.getAll())[0];
+  assert.equal(saved.welcomeEmailStatus, 'failed');
+  assert.match(saved.welcomeEmailError || '', /Invalid from address/);
+});
+
+test('getResendFromConfig only accepts sowhat.co.il env overrides', () => {
+  const load = (env) =>
+    createLoader(
+      {
+        resend: { Resend: class Resend {} },
+        '@/lib/email/campaign-sender': {
+          CAMPAIGN_FROM_EMAIL: 'no-reply@sowhat.co.il',
+          CAMPAIGN_FROM_NAME: 'SO WHAT'
+        }
+      },
+      { process: { env } }
+    )('@/lib/email/resend-client');
+
+  const withSowhat = load({ RESEND_FROM_EMAIL: 'hello@sowhat.co.il', RESEND_FROM_NAME: 'NB BURGER' });
+  assert.equal(withSowhat.getResendFromConfig().email, 'hello@sowhat.co.il');
+  assert.equal(withSowhat.getResendFromConfig().name, 'SO WHAT');
+  assert.equal(
+    load({ RESEND_FROM_EMAIL: 'old@nbburger.co.il' }).getResendFromConfig().email,
+    'no-reply@sowhat.co.il'
+  );
 });
 
 test('shouldSendClubWelcomeEmail gates on email, consent, unsubscribe and prior send', () => {

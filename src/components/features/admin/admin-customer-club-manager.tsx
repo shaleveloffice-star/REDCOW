@@ -54,6 +54,21 @@ function eligibilityReason(signup: CustomerClubSignup): string {
   return "";
 }
 
+function welcomeStatusLabel(signup: CustomerClubSignup): string {
+  switch (signup.welcomeEmailStatus) {
+    case "sent":
+      return "ברוכים הבאים: נשלח";
+    case "failed":
+      return `ברוכים הבאים: נכשל${signup.welcomeEmailError ? ` (${signup.welcomeEmailError})` : ""}`;
+    case "skipped":
+      return "ברוכים הבאים: דולג";
+    case "pending":
+      return "ברוכים הבאים: ממתין";
+    default:
+      return "ברוכים הבאים: —";
+  }
+}
+
 function newSignup(): CustomerClubSignup {
   const now = new Date().toISOString();
   return {
@@ -537,13 +552,21 @@ export function AdminCustomerClubManager({
                         </td>
                         <td>{formatSubmittedAt(signup.createdAt)}</td>
                         <td>
-                          {eligible ? (
-                            <span className="admin-club-pill is-ok">זמין</span>
-                          ) : (
-                            <span className="admin-club-pill is-bad" title={reason}>
-                              {reason}
+                          <div className="admin-club-contact">
+                            {eligible ? (
+                              <span className="admin-club-pill is-ok">זמין</span>
+                            ) : (
+                              <span className="admin-club-pill is-bad" title={reason}>
+                                {reason}
+                              </span>
+                            )}
+                            <span
+                              className="admin-club-meta"
+                              title={signup.welcomeEmailError || welcomeStatusLabel(signup)}
+                            >
+                              {welcomeStatusLabel(signup)}
                             </span>
-                          )}
+                          </div>
                         </td>
                         <td>
                           <div className="admin-club-row-actions">

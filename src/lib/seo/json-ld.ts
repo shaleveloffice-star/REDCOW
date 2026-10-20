@@ -109,7 +109,9 @@ export function buildRestaurantJsonLd(branch?: Branch): JsonLdObject {
       addressLocality: branch?.city ?? BUSINESS.address.addressLocality,
       addressCountry: "IL"
     },
-    ...(branch?.phone ? { telephone: branch.phone } : {}),
+    ...((branch?.phone?.trim() || BUSINESS.phone)
+      ? { telephone: branch?.phone?.trim() || BUSINESS.phone }
+      : {}),
     openingHoursSpecification: !usesDefaultBranchHours(branch) ? undefined : BUSINESS.openingHours.map((interval) => ({
       "@type": "OpeningHoursSpecification",
       dayOfWeek: [...interval.dayOfWeek],

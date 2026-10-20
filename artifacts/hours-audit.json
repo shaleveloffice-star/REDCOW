@@ -1,0 +1,466 @@
+[
+  {
+    "url": "https://www.sowhat.co.il",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/locations",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/kosher",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/terms",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/privacy-policy",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/accessibility",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/burgers",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/meals",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/extras",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/salads",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/drinks",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/sauces",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/mineral-water",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-caesar-chicken",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-house-burger",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/soda",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-smash",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-truffle-burger",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/cola",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/hamburger-so-classic",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/cola-zero",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/sprite",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/hamburger-nb-vegan",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-classic-meal",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-crispy-chicken",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/sprite-zero",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-hot-dog",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/fanta",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/grape-drink",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/fuse-tea",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/carlsberg-beer",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-house-burger-meal",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-smash-2",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-crispy-chicken-meal",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/garlic-confit-aioli",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/chipotle-aioli",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/truffle-aioli",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-hot-dog-meal",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-vegan-burger-meal",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/dijon-aioli",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-house-chili",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/fries",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/so-truffle-burger-meal",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/wings-10",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/menu/wings-6",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/stories",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/stories/behind-the-scenes-burger",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/stories/fixed-burger-recipe",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/stories/vegetarian-burger-development",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/stories/kosher-burger",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/stories/burger-jewish-tradition",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/stories/choosing-restaurant-raanana",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/stories/burger-sharon-evening",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/stories/smash-burger-crispy-edges",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/stories/burger-history-israel",
+    "status": 200,
+    "oldHours": false,
+    "closed": true,
+    "updated": true,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/about",
+    "status": 404,
+    "oldHours": false,
+    "closed": false,
+    "updated": false,
+    "schemaOld": false
+  },
+  {
+    "url": "https://www.sowhat.co.il/recommendations",
+    "status": 404,
+    "oldHours": false,
+    "closed": false,
+    "updated": false,
+    "schemaOld": false
+  }
+]

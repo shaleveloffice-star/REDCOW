@@ -9,7 +9,7 @@ export const mockBranches: Branch[] = [
     name: `${BUSINESS.name} ${BUSINESS.address.addressLocality}`,
     city: BUSINESS.address.addressLocality,
     address: BUSINESS.address.streetAddress,
-    phone: "",
+    phone: BUSINESS.phone ?? "",
     openingHours: getBusinessHoursText(),
     wazeUrl: getBusinessMapsSearchUrl(),
     isActive: true,

@@ -58,8 +58,7 @@ export const BUSINESS = {
     mapsLng: 34.8777354
   },
 
-  /** No approved phone yet — do not invent one */
-  phone: null as string | null,
+  phone: "077-303-4390",
 
   email: "swhat.burger@gmail.com",
 

@@ -47,7 +47,7 @@ export async function SiteFooter() {
   const t = await getLocalizedMessages(locale);
   const logoAlt = resolveImageAlt({ kind: "logo", locale });
   const branch = await getPrimaryBranch();
-  const phone = branch ? branch.phone : BUSINESS.phone;
+  const phone = branch?.phone?.trim() || BUSINESS.phone;
   const mapsUrl = branchMapsUrl(branch);
 
   const [aboutEnabled, recommendations] = await Promise.all([

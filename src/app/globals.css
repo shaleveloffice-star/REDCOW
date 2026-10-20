@@ -5846,11 +5846,24 @@ a.menu-showcase-button.site-cta-btn {
 #footer-info-title {
   margin-bottom: 8px;
   line-height: 1.2;
+  text-align: center;
+  width: 100%;
+}
+
+.site-footer-block:has(.site-footer-hours) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  width: 100%;
 }
 
 .site-footer-info {
   display: grid;
   gap: 10px;
+  justify-items: center;
+  text-align: center;
+  width: 100%;
 }
 
 .site-footer-info-line {
@@ -5858,6 +5871,7 @@ a.menu-showcase-button.site-cta-btn {
   color: rgba(255, 255, 255, 0.78);
   font-size: 14px;
   line-height: 1.55;
+  text-align: center;
 }
 
 .site-footer-hours {
@@ -5865,6 +5879,9 @@ a.menu-showcase-button.site-cta-btn {
   gap: 8px;
   margin: 0;
   padding: 0;
+  width: 100%;
+  justify-items: center;
+  text-align: center;
 }
 
 .site-footer-hours div {
@@ -5872,6 +5889,12 @@ a.menu-showcase-button.site-cta-btn {
   flex-wrap: wrap;
   justify-content: center;
   gap: 4px 16px;
+  width: 100%;
+}
+
+.site-footer-hours dt,
+.site-footer-hours dd {
+  text-align: center;
 }
 
 .site-footer-hours dt {
@@ -5997,7 +6020,12 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .site-footer-social-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
   margin-top: 18px;
+  text-align: center;
 }
 
 .site-footer-social-label {
@@ -6010,6 +6038,7 @@ a.menu-showcase-button.site-cta-btn {
 
 .site-footer-socials {
   display: flex;
+  justify-content: center;
   gap: 12px;
 }
 

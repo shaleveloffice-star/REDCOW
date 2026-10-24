@@ -3161,6 +3161,12 @@ body:not(:has(.admin-layout)) .hero-caption-title {
     padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px));
   }
 
+  .hero-location-heading {
+    /* Bring only the location line closer to the sticky ordering bar. */
+    position: relative;
+    top: 28px;
+  }
+
   .hero-caption-title {
     white-space: normal;
     overflow-wrap: anywhere;

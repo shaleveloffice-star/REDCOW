@@ -4,8 +4,8 @@ import { useEffect, useRef, useState } from "react";
 import type { RecommendationEmbedProvider } from "@/lib/recommendations/recommendation-embed";
 
 const EMBED_SIZE: Record<RecommendationEmbedProvider, { width: number; height: number }> = {
-  instagram: { width: 326, height: 700 },
-  tiktok: { width: 325, height: 730 },
+  instagram: { width: 326, height: 580 },
+  tiktok: { width: 325, height: 580 },
   youtube: { width: 360, height: 640 }
 };
 
@@ -30,8 +30,6 @@ export function RecommendationScaledEmbed({
       const boxW = node.clientWidth;
       const boxH = node.clientHeight;
       if (boxW < 2 || boxH < 2) return;
-
-      // Cover the phone screen — no black gaps, overflow clipped (no scroll).
       const scale = Math.max(boxW / design.width, boxH / design.height);
       setLayout({
         scale,
@@ -49,7 +47,7 @@ export function RecommendationScaledEmbed({
   return (
     <div ref={frameRef} className="recommendation-embed-fit">
       <iframe
-        className="recommendation-vibe-embed"
+        className="recommendation-square-embed"
         src={src}
         title={title}
         loading="lazy"

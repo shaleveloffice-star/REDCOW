@@ -13,7 +13,7 @@ export function RecommendationMedia({ item }: { item: CreatorRecommendation }) {
   if (showAsVideo) {
     return (
       <video
-        className="recommendation-vibe-media recommendation-vibe-media--video"
+        className="recommendation-square-media recommendation-square-media--video"
         controls
         playsInline
         preload="metadata"
@@ -33,14 +33,14 @@ export function RecommendationMedia({ item }: { item: CreatorRecommendation }) {
   if (mediaUrl) {
     return (
       // eslint-disable-next-line @next/next/no-img-element
-      <img className="recommendation-vibe-media" src={mediaUrl} alt={label} loading="lazy" />
+      <img className="recommendation-square-media" src={mediaUrl} alt={label} loading="lazy" />
     );
   }
 
   return (
-    <div className="recommendation-vibe-media recommendation-vibe-media--empty">
+    <div className="recommendation-square-media recommendation-square-media--empty">
       <p>{item.creatorName || "יוצר תוכן"}</p>
-      <span>חסר קישור לריל — ערכו באדמין</span>
+      <span>חסר קישור לריל</span>
     </div>
   );
 }

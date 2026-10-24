@@ -70,13 +70,12 @@
   line-height: 1.65;
 }
 
-/* Phone frames — same embed math as homepage FOLLOW THE VIBE (mobile). */
+/* Simple squares — no phone chrome. */
 .recommendations-gallery {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 320px));
   justify-content: center;
-  align-items: flex-start;
-  gap: clamp(18px, 2.4vw, 32px);
+  gap: clamp(16px, 2.5vw, 28px);
   width: 100%;
   max-width: 100%;
   margin: 0;
@@ -90,53 +89,18 @@
   padding: 0;
   background: transparent;
   border: 0;
-  flex: 0 0 auto;
-  max-width: 100%;
+  min-width: 0;
 }
 
-.recommendation-vibe-phone {
-  --rec-phone-w: clamp(261px, 22vw, 320px);
+.recommendation-square {
   position: relative;
-  width: var(--rec-phone-w);
-  max-width: 100%;
-  height: calc(var(--rec-phone-w) + 220px);
-  padding: 27px 9px 9px;
-  box-sizing: border-box;
+  aspect-ratio: 1 / 1;
   overflow: hidden;
-  border: 1px solid #2f2f2f;
-  border-radius: 42px;
-  background: #090909;
-  color: #fff;
-  direction: ltr;
-  box-shadow:
-    0 24px 50px rgba(0, 0, 0, 0.35),
-    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
-}
-
-.recommendation-vibe-island {
-  position: absolute;
-  top: 8px;
-  left: 50%;
-  z-index: 3;
-  width: 28%;
-  height: 11px;
-  border-radius: 999px;
-  background: #000;
-  transform: translateX(-50%);
-  pointer-events: none;
-}
-
-.recommendation-vibe-screen {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  border-radius: 32px;
+  border-radius: 18px;
   background: #111;
   direction: ltr;
 }
 
-/* Cover-scale: fills phone screen, clipped — no black gaps, no inner scroll. */
 .recommendation-embed-fit {
   position: absolute;
   inset: 0;
@@ -144,17 +108,16 @@
   background: #111;
 }
 
-.recommendation-vibe-embed {
+.recommendation-square-embed {
   position: absolute;
   display: block;
   border: 0;
   background: #111;
   max-width: none;
   transform-origin: top left;
-  /* top/left/width/height/scale set inline */
 }
 
-.recommendation-vibe-media {
+.recommendation-square-media {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -165,12 +128,12 @@
   background: #111;
 }
 
-.recommendation-vibe-media--video {
+.recommendation-square-media--video {
   object-fit: contain;
   background: #000;
 }
 
-.recommendation-vibe-media--empty {
+.recommendation-square-media--empty {
   display: grid;
   place-content: center;
   gap: 8px;
@@ -180,15 +143,14 @@
   text-align: center;
 }
 
-.recommendation-vibe-media--empty p {
+.recommendation-square-media--empty p {
   margin: 0;
   font-weight: 800;
 }
 
-.recommendation-vibe-media--empty span {
+.recommendation-square-media--empty span {
   color: #aaa;
   font-size: 0.85rem;
-  line-height: 1.4;
 }
 
 .recommendations-empty {
@@ -201,24 +163,8 @@
 
 @media (max-width: 720px) {
   .recommendations-gallery {
-    padding-inline: 0;
-  }
-
-  .recommendation-vibe-phone {
-    --rec-phone-w: min(336px, calc(100vw - 48px));
-    width: var(--rec-phone-w);
-    height: calc(var(--rec-phone-w) + 240px);
-    padding: 30px 10px 10px;
-    border-radius: 46px;
-  }
-
-  .recommendation-vibe-screen {
-    border-radius: 35px;
-  }
-
-  .recommendation-vibe-island {
-    top: 10px;
-    height: 12px;
+    grid-template-columns: min(100%, 340px);
+    justify-content: center;
   }
 }
 

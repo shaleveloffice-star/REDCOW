@@ -53,13 +53,10 @@ export function RecommendationsPageView({
         <ul className="recommendations-gallery">
           {items.map((item) => (
             <li key={item.id} className="recommendation-card">
-              <article className="recommendation-vibe-phone">
-                <span className="recommendation-vibe-island" aria-hidden="true" />
-                <div className="recommendation-vibe-screen">
-                  <RecommendationMedia item={item} />
-                  <h2 className="sr-only">{item.creatorName}</h2>
-                </div>
-              </article>
+              <div className="recommendation-square">
+                <RecommendationMedia item={item} />
+                <h2 className="sr-only">{item.creatorName}</h2>
+              </div>
             </li>
           ))}
         </ul>

@@ -2802,6 +2802,21 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   text-align: center;
 }
 
+.hero-location-heading {
+  margin: 16px 0 0;
+  padding: 4px 12px;
+  max-width: 100%;
+  border-radius: 4px;
+  background: rgb(0 0 0 / 70%);
+  color: #fff;
+  font-family: var(--font-assistant-stack);
+  font-size: clamp(18px, 1.6vw, 24px);
+  font-weight: 600;
+  line-height: 1.4;
+  text-align: center;
+  overflow-wrap: anywhere;
+}
+
 .hero-caption-kicker {
   margin: 0 0 clamp(10px, 1.6vw, 20px);
   max-width: min(100%, 92vw);

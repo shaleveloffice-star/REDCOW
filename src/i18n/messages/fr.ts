@@ -316,6 +316,7 @@ export const fr: Messages = {
     featuredLabel: "Histoire à la une",
     moreStories: "Plus d'histoires",
     empty: "Aucune histoire active pour le moment.",
-    backToStories: "Retour aux histoires"
+    backToStories: "Retour aux histoires",
+    lastPublishedLabel: "Dernière publication"
   }
 };

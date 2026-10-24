@@ -57,8 +57,6 @@ export function HeroSection({
 
   return (
     <section id="hero" className="hero hero--cinematic hero--premier hero--solid" aria-label="SO WHAT?">
-      <h1 className="sr-only">{t.hero.srTitle}</h1>
-
       <div className={`hero-burger${isVideo ? " hero-burger--video" : ""}`}>
         {!imageSrc ? null : isVideo ? (
           <AutoplayVideo
@@ -104,6 +102,7 @@ export function HeroSection({
           <p className="hero-caption-title" dir="ltr">
             {t.hero.captionTitle}
           </p>
+          <h1 className="hero-location-heading">{t.hero.srTitle}</h1>
         </div>
       </div>
     </section>

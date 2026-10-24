@@ -27,6 +27,7 @@ export function StoryPageView({ story, locale, messages }: StoryPageViewProps) {
       <StoryHero
         story={story}
         locale={locale}
+        lastPublishedLabel={messages.stories.lastPublishedLabel}
         breadcrumbs={
           <MenuBreadcrumbs
             items={[

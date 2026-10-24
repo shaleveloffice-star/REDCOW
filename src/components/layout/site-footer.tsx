@@ -58,6 +58,7 @@ export async function SiteFooter() {
     { label: t.nav.home, href: "/" },
     { label: t.nav.menu, href: "/menu" },
     { label: t.nav.kosher, href: "/kosher" },
+    { label: t.nav.location, href: "/locations" },
     ...(recommendations.enabled
       ? [{ label: t.nav.recommendations, href: "/recommendations" }]
       : []),

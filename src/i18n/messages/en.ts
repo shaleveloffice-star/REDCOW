@@ -316,6 +316,7 @@ export const en: Messages = {
     featuredLabel: "Featured story",
     moreStories: "More stories",
     empty: "No active stories at the moment.",
-    backToStories: "Back to stories"
+    backToStories: "Back to stories",
+    lastPublishedLabel: "Last published"
   }
 };

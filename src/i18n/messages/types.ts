@@ -279,5 +279,6 @@ export type Messages = {
     moreStories: string;
     empty: string;
     backToStories: string;
+    lastPublishedLabel: string;
   };
 };

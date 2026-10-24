@@ -3,6 +3,11 @@ import Link from "next/link";
 
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { resolveImageAlt } from "@/lib/image-alt";
+import {
+  formatStoryDate,
+  resolveStoryLastPublishedAt,
+  storyDateLocale
+} from "@/lib/stories/story-date";
 import { resolveStorySlug } from "@/lib/stories/story-slug";
 import type { Locale } from "@/i18n/config";
 import type { Messages } from "@/i18n/messages/types";
@@ -14,20 +19,8 @@ type StoriesIndexViewProps = {
   locale: Locale;
 };
 
-function formatStoryDate(iso: string, locale: string): string {
-  try {
-    return new Date(iso).toLocaleDateString(locale, {
-      year: "numeric",
-      month: "long",
-      day: "numeric"
-    });
-  } catch {
-    return "";
-  }
-}
-
 export function StoriesIndexView({ stories, messages, locale }: StoriesIndexViewProps) {
-  const dateLocale = locale === "he" ? "he-IL" : locale === "fr" ? "fr-FR" : "en-US";
+  const dateLocale = storyDateLocale(locale);
 
   return (
     <div className="stories-index">
@@ -55,6 +48,10 @@ export function StoriesIndexView({ stories, messages, locale }: StoriesIndexView
                 locale,
                 customAlt: story.heroImageAlt
               });
+              const lastPublishedAt = resolveStoryLastPublishedAt(story);
+              const formattedDate = lastPublishedAt
+                ? formatStoryDate(lastPublishedAt, dateLocale)
+                : "";
 
               return (
                 <li
@@ -84,9 +81,15 @@ export function StoriesIndexView({ stories, messages, locale }: StoriesIndexView
 
                       <div className="stories-card-meta">
                         {story.category.trim() ? <span>{story.category}</span> : null}
-                        {story.publishedAt ? (
-                          <time dateTime={story.publishedAt}>
-                            {formatStoryDate(story.publishedAt, dateLocale)}
+                        {lastPublishedAt && formattedDate ? (
+                          <time
+                            dateTime={lastPublishedAt}
+                            title={messages.stories.lastPublishedLabel}
+                          >
+                            <span className="stories-card-date-label">
+                              {messages.stories.lastPublishedLabel}
+                            </span>{" "}
+                            {formattedDate}
                           </time>
                         ) : null}
                       </div>

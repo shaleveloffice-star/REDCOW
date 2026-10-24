@@ -2,6 +2,11 @@ import Image from "next/image";
 import type { ReactNode } from "react";
 
 import { resolveImageAlt } from "@/lib/image-alt";
+import {
+  formatStoryDate,
+  resolveStoryLastPublishedAt,
+  storyDateLocale
+} from "@/lib/stories/story-date";
 import { storyEditableHit, StoryEditableImageWrap } from "@/lib/stories/story-editable-ui";
 import type { Locale } from "@/i18n/config";
 import type { BrandStory } from "@/types/story";
@@ -12,15 +17,26 @@ type StoryHeroProps = {
   locale: Locale;
   editor?: StoryPreviewEditor;
   breadcrumbs?: ReactNode;
+  lastPublishedLabel?: string;
 };
 
-export function StoryHero({ story, locale, editor, breadcrumbs }: StoryHeroProps) {
+export function StoryHero({
+  story,
+  locale,
+  editor,
+  breadcrumbs,
+  lastPublishedLabel
+}: StoryHeroProps) {
   const heroAlt = resolveImageAlt({
     kind: "story",
     locale,
     customAlt: story.heroImageAlt
   });
   const heroSrc = story.heroImageUrl.trim();
+  const lastPublishedAt = resolveStoryLastPublishedAt(story);
+  const formattedDate = lastPublishedAt
+    ? formatStoryDate(lastPublishedAt, storyDateLocale(locale))
+    : "";
 
   return (
     <header className={`story-hero${heroSrc ? "" : " story-hero--no-image"}`}>
@@ -86,6 +102,14 @@ export function StoryHero({ story, locale, editor, breadcrumbs }: StoryHeroProps
             })}
           >
             {story.subtitle.trim() || "לחצו לעריכת כותרת משנה"}
+          </p>
+        ) : null}
+        {lastPublishedAt && formattedDate ? (
+          <p className="story-hero-date">
+            {lastPublishedLabel ? (
+              <span className="story-hero-date-label">{lastPublishedLabel}</span>
+            ) : null}
+            <time dateTime={lastPublishedAt}>{formattedDate}</time>
           </p>
         ) : null}
       </div>

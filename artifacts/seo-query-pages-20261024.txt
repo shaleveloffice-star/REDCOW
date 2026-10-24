@@ -1,0 +1,280 @@
+- banner:
+  - button "Main menu" [expanded]:
+  - link "Google Search Console":
+    - /url: ./search-console?resource_id=sc-domain%3Asowhat.co.il
+  - search:
+    - textbox [disabled]: Inspect any URL in "sowhat.co.il"
+    - combobox "Inspect any URL in"
+    - button "Search":
+  - button "Help":
+    - generic: help_outline
+  - tooltip: Help
+  - button "User settings":
+    - generic: manage_accounts
+  - tooltip: User settings
+  - 'button "Unread messages: 7"':
+    - generic: notifications
+  - tooltip: Messages
+  - generic: "7"
+  - button "Google apps":
+  - 'button "Google Account: NB BURGER (official.nbburger@gmail.com)"':
+  - generic: info
+  - text: 1 of your other sites is moving to this site.
+  - link "Details":
+    - /url: ./search-console/settings/change-address?resource_id=sc-domain%3Asowhat.co.il
+  - generic: Learn more
+  - link "Learn more":
+    - /url: https://support.google.com/webmasters/answer/9370220
+  - button "Got it":
+    - generic: Got it
+    - generic "Got it"
+- dialog "navigational drawer":
+  - navigation "Primary":
+    - button "Search property":
+      - img "favicon"
+      - combobox "sowhat.co.il"
+      - generic: 
+    - link "Overview":
+      - /url: ./search-console?resource_id=sc-domain%3Asowhat.co.il
+      - generic: home
+      - generic: Overview
+    - link "Insights":
+      - /url: ./search-console/performance/insights?resource_id=sc-domain%3Asowhat.co.il
+      - generic: lightbulb_2
+      - generic: Insights
+    - link "Performance":
+      - /url: ./search-console/performance/search-analytics?resource_id=sc-domain%3Asowhat.co.il
+      - generic: trending_up
+      - generic: Performance
+    - button "Performance report section":
+      - generic: keyboard_arrow_down
+    - button "URL inspection":
+      - generic: search
+      - generic: URL inspection
+    - generic: Indexing
+    - button "Indexing report section" [expanded]:
+      - generic: keyboard_arrow_up
+    - link "Pages":
+      - /url: ./search-console/index?resource_id=sc-domain%3Asowhat.co.il
+      - generic: file_copy
+      - generic: Pages
+    - link "Videos":
+      - /url: ./search-console/video-index?resource_id=sc-domain%3Asowhat.co.il
+      - generic: video_library
+      - generic: Videos
+    - link "Sitemaps":
+      - /url: ./search-console/sitemaps?resource_id=sc-domain%3Asowhat.co.il
+      - generic: account_tree
+      - generic: Sitemaps
+    - link "Removals":
+      - /url: ./search-console/removals?resource_id=sc-domain%3Asowhat.co.il
+      - generic: visibility_off
+      - generic: Removals
+    - generic: Experience
+    - button "Experience report section" [expanded]:
+      - generic: keyboard_arrow_up
+    - link "Core Web Vitals":
+      - /url: ./search-console/core-web-vitals?resource_id=sc-domain%3Asowhat.co.il
+      - generic: speed
+      - generic: Core Web Vitals
+    - link "HTTPS":
+      - /url: ./search-console/https?resource_id=sc-domain%3Asowhat.co.il
+      - generic: lock
+      - generic: HTTPS
+    - generic: Shopping
+    - button "Shopping report section" [expanded]:
+      - generic: keyboard_arrow_up
+    - link "Product snippets":
+      - /url: ./search-console/r/product?resource_id=sc-domain%3Asowhat.co.il
+      - generic: layers
+      - generic: Product snippets
+    - link "Merchant listings":
+      - /url: ./search-console/r/merchant-listings?resource_id=sc-domain%3Asowhat.co.il
+      - generic: layers
+      - generic: Merchant listings
+    - generic: Enhancements
+    - button "Enhancements report section" [expanded]:
+      - generic: keyboard_arrow_up
+    - link "Breadcrumbs":
+      - /url: ./search-console/r/breadcrumbs?resource_id=sc-domain%3Asowhat.co.il
+      - generic: layers
+      - generic: Breadcrumbs
+    - generic: Security & Manual Actions
+    - button "Security & Manual Actions report section":
+      - generic: keyboard_arrow_down
+    - link "Links report":
+      - /url: ./search-console/links?resource_id=sc-domain%3Asowhat.co.il
+      - generic: link_2
+      - generic: Links
+    - link "Achievements":
+      - /url: ./search-console/achievements?resource_id=sc-domain%3Asowhat.co.il
+      - generic: trophy
+      - generic: Achievements
+    - link "Settings":
+      - /url: ./search-console/settings?resource_id=sc-domain%3Asowhat.co.il
+      - generic: settings
+      - generic: Settings
+    - button "Submit feedback":
+      - generic: feedback
+      - generic: Submit feedback
+    - button "About Search Console":
+      - generic: info
+      - generic: About Search Console
+    - link "Privacy":
+      - /url: https://myaccount.google.com/privacypolicy?hl=en
+    - link "Terms":
+      - /url: https://myaccount.google.com/termsofservice?hl=en
+- navigation "Breadcrumbs":
+  - heading "Performance" [level=1]
+- button "EXPORT":
+  - generic: 
+  - generic: EXPORT
+- radiogroup "Select time range":
+  - radio "24 hours":
+    - generic: 24 hours
+  - radio "7 days":
+    - generic: 7 days
+  - radio "28 days" [checked]:
+    - generic: 28 days
+  - radio "3 months":
+    - generic: 3 months
+- button "More time ranges":
+  - generic: More
+  - generic: arrow_drop_down
+- list:
+  - 'button "Search type: Web"':
+    - generic: "Search type: Web"
+    - generic: arrow_drop_down
+  - tooltip: "Search type: Web"
+  - generic: New! Check your site’s performance on multimodal web searches
+  - button "Close":
+    - generic: close
+  - 'button "Query: המבורגר כשר רעננה"':
+    - generic: "Query: המבורגר כשר רעננה"
+  - tooltip: "Query: המבורגר כשר רעננה"
+  - 'button "Remove Query: המבורגר כשר רעננה"':
+    - generic: close
+  - button "Add filter":
+    - generic: add
+    - generic: Add filter
+  - tooltip: Add filter
+  - button "Customize your Performance report using AI":
+    - generic: filter_list_spark
+  - tooltip: Customize your Performance report using AI
+  - button "Reset filters":
+    - generic: Reset filters
+  - tooltip: Reset filters
+- generic: "Last update: 3 hours ago"
+- main:
+  - button "Total clicks 0":
+    - generic "Total clicks":
+      - generic: 
+      - generic: Total clicks
+    - generic "0"
+  - button "null":
+    - generic: 
+  - button "Total impressions 21":
+    - generic "Total impressions":
+      - generic: 
+      - generic: Total impressions
+    - generic "21"
+  - button "null":
+    - generic: 
+  - button "Average CTR 0%":
+    - generic "Average CTR":
+      - generic: Average CTR
+    - generic "0%"
+  - button "null":
+    - generic: 
+  - button "Average position 17.3":
+    - generic "Average position":
+      - generic: Average position
+    - generic "17.3"
+  - button "null":
+    - generic: 
+  - 'button "Selected Time Granularity: Daily"':
+    - generic: Daily
+  - generic: Clicks
+  - generic: Impressions
+  - application "chart":
+    - generic: Chart, containing counts of Total clicks, Total impressions, Average CTR, and Average position from September 24, 2026 to October 21, 2026
+  - generic: info
+  - generic: Get more details on your site’s performance in generative AI features on Google Search
+  - generic: Open report
+  - generic: chevron_forward
+  - link "Open the Google Search generative AI features performance report.":
+    - /url: ./search-console/performance/search-analytics/ai?resource_id=sc-domain%3Asowhat.co.il
+  - tablist:
+    - tab "Queries":
+      - generic: Queries
+    - tab "Pages" [selected]:
+      - generic: Pages
+    - tab "Countries":
+      - generic: Countries
+    - tab "Devices":
+      - generic: Devices
+    - tab "Search appearance":
+      - generic: Search appearance
+    - tab "Days":
+      - generic: Days
+  - tabpanel:
+    - button "Filter table rows":
+      - generic: 
+    - table:
+      - rowgroup:
+        - row "Top pages Sort Top pages Sort Clicks Clicks Sort Impressions Impressions":
+          - columnheader "Top pages Sort Top pages":
+            - generic: Top pages
+            - button "Sort Top pages":
+          - columnheader "Sort Clicks Clicks":
+            - button "Sort Clicks":
+            - generic: Clicks
+          - columnheader "Sort Impressions Impressions":
+            - button "Sort Impressions":
+            - generic: Impressions
+      - rowgroup:
+        - row "https://www.sowhat.co.il/ 0 15":
+          - cell "https://www.sowhat.co.il/":
+            - generic: https://www.sowhat.co.il/
+          - cell "0":
+            - generic: "0"
+          - cell "15":
+            - generic: "15"
+        - row "https://www.sowhat.co.il/stories/kosher-restaurant-raanana 0 5":
+          - cell "https://www.sowhat.co.il/stories/kosher-restaurant-raanana":
+            - generic: https://www.sowhat.co.il/stories/kosher-restaurant-raanana
+          - cell "0":
+            - generic: "0"
+          - cell "5":
+            - generic: "5"
+        - row "https://www.sowhat.co.il/kosher 0 5":
+          - cell "https://www.sowhat.co.il/kosher":
+            - generic: https://www.sowhat.co.il/kosher
+          - cell "0":
+            - generic: "0"
+          - cell "5":
+            - generic: "5"
+        - row "https://www.sowhat.co.il/stories/restaurant-raanana 0 2":
+          - cell "https://www.sowhat.co.il/stories/restaurant-raanana":
+            - generic: https://www.sowhat.co.il/stories/restaurant-raanana
+          - cell "0":
+            - generic: "0"
+          - cell "2":
+            - generic: "2"
+    - generic: "Rows per page:"
+    - listbox "Number of rows per page":
+      - option "5"
+      - option "10" [selected]
+      - option "25"
+      - option "50"
+      - option "100"
+      - option "250"
+      - option "500"
+    - generic: 1-4 of 4
+    - button "Previous page" [disabled]:
+    - tooltip: Previous page
+    - button "Next page" [disabled]:
+    - tooltip: Next page
+- iframe [name="a-8wwhd4n3jmro"]:
+  - text: protected by
+  - strong: reCAPTCHA

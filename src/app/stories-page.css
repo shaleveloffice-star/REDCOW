@@ -146,6 +146,10 @@
   color: rgba(0, 0, 0, 0.55);
 }
 
+.stories-card-date-label {
+  letter-spacing: 0.06em;
+}
+
 .stories-card-title {
   margin: 0;
   font-family: var(--font-archivo-black-stack);
@@ -318,6 +322,29 @@
   font-size: clamp(15px, 1.6vw, 18px);
   line-height: 1.65;
   color: rgba(255, 255, 255, 0.9);
+}
+
+.story-hero-date {
+  margin: 1em 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.35em 0.65em;
+  font-family: var(--font-assistant-stack);
+  font-size: 13px;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.story-hero-date-label {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 11px;
+}
+
+.story-hero--no-image .story-hero-date {
+  color: rgba(0, 0, 0, 0.55);
 }
 
 /* Story sections */

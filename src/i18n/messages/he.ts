@@ -316,6 +316,7 @@ export const he: Messages = {
     featuredLabel: "סיפור נבחר",
     moreStories: "עוד סיפורים",
     empty: "אין סיפורים פעילים כרגע.",
-    backToStories: "חזרה לסיפורים"
+    backToStories: "חזרה לסיפורים",
+    lastPublishedLabel: "תאריך פרסום אחרון"
   }
 };

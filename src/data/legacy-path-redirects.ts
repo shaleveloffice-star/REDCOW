@@ -7,7 +7,9 @@
  * a second app-level slug redirect.
  *
  * Only add a row when the mapping is documented (legacy slug group / CMS
- * continuity) and the destination is live. Name similarity alone is not enough.
+ * continuity or an explicitly reviewed editorial replacement) and the destination
+ * is live. Do not redirect retired products to different products or all articles
+ * to the magazine index.
  */
 
 export type LegacyPathRedirect = {
@@ -27,12 +29,24 @@ export const LEGACY_MENU_PATH_REDIRECTS: readonly LegacyPathRedirect[] = [
   { source: "/menu/hamburger-nb-confit", destination: "/menu/so-house-burger" }
 ];
 
+/**
+ * Editorial replacements reviewed against the live CMS on 2026-10-24.
+ * The retired records are absent (not merely inactive). These active articles
+ * answer the same specific topics: smash preparation and choosing a restaurant
+ * in Raanana. They are replacements, not recovered copies of the deleted text.
+ * Other retired articles without a sufficiently relevant replacement stay 404.
+ */
+export const LEGACY_STORY_PATH_REDIRECTS: readonly LegacyPathRedirect[] = [
+  { source: "/stories/smash-burger", destination: "/stories/smash-burger-crispy-edges" },
+  { source: "/stories/restaurant-raanana", destination: "/stories/choosing-restaurant-raanana" }
+];
+
 export function getLegacyPathRedirects(): Array<{
   source: string;
   destination: string;
   permanent: true;
 }> {
-  return LEGACY_MENU_PATH_REDIRECTS.map((rule) => ({
+  return [...LEGACY_MENU_PATH_REDIRECTS, ...LEGACY_STORY_PATH_REDIRECTS].map((rule) => ({
     source: rule.source,
     destination: rule.destination,
     permanent: true as const

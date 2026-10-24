@@ -1,0 +1,40 @@
+SO WHAT — Search Console / live website / CMS / code cross-check, 2026-10-24
+
+Evidence:
+- Search Console reports /stories/smash-burger as 404, crawled 2026-10-23, discovered through the former sitemap and /stories/raanana.
+- Admin export: 9 stories, all active, none with the eight retired slugs or previousSlugs. All nine current stories are represented in the live sitemap.
+- Admin menu export: old green-salad, home-fries, nuggets-7, caesar-salad-small and caesar-salad-large records are absent. They are not inactive records waiting to be enabled. Two unrelated hot-dog records are inactive and have not been changed.
+- Code preserves previousSlugs when editing an existing record; permanent deletion removes the record and aliases. Creation of a new record does not inherit deleted history. Current data cannot establish who deleted a record or when.
+- Live audit: 115 URLs checked, all 59 sitemap entries return 200 with self canonicals and no noindex. All 59 distinct internal link destinations are covered; no broken internal links found in these pages. robots.txt allows public crawling.
+
+Already published and verified live:
+/menu/hamburger-nb-truffle -> /menu/so-truffle-burger -> 200
+/menu/nb-truffle-meal -> /menu/so-truffle-burger-meal -> 200
+
+Prepared in code (not yet published):
+/stories/smash-burger -> /stories/smash-burger-crispy-edges
+/stories/restaurant-raanana -> /stories/choosing-restaurant-raanana
+These are reviewed topical replacements, not claims that deleted text was recovered.
+Both destinations are already indexed according to individual Search Console inspections.
+Build emits permanent 308 rules for canonical and alternate hosts, landing directly on canonical destinations.
+
+Retired menu pages without equivalent current products (remain 404):
+/menu/green-salad
+/menu/home-fries
+/menu/nuggets-7
+/menu/caesar-salad-small
+/menu/caesar-salad-large
+Do not silently substitute a chicken salad for a green salad, fries for home fries, or a different quantity of nuggets.
+
+Retired stories without a confirmed sufficiently specific replacement (remain 404):
+/stories/burger
+/stories/burgers-in-raanana
+/stories/dining-vs-delivery
+/stories/raanana
+/stories/burger-and-fries-classic
+/stories/burger-restaurant-vs-stand
+Original text is absent from the current CMS. Restoring that text requires an old export/backup; generic redirects to the homepage or magazine were not added.
+
+Historic sale_Depot/catalogue/cart/wishlist URLs do not belong to the restaurant's current CMS and remain 404.
+No content, prices, availability, external APIs, Search Console properties or settings were changed.
+Validation: build successful; lint successful; 107 tests passed; scoped git diff --check passed.

@@ -23,7 +23,7 @@ test('legacy menu path redirects map only verified old paths to live canonicals'
     expected
   );
 
-  const rules = getLegacyPathRedirects();
+  const rules = getLegacyPathRedirects().filter(rule => rule.source.startsWith('/menu/'));
   assert.equal(rules.length, Object.keys(expected).length);
   for (const rule of rules) {
     assert.equal(rule.permanent, true);
@@ -31,6 +31,26 @@ test('legacy menu path redirects map only verified old paths to live canonicals'
     assert.match(rule.source, /^\/menu\/[a-z0-9-]+$/);
     assert.match(rule.destination, /^\/menu\/[a-z0-9-]+$/);
     assert.notEqual(rule.source, rule.destination);
+  }
+});
+
+test('retired stories use reviewed relevant replacements without catch-all or redirect chains', () => {
+  const { getLegacyPathRedirects } = createLoader()('@/data/legacy-path-redirects');
+  const rules = getLegacyPathRedirects();
+  const sources = new Set(rules.map(rule => rule.source));
+  assert.equal(sources.size, rules.length);
+  for (const rule of rules) {
+    assert.equal(rule.permanent, true);
+    assert.ok(!sources.has(rule.destination), 'must land on a final canonical, not another redirect');
+  }
+  const stories = rules.filter(rule => rule.source.startsWith('/stories/'));
+  assert.deepEqual(stories.map(({source, destination}) => [source, destination]), [
+    ['/stories/smash-burger', '/stories/smash-burger-crispy-edges'],
+    ['/stories/restaurant-raanana', '/stories/choosing-restaurant-raanana']
+  ]);
+  for (const path of ['/menu/green-salad', '/menu/home-fries', '/menu/nuggets-7',
+    '/menu/caesar-salad-small', '/menu/caesar-salad-large', '/stories/dining-vs-delivery']) {
+    assert.ok(!sources.has(path), 'do not replace removed content with an unrelated page');
   }
 });
 

@@ -1,0 +1,1100 @@
+{
+  "sitemap": [
+    "https://www.sowhat.co.il",
+    "https://www.sowhat.co.il/menu",
+    "https://www.sowhat.co.il/locations",
+    "https://www.sowhat.co.il/kosher",
+    "https://www.sowhat.co.il/terms",
+    "https://www.sowhat.co.il/privacy-policy",
+    "https://www.sowhat.co.il/accessibility",
+    "https://www.sowhat.co.il/menu/burgers",
+    "https://www.sowhat.co.il/menu/meals",
+    "https://www.sowhat.co.il/menu/extras",
+    "https://www.sowhat.co.il/menu/salads",
+    "https://www.sowhat.co.il/menu/drinks",
+    "https://www.sowhat.co.il/menu/sauces",
+    "https://www.sowhat.co.il/menu/mineral-water",
+    "https://www.sowhat.co.il/menu/so-caesar-chicken",
+    "https://www.sowhat.co.il/menu/so-house-burger",
+    "https://www.sowhat.co.il/menu/soda",
+    "https://www.sowhat.co.il/menu/so-smash",
+    "https://www.sowhat.co.il/menu/so-truffle-burger",
+    "https://www.sowhat.co.il/menu/cola",
+    "https://www.sowhat.co.il/menu/hamburger-so-classic",
+    "https://www.sowhat.co.il/menu/cola-zero",
+    "https://www.sowhat.co.il/menu/sprite",
+    "https://www.sowhat.co.il/menu/hamburger-nb-vegan",
+    "https://www.sowhat.co.il/menu/so-classic-meal",
+    "https://www.sowhat.co.il/menu/so-crispy-chicken",
+    "https://www.sowhat.co.il/menu/sprite-zero",
+    "https://www.sowhat.co.il/menu/fanta",
+    "https://www.sowhat.co.il/menu/grape-drink",
+    "https://www.sowhat.co.il/menu/fuse-tea",
+    "https://www.sowhat.co.il/menu/carlsberg-beer",
+    "https://www.sowhat.co.il/menu/so-house-burger-meal",
+    "https://www.sowhat.co.il/menu/so-smash-2",
+    "https://www.sowhat.co.il/menu/so-crispy-chicken-meal",
+    "https://www.sowhat.co.il/menu/garlic-confit-aioli",
+    "https://www.sowhat.co.il/menu/chipotle-aioli",
+    "https://www.sowhat.co.il/menu/truffle-aioli",
+    "https://www.sowhat.co.il/menu/so-vegan-burger-meal",
+    "https://www.sowhat.co.il/menu/dijon-aioli",
+    "https://www.sowhat.co.il/menu/so-house-chili",
+    "https://www.sowhat.co.il/menu/fries",
+    "https://www.sowhat.co.il/menu/so-truffle-burger-meal",
+    "https://www.sowhat.co.il/menu/so-sauce",
+    "https://www.sowhat.co.il/menu/wings-10",
+    "https://www.sowhat.co.il/menu/ketchup",
+    "https://www.sowhat.co.il/menu/wings-6",
+    "https://www.sowhat.co.il/menu/nuggets-4",
+    "https://www.sowhat.co.il/menu/mayonnaise",
+    "https://www.sowhat.co.il/menu/nuggets-6",
+    "https://www.sowhat.co.il/stories",
+    "https://www.sowhat.co.il/stories/behind-the-scenes-burger",
+    "https://www.sowhat.co.il/stories/fixed-burger-recipe",
+    "https://www.sowhat.co.il/stories/vegetarian-burger-development",
+    "https://www.sowhat.co.il/stories/kosher-burger",
+    "https://www.sowhat.co.il/stories/burger-jewish-tradition",
+    "https://www.sowhat.co.il/stories/choosing-restaurant-raanana",
+    "https://www.sowhat.co.il/stories/burger-sharon-evening",
+    "https://www.sowhat.co.il/stories/smash-burger-crispy-edges",
+    "https://www.sowhat.co.il/stories/burger-history-israel"
+  ],
+  "results": [
+    {
+      "url": "https://www.sowhat.co.il",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il",
+      "title": "SO WHAT | המבורגר ברעננה | מסעדה כשרה ברעננה"
+    },
+    {
+      "url": "https://www.sowhat.co.il/locations",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/locations",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/locations",
+      "title": "מיקום ושעות פתיחה | המבורגר ברעננה - SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/terms",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/terms",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/terms",
+      "title": "תקנון האתר | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/kosher",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/kosher",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/kosher",
+      "title": "כשרות SO WHAT | כשר רבנות רעננה ובשר חלק"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu",
+      "title": "תפריט SO WHAT | המבורגרים, ארוחות ותוספות"
+    },
+    {
+      "url": "https://www.sowhat.co.il/accessibility",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/accessibility",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/accessibility",
+      "title": "הצהרת נגישות | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/burgers",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/burgers",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/burgers",
+      "title": "המבורגר כשר | סמאש בורגר - SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/extras",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/extras",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/extras",
+      "title": "תוספות להמבורגר | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/meals",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/meals",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/meals",
+      "title": "ארוחות המבורגר כשר | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/privacy-policy",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/privacy-policy",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/privacy-policy",
+      "title": "מדיניות פרטיות | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/salads",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/salads",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/salads",
+      "title": "סלטים | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/sauces",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/sauces",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/sauces",
+      "title": "רטבים | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/drinks",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/drinks",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/drinks",
+      "title": "שתייה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/mineral-water",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/mineral-water",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/mineral-water",
+      "title": "מים מינרלים | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-caesar-chicken",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-caesar-chicken",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-caesar-chicken",
+      "title": "SO קיסר צ&#x27;יקן – סלט קיסר עם עוף | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/soda",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/soda",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/soda",
+      "title": "סודה בבקבוק זכוכית | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-smash",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-smash",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-smash",
+      "title": "המבורגר SO Smash ברעננה | SO WHAT?"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-house-burger",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-house-burger",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-house-burger",
+      "title": "SO הבית | המבורגר רעננה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/cola",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/cola",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/cola",
+      "title": "קולה בפחית | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-truffle-burger",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-truffle-burger",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-truffle-burger",
+      "title": "המבורגר SO כמהין עם ריבת בצל ורוטב כמהין | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/sprite",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/sprite",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/sprite",
+      "title": "ספרייט בפחית | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/hamburger-so-classic",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/hamburger-so-classic",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/hamburger-so-classic",
+      "title": "המבורגר SO קלאסי | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-classic-meal",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-classic-meal",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-classic-meal",
+      "title": "ארוחת המבורגר SO קלאסי | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/cola-zero",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/cola-zero",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/cola-zero",
+      "title": "קולה זירו בפחית | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/hamburger-nb-vegan",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/hamburger-nb-vegan",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/hamburger-nb-vegan",
+      "title": "המבורגר SO WHAT טבעוני | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-crispy-chicken",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-crispy-chicken",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-crispy-chicken",
+      "title": "SO CRISPY CHICKEN | צ׳יקן קריספי ברעננה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/grape-drink",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/grape-drink",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/grape-drink",
+      "title": "משקה ענבים בבקבוק זכוכית | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/sprite-zero",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/sprite-zero",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/sprite-zero",
+      "title": "ספרייט זירו בפחית | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/fanta",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/fanta",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/fanta",
+      "title": "פאנטה בפחית | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/fuse-tea",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/fuse-tea",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/fuse-tea",
+      "title": "פיוז טי בבקבוק | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/garlic-confit-aioli",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/garlic-confit-aioli",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/garlic-confit-aioli",
+      "title": "איולי שום קונפי | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-crispy-chicken-meal",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-crispy-chicken-meal",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-crispy-chicken-meal",
+      "title": "ארוחת SO קריספי צ׳יקן ברעננה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-house-burger-meal",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-house-burger-meal",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-house-burger-meal",
+      "title": "ארוחת המבורגר SO הבית ברעננה | SO WHAT?"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-smash-2",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-smash-2",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-smash-2",
+      "title": "ארוחת המבורגר SO Smash ברעננה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/carlsberg-beer",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/carlsberg-beer",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/carlsberg-beer",
+      "title": "בירה קרלסברג (Carlsberg) – 17 ₪ | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-vegan-burger-meal",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-vegan-burger-meal",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-vegan-burger-meal",
+      "title": "ארוחת המבורגר SO טבעוני | SO WHAT רעננה"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/truffle-aioli",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/truffle-aioli",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/truffle-aioli",
+      "title": "איולי כמהין | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-house-chili",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-house-chili",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-house-chili",
+      "title": "צ׳ילי הבית של SO | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/dijon-aioli",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/dijon-aioli",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/dijon-aioli",
+      "title": "איולי דיז׳ון | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/chipotle-aioli",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/chipotle-aioli",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/chipotle-aioli",
+      "title": "איולי צ׳יפוטלה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-sauce",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-sauce",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-sauce",
+      "title": "רוטב SO | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/ketchup",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/ketchup",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/ketchup",
+      "title": "קטשופ | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/so-truffle-burger-meal",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-truffle-burger-meal",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-truffle-burger-meal",
+      "title": "ארוחת המבורגר SO כמהין עם צ׳יפס ושתייה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/wings-10",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/wings-10",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/wings-10",
+      "title": "כנפיים 12 יחידות ברוטב SO צ׳ילי | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/fries",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/fries",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/fries",
+      "title": "צ׳יפס פריך וזהוב | SO WHAT רעננה"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/wings-6",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/wings-6",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/wings-6",
+      "title": "כנפיים 6 יחידות ברוטב SO צ׳ילי | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/stories",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/stories",
+      "title": "סיפורים | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/mayonnaise",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/mayonnaise",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/mayonnaise",
+      "title": "מיונז | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/nuggets-4",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/nuggets-4",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/nuggets-4",
+      "title": "נאגטס 4 יחידות | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/nuggets-6",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/nuggets-6",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/nuggets-6",
+      "title": "נאגטס 6 יחידות | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/burger-jewish-tradition",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/stories/burger-jewish-tradition",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/stories/burger-jewish-tradition",
+      "title": "המבורגר במסורת היהודית - תרבות, טעמים והיסטוריה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/behind-the-scenes-burger",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/stories/behind-the-scenes-burger",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/stories/behind-the-scenes-burger",
+      "title": "מאחורי הקלעים מסעדה - רגעי היומיום בסרוויס | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/vegetarian-burger-development",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/stories/vegetarian-burger-development",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/stories/vegetarian-burger-development",
+      "title": "המבורגר צמחוני – הפיתוח של אופציה ללא בשר ב-SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/kosher-burger",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/stories/kosher-burger",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/stories/kosher-burger",
+      "title": "המבורגר כשר - הסיפור מאחורי הבשר | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/fixed-burger-recipe",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/stories/fixed-burger-recipe",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/stories/fixed-burger-recipe",
+      "title": "למה לא משנים מתכון קבוע להמבורגר | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/burger",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/stories/burger",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/burger-history-israel",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/stories/burger-history-israel",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/stories/burger-history-israel",
+      "title": "היסטוריה של המבורגר בישראל – מבט לאורך השנים"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/burger-sharon-evening",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/stories/burger-sharon-evening",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/stories/burger-sharon-evening",
+      "title": "המבורגר בשרון - ערב עם חברים ברעננה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/choosing-restaurant-raanana",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/stories/choosing-restaurant-raanana",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/stories/choosing-restaurant-raanana",
+      "title": "מסעדה ברעננה - 5 דברים לבדוק לפני הארוחה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/smash-burger-crispy-edges",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/stories/smash-burger-crispy-edges",
+      "inSitemap": true,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/stories/smash-burger-crispy-edges",
+      "title": "סמאש בורגר: הסוד לקצוות הקריספיים | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/smash-burger",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/stories/smash-burger",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/burgers-in-raanana",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/stories/burgers-in-raanana",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/restaurant-raanana",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/stories/restaurant-raanana",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/dining-vs-delivery",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/stories/dining-vs-delivery",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/nb-truffle-meal",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-truffle-burger-meal",
+      "inSitemap": false,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-truffle-burger-meal",
+      "title": "ארוחת המבורגר SO כמהין עם צ׳יפס ושתייה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/burger-and-fries-classic",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/stories/burger-and-fries-classic",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/raanana",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/stories/raanana",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-167464",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-167464",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/green-salad",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/menu/green-salad",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/hamburger-nb-confit",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-house-burger",
+      "inSitemap": false,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-house-burger",
+      "title": "SO הבית | המבורגר רעננה | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/catalogue_3-Group_id1",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/catalogue_3-Group_id1",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/adduser",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/adduser",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/wishlist",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/wishlist",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/cart-store",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/cart-store",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/hamburger-nb-truffle",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/so-truffle-burger",
+      "inSitemap": false,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/so-truffle-burger",
+      "title": "המבורגר SO כמהין עם ריבת בצל ורוטב כמהין | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/catalogue_5-Group_id1",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/catalogue_5-Group_id1",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-161906",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-161906",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-151209",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-151209",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/home-fries",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/menu/home-fries",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/4-piece-nuggets",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/menu/nuggets-4",
+      "inSitemap": false,
+      "xRobots": null,
+      "canonical": "https://www.sowhat.co.il/menu/nuggets-4",
+      "title": "נאגטס 4 יחידות | SO WHAT"
+    },
+    {
+      "url": "https://www.sowhat.co.il/stories/burger-restaurant-vs-stand",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/stories/burger-restaurant-vs-stand",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-162506",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-162506",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-162136",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-162136",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/nuggets-7",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/menu/nuggets-7",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/caesar-salad-small",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/menu/caesar-salad-small",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-162855",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-162855",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-160953",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-160953",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-160320",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-160320",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-151390",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-151390",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/menu/caesar-salad-large",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/menu/caesar-salad-large",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/manifest.webmanifest",
+      "status": 200,
+      "final": "https://www.sowhat.co.il/manifest.webmanifest",
+      "inSitemap": false,
+      "xRobots": null
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-497775",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-497775",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-475598",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-475598",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-452969",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-452969",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-152346",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-152346",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-400134",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-400134",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-329450",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-329450",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-71222",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-71222",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-117155",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-117155",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-204567",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-204567",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-295283",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-295283",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-342202",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-342202",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-18815",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-18815",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-475424",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-475424",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-178320",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-178320",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-414624",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-414624",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-408196",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-408196",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-329666",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-329666",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-38436",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-38436",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-332711",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-332711",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-403271",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-403271",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-389055",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-389055",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-151110",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-151110",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-273674",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-273674",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    },
+    {
+      "url": "https://www.sowhat.co.il/sale_Depot-138523",
+      "status": 404,
+      "final": "https://www.sowhat.co.il/sale_Depot-138523",
+      "inSitemap": false,
+      "xRobots": null,
+      "robots": "noindex, follow",
+      "title": "העמוד לא נמצא"
+    }
+  ],
+  "internal": [],
+  "robots": "User-Agent: *\nAllow: /\nDisallow: /admin\nDisallow: /admin/\n\nHost: https://www.sowhat.co.il\nSitemap: https://www.sowhat.co.il/sitemap.xml\n"
+}

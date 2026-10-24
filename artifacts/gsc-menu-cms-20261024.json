@@ -1,0 +1,1390 @@
+{
+  "page": "/admin/menu",
+  "label": "תפריט",
+  "exportedAt": "2026-10-24T06:53:27.242Z",
+  "data": {
+    "items": [
+      {
+        "id": "item-491b5d01-f600-454d-a380-f0e2a4417326",
+        "name": "מים מינרלים",
+        "description": "בקבוק מים מינרלים מרעננים.",
+        "longDescription": "מים מינרלים בבקבוק, הבחירה הקלאסית והמרעננת לצד כל ארוחה ב-SO WHAT.",
+        "price": 10,
+        "categoryId": "cat-drinks",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1791733112665-6odq1ap6.jpg",
+        "closeUpImageUrl": "",
+        "slug": "mineral-water",
+        "previousSlugs": [],
+        "primaryKeyword": "מים מינרלים",
+        "metaTitle": "מים מינרלים | SO WHAT",
+        "metaDescription": "מים מינרלים בבקבוק ב-12 ₪. הזמינו שתייה מרעננת לצד הארוחה שלכם ב-SO WHAT.",
+        "isActive": true,
+        "tags": [
+          "מים מינרלים",
+          "מים",
+          "שתייה קרה",
+          "משקאות"
+        ],
+        "sortOrder": 1,
+        "createdAt": "2026-10-11T15:33:33.982Z",
+        "updatedAt": "2026-10-17T15:08:31.204Z"
+      },
+      {
+        "id": "item-6596dea6-ab21-4421-ae03-a9b68c581b7c",
+        "name": "SO קיסר צ'יקן 🥗",
+        "description": "סלט קיסר עשיר עם חסה טרייה ופריכה, נתחי עוף עסיסיים, קרוטונים מוזהבים ופריכים ורוטב קיסר מעל.",
+        "longDescription": "SO קיסר צ'יקן הוא סלט קיסר עם עוף המשלב חסה טרייה ופריכה, נתחי חזה עוף מפורק וקרוטונים מוזהבים ופריכים. רוטב קיסר מעל מחבר את כל המרכיבים לביס עשיר, עסיסי ופריך. הזמינו את SO קיסר צ'יקן ותיהנו מהשילוב של הטריות, העוף והקראנץ׳.",
+        "price": 60,
+        "categoryId": "cat-1785407701349-4rgdpg",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792249472180-xgrn9oks.jpg",
+        "closeUpImageUrl": "",
+        "slug": "so-caesar-chicken",
+        "previousSlugs": [],
+        "imageAlt": "SO קיסר צ'יקן – סלט חסה עם חזה עוף מפורק, קרוטונים ורוטב קיסר בקערת קרטון על רקע לבן",
+        "primaryKeyword": "סלט קיסר עם עוף",
+        "metaTitle": "SO קיסר צ'יקן – סלט קיסר עם עוף | SO WHAT",
+        "metaDescription": "SO קיסר צ'יקן של SO WHAT: סלט קיסר עם עוף, חסה טרייה ופריכה, נתחי חזה עוף מפורק, קרוטונים מוזהבים ורוטב קיסר. 60 ₪. הזמינו עכשיו.",
+        "isActive": true,
+        "tags": [],
+        "sauceMode": "included",
+        "sortOrder": 1,
+        "createdAt": "2026-10-17T15:03:11.987Z",
+        "updatedAt": "2026-10-17T15:06:35.879Z"
+      },
+      {
+        "id": "item-927ed0a8-d977-486b-97d6-7f677846d35a",
+        "name": "המבורגר SO הבית",
+        "description": "המבורגר, ארוגולה, חלפיניו, ריבת בצל, איולי קונפי שום ואיולי צ׳יפוטלה.",
+        "longDescription": "המבורגר SO הבית הוא ההמבורגר שלנו למי שאוהב יותר עומק בכל ביס. המבורגר עסיסי עם ארוגולה, חלפיניו וריבת בצל, יחד עם איולי קונפי שום ואיולי צ׳יפוטלה שיוצרים שילוב מאוזן של מתיקות, חריפות וטעמים עמוקים. אם אתם מחפשים המבורגר ברעננה עם אופי, או המבורגר כשר שלא מתפשר על הטעם, זו אחת המנות שמייצגות את SO WHAT בצורה הכי טובה.",
+        "price": 67,
+        "categoryId": "cat-burgers",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1790924193279-43oawdd5.jpg",
+        "imageZoom": 1.3,
+        "closeUpImageUrl": "",
+        "slug": "so-house-burger",
+        "previousSlugs": [],
+        "primaryKeyword": "המבורגר הבית",
+        "metaTitle": "SO הבית | המבורגר רעננה | SO WHAT",
+        "metaDescription": "SO הבית - המבורגר עם ארוגולה, חלפיניו, ריבת בצל, איולי קונפי שום ואיולי צ׳יפוטלה. המבורגר כשר ברעננה מבית SO WHAT.",
+        "isActive": true,
+        "tags": [],
+        "sauceIds": [
+          "item-e20d6e15-94c4-420a-a6ee-aa13603cc9a5",
+          "item-72745f58-bd19-4fc1-8d86-25b4d5d332e5"
+        ],
+        "ingredientIds": [
+          "ingredient-3209eadb-e5b3-4f81-80b1-656f928a33e9",
+          "ingredient-e789d668-87b1-4424-b554-ce6ab11dcdc9",
+          "ingredient-dbbc591b-b305-4096-9225-d2a06a5704f3"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 1,
+        "createdAt": "2026-10-02T16:07:22.683Z",
+        "updatedAt": "2026-10-17T15:07:40.492Z"
+      },
+      {
+        "id": "item-08b8f1e8-3639-4e69-a2cd-492b6c1d54db",
+        "name": "סודה",
+        "description": "סודה מרעננת בבקבוק זכוכית.",
+        "longDescription": "סודה מוגזת ומרעננת בבקבוק זכוכית, מושלמת לצד המבורגר, ארוחה או כל מנה שתבחרו ב-SO WHAT.",
+        "price": 10,
+        "categoryId": "cat-drinks",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1791733185830-fqjndnki.jpg",
+        "closeUpImageUrl": "",
+        "slug": "soda",
+        "previousSlugs": [],
+        "primaryKeyword": "סודה",
+        "metaTitle": "סודה בבקבוק זכוכית | SO WHAT",
+        "metaDescription": "סודה מרעננת בבקבוק זכוכית ב-12 ₪. הוסיפו שתייה מוגזת לארוחה שלכם ב-SO WHAT.",
+        "isActive": true,
+        "tags": [
+          "סודה",
+          "מים מוגזים",
+          "שתייה קרה",
+          "משקאות"
+        ],
+        "sortOrder": 2,
+        "createdAt": "2026-10-11T15:39:09.235Z",
+        "updatedAt": "2026-10-17T15:08:34.027Z"
+      },
+      {
+        "id": "item-271e9a3c-bf00-49d8-a9d2-6021e922412b",
+        "name": "המבורגר SO Smash",
+        "description": "2 קציצות סמאש של 100 גרם כל אחת, איולי צ׳יפוטלה, בצל מוחמץ ומלפפון חמוץ בלחמנייה טרייה.",
+        "longDescription": "המבורגר SO Smash הוא בשביל מי שאוהב את ההמבורגר שלו עם קצוות צרובים, בשר עסיסי והרבה טעם בכל ביס.\n\nבמרכז המנה מחכות 2 קציצות סמאש של 100 גרם כל אחת. הן נצרבות על הפלנצ׳ה בחום גבוה כדי לקבל את הקרום השחום והקריספי שמאפיין סמאש אמיתי, תוך שמירה על בשר עסיסי מבפנים.\n\nאל הקציצות מצטרף איולי צ׳יפוטלה קרמי עם טעם מעושן ונגיעה פיקנטית, בצל מוחמץ שמוסיף חמיצות ורעננות ומלפפון חמוץ שנותן את הקראנץ׳ שמאזן את כל הביס.\n\nזה בדיוק הסגנון שאנחנו אוהבים ב - SO WHAT? - פחות עומס, יותר טעם. במקום להסתיר את הבשר מתחת להר של תוספות, בנינו את ה - SO Smash סביב הדברים שבאמת עושים את העבודה - בשר צרוב היטב, רוטב עם אופי, חמיצות וקראנץ׳.\n\nשתי קציצות נותנות למנה טעם בשרי מודגש יותר, והצריבה הישירה על הפלנצ׳ה יוצרת שכבה שחומה שמבדילה את הסמאש מהמבורגר רגיל. כל זה נכנס ללחמנייה טרייה ורכה שמחזיקה את המנה יחד בלי לקחת את הפוקוס מהבשר.\n\nאם אתם מחפשים המבורגר ברעננה ורוצים לנסות משהו עם אופי קצת אחר מהקלאסי, ה - SO Smash נבנה בדיוק בשביל הרגע הזה.\n\nב - SO WHAT? אנחנו מסעדה כשרה ברעננה שמאמינה בהמבורגרים בלי התחכמויות מיותרות - חומרי גלם טובים, הכנה מדויקת וטעמים ברורים שמרגישים כבר מהביס הראשון.\n\n2 קציצות.\n200 גרם של סמאש.\nצ׳יפוטלה, בצל מוחמץ וחמוצים.\n\nSO SMASH.\nSO WHAT?",
+        "price": 56,
+        "categoryId": "cat-burgers",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1790965078272-6r2dpehv.jpg",
+        "closeUpImageUrl": "",
+        "slug": "so-smash",
+        "previousSlugs": [],
+        "primaryKeyword": "המבורגר סמאש",
+        "metaTitle": "המבורגר SO Smash ברעננה | SO WHAT?",
+        "metaDescription": "המבורגר SO Smash של SO WHAT - שתי קציצות סמאש של 100 גרם, איולי צ׳יפוטלה, בצל מוחמץ ומלפפון חמוץ בלחמנייה טרייה.",
+        "isActive": true,
+        "tags": [],
+        "sauceIds": [
+          "item-72745f58-bd19-4fc1-8d86-25b4d5d332e5"
+        ],
+        "ingredientIds": [
+          "ingredient-40a35e6c-0ff1-4fba-80cf-b007b9c3a7a1",
+          "ingredient-39cdb4d0-0743-47c9-869c-f6d936661f55"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 2,
+        "createdAt": "2026-10-02T18:17:14.506Z",
+        "updatedAt": "2026-10-17T15:07:44.971Z"
+      },
+      {
+        "id": "item-f4aa9991-932b-49e4-aa1e-06198f08cbb6",
+        "name": "המבורגר SO כמהין",
+        "description": "המבורגר עם ריבת בצל ורוטב כמהין בלחמנייה.",
+        "longDescription": "המבורגר SO כמהין משלב המבורגר, ריבת בצל ורוטב כמהין בלחמנייה. השילוב בין ריבת הבצל לרוטב הכמהין מעניק למנה טעם עשיר בכל ביס. הכירו את המבורגר הכמהין בתפריט SO WHAT.",
+        "price": 59,
+        "categoryId": "cat-burgers",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792250537969-kmypyvjq.jpg",
+        "imageZoom": 1.2,
+        "closeUpImageUrl": "",
+        "slug": "so-truffle-burger",
+        "previousSlugs": [],
+        "imageAlt": "המבורגר SO כמהין בלחמנייה עם ריבת בצל ורוטב כמהין על רקע לבן",
+        "primaryKeyword": "המבורגר כמהין",
+        "metaTitle": "המבורגר SO כמהין עם ריבת בצל ורוטב כמהין | SO WHAT",
+        "metaDescription": "המבורגר SO כמהין עם ריבת בצל ורוטב כמהין בלחמנייה. הכירו את המנה בתפריט SO WHAT והמשיכו להזמנה.",
+        "isActive": true,
+        "tags": [],
+        "ingredientIds": [
+          "ingredient-3209eadb-e5b3-4f81-80b1-656f928a33e9"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 3,
+        "createdAt": "2026-10-17T15:16:49.502Z",
+        "updatedAt": "2026-10-17T15:29:45.872Z"
+      },
+      {
+        "id": "item-f7a39f08-819d-48f2-987b-31eca82180ec",
+        "name": "קולה",
+        "description": "קולה מרעננת בפחית.",
+        "longDescription": "קולה קלאסית ומוגזת בפחית, עם הטעם המוכר והאהוב. תוספת מרעננת שמשתלבת נהדר לצד ההמבורגרים והארוחות של SO WHAT.",
+        "price": 10,
+        "categoryId": "cat-drinks",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1791733217709-ese7rgi8.jpg",
+        "closeUpImageUrl": "",
+        "slug": "cola",
+        "previousSlugs": [],
+        "primaryKeyword": "קולה",
+        "metaTitle": "קולה בפחית | SO WHAT",
+        "metaDescription": "קולה קרה ומרעננת בפחית ב-14 ₪. השילוב הקלאסי לצד המבורגר וארוחה ב-SO WHAT.",
+        "isActive": true,
+        "tags": [
+          "קולה",
+          "קוקה קולה",
+          "שתייה מוגזת",
+          "שתייה קרה",
+          "משקאות"
+        ],
+        "sortOrder": 3,
+        "createdAt": "2026-10-11T15:40:07.989Z",
+        "updatedAt": "2026-10-17T15:08:38.168Z"
+      },
+      {
+        "id": "item-1785334024123-ahp2pj",
+        "name": "המבורגר SO קלאסי",
+        "description": "המבורגר בקר איכותי ועסיסי בלחמנייה טרייה עם חסה, עגבנייה, בצל ומלפפון חמוץ, ועד 2 רטבים לבחירה בתוך המנה.",
+        "longDescription": "המבורגר SO קלאסי הוא בדיוק מה ששמו מבטיח - קלאסיקה שעשויה נכון. קציצת בקר איכותית הנטחנת במקום, לחמניית בריוש טרייה, ירקות טריים ו-2 רטבים לבחירה, ללא תוספות מיותרות שמסתירות את טעם הבשר. כל המבורגר מוכן במקום מחומרי גלם איכותיים, עם דגש על טריות, דיוק וטעם בכל ביס. אם אתם מחפשים המבורגר שעשוי כמו שצריך, זה המקום להתחיל.",
+        "price": 59,
+        "categoryId": "cat-burgers",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1790957182818-lns9miyz.jpg",
+        "closeUpImageUrl": "",
+        "slug": "hamburger-so-classic",
+        "previousSlugs": [
+          "hamburger-nb-classic"
+        ],
+        "imageAlt": "המבורגר SO קלאסי",
+        "primaryKeyword": "המבורגר קלאסי",
+        "metaTitle": "המבורגר SO קלאסי | SO WHAT",
+        "metaDescription": "המבורגר SO קלאסי מבשר בקר איכותי עם לחמנייה טרייה, ירקות ורטבים לבחירה. המבורגר עסיסי מחומרי גלם איכותיים מבית SO WHAT.",
+        "isActive": true,
+        "tags": [],
+        "sauceIds": [
+          "item-e20d6e15-94c4-420a-a6ee-aa13603cc9a5",
+          "item-33763f1f-c12e-42a9-b480-fe066a54bf9c",
+          "item-72745f58-bd19-4fc1-8d86-25b4d5d332e5",
+          "item-ebb56fcc-8e3a-4768-90a7-84859772c33f"
+        ],
+        "ingredientIds": [
+          "ingredient-da3c5b78-92ad-4380-87c6-212aa9fc08d7",
+          "ingredient-12431c2a-e472-41c2-bc51-98cb13207511",
+          "ingredient-40a35e6c-0ff1-4fba-80cf-b007b9c3a7a1",
+          "ingredient-eec2fe05-5c5a-4303-b7ac-ba28a4b06f9b"
+        ],
+        "sortOrder": 4,
+        "createdAt": "2026-07-29T14:07:04.123Z",
+        "updatedAt": "2026-10-17T15:26:26.914Z"
+      },
+      {
+        "id": "item-74125196-0a58-4ee8-ad2a-8da8d90a58d1",
+        "name": "קולה זירו",
+        "description": "קולה זירו מרעננת בפחית, ללא סוכר.",
+        "longDescription": "קולה זירו בפחית, עם הטעם המוכר של קולה וללא סוכר. בחירה מוגזת ומרעננת לצד המבורגר, צ'יפס או ארוחה מלאה ב-SO WHAT.",
+        "price": 10,
+        "categoryId": "cat-drinks",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1791733244732-fg5ymxb9.jpg",
+        "closeUpImageUrl": "",
+        "slug": "cola-zero",
+        "previousSlugs": [],
+        "primaryKeyword": "קולה זירו",
+        "metaTitle": "קולה זירו בפחית | SO WHAT",
+        "metaDescription": "קולה זירו ללא סוכר בפחית ב-14 ₪. הוסיפו משקה מוגז ומרענן לארוחה שלכם ב-SO WHAT.",
+        "isActive": true,
+        "tags": [
+          "קולה זירו",
+          "קוקה קולה זירו",
+          "ללא סוכר",
+          "שתייה מוגזת",
+          "משקאות"
+        ],
+        "sortOrder": 4,
+        "createdAt": "2026-10-11T15:40:33.946Z",
+        "updatedAt": "2026-10-17T15:08:41.136Z"
+      },
+      {
+        "id": "item-112740f9-ff55-4c36-8333-1929a9eaa96b",
+        "name": "ספרייט",
+        "description": "ספרייט מוגז ומרענן בפחית בטעם לימון ליים.",
+        "longDescription": "ספרייט בפחית, משקה מוגז עם טעמי לימון וליים ורעננות בכל לגימה. בחירה נהדרת לצד ההמבורגרים, הצ'יפס והארוחות של SO WHAT.",
+        "price": 10,
+        "categoryId": "cat-drinks",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1791733324161-iqxbavk8.jpg",
+        "closeUpImageUrl": "",
+        "slug": "sprite",
+        "previousSlugs": [],
+        "primaryKeyword": "ספרייט",
+        "metaTitle": "ספרייט בפחית | SO WHAT",
+        "metaDescription": "ספרייט מרענן בטעם לימון ליים בפחית ב-14 ₪. הזמינו לצד ההמבורגר שלכם ב-SO WHAT.",
+        "isActive": true,
+        "tags": [
+          "ספרייט",
+          "לימון ליים",
+          "שתייה מוגזת",
+          "שתייה קרה",
+          "משקאות"
+        ],
+        "sortOrder": 5,
+        "createdAt": "2026-10-11T15:41:56.966Z",
+        "updatedAt": "2026-10-17T15:08:43.933Z"
+      },
+      {
+        "id": "item-1785336140034-5lj0h0",
+        "name": "המבורגר SO טבעוני",
+        "description": "המבורגר טבעוני עם קציצה מבוססת צמח, חסה, עגבנייה, בצל, מלפפון חמוץ ורוטב טבעוני בלחמנייה טרייה.",
+        "longDescription": "המבורגר SO WHAT טבעוני מוגש עם קציצה מבוססת צמח, חסה, עגבנייה, בצל, מלפפון חמוץ ורוטב טבעוני, הכל בתוך לחמניית בריוש טרייה. שילוב של חומרי גלם איכותיים וטעמים מאוזנים יוצר המבורגר טבעוני עשיר ומלא בטעם, המעניק חוויית אכילה מוקפדת גם למי שמחפש אלטרנטיבה ללא בשר מבית SO WHAT.",
+        "price": 60,
+        "categoryId": "cat-burgers",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1790955131293-qsa3sh3b.jpg",
+        "closeUpImageUrl": "",
+        "slug": "hamburger-nb-vegan",
+        "previousSlugs": [],
+        "imageAlt": "המבורגר SO WHAT טבעוני",
+        "primaryKeyword": "המבורגר טבעוני",
+        "metaTitle": "המבורגר SO WHAT טבעוני | SO WHAT",
+        "metaDescription": "המבורגר SO WHAT טבעוני עם קציצה מבוססת צמח, ירקות טריים ורוטב טבעוני בלחמנייה טרייה. חוויית המבורגר טבעוני איכותית מבית SO WHAT.",
+        "isActive": true,
+        "tags": [],
+        "sauceIds": [
+          "item-ebb56fcc-8e3a-4768-90a7-84859772c33f",
+          "item-33763f1f-c12e-42a9-b480-fe066a54bf9c",
+          "item-72745f58-bd19-4fc1-8d86-25b4d5d332e5",
+          "item-e20d6e15-94c4-420a-a6ee-aa13603cc9a5"
+        ],
+        "ingredientIds": [
+          "ingredient-da3c5b78-92ad-4380-87c6-212aa9fc08d7",
+          "ingredient-12431c2a-e472-41c2-bc51-98cb13207511",
+          "ingredient-eec2fe05-5c5a-4303-b7ac-ba28a4b06f9b"
+        ],
+        "sortOrder": 5,
+        "createdAt": "2026-07-29T14:42:20.033Z",
+        "updatedAt": "2026-10-17T15:28:49.383Z"
+      },
+      {
+        "id": "item-1785343028754-oujutn",
+        "name": "ארוחת המבורגר SO קלאסי",
+        "description": "ארוחת המבורגר קלאסי הכוללת המבורגר SO WHAT קלאסי, צ'יפס ושתייה לבחירה.",
+        "longDescription": "ארוחת SO קלאסי כוללת המבורגר SO קלאסי מבשר בקר איכותי, צ'יפס פריך ושתייה לבחירה. שילוב מושלם של המבורגר עסיסי, תוספת ושתייה בארוחה אחת, עם חומרי גלם איכותיים וטעם קלאסי מבית SO WHAT.",
+        "price": 78,
+        "categoryId": "cat-1785342932785-lxjb54",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1790957027642-9zrk0df0.jpg",
+        "closeUpImageUrl": "",
+        "slug": "so-classic-meal",
+        "previousSlugs": [
+          "nb-classic-meal"
+        ],
+        "imageAlt": "ארוחת המבורגר SO קלאסי",
+        "primaryKeyword": "ארוחת המבורגר",
+        "metaTitle": "ארוחת המבורגר SO קלאסי | SO WHAT",
+        "metaDescription": "ארוחת SO קלאסי כוללת המבורגר בקר איכותי, צ'יפס פריך ושתייה לבחירה. ארוחת המבורגר מלאה מבית SO WHAT.",
+        "isActive": true,
+        "tags": [],
+        "sauceIds": [
+          "item-ebb56fcc-8e3a-4768-90a7-84859772c33f",
+          "item-33763f1f-c12e-42a9-b480-fe066a54bf9c",
+          "item-72745f58-bd19-4fc1-8d86-25b4d5d332e5",
+          "item-e20d6e15-94c4-420a-a6ee-aa13603cc9a5"
+        ],
+        "ingredientIds": [
+          "ingredient-da3c5b78-92ad-4380-87c6-212aa9fc08d7",
+          "ingredient-12431c2a-e472-41c2-bc51-98cb13207511",
+          "ingredient-40a35e6c-0ff1-4fba-80cf-b007b9c3a7a1",
+          "ingredient-eec2fe05-5c5a-4303-b7ac-ba28a4b06f9b"
+        ],
+        "sortOrder": 5,
+        "createdAt": "2026-07-29T16:37:08.754Z",
+        "updatedAt": "2026-10-17T15:08:06.788Z"
+      },
+      {
+        "id": "item-e915684b-4158-4237-b429-f5d38a55b3ab",
+        "name": "SO CRISPY CHICKEN",
+        "description": "לחמנייה טרייה עם שניצל עוף קריספי ועסיסי, סלט קולסלאו ורוטב צ׳יפוטלה SO.",
+        "longDescription": "SO CRISPY CHICKEN קריספי צ'יקן היא המנה שלנו למי שרוצה את הביס הפריך הזה שאי אפשר להתעלם ממנו.\n\nשניצל עוף קריספי, חם ועסיסי מבפנים, נכנס ללחמנייה טרייה ורכה יחד עם סלט קולסלאו ורוטב צ׳יפוטלה SO שמוסיף קרמיות, טעם מעושן ונגיעה פיקנטית שמחברת את כל המנה.\n\nב־SO WHAT? אנחנו מאמינים שאוכל טוב לא צריך להסתבך. חומרי גלם טובים, הכנה מדויקת ושילובים שעושים חשק לקחת עוד ביס. לכן גם כאן שמרנו על המנה פשוטה, אבל עם מספיק אופי כדי שתזכרו אותה אחרי שסיימתם.\n\nהקריספיות של העוף מול הרכות של הלחמנייה, הרעננות של הקולסלאו והרוטב שלנו יוצרים מנה מאוזנת, עסיסית ומלאת טעם. זאת הבחירה למי שמגיע אלינו ומחפש משהו אחר לצד ההמבורגרים של SO WHAT?.\n\nאם חיפשתם מסעדה ברעננה עם מנות בשר ועוף שלא מרגישות כמו עוד תפריט רגיל, ה־SO CRISPY CHICKEN? לגמרי שייך לביקור שלכם. אנחנו מסעדה כשרה ברעננה, עם תפריט שנבנה סביב מנות שאנחנו בעצמנו רוצים לאכול — פשוטות, נדיבות ומדויקות.\n\nפריך מבחוץ. עסיסי מבפנים.\nסלט קולסלאו, צ׳יפוטלה SO ולחמנייה טרייה.\n\nSO CRISPY. SO CHICKEN. SO WHAT?",
+        "price": 56,
+        "categoryId": "cat-burgers",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792250928073-3z15mvrw.jpg",
+        "closeUpImageUrl": "",
+        "slug": "so-crispy-chicken",
+        "previousSlugs": [],
+        "imageAlt": "SO קריספי צ׳יקן בלחמנייה עם שניצל עוף, סלט קולסלאו ורוטב צ׳יפוטלה על רקע לבן",
+        "primaryKeyword": "קריספי צ'יקן",
+        "metaTitle": "SO CRISPY CHICKEN | צ׳יקן קריספי ברעננה | SO WHAT",
+        "metaDescription": "SO CRISPY CHICKEN של SO WHAT ברעננה - שניצל עוף קריספי ועסיסי בלחמנייה טרייה עם סלט קולסלאו ורוטב צ׳יפוטלה SO. הכירו את הקריספי שלנו.",
+        "isActive": true,
+        "tags": [],
+        "sauceIds": [
+          "item-72745f58-bd19-4fc1-8d86-25b4d5d332e5"
+        ],
+        "ingredientIds": [
+          "ingredient-da96804e-5b25-4e61-b630-bc811795c775"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 6,
+        "createdAt": "2026-10-02T17:13:37.010Z",
+        "updatedAt": "2026-10-17T15:30:01.041Z"
+      },
+      {
+        "id": "item-fd787674-777f-4e21-8314-b1ed075f34b9",
+        "name": "ספרייט זירו",
+        "description": "ספרייט זירו מוגז ומרענן בפחית, ללא סוכר.",
+        "longDescription": "ספרייט זירו בפחית, משקה מוגז בטעמי לימון וליים ללא סוכר. מתאים למי שמחפש רעננות לצד ארוחה ב-SO WHAT.",
+        "price": 10,
+        "categoryId": "cat-drinks",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1791733345207-5dqn4c8x.jpg",
+        "closeUpImageUrl": "",
+        "slug": "sprite-zero",
+        "previousSlugs": [],
+        "primaryKeyword": "ספרייט זירו",
+        "metaTitle": "ספרייט זירו בפחית | SO WHAT",
+        "metaDescription": "ספרייט זירו ללא סוכר בפחית ב-14 ₪. משקה לימון ליים מוגז ומרענן לצד הארוחה שלכם ב-SO WHAT.",
+        "isActive": true,
+        "tags": [
+          "ספרייט זירו",
+          "ללא סוכר",
+          "לימון ליים",
+          "שתייה מוגזת",
+          "משקאות"
+        ],
+        "sortOrder": 6,
+        "createdAt": "2026-10-11T15:42:15.578Z",
+        "updatedAt": "2026-10-17T15:08:46.795Z"
+      },
+      {
+        "id": "item-51f08f4b-d8f9-429e-963e-204295f29fe5",
+        "name": "הנקניקייה של SO",
+        "description": "נקניקיית עגל עסיסית בלחמנייה טרייה עם ארוגולה, איולי דיז׳ון ומלפפון חמוץ.",
+        "longDescription": "יש מנות שלא צריכות יותר מדי רעש כדי לעבוד נכון - הנקניקייה של SO היא בדיוק כזאת.\n\nנקניקיית עגל חמה ועסיסית מוגשת בתוך לחמנייה טרייה ורכה, עם ארוגולה שמוסיפה רעננות, מלפפון חמוץ שנותן קראנץ׳ וחמיצות מדויקת ואיולי דיז׳ון קרמי שמחבר את כל הטעמים לביס אחד פשוט וטוב.\n\nב-SO WHAT? אנחנו אוהבים לקחת מנות מוכרות ולתת להן את הטאץ׳ שלנו. במקום להעמיס אינסוף תוספות, בנינו את המנה סביב שילוב מדויק של עגל, דיז׳ון, ארוגולה וחמוצים - כל מרכיב נמצא שם מסיבה וכל אחד מוסיף משהו אחר לביס.\n\nזו מנה שמתאימה למי שמגיע רעב אבל דווקא רוצה לגוון מההמבורגר. נקניקיית העגל נותנת טעם בשרי ועשיר, האיולי מוסיף עומק וקרמיות, והארוגולה והמלפפון החמוץ מאזנים את הכול עם רעננות.\n\nאם אתם מחפשים מסעדה ברעננה עם תפריט בשרי שלא נעצר רק בהמבורגרים, הנקניקייה של SO היא אחת המנות שכדאי להכיר. ב-SO WHAT? אנחנו מסעדה כשרה ברעננה שמגישה אוכל שאנחנו אוהבים לאכול בעצמנו - חומרי גלם טובים, מנות נדיבות ושילובים בלי התחכמויות מיותרות.\n\nלחמנייה טרייה. נקניקיית עגל עסיסית. איולי דיז׳ון.\nקצת ארוגולה, קצת חמוץ - והרבה SO.",
+        "price": 39,
+        "categoryId": "cat-burgers",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792250015724-luph0kh5.jpg",
+        "imageZoom": 1,
+        "closeUpImageUrl": "",
+        "slug": "so-hot-dog",
+        "previousSlugs": [],
+        "primaryKeyword": "נקניקייה",
+        "metaTitle": "הנקניקייה של SO | נקניקיית עגל ברעננה | SO WHAT?",
+        "metaDescription": "הנקניקייה של SO WHAT ברעננה - נקניקיית עגל עסיסית בלחמנייה טרייה עם ארוגולה, איולי דיז׳ון ומלפפון חמוץ. מנה בשרית כשרה ומלאת טעם.",
+        "isActive": false,
+        "tags": [],
+        "sauceIds": [
+          "item-ebb56fcc-8e3a-4768-90a7-84859772c33f"
+        ],
+        "ingredientIds": [
+          "ingredient-40a35e6c-0ff1-4fba-80cf-b007b9c3a7a1",
+          "ingredient-e789d668-87b1-4424-b554-ce6ab11dcdc9"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 7,
+        "createdAt": "2026-10-02T17:56:18.236Z",
+        "updatedAt": "2026-10-24T03:28:48.774Z"
+      },
+      {
+        "id": "item-c357c8ed-71f6-473d-b628-2548b6081088",
+        "name": "פאנטה",
+        "description": "פאנטה מוגזת ומרעננת בפחית.",
+        "longDescription": "פאנטה בפחית, משקה מוגז, מתוק ומרענן. בחירה כיפית לצד המבורגר, צ'יפס או כל ארוחה ב-SO WHAT.",
+        "price": 10,
+        "categoryId": "cat-drinks",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1791733374264-vtagm1gi.jpg",
+        "closeUpImageUrl": "",
+        "slug": "fanta",
+        "previousSlugs": [],
+        "primaryKeyword": "פאנטה",
+        "metaTitle": "פאנטה בפחית | SO WHAT",
+        "metaDescription": "פאנטה מוגזת ומרעננת בפחית ב-14 ₪. הוסיפו משקה מתוק וטעים לארוחה שלכם ב-SO WHAT.",
+        "isActive": true,
+        "tags": [
+          "פאנטה",
+          "שתייה מוגזת",
+          "שתייה קרה",
+          "משקאות"
+        ],
+        "sortOrder": 7,
+        "createdAt": "2026-10-11T15:42:43.726Z",
+        "updatedAt": "2026-10-17T15:08:49.524Z"
+      },
+      {
+        "id": "item-24df7ec8-bb00-4974-b4f8-231ccc16a62e",
+        "name": "ענבים",
+        "description": "משקה ענבים מרענן בבקבוק זכוכית.",
+        "longDescription": "משקה בטעם ענבים בבקבוק זכוכית, עם טעם פירותי ומתוק. בחירה מרעננת לצד ההמבורגרים והארוחות של SO WHAT.",
+        "price": 10,
+        "categoryId": "cat-drinks",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1791733400960-f28ceyib.jpg",
+        "closeUpImageUrl": "",
+        "slug": "grape-drink",
+        "previousSlugs": [],
+        "primaryKeyword": "משקה ענבים",
+        "metaTitle": "משקה ענבים בבקבוק זכוכית | SO WHAT",
+        "metaDescription": "משקה ענבים בבקבוק זכוכית ב-14 ₪. טעם פירותי ומרענן לצד הארוחה שלכם ב-SO WHAT.",
+        "isActive": true,
+        "tags": [
+          "ענבים",
+          "משקה ענבים",
+          "שתייה קרה",
+          "משקאות"
+        ],
+        "sortOrder": 8,
+        "createdAt": "2026-10-11T15:43:08.416Z",
+        "updatedAt": "2026-10-17T15:08:52.293Z"
+      },
+      {
+        "id": "item-1443ff54-5028-48df-adeb-a1dd61e807c2",
+        "name": "פיוז טי",
+        "description": "פיוז טי מרענן בבקבוק פלסטיק.",
+        "longDescription": "פיוז טי בבקבוק פלסטיק, משקה תה קר ומרענן. בחירה נהדרת למי שמעדיף משקה לא מוגז לצד המבורגר, צ'יפס או ארוחה ב-SO WHAT.",
+        "price": 12,
+        "categoryId": "cat-drinks",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1791733423799-mlpjm74b.jpg",
+        "closeUpImageUrl": "",
+        "slug": "fuse-tea",
+        "previousSlugs": [],
+        "primaryKeyword": "פיוז טי",
+        "metaTitle": "פיוז טי בבקבוק | SO WHAT",
+        "metaDescription": "פיוז טי בבקבוק פלסטיק ב-14 ₪. משקה תה קר ומרענן לצד ההמבורגרים והארוחות של SO WHAT.",
+        "isActive": true,
+        "tags": [
+          "פיוז טי",
+          "תה קר",
+          "שתייה קרה",
+          "משקאות"
+        ],
+        "sortOrder": 9,
+        "createdAt": "2026-10-11T15:43:33.180Z",
+        "updatedAt": "2026-10-17T15:08:55.004Z"
+      },
+      {
+        "id": "item-4fd40b67-e786-49f5-a641-d3c7f7868d85",
+        "name": "בירה קרלסברג",
+        "description": "בירה קרלסברג (Carlsberg), לצד המנה שלכם.",
+        "longDescription": "בירה קרלסברג (Carlsberg) בתפריט השתייה של SO WHAT. אפשר לצרף אותה למנה שלכם במחיר 17 ₪.",
+        "price": 17,
+        "categoryId": "cat-drinks",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792249926091-7uwtwgtu.jpg",
+        "closeUpImageUrl": "",
+        "slug": "carlsberg-beer",
+        "previousSlugs": [],
+        "imageAlt": "בקבוק בירה קרלסברג ירוק עם תווית Carlsberg",
+        "primaryKeyword": "בירה קרלסברג",
+        "metaTitle": "בירה קרלסברג (Carlsberg) – 17 ₪ | SO WHAT",
+        "metaDescription": "בירה קרלסברג (Carlsberg) ב־17 ₪ בתפריט השתייה של SO WHAT. הוסיפו למנה שלכם והמשיכו להזמנה.",
+        "isActive": true,
+        "tags": [],
+        "sauceMode": "included",
+        "sortOrder": 10,
+        "createdAt": "2026-10-17T15:10:50.262Z",
+        "updatedAt": "2026-10-17T15:12:19.402Z"
+      },
+      {
+        "id": "item-b66be356-d85e-4f87-9d19-a13b66323f82",
+        "name": "ארוחת המבורגר SO הבית",
+        "description": "המבורגר בקר עסיסי בלחמנייה טרייה עם ארוגולה, חלפיניו, ריבת בצל, איולי קונפי שום ואיולי צ׳יפוטלה, לצד צ׳יפס ושתייה לבחירה.",
+        "longDescription": "ארוחת המבורגר SO הבית היא המנה שמרכזת את האופי של SO WHAT בביס אחד - בשר טוב, טעמים חזקים, שילוב מדויק של מתוק, חריף וקרמי, וארוחה מלאה שמגיעה עם צ׳יפס ושתייה.\n\nבמרכז הארוחה נמצא המבורגר בקר עסיסי בתוך לחמנייה טרייה ורכה. מעליו ארוגולה שמוסיפה רעננות, חלפיניו שנותן חריפות נעימה, וריבת בצל שמכניסה מתיקות עמוקה ומאזנת את המנה.\n\nואז מגיעים הרטבים שלנו - איולי קונפי שום עם טעם עשיר ועדין, ואיולי צ׳יפוטלה קרמי עם נגיעה מעושנת ופיקנטית. ביחד הם עוטפים את ההמבורגר ומחברים את כל המרכיבים לביס מלא בטעם.\n\nזו לא מנה שנבנתה כדי להיות עוד המבורגר עם הרבה תוספות. כל מרכיב נמצא כאן כדי לעבוד עם הבא אחריו - החריפות של החלפיניו מול המתיקות של ריבת הבצל, הרעננות של הארוגולה מול העומק של האיולי, והכול סביב המבורגר בקר חם ועסיסי.\n\nלצד ההמבורגר מקבלים צ׳יפס ושתייה לבחירה, כך שזו ארוחה מלאה שמתאימה גם לצהריים, גם לערב וגם לרגע הזה שפשוט בא המבורגר ברעננה עם קצת יותר אופי.\n\nב - SO WHAT? אנחנו אוהבים לקחת אוכל שאנשים כבר מכירים ולהכניס בו את השפה שלנו - חומרי גלם טובים, שילובים ברורים, מנות נדיבות וטעמים שלא נעלמים אחרי הביס הראשון.\n\nאם אתם מחפשים מסעדה כשרה ברעננה ורוצים ללכת על אחת המנות שמייצגות הכי טוב את SO WHAT, ארוחת SO הבית היא בדיוק המקום להתחיל.\n\nהמבורגר עסיסי.\nריבת בצל.\nחלפיניו.\nשני סוגי איולי.\nצ׳יפס ושתייה.\n\nזה הבית שלנו.\nSO WHAT?",
+        "price": 86,
+        "categoryId": "cat-1785342932785-lxjb54",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792251225973-ji7zuvl0.jpg",
+        "imageZoom": 1,
+        "closeUpImageUrl": "",
+        "slug": "so-house-burger-meal",
+        "previousSlugs": [],
+        "primaryKeyword": "ארוחת המבורגר",
+        "metaTitle": "ארוחת המבורגר SO הבית ברעננה | SO WHAT?",
+        "metaDescription": "ארוחת SO הבית של SO WHAT - המבורגר בקר עם ארוגולה, חלפיניו, ריבת בצל, איולי קונפי שום ואיולי צ׳יפוטלה, לצד צ׳יפס ושתייה.",
+        "isActive": true,
+        "tags": [],
+        "sauceIds": [
+          "item-e20d6e15-94c4-420a-a6ee-aa13603cc9a5",
+          "item-72745f58-bd19-4fc1-8d86-25b4d5d332e5"
+        ],
+        "ingredientIds": [
+          "ingredient-e789d668-87b1-4424-b554-ce6ab11dcdc9",
+          "ingredient-dbbc591b-b305-4096-9225-d2a06a5704f3",
+          "ingredient-3209eadb-e5b3-4f81-80b1-656f928a33e9"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 12,
+        "createdAt": "2026-10-02T18:05:37.467Z",
+        "updatedAt": "2026-10-17T15:34:11.174Z"
+      },
+      {
+        "id": "item-e45b54d0-f0e0-4b34-a29a-2080b63a264e",
+        "name": "ארוחת המבורגר SO Smash",
+        "description": "2 קציצות סמאש של 100 גרם כל אחת, איולי צ׳יפוטלה, בצל מוחמץ ומלפפון חמוץ בלחמנייה טרייה, לצד צ׳יפס ושתייה לבחירה.",
+        "longDescription": "ארוחת המבורגר SO Smash היא הארוחה למי שאוהב המבורגר עם צריבה חזקה, קצוות קריספיים וטעם בשרי שמרגישים מהביס הראשון.\n\nבמרכז הארוחה נמצאות 2 קציצות סמאש של 100 גרם כל אחת - סך הכול 200 גרם בשר שנצרבים על הפלנצ׳ה בחום גבוה כדי לקבל את הקרום השחום והקריספי שמאפיין סמאש טוב, תוך שמירה על עסיסיות מבפנים.\n\nעל הקציצות מגיע איולי צ׳יפוטלה קרמי עם טעם מעושן ונגיעה פיקנטית, בצל מוחמץ שמוסיף חמיצות ורעננות ומלפפון חמוץ שנותן קראנץ׳ שמאזן את כל המנה.\n\nהכול נכנס ללחמנייה טרייה ורכה, ולצד ההמבורגר מקבלים צ׳יפס ושתייה לבחירה - ארוחה מלאה, פשוטה ומדויקת.\n\nב - SO WHAT אנחנו אוהבים מנות שלא צריכות יותר מדי רעש כדי להיות טובות. ה - SO Smash בנוי סביב הבשר עצמו - שתי קציצות דקות שנצרבות היטב, רוטב עם אופי ותוספות שנותנות בדיוק את החמיצות והקראנץ׳ שצריך.\n\nאם אתם מחפשים המבורגר ברעננה ורוצים משהו קצת שונה מהמבורגר קלאסי, ארוחת SO Smash נותנת ביס בשרי יותר, צרוב יותר ומלא בטעם.\n\nב - SO WHAT אנחנו מסעדה כשרה ברעננה שמגישה המבורגרים ומנות בשריות עם חומרי גלם טובים, הכנה מדויקת ושילובים שלא מעמיסים סתם על המנה.\n\n2 קציצות.\n200 גרם סמאש.\nאיולי צ׳יפוטלה.\nבצל מוחמץ וחמוצים.\nצ׳יפס ושתייה.\n\nSO SMASH.\nSO WHAT?",
+        "price": 75,
+        "categoryId": "cat-1785342932785-lxjb54",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792251193629-0869qe39.jpg",
+        "imageZoom": 1,
+        "closeUpImageUrl": "",
+        "slug": "so-smash-2",
+        "previousSlugs": [],
+        "primaryKeyword": "ארוחת המבורגר סמאש",
+        "metaTitle": "ארוחת המבורגר SO Smash ברעננה | SO WHAT",
+        "metaDescription": "ארוחת SO Smash של SO WHAT - שתי קציצות סמאש של 100 גרם עם איולי צ׳יפוטלה, בצל מוחמץ וחמוצים, לצד צ׳יפס ושתייה לבחירה.",
+        "isActive": true,
+        "tags": [],
+        "sauceIds": [
+          "item-72745f58-bd19-4fc1-8d86-25b4d5d332e5"
+        ],
+        "ingredientIds": [
+          "ingredient-39cdb4d0-0743-47c9-869c-f6d936661f55",
+          "ingredient-40a35e6c-0ff1-4fba-80cf-b007b9c3a7a1"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 13,
+        "createdAt": "2026-10-02T18:31:25.289Z",
+        "updatedAt": "2026-10-17T15:33:34.179Z"
+      },
+      {
+        "id": "item-2d4b3210-d692-4bed-833d-fd148f412f24",
+        "name": "ארוחת SO קריספי צ׳יקן",
+        "description": "לחמנייה טרייה עם שניצל עוף קריספי ועסיסי, סלט קולסלאו ורוטב צ׳יפוטלה SO, לצד צ׳יפס ושתייה לבחירה.",
+        "longDescription": "ארוחת SO קריספי צ׳יקן היא בדיוק מה שצריך כשבא משהו פריך, עסיסי ומלא טעם - אבל לא עוד המבורגר רגיל.\n\nבמרכז הארוחה נמצא שניצל עוף קריספי, חם ועסיסי מבפנים, בתוך לחמנייה טרייה ורכה. אליו מצטרף סלט קולסלאו שמוסיף רעננות וטעם, ורוטב צ׳יפוטלה SO קרמי עם נגיעה מעושנת ופיקנטית שמחברת את כל המנה.\n\nהשילוב בין הקריספיות של העוף, הרכות של הלחמנייה, הרעננות של הקולסלאו והעומק של הצ׳יפוטלה יוצר מנה פשוטה להבנה אבל עם הרבה אופי.\n\nלצד ה - SO קריספי צ׳יקן מקבלים צ׳יפס ושתייה לבחירה - כך שמדובר בארוחה מלאה שמתאימה לצהריים, לערב או לכל פעם שמתחשק לכם משהו חם, פריך ומשביע.\n\nב - SO WHAT אנחנו אוהבים לקחת מנות מוכרות ולעשות אותן בדרך שלנו - חומרי גלם טובים, שילובים ברורים וטעמים שמרגישים כבר מהביס הראשון. גם בארוחת הקריספי שלנו אין עומס מיותר - כל מרכיב נמצא כדי להוסיף משהו לביס.\n\nאם אתם מחפשים מסעדה ברעננה ורוצים לגוון מהמבורגר, ארוחת SO קריספי צ׳יקן היא אחת האפשרויות הבולטות בתפריט. ב - SO WHAT? אנחנו מסעדה כשרה ברעננה שמציעה לצד ההמבורגרים גם מנות עוף עם אותו דגש על טריות, טעם והכנה מדויקת.\n\nשניצל עוף קריספי.\nסלט קולסלאו.\nצ׳יפוטלה SO.\nצ׳יפס ושתייה.\n\nפריך מבחוץ.\nעסיסי מבפנים.\nSO CRISPY CHICKEN?",
+        "price": 75,
+        "categoryId": "cat-1785342932785-lxjb54",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792251030232-4z901vdf.jpg",
+        "closeUpImageUrl": "",
+        "slug": "so-crispy-chicken-meal",
+        "previousSlugs": [],
+        "imageAlt": "ארוחת SO קריספי צ׳יקן עם סלט קולסלאו ורוטב צ׳יפוטלה, לצד צ׳יפס ופחית קוקה קולה",
+        "primaryKeyword": "קריספי צ'יקן",
+        "metaTitle": "ארוחת SO קריספי צ׳יקן ברעננה | SO WHAT",
+        "metaDescription": "ארוחת SO קריספי צ׳יקן של SO WHAT - שניצל עוף קריספי בלחמנייה טרייה עם סלט קולסלאו ורוטב צ׳יפוטלה, לצד צ׳יפס ושתייה לבחירה.",
+        "isActive": true,
+        "tags": [],
+        "sauceIds": [
+          "item-72745f58-bd19-4fc1-8d86-25b4d5d332e5"
+        ],
+        "ingredientIds": [
+          "ingredient-da96804e-5b25-4e61-b630-bc811795c775"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 14,
+        "createdAt": "2026-10-02T18:36:49.109Z",
+        "updatedAt": "2026-10-17T15:31:49.905Z"
+      },
+      {
+        "id": "item-e20d6e15-94c4-420a-a6ee-aa13603cc9a5",
+        "name": "איולי שום קונפי",
+        "description": "איולי שום קונפי של SO WHAT.",
+        "longDescription": "איולי שום קונפי של SO WHAT, רוטב עשיר שמתאים להוסיף לצד המנה ולשלב בכל ביס.",
+        "price": 2,
+        "categoryId": "cat-2b8a4ddc-fd8a-48bd-9d6e-440fa6ca7a7d",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1790934313897-lym1nbsp.jpg",
+        "closeUpImageUrl": "",
+        "slug": "garlic-confit-aioli",
+        "previousSlugs": [
+          "e20d6e15-94c4-420a-a6ee-aa13603cc9a5"
+        ],
+        "primaryKeyword": "איולי שום קונפי",
+        "metaTitle": "איולי שום קונפי | SO WHAT",
+        "metaDescription": "איולי שום קונפי של SO WHAT, רוטב עשיר שאפשר להוסיף לצד המנה.",
+        "isActive": true,
+        "tags": [
+          "איולי שום קונפי",
+          "רטבים",
+          "SO WHAT"
+        ],
+        "sortOrder": 14,
+        "createdAt": "2026-10-02T09:42:09.843Z",
+        "updatedAt": "2026-10-03T11:06:22.703Z"
+      },
+      {
+        "id": "item-72745f58-bd19-4fc1-8d86-25b4d5d332e5",
+        "name": "איולי צ׳יפוטלה",
+        "description": "איולי צ׳יפוטלה של SO WHAT.",
+        "longDescription": "איולי צ׳יפוטלה של SO WHAT, רוטב עשיר עם טעם צ׳יפוטלה מודגש שמתאים לצד ההמבורגרים, הצ׳יפס ושאר המנות בתפריט.",
+        "price": 2,
+        "categoryId": "cat-2b8a4ddc-fd8a-48bd-9d6e-440fa6ca7a7d",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1790934570999-4y6v4bbj.jpg",
+        "closeUpImageUrl": "",
+        "slug": "chipotle-aioli",
+        "previousSlugs": [
+          "72745f58-bd19-4fc1-8d86-25b4d5d332e5"
+        ],
+        "primaryKeyword": "איולי צ׳יפוטלה",
+        "metaTitle": "איולי צ׳יפוטלה | SO WHAT",
+        "metaDescription": "איולי צ׳יפוטלה של SO WHAT, רוטב עשיר עם טעם צ׳יפוטלה שמתאים לצד המנות בתפריט.",
+        "isActive": true,
+        "tags": [
+          "איולי צ׳יפוטלה",
+          "רטבים",
+          "SO WHAT"
+        ],
+        "sortOrder": 15,
+        "createdAt": "2026-10-02T09:49:00.801Z",
+        "updatedAt": "2026-10-03T11:13:47.201Z"
+      },
+      {
+        "id": "item-33763f1f-c12e-42a9-b480-fe066a54bf9c",
+        "name": "איולי כמהין",
+        "description": "איולי כמהין של SO WHAT.",
+        "longDescription": "איולי כמהין של SO WHAT, רוטב עשיר עם טעם עמוק של כמהין שמתאים לצד ההמבורגרים, הצ׳יפס ושאר המנות בתפריט.",
+        "price": 2,
+        "categoryId": "cat-2b8a4ddc-fd8a-48bd-9d6e-440fa6ca7a7d",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1790934632631-fn5dcfno.jpg",
+        "closeUpImageUrl": "",
+        "slug": "truffle-aioli",
+        "previousSlugs": [
+          "33763f1f-c12e-42a9-b480-fe066a54bf9c"
+        ],
+        "primaryKeyword": "איולי כמהין",
+        "metaTitle": "איולי כמהין | SO WHAT",
+        "metaDescription": "איולי כמהין של SO WHAT, רוטב עשיר עם טעם כמהין שמתאים לצד המנות בתפריט.",
+        "isActive": true,
+        "tags": [
+          "איולי כמהין",
+          "רטבים",
+          "SO WHAT"
+        ],
+        "sortOrder": 16,
+        "createdAt": "2026-10-02T09:50:11.931Z",
+        "updatedAt": "2026-10-03T11:12:19.979Z"
+      },
+      {
+        "id": "item-abf3d371-a9df-4b84-a43a-abcb4aa721f0",
+        "name": "ארוחת הנקניקייה של SO",
+        "description": "נקניקיית עגל בלחמנייה עם ארוגולה, איולי דיז׳ון ומלפפון חמוץ, לצד צ׳יפס ושתייה לבחירה.",
+        "longDescription": "ארוחת הנקניקייה של SO משלבת נקניקיית עגל בלחמנייה עם ארוגולה, איולי דיז׳ון ומלפפון חמוץ.\nהשילוב בין נקניקיית העגל, הארוגולה, הדיז׳ון והחמוצים יוצר מנה עם טעמים מודגשים ומאוזנים. הארוחה מוגשת לצד צ׳יפס ושתייה לבחירה, כך שמקבלים את כל הארוחה במנה אחת בסגנון של SO WHAT.",
+        "price": 58,
+        "categoryId": "cat-1785342932785-lxjb54",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792251263929-oug4czmw.jpg",
+        "closeUpImageUrl": "",
+        "slug": "so-hot-dog-meal",
+        "previousSlugs": [],
+        "primaryKeyword": "ארוחת נקניקייה",
+        "metaTitle": "ארוחת הנקניקייה של SO | SO WHAT רעננה",
+        "metaDescription": "ארוחת הנקניקייה של SO עם נקניקיית עגל, ארוגולה, איולי דיז׳ון ומלפפון חמוץ, לצד צ׳יפס ושתייה לבחירה.",
+        "isActive": false,
+        "tags": [
+          "נקניקיית עגל",
+          "ארוחת נקניקייה",
+          "SO WHAT",
+          "רעננה"
+        ],
+        "sauceIds": [
+          "item-ebb56fcc-8e3a-4768-90a7-84859772c33f"
+        ],
+        "ingredientIds": [
+          "ingredient-e789d668-87b1-4424-b554-ce6ab11dcdc9",
+          "ingredient-40a35e6c-0ff1-4fba-80cf-b007b9c3a7a1"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 16,
+        "createdAt": "2026-10-03T05:43:31.149Z",
+        "updatedAt": "2026-10-24T03:29:06.836Z"
+      },
+      {
+        "id": "item-556bdb68-044b-4a26-81b3-db560497deda",
+        "name": "ארוחת המבורגר SO טבעוני",
+        "description": "המבורגר טבעוני עם חסה, עגבנייה, בצל סגול, מלפפון חמוץ ורוטב הבית הטבעוני, עם עד 2 רטבים לבחירה בתוך המנה, לצד צ׳יפס ושתייה לבחירה.",
+        "longDescription": "ארוחת המבורגר SO טבעוני כוללת המבורגר טבעוני עם חסה, עגבנייה, בצל סגול, מלפפון חמוץ ורוטב הבית הטבעוני של SO WHAT.\nבתוך המנה ניתן לבחור עד 2 רטבים, כך שאפשר להתאים את ההמבורגר בדיוק לטעם שלכם. הארוחה מוגשת לצד צ׳יפס ושתייה לבחירה.\n\nאם אתם מחפשים המבורגר טבעוני ברעננה, ארוחת SO טבעוני מציעה ארוחה מלאה עם ירקות טריים, רוטב הבית הטבעוני והאפשרות לבחור את הרטבים שאתם אוהבים.",
+        "price": 80,
+        "categoryId": "cat-1785342932785-lxjb54",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1790920588900-03q1o31k.jpg",
+        "imageZoom": 1,
+        "closeUpImageUrl": "",
+        "slug": "so-vegan-burger-meal",
+        "previousSlugs": [],
+        "primaryKeyword": "המבורגר טבעוני ברעננה",
+        "metaTitle": "ארוחת המבורגר SO טבעוני | SO WHAT רעננה",
+        "metaDescription": "המבורגר טבעוני עם ירקות ורוטב הבית הטבעוני, עד 2 רטבים לבחירה בתוך המנה, לצד צ׳יפס ושתייה ב-SO WHAT.",
+        "isActive": true,
+        "tags": [
+          "המבורגר טבעוני",
+          "ארוחה טבעונית",
+          "המבורגר טבעוני ברעננה",
+          "SO WHAT",
+          "רעננה"
+        ],
+        "sauceIds": [
+          "item-ebb56fcc-8e3a-4768-90a7-84859772c33f",
+          "item-33763f1f-c12e-42a9-b480-fe066a54bf9c",
+          "item-72745f58-bd19-4fc1-8d86-25b4d5d332e5",
+          "item-e20d6e15-94c4-420a-a6ee-aa13603cc9a5"
+        ],
+        "ingredientIds": [
+          "ingredient-da3c5b78-92ad-4380-87c6-212aa9fc08d7",
+          "ingredient-12431c2a-e472-41c2-bc51-98cb13207511",
+          "ingredient-40a35e6c-0ff1-4fba-80cf-b007b9c3a7a1",
+          "ingredient-eec2fe05-5c5a-4303-b7ac-ba28a4b06f9b"
+        ],
+        "sortOrder": 17,
+        "createdAt": "2026-10-03T07:37:35.508Z",
+        "updatedAt": "2026-10-17T15:08:18.857Z"
+      },
+      {
+        "id": "item-ebb56fcc-8e3a-4768-90a7-84859772c33f",
+        "name": "איולי דיז׳ון",
+        "description": "איולי דיז׳ון של SO WHAT.",
+        "longDescription": "איולי דיז׳ון של SO WHAT, רוטב עשיר עם טעם מודגש של דיז׳ון שמתאים לצד ההמבורגרים, הצ׳יפס ושאר המנות בתפריט.",
+        "price": 2,
+        "categoryId": "cat-2b8a4ddc-fd8a-48bd-9d6e-440fa6ca7a7d",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1790935107666-7i2yk3jj.jpg",
+        "closeUpImageUrl": "",
+        "slug": "dijon-aioli",
+        "previousSlugs": [
+          "ebb56fcc-8e3a-4768-90a7-84859772c33f"
+        ],
+        "primaryKeyword": "איולי דיז׳ון",
+        "metaTitle": "איולי דיז׳ון | SO WHAT",
+        "metaDescription": "איולי דיז׳ון של SO WHAT, רוטב עשיר עם טעם דיז׳ון שמתאים לצד המנות בתפריט.",
+        "isActive": true,
+        "tags": [
+          "איולי דיז׳ון",
+          "רטבים",
+          "SO WHAT"
+        ],
+        "sortOrder": 17,
+        "createdAt": "2026-10-02T09:57:50.477Z",
+        "updatedAt": "2026-10-03T11:13:16.087Z"
+      },
+      {
+        "id": "item-b2a0e675-32ea-4d63-9936-19f57a7879c9",
+        "name": "צ׳ילי הבית של SO",
+        "description": "רוטב הצ׳ילי הייחודי של SO WHAT, עם שילוב מתקתק, חריפות עדינה וטעם שמבדיל אותו מרוטב צ׳ילי רגיל.",
+        "longDescription": "צ׳ילי הבית של SO הוא רוטב הצ׳ילי הייחודי של SO WHAT. הוא משלב מתיקות, חריפות עדינה וטעם עשיר שנבנה כדי לתת למנה אופי שונה מרוטב צ׳ילי רגיל.\nזה הרוטב שמוסיף לכל ביס עוד שכבה של טעם ומביא את הסגנון של SO WHAT גם לצד המנה.",
+        "price": 1,
+        "categoryId": "cat-2b8a4ddc-fd8a-48bd-9d6e-440fa6ca7a7d",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1791043710122-w8bnvrc3.jpg",
+        "closeUpImageUrl": "",
+        "slug": "so-house-chili",
+        "previousSlugs": [],
+        "primaryKeyword": "צ׳ילי הבית של SO",
+        "metaTitle": "צ׳ילי הבית של SO | SO WHAT",
+        "metaDescription": "צ׳ילי הבית של SO WHAT - רוטב צ׳ילי ייחודי עם מתיקות, חריפות עדינה וטעם עשיר שמבדיל אותו מרוטב צ׳ילי רגיל.",
+        "isActive": true,
+        "tags": [],
+        "sortOrder": 18,
+        "createdAt": "2026-10-03T16:07:15.964Z",
+        "updatedAt": "2026-10-03T16:08:37.227Z"
+      },
+      {
+        "id": "item-eec63993-3a3a-4d30-adf8-7708c40ab64d",
+        "name": "צ׳יפס",
+        "description": "צ׳יפס פריך וזהוב, מתובל במלח בלבד.",
+        "longDescription": "הצ׳יפס של SO WHAT מוגש חם, פריך וזהוב, ומתובל במלח בלבד. תוספת קלאסית ופשוטה שמתאימה לצד ההמבורגרים ושאר המנות בתפריט.",
+        "price": 20,
+        "categoryId": "cat-1785344863087-xuv5am",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792250130298-6ysknjob.jpg",
+        "imageZoom": 1,
+        "closeUpImageUrl": "",
+        "slug": "fries",
+        "previousSlugs": [],
+        "primaryKeyword": "צ׳יפס",
+        "metaTitle": "צ׳יפס פריך וזהוב | SO WHAT רעננה",
+        "metaDescription": "צ׳יפס חם, פריך וזהוב, מתובל במלח בלבד. התוספת הקלאסית לצד המנות של SO WHAT ברעננה.",
+        "isActive": true,
+        "tags": [
+          "צ׳יפס",
+          "תוספות",
+          "SO WHAT",
+          "רעננה"
+        ],
+        "ingredientIds": [
+          "ingredient-3393fd7e-ced5-4a96-bd76-ad8bc9d0214f",
+          "ingredient-9632cdd4-6490-4af6-b2b1-8de28b20a521"
+        ],
+        "sortOrder": 18,
+        "createdAt": "2026-10-03T10:53:19.797Z",
+        "updatedAt": "2026-10-17T15:15:51.592Z"
+      },
+      {
+        "id": "item-f68bbd87-6d53-44fe-b3f2-19ff4c9db7f3",
+        "name": "ארוחת המבורגר SO כמהין",
+        "description": "המבורגר SO כמהין עם ריבת בצל ורוטב כמהין בלחמנייה, לצד צ׳יפס ושתייה לבחירה.",
+        "longDescription": "ארוחת המבורגר SO כמהין כוללת המבורגר עם ריבת בצל ורוטב כמהין בלחמנייה, לצד צ׳יפס ושתייה לבחירה. ריבת הבצל ורוטב הכמהין מעניקים להמבורגר שילוב טעמים עשיר. בחרו בארוחת הכמהין בתפריט SO WHAT והמשיכו להזמנה.",
+        "price": 78,
+        "categoryId": "cat-1785342932785-lxjb54",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792250603063-qmdvsswu.jpg",
+        "closeUpImageUrl": "",
+        "slug": "so-truffle-burger-meal",
+        "previousSlugs": [],
+        "imageAlt": "ארוחת המבורגר SO כמהין עם ריבת בצל ורוטב כמהין, צ׳יפס ופחית קוקה קולה על רקע לבן",
+        "primaryKeyword": "ארוחת המבורגר כמהין",
+        "metaTitle": "ארוחת המבורגר SO כמהין עם צ׳יפס ושתייה | SO WHAT",
+        "metaDescription": "ארוחת המבורגר SO כמהין עם ריבת בצל ורוטב כמהין, לצד צ׳יפס ושתייה לבחירה. 78 ₪ בתפריט SO WHAT. בחרו את הארוחה והמשיכו להזמנה.",
+        "isActive": true,
+        "tags": [],
+        "ingredientIds": [
+          "ingredient-3209eadb-e5b3-4f81-80b1-656f928a33e9"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 18,
+        "createdAt": "2026-10-17T15:23:17.045Z",
+        "updatedAt": "2026-10-17T15:23:51.858Z"
+      },
+      {
+        "id": "item-5334273d-5625-42b9-be49-fd77c8e521fb",
+        "name": "רוטב SO",
+        "description": "רוטב SO לצד המנה.",
+        "longDescription": "תוספת רוטב SO להזמנה, מתוך תפריט הרטבים של המסעדה.",
+        "price": 2,
+        "categoryId": "cat-2b8a4ddc-fd8a-48bd-9d6e-440fa6ca7a7d",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792486134308-0umwfnvc.jpg",
+        "closeUpImageUrl": "",
+        "slug": "so-sauce",
+        "previousSlugs": [],
+        "imageAlt": "רוטב SO בכוסית על רקע לבן",
+        "metaTitle": "רוטב SO | SO WHAT",
+        "metaDescription": "תוספת רוטב SO לצד המנה. לצפייה בתפריט SO WHAT ברעננה ולהזמנה.",
+        "isActive": true,
+        "tags": [],
+        "sauceMode": "included",
+        "sortOrder": 19,
+        "createdAt": "2026-10-20T08:48:39.030Z",
+        "updatedAt": "2026-10-20T08:49:09.990Z"
+      },
+      {
+        "id": "item-1785348266206-gid6w6",
+        "name": "כנפיים 12 יחידות",
+        "description": "12 כנפיים ברוטב SO צ׳ילי.",
+        "longDescription": "12 כנפיים ברוטב SO צ׳ילי של SO WHAT. הכנפיים מוגשות עם רוטב SO צ׳ילי שמעניק למנה את הטעם הייחודי שלה.",
+        "price": 55,
+        "categoryId": "cat-1785344863087-xuv5am",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1790955626135-vjvbogqe.jpg",
+        "closeUpImageUrl": "",
+        "slug": "wings-10",
+        "previousSlugs": [
+          "chili-chicken-wings"
+        ],
+        "imageAlt": "כנפיים בצ'ילי",
+        "primaryKeyword": "כנפיים ברוטב צ׳ילי",
+        "metaTitle": "כנפיים 12 יחידות ברוטב SO צ׳ילי | SO WHAT",
+        "metaDescription": "12 כנפיים ברוטב SO צ׳ילי של SO WHAT, עם הטעם הייחודי של רוטב הצ׳ילי שלנו.",
+        "isActive": true,
+        "tags": [
+          "כנפיים",
+          "כנפיים ברוטב צ׳ילי",
+          "SO צ׳ילי",
+          "SO WHAT"
+        ],
+        "sauceIds": [
+          "item-b2a0e675-32ea-4d63-9936-19f57a7879c9"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 20,
+        "createdAt": "2026-07-29T18:04:26.206Z",
+        "updatedAt": "2026-10-17T15:09:14.954Z"
+      },
+      {
+        "id": "item-a75c8c9e-5985-4bb2-a0d0-c67fc8210167",
+        "name": "קטשופ",
+        "description": "קטשופ לצד המנה.",
+        "longDescription": "תוספת קטשופ להזמנה, מתוך תפריט הרטבים של SO WHAT.",
+        "price": 2,
+        "categoryId": "cat-2b8a4ddc-fd8a-48bd-9d6e-440fa6ca7a7d",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792486051718-v2essz6i.jpg",
+        "closeUpImageUrl": "",
+        "slug": "ketchup",
+        "previousSlugs": [],
+        "imageAlt": "קטשופ בכוסית רוטב מתוך תפריט SO WHAT",
+        "metaTitle": "קטשופ | SO WHAT",
+        "metaDescription": "קטשופ לצד המנה. בתפריט SO WHAT ברעננה. לצפייה ולהזמנה.",
+        "isActive": true,
+        "tags": [],
+        "sauceMode": "included",
+        "sortOrder": 20,
+        "createdAt": "2026-10-20T08:47:11.749Z",
+        "updatedAt": "2026-10-20T08:47:41.351Z"
+      },
+      {
+        "id": "item-af405575-4a37-48fe-9340-2c77da5a7560",
+        "name": "כנפיים 6 יחידות",
+        "description": "6 כנפיים ברוטב SO צ׳ילי.",
+        "longDescription": "6 כנפיים ברוטב SO צ׳ילי של SO WHAT. מנה עם טעם מודגש של צ׳ילי, שמתאימה לחלוקה או כתוספת לצד המנות בתפריט.",
+        "price": 35,
+        "categoryId": "cat-1785344863087-xuv5am",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1790920600902-wkr0p3xw.jpg",
+        "closeUpImageUrl": "",
+        "slug": "wings-6",
+        "previousSlugs": [],
+        "primaryKeyword": "כנפיים ברוטב צ׳ילי",
+        "metaTitle": "כנפיים 6 יחידות ברוטב SO צ׳ילי | SO WHAT",
+        "metaDescription": "6 כנפיים ברוטב SO צ׳ילי של SO WHAT. מנה טעימה שמתאימה לחלוקה או כתוספת לצד הארוחה.",
+        "isActive": true,
+        "tags": [
+          "כנפיים",
+          "כנפיים ברוטב צ׳ילי",
+          "SO צ׳ילי",
+          "SO WHAT"
+        ],
+        "sauceIds": [
+          "item-b2a0e675-32ea-4d63-9936-19f57a7879c9"
+        ],
+        "sauceMode": "included",
+        "sortOrder": 20,
+        "createdAt": "2026-10-03T10:57:47.501Z",
+        "updatedAt": "2026-10-20T08:44:32.821Z"
+      },
+      {
+        "id": "item-a07c7bda-0ffa-4cd6-bf7c-12ed392fa464",
+        "name": "נאגטס 4 יחידות",
+        "description": "4 יחידות נאגטס בציפוי פריך.",
+        "longDescription": "מנה של ארבע יחידות בציפוי פריך, לצד הארוחה או כמנה נוספת לשולחן.",
+        "price": 35,
+        "categoryId": "cat-1785344863087-xuv5am",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792486737298-hzqo5l4a.jpg",
+        "closeUpImageUrl": "",
+        "slug": "nuggets-4",
+        "previousSlugs": [],
+        "imageAlt": "נאגטס בציפוי פריך על צלחת, מתפריט SO WHAT",
+        "primaryKeyword": "נאגטס 4 יחידות",
+        "metaTitle": "נאגטס 4 יחידות | SO WHAT",
+        "metaDescription": "ארבע יחידות בציפוי פריך בתפריט SO WHAT ברעננה. לצפייה במנה ולהזמנה.",
+        "isActive": true,
+        "tags": [],
+        "sauceMode": "included",
+        "sortOrder": 21,
+        "createdAt": "2026-10-20T08:44:46.799Z",
+        "updatedAt": "2026-10-20T08:59:10.279Z"
+      },
+      {
+        "id": "item-b78f0f3f-dae1-4d94-ac97-93f7bf23e816",
+        "name": "מיונז",
+        "description": "מיונז לצד המנה.",
+        "longDescription": "תוספת מיונז להזמנה, מתוך תפריט הרטבים של SO WHAT.",
+        "price": 2,
+        "categoryId": "cat-2b8a4ddc-fd8a-48bd-9d6e-440fa6ca7a7d",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792486093158-4aamg0mz.jpg",
+        "closeUpImageUrl": "",
+        "slug": "mayonnaise",
+        "previousSlugs": [],
+        "imageAlt": "מיונז בכוסית רוטב מתוך תפריט SO WHAT",
+        "metaTitle": "מיונז | SO WHAT",
+        "metaDescription": "מיונז לצד המנה. בתפריט SO WHAT ברעננה. לצפייה ולהזמנה.",
+        "isActive": true,
+        "tags": [],
+        "sauceMode": "included",
+        "sortOrder": 21,
+        "createdAt": "2026-10-20T08:47:56.340Z",
+        "updatedAt": "2026-10-20T08:48:21.705Z"
+      },
+      {
+        "id": "item-fcafb8e8-2914-4672-9377-077d6dc287f6",
+        "name": "נאגטס 6 יחידות",
+        "description": "6 יחידות נאגטס בציפוי פריך.",
+        "longDescription": "מנה של שש יחידות בציפוי פריך, לצד הארוחה או כמנה נוספת לשולחן.",
+        "price": 50,
+        "categoryId": "cat-1785344863087-xuv5am",
+        "imageUrl": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792486760042-1w4zv8tq.jpg",
+        "closeUpImageUrl": "",
+        "slug": "nuggets-6",
+        "previousSlugs": [],
+        "imageAlt": "נאגטס בציפוי פריך על צלחת, מתפריט SO WHAT",
+        "metaTitle": "נאגטס 6 יחידות | SO WHAT",
+        "metaDescription": "6 יחידות נאגטס בציפוי פריך. בתפריט SO WHAT ברעננה. לצפייה ולהזמנה.",
+        "isActive": true,
+        "tags": [],
+        "sauceMode": "included",
+        "sortOrder": 22,
+        "createdAt": "2026-10-20T08:46:10.460Z",
+        "updatedAt": "2026-10-20T08:59:28.798Z"
+      }
+    ],
+    "categories": [
+      {
+        "id": "cat-burgers",
+        "name": "המבורגרים",
+        "slug": "burgers",
+        "previousSlugs": [],
+        "description": "המבורגרים כשרים מבשר טרי הנטחן במקום, מוכנים על הפלנצ'ה עם חומרי גלם איכותיים, רטבים מיוחדים ותוספות לבחירה.",
+        "sortOrder": 1,
+        "isActive": true,
+        "createdAt": "2026-05-17T07:00:00.000Z",
+        "updatedAt": "2026-08-05T16:49:35.107Z"
+      },
+      {
+        "id": "cat-1785342932785-lxjb54",
+        "name": "ארוחות",
+        "slug": "meals",
+        "previousSlugs": [],
+        "description": "ארוחות המבורגר כשרות הכוללות המבורגר לבחירה, צ'יפס ושתייה, עם חומרי גלם איכותיים והכנה על הפלנצ'ה.",
+        "sortOrder": 2,
+        "isActive": true,
+        "createdAt": "2026-07-29T16:35:32.785Z",
+        "updatedAt": "2026-08-05T16:51:47.786Z"
+      },
+      {
+        "id": "cat-1785344863087-xuv5am",
+        "name": "תוספות",
+        "slug": "extras",
+        "previousSlugs": [],
+        "description": "צ'יפס, כנפיים ונאגטס כשרים, מוכנים מחומרי גלם איכותיים ומשלימים כל ארוחה.",
+        "sortOrder": 3,
+        "isActive": true,
+        "createdAt": "2026-07-29T17:07:43.087Z",
+        "updatedAt": "2026-10-20T08:50:58.887Z"
+      },
+      {
+        "id": "cat-1785407701349-4rgdpg",
+        "name": "סלטים",
+        "slug": "salads",
+        "previousSlugs": [],
+        "description": "סלטים טריים המוכנים מחומרי גלם איכותיים, עם ירקות טריים ותוספות לבחירה, המתאימים כתוספת או כארוחה קלה.",
+        "sortOrder": 5,
+        "isActive": true,
+        "createdAt": "2026-07-30T10:35:01.349Z",
+        "updatedAt": "2026-08-01T12:21:28.698Z"
+      },
+      {
+        "id": "cat-drinks",
+        "name": "שתייה",
+        "slug": "drinks",
+        "previousSlugs": [],
+        "description": "מבחר משקאות קלים וקרים שישלימו כל ארוחה, כולל קולה, ספרייט, לימונדה, סודה, מים מינרלים ומשקאות נוספים.",
+        "sortOrder": 5,
+        "isActive": true,
+        "createdAt": "2026-05-17T07:00:00.000Z",
+        "updatedAt": "2026-08-01T12:23:21.749Z"
+      },
+      {
+        "id": "cat-2b8a4ddc-fd8a-48bd-9d6e-440fa6ca7a7d",
+        "name": "רטבים",
+        "slug": "sauces",
+        "previousSlugs": [],
+        "sortOrder": 6,
+        "isActive": true,
+        "createdAt": "2026-10-02T09:38:33.905Z",
+        "updatedAt": "2026-10-02T09:39:32.535Z"
+      }
+    ],
+    "homepageShowcase": {
+      "itemIds": [
+        "item-927ed0a8-d977-486b-97d6-7f677846d35a",
+        "item-271e9a3c-bf00-49d8-a9d2-6021e922412b",
+        "item-1785334024123-ahp2pj",
+        "item-e915684b-4158-4237-b429-f5d38a55b3ab",
+        "item-51f08f4b-d8f9-429e-963e-204295f29fe5",
+        "item-nb-classic",
+        "item-fries",
+        "item-crispy-chicken",
+        "item-nuggets",
+        "item-1785335496571-rb65xa",
+        "item-1785335950756-dve75w",
+        "item-1785348642520-nar5rt",
+        "item-1785346419586-6bu624",
+        "item-1785408207555-8t1a24",
+        "item-1785348266206-gid6w6"
+      ],
+      "isConfigured": true
+    },
+    "seo": {
+      "he": {
+        "bottomContent": "התפריט של SO WHAT נבנה סביב דבר אחד מרכזי - המבורגר טוב.\n\nבעמוד הזה תוכלו לעבור בין קטגוריות התפריט, להכיר את המנות השונות, לבחור תוספות ולמצוא את הארוחה שמתאימה לכם.\n\nאנחנו מעדיפים לשמור על תפריט ברור ופשוט, כדי שתוכלו להבין מהר מה יש בכל מנה ולבחור בלי להסתבך.\n\nSO WHAT היא מסעדת המבורגרים כשרה ברעננה, אך עמוד התפריט מיועד קודם כול להציג את המנות והאפשרויות שלנו בצורה ברורה ונוחה.\n\nבחרו את המנה שלכם והמשיכו להזמנה.",
+        "cta": {
+          "title": "בחרתם? ממשיכים להזמנה",
+          "buttonLabel": "להזמנה",
+          "body": "עברו על התפריט, בחרו את המנות שלכם והמשיכו להזמנה בקלות."
+        },
+        "categoryPages": {
+          "cat-1785344863087-xuv5am": {
+            "metaDescription": "צ'יפס, כנפיים ונאגטס כשרים שמלווים כל המבורגר ב־SO WHAT. כל התוספות מוכנות מחומרי גלם איכותיים ומתאימות לכל ארוחה.",
+            "faq": {
+              "title": "כל מה שצריך לדעת על התוספות",
+              "items": [
+                {
+                  "question": "אילו תוספות יש בתפריט?",
+                  "answer": "בקטגוריית התוספות תמצאו צ'יפס, כנפיים, נאגטס 4 יחידות ונאגטס 6 יחידות."
+                },
+                {
+                  "answer": "כן. ניתן להזמין את כל התוספות גם בפני עצמן או לצד כל המבורגר מהתפריט.",
+                  "question": "אפשר להזמין תוספות בלי המבורגר?"
+                },
+                {
+                  "answer": "אפשר לשלב את התוספות עם מגוון הרטבים שבתפריט ולהתאים את הטעמים בדיוק למה שאתם אוהבים.",
+                  "question": "אילו רטבים מתאימים לתוספות?"
+                },
+                {
+                  "question": "האם כל התוספות כשרות?",
+                  "answer": "כן. כל התוספות שלנו מוכנות במסעדה כשרה תוך הקפדה על איכות חומרי הגלם וההכנה."
+                }
+              ],
+              "kicker": "שאלות נפוצות",
+              "lead": "ריכזנו את השאלות הנפוצות כדי שתוכלו לבחור את התוספת שמתאימה בדיוק למה שמתחשק לכם."
+            },
+            "bottomContent": "יש כאלה שבאים בשביל ההמבורגר, ויש כאלה שלא מוותרים על התוספת שלצדו. אצלנו תמצאו מגוון תוספות שמתאימות לכל ארוחה, בין אם בא לכם משהו קלאסי או נשנוש שכיף לחלוק.\n\nהתפריט כולל צ'יפס פריך, כנפיים עסיסיות ונאגטס בציפוי קריספי. כל אחת מהאפשרויות מוכנה בקפידה ומשתלבת מצוין עם כל המבורגר כשר, הארוחות והרטבים שלנו.\n\nבין אם אתם מוסיפים תוספת למנה או מזמינים כמה לשולחן, המטרה שלנו היא להגיש אוכל טרי, איכותי וטעים שמשלים כל ארוחה.",
+            "metaTitle": "תוספות להמבורגר | SO WHAT",
+            "introduction": "לפעמים התוספת היא בדיוק מה שהופכת המבורגר טוב לארוחה מושלמת. בקטגוריית התוספות של SO WHAT תמצאו צ'יפס, כנפיים ונאגטס, כולם מוכנים בקפידה ומתאימים לצד כל המבורגר כשר מהתפריט."
+          },
+          "cat-burgers": {
+            "bottomContent": "המבורגר טוב מתחיל הרבה לפני הביס הראשון. הוא מתחיל בבשר איכותי, בטחינה טרייה, בהכנה מדויקת ובתשומת לב לכל פרט.\n\nב־SO WHAT כל המבורגר כשר מוכן על הפלנצ'ה רק לאחר ההזמנה, כדי לשמור על עסיסיות, מרקם וטעם עשיר. בתפריט תמצאו גם סמאש בורגר, לצד מגוון תוספות ורטבים שמאפשרים להתאים כל מנה לטעם האישי שלכם.\n\nבין אם הגעתם לארוחת צהריים, ארוחת ערב או הזמנת משלוח, אנחנו מאמינים שחוויית המבורגר איכותית מתחילה בבשר טרי ומסתיימת בחיוך.",
+            "cta": {
+              "buttonLabel": "",
+              "title": "",
+              "body": "",
+              "buttonHref": ""
+            },
+            "metaTitle": "המבורגר כשר | סמאש בורגר - SO WHAT",
+            "faq": {
+              "lead": "ריכזנו עבורכם את השאלות הנפוצות ביותר על ההמבורגרים שלנו, כדי שתוכלו לבחור את המנה שמתאימה לכם בקלות.",
+              "items": [
+                {
+                  "answer": "כל ההמבורגרים שלנו מוכנים מבשר טרי הנטחן במקום, כדי לשמור על איכות, עסיסיות וטעם בכל מנה.",
+                  "question": "מאיזה בשר עשויים ההמבורגרים?"
+                },
+                {
+                  "question": "האם כל ההמבורגרים כשרים?",
+                  "answer": "כן. כל המנות במסעדה כשרות ומוכנות בהתאם לנהלי הכשרות של המקום."
+                },
+                {
+                  "question": "אפשר לבחור תוספות ורטבים?",
+                  "answer": "בהחלט. ניתן לבחור מגוון תוספות ורטבים ולהתאים כל מנה לטעם האישי שלכם."
+                },
+                {
+                  "question": "אפשר להזמין גם במשלוח?",
+                  "answer": "כן. ניתן להזמין את המנות גם במשלוחים בהתאם לאזורי הפעילות."
+                },
+                {
+                  "answer": "כן. בתפריט תמצאו גם סמאש בורגר לצד מנות נוספות, כולן מוכנות מבשר טרי הנטחן במקום ועל הפלנצ'ה.",
+                  "question": "יש גם סמאש בורגר?"
+                }
+              ],
+              "kicker": "שאלות נפוצות",
+              "title": "כל מה שכדאי לדעת לפני שמזמינים"
+            },
+            "introduction": "מחפשים המבורגר כשר שמוכן מחומרי גלם איכותיים ולא מתפשר על הטעם? בקטגוריית ההמבורגרים של SO WHAT תמצאו מגוון מנות, כולל סמאש בורגר, כולן מבשר טרי הנטחן במקום ומוכנות על הפלנצ'ה רק לאחר ההזמנה.",
+            "metaDescription": "מחפשים המבורגר כשר? בקטגוריית ההמבורגרים של SO WHAT תמצאו סמאש בורגר והמבורגרים מבשר טרי הנטחן במקום, מוכנים על הפלנצ'ה עם חומרי גלם איכותיים."
+          },
+          "cat-1785342932785-lxjb54": {
+            "bottomContent": "ארוחה טובה היא הרבה יותר מהמבורגר. לכן כל הארוחות שלנו כוללות המבורגר, צ'יפס ושתייה, כדי שתוכלו ליהנות מארוחה מלאה ומאוזנת.\n\nאנחנו מכינים כל המבורגר כשר מבשר טרי הנטחן במקום ומגישים אותו לצד צ'יפס פריך ושתייה לבחירתכם. כל ההזמנות מוכנות רק לאחר ביצוע ההזמנה, כדי לשמור על טריות, עסיסיות ואיכות.\n\nבין אם אתם מגיעים לארוחת צהריים, ארוחת ערב או מזמינים משלוח, הארוחות של SO WHAT מעניקות חוויית אוכל איכותית בכל פעם מחדש.",
+            "faq": {
+              "lead": "ריכזנו את השאלות הנפוצות ביותר כדי שתדעו בדיוק מה כוללת כל ארוחה לפני ההזמנה.",
+              "kicker": "שאלות נפוצות",
+              "items": [
+                {
+                  "answer": "כל ארוחה כוללת המבורגר לבחירה, צ'יפס ושתייה, כך שמקבלים ארוחה מלאה במקום אחד.",
+                  "question": "מה כוללת כל ארוחה?"
+                },
+                {
+                  "question": "אילו ארוחות אפשר להזמין?",
+                  "answer": "ניתן לבחור בין ארוחת SO WHAT קלאסי, ארוחת SO WHAT כמהין, ארוחת המבורגר SO WHAT קונפי וארוחת המבורגר SO WHAT טבעוני."
+                },
+                {
+                  "answer": "כן. ניתן לבחור את השתייה מתוך האפשרויות הזמינות בזמן ההזמנה.",
+                  "question": "אפשר לשנות את סוג השתייה?"
+                },
+                {
+                  "answer": "כן. כל הארוחות שלנו מוכנות במסעדה כשרה תוך הקפדה על איכות חומרי הגלם וההכנה.",
+                  "question": "האם הארוחות כשרות?"
+                }
+              ],
+              "title": "כל מה שחשוב לדעת על הארוחות"
+            },
+            "metaDescription": "מחפשים ארוחת המבורגר כשר? בקטגוריית הארוחות של SO WHAT תמצאו המבורגר, צ'יפס, תוספות ושתייה, כולם מוכנים מחומרי גלם איכותיים ובשר טרי הנטחן במקום.",
+            "cta": {
+              "body": "",
+              "buttonLabel": "",
+              "title": ""
+            },
+            "metaTitle": "ארוחות המבורגר כשר | SO WHAT",
+            "introduction": "מחפשים ארוחת המבורגר כשר שתשאיר אתכם שבעים ומרוצים? בקטגוריית הארוחות של SO WHAT תמצאו שילובים הכוללים המבורגר, צ'יפס ושתייה. כל המנות מוכנות מבשר טרי הנטחן במקום ונצלות על הפלנצ'ה רק לאחר ההזמנה."
+          },
+          "cat-1785407701349-4rgdpg": {
+            "faq": {
+              "kicker": "שאלות נפוצות",
+              "lead": "ריכזנו עבורכם את השאלות הנפוצות כדי שתוכלו לבחור את הסלט שמתאים בדיוק למה שמתחשק לכם.",
+              "items": [
+                {
+                  "answer": "התפריט כולל סלט ירוק, סלט קיסר קטן וסלט קיסר גדול, כולם מוכנים מירקות טריים לאחר ההזמנה.",
+                  "question": "אילו סלטים יש בתפריט?"
+                },
+                {
+                  "question": "אפשר להזמין סלט כמנה בפני עצמה?",
+                  "answer": "כן. כל הסלטים זמינים גם כמנה בפני עצמה וגם כתוספת לארוחה."
+                },
+                {
+                  "answer": "כן. כל הסלטים מורכבים במקום מירקות טריים ונעשים סמוך להגשה כדי לשמור על הטריות.",
+                  "question": "הסלטים מוכנים במקום?"
+                },
+                {
+                  "question": "האם הסלטים כשרים?",
+                  "answer": "כן. כל הסלטים מוגשים במסעדה כשרה ומוכנים באותה הקפדה שמאפיינת את שאר התפריט."
+                }
+              ],
+              "title": "כל מה שכדאי לדעת על הסלטים"
+            },
+            "bottomContent": "לא כל ארוחה חייבת להתחיל בהמבורגר. לפעמים כל מה שמתחשק הוא סלט טרי שמוכן במקום מחומרי גלם איכותיים, עם ירקות פריכים וטעמים שמרגישים טבעיים בכל ביס.\n\nבקטגוריה תמצאו סלט ירוק, סלט קיסר קטן וסלט קיסר גדול. כל סלט מורכב מירקות טריים ונעשה רק לאחר ההזמנה, כדי לשמור על הטריות והאיכות שמאפיינות את כל התפריט שלנו.\n\nאפשר ליהנות מהסלט כמנה בפני עצמה או להוסיף אותו לצד אחת מהמנות שבתפריט. מבחינתנו, גם מנה קלילה צריכה לקבל את אותה תשומת הלב, הטריות וההשקעה כמו כל מנה אחרת שיוצאת מהמטבח.",
+            "introduction": "מתחשק לכם משהו קליל, טרי ומלא בטעם? בקטגוריית הסלטים של SO WHAT תמצאו סלטים המוכנים מירקות טריים שנחתכים מדי יום, עם שילובים קלאסיים ותוספות שמעניקות לכל מנה טעם ורעננות."
+          },
+          "cat-drinks": {
+            "introduction": "אין כמו משקה קר לצד ארוחה טובה. בקטגוריית השתייה של SO WHAT תמצאו מגוון משקאות קלים שמתאימים לכל מנה, כך שתוכלו להשלים את הארוחה בדיוק כמו שאתם אוהבים.",
+            "faq": {
+              "title": "כל מה שצריך לדעת על השתייה",
+              "items": [
+                {
+                  "question": "אילו משקאות יש בתפריט?",
+                  "answer": "התפריט כולל מים מינרלים, סודה, לימונדה, קולה, קולה זירו, ספרייט, ספרייט זירו, פאנטה, ענבים ופיוז טי."
+                },
+                {
+                  "answer": "כן. כל המשקאות זמינים גם בהזמנה נפרדת, בהתאם לאפשרויות ההזמנה.",
+                  "question": "אפשר להזמין שתייה גם בלי ארוחה?"
+                },
+                {
+                  "answer": "כן. כל אחת מהארוחות כוללת גם שתייה לבחירה מתוך האפשרויות הזמינות.",
+                  "question": "השתייה כלולה בארוחות?"
+                },
+                {
+                  "answer": "כן. כל המשקאות מוגשים קרים כדי להשלים בצורה מושלמת כל ארוחה.",
+                  "question": "המשקאות מוגשים קרים?"
+                }
+              ],
+              "kicker": "שאלות נפוצות",
+              "lead": "ריכזנו עבורכם את השאלות הנפוצות כדי שתוכלו לבחור את המשקה שמתאים בדיוק לארוחה שלכם."
+            },
+            "bottomContent": "לפעמים הבחירה הכי פשוטה היא גם זו שמשלימה את כל החוויה. לצד ההמבורגרים, הארוחות והתוספות שלנו מחכה מגוון משקאות קלים וקרים שמתאימים לכל טעם.\n\nבתפריט תמצאו מים מינרלים, סודה, לימונדה, קולה, קולה זירו, ספרייט, ספרייט זירו, פאנטה, ענבים ופיוז טי. בין אם אתם מעדיפים משקה מוגז, תה קר או מים, תמיד יש אפשרות שתתאים למה שמתחשק לכם באותו רגע.\n\nכל המשקאות מוגשים קרים ומשתלבים נהדר עם כל מנה בתפריט. לפעמים זה בדיוק הפרט הקטן שמשלים את הארוחה והופך אותה למהנה עוד יותר."
+          }
+        },
+        "introduction": "ברוכים הבאים לתפריט של SO WHAT.\nכאן תוכלו לעבור בין ההמבורגרים, הארוחות, התוספות והמנות הנוספות שלנו, ולבחור בדיוק מה מתאים לכם.\nהתפריט מעודכן ומציג את האפשרויות הזמינות להזמנה.",
+        "faq": {
+          "title": "שאלות נפוצות על תפריט SO WHAT",
+          "items": [
+            {
+              "answer": "בתפריט תוכלו למצוא המבורגרים, ארוחות, תוספות ומנות נוספות. כל האפשרויות המעודכנות מופיעות בעמוד התפריט.",
+              "question": "מה אפשר למצוא בתפריט SO WHAT?"
+            },
+            {
+              "answer": "כן. התפריט של SO WHAT כשר וכולל מגוון מנות וארוחות.",
+              "question": "האם התפריט של SO WHAT כשר?"
+            },
+            {
+              "answer": "לאחר שבחרתם את המנות שלכם, תוכלו להמשיך להזמנה דרך אפשרויות ההזמנה המופיעות באתר.",
+              "question": "איך אפשר להזמין מ-SO WHAT?"
+            },
+            {
+              "question": "האם אפשר לבחור תוספות להמבורגר?",
+              "answer": "כן. אפשרויות התוספות וההתאמות הזמינות מופיעות לצד המנות הרלוונטיות בתפריט."
+            },
+            {
+              "answer": "כן. לצד ההמבורגרים תוכלו למצוא גם ארוחות, תוספות ומנות נוספות.",
+              "question": "האם יש בתפריט גם ארוחות ולא רק המבורגרים?"
+            },
+            {
+              "answer": "כן. עמוד התפריט מציג את המנות והאפשרויות הזמינות ב-SO WHAT ומתעדכן בהתאם לתפריט.",
+              "question": "האם התפריט באתר מעודכן?"
+            }
+          ],
+          "kicker": "שאלות ותשובות",
+          "lead": "ריכזנו תשובות לשאלות נפוצות על התפריט, המנות ואפשרויות ההזמנה ב-SO WHAT."
+        },
+        "metaDescription": "גלו את תפריט SO WHAT - המבורגרים, ארוחות, תוספות ומנות נוספות. עברו בין הקטגוריות, בחרו את המנה שלכם והמשיכו להזמנה.",
+        "metaTitle": "תפריט SO WHAT | המבורגרים, ארוחות ותוספות",
+        "categoryIntros": {
+          "cat-1785344863087-xuv5am": "לפעמים התוספת היא בדיוק מה שהופכת המבורגר טוב לארוחה מושלמת. בקטגוריית התוספות של SO WHAT תמצאו צ'יפס, כנפיים ונאגטס, כולם מוכנים בקפידה ומתאימים לצד כל המבורגר כשר מהתפריט.",
+          "cat-1785342932785-lxjb54": "מחפשים ארוחת המבורגר כשר שתשאיר אתכם שבעים ומרוצים? בקטגוריית הארוחות של SO WHAT תמצאו שילובים הכוללים המבורגר, צ'יפס ושתייה. כל המנות מוכנות מבשר טרי הנטחן במקום ונצלות על הפלנצ'ה רק לאחר ההזמנה.",
+          "cat-1785407701349-4rgdpg": "מתחשק לכם משהו קליל, טרי ומלא בטעם? בקטגוריית הסלטים של SO WHAT תמצאו סלטים המוכנים מירקות טריים שנחתכים מדי יום, עם שילובים קלאסיים ותוספות שמעניקות לכל מנה טעם ורעננות.",
+          "cat-drinks": "אין כמו משקה קר לצד ארוחה טובה. בקטגוריית השתייה של SO WHAT תמצאו מגוון משקאות קלים שמתאימים לכל מנה, כך שתוכלו להשלים את הארוחה בדיוק כמו שאתם אוהבים.",
+          "cat-burgers": "מחפשים המבורגר כשר שמוכן מחומרי גלם איכותיים ולא מתפשר על הטעם? בקטגוריית ההמבורגרים של SO WHAT תמצאו מגוון מנות, כולל סמאש בורגר, כולן מבשר טרי הנטחן במקום ומוכנות על הפלנצ'ה רק לאחר ההזמנה."
+        }
+      },
+      "en": {
+        "categoryIntros": {
+          "cat-burgers": "",
+          "cat-1785342932785-lxjb54": "",
+          "cat-1785407701349-4rgdpg": "",
+          "cat-1785344863087-xuv5am": "",
+          "cat-drinks": ""
+        },
+        "categoryPages": {
+          "cat-1785407701349-4rgdpg": {
+            "introduction": "",
+            "bottomContent": ""
+          },
+          "cat-1785342932785-lxjb54": {
+            "bottomContent": "",
+            "introduction": ""
+          },
+          "cat-1785344863087-xuv5am": {
+            "bottomContent": "",
+            "introduction": ""
+          },
+          "cat-burgers": {
+            "bottomContent": "",
+            "introduction": ""
+          },
+          "cat-drinks": {
+            "introduction": "",
+            "bottomContent": ""
+          }
+        }
+      },
+      "fr": {
+        "categoryIntros": {
+          "cat-1785407701349-4rgdpg": "",
+          "cat-1785342932785-lxjb54": "",
+          "cat-1785344863087-xuv5am": "",
+          "cat-drinks": "",
+          "cat-burgers": ""
+        },
+        "categoryPages": {
+          "cat-burgers": {
+            "introduction": "",
+            "bottomContent": ""
+          },
+          "cat-drinks": {
+            "bottomContent": "",
+            "introduction": ""
+          },
+          "cat-1785342932785-lxjb54": {
+            "bottomContent": "",
+            "introduction": ""
+          },
+          "cat-1785344863087-xuv5am": {
+            "bottomContent": "",
+            "introduction": ""
+          },
+          "cat-1785407701349-4rgdpg": {
+            "introduction": "",
+            "bottomContent": ""
+          }
+        }
+      }
+    }
+  }
+}

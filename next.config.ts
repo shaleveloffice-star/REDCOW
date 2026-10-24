@@ -1,5 +1,6 @@
 import type { NextConfig } from "next";
 
+import { getLegacyPathRedirects } from "./src/data/legacy-path-redirects";
 import { getMarketingShortLinkRedirects } from "./src/data/marketing-short-links";
 import { CANONICAL_SITE_ORIGIN, REDIRECT_SITE_HOSTS } from "./src/data/site-domain";
 import { SITE_IMAGE_VERSION_QUERIES } from "./src/data/site-image-versions";
@@ -129,6 +130,9 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     const pathRedirects = [
+      // Verified old→canonical menu paths first so old hosts skip the
+      // domain-hop + app slug-redirect chain.
+      ...getLegacyPathRedirects(),
       {
         source: "/branches",
         destination: "/locations",

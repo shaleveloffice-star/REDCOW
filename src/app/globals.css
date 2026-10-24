@@ -130,21 +130,28 @@
   height: 100%;
   overflow: hidden;
   border-radius: 32px;
-  background: #fff;
+  background: #111;
   direction: ltr;
 }
 
-/* Exact same technique as .home-vibe-embed — do not “center” with left:50%. */
-.recommendation-vibe-embed {
+/* Fit-scale wrapper: whole reel visible, no inner scroll on phone/desktop. */
+.recommendation-embed-fit {
   position: absolute;
   inset: 0;
-  width: 125%;
-  height: 125%;
-  max-width: none;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background: #111;
+}
+
+.recommendation-vibe-embed {
+  display: block;
+  flex: none;
   border: 0;
-  background: #fff;
-  transform: scale(0.8);
-  transform-origin: top left;
+  background: #111;
+  max-width: none;
+  transform-origin: center center;
+  /* width/height/scale set inline from native embed size */
 }
 
 .recommendation-vibe-media {
@@ -212,13 +219,6 @@
   .recommendation-vibe-island {
     top: 10px;
     height: 12px;
-  }
-
-  .recommendation-vibe-embed {
-    width: 114.47%;
-    height: 114.47%;
-    transform: scale(0.8736);
-    transform-origin: top left;
   }
 }
 

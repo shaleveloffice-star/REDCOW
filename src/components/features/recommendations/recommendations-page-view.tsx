@@ -1,5 +1,6 @@
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { RecommendationMedia } from "@/components/features/recommendations/recommendation-media";
+import { recommendationHasPlayableMedia } from "@/lib/recommendations/recommendation-embed";
 import type { Locale } from "@/i18n/config";
 import type { RecommendationsConfig } from "@/types/recommendations";
 
@@ -28,7 +29,9 @@ export function RecommendationsPageView({
   homeLabel: string;
 }) {
   const copy = COPY[locale];
-  const items = config.items.filter((item) => item.isActive);
+  const items = config.items.filter(
+    (item) => item.isActive && recommendationHasPlayableMedia(item)
+  );
 
   return (
     <div className="recommendations-page-shell">

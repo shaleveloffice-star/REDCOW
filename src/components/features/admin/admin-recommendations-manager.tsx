@@ -12,6 +12,8 @@ import { AdminImageUrlField } from "@/components/features/admin/admin-site-image
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
+import { isVideoMediaUrl } from "@/lib/menu-media";
+import { resolveRecommendationEmbed } from "@/lib/recommendations/recommendation-embed";
 import { saveRecommendationsAction } from "@/server/actions/recommendations.actions";
 import type {
   CreatorRecommendation,
@@ -243,7 +245,11 @@ export function AdminRecommendationsManager({
                   <span>
                     {PLATFORM_LABELS[item.platform]} · {TEMPLATE_LABELS[item.template]}
                   </span>
-                  {item.handle ? <small>{item.handle}</small> : null}
+                  {!item.mediaUrl.trim() && !resolveRecommendationEmbed(item.contentUrl) ? (
+                    <small className="admin-form-error">חסר קישור ריל תקין — לכן שחור באתר</small>
+                  ) : item.handle ? (
+                    <small>{item.handle}</small>
+                  ) : null}
                 </div>
                 <StatusBadge active={item.isActive} />
                 <div className="admin-recommendation-order-actions">
@@ -296,9 +302,22 @@ export function AdminRecommendationsManager({
             className="admin-form admin-recommendation-form"
             onSubmit={(event) => {
               event.preventDefault();
+              const contentUrl = draft.contentUrl.trim();
+              const mediaUrl = draft.mediaUrl.trim();
+              const hasEmbed = contentUrl ? Boolean(resolveRecommendationEmbed(contentUrl)) : false;
+              if (!mediaUrl && !hasEmbed) {
+                setError(
+                  contentUrl
+                    ? "הקישור לסרטון לא מזוהה. הדביקו קישור מלא לריל/פוסט (Share → Copy link), לא קישור לפרופיל."
+                    : "חובה להדביק קישור לריל או להעלות וידאו/תמונה. קישור לפרופיל בלבד לא מספיק."
+                );
+                return;
+              }
               const exists = config.items.some((item) => item.id === draft.id);
               const updated = {
                 ...draft,
+                contentUrl,
+                mediaUrl,
                 quote: draft.quote.trim() || draft.creatorName.trim() || "המלצה",
                 mediaAlt:
                   draft.mediaAlt.trim() ||
@@ -316,8 +335,8 @@ export function AdminRecommendationsManager({
             }}
           >
             <p className="admin-form-hint">
-              אחרי «הוסף לרשימה» השינוי נשמר מיד לאתר. חובה: שם, קישור לפרופיל, וקישור ריל או
-              קובץ וידאו.
+              חובה קישור לריל מלא (לא רק פרופיל) או קובץ וידאו — אחרת באתר יופיע מסך שחור.
+              השמירה נשלחת מיד לאתר.
             </p>
 
             <label>
@@ -344,12 +363,14 @@ export function AdminRecommendationsManager({
               קישור לסרטון / ריל (Instagram, TikTok או YouTube)
               <input
                 dir="ltr"
-                placeholder="https://www.instagram.com/reel/…"
+                required={!draft.mediaUrl.trim()}
+                placeholder="https://www.instagram.com/reel/XXXX…"
                 value={draft.contentUrl}
                 onChange={(event) => {
                   const contentUrl = event.target.value;
                   const hasReel = Boolean(contentUrl.trim());
                   const hasFile = Boolean(draft.mediaUrl.trim());
+                  setError(null);
                   setDraft({
                     ...draft,
                     contentUrl,
@@ -365,7 +386,7 @@ export function AdminRecommendationsManager({
               />
             </label>
             <p className="admin-form-hint">
-              הדביקו קישור לריל/סרטון — באתר יוצג הנגן עם Play (לא רק תמונה).
+              לא קישור לפרופיל — קישור לריל/פוסט ספציפי (Share → Copy link).
             </p>
 
             <AdminImageUrlField

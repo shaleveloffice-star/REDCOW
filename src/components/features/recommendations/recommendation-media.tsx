@@ -37,5 +37,10 @@ export function RecommendationMedia({ item }: { item: CreatorRecommendation }) {
     );
   }
 
-  return <div className="recommendation-vibe-media recommendation-vibe-media--empty" aria-hidden="true" />;
+  return (
+    <div className="recommendation-vibe-media recommendation-vibe-media--empty">
+      <p>{item.creatorName || "יוצר תוכן"}</p>
+      <span>חסר קישור לריל — ערכו באדמין</span>
+    </div>
+  );
 }

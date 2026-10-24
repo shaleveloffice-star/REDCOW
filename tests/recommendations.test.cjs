@@ -111,6 +111,10 @@ test('recommendation embed resolves Instagram TikTok and YouTube share links', (
     'https://www.instagram.com/reel/AbCdEf123/embed/?hidecaption=1'
   );
   assert.equal(
+    resolveRecommendationEmbed('https://www.instagram.com/reels/AbCdEf123/?igsh=abc')?.src,
+    'https://www.instagram.com/reel/AbCdEf123/embed/?hidecaption=1'
+  );
+  assert.equal(
     resolveRecommendationEmbed('https://www.tiktok.com/@creator/video/1234567890123456789')?.provider,
     'tiktok'
   );

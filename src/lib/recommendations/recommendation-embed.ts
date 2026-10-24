@@ -26,13 +26,13 @@ export function resolveRecommendationEmbed(url: string): RecommendationEmbed | n
   const path = stripTrailingSlash(parsed.pathname);
 
   if (host === "instagram.com" || host.endsWith(".instagram.com")) {
-    const match = path.match(/^\/(reel|p|tv)\/([^/]+)/i);
+    // Supports /reel/, /reels/, /p/, /tv/, and /@user/reel/ID share paths.
+    const match = path.match(/\/(reels?|p|tv)\/([^/]+)/i);
     if (!match) return null;
-    const kind = match[1].toLowerCase();
+    const kind = match[1].toLowerCase() === "reels" ? "reel" : match[1].toLowerCase();
     const id = match[2];
     return {
       provider: "instagram",
-      // hidecaption keeps the embed shorter so it fits a portrait card without scroll.
       src: `https://www.instagram.com/${kind}/${id}/embed/?hidecaption=1`
     };
   }
@@ -68,4 +68,15 @@ export function resolveRecommendationEmbed(url: string): RecommendationEmbed | n
   }
 
   return null;
+}
+
+export function recommendationHasPlayableMedia(item: {
+  mediaUrl?: string;
+  contentUrl?: string;
+  mediaType?: string;
+}): boolean {
+  const mediaUrl = String(item.mediaUrl ?? "").trim();
+  const contentUrl = String(item.contentUrl ?? "").trim();
+  if (mediaUrl) return true;
+  return Boolean(contentUrl && resolveRecommendationEmbed(contentUrl));
 }

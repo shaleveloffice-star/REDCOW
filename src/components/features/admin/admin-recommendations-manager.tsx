@@ -389,7 +389,7 @@ export function AdminRecommendationsManager({
             </p>
 
             <AdminImageUrlField
-              label="או העלאת קובץ וידאו/תמונה (אופציונלי)"
+              label="קובץ וידאו לדף הבית / מדיה להמלצה"
               value={draft.mediaUrl}
               images={images}
               required={false}
@@ -412,13 +412,13 @@ export function AdminRecommendationsManager({
             />
 
             <AdminImageUrlField
-              label="תמונה לריבוע בדף הבית (אופציונלי)"
+              label="תמונת פתיחה לסרטון (אופציונלי)"
               value={draft.posterUrl}
               images={images}
               required={false}
               onChange={(posterUrl) => setDraft({ ...draft, posterUrl })}
             />
-            <p className="admin-form-hint">מומלץ צילום ריבועי של היוצר. בלי תמונה יוצגו המדיה שהועלתה או ראשי התיבות של השם.</p>
+            <p className="admin-form-hint">לניגון אוטומטי בריבועים בדף הבית יש להעלות קובץ MP4, WebM או MOV בשדה המדיה. קישור לאינסטגרם או תמונה בלבד יופיעו בעמוד ההמלצות, ולא בסקשן הסרטונים בדף הבית.</p>
             <label>
               תיאור מדיה לנגישות (אופציונלי)
               <input

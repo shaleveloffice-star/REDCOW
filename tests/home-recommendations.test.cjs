@@ -47,3 +47,11 @@ test('rotation respects hidden documents and reduced motion', () => {
   h.document.hidden = true; h.tick(); assert.equal(h.state[0], 0);
   h.document.hidden = false; h.reduce(); h.tick(); assert.equal(h.state[0], 0);
 });
+
+ test('homepage autoplay accepts only direct video files, never Instagram links or image posters', () => {
+  const { getRecommendationPreviewVideo: resolve } = createLoader()('@/lib/recommendations/preview-video');
+  assert.equal(resolve({ mediaUrl: '/photo.jpg', contentUrl: 'https://www.instagram.com/p/example/' }), '');
+  assert.equal(resolve({ mediaUrl: '/clip.mp4', contentUrl: 'https://www.instagram.com/p/example/' }), '/clip.mp4');
+  assert.equal(resolve({ mediaUrl: '/photo.jpg', contentUrl: 'https://cdn.example.com/clip.webm?version=2' }), 'https://cdn.example.com/clip.webm?version=2');
+  assert.equal(resolve({}), '');
+});

@@ -7,7 +7,7 @@ export function RecommendationGallery({ items }: { items: CreatorRecommendation[
   return (
     <ul className="recommendations-gallery">
       {visible.map((item) => (
-        <li key={item.id} className="recommendation-card">
+        <li key={item.id} id={`creator-${item.id}`} className="recommendation-card">
           <div className="recommendation-square"><RecommendationMedia item={item} /></div>
           <h2 className="recommendation-creator">{item.creatorName}</h2>
           {item.handle ? <p className="recommendation-handle" dir="ltr">{item.handle}</p> : null}

@@ -399,7 +399,7 @@ export function AdminRecommendationsManager({
                   ...draft,
                   mediaUrl,
                   mediaType: isVideo ? "video" : "image",
-                  posterUrl: "",
+                  posterUrl: draft.posterUrl,
                   template:
                     mediaUrl || draft.contentUrl
                       ? isVideo || draft.contentUrl
@@ -411,6 +411,14 @@ export function AdminRecommendationsManager({
               }}
             />
 
+            <AdminImageUrlField
+              label="תמונה לריבוע בדף הבית (אופציונלי)"
+              value={draft.posterUrl}
+              images={images}
+              required={false}
+              onChange={(posterUrl) => setDraft({ ...draft, posterUrl })}
+            />
+            <p className="admin-form-hint">מומלץ צילום ריבועי של היוצר. בלי תמונה יוצגו המדיה שהועלתה או ראשי התיבות של השם.</p>
             <label>
               תיאור מדיה לנגישות (אופציונלי)
               <input

@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 import { HomeAtmosphereSection } from "@/components/features/home/home-atmosphere-section";
 import { HomeBrandStorySection } from "@/components/features/home/home-brand-story-section";
 import { HeroSection } from "@/components/features/home/hero-section";
+import { HomeRecommendationsSection } from "@/components/features/home/home-recommendations-section";
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
 import { HomeSmashStorySection } from "@/components/features/home/home-smash-story-section";
 import { HomeSocialVibeSection } from "@/components/features/home/home-social-vibe-section";
@@ -12,6 +13,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
   getCachedHomepageMenu,
+  getRecommendationsForDisplay,
   getCachedResolvedSeoPageContent,
   getCachedSiteImagesMap
 } from "@/lib/cache/cached-data";
@@ -26,6 +28,7 @@ import { resolveSiteImagePair } from "@/lib/site-image-url";
 import { HOME_HERO_IMAGE } from "@/data/site-images.registry";
 import { HERO_IMAGE_VERSION } from "@/data/site-image-versions";
 import type { SiteImagesMap } from "@/types/site-images";
+import { recommendationHasPlayableMedia } from "@/lib/recommendations/recommendation-embed";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -34,7 +37,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function HomePage() {
   const locale = await getServerLocale();
-  const [siteImages, homepageMenuItems, homeSeo, branches] = await Promise.all([
+  const [siteImages, homepageMenuItems, homeSeo, branches, recommendations] = await Promise.all([
     getCachedSiteImagesMap().catch((err) => {
       console.error("[HomePage] site images failed", err instanceof Error ? err.message : err);
       return {} as SiteImagesMap;
@@ -46,7 +49,8 @@ export default async function HomePage() {
       return items.slice(0, 8);
     }),
     getCachedResolvedSeoPageContent(locale, "home"),
-    listBranches({ activeOnly: true })
+    listBranches({ activeOnly: true }),
+    getRecommendationsForDisplay()
   ]);
   const homeFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(homeSeo.faq.items));
   const heroImages = resolveSiteImagePair(siteImages, "hero-burger", HOME_HERO_IMAGE, HERO_IMAGE_VERSION);
@@ -65,6 +69,9 @@ export default async function HomePage() {
           heroFocusDesktop={pickSiteImageFocus(siteImages, "hero-burger", "desktop")}
           heroFocusMobile={pickSiteImageFocus(siteImages, "hero-burger", "mobile")}
         />
+        {recommendations.enabled ? (
+          <HomeRecommendationsSection items={recommendations.items.filter((item) => item.isActive && recommendationHasPlayableMedia(item))} />
+        ) : null}
         <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
         <HomeBrandStorySection siteImages={siteImages} />
         <HomeAtmosphereSection siteImages={siteImages} />

@@ -633,6 +633,7 @@ export function AdminStoriesManager({
             <th>כותרת</th>
             <th>Slug</th>
             <th>סדר</th>
+            <th>תאריך פרסום</th>
             <th>סטטוס</th>
             <th>מגזין</th>
             <th>קישורים</th>
@@ -645,6 +646,11 @@ export function AdminStoriesManager({
               <td>{item.title}</td>
               <td>{item.slug || "—"}</td>
               <td>{item.sortOrder}</td>
+              <td>
+                {item.publishedAt
+                  ? new Date(item.publishedAt).toLocaleDateString("he-IL")
+                  : "—"}
+              </td>
               <td>
                 <StatusBadge active={item.isActive} />
               </td>

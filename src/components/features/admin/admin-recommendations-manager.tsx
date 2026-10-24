@@ -80,15 +80,23 @@ export function AdminRecommendationsManager({
     setError(null);
   };
 
-  const saveAll = () => {
+  const persistConfig = (next: RecommendationsInput) => {
+    const payload = {
+      ...next,
+      items: normalizeOrder(next.items)
+    };
+    setConfig(payload);
+    setSaved(false);
+    setError(null);
     run(async () => {
-      const result = await saveRecommendationsAction({
-        ...config,
-        items: normalizeOrder(config.items)
-      });
+      const result = await saveRecommendationsAction(payload);
       setConfig(result);
       setSaved(true);
     });
+  };
+
+  const saveAll = () => {
+    persistConfig(config);
   };
 
   const move = (id: string, direction: -1 | 1) => {
@@ -97,7 +105,7 @@ export function AdminRecommendationsManager({
     if (index < 0 || target < 0 || target >= config.items.length) return;
     const items = [...config.items];
     [items[index], items[target]] = [items[target], items[index]];
-    updateConfig({ items: normalizeOrder(items) });
+    persistConfig({ ...config, items: normalizeOrder(items) });
   };
 
   const dropBefore = (targetId: string) => {
@@ -108,7 +116,7 @@ export function AdminRecommendationsManager({
     if (from < 0 || to < 0) return;
     const [moved] = items.splice(from, 1);
     items.splice(to, 0, moved);
-    updateConfig({ items: normalizeOrder(items) });
+    persistConfig({ ...config, items: normalizeOrder(items) });
     setDraggedId(null);
   };
 
@@ -196,7 +204,7 @@ export function AdminRecommendationsManager({
           onAdd={() => setDraft(newRecommendation(config.items.length + 1))}
         >
           <p className="admin-form-hint">
-            גררו כרטיסים לשינוי סדר, או השתמשו בחצים. לבסוף לחצו “שמירת כל השינויים”.
+            הוספה/עריכה/מחיקה נשמרות אוטומטית לאתר. אפשר גם לגרור לשינוי סדר.
           </p>
         </AdminToolbar>
 
@@ -263,8 +271,11 @@ export function AdminRecommendationsManager({
                   onEdit={() => setDraft({ ...item })}
                   onDelete={() => {
                     if (!confirmDelete(item.creatorName)) return;
-                    updateConfig({
-                      items: normalizeOrder(config.items.filter((entry) => entry.id !== item.id))
+                    persistConfig({
+                      ...config,
+                      items: normalizeOrder(
+                        config.items.filter((entry) => entry.id !== item.id)
+                      )
                     });
                   }}
                 />
@@ -288,21 +299,25 @@ export function AdminRecommendationsManager({
               const exists = config.items.some((item) => item.id === draft.id);
               const updated = {
                 ...draft,
+                quote: draft.quote.trim() || draft.creatorName.trim() || "המלצה",
+                mediaAlt:
+                  draft.mediaAlt.trim() ||
+                  draft.creatorName.trim() ||
+                  "סרטון המלצה מיוצר תוכן",
                 updatedAt: new Date().toISOString()
               };
-              updateConfig({
-                items: normalizeOrder(
-                  exists
-                    ? config.items.map((item) => (item.id === updated.id ? updated : item))
-                    : [...config.items, updated]
-                )
-              });
+              const items = normalizeOrder(
+                exists
+                  ? config.items.map((item) => (item.id === updated.id ? updated : item))
+                  : [...config.items, updated]
+              );
+              persistConfig({ ...config, items });
               closeModal();
             }}
           >
             <p className="admin-form-hint">
-              שדות חובה: שם היוצר, ציטוט/המלצה, תיאור מדיה לנגישות, וקישור לפרופיל. להצגת
-              סרטון עם Play — הדביקו קישור לריל או העלו קובץ MP4.
+              אחרי «הוסף לרשימה» השינוי נשמר מיד לאתר. חובה: שם, קישור לפרופיל, וקישור ריל או
+              קובץ וידאו.
             </p>
 
             <label>
@@ -316,10 +331,9 @@ export function AdminRecommendationsManager({
             </label>
 
             <label>
-              ציטוט / המלצה
+              ציטוט / המלצה (אופציונלי)
               <textarea
-                required
-                rows={4}
+                rows={3}
                 maxLength={1200}
                 value={draft.quote}
                 onChange={(event) => setDraft({ ...draft, quote: event.target.value })}
@@ -378,9 +392,8 @@ export function AdminRecommendationsManager({
             />
 
             <label>
-              תיאור מדיה לנגישות
+              תיאור מדיה לנגישות (אופציונלי)
               <input
-                required
                 maxLength={300}
                 placeholder="למשל: סרטון של מאי בן חקון ב־SO WHAT"
                 value={draft.mediaAlt}
@@ -435,8 +448,8 @@ export function AdminRecommendationsManager({
               onCancel={closeModal}
               submitLabel={
                 config.items.some((item) => item.id === draft.id)
-                  ? "עדכן ברשימה"
-                  : "הוסף לרשימה"
+                  ? "שמור ועדכן באתר"
+                  : "שמור והצג באתר"
               }
             />
           </form>

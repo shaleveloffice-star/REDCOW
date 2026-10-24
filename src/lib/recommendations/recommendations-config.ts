@@ -139,13 +139,13 @@ function coerceItem(value: unknown, index: number, strict: boolean): CreatorReco
     creatorName,
     handle: strict ? text(item.handle, "שם משתמש", 120) : softText(item.handle, 120),
     quote: strict
-      ? text(item.quote, "ציטוט / המלצה", 1200, true)
+      ? text(item.quote, "ציטוט / המלצה", 1200) || creatorName
       : softText(item.quote, 1200),
     mediaType,
     mediaUrl,
     posterUrl: strict ? url(item.posterUrl, "תמונת המתנה") : softUrl(item.posterUrl),
     mediaAlt: strict
-      ? text(item.mediaAlt, "תיאור מדיה לנגישות", 300, true)
+      ? text(item.mediaAlt, "תיאור מדיה לנגישות", 300) || creatorName
       : softText(item.mediaAlt, 300) || creatorName,
     platform,
     profileUrl: strict

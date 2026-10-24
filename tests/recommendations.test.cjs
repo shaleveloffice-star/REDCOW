@@ -81,10 +81,16 @@ test('recommendations validation requires core fields and accepts minimal creato
   assert.equal(soft.items[0].creatorName, 'May');
   assert.equal(soft.items[0].contentUrl, 'https://www.instagram.com/reel/AbCdEf/');
 
+  // Empty quote/mediaAlt are filled from the creator name on save.
+  const filled = validate({
+    ...defaults,
+    items: [item({ quote: '', mediaAlt: '' })]
+  });
+  assert.equal(filled.items[0].quote, 'Dana');
+  assert.equal(filled.items[0].mediaAlt, 'Dana');
+
   for (const patch of [
     { creatorName: '' },
-    { quote: '' },
-    { mediaAlt: '' },
     { profileUrl: '' },
     { mediaUrl: 'javascript:alert(1)' },
     { sortOrder: -1 },

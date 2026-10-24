@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getPrivacyContentFr(): LegalDocument {
   return {
-    lastUpdated: "Dernière mise à jour : 3 octobre 2026",
+    lastUpdated: "Dernière mise à jour : 21 octobre 2026",
     title: "Politique de confidentialité - SO WHAT",
     introTitle: "Introduction",
     introBlocks: [
@@ -16,7 +16,7 @@ export function getPrivacyContentFr(): LegalDocument {
       },
       {
         type: "paragraph",
-        text: "Le site sert à présenter des informations sur SO WHAT, notamment la marque, le menu, l'établissement, les horaires, le club clients, les coordonnées et d'autres contenus."
+        text: "Le site sert à présenter des informations sur SO WHAT, notamment la marque, le menu, l'établissement, les horaires, le club clients, les coordonnées et d'autres contenus. Le restaurant SO WHAT propose un service à table assuré par des serveurs pour les clients qui mangent sur place."
       },
       {
         type: "paragraph",

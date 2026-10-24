@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getTermsContentFr(): LegalDocument {
   return {
-    lastUpdated: "Dernière mise à jour : 3 octobre 2026",
+    lastUpdated: "Dernière mise à jour : 21 octobre 2026",
     title: "Conditions générales d'utilisation du site – SO WHAT",
     introBlocks: [
       {
@@ -88,6 +88,10 @@ export function getTermsContentFr(): LegalDocument {
       {
         title: "4. Commandes",
         blocks: [
+          {
+            type: "paragraph",
+            text: "Le restaurant SO WHAT propose un service à table assuré par des serveurs pour les clients qui mangent sur place."
+          },
           {
             type: "paragraph",
             text: "Le site de SO WHAT lui-même n'est pas le système de commande et ne traite ni la commande ni le paiement."

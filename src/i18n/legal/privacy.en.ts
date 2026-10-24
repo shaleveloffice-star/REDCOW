@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getPrivacyContentEn(): LegalDocument {
   return {
-    lastUpdated: "Last updated: 3 October 2026",
+    lastUpdated: "Last updated: 21 October 2026",
     title: "Privacy Policy - SO WHAT",
     introTitle: "Introduction",
     introBlocks: [
@@ -16,7 +16,7 @@ export function getPrivacyContentEn(): LegalDocument {
       },
       {
         type: "paragraph",
-        text: "The website is used to present information about SO WHAT, including the brand, menu, branch, opening hours, customer club, contact details, and related content."
+        text: "The website is used to present information about SO WHAT, including the brand, menu, branch, opening hours, customer club, contact details, and related content. SO WHAT provides waiter service for guests dining at the restaurant."
       },
       {
         type: "paragraph",

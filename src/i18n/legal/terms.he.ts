@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getTermsContentHe(): LegalDocument {
   return {
-    lastUpdated: "תאריך עדכון אחרון: 3 באוקטובר 2026",
+    lastUpdated: "תאריך עדכון אחרון: 21 באוקטובר 2026",
     title: "תקנון אתר ותנאי שימוש – SO WHAT",
     introBlocks: [
       {
@@ -88,6 +88,10 @@ export function getTermsContentHe(): LegalDocument {
       {
         title: "4. הזמנות",
         blocks: [
+          {
+            type: "paragraph",
+            text: "במסעדת SO WHAT ניתן שירות מלצרים ללקוחות הסועדים במקום."
+          },
           {
             type: "paragraph",
             text: "האתר של SO WHAT עצמו אינו מערכת ההזמנות ואינו מעבד את ההזמנה או התשלום."

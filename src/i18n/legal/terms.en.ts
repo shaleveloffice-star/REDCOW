@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getTermsContentEn(): LegalDocument {
   return {
-    lastUpdated: "Last updated: 3 October 2026",
+    lastUpdated: "Last updated: 21 October 2026",
     title: "Website Terms and Conditions of Use – SO WHAT",
     introBlocks: [
       {
@@ -88,6 +88,10 @@ export function getTermsContentEn(): LegalDocument {
       {
         title: "4. Orders",
         blocks: [
+          {
+            type: "paragraph",
+            text: "SO WHAT provides waiter service for guests dining at the restaurant."
+          },
           {
             type: "paragraph",
             text: "The SO WHAT website itself is not the ordering system and does not process the order or the payment."

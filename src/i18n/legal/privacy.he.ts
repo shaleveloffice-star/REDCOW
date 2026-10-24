@@ -5,7 +5,7 @@ const CONTACT_EMAIL = BUSINESS.email;
 
 export function getPrivacyContentHe(): LegalDocument {
   return {
-    lastUpdated: "תאריך עדכון אחרון: 3 באוקטובר 2026",
+    lastUpdated: "תאריך עדכון אחרון: 21 באוקטובר 2026",
     title: "מדיניות פרטיות - SO WHAT",
     introTitle: "מבוא",
     introBlocks: [
@@ -16,7 +16,7 @@ export function getPrivacyContentHe(): LegalDocument {
       },
       {
         type: "paragraph",
-        text: "האתר משמש להצגת מידע על SO WHAT, לרבות המותג, התפריט, הסניף, שעות פעילות, מועדון לקוחות, פרטי התקשרות ותכנים נוספים."
+        text: "האתר משמש להצגת מידע על SO WHAT, לרבות המותג, התפריט, הסניף, שעות פעילות, מועדון לקוחות, פרטי התקשרות ותכנים נוספים. במסעדת SO WHAT ניתן שירות מלצרים ללקוחות הסועדים במקום."
       },
       {
         type: "paragraph",

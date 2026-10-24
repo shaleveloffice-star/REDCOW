@@ -29,6 +29,13 @@ function text(value: unknown, label: string, maxLength: number, required = false
   return trimmed;
 }
 
+function softText(value: unknown, maxLength: number, fallback = ""): string {
+  if (typeof value !== "string") return fallback;
+  const trimmed = value.trim();
+  if (trimmed.length > maxLength) return trimmed.slice(0, maxLength);
+  return trimmed;
+}
+
 function url(value: unknown, label: string, required = false): string {
   const raw = text(value, label, 4096, required);
   if (!raw) return "";
@@ -37,27 +44,43 @@ function url(value: unknown, label: string, required = false): string {
   return safe;
 }
 
-function dateValue(value: unknown): string {
+function softUrl(value: unknown): string {
+  if (typeof value !== "string") return "";
+  const raw = value.trim();
+  if (!raw || raw.length > 4096) return "";
+  try {
+    const safe = assertSafeHttpUrl(raw, "url");
+    return safe.startsWith("data:") ? "" : safe;
+  } catch {
+    return "";
+  }
+}
+
+function dateValue(value: unknown, strict: boolean): string {
   if (value === undefined || value === null) return "";
-  const date = text(value, "תאריך ההמלצה", 10);
+  if (typeof value !== "string") {
+    if (strict) throw new Error("תאריך ההמלצה לא תקין");
+    return "";
+  }
+  const date = value.trim();
+  if (!date) return "";
   const parsed = new Date(`${date}T00:00:00Z`);
   if (
-    date &&
-    (!/^\d{4}-\d{2}-\d{2}$/.test(date) ||
-      !Number.isFinite(parsed.getTime()) ||
-      parsed.toISOString().slice(0, 10) !== date)
+    !/^\d{4}-\d{2}-\d{2}$/.test(date) ||
+    !Number.isFinite(parsed.getTime()) ||
+    parsed.toISOString().slice(0, 10) !== date
   ) {
-    throw new Error("תאריך ההמלצה לא תקין");
+    if (strict) throw new Error("תאריך ההמלצה לא תקין");
+    return "";
   }
   return date;
 }
 
-function validateItem(value: unknown, index: number): CreatorRecommendation {
-  if (!value || typeof value !== "object" || Array.isArray(value)) {
-    throw new Error(`המלצה ${index + 1}: נתונים לא תקינים`);
-  }
-  const item = value as Record<string, unknown>;
-  const mediaUrl = url(item.mediaUrl, "מדיה");
+function resolveMedia(
+  item: Record<string, unknown>,
+  strict: boolean
+): { mediaUrl: string; mediaType: RecommendationMediaType } {
+  const mediaUrl = strict ? url(item.mediaUrl, "מדיה") : softUrl(item.mediaUrl);
   const inferredType: RecommendationMediaType = mediaUrl
     ? isVideoMediaUrl(mediaUrl)
       ? "video"
@@ -67,14 +90,26 @@ function validateItem(value: unknown, index: number): CreatorRecommendation {
     typeof item.mediaType === "string" && MEDIA_TYPES.includes(item.mediaType as RecommendationMediaType)
       ? (item.mediaType as RecommendationMediaType)
       : inferredType;
-  // Prefer URL shape when media exists so a mistaken "image" + .mp4 still works.
   const mediaType = mediaUrl ? inferredType : rawType;
-  if (mediaUrl && mediaType === "video" && !isVideoMediaUrl(mediaUrl)) {
+  if (strict && mediaUrl && mediaType === "video" && !isVideoMediaUrl(mediaUrl)) {
     throw new Error("לווידאו יש להזין קישור ישיר לקובץ MP4, WebM או MOV");
   }
+  return { mediaUrl, mediaType };
+}
 
-  const sortOrder = Number(item.sortOrder);
-  if (!Number.isInteger(sortOrder) || sortOrder < 0 || sortOrder > 10_000) {
+function coerceItem(value: unknown, index: number, strict: boolean): CreatorRecommendation {
+  if (!value || typeof value !== "object" || Array.isArray(value)) {
+    throw new Error(`המלצה ${index + 1}: נתונים לא תקינים`);
+  }
+  const item = value as Record<string, unknown>;
+  const { mediaUrl, mediaType } = resolveMedia(item, strict);
+
+  const sortOrderRaw = Number(item.sortOrder);
+  const sortOrder =
+    Number.isInteger(sortOrderRaw) && sortOrderRaw >= 0 && sortOrderRaw <= 10_000
+      ? sortOrderRaw
+      : index + 1;
+  if (strict && (!Number.isInteger(sortOrderRaw) || sortOrderRaw < 0 || sortOrderRaw > 10_000)) {
     throw new Error("סדר תצוגה לא תקין");
   }
 
@@ -91,24 +126,42 @@ function validateItem(value: unknown, index: number): CreatorRecommendation {
           : "portrait"
         : "quote";
 
+  const now = new Date().toISOString();
+  const id = strict
+    ? text(item.id, "מזהה", 160, true)
+    : softText(item.id, 160) || `recommendation-${index + 1}`;
+  const creatorName = strict
+    ? text(item.creatorName, "שם היוצר", 120, true)
+    : softText(item.creatorName, 120) || `יוצר ${index + 1}`;
+
   return {
-    id: text(item.id, "מזהה", 160, true),
-    creatorName: text(item.creatorName, "שם היוצר", 120, true),
-    handle: text(item.handle, "שם משתמש", 120),
-    quote: text(item.quote, "ציטוט / המלצה", 1200, true),
+    id,
+    creatorName,
+    handle: strict ? text(item.handle, "שם משתמש", 120) : softText(item.handle, 120),
+    quote: strict
+      ? text(item.quote, "ציטוט / המלצה", 1200, true)
+      : softText(item.quote, 1200),
     mediaType,
     mediaUrl,
-    posterUrl: url(item.posterUrl, "תמונת המתנה"),
-    mediaAlt: text(item.mediaAlt, "תיאור מדיה לנגישות", 300, true),
+    posterUrl: strict ? url(item.posterUrl, "תמונת המתנה") : softUrl(item.posterUrl),
+    mediaAlt: strict
+      ? text(item.mediaAlt, "תיאור מדיה לנגישות", 300, true)
+      : softText(item.mediaAlt, 300) || creatorName,
     platform,
-    profileUrl: url(item.profileUrl, "קישור לפרופיל", true),
-    contentUrl: url(item.contentUrl, "קישור לתוכן"),
-    recommendationDate: dateValue(item.recommendationDate),
+    profileUrl: strict
+      ? url(item.profileUrl, "קישור לפרופיל", true)
+      : softUrl(item.profileUrl),
+    contentUrl: strict ? url(item.contentUrl, "קישור לתוכן") : softUrl(item.contentUrl),
+    recommendationDate: dateValue(item.recommendationDate, strict),
     template,
     isActive: item.isActive !== false,
     sortOrder,
-    createdAt: text(item.createdAt, "תאריך יצירה", 80, true),
-    updatedAt: text(item.updatedAt, "תאריך עדכון", 80, true)
+    createdAt: strict
+      ? text(item.createdAt, "תאריך יצירה", 80, true)
+      : softText(item.createdAt, 80) || now,
+    updatedAt: strict
+      ? text(item.updatedAt, "תאריך עדכון", 80, true)
+      : softText(item.updatedAt, 80) || now
   };
 }
 
@@ -123,7 +176,7 @@ export function validateRecommendationsInput(input: unknown): RecommendationsInp
 
   const ids = new Set<string>();
   const items = value.items.map((item, index) => {
-    const validated = validateItem(item, index);
+    const validated = coerceItem(item, index, true);
     if (ids.has(validated.id)) throw new Error("נמצא מזהה המלצה כפול");
     ids.add(validated.id);
     return validated;
@@ -137,17 +190,36 @@ export function validateRecommendationsInput(input: unknown): RecommendationsInp
   };
 }
 
+/** Lenient read path — never crash admin/public on older incomplete cards. */
 export function normalizeRecommendationsConfig(input: unknown): RecommendationsConfig {
   const raw = input && typeof input === "object" ? (input as Partial<RecommendationsConfig>) : {};
-  const merged = {
-    ...DEFAULT_RECOMMENDATIONS_CONFIG,
-    ...raw,
-    items: Array.isArray(raw.items) ? raw.items : []
-  };
-  const validated = validateRecommendationsInput(merged);
+  const rawItems = Array.isArray(raw.items) ? raw.items : [];
+  const ids = new Set<string>();
+  const items: CreatorRecommendation[] = [];
+
+  for (let index = 0; index < rawItems.length; index += 1) {
+    try {
+      const item = coerceItem(rawItems[index], index, false);
+      if (ids.has(item.id)) continue;
+      ids.add(item.id);
+      items.push(item);
+    } catch {
+      // Skip unreadable rows so admin stays reachable.
+    }
+  }
+
+  const title =
+    typeof raw.title === "string" && raw.title.trim()
+      ? raw.title.trim().slice(0, 160)
+      : DEFAULT_RECOMMENDATIONS_CONFIG.title;
+  const introduction =
+    typeof raw.introduction === "string" ? raw.introduction.trim().slice(0, 800) : "";
+
   return {
-    ...validated,
-    items: validated.items.sort((a, b) => a.sortOrder - b.sortOrder),
+    enabled: raw.enabled === true,
+    title,
+    introduction,
+    items: items.sort((a, b) => a.sortOrder - b.sortOrder),
     updatedAt:
       typeof raw.updatedAt === "string" && raw.updatedAt.trim()
         ? raw.updatedAt

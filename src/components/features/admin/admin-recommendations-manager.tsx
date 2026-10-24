@@ -301,8 +301,8 @@ export function AdminRecommendationsManager({
             }}
           >
             <p className="admin-form-hint">
-              שדות חובה: שם היוצר, ציטוט/המלצה, תיאור מדיה לנגישות, וקישור לפרופיל. אפשר
-              להוסיף תמונה או סרטון אופציונלית.
+              שדות חובה: שם היוצר, ציטוט/המלצה, תיאור מדיה לנגישות, וקישור לפרופיל. להצגת
+              סרטון עם Play — הדביקו קישור לריל או העלו קובץ MP4.
             </p>
 
             <label>
@@ -326,8 +326,36 @@ export function AdminRecommendationsManager({
               />
             </label>
 
+            <label>
+              קישור לסרטון / ריל (Instagram, TikTok או YouTube)
+              <input
+                dir="ltr"
+                placeholder="https://www.instagram.com/reel/…"
+                value={draft.contentUrl}
+                onChange={(event) => {
+                  const contentUrl = event.target.value;
+                  const hasReel = Boolean(contentUrl.trim());
+                  const hasFile = Boolean(draft.mediaUrl.trim());
+                  setDraft({
+                    ...draft,
+                    contentUrl,
+                    template: hasReel
+                      ? "media"
+                      : hasFile
+                        ? draft.mediaType === "video"
+                          ? "media"
+                          : "portrait"
+                        : "quote"
+                  });
+                }}
+              />
+            </label>
+            <p className="admin-form-hint">
+              הדביקו קישור לריל/סרטון — באתר יוצג הנגן עם Play (לא רק תמונה).
+            </p>
+
             <AdminImageUrlField
-              label="תמונה או סרטון (אופציונלי — סרטון יוצג עם Play)"
+              label="או העלאת קובץ וידאו/תמונה (אופציונלי)"
               value={draft.mediaUrl}
               images={images}
               required={false}
@@ -338,7 +366,12 @@ export function AdminRecommendationsManager({
                   mediaUrl,
                   mediaType: isVideo ? "video" : "image",
                   posterUrl: "",
-                  template: mediaUrl ? (isVideo ? "media" : "portrait") : "quote",
+                  template:
+                    mediaUrl || draft.contentUrl
+                      ? isVideo || draft.contentUrl
+                        ? "media"
+                        : "portrait"
+                      : "quote",
                   mediaAlt: draft.mediaAlt || meta?.altSuggestion || ""
                 });
               }}
@@ -369,7 +402,11 @@ export function AdminRecommendationsManager({
             <div className={`admin-recommendation-live-preview is-template-${draft.template}`}>
               <p className="admin-form-hint">תצוגה מקדימה</p>
               <div className="admin-recommendation-live-preview-card">
-                {draft.mediaUrl ? (
+                {draft.contentUrl.trim() ? (
+                  <div className="admin-recommendation-preview-placeholder">
+                    באתר יוצג נגן מהקישור לריל/סרטון
+                  </div>
+                ) : draft.mediaUrl ? (
                   draft.mediaType === "video" || /\.(mp4|webm|mov)(?:$|\?)/i.test(draft.mediaUrl) ? (
                     <video src={draft.mediaUrl} controls playsInline preload="metadata" />
                   ) : (

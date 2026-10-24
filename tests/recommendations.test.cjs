@@ -29,8 +29,11 @@ function item(patch = {}) {
 }
 
 test('recommendations validation requires core fields and accepts minimal creator cards', () => {
-  const { DEFAULT_RECOMMENDATIONS_CONFIG: defaults, validateRecommendationsInput: validate } =
-    createLoader()('@/lib/recommendations/recommendations-config');
+  const {
+    DEFAULT_RECOMMENDATIONS_CONFIG: defaults,
+    validateRecommendationsInput: validate,
+    normalizeRecommendationsConfig: normalize
+  } = createLoader()('@/lib/recommendations/recommendations-config');
   const valid = validate({ ...defaults, enabled: true, items: [item()] });
   assert.equal(valid.items[0].template, 'portrait');
   assert.equal(valid.items[0].creatorName, 'Dana');
@@ -58,6 +61,26 @@ test('recommendations validation requires core fields and accepts minimal creato
   });
   assert.equal(video.items[0].mediaType, 'video');
 
+  // Read path stays open even when older cards miss newly required fields.
+  const soft = normalize({
+    ...defaults,
+    enabled: true,
+    items: [
+      {
+        id: 'legacy-1',
+        creatorName: 'May',
+        mediaUrl: '/images/burger.jpg',
+        mediaType: 'image',
+        contentUrl: 'https://www.instagram.com/reel/AbCdEf/',
+        sortOrder: 1,
+        isActive: true
+      }
+    ]
+  });
+  assert.equal(soft.items.length, 1);
+  assert.equal(soft.items[0].creatorName, 'May');
+  assert.equal(soft.items[0].contentUrl, 'https://www.instagram.com/reel/AbCdEf/');
+
   for (const patch of [
     { creatorName: '' },
     { quote: '' },
@@ -71,6 +94,25 @@ test('recommendations validation requires core fields and accepts minimal creato
     assert.throws(() => validate({ ...defaults, items: [item(patch)] }), JSON.stringify(patch));
   }
   assert.throws(() => validate({ ...defaults, items: [item(), item()] }), /כפול/);
+});
+
+test('recommendation embed resolves Instagram TikTok and YouTube share links', () => {
+  const { resolveRecommendationEmbed } = createLoader()(
+    '@/lib/recommendations/recommendation-embed'
+  );
+  assert.equal(
+    resolveRecommendationEmbed('https://www.instagram.com/reel/AbCdEf123/')?.src,
+    'https://www.instagram.com/reel/AbCdEf123/embed'
+  );
+  assert.equal(
+    resolveRecommendationEmbed('https://www.tiktok.com/@creator/video/1234567890123456789')?.provider,
+    'tiktok'
+  );
+  assert.equal(
+    resolveRecommendationEmbed('https://youtu.be/dQw4w9WgXcQ')?.src,
+    'https://www.youtube-nocookie.com/embed/dQw4w9WgXcQ'
+  );
+  assert.equal(resolveRecommendationEmbed('https://instagram.com/creator'), null);
 });
 
 test('recommendations admin saves normalized order only after authorization', async t => {

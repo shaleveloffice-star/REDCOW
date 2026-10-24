@@ -1,9 +1,8 @@
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
-import { isVideoMediaUrl } from "@/lib/menu-media";
+import { RecommendationMedia } from "@/components/features/recommendations/recommendation-media";
 import { isSafePublicHref } from "@/lib/security/safe-url";
 import type { Locale } from "@/i18n/config";
 import type {
-  CreatorRecommendation,
   RecommendationPlatform,
   RecommendationsConfig
 } from "@/types/recommendations";
@@ -40,37 +39,6 @@ const COPY: Record<Locale, {
     empty: "De nouvelles recommandations arrivent bientôt."
   }
 };
-
-function RecommendationMedia({ item }: { item: CreatorRecommendation }) {
-  const mediaUrl = item.mediaUrl.trim();
-  const showAsVideo = item.mediaType === "video" || isVideoMediaUrl(mediaUrl);
-
-  if (showAsVideo && mediaUrl) {
-    return (
-      <video
-        className="recommendation-card-media recommendation-card-media--video"
-        controls
-        playsInline
-        preload="metadata"
-        // No poster — show the video itself so visitors can press Play.
-        aria-label={item.mediaAlt || item.creatorName}
-      >
-        <source src={mediaUrl} />
-      </video>
-    );
-  }
-
-  return (
-    // Admin-managed URLs may be local or hosted by Vercel Blob.
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      className="recommendation-card-media"
-      src={mediaUrl}
-      alt={item.mediaAlt || item.creatorName}
-      loading="lazy"
-    />
-  );
-}
 
 function formatRecommendationDate(value: string, locale: Locale): string {
   if (!value) return "";

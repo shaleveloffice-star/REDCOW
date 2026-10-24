@@ -50,10 +50,10 @@
   margin: 0 auto;
   max-width: 12ch;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(3rem, 9vw, 7.5rem);
+  font-size: clamp(2.5rem, 5vw, 4.5rem);
   font-weight: 400;
   letter-spacing: -0.055em;
-  line-height: 0.88;
+  line-height: 1.1;
 }
 
 .recommendations-intro {
@@ -66,7 +66,7 @@
 
 .recommendations-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 300px));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 326px), 360px));
   justify-content: center;
   gap: clamp(14px, 2vw, 24px);
   width: min(1200px, calc(100% - 32px));
@@ -88,7 +88,7 @@
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 1 / 1;
+  aspect-ratio: 9 / 16;
   overflow: hidden;
   border: 0;
   border-radius: 22px;
@@ -97,7 +97,7 @@
     radial-gradient(circle at 30% 20%, rgba(250, 126, 30, 0.35), transparent 45%),
     radial-gradient(circle at 70% 80%, rgba(150, 47, 191, 0.35), transparent 50%),
     #141414;
-  cursor: pointer;
+  cursor: auto;
   direction: ltr;
 }
 
@@ -115,12 +115,37 @@
   object-fit: cover;
   border: 0;
   background: #111;
-  pointer-events: none;
+  pointer-events: auto;
 }
 
 .recommendation-square-media--video {
-  object-fit: cover;
+  object-fit: contain;
   background: #000;
+}
+
+.recommendation-square-embed {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #fff;
+}
+
+.recommendation-square:has(.recommendation-square-embed) {
+  min-height: 700px;
+}
+
+.recommendation-creator {
+  margin: 16px 0 4px;
+  font-size: 1.2rem;
+  line-height: 1.4;
+  text-align: center;
+}
+
+.recommendation-handle {
+  margin: 0;
+  color: #bbb;
+  text-align: center;
 }
 
 .recommendation-square-media--poster {
@@ -216,12 +241,12 @@
 @media (max-width: 720px) {
   .recommendations-gallery {
     width: calc(100% - 28px);
-    grid-template-columns: min(78vw, 320px);
+    grid-template-columns: minmax(0, 360px);
     justify-content: center;
   }
 
   .recommendation-square {
-    border-radius: 50%;
+    border-radius: 16px;
   }
 
   .recommendation-lightbox-stage {
@@ -402,7 +427,7 @@
   .recommendation-card,
   .recommendation-card.is-template-media,
   .recommendation-card.is-template-quote {
-    grid-column: span 6;
+    grid-column: auto;
   }
 
   .admin-recommendation-row {
@@ -429,7 +454,7 @@
   }
 
   .recommendations-page-shell {
-    width: min(100% - 24px, 1240px);
+    width: 100%;
   }
 
   .recommendation-card,

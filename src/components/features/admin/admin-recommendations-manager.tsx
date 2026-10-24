@@ -12,7 +12,6 @@ import { AdminImageUrlField } from "@/components/features/admin/admin-site-image
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
-import { isVideoMediaUrl } from "@/lib/menu-media";
 import { resolveRecommendationEmbed } from "@/lib/recommendations/recommendation-embed";
 import { saveRecommendationsAction } from "@/server/actions/recommendations.actions";
 import type {

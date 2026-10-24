@@ -15,6 +15,10 @@ export function RecommendationMedia({ item }: { item: CreatorRecommendation }) {
       <video
         className="recommendation-square-media recommendation-square-media--video"
         controls
+        autoPlay
+        muted
+        loop
+        poster={item.posterUrl || undefined}
         playsInline
         preload="metadata"
         aria-label={label}

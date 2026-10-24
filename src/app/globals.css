@@ -136,24 +136,22 @@
   direction: ltr;
 }
 
-/* Fit-scale wrapper: whole reel visible, no inner scroll on phone/desktop. */
+/* Cover-scale: fills phone screen, clipped — no black gaps, no inner scroll. */
 .recommendation-embed-fit {
   position: absolute;
   inset: 0;
-  display: grid;
-  place-items: center;
   overflow: hidden;
   background: #111;
 }
 
 .recommendation-vibe-embed {
+  position: absolute;
   display: block;
-  flex: none;
   border: 0;
   background: #111;
   max-width: none;
-  transform-origin: center center;
-  /* width/height/scale set inline from native embed size */
+  transform-origin: top left;
+  /* top/left/width/height/scale set inline */
 }
 
 .recommendation-vibe-media {

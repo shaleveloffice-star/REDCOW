@@ -37,15 +37,6 @@ function url(value: unknown, label: string, required = false): string {
   return safe;
 }
 
-function enumValue<T extends string>(
-  value: unknown,
-  values: readonly T[],
-  label: string
-): T {
-  if (!values.includes(value as T)) throw new Error(`${label}: בחירה לא תקינה`);
-  return value as T;
-}
-
 function dateValue(value: unknown): string {
   if (value === undefined || value === null) return "";
   const date = text(value, "תאריך ההמלצה", 10);
@@ -66,13 +57,20 @@ function validateItem(value: unknown, index: number): CreatorRecommendation {
     throw new Error(`המלצה ${index + 1}: נתונים לא תקינים`);
   }
   const item = value as Record<string, unknown>;
-  const mediaType = enumValue(item.mediaType, MEDIA_TYPES, "סוג מדיה");
-  const mediaUrl = url(item.mediaUrl, "מדיה", true);
-  if (mediaType === "video" && !isVideoMediaUrl(mediaUrl)) {
+  const mediaUrl = url(item.mediaUrl, "מדיה");
+  const inferredType: RecommendationMediaType = mediaUrl
+    ? isVideoMediaUrl(mediaUrl)
+      ? "video"
+      : "image"
+    : "image";
+  const rawType =
+    typeof item.mediaType === "string" && MEDIA_TYPES.includes(item.mediaType as RecommendationMediaType)
+      ? (item.mediaType as RecommendationMediaType)
+      : inferredType;
+  // Prefer URL shape when media exists so a mistaken "image" + .mp4 still works.
+  const mediaType = mediaUrl ? inferredType : rawType;
+  if (mediaUrl && mediaType === "video" && !isVideoMediaUrl(mediaUrl)) {
     throw new Error("לווידאו יש להזין קישור ישיר לקובץ MP4, WebM או MOV");
-  }
-  if (mediaType === "image" && isVideoMediaUrl(mediaUrl)) {
-    throw new Error("נבחרה תמונה אך הוזן קובץ וידאו");
   }
 
   const sortOrder = Number(item.sortOrder);
@@ -80,21 +78,34 @@ function validateItem(value: unknown, index: number): CreatorRecommendation {
     throw new Error("סדר תצוגה לא תקין");
   }
 
+  const platform =
+    typeof item.platform === "string" && PLATFORMS.includes(item.platform as RecommendationPlatform)
+      ? (item.platform as RecommendationPlatform)
+      : "instagram";
+  const template =
+    typeof item.template === "string" && TEMPLATES.includes(item.template as RecommendationTemplate)
+      ? (item.template as RecommendationTemplate)
+      : mediaUrl
+        ? mediaType === "video"
+          ? "media"
+          : "portrait"
+        : "quote";
+
   return {
     id: text(item.id, "מזהה", 160, true),
     creatorName: text(item.creatorName, "שם היוצר", 120, true),
     handle: text(item.handle, "שם משתמש", 120),
-    quote: text(item.quote, "ציטוט", 1200),
+    quote: text(item.quote, "ציטוט / המלצה", 1200, true),
     mediaType,
     mediaUrl,
     posterUrl: url(item.posterUrl, "תמונת המתנה"),
-    mediaAlt: text(item.mediaAlt, "תיאור המדיה", 300),
-    platform: enumValue(item.platform, PLATFORMS, "פלטפורמה"),
-    profileUrl: url(item.profileUrl, "קישור לפרופיל"),
+    mediaAlt: text(item.mediaAlt, "תיאור מדיה לנגישות", 300, true),
+    platform,
+    profileUrl: url(item.profileUrl, "קישור לפרופיל", true),
     contentUrl: url(item.contentUrl, "קישור לתוכן"),
     recommendationDate: dateValue(item.recommendationDate),
-    template: enumValue(item.template, TEMPLATES, "טמפלייט"),
-    isActive: item.isActive === true,
+    template,
+    isActive: item.isActive !== false,
     sortOrder,
     createdAt: text(item.createdAt, "תאריך יצירה", 80, true),
     updatedAt: text(item.updatedAt, "תאריך עדכון", 80, true)

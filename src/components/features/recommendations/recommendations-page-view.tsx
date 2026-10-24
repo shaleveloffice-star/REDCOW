@@ -1,4 +1,5 @@
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
+import { isVideoMediaUrl } from "@/lib/menu-media";
 import { isSafePublicHref } from "@/lib/security/safe-url";
 import type { Locale } from "@/i18n/config";
 import type {
@@ -41,17 +42,20 @@ const COPY: Record<Locale, {
 };
 
 function RecommendationMedia({ item }: { item: CreatorRecommendation }) {
-  if (item.mediaType === "video") {
+  const mediaUrl = item.mediaUrl.trim();
+  const showAsVideo = item.mediaType === "video" || isVideoMediaUrl(mediaUrl);
+
+  if (showAsVideo && mediaUrl) {
     return (
       <video
-        className="recommendation-card-media"
+        className="recommendation-card-media recommendation-card-media--video"
         controls
         playsInline
         preload="metadata"
-        poster={item.posterUrl || undefined}
+        // No poster — show the video itself so visitors can press Play.
         aria-label={item.mediaAlt || item.creatorName}
       >
-        <source src={item.mediaUrl} />
+        <source src={mediaUrl} />
       </video>
     );
   }
@@ -61,7 +65,7 @@ function RecommendationMedia({ item }: { item: CreatorRecommendation }) {
     // eslint-disable-next-line @next/next/no-img-element
     <img
       className="recommendation-card-media"
-      src={item.mediaUrl}
+      src={mediaUrl}
       alt={item.mediaAlt || item.creatorName}
       loading="lazy"
     />

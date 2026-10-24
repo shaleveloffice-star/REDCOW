@@ -93,6 +93,14 @@
   object-fit: cover;
 }
 
+.recommendation-card-media--video {
+  position: relative;
+  z-index: 1;
+  background: #000;
+  /* Keep controls usable above the platform badge overlay. */
+  object-fit: contain;
+}
+
 .recommendation-platform {
   position: absolute;
   inset-block-start: 14px;

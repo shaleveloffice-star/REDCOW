@@ -300,62 +300,25 @@ export function AdminRecommendationsManager({
               closeModal();
             }}
           >
-            <div className="admin-recommendation-form-grid">
-              <label>
-                שם היוצר
-                <input
-                  required
-                  maxLength={120}
-                  value={draft.creatorName}
-                  onChange={(event) => setDraft({ ...draft, creatorName: event.target.value })}
-                />
-              </label>
-              <label>
-                שם משתמש
-                <input
-                  maxLength={120}
-                  placeholder="@creator"
-                  value={draft.handle}
-                  onChange={(event) => setDraft({ ...draft, handle: event.target.value })}
-                />
-              </label>
-              <label>
-                פלטפורמה
-                <select
-                  value={draft.platform}
-                  onChange={(event) =>
-                    setDraft({
-                      ...draft,
-                      platform: event.target.value as RecommendationPlatform
-                    })
-                  }
-                >
-                  {Object.entries(PLATFORM_LABELS).map(([value, label]) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                טמפלייט
-                <select
-                  value={draft.template}
-                  onChange={(event) =>
-                    setDraft({
-                      ...draft,
-                      template: event.target.value as RecommendationTemplate
-                    })
-                  }
-                >
-                  {Object.entries(TEMPLATE_LABELS).map(([value, label]) => (
-                    <option key={value} value={value}>{label}</option>
-                  ))}
-                </select>
-              </label>
-            </div>
+            <p className="admin-form-hint">
+              שדות חובה: שם היוצר, ציטוט/המלצה, תיאור מדיה לנגישות, וקישור לפרופיל. אפשר
+              להוסיף תמונה או סרטון אופציונלית.
+            </p>
+
+            <label>
+              שם היוצר
+              <input
+                required
+                maxLength={120}
+                value={draft.creatorName}
+                onChange={(event) => setDraft({ ...draft, creatorName: event.target.value })}
+              />
+            </label>
 
             <label>
               ציטוט / המלצה
               <textarea
+                required
                 rows={4}
                 maxLength={1200}
                 value={draft.quote}
@@ -363,111 +326,60 @@ export function AdminRecommendationsManager({
               />
             </label>
 
-            <label>
-              סוג מדיה
-              <select
-                value={draft.mediaType}
-                onChange={(event) =>
-                  setDraft({
-                    ...draft,
-                    mediaType: event.target.value as CreatorRecommendation["mediaType"],
-                    mediaUrl: ""
-                  })
-                }
-              >
-                <option value="image">תמונה</option>
-                <option value="video">וידאו</option>
-              </select>
-            </label>
-
-            {draft.mediaType === "image" ? (
-              <AdminImageUrlField
-                label="תמונה"
-                value={draft.mediaUrl}
-                images={images}
-                required
-                onChange={(mediaUrl, meta) =>
-                  setDraft({
-                    ...draft,
-                    mediaUrl,
-                    mediaAlt: draft.mediaAlt || meta?.altSuggestion || ""
-                  })
-                }
-              />
-            ) : (
-              <>
-                <label>
-                  קישור ישיר לווידאו
-                  <input
-                    required
-                    dir="ltr"
-                    placeholder="https://…/video.mp4"
-                    value={draft.mediaUrl}
-                    onChange={(event) => setDraft({ ...draft, mediaUrl: event.target.value })}
-                  />
-                </label>
-                <AdminImageUrlField
-                  label="תמונת המתנה לווידאו"
-                  value={draft.posterUrl}
-                  images={images}
-                  onChange={(posterUrl) => setDraft({ ...draft, posterUrl })}
-                />
-              </>
-            )}
+            <AdminImageUrlField
+              label="תמונה או סרטון (אופציונלי — סרטון יוצג עם Play)"
+              value={draft.mediaUrl}
+              images={images}
+              required={false}
+              onChange={(mediaUrl, meta) => {
+                const isVideo = /\.(mp4|webm|mov)(?:$|\?)/i.test(mediaUrl);
+                setDraft({
+                  ...draft,
+                  mediaUrl,
+                  mediaType: isVideo ? "video" : "image",
+                  posterUrl: "",
+                  template: mediaUrl ? (isVideo ? "media" : "portrait") : "quote",
+                  mediaAlt: draft.mediaAlt || meta?.altSuggestion || ""
+                });
+              }}
+            />
 
             <label>
               תיאור מדיה לנגישות
               <input
+                required
                 maxLength={300}
+                placeholder="למשל: סרטון של מאי בן חקון ב־SO WHAT"
                 value={draft.mediaAlt}
                 onChange={(event) => setDraft({ ...draft, mediaAlt: event.target.value })}
               />
             </label>
-            <div className="admin-recommendation-form-grid">
-              <label>
-                תאריך ההמלצה
-                <input
-                  type="date"
-                  value={draft.recommendationDate}
-                  onChange={(event) =>
-                    setDraft({ ...draft, recommendationDate: event.target.value })
-                  }
-                />
-              </label>
-              <label>
-                קישור לפרופיל
-                <input
-                  dir="ltr"
-                  placeholder="https://instagram.com/…"
-                  value={draft.profileUrl}
-                  onChange={(event) => setDraft({ ...draft, profileUrl: event.target.value })}
-                />
-              </label>
-              <label>
-                קישור לפוסט / סרטון
-                <input
-                  dir="ltr"
-                  placeholder="https://…"
-                  value={draft.contentUrl}
-                  onChange={(event) => setDraft({ ...draft, contentUrl: event.target.value })}
-                />
-              </label>
-            </div>
+
+            <label>
+              קישור לפרופיל
+              <input
+                required
+                dir="ltr"
+                placeholder="https://instagram.com/…"
+                value={draft.profileUrl}
+                onChange={(event) => setDraft({ ...draft, profileUrl: event.target.value })}
+              />
+            </label>
+
             <div className={`admin-recommendation-live-preview is-template-${draft.template}`}>
               <p className="admin-form-hint">תצוגה מקדימה</p>
               <div className="admin-recommendation-live-preview-card">
                 {draft.mediaUrl ? (
-                  draft.mediaType === "image" ? (
-                    <img src={draft.mediaUrl} alt="" />
+                  draft.mediaType === "video" || /\.(mp4|webm|mov)(?:$|\?)/i.test(draft.mediaUrl) ? (
+                    <video src={draft.mediaUrl} controls playsInline preload="metadata" />
                   ) : (
-                    <video src={draft.mediaUrl} poster={draft.posterUrl || undefined} muted />
+                    <img src={draft.mediaUrl} alt="" />
                   )
                 ) : (
-                  <div className="admin-recommendation-preview-placeholder">מדיה</div>
+                  <div className="admin-recommendation-preview-placeholder">בלי מדיה</div>
                 )}
                 <div>
                   <strong>{draft.creatorName || "שם היוצר"}</strong>
-                  {draft.handle ? <small>{draft.handle}</small> : null}
                   {draft.quote ? <blockquote>“{draft.quote}”</blockquote> : null}
                 </div>
               </div>

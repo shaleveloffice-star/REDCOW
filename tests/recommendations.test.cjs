@@ -28,20 +28,42 @@ function item(patch = {}) {
   };
 }
 
-test('recommendations validation accepts templates and rejects unsafe or mismatched media', () => {
+test('recommendations validation requires core fields and accepts minimal creator cards', () => {
   const { DEFAULT_RECOMMENDATIONS_CONFIG: defaults, validateRecommendationsInput: validate } =
     createLoader()('@/lib/recommendations/recommendations-config');
   const valid = validate({ ...defaults, enabled: true, items: [item()] });
   assert.equal(valid.items[0].template, 'portrait');
   assert.equal(valid.items[0].creatorName, 'Dana');
 
+  const minimal = validate({
+    ...defaults,
+    items: [
+      item({
+        handle: '',
+        mediaUrl: '',
+        contentUrl: '',
+        recommendationDate: '',
+        template: 'quote'
+      })
+    ]
+  });
+  assert.equal(minimal.items[0].mediaUrl, '');
+  assert.equal(minimal.items[0].quote, 'Great burger');
+  assert.equal(minimal.items[0].profileUrl, 'https://instagram.com/dana');
+
+  // Video URL is inferred even if mediaType was left as image.
+  const video = validate({
+    ...defaults,
+    items: [item({ mediaType: 'image', mediaUrl: 'https://cdn.example.com/clip.mp4' })]
+  });
+  assert.equal(video.items[0].mediaType, 'video');
+
   for (const patch of [
     { creatorName: '' },
+    { quote: '' },
+    { mediaAlt: '' },
+    { profileUrl: '' },
     { mediaUrl: 'javascript:alert(1)' },
-    { mediaType: 'video', mediaUrl: '/images/dana.jpg' },
-    { mediaType: 'image', mediaUrl: '/video/dana.mp4' },
-    { template: 'unknown' },
-    { platform: 'facebook' },
     { sortOrder: -1 },
     { profileUrl: '//unsafe.example' },
     { recommendationDate: '18/09/2026' }

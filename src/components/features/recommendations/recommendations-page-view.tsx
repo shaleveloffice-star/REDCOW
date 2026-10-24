@@ -1,5 +1,5 @@
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
-import { RecommendationMedia } from "@/components/features/recommendations/recommendation-media";
+import { RecommendationGallery } from "@/components/features/recommendations/recommendation-gallery";
 import { recommendationHasPlayableMedia } from "@/lib/recommendations/recommendation-embed";
 import type { Locale } from "@/i18n/config";
 import type { RecommendationsConfig } from "@/types/recommendations";
@@ -50,16 +50,7 @@ export function RecommendationsPageView({
       {items.length === 0 ? (
         <p className="recommendations-empty">{copy.empty}</p>
       ) : (
-        <ul className="recommendations-gallery">
-          {items.map((item) => (
-            <li key={item.id} className="recommendation-card">
-              <div className="recommendation-square">
-                <RecommendationMedia item={item} />
-                <h2 className="sr-only">{item.creatorName}</h2>
-              </div>
-            </li>
-          ))}
-        </ul>
+        <RecommendationGallery items={config.items} />
       )}
     </div>
   );

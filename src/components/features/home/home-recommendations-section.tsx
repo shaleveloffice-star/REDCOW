@@ -6,6 +6,7 @@ import { useLocale, useTranslations } from "@/components/providers/locale-provid
 import { getRecommendationPreviewVideo } from "@/lib/recommendations/preview-video";
 import { resolveRecommendationEmbed } from "@/lib/recommendations/recommendation-embed";
 import type { CreatorRecommendation } from "@/types/recommendations";
+import { RecommendationVideoDialog } from "@/components/features/recommendations/recommendation-video-dialog";
 
 export function HomeRecommendationsSection({ items }: { items: CreatorRecommendation[] }) {
   const { locale } = useLocale();
@@ -14,6 +15,8 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   const [start, setStart] = useState(0);
   const [paused, setPaused] = useState(false);
   const [interacting, setInteracting] = useState(false);
+  const [selected, setSelected] = useState<CreatorRecommendation | null>(null);
+  const trigger = useRef<HTMLButtonElement | null>(null);
   const copy = locale === "he"
     ? { all: "לכל ההמלצות", pause: "עצירת הסרטונים", play: "הפעלת הסרטונים", next: "המלצות נוספות" }
     : locale === "fr"
@@ -23,7 +26,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   const hasNativeVideo = items.some((item) => getRecommendationPreviewVideo(item));
 
   useEffect(() => {
-    if (!canRotate || paused || interacting) return;
+    if (!canRotate || paused || interacting || selected) return;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const timer = window.setInterval(() => {
       const rect = sectionRef.current?.getBoundingClientRect();
@@ -33,7 +36,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
       setStart((value) => (value + 3) % items.length);
     }, 3000);
     return () => window.clearInterval(timer);
-  }, [canRotate, items.length, paused, interacting]);
+  }, [canRotate, items.length, paused, interacting, selected]);
 
   if (!items.length) return null;
   const visible = Array.from({ length: Math.min(3, items.length) }, (_, i) => items[(start + i) % items.length]);
@@ -54,9 +57,13 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
           return (
             <li key={item.id}>
               <div className="home-creator-image">
-                {video ? <CreatorVideo src={video} paused={paused} /> : embed ? (
+                {video ? <CreatorVideo src={video} paused={paused || Boolean(selected)} /> : embed ? (
                   <CreatorEmbed src={embed.src} title={item.creatorName} />
                 ) : <img src={item.mediaUrl} alt={item.mediaAlt || item.creatorName} loading="lazy" />}
+                {video || embed ? <button type="button" className="home-creator-open"
+                  aria-label={`${locale === "he" ? "פתיחת הסרטון במסך מלא" : locale === "fr" ? "Ouvrir la vidéo en plein écran" : "Open video full screen"}: ${item.creatorName}`}
+                  aria-haspopup="dialog"
+                  onClick={(event) => { trigger.current = event.currentTarget; setSelected(item); }} /> : null}
               </div>
               <Link href={`/recommendations#creator-${encodeURIComponent(item.id)}`} className="home-creator home-creator-name">
                 {item.creatorName}
@@ -69,6 +76,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
         <button type="button" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? copy.play : copy.pause}</button>
         {canRotate ? <button type="button" onClick={() => setStart((value) => (value + 3) % items.length)}>{copy.next}</button> : null}
       </div> : null}
+      {selected ? <RecommendationVideoDialog item={selected} trigger={trigger.current} onClose={() => setSelected(null)} /> : null}
     </section>
   );
 }
@@ -84,7 +92,7 @@ function CreatorEmbed({ src, title }: { src: string; title: string }) {
     return () => observer.disconnect();
   }, []);
   return <div ref={ref} className="home-creator-embed">
-    <iframe src={src} title={`Video: ${title}`} loading="lazy"
+    <iframe src={src} title={`Video: ${title}`} loading="lazy" tabIndex={-1} aria-hidden="true"
       allow="autoplay; encrypted-media; picture-in-picture; web-share" allowFullScreen
       referrerPolicy="strict-origin-when-cross-origin"
       style={{ width: 326, height: 700, transform: `scale(${width / 326})` }} />

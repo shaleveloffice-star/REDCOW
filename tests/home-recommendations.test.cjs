@@ -15,6 +15,7 @@ function harness(count, customItems) {
       useEffect: fn => effects.push(fn)
     },
     'react/jsx-runtime': { jsx, jsxs: jsx },
+    '@/components/features/recommendations/recommendation-video-dialog': { RecommendationVideoDialog: 'dialog' },
     'next/link': { default: 'a', __esModule: true },
     '@/components/providers/locale-provider': { useLocale: () => ({ locale: 'he' }), useTranslations: () => ({ nav: { recommendations: 'ממליצים' } }) }
   }, { document, window: { innerHeight: 800, matchMedia: () => ({ get matches() { return reduced; } }), setInterval: (fn, ms) => { tick = fn; delay = ms; return 1; }, clearInterval() {} } });
@@ -52,9 +53,8 @@ test('Instagram recommendations without video files remain visible and embed the
   const tree = harness(2, items).render();
   const cards = tree.props.children[1].props.children;
   assert.equal(cards.length, 2);
-  assert.equal(cards[0].props.children[0].props.children.props.src, 'https://www.instagram.com/p/first/embed/?hidecaption=1');
-  assert.equal(cards[1].props.children[0].props.children.props.children, undefined);
-  assert.equal(cards[1].props.children[0].props.children.props.src, 'https://www.instagram.com/reel/second/embed/?hidecaption=1');
+  assert.equal(cards[0].props.children[0].props.children[0].props.src, 'https://www.instagram.com/p/first/embed/?hidecaption=1');
+  assert.equal(cards[1].props.children[0].props.children[0].props.src, 'https://www.instagram.com/reel/second/embed/?hidecaption=1');
   assert.equal(tree.props.children[2], null, 'No misleading play/pause control for third-party embeds');
 });
 
@@ -62,6 +62,25 @@ test('rotation respects hidden documents and reduced motion', () => {
   const h = harness(5); h.render(); h.start();
   h.document.hidden = true; h.tick(); assert.equal(h.state[0], 0);
   h.document.hidden = false; h.reduce(); h.tick(); assert.equal(h.state[0], 0);
+});
+
+test('opening a video pauses previews and closing restores the strip', () => {
+  const h = harness(4);
+  let tree = h.render();
+  const trigger = {};
+  tree.props.children[1].props.children[0].props.children[0].props.children[1].props.onClick({ currentTarget: trigger });
+  tree = h.render();
+  assert.equal(tree.props.children[3].props.item.id, '0');
+  for (const card of tree.props.children[1].props.children) {
+    assert.equal(card.props.children[0].props.children[0].props.paused, true);
+  }
+  h.start();
+  assert.equal(h.delay(), undefined, 'rotation must not start while dialog is open');
+  tree.props.children[3].props.onClose();
+  tree = h.render();
+  assert.equal(tree.props.children[3], null);
+  h.start();
+  assert.equal(h.delay(), 3000);
 });
 
  test('homepage autoplay accepts only direct video files, never Instagram links or image posters', () => {

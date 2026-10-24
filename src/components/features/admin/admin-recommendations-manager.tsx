@@ -134,6 +134,21 @@ export function AdminRecommendationsManager({
           />
           הצגת העמוד באתר ובתפריט
         </label>
+        {!config.enabled ? (
+          <p className="admin-form-hint" role="status">
+            העמוד כבוי כרגע — הכתובת{" "}
+            <code dir="ltr">/recommendations</code> תחזיר 404 עד שתסמנו את התיבה למעלה
+            ותשמרו.
+          </p>
+        ) : (
+          <p className="admin-form-hint" role="status">
+            כתובת העמוד באתר:{" "}
+            <a href="/recommendations" target="_blank" rel="noopener noreferrer" dir="ltr">
+              /recommendations
+            </a>
+            {" · "}מופיע גם בתפריט כ־«ממליצים עלינו».
+          </p>
+        )}
         <label>
           כותרת העמוד
           <input
@@ -156,8 +171,19 @@ export function AdminRecommendationsManager({
           <button className="button" type="submit" disabled={isPending}>
             {isPending ? "שומר…" : "שמירת כל השינויים"}
           </button>
-          <a className="button secondary" href="/recommendations" target="_blank" rel="noreferrer">
-            תצוגה באתר
+          <a
+            className="button secondary"
+            href="/recommendations"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-disabled={!config.enabled}
+            title={
+              config.enabled
+                ? "פתיחת עמוד הממליצים באתר"
+                : "הפעילו קודם «הצגת העמוד באתר ובתפריט» ושמרו"
+            }
+          >
+            צפייה באתר: ממליצים
           </a>
         </div>
         {error ? <p className="admin-form-error" role="alert">{error}</p> : null}

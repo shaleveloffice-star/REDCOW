@@ -37,17 +37,19 @@
   font-size: 0.78rem;
   font-weight: 800;
   letter-spacing: 0.18em;
-  background-image: linear-gradient(
-    45deg,
-    #f09433 0%,
-    #e6683c 25%,
-    #dc2743 50%,
-    #cc2366 75%,
-    #bc1888 100%
+  /* Same Instagram gradient as homepage FOLLOW THE VIBE CTA */
+  background: linear-gradient(
+    90deg,
+    #feda75 0%,
+    #fa7e1e 24%,
+    #d62976 50%,
+    #962fbf 74%,
+    #4f5bd5 100%
   );
-  -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .recommendations-hero h1 {

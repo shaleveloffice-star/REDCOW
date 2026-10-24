@@ -32,7 +32,8 @@ export function resolveRecommendationEmbed(url: string): RecommendationEmbed | n
     const id = match[2];
     return {
       provider: "instagram",
-      src: `https://www.instagram.com/${kind}/${id}/embed`
+      // hidecaption keeps the embed shorter so it fits a portrait card without scroll.
+      src: `https://www.instagram.com/${kind}/${id}/embed/?hidecaption=1`
     };
   }
 

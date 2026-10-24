@@ -13,12 +13,12 @@ export const CATEGORY_LEGACY_SLUGS_BY_ID: Readonly<Record<string, readonly strin
 /** Extra slug aliases per menu item id (production URLs, old naming, etc.). */
 export const MENU_ITEM_LEGACY_SLUGS_BY_ID: Readonly<Record<string, readonly string[]>> = {
   "item-nb-burger-klasi": ["hamburger-nb-classic", "hamburger-so-classic"],
-  "item-nb-burger-kamhin": ["hamburger-nb-truffle"],
+  "item-nb-burger-kamhin": ["hamburger-nb-truffle", "so-truffle-burger"],
   // Production CMS continues the house burger as so-house-burger (may use a new document id).
   "item-nb-burger-konfi": ["hamburger-nb-confit", "so-house-burger"],
   "item-nb-burger-vegan": ["hamburger-nb-vegan"],
   "item-meal-nb-klasi": ["nb-classic-meal", "so-classic-meal"],
-  "item-meal-nb-kamhin": ["nb-truffle-meal"],
+  "item-meal-nb-kamhin": ["nb-truffle-meal", "so-truffle-burger-meal"],
   "item-side-wings": ["chili-chicken-wings", "wings", "wings-10"],
   "item-side-nuggets-4": ["4-piece-nuggets", "nuggets-4"],
   "item-salad-green": ["green-salad"],

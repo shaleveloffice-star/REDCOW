@@ -20,6 +20,8 @@ export const LEGACY_MENU_PATH_REDIRECTS: readonly LegacyPathRedirect[] = [
   { source: "/menu/hamburger-nb-classic", destination: "/menu/hamburger-so-classic" },
   { source: "/menu/4-piece-nuggets", destination: "/menu/nuggets-4" },
   { source: "/menu/nb-classic-meal", destination: "/menu/so-classic-meal" },
+  { source: "/menu/hamburger-nb-truffle", destination: "/menu/so-truffle-burger" },
+  { source: "/menu/nb-truffle-meal", destination: "/menu/so-truffle-burger-meal" },
   { source: "/menu/chili-chicken-wings", destination: "/menu/wings-10" },
   // item-nb-burger-konfi (house burger) continues as so-house-burger in production CMS.
   { source: "/menu/hamburger-nb-confit", destination: "/menu/so-house-burger" }

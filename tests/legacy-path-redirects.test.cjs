@@ -12,6 +12,8 @@ test('legacy menu path redirects map only verified old paths to live canonicals'
     '/menu/hamburger-nb-classic': '/menu/hamburger-so-classic',
     '/menu/4-piece-nuggets': '/menu/nuggets-4',
     '/menu/nb-classic-meal': '/menu/so-classic-meal',
+    '/menu/hamburger-nb-truffle': '/menu/so-truffle-burger',
+    '/menu/nb-truffle-meal': '/menu/so-truffle-burger-meal',
     '/menu/chili-chicken-wings': '/menu/wings-10',
     '/menu/hamburger-nb-confit': '/menu/so-house-burger'
   };
@@ -43,4 +45,6 @@ test('legacy slug groups include current production canonicals for alias resolut
   assert.ok(getMenuItemLegacySlugs('other-id', 'wings-10').includes('chili-chicken-wings'));
   assert.ok(getMenuItemLegacySlugs('other-id', 'nuggets-4').includes('4-piece-nuggets'));
   assert.ok(getMenuItemLegacySlugs('other-id', 'so-classic-meal').includes('nb-classic-meal'));
+  assert.ok(getMenuItemLegacySlugs('other-id', 'so-truffle-burger').includes('hamburger-nb-truffle'));
+  assert.ok(getMenuItemLegacySlugs('other-id', 'so-truffle-burger-meal').includes('nb-truffle-meal'));
 });

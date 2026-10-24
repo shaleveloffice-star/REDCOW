@@ -3,9 +3,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { RecommendationEmbedProvider } from "@/lib/recommendations/recommendation-embed";
 
-/** Native Instagram/TikTok embed canvas — scaled to FIT (no inner scrollbar). */
 const EMBED_SIZE: Record<RecommendationEmbedProvider, { width: number; height: number }> = {
-  instagram: { width: 326, height: 720 },
+  instagram: { width: 326, height: 700 },
   tiktok: { width: 325, height: 730 },
   youtube: { width: 360, height: 640 }
 };
@@ -20,7 +19,7 @@ export function RecommendationScaledEmbed({
   provider: RecommendationEmbedProvider;
 }) {
   const frameRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(1);
+  const [layout, setLayout] = useState({ scale: 1, top: 0, left: 0 });
   const design = EMBED_SIZE[provider];
 
   useEffect(() => {
@@ -28,11 +27,17 @@ export function RecommendationScaledEmbed({
     if (!node) return;
 
     const update = () => {
-      const w = node.clientWidth;
-      const h = node.clientHeight;
-      if (w < 2 || h < 2) return;
-      // Contain: whole embed visible → no iframe scrollbar.
-      setScale(Math.min(w / design.width, h / design.height));
+      const boxW = node.clientWidth;
+      const boxH = node.clientHeight;
+      if (boxW < 2 || boxH < 2) return;
+
+      // Cover the phone screen — no black gaps, overflow clipped (no scroll).
+      const scale = Math.max(boxW / design.width, boxH / design.height);
+      setLayout({
+        scale,
+        top: (boxH - design.height * scale) / 2,
+        left: (boxW - design.width * scale) / 2
+      });
     };
 
     update();
@@ -54,7 +59,9 @@ export function RecommendationScaledEmbed({
         style={{
           width: design.width,
           height: design.height,
-          transform: `scale(${scale})`
+          top: layout.top,
+          left: layout.left,
+          transform: `scale(${layout.scale})`
         }}
       />
     </div>

@@ -47,15 +47,16 @@ export function RecommendationsPageView({
       {items.length === 0 ? (
         <p className="recommendations-empty">{copy.empty}</p>
       ) : (
-        <ul className="recommendations-grid">
+        <ul className="recommendations-gallery">
           {items.map((item) => (
             <li key={item.id} className="recommendation-card">
-              <div className="recommendation-phone">
-                <div className="recommendation-phone-screen">
+              <article className="recommendation-vibe-phone">
+                <span className="recommendation-vibe-island" aria-hidden="true" />
+                <div className="recommendation-vibe-screen">
                   <RecommendationMedia item={item} />
                   <h2 className="sr-only">{item.creatorName}</h2>
                 </div>
-              </div>
+              </article>
             </li>
           ))}
         </ul>

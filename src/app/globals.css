@@ -56,11 +56,13 @@
   line-height: 1.65;
 }
 
-.recommendations-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 300px));
+/* Phone frames match homepage FOLLOW THE VIBE mobile look — on desktop too. */
+.recommendations-gallery {
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
-  gap: clamp(22px, 4vw, 36px);
+  align-items: flex-start;
+  gap: clamp(18px, 2.4vw, 32px);
   margin: 0;
   padding: 0;
   list-style: none;
@@ -72,62 +74,77 @@
   padding: 0;
   background: transparent;
   border: 0;
+  flex: 0 0 auto;
 }
 
-.recommendation-phone {
-  padding: 3px;
-  border-radius: 32px;
-  background: linear-gradient(
-    135deg,
-    #f09433 0%,
-    #e6683c 20%,
-    #dc2743 45%,
-    #cc2366 70%,
-    #bc1888 100%
-  );
-  box-shadow:
-    0 24px 60px rgba(0, 0, 0, 0.45),
-    0 0 0 1px rgba(255, 255, 255, 0.06);
-}
-
-.recommendation-phone-screen {
+.recommendation-vibe-phone {
+  --rec-phone-w: clamp(261px, 22vw, 320px);
   position: relative;
-  aspect-ratio: 9 / 16;
+  width: var(--rec-phone-w);
+  height: calc(var(--rec-phone-w) + 220px);
+  padding: 27px 9px 9px;
+  box-sizing: border-box;
   overflow: hidden;
-  border-radius: 29px;
-  background: #050505;
+  border: 1px solid #2f2f2f;
+  border-radius: 42px;
+  background: #090909;
+  color: #fff;
+  box-shadow:
+    0 24px 50px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.08);
 }
 
-.recommendation-card-media {
+.recommendation-vibe-island {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  z-index: 3;
+  width: 28%;
+  height: 11px;
+  border-radius: 999px;
+  background: #000;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.recommendation-vibe-screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border-radius: 32px;
+  background: #fff;
+}
+
+.recommendation-vibe-embed {
+  position: absolute;
+  inset: 0;
+  width: 125%;
+  height: 125%;
+  border: 0;
+  background: #fff;
+  transform: scale(0.8);
+  transform-origin: top left;
+}
+
+.recommendation-vibe-media {
+  position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
-}
-
-.recommendation-card-media--video {
-  position: relative;
-  z-index: 1;
-  background: #000;
-  object-fit: contain;
-}
-
-.recommendation-embed-scale {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  background: #050505;
-}
-
-.recommendation-card-media--embed {
-  display: block;
   border: 0;
-  background: #050505;
-  max-width: none;
+  background: #111;
 }
 
-.recommendation-card-media--empty {
-  background: #121212;
+.recommendation-vibe-media--video {
+  object-fit: contain;
+  background: #000;
+}
+
+.recommendation-vibe-media--empty {
+  background: #141414;
 }
 
 .recommendations-empty {
@@ -136,6 +153,30 @@
   border-radius: 22px;
   color: #aaa;
   text-align: center;
+}
+
+@media (max-width: 720px) {
+  .recommendation-vibe-phone {
+    --rec-phone-w: clamp(284px, 76.87vw, 367px);
+    height: calc(var(--rec-phone-w) + 240px);
+    padding: 30px 10px 10px;
+    border-radius: 46px;
+  }
+
+  .recommendation-vibe-screen {
+    border-radius: 35px;
+  }
+
+  .recommendation-vibe-island {
+    top: 10px;
+    height: 12px;
+  }
+
+  .recommendation-vibe-embed {
+    width: 114.47%;
+    height: 114.47%;
+    transform: scale(0.8736);
+  }
 }
 
 .admin-recommendations-settings {

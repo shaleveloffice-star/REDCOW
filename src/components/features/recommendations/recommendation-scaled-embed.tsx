@@ -3,11 +3,14 @@
 import { useEffect, useRef, useState } from "react";
 import type { RecommendationEmbedProvider } from "@/lib/recommendations/recommendation-embed";
 
-/** Native embed design sizes — scale down so the full player fits without iframe scroll. */
-const EMBED_SIZE: Record<RecommendationEmbedProvider, { width: number; height: number }> = {
-  instagram: { width: 326, height: 680 },
-  tiktok: { width: 325, height: 730 },
-  youtube: { width: 360, height: 640 }
+/** Full native embed size, then crop chrome so only the reel video shows. */
+const EMBED_SIZE: Record<
+  RecommendationEmbedProvider,
+  { width: number; height: number; cropTop: number; cropBottom: number }
+> = {
+  instagram: { width: 326, height: 700, cropTop: 54, cropBottom: 72 },
+  tiktok: { width: 325, height: 730, cropTop: 0, cropBottom: 0 },
+  youtube: { width: 360, height: 640, cropTop: 0, cropBottom: 0 }
 };
 
 export function RecommendationScaledEmbed({
@@ -20,9 +23,9 @@ export function RecommendationScaledEmbed({
   provider: RecommendationEmbedProvider;
 }) {
   const frameRef = useRef<HTMLDivElement>(null);
-  const [scale, setScale] = useState(1);
-  const [offsetX, setOffsetX] = useState(0);
+  const [layout, setLayout] = useState({ scale: 1, offsetX: 0, offsetY: 0 });
   const design = EMBED_SIZE[provider];
+  const visibleHeight = design.height - design.cropTop - design.cropBottom;
 
   useEffect(() => {
     const node = frameRef.current;
@@ -32,16 +35,20 @@ export function RecommendationScaledEmbed({
       const nextWidth = node.clientWidth;
       const nextHeight = node.clientHeight;
       if (nextWidth < 2 || nextHeight < 2) return;
-      const nextScale = Math.min(nextWidth / design.width, nextHeight / design.height);
-      setScale(nextScale);
-      setOffsetX((nextWidth - design.width * nextScale) / 2);
+      // Cover the phone frame; overflow is clipped so IG header/footer stay hidden.
+      const nextScale = Math.max(nextWidth / design.width, nextHeight / visibleHeight);
+      setLayout({
+        scale: nextScale,
+        offsetX: (nextWidth - design.width * nextScale) / 2,
+        offsetY: -design.cropTop * nextScale + (nextHeight - visibleHeight * nextScale) / 2
+      });
     };
 
     update();
     const observer = new ResizeObserver(update);
     observer.observe(node);
     return () => observer.disconnect();
-  }, [design.height, design.width]);
+  }, [design.cropTop, design.height, design.width, visibleHeight]);
 
   return (
     <div ref={frameRef} className="recommendation-embed-scale">
@@ -56,9 +63,8 @@ export function RecommendationScaledEmbed({
         style={{
           width: design.width,
           height: design.height,
-          transform: `scale(${scale})`,
-          transformOrigin: "top center",
-          marginInlineStart: offsetX
+          transform: `translate(${layout.offsetX}px, ${layout.offsetY}px) scale(${layout.scale})`,
+          transformOrigin: "top left"
         }}
       />
     </div>

@@ -49,10 +49,12 @@ export function RecommendationsPageView({
       ) : (
         <ul className="recommendations-grid">
           {items.map((item) => (
-            <li key={item.id} className="recommendation-card is-template-media">
-              <div className="recommendation-card-visual">
-                <RecommendationMedia item={item} />
-                <h2 className="sr-only">{item.creatorName}</h2>
+            <li key={item.id} className="recommendation-card">
+              <div className="recommendation-phone">
+                <div className="recommendation-phone-screen">
+                  <RecommendationMedia item={item} />
+                  <h2 className="sr-only">{item.creatorName}</h2>
+                </div>
               </div>
             </li>
           ))}

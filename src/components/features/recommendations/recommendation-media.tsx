@@ -1,16 +1,7 @@
-"use client";
-
-import { ExternalContentConsent } from "@/components/shared/external-content-consent";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { resolveRecommendationEmbed } from "@/lib/recommendations/recommendation-embed";
 import { isSafePublicHref } from "@/lib/security/safe-url";
 import type { CreatorRecommendation } from "@/types/recommendations";
-
-const PROVIDER_LABEL = {
-  instagram: "Instagram",
-  tiktok: "TikTok",
-  youtube: "YouTube"
-} as const;
 
 export function RecommendationMedia({ item }: { item: CreatorRecommendation }) {
   const mediaUrl = item.mediaUrl.trim();
@@ -33,24 +24,20 @@ export function RecommendationMedia({ item }: { item: CreatorRecommendation }) {
   }
 
   // Prefer an embeddable reel/post link over a static thumbnail image.
+  // Load immediately on this page (same policy as homepage Instagram vibe).
   const embedCandidate = [contentUrl, mediaUrl].find((value) => Boolean(value));
   const embed = embedCandidate ? resolveRecommendationEmbed(embedCandidate) : null;
   if (embed && isSafePublicHref(embed.src)) {
     return (
-      <ExternalContentConsent
-        provider={PROVIDER_LABEL[embed.provider]}
-        className="recommendation-card-embed-consent"
-      >
-        <iframe
-          className="recommendation-card-media recommendation-card-media--embed"
-          src={embed.src}
-          title={label}
-          loading="lazy"
-          allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
-          allowFullScreen
-          referrerPolicy="no-referrer"
-        />
-      </ExternalContentConsent>
+      <iframe
+        className="recommendation-card-media recommendation-card-media--embed"
+        src={embed.src}
+        title={label}
+        loading="lazy"
+        allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+        allowFullScreen
+        referrerPolicy="no-referrer"
+      />
     );
   }
 

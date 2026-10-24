@@ -418,7 +418,7 @@ export function AdminRecommendationsManager({
               required={false}
               onChange={(posterUrl) => setDraft({ ...draft, posterUrl })}
             />
-            <p className="admin-form-hint">לניגון אוטומטי בריבועים בדף הבית יש להעלות קובץ MP4, WebM או MOV בשדה המדיה. קישור לאינסטגרם או תמונה בלבד יופיעו בעמוד ההמלצות, ולא בסקשן הסרטונים בדף הבית.</p>
+            <p className="admin-form-hint">לניגון אוטומטי בריבועים בדף הבית יש להעלות קובץ MP4, WebM או MOV בשדה המדיה. קישור לאינסטגרם יוצג גם בדף הבית כפוסט מוטמע; הניגון בו תלוי באינסטגרם. קובץ וידאו ישיר מאפשר ניגון אוטומטי ללא קול.</p>
             <label>
               תיאור מדיה לנגישות (אופציונלי)
               <input

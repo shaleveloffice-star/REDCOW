@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { getRecommendationPreviewVideo } from "@/lib/recommendations/preview-video";
+import { resolveRecommendationEmbed } from "@/lib/recommendations/recommendation-embed";
 import type { CreatorRecommendation } from "@/types/recommendations";
 
 export function HomeRecommendationsSection({ items }: { items: CreatorRecommendation[] }) {
@@ -19,6 +20,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
       ? { all: "Tous les avis", pause: "Pause des vidéos", play: "Lire les vidéos", next: "Autres avis" }
       : { all: "All recommendations", pause: "Pause videos", play: "Play videos", next: "More recommendations" };
   const canRotate = items.length > 3;
+  const hasNativeVideo = items.some((item) => getRecommendationPreviewVideo(item));
 
   useEffect(() => {
     if (!canRotate || paused || interacting) return;
@@ -47,24 +49,46 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
       </div>
       <ul className="home-creators-grid">
         {visible.map((item) => {
+          const video = getRecommendationPreviewVideo(item);
+          const embed = resolveRecommendationEmbed(item.contentUrl || "") || resolveRecommendationEmbed(item.mediaUrl || "");
           return (
             <li key={item.id}>
-              <Link href={`/recommendations#creator-${encodeURIComponent(item.id)}`} className="home-creator">
-                <span className="home-creator-image">
-                  <CreatorVideo src={getRecommendationPreviewVideo(item)} paused={paused} />
-                </span>
-                <span className="home-creator-name">{item.creatorName}</span>
+              <div className="home-creator-image">
+                {video ? <CreatorVideo src={video} paused={paused} /> : embed ? (
+                  <CreatorEmbed src={embed.src} title={item.creatorName} />
+                ) : <img src={item.mediaUrl} alt={item.mediaAlt || item.creatorName} loading="lazy" />}
+              </div>
+              <Link href={`/recommendations#creator-${encodeURIComponent(item.id)}`} className="home-creator home-creator-name">
+                {item.creatorName}
               </Link>
             </li>
           );
         })}
       </ul>
-      <div className="home-creators-controls">
+      {hasNativeVideo || canRotate ? <div className="home-creators-controls">
         <button type="button" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? copy.play : copy.pause}</button>
         {canRotate ? <button type="button" onClick={() => setStart((value) => (value + 3) % items.length)}>{copy.next}</button> : null}
-      </div>
+      </div> : null}
     </section>
   );
+}
+
+function CreatorEmbed({ src, title }: { src: string; title: string }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState(0);
+  useEffect(() => {
+    const element = ref.current;
+    if (!element) return;
+    const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, []);
+  return <div ref={ref} className="home-creator-embed">
+    <iframe src={src} title={`Video: ${title}`} loading="lazy"
+      allow="autoplay; encrypted-media; picture-in-picture; web-share" allowFullScreen
+      referrerPolicy="strict-origin-when-cross-origin"
+      style={{ width: 326, height: 700, transform: `scale(${width / 326})` }} />
+  </div>;
 }
 
 function CreatorVideo({ src, paused }: { src: string; paused: boolean }) {

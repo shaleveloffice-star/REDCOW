@@ -28,7 +28,7 @@ import { resolveSiteImagePair } from "@/lib/site-image-url";
 import { HOME_HERO_IMAGE } from "@/data/site-images.registry";
 import { HERO_IMAGE_VERSION } from "@/data/site-image-versions";
 import type { SiteImagesMap } from "@/types/site-images";
-import { getRecommendationPreviewVideo } from "@/lib/recommendations/preview-video";
+import { recommendationHasPlayableMedia } from "@/lib/recommendations/recommendation-embed";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -70,7 +70,7 @@ export default async function HomePage() {
           heroFocusMobile={pickSiteImageFocus(siteImages, "hero-burger", "mobile")}
         />
         {recommendations.enabled ? (
-          <HomeRecommendationsSection items={recommendations.items.filter((item) => item.isActive && getRecommendationPreviewVideo(item))} />
+          <HomeRecommendationsSection items={recommendations.items.filter((item) => item.isActive && recommendationHasPlayableMedia(item))} />
         ) : null}
         <HomeMenuShowcaseSection key={locale} items={homepageMenuItems} />
         <HomeBrandStorySection siteImages={siteImages} />

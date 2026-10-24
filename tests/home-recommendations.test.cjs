@@ -2,7 +2,7 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createLoader } = require('./helpers.cjs');
 
-function harness(count) {
+function harness(count, customItems) {
   const state = [];
   let cursor = 0, tick, delay, reduced = false;
   const effects = [];
@@ -19,7 +19,7 @@ function harness(count) {
     '@/components/providers/locale-provider': { useLocale: () => ({ locale: 'he' }), useTranslations: () => ({ nav: { recommendations: 'ממליצים' } }) }
   }, { document, window: { innerHeight: 800, matchMedia: () => ({ get matches() { return reduced; } }), setInterval: (fn, ms) => { tick = fn; delay = ms; return 1; }, clearInterval() {} } });
   const { HomeRecommendationsSection } = load('@/components/features/home/home-recommendations-section');
-  const items = Array.from({ length: count }, (_, i) => ({ id: String(i), creatorName: `Creator ${i}`, mediaUrl: '', posterUrl: '', mediaType: 'image' }));
+  const items = customItems || Array.from({ length: count }, (_, i) => ({ id: String(i), creatorName: `Creator ${i}`, mediaUrl: '/clip.mp4', posterUrl: '', mediaType: 'video' }));
   const render = () => { cursor = 0; effects.length = 0; return HomeRecommendationsSection({ items }); };
   return { render, start: () => effects.forEach(fn => fn()), tick: () => tick?.(), delay: () => delay, state, document, reduce: () => { reduced = true; } };
 }
@@ -31,7 +31,7 @@ test('creator strip is static for up to three and never repeats a creator in a f
     for (let turn = 0; turn < count; turn++) {
       const tree = h.render();
       const cards = tree.props.children[1].props.children;
-      const ids = cards.map(card => card.props.children.props.href);
+      const ids = cards.map(card => card.props.children[1].props.href);
       assert.equal(ids.length, Math.min(3, count));
       assert.equal(new Set(ids).size, ids.length);
       ids.forEach(id => seen.add(id));
@@ -40,6 +40,22 @@ test('creator strip is static for up to three and never repeats a creator in a f
     assert.equal(seen.size, count);
     assert.equal(h.delay(), count > 3 ? 3000 : undefined);
   }
+});
+
+test('Instagram recommendations without video files remain visible and embed the post instead of the poster', () => {
+  const { recommendationHasPlayableMedia } = createLoader()('@/lib/recommendations/recommendation-embed');
+  const items = [
+    { id: 'one', creatorName: 'One', mediaUrl: '/burger.jpg', contentUrl: 'https://www.instagram.com/p/first/' },
+    { id: 'two', creatorName: 'Two', mediaUrl: '', contentUrl: 'https://www.instagram.com/reel/second/' }
+  ].filter(recommendationHasPlayableMedia);
+  assert.equal(items.length, 2);
+  const tree = harness(2, items).render();
+  const cards = tree.props.children[1].props.children;
+  assert.equal(cards.length, 2);
+  assert.equal(cards[0].props.children[0].props.children.props.src, 'https://www.instagram.com/p/first/embed/?hidecaption=1');
+  assert.equal(cards[1].props.children[0].props.children.props.children, undefined);
+  assert.equal(cards[1].props.children[0].props.children.props.src, 'https://www.instagram.com/reel/second/embed/?hidecaption=1');
+  assert.equal(tree.props.children[2], null, 'No misleading play/pause control for third-party embeds');
 });
 
 test('rotation respects hidden documents and reduced motion', () => {

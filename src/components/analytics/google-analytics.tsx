@@ -14,6 +14,7 @@ const gaDebugSnippet =
   process.env.NEXT_PUBLIC_GA_DEBUG === "true" ? ", debug_mode: true" : "";
 
 import { analyticsAllowed, CONSENT_EVENT } from "@/lib/analytics-consent";
+import { ANALYTICS_QUERY_KEYS } from "@/lib/analytics-url";
 
 export function GoogleAnalytics() {
   const [allowed, setAllowed] = useState(false);
@@ -52,7 +53,13 @@ export function GoogleAnalytics() {
             function gtag(){dataLayer.push(arguments);}
             window.gtag = gtag;
             gtag('js', new Date());
-            gtag('config', '${GA_MEASUREMENT_ID}', { send_page_view: false, page_location: location.origin + location.pathname${gaDebugSnippet} });
+            var analyticsLocation = new URL(location.pathname, location.origin);
+            var analyticsQuery = new URLSearchParams(location.search);
+            ${JSON.stringify(ANALYTICS_QUERY_KEYS)}.forEach(function(key) {
+              var value = analyticsQuery.get(key);
+              if (value) analyticsLocation.searchParams.set(key, value);
+            });
+            gtag('config', '${GA_MEASUREMENT_ID}', { send_page_view: false, page_location: analyticsLocation.href${gaDebugSnippet} });
           `
         }}
       />

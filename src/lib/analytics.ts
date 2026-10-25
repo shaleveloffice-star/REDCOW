@@ -1,4 +1,5 @@
 import { analyticsAllowed } from "@/lib/analytics-consent";
+import { analyticsPageLocation } from "@/lib/analytics-url";
 export const GA_MEASUREMENT_ID = "G-2TM782BRGC";
 
 export type AnalyticsSource =
@@ -55,7 +56,7 @@ function debugParams(): { debug_mode?: true } {
   return isGaDebugEnabled ? { debug_mode: true } : {};
 }
 
-/** Current path (+ search) for explicit `page` on business events. */
+/** Path only: business-event labels must not contain private query data. */
 export function getAnalyticsPage(): string {
   if (typeof window === "undefined" || !analyticsAllowed()) {
     return "";
@@ -79,14 +80,14 @@ export function trackPageView(url: string): void {
   // per route change — do not call gtag('config') again for the same hit.
   ensureGtag()("event", "page_view", {
     page_path: url.split(/[?#]/)[0],
-    page_location: `${window.location.origin}${window.location.pathname}`,
+    page_location: analyticsPageLocation(window.location.href),
     ...debugParams()
   });
 }
 
 /**
- * Central business-event helper. Always attaches `source`, `page`, and mirrors
- * `location` (= source) for existing GA4 reports.
+ * Keep UI placement separate from campaign attribution. `source` is an internal
+ * caller argument only, not a GA4 traffic-source parameter.
  */
 export function trackEvent(eventName: string, params: TrackEventParams): void {
   if (typeof window === "undefined" || !analyticsAllowed()) {
@@ -102,9 +103,10 @@ export function trackEvent(eventName: string, params: TrackEventParams): void {
 
   ensureGtag()("event", eventName, {
     ...rest,
-    source,
+    button_location: source,
     location: source,
     page: page.split(/[?#]/)[0],
+    page_location: analyticsPageLocation(window.location.href),
     ...debugParams()
   });
 }

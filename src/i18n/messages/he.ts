@@ -44,7 +44,7 @@ export const he: Messages = {
     location: "מיקום ושעות",
     kosher: "כשר בהשגחת רבנות",
     about: "אודות",
-    recommendations: "ממליצים עלינו",
+    recommendations: "באו לטעום",
     magazine: "מגזין",
     branches: "סניפים"
   },

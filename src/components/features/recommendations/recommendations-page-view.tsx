@@ -6,7 +6,7 @@ import type { RecommendationsConfig } from "@/types/recommendations";
 
 const COPY: Record<Locale, { breadcrumb: string; empty: string }> = {
   he: {
-    breadcrumb: "ממליצים עלינו",
+    breadcrumb: "באו לטעום",
     empty: "המלצות חדשות יעלו כאן בקרוב."
   },
   en: {

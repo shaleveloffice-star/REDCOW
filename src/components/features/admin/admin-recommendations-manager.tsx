@@ -155,7 +155,7 @@ export function AdminRecommendationsManager({
             <a href="/recommendations" target="_blank" rel="noopener noreferrer" dir="ltr">
               /recommendations
             </a>
-            {" · "}מופיע גם בתפריט כ־«ממליצים עלינו».
+            {" · "}מופיע גם בתפריט כ־«באו לטעום».
           </p>
         )}
         <label>

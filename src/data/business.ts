@@ -88,19 +88,19 @@ export const BUSINESS = {
     {
       dayOfWeek: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday"],
       opens: "11:00",
-      closes: "23:00"
+      closes: "00:00"
     },
     {
       dayOfWeek: ["Saturday"],
       opens: "20:00",
-      closes: "23:00"
+      closes: "00:00"
     }
   ] as const satisfies ReadonlyArray<OpeningHoursInterval>,
 
   /** Display strings for the location hours UI */
   displayHours: {
-    weekday: "11:00–23:00",
-    saturday: "20:00–23:00"
+    weekday: "11:00–00:00",
+    saturday: "20:00–00:00"
   } as const
 } as const;
 
@@ -146,7 +146,12 @@ export function usesDefaultBranchHours(branch?: Branch): boolean {
 
 /** Exact historical defaults only; custom admin schedules remain editable. */
 export function isLegacyBusinessHours(hours: string): boolean {
-  return hours === "א׳–ה׳ 11:00–00:00 · שבת 20:00–00:00";
+  return [
+    "א׳–ה׳ 11:00–00:00 · שבת 20:00–00:00",
+    "א׳–ה׳ 11:00–23:00 · שישי סגור · שבת 20:00–23:00",
+    "Sun–Thu 11:00–23:00 · Friday closed · Sat 20:00–23:00",
+    "Dim–Jeu 11:00–23:00 · Vendredi fermé · Sam 20:00–23:00"
+  ].includes(hours);
 }
 
 export function getBusinessHoursText(locale: BusinessLocale = "he"): string {

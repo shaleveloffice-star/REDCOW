@@ -14,6 +14,7 @@ import { HERO_IMAGE_VERSION } from "@/data/site-image-versions";
 import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 import { menuImageMediaStyle } from "@/lib/menu/image-zoom";
 import type { SiteImageFocus } from "@/lib/site-image-focus";
+import { resolveHeroVideo } from "@/lib/hero-video";
 
 /** Single hero asset — used on mobile and desktop (responsive CSS handles layout). */
 export const HERO_BURGER_IMAGE = `${HOME_HERO_IMAGE}?v=${HERO_IMAGE_VERSION}`;
@@ -48,6 +49,7 @@ export function HeroSection({
   const imageSrc = heroImageUrl === undefined ? HERO_BURGER_IMAGE : heroImageUrl.trim();
   const mobileSrc = heroMobileImageUrl?.trim() || imageSrc;
   const isVideo = isVideoMediaUrl(imageSrc);
+  const video = resolveHeroVideo(imageSrc, videoStart);
   const useOptimizedImage = mobileSrc === imageSrc && canOptimizeSiteImage(imageSrc);
   const mediaStyle = menuImageMediaStyle({
     zoom: heroZoom,
@@ -57,10 +59,12 @@ export function HeroSection({
 
   return (
     <section id="hero" className="hero hero--cinematic hero--premier hero--solid" aria-label="SO WHAT?">
+      {isVideo && video.poster ? <link rel="preload" as="image" href={video.poster} fetchPriority="high" /> : null}
       <div className={`hero-burger${isVideo ? " hero-burger--video" : ""}`}>
         {!imageSrc ? null : isVideo ? (
           <AutoplayVideo
-            src={imageSrc}
+            src={video.src}
+            poster={video.poster}
             videoStart={videoStart}
             videoEnd={videoEnd}
             className="hero-burger-image site-media-focus"

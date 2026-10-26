@@ -84,18 +84,25 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
 function CreatorEmbed({ src, title }: { src: string; title: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
+  const [nearView, setNearView] = useState(false);
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
     const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
     observer.observe(element);
-    return () => observer.disconnect();
+    // Browser iframe lazy loading can fetch several screens ahead of the hero.
+    // Start the actual embed only as its fixed-size card enters the viewport.
+    const visibility = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) { setNearView(true); visibility.disconnect(); }
+    }, { rootMargin: "0px", threshold: 0.01 });
+    visibility.observe(element);
+    return () => { observer.disconnect(); visibility.disconnect(); };
   }, []);
   return <div ref={ref} className="home-creator-embed">
-    <iframe src={src} title={`Video: ${title}`} loading="lazy" tabIndex={-1} aria-hidden="true"
+    {nearView ? <iframe src={src} title={`Video: ${title}`} loading="eager" tabIndex={-1} aria-hidden="true"
       allow="autoplay; encrypted-media; picture-in-picture; web-share" allowFullScreen
       referrerPolicy="strict-origin-when-cross-origin"
-      style={{ width: 326, height: 700, transform: `scale(${width / 326})` }} />
+      style={{ width: 326, height: 700, transform: `scale(${width / 326})` }} /> : null}
   </div>;
 }
 

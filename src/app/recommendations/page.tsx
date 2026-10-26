@@ -6,17 +6,20 @@ import { getDirection } from "@/i18n/config";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getRecommendationsForDisplay } from "@/lib/cache/cached-data";
+import { buildPageMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
   const config = await getRecommendationsForDisplay();
   if (!config.enabled) {
     return { robots: { index: false, follow: false } };
   }
-  return {
+  return buildPageMetadata({
     title: `${config.title} | SO WHAT`,
     description:
-      config.introduction || "יוצרי תוכן שממליצים על SO WHAT ברעננה."
-  };
+      config.introduction || "יוצרי תוכן שממליצים על SO WHAT ברעננה.",
+    path: "/recommendations",
+    locale: await getServerLocale()
+  });
 }
 
 export default async function RecommendationsPage() {

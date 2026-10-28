@@ -2,12 +2,23 @@ const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createLoader } = require('./helpers.cjs');
 
-function harness(count, customItems) {
+function harness(count, customItems, { wide = false } = {}) {
   const state = [];
   let cursor = 0, tick, delay, reduced = false;
   const effects = [];
   const document = { hidden: false, documentElement: { getAttribute: () => null } };
   const jsx = (type, props) => ({ type, props });
+  const matchMedia = (query) => ({
+    get matches() {
+      if (String(query).includes('prefers-reduced-motion')) return reduced;
+      if (String(query).includes('min-width')) return wide;
+      return false;
+    },
+    addEventListener() {},
+    removeEventListener() {},
+    addListener() {},
+    removeListener() {}
+  });
   const load = createLoader({
     react: {
       useRef: () => ({ current: { getBoundingClientRect: () => ({ top: 10, bottom: 200 }) } }),
@@ -18,7 +29,7 @@ function harness(count, customItems) {
     '@/components/features/recommendations/recommendation-video-dialog': { RecommendationVideoDialog: 'dialog' },
     'next/link': { default: 'a', __esModule: true },
     '@/components/providers/locale-provider': { useLocale: () => ({ locale: 'he' }), useTranslations: () => ({ nav: { recommendations: 'ממליצים' } }) }
-  }, { document, window: { innerHeight: 800, matchMedia: () => ({ get matches() { return reduced; } }), setInterval: (fn, ms) => { tick = fn; delay = ms; return 1; }, clearInterval() {} } });
+  }, { document, window: { innerHeight: 800, matchMedia, setInterval: (fn, ms) => { tick = fn; delay = ms; return 1; }, clearInterval() {} } });
   const { HomeRecommendationsSection } = load('@/components/features/home/home-recommendations-section');
   const items = customItems || Array.from({ length: count }, (_, i) => ({ id: String(i), creatorName: `Creator ${i}`, mediaUrl: '/clip.mp4', posterUrl: '', mediaType: 'video' }));
   const render = () => { cursor = 0; effects.length = 0; return HomeRecommendationsSection({ items }); };
@@ -41,6 +52,20 @@ test('creator strip is static for up to three and never repeats a creator in a f
     assert.equal(seen.size, count);
     assert.equal(h.delay(), count > 3 ? 3000 : undefined);
   }
+});
+
+test('wide screens show five creators side by side', () => {
+  const h = harness(7, undefined, { wide: true });
+  h.render();
+  h.start();
+  const tree = h.render();
+  h.start();
+  const cards = tree.props.children[1].props.children;
+  assert.equal(cards.length, 5);
+  assert.equal(h.state[1], 5);
+  assert.equal(h.delay(), 3000);
+  h.tick();
+  assert.equal(h.state[0], 5);
 });
 
 test('Instagram recommendations without video files remain visible and embed the post instead of the poster', () => {
@@ -83,7 +108,7 @@ test('opening a video pauses previews and closing restores the strip', () => {
   assert.equal(h.delay(), 3000);
 });
 
- test('homepage autoplay accepts only direct video files, never Instagram links or image posters', () => {
+test('homepage autoplay accepts only direct video files, never Instagram links or image posters', () => {
   const { getRecommendationPreviewVideo: resolve } = createLoader()('@/lib/recommendations/preview-video');
   assert.equal(resolve({ mediaUrl: '/photo.jpg', contentUrl: 'https://www.instagram.com/p/example/' }), '');
   assert.equal(resolve({ mediaUrl: '/clip.mp4', contentUrl: 'https://www.instagram.com/p/example/' }), '/clip.mp4');

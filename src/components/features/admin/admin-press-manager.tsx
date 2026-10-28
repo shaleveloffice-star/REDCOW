@@ -13,9 +13,9 @@ import { AdminImageUrlField } from "@/components/features/admin/admin-site-image
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { PRESS_IMAGE_SPEC } from "@/data/admin-image-specs";
 import { createId } from "@/lib/admin/new-id";
+import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { deletePressItemAction, savePressItemAction } from "@/server/actions/press.actions";
 import type { PressItem } from "@/types/content";
-import type { GalleryImage } from "@/types/gallery";
 
 function newItem(_items: PressItem[]): PressItem {
   const now = new Date().toISOString();
@@ -37,7 +37,7 @@ export function AdminPressManager({
   images
 }: {
   items: PressItem[];
-  images: GalleryImage[];
+  images: AdminPickableImage[];
 }) {
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<PressItem | null>(null);

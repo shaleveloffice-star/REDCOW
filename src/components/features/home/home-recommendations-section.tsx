@@ -15,6 +15,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   const t = useTranslations();
   const sectionRef = useRef<HTMLElement>(null);
   const [start, setStart] = useState(0);
+  const [pageSize, setPageSize] = useState(3);
   const [paused, setPaused] = useState(false);
   const [interacting, setInteracting] = useState(false);
   const [selected, setSelected] = useState<CreatorRecommendation | null>(null);
@@ -24,24 +25,33 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
     : locale === "fr"
       ? { all: "Tous les avis", pause: "Pause des vidéos", play: "Lire les vidéos", next: "Autres avis" }
       : { all: "All recommendations", pause: "Pause videos", play: "Play videos", next: "More recommendations" };
-  const canRotate = items.length > 3;
+  const canRotate = items.length > pageSize;
   const hasNativeVideo = items.some((item) => getRecommendationPreviewVideo(item));
+
+  useEffect(() => {
+    const wide = window.matchMedia("(min-width: 900px)");
+    const sync = () => setPageSize(wide.matches ? 5 : 3);
+    sync();
+    wide.addEventListener("change", sync);
+    return () => wide.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
     if (!canRotate || paused || interacting || selected) return;
     const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const step = pageSize;
     const timer = window.setInterval(() => {
       const rect = sectionRef.current?.getBoundingClientRect();
       if (document.hidden || reducedMotion.matches ||
           document.documentElement.getAttribute("data-a11y-motion") === "reduce" ||
           !rect || rect.bottom <= 0 || rect.top >= window.innerHeight) return;
-      setStart((value) => (value + 3) % items.length);
+      setStart((value) => (value + step) % items.length);
     }, 3000);
     return () => window.clearInterval(timer);
-  }, [canRotate, items.length, paused, interacting, selected]);
+  }, [canRotate, items.length, pageSize, paused, interacting, selected]);
 
   if (!items.length) return null;
-  const visible = Array.from({ length: Math.min(3, items.length) }, (_, i) => items[(start + i) % items.length]);
+  const visible = Array.from({ length: Math.min(pageSize, items.length) }, (_, i) => items[(start + i) % items.length]);
 
   return (
     <section ref={sectionRef} className="home-creators" aria-labelledby="home-creators-title"
@@ -102,7 +112,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
       </ul>
       {hasNativeVideo || canRotate ? <div className="home-creators-controls">
         <button type="button" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? copy.play : copy.pause}</button>
-        {canRotate ? <button type="button" onClick={() => setStart((value) => (value + 3) % items.length)}>{copy.next}</button> : null}
+        {canRotate ? <button type="button" onClick={() => setStart((value) => (value + pageSize) % items.length)}>{copy.next}</button> : null}
       </div> : null}
       {selected ? <RecommendationVideoDialog item={selected} trigger={trigger.current} onClose={() => setSelected(null)} /> : null}
     </section>

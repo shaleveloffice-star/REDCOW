@@ -1,7 +1,9 @@
 import { isVideoMediaUrl } from "@/lib/menu-media";
+import { getRecommendationContentKind } from "@/lib/recommendations/content-kind";
 import { assertSafeHttpUrl } from "@/lib/security/safe-url";
 import type {
   CreatorRecommendation,
+  RecommendationContentKind,
   RecommendationMediaType,
   RecommendationPlatform,
   RecommendationTemplate,
@@ -20,6 +22,7 @@ export const DEFAULT_RECOMMENDATIONS_CONFIG: RecommendationsConfig = {
 const PLATFORMS: RecommendationPlatform[] = ["instagram", "tiktok", "youtube", "other"];
 const MEDIA_TYPES: RecommendationMediaType[] = ["image", "video"];
 const TEMPLATES: RecommendationTemplate[] = ["portrait", "quote", "media"];
+const CONTENT_KINDS: RecommendationContentKind[] = ["creator", "press"];
 
 function text(value: unknown, label: string, maxLength: number, required = false): string {
   if (typeof value !== "string") throw new Error(`${label}: ערך לא תקין`);
@@ -76,11 +79,25 @@ function dateValue(value: unknown, strict: boolean): string {
   return date;
 }
 
+function resolveContentKind(value: unknown): RecommendationContentKind {
+  return typeof value === "string" && CONTENT_KINDS.includes(value as RecommendationContentKind)
+    ? (value as RecommendationContentKind)
+    : "creator";
+}
+
 function resolveMedia(
   item: Record<string, unknown>,
-  strict: boolean
+  strict: boolean,
+  contentKind: RecommendationContentKind
 ): { mediaUrl: string; mediaType: RecommendationMediaType } {
-  const mediaUrl = strict ? url(item.mediaUrl, "מדיה") : softUrl(item.mediaUrl);
+  const mediaUrl = strict ? url(item.mediaUrl, contentKind === "press" ? "תמונת שער" : "מדיה") : softUrl(item.mediaUrl);
+  if (contentKind === "press") {
+    if (strict && mediaUrl && isVideoMediaUrl(mediaUrl)) {
+      throw new Error("לכתבה יש להעלות תמונת שער, לא קובץ וידאו");
+    }
+    return { mediaUrl, mediaType: "image" };
+  }
+
   const inferredType: RecommendationMediaType = mediaUrl
     ? isVideoMediaUrl(mediaUrl)
       ? "video"
@@ -102,7 +119,8 @@ function coerceItem(value: unknown, index: number, strict: boolean): CreatorReco
     throw new Error(`המלצה ${index + 1}: נתונים לא תקינים`);
   }
   const item = value as Record<string, unknown>;
-  const { mediaUrl, mediaType } = resolveMedia(item, strict);
+  const contentKind = resolveContentKind(item.contentKind);
+  const { mediaUrl, mediaType } = resolveMedia(item, strict, contentKind);
 
   const sortOrderRaw = Number(item.sortOrder);
   const sortOrder =
@@ -120,27 +138,75 @@ function coerceItem(value: unknown, index: number, strict: boolean): CreatorReco
   const template =
     typeof item.template === "string" && TEMPLATES.includes(item.template as RecommendationTemplate)
       ? (item.template as RecommendationTemplate)
-      : mediaUrl
-        ? mediaType === "video"
-          ? "media"
-          : "portrait"
-        : "quote";
+      : contentKind === "press"
+        ? "portrait"
+        : mediaUrl
+          ? mediaType === "video"
+            ? "media"
+            : "portrait"
+          : "quote";
 
   const now = new Date().toISOString();
   const id = strict
     ? text(item.id, "מזהה", 160, true)
     : softText(item.id, 160) || `recommendation-${index + 1}`;
+
+  if (contentKind === "press") {
+    const outletName = strict
+      ? text(item.creatorName, "שם האתר / גוף התקשורת", 120, true)
+      : softText(item.creatorName, 120) || `כתבה ${index + 1}`;
+    const articleTitle = strict
+      ? text(item.articleTitle, "כותרת הכתבה", 200, true)
+      : softText(item.articleTitle, 200) || softText(item.quote, 200) || outletName;
+    const contentUrl = strict
+      ? url(item.contentUrl, "קישור לכתבה", true)
+      : softUrl(item.contentUrl);
+    const quote = strict
+      ? text(item.quote, "תיאור קצר", 1200)
+      : softText(item.quote, 1200);
+
+    return {
+      id,
+      contentKind: "press",
+      creatorName: outletName,
+      handle: "",
+      quote,
+      articleTitle,
+      mediaType: "image",
+      mediaUrl,
+      posterUrl: "",
+      mediaAlt: strict
+        ? text(item.mediaAlt, "תיאור תמונת שער לנגישות", 300) || articleTitle
+        : softText(item.mediaAlt, 300) || articleTitle,
+      platform: "other",
+      profileUrl: "",
+      contentUrl,
+      recommendationDate: dateValue(item.recommendationDate, strict),
+      template: "portrait",
+      isActive: item.isActive !== false,
+      sortOrder,
+      createdAt: strict
+        ? text(item.createdAt, "תאריך יצירה", 80, true)
+        : softText(item.createdAt, 80) || now,
+      updatedAt: strict
+        ? text(item.updatedAt, "תאריך עדכון", 80, true)
+        : softText(item.updatedAt, 80) || now
+    };
+  }
+
   const creatorName = strict
     ? text(item.creatorName, "שם היוצר", 120, true)
     : softText(item.creatorName, 120) || `יוצר ${index + 1}`;
 
   return {
     id,
+    contentKind: "creator",
     creatorName,
     handle: strict ? text(item.handle, "שם משתמש", 120) : softText(item.handle, 120),
     quote: strict
       ? text(item.quote, "ציטוט / המלצה", 1200) || creatorName
       : softText(item.quote, 1200),
+    articleTitle: softText(item.articleTitle, 200),
     mediaType,
     mediaUrl,
     posterUrl: strict ? url(item.posterUrl, "תמונת המתנה") : softUrl(item.posterUrl),
@@ -226,3 +292,5 @@ export function normalizeRecommendationsConfig(input: unknown): RecommendationsC
         : DEFAULT_RECOMMENDATIONS_CONFIG.updatedAt
   };
 }
+
+export { getRecommendationContentKind };

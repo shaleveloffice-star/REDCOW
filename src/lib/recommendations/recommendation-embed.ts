@@ -74,9 +74,12 @@ export function recommendationHasPlayableMedia(item: {
   mediaUrl?: string;
   contentUrl?: string;
   mediaType?: string;
+  contentKind?: string;
 }): boolean {
   const mediaUrl = String(item.mediaUrl ?? "").trim();
   const contentUrl = String(item.contentUrl ?? "").trim();
+  // Press cards need an article link (cover image optional but preferred).
+  if (item.contentKind === "press") return Boolean(contentUrl);
   if (mediaUrl) return true;
   return Boolean(contentUrl && resolveRecommendationEmbed(contentUrl));
 }

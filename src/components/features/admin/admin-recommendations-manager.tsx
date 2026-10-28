@@ -12,10 +12,12 @@ import { AdminImageUrlField } from "@/components/features/admin/admin-site-image
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
+import { getRecommendationContentKind, isPressRecommendation } from "@/lib/recommendations/content-kind";
 import { resolveRecommendationEmbed } from "@/lib/recommendations/recommendation-embed";
 import { saveRecommendationsAction } from "@/server/actions/recommendations.actions";
 import type {
   CreatorRecommendation,
+  RecommendationContentKind,
   RecommendationPlatform,
   RecommendationTemplate,
   RecommendationsConfig,
@@ -35,18 +37,28 @@ const TEMPLATE_LABELS: Record<RecommendationTemplate, string> = {
   media: "מדיה — תמונה/וידאו גדול"
 };
 
-function newRecommendation(sortOrder: number): CreatorRecommendation {
+const KIND_LABELS: Record<RecommendationContentKind, string> = {
+  creator: "יוצר תוכן",
+  press: "כתבה בתקשורת"
+};
+
+function newRecommendation(
+  sortOrder: number,
+  contentKind: RecommendationContentKind = "creator"
+): CreatorRecommendation {
   const now = new Date().toISOString();
   return {
     id: createId("recommendation"),
+    contentKind,
     creatorName: "",
     handle: "",
     quote: "",
+    articleTitle: "",
     mediaType: "image",
     mediaUrl: "",
     posterUrl: "",
     mediaAlt: "",
-    platform: "instagram",
+    platform: contentKind === "press" ? "other" : "instagram",
     profileUrl: "",
     contentUrl: "",
     recommendationDate: "",
@@ -126,6 +138,21 @@ export function AdminRecommendationsManager({
     setError(null);
   };
 
+  const setDraftKind = (contentKind: RecommendationContentKind) => {
+    if (!draft) return;
+    setError(null);
+    setDraft({
+      ...draft,
+      contentKind,
+      platform: contentKind === "press" ? "other" : draft.platform === "other" ? "instagram" : draft.platform,
+      mediaType: contentKind === "press" ? "image" : draft.mediaType,
+      posterUrl: contentKind === "press" ? "" : draft.posterUrl,
+      handle: contentKind === "press" ? "" : draft.handle,
+      profileUrl: contentKind === "press" ? "" : draft.profileUrl,
+      template: contentKind === "press" ? "portrait" : draft.template
+    });
+  };
+
   return (
     <>
       <form
@@ -201,91 +228,111 @@ export function AdminRecommendationsManager({
 
       <div className="admin-recommendations-list-wrap">
         <AdminToolbar
-          label="הוסף יוצר/תוכן"
+          label="הוסף המלצה"
           onAdd={() => setDraft(newRecommendation(config.items.length + 1))}
         >
           <p className="admin-form-hint">
-            הוספה/עריכה/מחיקה נשמרות אוטומטית לאתר. אפשר גם לגרור לשינוי סדר.
+            אפשר להוסיף יוצר תוכן או כתבה בתקשורת. הוספה/עריכה/מחיקה נשמרות אוטומטית.
           </p>
         </AdminToolbar>
 
         {config.items.length === 0 ? (
-          <p className="admin-form-hint">עדיין אין המלצות. הוסיפו את היוצר הראשון.</p>
+          <p className="admin-form-hint">עדיין אין המלצות. הוסיפו את הפריט הראשון.</p>
         ) : (
           <ul className="admin-recommendations-list">
-            {config.items.map((item, index) => (
-              <li
-                key={item.id}
-                className={`admin-recommendation-row${draggedId === item.id ? " is-dragging" : ""}`}
-                draggable
-                onDragStart={() => setDraggedId(item.id)}
-                onDragEnd={() => setDraggedId(null)}
-                onDragOver={(event) => event.preventDefault()}
-                onDrop={() => dropBefore(item.id)}
-              >
-                <button
-                  type="button"
-                  className="admin-recommendation-drag"
-                  aria-label={`גרירת ${item.creatorName}`}
-                  title="גרירה לשינוי סדר"
+            {config.items.map((item, index) => {
+              const kind = getRecommendationContentKind(item);
+              const press = kind === "press";
+              return (
+                <li
+                  key={item.id}
+                  className={`admin-recommendation-row${draggedId === item.id ? " is-dragging" : ""}`}
+                  draggable
+                  onDragStart={() => setDraggedId(item.id)}
+                  onDragEnd={() => setDraggedId(null)}
+                  onDragOver={(event) => event.preventDefault()}
+                  onDrop={() => dropBefore(item.id)}
                 >
-                  ⋮⋮
-                </button>
-                <span className="admin-recommendation-order">{index + 1}</span>
-                <div className="admin-recommendation-thumb">
-                  {item.mediaType === "image" && item.mediaUrl ? (
-                    <img src={item.mediaUrl} alt="" />
-                  ) : (
-                    <span aria-hidden="true">▶</span>
-                  )}
-                </div>
-                <div className="admin-recommendation-summary">
-                  <strong>{item.creatorName}</strong>
-                  <span>
-                    {PLATFORM_LABELS[item.platform]} · {TEMPLATE_LABELS[item.template]}
-                  </span>
-                  {!item.mediaUrl.trim() && !resolveRecommendationEmbed(item.contentUrl) ? (
-                    <small className="admin-form-error">חסר קישור ריל תקין — לכן שחור באתר</small>
-                  ) : item.handle ? (
-                    <small>{item.handle}</small>
-                  ) : null}
-                </div>
-                <StatusBadge active={item.isActive} />
-                <div className="admin-recommendation-order-actions">
                   <button
                     type="button"
-                    className="button secondary"
-                    disabled={index === 0}
-                    onClick={() => move(item.id, -1)}
-                    aria-label="העבר למעלה"
+                    className="admin-recommendation-drag"
+                    aria-label={`גרירת ${item.creatorName}`}
+                    title="גרירה לשינוי סדר"
                   >
-                    ↑
+                    ⋮⋮
                   </button>
-                  <button
-                    type="button"
-                    className="button secondary"
-                    disabled={index === config.items.length - 1}
-                    onClick={() => move(item.id, 1)}
-                    aria-label="העבר למטה"
-                  >
-                    ↓
-                  </button>
-                </div>
-                <AdminRowActions
-                  disabled={isPending}
-                  onEdit={() => setDraft({ ...item })}
-                  onDelete={() => {
-                    if (!confirmDelete(item.creatorName)) return;
-                    persistConfig({
-                      ...config,
-                      items: normalizeOrder(
-                        config.items.filter((entry) => entry.id !== item.id)
-                      )
-                    });
-                  }}
-                />
-              </li>
-            ))}
+                  <span className="admin-recommendation-order">{index + 1}</span>
+                  <div className="admin-recommendation-thumb">
+                    {item.mediaUrl && (press || item.mediaType === "image") ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={item.mediaUrl} alt="" />
+                    ) : (
+                      <span aria-hidden="true">{press ? "📰" : "▶"}</span>
+                    )}
+                  </div>
+                  <div className="admin-recommendation-summary">
+                    <strong>
+                      {press ? item.articleTitle || item.creatorName : item.creatorName}
+                    </strong>
+                    <span>
+                      {KIND_LABELS[kind]}
+                      {press
+                        ? ` · ${item.creatorName}`
+                        : ` · ${PLATFORM_LABELS[item.platform]} · ${TEMPLATE_LABELS[item.template]}`}
+                    </span>
+                    {!press &&
+                    !item.mediaUrl.trim() &&
+                    !resolveRecommendationEmbed(item.contentUrl) ? (
+                      <small className="admin-form-error">חסר קישור ריל תקין — לכן שחור באתר</small>
+                    ) : press && !item.contentUrl.trim() ? (
+                      <small className="admin-form-error">חסר קישור לכתבה</small>
+                    ) : item.handle ? (
+                      <small>{item.handle}</small>
+                    ) : null}
+                  </div>
+                  <StatusBadge active={item.isActive} />
+                  <div className="admin-recommendation-order-actions">
+                    <button
+                      type="button"
+                      className="button secondary"
+                      disabled={index === 0}
+                      onClick={() => move(item.id, -1)}
+                      aria-label="העבר למעלה"
+                    >
+                      ↑
+                    </button>
+                    <button
+                      type="button"
+                      className="button secondary"
+                      disabled={index === config.items.length - 1}
+                      onClick={() => move(item.id, 1)}
+                      aria-label="העבר למטה"
+                    >
+                      ↓
+                    </button>
+                  </div>
+                  <AdminRowActions
+                    disabled={isPending}
+                    onEdit={() =>
+                      setDraft({
+                        ...item,
+                        contentKind: getRecommendationContentKind(item),
+                        articleTitle: item.articleTitle || ""
+                      })
+                    }
+                    onDelete={() => {
+                      if (!confirmDelete(item.creatorName || item.articleTitle)) return;
+                      persistConfig({
+                        ...config,
+                        items: normalizeOrder(
+                          config.items.filter((entry) => entry.id !== item.id)
+                        )
+                      });
+                    }}
+                  />
+                </li>
+              );
+            })}
           </ul>
         )}
       </div>
@@ -301,27 +348,55 @@ export function AdminRecommendationsManager({
             className="admin-form admin-recommendation-form"
             onSubmit={(event) => {
               event.preventDefault();
+              const kind = getRecommendationContentKind(draft);
               const contentUrl = draft.contentUrl.trim();
               const mediaUrl = draft.mediaUrl.trim();
-              const hasEmbed = contentUrl ? Boolean(resolveRecommendationEmbed(contentUrl)) : false;
-              if (!mediaUrl && !hasEmbed) {
-                setError(
-                  contentUrl
-                    ? "הקישור לסרטון לא מזוהה. הדביקו קישור מלא לריל/פוסט (Share → Copy link), לא קישור לפרופיל."
-                    : "חובה להדביק קישור לריל או להעלות וידאו/תמונה. קישור לפרופיל בלבד לא מספיק."
-                );
-                return;
+
+              if (kind === "press") {
+                if (!draft.creatorName.trim()) {
+                  setError("חובה למלא שם אתר / גוף תקשורת.");
+                  return;
+                }
+                if (!draft.articleTitle.trim()) {
+                  setError("חובה למלא כותרת כתבה.");
+                  return;
+                }
+                if (!contentUrl) {
+                  setError("חובה להדביק קישור ישיר לכתבה.");
+                  return;
+                }
+              } else {
+                const hasEmbed = contentUrl ? Boolean(resolveRecommendationEmbed(contentUrl)) : false;
+                if (!mediaUrl && !hasEmbed) {
+                  setError(
+                    contentUrl
+                      ? "הקישור לסרטון לא מזוהה. הדביקו קישור מלא לריל/פוסט (Share → Copy link), לא קישור לפרופיל."
+                      : "חובה להדביק קישור לריל או להעלות וידאו/תמונה. קישור לפרופיל בלבד לא מספיק."
+                  );
+                  return;
+                }
               }
+
               const exists = config.items.some((item) => item.id === draft.id);
-              const updated = {
+              const updated: CreatorRecommendation = {
                 ...draft,
+                contentKind: kind,
                 contentUrl,
                 mediaUrl,
-                quote: draft.quote.trim() || draft.creatorName.trim() || "המלצה",
+                articleTitle: kind === "press" ? draft.articleTitle.trim() : draft.articleTitle.trim(),
+                quote:
+                  draft.quote.trim() ||
+                  (kind === "press" ? "" : draft.creatorName.trim() || "המלצה"),
                 mediaAlt:
                   draft.mediaAlt.trim() ||
-                  draft.creatorName.trim() ||
-                  "סרטון המלצה מיוצר תוכן",
+                  (kind === "press"
+                    ? draft.articleTitle.trim() || draft.creatorName.trim()
+                    : draft.creatorName.trim() || "סרטון המלצה מיוצר תוכן"),
+                mediaType: kind === "press" ? "image" : draft.mediaType,
+                platform: kind === "press" ? "other" : draft.platform,
+                profileUrl: kind === "press" ? "" : draft.profileUrl,
+                posterUrl: kind === "press" ? "" : draft.posterUrl,
+                handle: kind === "press" ? "" : draft.handle,
                 updatedAt: new Date().toISOString()
               };
               const items = normalizeOrder(
@@ -333,117 +408,220 @@ export function AdminRecommendationsManager({
               closeModal();
             }}
           >
-            <p className="admin-form-hint">
-              חובה קישור לריל מלא (לא רק פרופיל) או קובץ וידאו — אחרת באתר יופיע מסך שחור.
-              השמירה נשלחת מיד לאתר.
-            </p>
+            <fieldset className="admin-recommendation-kind">
+              <legend>סוג התוכן</legend>
+              <label className="admin-radio-row">
+                <input
+                  type="radio"
+                  name="recommendation-kind"
+                  checked={getRecommendationContentKind(draft) === "creator"}
+                  onChange={() => setDraftKind("creator")}
+                />
+                יוצר תוכן
+              </label>
+              <label className="admin-radio-row">
+                <input
+                  type="radio"
+                  name="recommendation-kind"
+                  checked={getRecommendationContentKind(draft) === "press"}
+                  onChange={() => setDraftKind("press")}
+                />
+                כתבות בתקשורת
+              </label>
+            </fieldset>
 
-            <label>
-              שם היוצר
-              <input
-                required
-                maxLength={120}
-                value={draft.creatorName}
-                onChange={(event) => setDraft({ ...draft, creatorName: event.target.value })}
-              />
-            </label>
+            {isPressRecommendation(draft) ? (
+              <>
+                <p className="admin-form-hint">
+                  כתבה תוצג ככרטיס עם תמונה וכפתור לכתבה המלאה — בלי נגן וידאו.
+                </p>
+                <label>
+                  שם האתר / גוף התקשורת
+                  <input
+                    required
+                    maxLength={120}
+                    value={draft.creatorName}
+                    onChange={(event) => setDraft({ ...draft, creatorName: event.target.value })}
+                  />
+                </label>
+                <label>
+                  כותרת הכתבה
+                  <input
+                    required
+                    maxLength={200}
+                    value={draft.articleTitle}
+                    onChange={(event) => setDraft({ ...draft, articleTitle: event.target.value })}
+                  />
+                </label>
+                <label>
+                  תיאור קצר (אופציונלי)
+                  <textarea
+                    rows={3}
+                    maxLength={1200}
+                    value={draft.quote}
+                    onChange={(event) => setDraft({ ...draft, quote: event.target.value })}
+                  />
+                </label>
+                <label>
+                  קישור ישיר לכתבה
+                  <input
+                    required
+                    dir="ltr"
+                    placeholder="https://…"
+                    value={draft.contentUrl}
+                    onChange={(event) => {
+                      setError(null);
+                      setDraft({ ...draft, contentUrl: event.target.value });
+                    }}
+                  />
+                </label>
+                <AdminImageUrlField
+                  label="תמונת שער"
+                  value={draft.mediaUrl}
+                  images={images}
+                  required={false}
+                  onChange={(mediaUrl, meta) => {
+                    setDraft({
+                      ...draft,
+                      mediaUrl,
+                      mediaType: "image",
+                      mediaAlt: draft.mediaAlt || meta?.altSuggestion || ""
+                    });
+                  }}
+                />
+                <label>
+                  תיאור תמונה לנגישות (אופציונלי)
+                  <input
+                    maxLength={300}
+                    value={draft.mediaAlt}
+                    onChange={(event) => setDraft({ ...draft, mediaAlt: event.target.value })}
+                  />
+                </label>
+              </>
+            ) : (
+              <>
+                <p className="admin-form-hint">
+                  חובה קישור לריל מלא (לא רק פרופיל) או קובץ וידאו — אחרת באתר יופיע מסך שחור.
+                  השמירה נשלחת מיד לאתר.
+                </p>
 
-            <label>
-              ציטוט / המלצה (אופציונלי)
-              <textarea
-                rows={3}
-                maxLength={1200}
-                value={draft.quote}
-                onChange={(event) => setDraft({ ...draft, quote: event.target.value })}
-              />
-            </label>
+                <label>
+                  שם היוצר
+                  <input
+                    required
+                    maxLength={120}
+                    value={draft.creatorName}
+                    onChange={(event) => setDraft({ ...draft, creatorName: event.target.value })}
+                  />
+                </label>
 
-            <label>
-              קישור לסרטון / ריל (Instagram, TikTok או YouTube)
-              <input
-                dir="ltr"
-                required={!draft.mediaUrl.trim()}
-                placeholder="https://www.instagram.com/reel/XXXX…"
-                value={draft.contentUrl}
-                onChange={(event) => {
-                  const contentUrl = event.target.value;
-                  const hasReel = Boolean(contentUrl.trim());
-                  const hasFile = Boolean(draft.mediaUrl.trim());
-                  setError(null);
-                  setDraft({
-                    ...draft,
-                    contentUrl,
-                    template: hasReel
-                      ? "media"
-                      : hasFile
-                        ? draft.mediaType === "video"
+                <label>
+                  ציטוט / המלצה (אופציונלי)
+                  <textarea
+                    rows={3}
+                    maxLength={1200}
+                    value={draft.quote}
+                    onChange={(event) => setDraft({ ...draft, quote: event.target.value })}
+                  />
+                </label>
+
+                <label>
+                  קישור לסרטון / ריל (Instagram, TikTok או YouTube)
+                  <input
+                    dir="ltr"
+                    required={!draft.mediaUrl.trim()}
+                    placeholder="https://www.instagram.com/reel/XXXX…"
+                    value={draft.contentUrl}
+                    onChange={(event) => {
+                      const contentUrl = event.target.value;
+                      const hasReel = Boolean(contentUrl.trim());
+                      const hasFile = Boolean(draft.mediaUrl.trim());
+                      setError(null);
+                      setDraft({
+                        ...draft,
+                        contentUrl,
+                        template: hasReel
                           ? "media"
-                          : "portrait"
-                        : "quote"
-                  });
-                }}
-              />
-            </label>
-            <p className="admin-form-hint">
-              לא קישור לפרופיל — קישור לריל/פוסט ספציפי (Share → Copy link).
-            </p>
+                          : hasFile
+                            ? draft.mediaType === "video"
+                              ? "media"
+                              : "portrait"
+                            : "quote"
+                      });
+                    }}
+                  />
+                </label>
+                <p className="admin-form-hint">
+                  לא קישור לפרופיל — קישור לריל/פוסט ספציפי (Share → Copy link).
+                </p>
 
-            <AdminImageUrlField
-              label="קובץ וידאו לדף הבית / מדיה להמלצה"
-              value={draft.mediaUrl}
-              images={images}
-              required={false}
-              onChange={(mediaUrl, meta) => {
-                const isVideo = /\.(mp4|webm|mov)(?:$|\?)/i.test(mediaUrl);
-                setDraft({
-                  ...draft,
-                  mediaUrl,
-                  mediaType: isVideo ? "video" : "image",
-                  posterUrl: draft.posterUrl,
-                  template:
-                    mediaUrl || draft.contentUrl
-                      ? isVideo || draft.contentUrl
-                        ? "media"
-                        : "portrait"
-                      : "quote",
-                  mediaAlt: draft.mediaAlt || meta?.altSuggestion || ""
-                });
-              }}
-            />
+                <AdminImageUrlField
+                  label="קובץ וידאו לדף הבית / מדיה להמלצה"
+                  value={draft.mediaUrl}
+                  images={images}
+                  required={false}
+                  onChange={(mediaUrl, meta) => {
+                    const isVideo = /\.(mp4|webm|mov)(?:$|\?)/i.test(mediaUrl);
+                    setDraft({
+                      ...draft,
+                      mediaUrl,
+                      mediaType: isVideo ? "video" : "image",
+                      posterUrl: draft.posterUrl,
+                      template:
+                        mediaUrl || draft.contentUrl
+                          ? isVideo || draft.contentUrl
+                            ? "media"
+                            : "portrait"
+                          : "quote",
+                      mediaAlt: draft.mediaAlt || meta?.altSuggestion || ""
+                    });
+                  }}
+                />
 
-            <AdminImageUrlField
-              label="תמונת פתיחה לסרטון (אופציונלי)"
-              value={draft.posterUrl}
-              images={images}
-              required={false}
-              onChange={(posterUrl) => setDraft({ ...draft, posterUrl })}
-            />
-            <p className="admin-form-hint">לניגון אוטומטי בריבועים בדף הבית יש להעלות קובץ MP4, WebM או MOV בשדה המדיה. קישור לאינסטגרם יוצג גם בדף הבית כפוסט מוטמע; הניגון בו תלוי באינסטגרם. קובץ וידאו ישיר מאפשר ניגון אוטומטי ללא קול.</p>
-            <label>
-              תיאור מדיה לנגישות (אופציונלי)
-              <input
-                maxLength={300}
-                placeholder="למשל: סרטון של מאי בן חקון ב־SO WHAT"
-                value={draft.mediaAlt}
-                onChange={(event) => setDraft({ ...draft, mediaAlt: event.target.value })}
-              />
-            </label>
+                <AdminImageUrlField
+                  label="תמונת פתיחה לסרטון (אופציונלי)"
+                  value={draft.posterUrl}
+                  images={images}
+                  required={false}
+                  onChange={(posterUrl) => setDraft({ ...draft, posterUrl })}
+                />
+                <p className="admin-form-hint">
+                  לניגון אוטומטי בריבועים בדף הבית יש להעלות קובץ MP4, WebM או MOV בשדה המדיה.
+                </p>
+                <label>
+                  תיאור מדיה לנגישות (אופציונלי)
+                  <input
+                    maxLength={300}
+                    placeholder="למשל: סרטון של מאי בן חקון ב־SO WHAT"
+                    value={draft.mediaAlt}
+                    onChange={(event) => setDraft({ ...draft, mediaAlt: event.target.value })}
+                  />
+                </label>
 
-            <label>
-              קישור לפרופיל
-              <input
-                required
-                dir="ltr"
-                placeholder="https://instagram.com/…"
-                value={draft.profileUrl}
-                onChange={(event) => setDraft({ ...draft, profileUrl: event.target.value })}
-              />
-            </label>
+                <label>
+                  קישור לפרופיל
+                  <input
+                    required
+                    dir="ltr"
+                    placeholder="https://instagram.com/…"
+                    value={draft.profileUrl}
+                    onChange={(event) => setDraft({ ...draft, profileUrl: event.target.value })}
+                  />
+                </label>
+              </>
+            )}
 
             <div className={`admin-recommendation-live-preview is-template-${draft.template}`}>
               <p className="admin-form-hint">תצוגה מקדימה</p>
               <div className="admin-recommendation-live-preview-card">
-                {draft.contentUrl.trim() ? (
+                {isPressRecommendation(draft) ? (
+                  draft.mediaUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={draft.mediaUrl} alt="" />
+                  ) : (
+                    <div className="admin-recommendation-preview-placeholder">תמונת שער</div>
+                  )
+                ) : draft.contentUrl.trim() ? (
                   <div className="admin-recommendation-preview-placeholder">
                     באתר יוצג נגן מהקישור לריל/סרטון
                   </div>
@@ -451,13 +629,21 @@ export function AdminRecommendationsManager({
                   draft.mediaType === "video" || /\.(mp4|webm|mov)(?:$|\?)/i.test(draft.mediaUrl) ? (
                     <video src={draft.mediaUrl} controls playsInline preload="metadata" />
                   ) : (
+                    // eslint-disable-next-line @next/next/no-img-element
                     <img src={draft.mediaUrl} alt="" />
                   )
                 ) : (
                   <div className="admin-recommendation-preview-placeholder">בלי מדיה</div>
                 )}
                 <div>
-                  <strong>{draft.creatorName || "שם היוצר"}</strong>
+                  <strong>
+                    {isPressRecommendation(draft)
+                      ? draft.articleTitle || draft.creatorName || "כותרת הכתבה"
+                      : draft.creatorName || "שם היוצר"}
+                  </strong>
+                  {isPressRecommendation(draft) && draft.creatorName ? (
+                    <p>{draft.creatorName}</p>
+                  ) : null}
                   {draft.quote ? <blockquote>“{draft.quote}”</blockquote> : null}
                 </div>
               </div>

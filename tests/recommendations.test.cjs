@@ -8,9 +8,11 @@ const { createLoader } = require('./helpers.cjs');
 function item(patch = {}) {
   return {
     id: 'recommendation-1',
+    contentKind: 'creator',
     creatorName: 'Dana',
     handle: '@dana',
     quote: 'Great burger',
+    articleTitle: '',
     mediaType: 'image',
     mediaUrl: '/images/dana.jpg',
     posterUrl: '',
@@ -26,6 +28,26 @@ function item(patch = {}) {
     updatedAt: '2026-09-18T00:00:00.000Z',
     ...patch
   };
+}
+
+function pressItem(patch = {}) {
+  return item({
+    id: 'press-1',
+    contentKind: 'press',
+    creatorName: 'Time Out',
+    handle: '',
+    quote: 'A must-visit burger spot in Ra\'anana.',
+    articleTitle: 'SO WHAT brings smash burgers to town',
+    mediaType: 'image',
+    mediaUrl: '/images/press-cover.jpg',
+    posterUrl: '',
+    mediaAlt: 'SO WHAT burger cover',
+    platform: 'other',
+    profileUrl: '',
+    contentUrl: 'https://www.timeout.com/example-article',
+    template: 'portrait',
+    ...patch
+  });
 }
 
 test('recommendations validation requires core fields and accepts minimal creator cards', () => {
@@ -100,6 +122,40 @@ test('recommendations validation requires core fields and accepts minimal creato
     assert.throws(() => validate({ ...defaults, items: [item(patch)] }), JSON.stringify(patch));
   }
   assert.throws(() => validate({ ...defaults, items: [item(), item()] }), /כפול/);
+});
+
+test('recommendations validation accepts press cards without reel or profile', () => {
+  const {
+    DEFAULT_RECOMMENDATIONS_CONFIG: defaults,
+    validateRecommendationsInput: validate,
+    normalizeRecommendationsConfig: normalize
+  } = createLoader()('@/lib/recommendations/recommendations-config');
+
+  const press = validate({ ...defaults, items: [pressItem()] });
+  assert.equal(press.items[0].contentKind, 'press');
+  assert.equal(press.items[0].articleTitle, 'SO WHAT brings smash burgers to town');
+  assert.equal(press.items[0].profileUrl, '');
+  assert.equal(press.items[0].mediaType, 'image');
+
+  // Legacy rows without contentKind stay creators.
+  const legacy = normalize({
+    ...defaults,
+    items: [{ id: 'legacy', creatorName: 'May', contentUrl: 'https://www.instagram.com/reel/Ab/', sortOrder: 1 }]
+  });
+  assert.equal(legacy.items[0].contentKind, 'creator');
+
+  assert.throws(
+    () => validate({ ...defaults, items: [pressItem({ articleTitle: '' })] }),
+    /כותרת הכתבה/
+  );
+  assert.throws(
+    () => validate({ ...defaults, items: [pressItem({ contentUrl: '' })] }),
+    /קישור לכתבה/
+  );
+  assert.throws(
+    () => validate({ ...defaults, items: [pressItem({ mediaUrl: 'https://cdn.example.com/clip.mp4' })] }),
+    /תמונת שער/
+  );
 });
 
 test('recommendation embed resolves Instagram TikTok and YouTube share links', () => {

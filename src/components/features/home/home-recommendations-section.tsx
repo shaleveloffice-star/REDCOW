@@ -3,8 +3,10 @@
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
+import { isPressRecommendation } from "@/lib/recommendations/content-kind";
 import { getRecommendationPreviewVideo } from "@/lib/recommendations/preview-video";
 import { resolveRecommendationEmbed } from "@/lib/recommendations/recommendation-embed";
+import { isSafePublicHref } from "@/lib/security/safe-url";
 import type { CreatorRecommendation } from "@/types/recommendations";
 import { RecommendationVideoDialog } from "@/components/features/recommendations/recommendation-video-dialog";
 
@@ -52,6 +54,32 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
       </div>
       <ul className="home-creators-grid">
         {visible.map((item) => {
+          if (isPressRecommendation(item)) {
+            const href = isSafePublicHref(item.contentUrl) ? item.contentUrl : `/recommendations#creator-${encodeURIComponent(item.id)}`;
+            const external = href.startsWith("http");
+            return (
+              <li key={item.id}>
+                <a
+                  href={href}
+                  className="home-creator"
+                  {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+                >
+                  <div className="home-creator-image">
+                    {item.mediaUrl ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={item.mediaUrl} alt={item.mediaAlt || item.articleTitle || item.creatorName} loading="lazy" />
+                    ) : (
+                      <span className="home-creator-initials" aria-hidden="true">
+                        {(item.creatorName || "?").slice(0, 1)}
+                      </span>
+                    )}
+                  </div>
+                  <span className="home-creator-name">{item.creatorName}</span>
+                </a>
+              </li>
+            );
+          }
+
           const video = getRecommendationPreviewVideo(item);
           const embed = resolveRecommendationEmbed(item.contentUrl || "") || resolveRecommendationEmbed(item.mediaUrl || "");
           return (

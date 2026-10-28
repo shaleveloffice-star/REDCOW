@@ -185,6 +185,88 @@
   text-align: center;
 }
 
+.recommendation-card--press {
+  align-self: stretch;
+}
+
+.recommendation-press-card {
+  display: grid;
+  gap: 0;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid #2a2a2a;
+  border-radius: 22px;
+  background: #111;
+  color: inherit;
+  text-decoration: none;
+}
+
+.recommendation-press-card:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 3px;
+}
+
+.recommendation-press-media {
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  background: #1a1a1a;
+}
+
+.recommendation-press-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.recommendation-press-media-fallback {
+  width: 100%;
+  height: 100%;
+  min-height: 160px;
+  background:
+    linear-gradient(145deg, rgba(254, 218, 117, 0.18), transparent 42%),
+    linear-gradient(325deg, rgba(79, 91, 213, 0.28), #151515 72%);
+}
+
+.recommendation-press-body {
+  display: grid;
+  gap: 10px;
+  padding: clamp(16px, 3vw, 22px);
+}
+
+.recommendation-press-outlet {
+  margin: 0;
+  color: #e8a0b8;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.recommendation-press-title {
+  margin: 0;
+  font-size: clamp(1.15rem, 2.2vw, 1.45rem);
+  line-height: 1.3;
+}
+
+.recommendation-press-excerpt {
+  margin: 0;
+  color: #cfcfcf;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.recommendation-press-cta {
+  justify-self: start;
+  margin-block-start: 4px;
+  padding: 8px 14px;
+  border: 1px solid #3a3a3a;
+  border-radius: 999px;
+  color: #fff;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+
 .recommendation-square-media--poster {
   background:
     linear-gradient(145deg, rgba(254, 218, 117, 0.2), transparent 40%),
@@ -8284,6 +8366,33 @@ a.menu-showcase-button.site-cta-btn {
   object-fit: cover;
   border-radius: 8px;
   margin-bottom: 12px;
+}
+
+.admin-recommendation-kind {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 18px;
+  padding: 14px 16px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+}
+
+.admin-recommendation-kind legend {
+  padding-inline: 4px;
+  font-weight: 700;
+}
+
+.admin-radio-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.admin-radio-row input {
+  width: auto;
+  margin: 0;
 }
 
 .admin-form label.admin-checkbox-row {

@@ -3,7 +3,7 @@ import "server-only";
 import { revalidatePath } from "next/cache";
 
 import { createId } from "@/lib/admin/new-id";
-import { upsertGalleryImage } from "@/services/gallery.service";
+import { getGalleryImages, saveGalleryImage } from "@/repositories/gallery.repository";
 
 const DEFAULT_TITLE = "תמונה שהועלתה";
 const MAX_TITLE_LENGTH = 120;
@@ -19,6 +19,10 @@ export function galleryTitleFromUpload(raw: unknown): string {
   return title || DEFAULT_TITLE;
 }
 
+function normalizeGalleryUrl(url: string): string {
+  return url.trim().split(/[?#]/)[0] ?? url.trim();
+}
+
 /** Every admin upload is also listed in the gallery; a failure here must not fail the upload itself. */
 export async function registerUploadInGallery(input: {
   url: string;
@@ -27,19 +31,33 @@ export async function registerUploadInGallery(input: {
   strict?: boolean;
 }): Promise<void> {
   try {
+    const url = input.url.trim();
+    if (!url || url.startsWith("data:") || url.startsWith("blob:")) {
+      if (input.strict) throw new Error("כתובת מדיה לא תקינה לרישום בגלריה");
+      return;
+    }
+
     const title = galleryTitleFromUpload(input.title);
     const now = new Date().toISOString();
-    await upsertGalleryImage({
-      id: createId("gallery"),
-      title,
-      alt: title,
-      imageUrl: input.url,
-      fileName: input.fileName,
-      createdAt: now,
+    const existing = (await getGalleryImages()).find(
+      (item) => normalizeGalleryUrl(item.imageUrl) === normalizeGalleryUrl(url)
+    );
+
+    await saveGalleryImage({
+      id: existing?.id ?? createId("gallery"),
+      title: existing?.title?.trim() || title,
+      alt: existing?.alt?.trim() || title,
+      imageUrl: url,
+      fileName: input.fileName || existing?.fileName,
+      createdAt: existing?.createdAt || now,
       updatedAt: now
     });
+
     revalidatePath("/admin/gallery");
     revalidatePath("/admin/stories");
+    revalidatePath("/admin/recommendations");
+    revalidatePath("/admin/pages/home");
+    revalidatePath("/admin/menu");
   } catch (err) {
     if (input.strict) throw err;
     console.warn(

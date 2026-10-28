@@ -24,3 +24,38 @@ test('images uploaded while saving (data URLs) are also listed in the gallery; e
   assert.equal(existing.url, 'https://store.public.blob.vercel-storage.com/menu/old.jpg');
   assert.equal(registered.length, 1);
 });
+
+test('registerUploadInGallery reuses the existing gallery row for the same media URL', async () => {
+  const saved = [];
+  const existing = {
+    id: 'gallery_existing',
+    title: 'קיים',
+    imageUrl: 'https://cdn.example.com/media/burger.jpg?v=1',
+    createdAt: '2024-01-01T00:00:00.000Z',
+    updatedAt: '2024-01-01T00:00:00.000Z'
+  };
+  const load = createLoader({
+    'next/cache': { revalidatePath: () => {} },
+    '@/lib/admin/new-id': { createId: () => 'gallery_new' },
+    '@/repositories/gallery.repository': {
+      getGalleryImages: async () => [existing],
+      saveGalleryImage: async (row) => {
+        saved.push(row);
+        return row;
+      }
+    }
+  });
+  const { registerUploadInGallery } = load('@/lib/admin/register-gallery-upload');
+
+  await registerUploadInGallery({
+    strict: true,
+    url: 'https://cdn.example.com/media/burger.jpg',
+    title: 'המבורגר חדש'
+  });
+
+  assert.equal(saved.length, 1);
+  assert.equal(saved[0].id, 'gallery_existing');
+  assert.equal(saved[0].imageUrl, 'https://cdn.example.com/media/burger.jpg');
+  assert.equal(saved[0].title, 'קיים');
+  assert.equal(saved[0].createdAt, existing.createdAt);
+});

@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 
 import {
   AdminFormFooter,
@@ -9,12 +9,13 @@ import {
   AdminToolbar,
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
+import { AdminImageUrlField } from "@/components/features/admin/admin-site-image-picker";
 import { StatusBadge } from "@/components/features/admin/status-badge";
-import { formatAdminImageSpec, PRESS_IMAGE_SPEC } from "@/data/admin-image-specs";
+import { PRESS_IMAGE_SPEC } from "@/data/admin-image-specs";
 import { createId } from "@/lib/admin/new-id";
-import { uploadCompressedAdminImage } from "@/lib/client/upload-admin-image";
 import { deletePressItemAction, savePressItemAction } from "@/server/actions/press.actions";
 import type { PressItem } from "@/types/content";
+import type { GalleryImage } from "@/types/gallery";
 
 function newItem(_items: PressItem[]): PressItem {
   const now = new Date().toISOString();
@@ -31,11 +32,15 @@ function newItem(_items: PressItem[]): PressItem {
   };
 }
 
-export function AdminPressManager({ items }: { items: PressItem[] }) {
+export function AdminPressManager({
+  items,
+  images
+}: {
+  items: PressItem[];
+  images: GalleryImage[];
+}) {
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<PressItem | null>(null);
-  const [uploading, setUploading] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
   const isNew = draft ? !items.some((i) => i.id === draft.id) : false;
 
   const close = () => {
@@ -105,45 +110,14 @@ export function AdminPressManager({ items }: { items: PressItem[] }) {
               קישור
               <input required type="url" value={draft.url} onChange={(e) => setDraft({ ...draft, url: e.target.value })} />
             </label>
-            <label>
-              כתובת תמונה
-              <div className="admin-image-url-field">
-                <input required value={draft.imageUrl} onChange={(e) => setDraft({ ...draft, imageUrl: e.target.value })} />
-                <input
-                  ref={fileInputRef}
-                  accept="image/jpeg,image/png,image/webp,image/gif"
-                  className="admin-gallery-file-input"
-                  disabled={uploading || isPending}
-                  type="file"
-                  onChange={(event) => {
-                    const file = event.target.files?.[0];
-                    if (!file) return;
-                    setUploading(true);
-                    setError(null);
-                    void uploadCompressedAdminImage(file, PRESS_IMAGE_SPEC)
-                      .then((uploaded) => {
-                        setDraft((current) => (current ? { ...current, imageUrl: uploaded.url } : current));
-                      })
-                      .catch((err: unknown) => {
-                        setError(err instanceof Error ? err.message : "העלאה נכשלה");
-                      })
-                      .finally(() => {
-                        setUploading(false);
-                        event.target.value = "";
-                      });
-                  }}
-                />
-                <button
-                  className="button secondary"
-                  disabled={uploading || isPending}
-                  type="button"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  {uploading ? "דוחס ומעלה…" : "העלה תמונה"}
-                </button>
-              </div>
-            </label>
-            <p className="admin-image-spec">{formatAdminImageSpec(PRESS_IMAGE_SPEC)} - נדחס אוטומטית בהעלאה</p>
+            <AdminImageUrlField
+              label="תמונה"
+              required
+              value={draft.imageUrl}
+              images={images}
+              spec={PRESS_IMAGE_SPEC}
+              onChange={(imageUrl) => setDraft({ ...draft, imageUrl })}
+            />
             <label>
               תאריך פרסום
               <input

@@ -15,6 +15,7 @@ import {
   sortPickableImagesByUploadDate,
   type AdminPickableImage
 } from "@/lib/admin/pickable-site-images";
+import { registerAdminMediaInGallery } from "@/lib/client/register-admin-media";
 import { uploadCompressedAdminImage } from "@/lib/client/upload-admin-image";
 import { uploadAdminGalleryVideo } from "@/lib/client/upload-admin-video";
 
@@ -178,6 +179,9 @@ export function AdminImageUrlField({
   const fileInputRef = useRef<HTMLInputElement>(null);
   const showPreview = isPickablePreviewUrl(value);
 
+  const alreadyInGallery = (url: string) =>
+    images.some((image) => image.imageUrl.trim() === url.trim());
+
   const handleUpload = async (fileList: FileList | null) => {
     const file = fileList?.[0];
     if (!file) return;
@@ -190,6 +194,8 @@ export function AdminImageUrlField({
       const uploaded = isVideo
         ? await uploadAdminGalleryVideo(file)
         : await uploadCompressedAdminImage(file, spec);
+      // File uploads go through gallery APIs; ensure the URL is listed even if a prior register soft-failed.
+      await registerAdminMediaInGallery(uploaded.url, file.name);
       onChange(uploaded.url);
       // The upload is now in the gallery; refresh so "בחר מהגלריה" lists it without a reload (client drafts are kept).
       router.refresh();
@@ -203,12 +209,27 @@ export function AdminImageUrlField({
     }
   };
 
+  const handleUrlCommit = async (raw: string) => {
+    const url = raw.trim();
+    onChange(url);
+    if (!url || url.startsWith("data:") || alreadyInGallery(url)) return;
+    const registered = await registerAdminMediaInGallery(url, label);
+    if (registered.ok) {
+      router.refresh();
+    }
+  };
+
   return (
     <>
       <label>
         {label}
         <div className="admin-image-url-field">
-          <input required={required} value={value} onChange={(e) => onChange(e.target.value)} />
+          <input
+            required={required}
+            value={value}
+            onChange={(e) => onChange(e.target.value)}
+            onBlur={(e) => void handleUrlCommit(e.target.value)}
+          />
           {allowUpload ? (
             <>
               <input
@@ -237,7 +258,7 @@ export function AdminImageUrlField({
       <p className="admin-image-spec">
         {formatAdminImageSpec(spec)}
         {spec.note ? ` · ${spec.note}` : ""}
-        {" - נדחס אוטומטית בהעלאה"}
+        {" - נדחס אוטומטית בהעלאה ונשמר גם בגלריה"}
       </p>
       {uploadError ? <p className="admin-form-error">{uploadError}</p> : null}
       {showPreview ? (

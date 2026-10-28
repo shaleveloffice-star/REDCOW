@@ -6,6 +6,8 @@ function harness(count, customItems, { wide = false } = {}) {
   const state = [];
   let cursor = 0, tick, delay, reduced = false;
   const effects = [];
+  const positions=[];
+  const track={getBoundingClientRect:()=>({top:10,bottom:200,width:600}),children:Array.from({length:count},(_,i)=>({style:{setProperty:(_,v)=>positions[i]=Number(v)}}))};
   const document = { hidden: false, documentElement: { getAttribute: () => null } };
   const jsx = (type, props) => ({ type, props });
   const matchMedia = (query) => ({
@@ -21,7 +23,7 @@ function harness(count, customItems, { wide = false } = {}) {
   });
   const load = createLoader({
     react: {
-      useRef: () => ({ current: { getBoundingClientRect: () => ({ top: 10, bottom: 200 }) } }),
+      useRef: initial => ({ current: initial === null ? track : initial }),
       useState: initial => { const i = cursor++; if (!(i in state)) state[i] = initial; return [state[i], v => { state[i] = typeof v === 'function' ? v(state[i]) : v; }]; },
       useEffect: fn => effects.push(fn)
     },
@@ -29,11 +31,11 @@ function harness(count, customItems, { wide = false } = {}) {
     '@/components/features/recommendations/recommendation-video-dialog': { RecommendationVideoDialog: 'dialog' },
     'next/link': { default: 'a', __esModule: true },
     '@/components/providers/locale-provider': { useLocale: () => ({ locale: 'he' }), useTranslations: () => ({ nav: { recommendations: 'ממליצים' } }) }
-  }, { document, window: { innerHeight: 800, matchMedia, setInterval: (fn, ms) => { tick = fn; delay = ms; return 1; }, clearInterval() {} } });
+  }, { requestAnimationFrame:fn=>{tick=fn;return 1;},cancelAnimationFrame(){},getComputedStyle:()=>({columnGap:"12"}), document, window: { innerHeight: 800, matchMedia, setInterval: (fn, ms) => { tick = fn; delay = ms; return 1; }, clearInterval() {} } });
   const { HomeRecommendationsSection } = load('@/components/features/home/home-recommendations-section');
   const items = customItems || Array.from({ length: count }, (_, i) => ({ id: String(i), creatorName: `Creator ${i}`, mediaUrl: '/clip.mp4', posterUrl: '', mediaType: 'video' }));
   const render = () => { cursor = 0; effects.length = 0; return HomeRecommendationsSection({ items }); };
-  return { render, start: () => effects.forEach(fn => fn()), tick: () => tick?.(), delay: () => delay, state, document, reduce: () => { reduced = true; } };
+  return { render, start: () => effects.forEach(fn => fn()), tick: time => tick?.(time), positions, delay: () => delay, state, document, reduce: () => { reduced = true; } };
 }
 
 function cards(tree) {
@@ -48,74 +50,22 @@ function nameHref(card) {
   return card.props.children[1].props.href;
 }
 
-test('creator strip keeps every slide mounted and only shows the page window', () => {
-  for (let count = 1; count <= 7; count++) {
-    const h = harness(count);
-    const pageSize = 3;
-    const seen = new Set();
-    for (let turn = 0; turn < count; turn++) {
-      const tree = h.render();
-      assert.equal(cards(tree).length, count, 'all slides stay mounted to preserve video elements');
-      const visible = activeCards(tree);
-      assert.equal(visible.length, Math.min(pageSize, count));
-      const ids = visible.map(nameHref);
-      assert.equal(new Set(ids).size, ids.length);
-      ids.forEach((id) => seen.add(id));
-      h.start();
-      h.tick();
+test('continuous carousel keeps unique cards spaced across every wrap without blank windows', () => {
+  const { creatorSlot } = createLoader()('@/lib/recommendations/continuous-carousel');
+  for (const size of [3, 5]) for (let count=size+1; count<=12; count++) {
+    for (let distance=0; distance<count*3; distance+=0.037) {
+      const slots=Array.from({length:count},(_,i)=>creatorSlot(i,distance,count)).sort((a,b)=>a-b);
+      assert.equal(new Set(slots).size,count);
+      for(let i=1;i<count;i++) assert.ok(Math.abs(slots[i]-slots[i-1]-1)<1e-9);
+      assert.ok(slots[0]<=0 && slots[count-1]>=size-1, 'viewport stays filled at the seam');
     }
-    assert.equal(seen.size, count);
-    assert.equal(h.delay(), count > pageSize ? 3000 : undefined);
   }
 });
-
-test('wide screens show five creators side by side', () => {
-  const h = harness(7, undefined, { wide: true });
-  h.render();
-  h.start();
-  const tree = h.render();
-  h.start();
-  assert.equal(cards(tree).length, 7);
-  assert.equal(activeCards(tree).length, 5);
-  assert.equal(h.state[1], 5);
-  assert.equal(h.delay(), 3000);
-  h.tick();
-  assert.equal(h.state[0], 5);
-});
-
-test('carousel rotation keeps stable keys and only toggles active playback', () => {
-  const h = harness(6);
-  let tree = h.render();
-  const firstKeys = cards(tree).map((card) => card.key ?? card.props.key);
-  const firstActive = activeCards(tree).map(nameHref);
-  assert.deepEqual(firstActive, [
-    '/recommendations#creator-0',
-    '/recommendations#creator-1',
-    '/recommendations#creator-2'
-  ]);
-  for (const card of activeCards(tree)) {
-    assert.equal(card.props.children[0].props.children[0].props.active, true);
-    assert.equal(card.props.children[0].props.children[0].props.paused, false);
-  }
-  h.start();
-  h.tick();
-  tree = h.render();
-  assert.deepEqual(
-    cards(tree).map((card) => card.key ?? card.props.key),
-    firstKeys,
-    'slide keys must stay stable across rotation'
-  );
-  const nextActive = activeCards(tree).map(nameHref);
-  assert.deepEqual(nextActive, [
-    '/recommendations#creator-3',
-    '/recommendations#creator-4',
-    '/recommendations#creator-5'
-  ]);
-  const parked = cards(tree).filter((card) => card.props['data-carousel-active'] === 'false');
-  assert.equal(parked.length, 3);
-  for (const card of parked) {
-    assert.equal(card.props.children[0].props.children[0].props.active, false);
-  }
+test('creator strip mounts each creator once and has no lower controls', () => {
+  const tree=harness(7).render();
+  assert.equal(cards(tree).length,7);
+  assert.equal(tree.props.children.length,3);
+  assert.equal(tree.props.children[2],null);
 });
 
 test('Instagram recommendations without video files remain visible and embed the post instead of the poster', () => {
@@ -135,8 +85,10 @@ test('Instagram recommendations without video files remain visible and embed the
 
 test('rotation respects hidden documents and reduced motion', () => {
   const h = harness(5); h.render(); h.start();
-  h.document.hidden = true; h.tick(); assert.equal(h.state[0], 0);
-  h.document.hidden = false; h.reduce(); h.tick(); assert.equal(h.state[0], 0);
+  h.tick(100); h.tick(150); assert.ok(h.positions[0]<0);
+  const position=h.positions[0];
+  h.document.hidden=true; h.tick(200); assert.equal(h.positions[0],position);
+  h.document.hidden=false; h.reduce(); h.tick(250); assert.equal(h.positions[0],position);
 });
 
 test('opening a video pauses previews and closing restores the strip', () => {
@@ -146,17 +98,15 @@ test('opening a video pauses previews and closing restores the strip', () => {
   const firstActive = activeCards(tree)[0];
   firstActive.props.children[0].props.children[1].props.onClick({ currentTarget: trigger });
   tree = h.render();
-  assert.equal(tree.props.children[3].props.item.id, '0');
+  assert.equal(tree.props.children[2].props.item.id, '0');
   for (const card of activeCards(tree)) {
     assert.equal(card.props.children[0].props.children[0].props.paused, true);
   }
-  h.start();
-  assert.equal(h.delay(), undefined, 'rotation must not start while dialog is open');
-  tree.props.children[3].props.onClose();
+
+  tree.props.children[2].props.onClose();
   tree = h.render();
-  assert.equal(tree.props.children[3], null);
-  h.start();
-  assert.equal(h.delay(), 3000);
+  assert.equal(tree.props.children[2], null);
+
 });
 
 test('homepage autoplay accepts only direct video files, never Instagram links or image posters', () => {

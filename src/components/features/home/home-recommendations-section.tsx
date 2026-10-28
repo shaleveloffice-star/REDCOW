@@ -1,7 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, type CSSProperties } from "react";
+import { creatorSlot } from "@/lib/recommendations/continuous-carousel";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { isPressRecommendation } from "@/lib/recommendations/content-kind";
 import { getRecommendationPreviewVideo } from "@/lib/recommendations/preview-video";
@@ -10,32 +11,24 @@ import { isSafePublicHref } from "@/lib/security/safe-url";
 import type { CreatorRecommendation } from "@/types/recommendations";
 import { RecommendationVideoDialog } from "@/components/features/recommendations/recommendation-video-dialog";
 
-/** Index within the current carousel page, or -1 when parked off-screen (still mounted). */
-function windowOffset(index: number, start: number, pageSize: number, length: number): number {
-  if (length <= pageSize) return index;
-  for (let i = 0; i < pageSize; i++) {
-    if ((start + i) % length === index) return i;
-  }
-  return -1;
-}
-
 export function HomeRecommendationsSection({ items }: { items: CreatorRecommendation[] }) {
   const { locale } = useLocale();
   const t = useTranslations();
   const sectionRef = useRef<HTMLElement>(null);
-  const [start, setStart] = useState(0);
+  const trackRef = useRef<HTMLUListElement>(null);
+  const distance = useRef(0);
+  const stopped = useRef(false);
   const [pageSize, setPageSize] = useState(3);
-  const [paused, setPaused] = useState(false);
   const [interacting, setInteracting] = useState(false);
   const [selected, setSelected] = useState<CreatorRecommendation | null>(null);
   const trigger = useRef<HTMLButtonElement | null>(null);
   const copy = locale === "he"
-    ? { all: "לכל ההמלצות", pause: "עצירת הסרטונים", play: "הפעלת הסרטונים", next: "המלצות נוספות" }
+    ? { all: "לכל ההמלצות" }
     : locale === "fr"
-      ? { all: "Tous les avis", pause: "Pause des vidéos", play: "Lire les vidéos", next: "Autres avis" }
-      : { all: "All recommendations", pause: "Pause videos", play: "Play videos", next: "More recommendations" };
+      ? { all: "Tous les avis" }
+      : { all: "All recommendations" };
   const canRotate = items.length > pageSize;
-  const hasNativeVideo = items.some((item) => getRecommendationPreviewVideo(item));
+  stopped.current = interacting || Boolean(selected);
 
   useEffect(() => {
     const wide = window.matchMedia("(min-width: 900px)");
@@ -46,18 +39,31 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   }, []);
 
   useEffect(() => {
-    if (!canRotate || paused || interacting || selected) return;
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const step = pageSize;
-    const timer = window.setInterval(() => {
-      const rect = sectionRef.current?.getBoundingClientRect();
-      if (document.hidden || reducedMotion.matches ||
-          document.documentElement.getAttribute("data-a11y-motion") === "reduce" ||
-          !rect || rect.bottom <= 0 || rect.top >= window.innerHeight) return;
-      setStart((value) => (value + step) % items.length);
-    }, 3000);
-    return () => window.clearInterval(timer);
-  }, [canRotate, items.length, pageSize, paused, interacting, selected]);
+    const track = trackRef.current;
+    if (!track) return;
+    const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    let frame = 0, previous = 0;
+    const animate = (now: number) => {
+      const delta = previous ? Math.min(now - previous, 50) : 0;
+      previous = now;
+      const rect = track.getBoundingClientRect();
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 0;
+      const step = (rect.width + gap) / pageSize;
+      if (canRotate && step > 0 && !stopped.current && !document.hidden &&
+          !motion.matches && document.documentElement.getAttribute("data-a11y-motion") !== "reduce" &&
+          rect.bottom > 0 && rect.top < window.innerHeight) {
+        distance.current = (distance.current + delta * 0.016 / step) % items.length;
+      }
+      Array.from(track.children).forEach((child, index) => {
+        const slot = canRotate ? creatorSlot(index, distance.current, items.length) : index;
+        (child as HTMLElement).style.setProperty("--creator-slot", String(slot));
+        (child as HTMLElement).inert = slot <= -1 || slot >= pageSize;
+      });
+      frame = requestAnimationFrame(animate);
+    };
+    frame = requestAnimationFrame(animate);
+    return () => cancelAnimationFrame(frame);
+  }, [canRotate, items.length, pageSize]);
 
   if (!items.length) return null;
 
@@ -70,10 +76,9 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
         <h2 id="home-creators-title">{locale === "he" ? "מדברים עלינו" : t.nav.recommendations}</h2>
         <Link href="/recommendations">{copy.all}</Link>
       </div>
-      <ul className="home-creators-grid">
+      <ul ref={trackRef} className="home-creators-grid">
         {items.map((item, index) => {
-          const offset = windowOffset(index, start, pageSize, items.length);
-          const active = offset >= 0;
+          const active = true;
 
           if (isPressRecommendation(item)) {
             const href = isSafePublicHref(item.contentUrl) ? item.contentUrl : `/recommendations#creator-${encodeURIComponent(item.id)}`;
@@ -81,8 +86,8 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
             return (
               <li
                 key={item.id}
-                className={active ? undefined : "home-creator-slot--idle"}
-                style={active ? { order: offset } : undefined}
+                dir={locale === "he" ? "rtl" : "ltr"}
+                style={{ "--creator-slot": index } as CSSProperties}
                 aria-hidden={active ? undefined : true}
                 data-carousel-active={active ? "true" : "false"}
               >
@@ -113,14 +118,14 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
           return (
             <li
               key={item.id}
-              className={active ? undefined : "home-creator-slot--idle"}
-              style={active ? { order: offset } : undefined}
+              dir={locale === "he" ? "rtl" : "ltr"}
+              style={{ "--creator-slot": index } as CSSProperties}
               aria-hidden={active ? undefined : true}
               data-carousel-active={active ? "true" : "false"}
             >
               <div className="home-creator-image">
                 {video ? (
-                  <CreatorVideo src={video} active={active} paused={paused || Boolean(selected)} />
+                  <CreatorVideo src={video} active={active} paused={Boolean(selected)} />
                 ) : embed ? (
                   <CreatorEmbed src={embed.src} title={item.creatorName} active={active} />
                 ) : (
@@ -149,10 +154,6 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
           );
         })}
       </ul>
-      {hasNativeVideo || canRotate ? <div className="home-creators-controls">
-        <button type="button" onClick={() => setPaused(!paused)} aria-pressed={paused}>{paused ? copy.play : copy.pause}</button>
-        {canRotate ? <button type="button" onClick={() => setStart((value) => (value + pageSize) % items.length)}>{copy.next}</button> : null}
-      </div> : null}
       {selected ? <RecommendationVideoDialog item={selected} trigger={trigger.current} onClose={() => setSelected(null)} /> : null}
     </section>
   );

@@ -36,21 +36,36 @@ function harness(count, customItems, { wide = false } = {}) {
   return { render, start: () => effects.forEach(fn => fn()), tick: () => tick?.(), delay: () => delay, state, document, reduce: () => { reduced = true; } };
 }
 
-test('creator strip is static for up to three and never repeats a creator in a frame', () => {
+function cards(tree) {
+  return tree.props.children[1].props.children;
+}
+
+function activeCards(tree) {
+  return cards(tree).filter((card) => card.props['data-carousel-active'] === 'true');
+}
+
+function nameHref(card) {
+  return card.props.children[1].props.href;
+}
+
+test('creator strip keeps every slide mounted and only shows the page window', () => {
   for (let count = 1; count <= 7; count++) {
     const h = harness(count);
+    const pageSize = 3;
     const seen = new Set();
     for (let turn = 0; turn < count; turn++) {
       const tree = h.render();
-      const cards = tree.props.children[1].props.children;
-      const ids = cards.map(card => card.props.children[1].props.href);
-      assert.equal(ids.length, Math.min(3, count));
+      assert.equal(cards(tree).length, count, 'all slides stay mounted to preserve video elements');
+      const visible = activeCards(tree);
+      assert.equal(visible.length, Math.min(pageSize, count));
+      const ids = visible.map(nameHref);
       assert.equal(new Set(ids).size, ids.length);
-      ids.forEach(id => seen.add(id));
-      h.start(); h.tick();
+      ids.forEach((id) => seen.add(id));
+      h.start();
+      h.tick();
     }
     assert.equal(seen.size, count);
-    assert.equal(h.delay(), count > 3 ? 3000 : undefined);
+    assert.equal(h.delay(), count > pageSize ? 3000 : undefined);
   }
 });
 
@@ -60,12 +75,47 @@ test('wide screens show five creators side by side', () => {
   h.start();
   const tree = h.render();
   h.start();
-  const cards = tree.props.children[1].props.children;
-  assert.equal(cards.length, 5);
+  assert.equal(cards(tree).length, 7);
+  assert.equal(activeCards(tree).length, 5);
   assert.equal(h.state[1], 5);
   assert.equal(h.delay(), 3000);
   h.tick();
   assert.equal(h.state[0], 5);
+});
+
+test('carousel rotation keeps stable keys and only toggles active playback', () => {
+  const h = harness(6);
+  let tree = h.render();
+  const firstKeys = cards(tree).map((card) => card.key ?? card.props.key);
+  const firstActive = activeCards(tree).map(nameHref);
+  assert.deepEqual(firstActive, [
+    '/recommendations#creator-0',
+    '/recommendations#creator-1',
+    '/recommendations#creator-2'
+  ]);
+  for (const card of activeCards(tree)) {
+    assert.equal(card.props.children[0].props.children[0].props.active, true);
+    assert.equal(card.props.children[0].props.children[0].props.paused, false);
+  }
+  h.start();
+  h.tick();
+  tree = h.render();
+  assert.deepEqual(
+    cards(tree).map((card) => card.key ?? card.props.key),
+    firstKeys,
+    'slide keys must stay stable across rotation'
+  );
+  const nextActive = activeCards(tree).map(nameHref);
+  assert.deepEqual(nextActive, [
+    '/recommendations#creator-3',
+    '/recommendations#creator-4',
+    '/recommendations#creator-5'
+  ]);
+  const parked = cards(tree).filter((card) => card.props['data-carousel-active'] === 'false');
+  assert.equal(parked.length, 3);
+  for (const card of parked) {
+    assert.equal(card.props.children[0].props.children[0].props.active, false);
+  }
 });
 
 test('Instagram recommendations without video files remain visible and embed the post instead of the poster', () => {
@@ -76,10 +126,10 @@ test('Instagram recommendations without video files remain visible and embed the
   ].filter(recommendationHasPlayableMedia);
   assert.equal(items.length, 2);
   const tree = harness(2, items).render();
-  const cards = tree.props.children[1].props.children;
-  assert.equal(cards.length, 2);
-  assert.equal(cards[0].props.children[0].props.children[0].props.src, 'https://www.instagram.com/p/first/embed/?hidecaption=1');
-  assert.equal(cards[1].props.children[0].props.children[0].props.src, 'https://www.instagram.com/reel/second/embed/?hidecaption=1');
+  const visible = activeCards(tree);
+  assert.equal(visible.length, 2);
+  assert.equal(visible[0].props.children[0].props.children[0].props.src, 'https://www.instagram.com/p/first/embed/?hidecaption=1');
+  assert.equal(visible[1].props.children[0].props.children[0].props.src, 'https://www.instagram.com/reel/second/embed/?hidecaption=1');
   assert.equal(tree.props.children[2], null, 'No misleading play/pause control for third-party embeds');
 });
 
@@ -93,10 +143,11 @@ test('opening a video pauses previews and closing restores the strip', () => {
   const h = harness(4);
   let tree = h.render();
   const trigger = {};
-  tree.props.children[1].props.children[0].props.children[0].props.children[1].props.onClick({ currentTarget: trigger });
+  const firstActive = activeCards(tree)[0];
+  firstActive.props.children[0].props.children[1].props.onClick({ currentTarget: trigger });
   tree = h.render();
   assert.equal(tree.props.children[3].props.item.id, '0');
-  for (const card of tree.props.children[1].props.children) {
+  for (const card of activeCards(tree)) {
     assert.equal(card.props.children[0].props.children[0].props.paused, true);
   }
   h.start();

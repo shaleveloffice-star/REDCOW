@@ -10,6 +10,15 @@ import { isSafePublicHref } from "@/lib/security/safe-url";
 import type { CreatorRecommendation } from "@/types/recommendations";
 import { RecommendationVideoDialog } from "@/components/features/recommendations/recommendation-video-dialog";
 
+/** Index within the current carousel page, or -1 when parked off-screen (still mounted). */
+function windowOffset(index: number, start: number, pageSize: number, length: number): number {
+  if (length <= pageSize) return index;
+  for (let i = 0; i < pageSize; i++) {
+    if ((start + i) % length === index) return i;
+  }
+  return -1;
+}
+
 export function HomeRecommendationsSection({ items }: { items: CreatorRecommendation[] }) {
   const { locale } = useLocale();
   const t = useTranslations();
@@ -51,7 +60,6 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   }, [canRotate, items.length, pageSize, paused, interacting, selected]);
 
   if (!items.length) return null;
-  const visible = Array.from({ length: Math.min(pageSize, items.length) }, (_, i) => items[(start + i) % items.length]);
 
   return (
     <section ref={sectionRef} className="home-creators" aria-labelledby="home-creators-title"
@@ -63,15 +71,25 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
         <Link href="/recommendations">{copy.all}</Link>
       </div>
       <ul className="home-creators-grid">
-        {visible.map((item) => {
+        {items.map((item, index) => {
+          const offset = windowOffset(index, start, pageSize, items.length);
+          const active = offset >= 0;
+
           if (isPressRecommendation(item)) {
             const href = isSafePublicHref(item.contentUrl) ? item.contentUrl : `/recommendations#creator-${encodeURIComponent(item.id)}`;
             const external = href.startsWith("http");
             return (
-              <li key={item.id}>
+              <li
+                key={item.id}
+                className={active ? undefined : "home-creator-slot--idle"}
+                style={active ? { order: offset } : undefined}
+                aria-hidden={active ? undefined : true}
+                data-carousel-active={active ? "true" : "false"}
+              >
                 <a
                   href={href}
                   className="home-creator"
+                  tabIndex={active ? undefined : -1}
                   {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
                 >
                   <div className="home-creator-image">
@@ -93,17 +111,38 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
           const video = getRecommendationPreviewVideo(item);
           const embed = resolveRecommendationEmbed(item.contentUrl || "") || resolveRecommendationEmbed(item.mediaUrl || "");
           return (
-            <li key={item.id}>
+            <li
+              key={item.id}
+              className={active ? undefined : "home-creator-slot--idle"}
+              style={active ? { order: offset } : undefined}
+              aria-hidden={active ? undefined : true}
+              data-carousel-active={active ? "true" : "false"}
+            >
               <div className="home-creator-image">
-                {video ? <CreatorVideo src={video} paused={paused || Boolean(selected)} /> : embed ? (
-                  <CreatorEmbed src={embed.src} title={item.creatorName} />
-                ) : <img src={item.mediaUrl} alt={item.mediaAlt || item.creatorName} loading="lazy" />}
-                {video || embed ? <button type="button" className="home-creator-open"
-                  aria-label={`${locale === "he" ? "פתיחת הסרטון במסך מלא" : locale === "fr" ? "Ouvrir la vidéo en plein écran" : "Open video full screen"}: ${item.creatorName}`}
-                  aria-haspopup="dialog"
-                  onClick={(event) => { trigger.current = event.currentTarget; setSelected(item); }} /> : null}
+                {video ? (
+                  <CreatorVideo src={video} active={active} paused={paused || Boolean(selected)} />
+                ) : embed ? (
+                  <CreatorEmbed src={embed.src} title={item.creatorName} active={active} />
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={item.mediaUrl} alt={item.mediaAlt || item.creatorName} loading="lazy" />
+                )}
+                {video || embed ? (
+                  <button
+                    type="button"
+                    className="home-creator-open"
+                    tabIndex={active ? undefined : -1}
+                    aria-label={`${locale === "he" ? "פתיחת הסרטון במסך מלא" : locale === "fr" ? "Ouvrir la vidéo en plein écran" : "Open video full screen"}: ${item.creatorName}`}
+                    aria-haspopup="dialog"
+                    onClick={(event) => { trigger.current = event.currentTarget; setSelected(item); }}
+                  />
+                ) : null}
               </div>
-              <Link href={`/recommendations#creator-${encodeURIComponent(item.id)}`} className="home-creator home-creator-name">
+              <Link
+                href={`/recommendations#creator-${encodeURIComponent(item.id)}`}
+                className="home-creator home-creator-name"
+                tabIndex={active ? undefined : -1}
+              >
                 {item.creatorName}
               </Link>
             </li>
@@ -119,47 +158,75 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   );
 }
 
-function CreatorEmbed({ src, title }: { src: string; title: string }) {
+function CreatorEmbed({ src, title, active }: { src: string; title: string; active: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
-  const [nearView, setNearView] = useState(false);
+  // Once loaded, keep the iframe mounted forever so carousel rotation does not remount it.
+  const [loaded, setLoaded] = useState(active);
+  useEffect(() => {
+    if (active) setLoaded(true);
+  }, [active]);
   useEffect(() => {
     const element = ref.current;
     if (!element) return;
     const observer = new ResizeObserver(([entry]) => setWidth(entry.contentRect.width));
     observer.observe(element);
-    // Browser iframe lazy loading can fetch several screens ahead of the hero.
-    // Start the actual embed only as its fixed-size card enters the viewport.
-    const visibility = new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting) { setNearView(true); visibility.disconnect(); }
-    }, { rootMargin: "0px", threshold: 0.01 });
-    visibility.observe(element);
-    return () => { observer.disconnect(); visibility.disconnect(); };
+    return () => observer.disconnect();
   }, []);
-  return <div ref={ref} className="home-creator-embed">
-    {nearView ? <iframe src={src} title={`Video: ${title}`} loading="eager" tabIndex={-1} aria-hidden="true"
-      allow="autoplay; encrypted-media; picture-in-picture; web-share" allowFullScreen
-      referrerPolicy="strict-origin-when-cross-origin"
-      style={{ width: 326, height: 700, transform: `scale(${width / 326})` }} /> : null}
-  </div>;
+  return (
+    <div ref={ref} className="home-creator-embed">
+      {loaded ? (
+        <iframe
+          src={src}
+          title={`Video: ${title}`}
+          loading="eager"
+          tabIndex={-1}
+          aria-hidden="true"
+          allow="autoplay; encrypted-media; picture-in-picture; web-share"
+          allowFullScreen
+          referrerPolicy="strict-origin-when-cross-origin"
+          style={{ width: 326, height: 700, transform: `scale(${width / 326})` }}
+        />
+      ) : null}
+    </div>
+  );
 }
 
-function CreatorVideo({ src, paused }: { src: string; paused: boolean }) {
+function CreatorVideo({ src, active, paused }: { src: string; active: boolean; paused: boolean }) {
   const ref = useRef<HTMLVideoElement>(null);
+  const shouldPlay = active && !paused;
+  // Warm preload once; never flip-flop preload attrs (avoids media reload).
+  const [warm, setWarm] = useState(active);
+  useEffect(() => {
+    if (active) setWarm(true);
+  }, [active]);
+
   useEffect(() => {
     const video = ref.current;
     if (!video) return;
     let inView = false;
     const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
     const sync = () => {
-      if (paused || !inView || document.hidden || motion.matches || document.documentElement.getAttribute("data-a11y-motion") === "reduce") {
+      // pause() keeps currentTime; never assign currentTime or replace src here.
+      if (
+        !shouldPlay ||
+        !inView ||
+        document.hidden ||
+        motion.matches ||
+        document.documentElement.getAttribute("data-a11y-motion") === "reduce"
+      ) {
         video.pause();
       } else {
         video.muted = true;
-        void video.play().catch(() => { /* Browser power-saving may prevent autoplay. */ });
+        void video.play().catch(() => {
+          /* Browser power-saving may prevent autoplay. */
+        });
       }
     };
-    const observer = new IntersectionObserver(([entry]) => { inView = entry.isIntersecting; sync(); }, { threshold: 0.2 });
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      sync();
+    }, { threshold: 0.2 });
     observer.observe(video);
     const accessibility = new MutationObserver(sync);
     accessibility.observe(document.documentElement, { attributes: true, attributeFilter: ["data-a11y-motion"] });
@@ -167,11 +234,24 @@ function CreatorVideo({ src, paused }: { src: string; paused: boolean }) {
     motion.addEventListener("change", sync);
     video.addEventListener("canplay", sync);
     return () => {
-      observer.disconnect(); accessibility.disconnect(); video.pause();
+      observer.disconnect();
+      accessibility.disconnect();
+      video.pause();
       document.removeEventListener("visibilitychange", sync);
       motion.removeEventListener("change", sync);
       video.removeEventListener("canplay", sync);
     };
-  }, [src, paused]);
-  return <video ref={ref} src={src} muted loop playsInline preload="metadata" aria-hidden="true" />;
+  }, [shouldPlay]);
+
+  return (
+    <video
+      ref={ref}
+      src={src}
+      muted
+      loop
+      playsInline
+      preload={warm ? "auto" : "metadata"}
+      aria-hidden="true"
+    />
+  );
 }

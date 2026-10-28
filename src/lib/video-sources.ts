@@ -2,7 +2,11 @@
  * Known WebM siblings that exist under /public/videos/.
  * Do not invent .webm URLs — missing files cause 404s (especially on Chromium/Samsung).
  */
-const KNOWN_LOCAL_WEBM = new Set<string>(["/videos/hero-nb-experience.webm", "/videos/sowhat-hero-20261020-optimized.webm"]);
+const KNOWN_LOCAL_WEBM = new Set<string>([
+  "/videos/hero-nb-experience.webm",
+  "/videos/sowhat-hero-20261020-optimized.webm",
+  "/videos/sowhat-hero-20261027-optimized.webm"
+]);
 
 /** Derive optional WebM sibling path for an MP4 under /videos/ when the asset is known. */
 export function webmPathForMp4(mp4Src: string): string | null {

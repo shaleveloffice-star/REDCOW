@@ -1,0 +1,6 @@
+import fs from 'node:fs/promises';
+const base=process.env.AUDIT_ORIGIN||'https://www.sowhat.co.il';
+const paths=['/stories/burger','/stories/dining-vs-delivery','/stories/burgers-in-raanana','/stories/raanana','/stories/burger-and-fries-classic','/stories/burger-restaurant-vs-stand','/menu/green-salad','/menu/home-fries','/menu/nuggets-7','/menu/caesar-salad-small','/menu/caesar-salad-large','/stories/smash-burger','/stories/restaurant-raanana','/menu/nb-truffle-meal','/menu/hamburger-nb-confit','/menu/hamburger-nb-truffle','/menu/4-piece-nuggets'];
+const rows=[];
+for(let i=0;i<paths.length;i+=3) rows.push(...await Promise.all(paths.slice(i,i+3).map(async path=>{const r=await fetch(base+path,{redirect:'manual'});const html=await r.text();const location=r.headers.get('location');let targetStatus;if(location){const t=await fetch(new URL(location,base),{redirect:'manual'});targetStatus=t.status;await t.body?.cancel();}return {path,status:r.status,location,targetStatus,noindex:/name="robots" content="[^"]*noindex/.test(html),notFound:html.includes('NEXT_HTTP_ERROR_FALLBACK;404')};})));
+await fs.writeFile(process.argv[2],JSON.stringify(rows,null,2));console.log(JSON.stringify(rows,null,2));

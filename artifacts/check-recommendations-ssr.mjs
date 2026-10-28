@@ -1,0 +1,1 @@
+const r=await fetch('http://localhost:3045/recommendations');const html=await r.text();const canonical=[...html.matchAll(/<link[^>]*rel="canonical"[^>]*>/g)].map(x=>x[0]);console.log({status:r.status,canonical,noindex:html.includes('content="noindex')});

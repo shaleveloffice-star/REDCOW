@@ -78,11 +78,13 @@ export default async function HomePage() {
           <HomeSmashStorySection siteImages={siteImages} variant="grinding" />
         <HomeSmashStorySection siteImages={siteImages} />
         <HomeSocialVibeSection />
-        <SeoFaqSection
-          faq={homeSeo.faq}
-          sectionId="faq"
-          titleId="home-faq-title"
-        />
+        <div data-nosnippet>
+          <SeoFaqSection
+            faq={homeSeo.faq}
+            sectionId="faq"
+            titleId="home-faq-title"
+          />
+        </div>
       </main>
       <SiteFooter />
     </>

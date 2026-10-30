@@ -121,10 +121,10 @@
 
 .recommendations-gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 280px));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   justify-content: center;
   gap: clamp(14px, 2vw, 24px);
-  width: min(1200px, calc(100% - 32px));
+  width: min(580px, calc(100% - 24px));
   margin: 0 auto;
   padding: 0;
   list-style: none;
@@ -202,14 +202,17 @@
 .home-creator-tiktok { height: 100%; width: auto; max-width: 100%; aspect-ratio: 9 / 16; border: 0; }
 
 .recommendation-creator {
-  margin: 16px 0 4px;
-  font-size: 1.2rem;
+  margin: 8px 0 4px;
+  font-size: clamp(0.8rem, 2.5vw, 1rem);
+  overflow-wrap: anywhere;
   line-height: 1.4;
   text-align: center;
 }
 
 .recommendation-handle {
   margin: 0;
+  font-size: clamp(0.7rem, 2vw, 0.875rem);
+  overflow-wrap: anywhere;
   color: #bbb;
   text-align: center;
 }
@@ -388,8 +391,8 @@
 
 @media (max-width: 720px) {
   .recommendations-gallery {
-    width: calc(100% - 28px);
-    grid-template-columns: minmax(0, 280px);
+    width: min(580px, calc(100% - 24px));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     justify-content: center;
   }
 

@@ -193,6 +193,15 @@
   min-height: 700px;
 }
 
+/* TikTok's official vertical player; Instagram keeps its existing sizing. */
+.recommendation-square:has(.recommendation-tiktok) { aspect-ratio: auto; height: auto; min-height: 0; }
+.recommendation-tiktok { display: flex; flex-direction: column; width: min(100%, 400px); margin: 0 auto; min-height: 0; }
+.recommendation-tiktok > iframe { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; border: 0; background: #000; }
+.recommendation-tiktok > a, .home-creator-tiktok-link { display: block; padding: 10px 4px; color: inherit; text-align: center; text-underline-offset: 4px; }
+.creator-video-dialog > .recommendation-tiktok { height: 100%; width: min(100%, 400px); }
+.creator-video-dialog .recommendation-tiktok > iframe { flex: 1; min-height: 0; height: 0; }
+.home-creator-tiktok { height: 100%; width: auto; max-width: 100%; aspect-ratio: 9 / 16; border: 0; }
+
 .recommendation-creator {
   margin: 16px 0 4px;
   font-size: 1.2rem;

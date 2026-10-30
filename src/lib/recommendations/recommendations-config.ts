@@ -1,4 +1,5 @@
 import { isVideoMediaUrl } from "@/lib/menu-media";
+import { resolveRecommendationEmbed, isShortTikTokUrl } from "@/lib/recommendations/recommendation-embed";
 import { getRecommendationContentKind } from "@/lib/recommendations/content-kind";
 import { assertSafeHttpUrl } from "@/lib/security/safe-url";
 import type {
@@ -131,10 +132,15 @@ function coerceItem(value: unknown, index: number, strict: boolean): CreatorReco
     throw new Error("סדר תצוגה לא תקין");
   }
 
-  const platform =
+  const detectedPlatform = resolveRecommendationEmbed(String(item.contentUrl || ""))?.provider
+    || resolveRecommendationEmbed(mediaUrl)?.provider;
+  if (strict && contentKind !== "press" && [item.contentUrl, mediaUrl].some(value => isShortTikTokUrl(String(value || "")))) {
+    throw new Error("יש להדביק קישור TikTok מלא הכולל /@user/video/ ומזהה סרטון, ולא קישור מקוצר");
+  }
+  const platform = detectedPlatform || (
     typeof item.platform === "string" && PLATFORMS.includes(item.platform as RecommendationPlatform)
       ? (item.platform as RecommendationPlatform)
-      : "instagram";
+      : "instagram");
   const template =
     typeof item.template === "string" && TEMPLATES.includes(item.template as RecommendationTemplate)
       ? (item.template as RecommendationTemplate)

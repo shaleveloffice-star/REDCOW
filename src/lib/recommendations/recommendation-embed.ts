@@ -5,6 +5,7 @@ export type RecommendationEmbedProvider = "instagram" | "tiktok" | "youtube";
 export type RecommendationEmbed = {
   provider: RecommendationEmbedProvider;
   src: string;
+  watchUrl?: string;
 };
 
 function stripTrailingSlash(value: string): string {
@@ -23,6 +24,7 @@ export function resolveRecommendationEmbed(url: string): RecommendationEmbed | n
   }
 
   const host = parsed.hostname.replace(/^www\./i, "").toLowerCase();
+  if (!['http:', 'https:'].includes(parsed.protocol) || parsed.username || parsed.password || parsed.port) return null;
   const path = stripTrailingSlash(parsed.pathname);
 
   if (host === "instagram.com" || host.endsWith(".instagram.com")) {
@@ -37,12 +39,13 @@ export function resolveRecommendationEmbed(url: string): RecommendationEmbed | n
     };
   }
 
-  if (host === "tiktok.com" || host.endsWith(".tiktok.com")) {
-    const match = path.match(/\/video\/(\d+)/i);
+  if (host === "tiktok.com" || host === "m.tiktok.com") {
+    const match = path.match(/^\/@[^/]+\/video\/(\d+)$/i) || path.match(/^\/(?:player\/v1|embed\/v2)\/(\d+)$/i);
     if (!match) return null;
     return {
       provider: "tiktok",
-      src: `https://www.tiktok.com/embed/v2/${match[1]}`
+      src: `https://www.tiktok.com/player/v1/${match[1]}?controls=1&description=1`,
+      watchUrl: path.startsWith('/@') ? `https://www.tiktok.com${path}` : `https://www.tiktok.com/player/v1/${match[1]}`
     };
   }
 
@@ -68,6 +71,12 @@ export function resolveRecommendationEmbed(url: string): RecommendationEmbed | n
   }
 
   return null;
+}
+
+/** Short share URLs are deliberately not fetched: ask for the expanded video URL. */
+export function isShortTikTokUrl(value: string): boolean {
+  try { return ['vt.tiktok.com', 'vm.tiktok.com'].includes(new URL(value).hostname.toLowerCase()); }
+  catch { return false; }
 }
 
 export function recommendationHasPlayableMedia(item: {

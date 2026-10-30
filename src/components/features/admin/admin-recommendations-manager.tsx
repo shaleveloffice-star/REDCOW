@@ -393,7 +393,7 @@ export function AdminRecommendationsManager({
                     ? draft.articleTitle.trim() || draft.creatorName.trim()
                     : draft.creatorName.trim() || "סרטון המלצה מיוצר תוכן"),
                 mediaType: kind === "press" ? "image" : draft.mediaType,
-                platform: kind === "press" ? "other" : draft.platform,
+                platform: kind === "press" ? "other" : resolveRecommendationEmbed(contentUrl)?.provider || draft.platform,
                 profileUrl: kind === "press" ? "" : draft.profileUrl,
                 posterUrl: kind === "press" ? "" : draft.posterUrl,
                 handle: kind === "press" ? "" : draft.handle,
@@ -540,6 +540,7 @@ export function AdminRecommendationsManager({
                       setDraft({
                         ...draft,
                         contentUrl,
+                        platform: resolveRecommendationEmbed(contentUrl)?.provider || draft.platform,
                         template: hasReel
                           ? "media"
                           : hasFile
@@ -553,6 +554,7 @@ export function AdminRecommendationsManager({
                 </label>
                 <p className="admin-form-hint">
                   לא קישור לפרופיל — קישור לריל/פוסט ספציפי (Share → Copy link).
+                  {" "}ב-TikTok יש להדביק כתובת מלאה עם ‎/@user/video/‎; קישורי vt/vm מקוצרים אינם נתמכים.
                 </p>
 
                 <AdminImageUrlField

@@ -3,6 +3,7 @@
 import { useEffect, useId } from "react";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { resolveRecommendationEmbed } from "@/lib/recommendations/recommendation-embed";
+import { TikTokPlayer } from "@/components/features/recommendations/tiktok-player";
 import { isSafePublicHref } from "@/lib/security/safe-url";
 import type { CreatorRecommendation } from "@/types/recommendations";
 
@@ -58,7 +59,7 @@ export function RecommendationLightbox({
             autoPlay
             aria-label={label}
           />
-        ) : embed && isSafePublicHref(embed.src) ? (
+        ) : embed?.provider === "tiktok" ? <TikTokPlayer embed={embed} title={label} /> : embed && isSafePublicHref(embed.src) ? (
           <iframe
             className="recommendation-lightbox-player recommendation-lightbox-embed"
             src={embed.src}

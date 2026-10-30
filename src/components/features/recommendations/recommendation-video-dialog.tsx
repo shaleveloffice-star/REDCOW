@@ -6,6 +6,7 @@ import { mountModal } from "@/lib/a11y/focus-trap";
 import { useLocale } from "@/components/providers/locale-provider";
 import { getRecommendationPreviewVideo } from "@/lib/recommendations/preview-video";
 import { resolveRecommendationEmbed } from "@/lib/recommendations/recommendation-embed";
+import { TikTokPlayer } from "@/components/features/recommendations/tiktok-player";
 import type { CreatorRecommendation } from "@/types/recommendations";
 
 export function RecommendationVideoDialog({ item, trigger, onClose }: {
@@ -29,7 +30,7 @@ export function RecommendationVideoDialog({ item, trigger, onClose }: {
         <h2 id={titleId} className="sr-only">{item.creatorName}</h2>
         <button className="creator-video-close" type="button" onClick={onClose}
           aria-label={locale === "he" ? "סגירת הסרטון" : locale === "fr" ? "Fermer la vidéo" : "Close video"}>×</button>
-        {video ? <video src={video} controls autoPlay playsInline preload="auto" tabIndex={0} aria-label={item.creatorName} /> : embed ? (
+        {video ? <video src={video} controls autoPlay playsInline preload="auto" tabIndex={0} aria-label={item.creatorName} /> : embed?.provider === "tiktok" ? <TikTokPlayer embed={embed} title={item.creatorName} /> : embed ? (
           <iframe src={embed.src} title={item.creatorName} tabIndex={0} allow="autoplay; encrypted-media; picture-in-picture; web-share"
             allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
         ) : null}

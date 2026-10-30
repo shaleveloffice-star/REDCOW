@@ -55,7 +55,7 @@ export const getCachedPageVisibility = unstable_cache(
 
 export const getCachedRecommendations = unstable_cache(
   () => getRecommendationsConfig(),
-  [CACHE_TAGS.recommendations, "sowhat-compliance-v2"],
+  [CACHE_TAGS.recommendations, "sowhat-tiktok-player-v3"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.recommendations] }
 );
 

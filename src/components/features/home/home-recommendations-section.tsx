@@ -126,6 +126,10 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
               <div className="home-creator-image">
                 {video ? (
                   <CreatorVideo src={video} active={active} paused={Boolean(selected)} />
+                ) : embed?.provider === "tiktok" ? (
+                  <iframe className="home-creator-tiktok" src={embed.src} title={`TikTok: ${item.creatorName}`}
+                    loading="lazy" tabIndex={-1} allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
+                    allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
                 ) : embed ? (
                   <CreatorEmbed src={embed.src} title={item.creatorName} active={active} />
                 ) : (
@@ -150,6 +154,8 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
               >
                 {item.creatorName}
               </Link>
+              {embed?.provider === "tiktok" ? <a className="home-creator-tiktok-link" href={embed.watchUrl || embed.src}
+                target="_blank" rel="noopener noreferrer">לצפייה בטיקטוק</a> : null}
             </li>
           );
         })}

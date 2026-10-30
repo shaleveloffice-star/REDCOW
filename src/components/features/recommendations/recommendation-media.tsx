@@ -1,4 +1,5 @@
 import { RecommendationScaledEmbed } from "@/components/features/recommendations/recommendation-scaled-embed";
+import { TikTokPlayer } from "@/components/features/recommendations/tiktok-player";
 import { isPressRecommendation } from "@/lib/recommendations/content-kind";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { resolveRecommendationEmbed } from "@/lib/recommendations/recommendation-embed";
@@ -43,6 +44,7 @@ export function RecommendationMedia({ item }: { item: CreatorRecommendation }) {
   const embedCandidate = [contentUrl, mediaUrl].find((value) => Boolean(value));
   const embed = embedCandidate ? resolveRecommendationEmbed(embedCandidate) : null;
   if (embed && isSafePublicHref(embed.src)) {
+    if (embed.provider === "tiktok") return <TikTokPlayer embed={embed} title={label} />;
     return <RecommendationScaledEmbed src={embed.src} title={label} provider={embed.provider} />;
   }
 

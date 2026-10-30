@@ -24,7 +24,7 @@
 }
 .home-creators-grid { direction: ltr; overflow: hidden; }
 .home-creators-grid > li {
-  grid-area: 1 / 1;
+  grid-area: var(--creator-row, 1) / 1;
   min-width: 0;
   transform: translateX(calc(var(--creator-slot, 0) * (100% + clamp(10px, 3vw, 24px))));
   will-change: transform;
@@ -32,9 +32,6 @@
 @media (min-width: 900px) {
   .home-creators {
     width: min(1100px, calc(100% - 48px));
-  }
-  .home-creators-grid {
-    grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
 .home-creator { display: block; color: inherit; text-align: center; text-decoration: none; }

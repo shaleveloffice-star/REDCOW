@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState, type CSSProperties } from "react";
-import { creatorSlot } from "@/lib/recommendations/continuous-carousel";
+import { creatorPosition } from "@/lib/recommendations/continuous-carousel";
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { isPressRecommendation } from "@/lib/recommendations/content-kind";
 import { getRecommendationPreviewVideo } from "@/lib/recommendations/preview-video";
@@ -18,7 +18,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   const trackRef = useRef<HTMLUListElement>(null);
   const distance = useRef(0);
   const stopped = useRef(false);
-  const [pageSize, setPageSize] = useState(3);
+  const pageSize = 3;
   const [interacting, setInteracting] = useState(false);
   const [selected, setSelected] = useState<CreatorRecommendation | null>(null);
   const trigger = useRef<HTMLButtonElement | null>(null);
@@ -27,16 +27,8 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
     : locale === "fr"
       ? { all: "Tous les avis" }
       : { all: "All recommendations" };
-  const canRotate = items.length > pageSize;
+  const canRotate = items.length > 6;
   stopped.current = interacting || Boolean(selected);
-
-  useEffect(() => {
-    const wide = window.matchMedia("(min-width: 900px)");
-    const sync = () => setPageSize(wide.matches ? 5 : 3);
-    sync();
-    wide.addEventListener("change", sync);
-    return () => wide.removeEventListener("change", sync);
-  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -52,10 +44,10 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
       if (canRotate && step > 0 && !stopped.current && !document.hidden &&
           !motion.matches && document.documentElement.getAttribute("data-a11y-motion") !== "reduce" &&
           rect.bottom > 0 && rect.top < window.innerHeight) {
-        distance.current = (distance.current + delta * 0.016 / step) % items.length;
+        distance.current += delta * 0.016 / step;
       }
       Array.from(track.children).forEach((child, index) => {
-        const slot = canRotate ? creatorSlot(index, distance.current, items.length) : index;
+        const { slot } = creatorPosition(index, items.length, distance.current);
         (child as HTMLElement).style.setProperty("--creator-slot", String(slot));
         (child as HTMLElement).inert = slot <= -1 || slot >= pageSize;
       });
@@ -87,7 +79,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
               <li
                 key={item.id}
                 dir={locale === "he" ? "rtl" : "ltr"}
-                style={{ "--creator-slot": index } as CSSProperties}
+                style={{ "--creator-slot": creatorPosition(index, items.length).slot, "--creator-row": creatorPosition(index, items.length).row } as CSSProperties}
                 aria-hidden={active ? undefined : true}
                 data-carousel-active={active ? "true" : "false"}
               >
@@ -119,7 +111,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
             <li
               key={item.id}
               dir={locale === "he" ? "rtl" : "ltr"}
-              style={{ "--creator-slot": index } as CSSProperties}
+              style={{ "--creator-slot": creatorPosition(index, items.length).slot, "--creator-row": creatorPosition(index, items.length).row } as CSSProperties}
               aria-hidden={active ? undefined : true}
               data-carousel-active={active ? "true" : "false"}
             >

@@ -84,7 +84,7 @@ test('Instagram recommendations without video files remain visible and embed the
 });
 
 test('rotation respects hidden documents and reduced motion', () => {
-  const h = harness(5); h.render(); h.start();
+  const h = harness(8); h.render(); h.start();
   h.tick(100); h.tick(150); assert.ok(h.positions[0]<0);
   const position=h.positions[0];
   h.document.hidden=true; h.tick(200); assert.equal(h.positions[0],position);

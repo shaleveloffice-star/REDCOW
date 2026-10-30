@@ -121,10 +121,10 @@
 
 .recommendations-gallery {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 280px));
   justify-content: center;
   gap: clamp(14px, 2vw, 24px);
-  width: min(520px, calc(100% - 24px));
+  width: min(1200px, calc(100% - 32px));
   margin: 0 auto;
   padding: 0;
   list-style: none;
@@ -143,7 +143,7 @@
   position: relative;
   display: block;
   width: 100%;
-  aspect-ratio: 4 / 5;
+  aspect-ratio: 9 / 16;
   overflow: hidden;
   border: 0;
   border-radius: 22px;
@@ -187,11 +187,13 @@
 }
 
 .recommendation-embed-viewport { position: absolute; inset: 0; overflow: hidden; }
+.recommendation-square:has(.recommendation-embed-viewport) {
+  aspect-ratio: 326 / 700;
+  background: #fff;
+}
 
 /* TikTok's official vertical player; Instagram keeps its existing sizing. */
-.recommendation-square > .recommendation-tiktok { height: 100%; }
-.recommendation-square > .recommendation-tiktok > iframe { flex: 1; min-height: 0; height: 0; }
-.recommendation-square > .recommendation-tiktok > a { padding: 6px 2px; font-size: 0.75rem; }
+.recommendation-square:has(.recommendation-tiktok) { aspect-ratio: auto; height: auto; min-height: 0; }
 .recommendation-tiktok { display: flex; flex-direction: column; width: min(100%, 400px); margin: 0 auto; min-height: 0; }
 .recommendation-tiktok > iframe { display: block; width: 100%; height: auto; aspect-ratio: 9 / 16; border: 0; background: #000; }
 .recommendation-tiktok > a, .home-creator-tiktok-link { display: block; padding: 10px 4px; color: inherit; text-align: center; text-underline-offset: 4px; }
@@ -200,16 +202,14 @@
 .home-creator-tiktok { height: 100%; width: auto; max-width: 100%; aspect-ratio: 9 / 16; border: 0; }
 
 .recommendation-creator {
-  margin: 8px 0 4px;
-  font-size: clamp(0.85rem, 2vw, 1rem);
+  margin: 16px 0 4px;
+  font-size: 1.2rem;
   line-height: 1.4;
   text-align: center;
 }
 
 .recommendation-handle {
   margin: 0;
-  font-size: 0.75rem;
-  overflow-wrap: anywhere;
   color: #bbb;
   text-align: center;
 }
@@ -389,7 +389,7 @@
 @media (max-width: 720px) {
   .recommendations-gallery {
     width: calc(100% - 28px);
-    grid-template-columns: minmax(0, 360px);
+    grid-template-columns: minmax(0, 280px);
     justify-content: center;
   }
 

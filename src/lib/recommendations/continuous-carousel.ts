@@ -9,5 +9,7 @@ export function creatorPosition(index: number, count: number, distance = 0) {
   const row = index < firstRowCount ? 1 : 2;
   const rowCount = row === 1 ? firstRowCount : count - firstRowCount;
   const rowIndex = row === 1 ? index : index - firstRowCount;
-  return { row, slot: rowCount > 3 ? creatorSlot(rowIndex, distance, rowCount) : rowIndex };
+  // The track is LTR: decreasing distance moves right, increasing it moves left.
+  const directedDistance = row === 1 ? -distance : distance;
+  return { row, slot: rowCount > 3 ? creatorSlot(rowIndex, directedDistance, rowCount) : rowIndex };
 }

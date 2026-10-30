@@ -18,6 +18,14 @@ test('each full row stays covered through repeated wraps, including odd creator 
     }
   }
 });
+test('rows move in opposite directions at equal speed', () => {
+  for (const count of [8, 9, 10, 15]) {
+    const bottom = Math.ceil(count / 2) + 1;
+    assert.equal(creatorPosition(1, count, 0.25).slot - creatorPosition(1, count, 0).slot, 0.25);
+    assert.equal(creatorPosition(bottom, count, 0.25).slot - creatorPosition(bottom, count, 0).slot, -0.25);
+  }
+});
+
 test('fewer creators are not duplicated to fill six slots',()=>{
   for(let count=1;count<=5;count++) {
     const positions=Array.from({length:count},(_,i)=>creatorPosition(i,count,100));

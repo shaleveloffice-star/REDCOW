@@ -2521,10 +2521,15 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 }
 
 .site-nav-overlay-magazine-row {
-  display: inline-flex;
+  display: grid;
+  grid-template-columns: 44px auto 44px;
   align-items: center;
   justify-content: center;
   gap: 8px;
+}
+
+.site-nav-overlay-magazine-row::before {
+  content: "";
 }
 
 .site-nav-overlay-magazine-toggle {

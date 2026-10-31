@@ -92,7 +92,9 @@ export const he: Messages = {
   },
   kosherPage: {
     title: "כשר בהשגחת רבנות",
-    backHome: "חזרה לדף הבית"
+    backHome: "חזרה לדף הבית",
+    certificateAlt: "צילום תעודת הכשרות של מסעדת SO WHAT מטעם רבנות רעננה",
+    certificateOpen: "לצפייה בתעודת הכשרות בגודל מלא — נפתח בלשונית חדשה"
   },
   locations: {
     breadcrumbLabel: "מיקומים",

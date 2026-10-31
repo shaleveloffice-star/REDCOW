@@ -92,7 +92,9 @@ export const fr: Messages = {
   },
   kosherPage: {
     title: "Casher sous supervision rabbinique",
-    backHome: "Retour à l'accueil"
+    backHome: "Retour à l'accueil",
+    certificateAlt: "Photo du certificat de cacherout du restaurant SO WHAT délivré par le rabbinat de Raanana",
+    certificateOpen: "Voir le certificat de cacherout en taille réelle — nouvel onglet"
   },
   locations: {
     breadcrumbLabel: "Emplacements",

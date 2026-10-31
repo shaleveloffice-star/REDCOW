@@ -92,7 +92,9 @@ export const en: Messages = {
   },
   kosherPage: {
     title: "Kosher under rabbinate supervision",
-    backHome: "Back to home"
+    backHome: "Back to home",
+    certificateAlt: "Photo of the SO WHAT restaurant kosher certificate issued by the Raanana Rabbinate",
+    certificateOpen: "View the full-size kosher certificate — opens in a new tab"
   },
   locations: {
     breadcrumbLabel: "Locations",

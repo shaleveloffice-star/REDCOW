@@ -95,6 +95,8 @@ export type Messages = {
   kosherPage: {
     title: string;
     backHome: string;
+    certificateAlt: string;
+    certificateOpen: string;
   };
   locations: {
     breadcrumbLabel: string;

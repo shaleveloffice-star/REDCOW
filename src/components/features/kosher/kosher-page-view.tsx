@@ -12,6 +12,8 @@ type KosherPageViewProps = {
   seoContent: ResolvedSeoPageContent;
 };
 
+const KOSHER_CERTIFICATE_SRC = "/images/kosher/sowhat-kosher-certificate-2026-10-31.jpg";
+
 export async function KosherPageView({ seoContent }: KosherPageViewProps) {
   const locale = await getServerLocale();
   const messages = await getLocalizedMessages(locale);
@@ -42,6 +44,24 @@ export async function KosherPageView({ seoContent }: KosherPageViewProps) {
             {paragraph}
           </p>
         ))}
+        <figure className="kosher-page-certificate">
+          <a
+            href={KOSHER_CERTIFICATE_SRC}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label={messages.kosherPage.certificateOpen}
+          >
+            <img
+              src={KOSHER_CERTIFICATE_SRC}
+              alt={messages.kosherPage.certificateAlt}
+              width={960}
+              height={1280}
+              loading="lazy"
+              decoding="async"
+            />
+          </a>
+          <figcaption>{messages.kosherPage.certificateOpen}</figcaption>
+        </figure>
       </section>
 
       {hasValidFaqItems(seoContent.faq) ? (

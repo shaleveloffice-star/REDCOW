@@ -92,7 +92,7 @@ export const BUSINESS = {
     },
     {
       dayOfWeek: ["Saturday"],
-      opens: "20:00",
+      opens: "21:00",
       closes: "00:00"
     }
   ] as const satisfies ReadonlyArray<OpeningHoursInterval>,
@@ -100,7 +100,7 @@ export const BUSINESS = {
   /** Display strings for the location hours UI */
   displayHours: {
     weekday: "11:00–00:00",
-    saturday: "20:00–00:00"
+    saturday: "21:00–00:00"
   } as const
 } as const;
 
@@ -148,6 +148,9 @@ export function usesDefaultBranchHours(branch?: Branch): boolean {
 export function isLegacyBusinessHours(hours: string): boolean {
   return [
     "א׳–ה׳ 11:00–00:00 · שבת 20:00–00:00",
+    "א׳–ה׳ 11:00–00:00 · שישי סגור · שבת 20:00–00:00",
+    "Sun–Thu 11:00–00:00 · Friday closed · Sat 20:00–00:00",
+    "Dim–Jeu 11:00–00:00 · Vendredi fermé · Sam 20:00–00:00",
     "א׳–ה׳ 11:00–23:00 · שישי סגור · שבת 20:00–23:00",
     "Sun–Thu 11:00–23:00 · Friday closed · Sat 20:00–23:00",
     "Dim–Jeu 11:00–23:00 · Vendredi fermé · Sam 20:00–23:00"

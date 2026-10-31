@@ -26,19 +26,23 @@ export function SiteChrome({
 }: SiteChromeProps) {
   return (
     <>
-      <SiteHeaderClient
-        orderLinks={orderLinks}
-        magazineStories={magazineStories}
-        announcementPopup={announcementPopup}
-        aboutEnabled={aboutEnabled}
-        recommendationsEnabled={recommendationsEnabled}
-      />
-      <SiteChromeOffsetSync />
-      <Suspense fallback={null}>
-        <PageTransitionLoader />
-      </Suspense>
+      <div data-nosnippet style={{ display: "contents" }}>
+        <SiteHeaderClient
+          orderLinks={orderLinks}
+          magazineStories={magazineStories}
+          announcementPopup={announcementPopup}
+          aboutEnabled={aboutEnabled}
+          recommendationsEnabled={recommendationsEnabled}
+        />
+        <SiteChromeOffsetSync />
+        <Suspense fallback={null}>
+          <PageTransitionLoader />
+        </Suspense>
+      </div>
       {children}
-      <FloatingLanguageButton />
+      <div data-nosnippet style={{ display: "contents" }}>
+        <FloatingLanguageButton />
+      </div>
     </>
   );
 }

@@ -55,7 +55,9 @@ export default async function HomePage() {
   const homeFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(homeSeo.faq.items));
   const heroImages = resolveSiteImagePair(siteImages, "hero-burger", HOME_HERO_IMAGE, HERO_IMAGE_VERSION);
   return (
-    <>
+    // Keep the CMS meta description eligible while excluding body copy from snippets.
+    // This does not force Google to display a description or change indexing rules.
+    <div data-nosnippet style={{ display: "contents" }}>
       <JsonLd data={buildRestaurantJsonLd(branches[0])} />
       {homeFaqJsonLd ? <JsonLd data={homeFaqJsonLd} /> : null}
       <main id="main-content">
@@ -78,15 +80,13 @@ export default async function HomePage() {
           <HomeSmashStorySection siteImages={siteImages} variant="grinding" />
         <HomeSmashStorySection siteImages={siteImages} />
         <HomeSocialVibeSection />
-        <div data-nosnippet>
-          <SeoFaqSection
-            faq={homeSeo.faq}
-            sectionId="faq"
-            titleId="home-faq-title"
-          />
-        </div>
+        <SeoFaqSection
+          faq={homeSeo.faq}
+          sectionId="faq"
+          titleId="home-faq-title"
+        />
       </main>
       <SiteFooter />
-    </>
+    </div>
   );
 }

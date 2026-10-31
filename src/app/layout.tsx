@@ -115,12 +115,16 @@ export default async function RootLayout({
   return (
     <html lang={locale} dir={dir} suppressHydrationWarning>
       <body className={`${assistant.variable} ${archivoBlack.variable} ${oswald.variable} ${assistant.className}`} suppressHydrationWarning>
-        <IntroLoader fontFamily={oswald.style.fontFamily} />
+        <div data-nosnippet style={{ display: "contents" }}>
+          <IntroLoader fontFamily={oswald.style.fontFamily} />
+        </div>
         <A11yBootScript />
         <LocaleProvider initialLocale={locale}>
           <JsonLd data={buildOrganizationJsonLd()} />
           <JsonLd data={buildWebSiteJsonLd()} />
-          <SkipToContent />
+          <div data-nosnippet style={{ display: "contents" }}>
+            <SkipToContent />
+          </div>
           <SiteChrome
             orderLinks={orderLinks}
             magazineStories={magazineStories}
@@ -130,11 +134,13 @@ export default async function RootLayout({
           >
             {children}
           </SiteChrome>
-          <AccessibilityWidget />
-          <Suspense fallback={null}>
-            <CookiePreferences />
-            <GoogleAnalytics />
-          </Suspense>
+          <div data-nosnippet style={{ display: "contents" }}>
+            <AccessibilityWidget />
+            <Suspense fallback={null}>
+              <CookiePreferences />
+              <GoogleAnalytics />
+            </Suspense>
+          </div>
         </LocaleProvider>
       </body>
     </html>

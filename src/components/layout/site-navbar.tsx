@@ -290,8 +290,10 @@ export function SiteNavbar({
 
   const navClass = [
     "site-navbar",
+    careersStyles.navbar,
     overlay ? "site-navbar--overlay" : "",
-    isScrolled ? "site-navbar--scrolled" : ""
+    // Careers starts on a light surface, so keep the readable solid header at the top too.
+    isScrolled || pathname === "/careers" ? "site-navbar--scrolled" : ""
   ]
     .filter(Boolean)
     .join(" ");

@@ -10,3 +10,8 @@
 .footerLink:focus-visible { outline: 2px solid #fff; outline-offset: 5px; }
 .navLink:focus-visible, .mobileLink:focus-visible { outline: 2px solid currentColor; outline-offset: 5px; }
 @media (hover: hover) { .footerLink:hover { color: #000; background: #ececec; } }
+/* Leave enough room for the added careers link and existing ordering actions. */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .navbar :global(.site-navbar-links) { display: none; }
+  .navbar :global(.site-navbar-toggle) { display: flex; }
+}

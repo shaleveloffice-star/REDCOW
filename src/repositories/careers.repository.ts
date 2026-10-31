@@ -8,6 +8,7 @@ const careersStore = createFirestoreCollectionStore(
   localCareerApplicationsStore,
   {
     access: "private",
+    deletableFields: ["age", "hasExperience", "residenceArea"],
     seed: mockCareerApplications
   }
 );

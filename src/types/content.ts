@@ -125,6 +125,9 @@ export type CareerApplication = {
   email: string;
   desiredRole: string;
   message: string;
+  residenceArea?: string;
+  age?: number;
+  hasExperience?: boolean;
   createdAt: ISODateString;
   status: RecordStatus;
 };

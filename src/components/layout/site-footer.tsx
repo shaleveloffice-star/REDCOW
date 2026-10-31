@@ -9,6 +9,7 @@ import { getAboutPageEnabled, getRecommendationsForDisplay } from "@/lib/cache/c
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { resolveImageAlt } from "@/lib/image-alt";
+import careersStyles from "./careers-links.module.css";
 
 function InstagramIcon() {
   return (
@@ -49,6 +50,11 @@ export async function SiteFooter() {
   const branch = await getPrimaryBranch();
   const phone = branch?.phone?.trim() || BUSINESS.phone;
   const mapsUrl = branchMapsUrl(branch);
+  const careersCopy = locale === "he"
+    ? { title: "דרושים עובדים", subtitle: "מצטרפים לצוות SO WHAT · גם ללא ניסיון" }
+    : locale === "fr"
+      ? { title: "Nous recrutons", subtitle: "Rejoignez SO WHAT · Débutants bienvenus" }
+      : { title: "We're hiring", subtitle: "Join SO WHAT · No experience needed" };
 
   const [aboutEnabled, recommendations] = await Promise.all([
     getAboutPageEnabled(),
@@ -107,6 +113,10 @@ export async function SiteFooter() {
               ))}
               <a href="/menu">{t.footer.fullMenu}</a>
             </nav>
+            <Link href="/careers" className={careersStyles.footerLink}>
+              <strong>{careersCopy.title}</strong>
+              <span>{careersCopy.subtitle}</span>
+            </Link>
           </section>
 
           <section className="site-footer-block" aria-labelledby="footer-info-title">

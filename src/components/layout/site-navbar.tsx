@@ -22,6 +22,7 @@ import { focusElement, isFocusRestoreTarget, mountModal } from "@/lib/a11y/focus
 import { trackEvent, type AnalyticsSource } from "@/lib/analytics";
 import { resolveOrderUrl } from "@/lib/orders";
 import type { OrderLink } from "@/types/content";
+import careersStyles from "./careers-links.module.css";
 
 export type MagazineNavStory = {
   title: string;
@@ -163,13 +164,14 @@ export function SiteNavbar({
         { label: t.nav.menu, href: "/menu" },
         { label: t.nav.kosher, href: "/kosher" },
         { label: t.nav.recommendations, href: "/recommendations" },
-        { label: t.nav.about, href: "/about" }
+        { label: t.nav.about, href: "/about" },
+        { label: locale === "he" ? "דרושים" : locale === "fr" ? "Recrutement" : "Careers", href: "/careers" }
       ].filter(
         (link) =>
           (aboutEnabled || link.href !== "/about") &&
           (recommendationsEnabled || link.href !== "/recommendations")
       ),
-    [aboutEnabled, recommendationsEnabled, t]
+    [aboutEnabled, recommendationsEnabled, t, locale]
   );
 
   const magazineItems = useMemo(
@@ -342,7 +344,7 @@ export function SiteNavbar({
             <ul className="site-navbar-links">
               {navLinks.map((link) => (
                 <li key={link.href}>
-                  <a href={link.href} className="site-navbar-link">
+                  <a href={link.href} className={`site-navbar-link${link.href === "/careers" ? ` ${careersStyles.navLink}` : ""}`} aria-current={pathname === link.href ? "page" : undefined}>
                     <span className="site-navbar-link-label">{link.label}</span>
                   </a>
                 </li>
@@ -516,7 +518,8 @@ export function SiteNavbar({
               <a
                 key={link.href}
                 href={link.href}
-                className="site-nav-overlay-link"
+                className={`site-nav-overlay-link${link.href === "/careers" ? ` ${careersStyles.mobileLink}` : ""}`}
+                aria-current={pathname === link.href ? "page" : undefined}
                 style={{ animationDelay: `${index * 0.08}s` }}
                 onClick={() => closeMenu(true)}
               >

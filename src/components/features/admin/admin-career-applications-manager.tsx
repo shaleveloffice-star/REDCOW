@@ -45,6 +45,7 @@ export function AdminCareerApplicationsManager({ applications }: { applications:
         <thead>
           <tr>
             <th>שם</th>
+            <th>מגורים / גיל / ניסיון</th>
             <th>תפקיד מבוקש</th>
             <th>פרטי קשר</th>
             <th>סטטוס</th>
@@ -55,6 +56,11 @@ export function AdminCareerApplicationsManager({ applications }: { applications:
           {applications.map((application) => (
             <tr key={application.id}>
               <td>{application.fullName}</td>
+              <td>
+                {application.residenceArea || "לא צוין"}<br />
+                {application.age !== undefined ? `גיל: ${application.age}` : "גיל לא צוין"}<br />
+                {application.hasExperience === undefined ? "ניסיון לא צוין" : application.hasExperience ? "יש ניסיון קודם" : "ללא ניסיון"}
+              </td>
               <td>{application.desiredRole}</td>
               <td>
                 {application.phone}
@@ -104,7 +110,21 @@ export function AdminCareerApplicationsManager({ applications }: { applications:
             </label>
             <label>
               אימייל
-              <input required type="email" value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} />
+              <input type="email" value={draft.email} onChange={(e) => setDraft({ ...draft, email: e.target.value })} />
+            </label>
+            <label>
+              אזור מגורים
+              <input maxLength={120} value={draft.residenceArea ?? ""} onChange={(e) => setDraft({ ...draft, residenceArea: e.target.value })} />
+            </label>
+            <label>
+              גיל
+              <input type="number" min={1} max={120} step={1} value={draft.age ?? ""} onChange={(e) => setDraft({ ...draft, age: e.target.value === "" ? undefined : Number(e.target.value) })} />
+            </label>
+            <label>
+              ניסיון קודם
+              <select value={draft.hasExperience === undefined ? "" : draft.hasExperience ? "yes" : "no"} onChange={(e) => setDraft({ ...draft, hasExperience: e.target.value === "" ? undefined : e.target.value === "yes" })}>
+                <option value="">לא צוין</option><option value="yes">יש ניסיון קודם</option><option value="no">אין ניסיון</option>
+              </select>
             </label>
             <label>
               הודעה

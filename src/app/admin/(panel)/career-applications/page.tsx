@@ -6,7 +6,7 @@ export default async function AdminCareerApplicationsPage() {
   const applications = await getCareerApplicationsAdminData();
 
   return (
-    <AdminCard title="ניהול קורות חיים" description="הוספה ידנית, עריכה ומחיקה של פניות דרושים.">
+    <AdminCard title="פניות דרושים" description="פניות מטופס הדרושים באתר, כולל גיל, אזור מגורים וניסיון קודם. אפשר גם להוסיף ולערוך פניות ידנית.">
       <AdminCareerApplicationsManager applications={applications} />
     </AdminCard>
   );

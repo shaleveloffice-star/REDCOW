@@ -23,6 +23,7 @@ const PUBLIC_ROUTES: SitemapEntryInput[] = [
   { path: "/about", changeFrequency: "monthly", priority: 0.7 },
   { path: "/recommendations", changeFrequency: "weekly", priority: 0.75 },
   { path: "/locations", changeFrequency: "weekly", priority: 0.8 },
+  { path: "/careers", changeFrequency: "monthly", priority: 0.5 },
   { path: "/kosher", changeFrequency: "monthly", priority: 0.7 },
   { path: "/terms", changeFrequency: "yearly", priority: 0.3 },
   { path: "/privacy-policy", changeFrequency: "yearly", priority: 0.3 },

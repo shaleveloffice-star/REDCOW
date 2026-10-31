@@ -72,7 +72,10 @@ test('menu and gallery image uploads are also registered in the gallery', async 
 test('gallery upload titles are derived from file names safely', () => {
   const { galleryTitleFromUpload } = createLoader({
     'next/cache': { revalidatePath() {} },
-    '@/services/gallery.service': { upsertGalleryImage: async () => {} }
+    '@/repositories/gallery.repository': {
+      getGalleryImages: async () => [],
+      saveGalleryImage: async value => value
+    }
   })('@/lib/admin/register-gallery-upload');
   assert.equal(galleryTitleFromUpload('my_burger-photo.JPG'), 'my burger photo');
   assert.equal(galleryTitleFromUpload('  '), 'תמונה שהועלתה');

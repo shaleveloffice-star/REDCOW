@@ -101,7 +101,7 @@ export function MenuItemDetailView({
         ) : null}
 
         <MenuItemSauces sauces={sauces} ingredients={ingredients} mode={item.sauceMode} choiceCount={item.sauceChoiceCount} />
-        {item.price > 0 ? (
+        {item.price >= 0 ? (
           <p className="menu-item-detail-price">{formatPrice(item.price, locale)}</p>
         ) : null}
         <a

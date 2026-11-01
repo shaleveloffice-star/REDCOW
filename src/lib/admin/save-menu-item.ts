@@ -80,13 +80,6 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
     if (!Number.isFinite(price) || price < 0) return { ok: false, error: "מחיר לא תקין" };
 
     const isActive = Boolean(input.isActive);
-    if (isActive && price <= 0) {
-      return {
-        ok: false,
-        error:
-          "לא ניתן לפרסם מנה פעילה במחיר 0. יש להגדיר מחיר גדול מ-0 או לבטל את הסימון פעיל."
-      };
-    }
 
     const id = String(input.id ?? "").trim();
     if (!id) return { ok: false, error: "מזהה מנה חסר" };

@@ -10,6 +10,8 @@ import { getMenuItemHref } from "@/lib/menu/product-slug";
 import { resolveMenuItemMediaUrl } from "@/lib/menu/normalize-menu";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import type { MenuItem } from "@/types/content";
+import { formatPrice } from "@/lib/menu/format-price";
+export { formatPrice } from "@/lib/menu/format-price";
 
 const PLACEHOLDER_IMAGE = "/images/menu/nb-menu-burger.png";
 
@@ -18,12 +20,6 @@ export function getMenuCardMediaUrl(item: MenuItem): string {
   return resolveMenuItemMediaUrl(item.imageUrl, PLACEHOLDER_IMAGE);
 }
 
-export function formatPrice(price: number, locale: string) {
-  if (locale === "he") {
-    return `${price} ₪`;
-  }
-  return `${price}`;
-}
 
 type MenuItemsGridProps = {
   items: MenuItem[];

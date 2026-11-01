@@ -1,6 +1,7 @@
 "use client";
 
 import { AdminMenuAiPromptButton } from "@/components/features/admin/admin-menu-ai-prompt-button";
+import { formatPrice } from "@/lib/menu/format-price";
 
 import {
   AdminFormFooter,
@@ -391,7 +392,7 @@ export function AdminMenuTable({
                     </p>
                   </td>
                   {!categoryFilter ? <td>{categoryById[item.categoryId] ?? "—"}</td> : null}
-                  <td>{item.price} ש&quot;ח</td>
+                  <td>{formatPrice(item.price, "he")}</td>
                   <td>
                     <StatusBadge active={item.isActive} />
                   </td>
@@ -479,6 +480,10 @@ export function AdminMenuTable({
                 value={draft.price}
                 onChange={(e) => setDraft({ ...draft, price: parseFloat(e.target.value) || 0 })}
               />
+              <button type="button" aria-pressed={draft.price === 0} onClick={() => setDraft({ ...draft, price: 0 })}>
+                ללא תשלום
+              </button>
+              <span className="muted">מחיר 0 יוצג באתר כ״ללא תשלום״. לחזרה למחיר בתשלום, הזינו סכום בשדה המחיר.</span>
             </label>
             <label>
               {adminFieldLabel("תיאור קצר", "מתחת לכותרת בעמוד המוצר /menu/[slug]")}

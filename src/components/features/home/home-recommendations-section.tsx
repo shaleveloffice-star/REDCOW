@@ -18,7 +18,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   const trackRef = useRef<HTMLUListElement>(null);
   const distance = useRef(0);
   const stopped = useRef(false);
-  const pageSize = 3;
+  const [pageSize, setPageSize] = useState(3);
   const [interacting, setInteracting] = useState(false);
   const [selected, setSelected] = useState<CreatorRecommendation | null>(null);
   const trigger = useRef<HTMLButtonElement | null>(null);
@@ -27,8 +27,16 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
     : locale === "fr"
       ? { all: "Tous les avis" }
       : { all: "All recommendations" };
-  const canRotate = items.length > 6;
+  const canRotate = items.length > pageSize * 2;
   stopped.current = interacting || Boolean(selected);
+
+  useEffect(() => {
+    const wide = window.matchMedia("(min-width: 900px)");
+    const sync = () => setPageSize(wide.matches ? 5 : 3);
+    sync();
+    wide.addEventListener("change", sync);
+    return () => wide.removeEventListener("change", sync);
+  }, []);
 
   useEffect(() => {
     const track = trackRef.current;
@@ -47,7 +55,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
         distance.current += delta * 0.016 / step;
       }
       Array.from(track.children).forEach((child, index) => {
-        const { slot } = creatorPosition(index, items.length, distance.current);
+        const { slot } = creatorPosition(index, items.length, distance.current, pageSize);
         (child as HTMLElement).style.setProperty("--creator-slot", String(slot));
         (child as HTMLElement).inert = slot <= -1 || slot >= pageSize;
       });
@@ -79,7 +87,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
               <li
                 key={item.id}
                 dir={locale === "he" ? "rtl" : "ltr"}
-                style={{ "--creator-slot": creatorPosition(index, items.length).slot, "--creator-row": creatorPosition(index, items.length).row } as CSSProperties}
+                style={{ "--creator-slot": creatorPosition(index, items.length, 0, pageSize).slot, "--creator-row": creatorPosition(index, items.length, 0, pageSize).row } as CSSProperties}
                 aria-hidden={active ? undefined : true}
                 data-carousel-active={active ? "true" : "false"}
               >
@@ -111,7 +119,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
             <li
               key={item.id}
               dir={locale === "he" ? "rtl" : "ltr"}
-              style={{ "--creator-slot": creatorPosition(index, items.length).slot, "--creator-row": creatorPosition(index, items.length).row } as CSSProperties}
+              style={{ "--creator-slot": creatorPosition(index, items.length, 0, pageSize).slot, "--creator-row": creatorPosition(index, items.length, 0, pageSize).row } as CSSProperties}
               aria-hidden={active ? undefined : true}
               data-carousel-active={active ? "true" : "false"}
             >

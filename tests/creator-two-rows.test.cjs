@@ -33,3 +33,18 @@ test('fewer creators are not duplicated to fill six slots',()=>{
     assert.ok(positions.every(p=>p.row<=2 && p.slot>=0 && p.slot<3));
   }
 });
+
+test('desktop five-across keeps two full rows without duplication', () => {
+  assert.deepEqual(Array.from({length:10},(_,i)=>creatorPosition(i,10,0,5)), [
+    {row:1,slot:0},{row:1,slot:1},{row:1,slot:2},{row:1,slot:3},{row:1,slot:4},
+    {row:2,slot:0},{row:2,slot:1},{row:2,slot:2},{row:2,slot:3},{row:2,slot:4}
+  ]);
+  for(let count=10;count<=18;count++) for(let distance=0;distance<count*3;distance+=0.17) {
+    const positions=Array.from({length:count},(_,i)=>creatorPosition(i,count,distance,5));
+    for(const row of [1,2]) {
+      const slots=positions.filter(p=>p.row===row).map(p=>p.slot).sort((a,b)=>a-b);
+      assert.equal(new Set(slots).size,slots.length);
+      assert.ok(slots[0]<=0 && slots.at(-1)>=4);
+    }
+  }
+});

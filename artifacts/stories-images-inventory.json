@@ -1,0 +1,132 @@
+[
+  {
+    "path": "/stories/behind-the-scenes-burger",
+    "title": "מאחורי הקלעים של יום במסעדת המבורגרים",
+    "image": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg",
+    "alt": "צוות SO WHAT במסעדה ברעננה",
+    "articleImages": [
+      {
+        "src": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg",
+        "alt": "צוות SO WHAT במסעדה ברעננה"
+      }
+    ],
+    "ogImage": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg"
+  },
+  {
+    "path": "/stories/fixed-burger-recipe",
+    "title": "היציבות של מתכון ההמבורגר - הבחירה לשמור על קו קלאסי",
+    "image": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg",
+    "alt": "המבורגר SO קלאסי - צילום המנה המעודכן",
+    "articleImages": [
+      {
+        "src": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg",
+        "alt": "המבורגר SO קלאסי - צילום המנה המעודכן"
+      }
+    ],
+    "ogImage": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg"
+  },
+  {
+    "path": "/stories/vegetarian-burger-development",
+    "title": "המבורגר צמחוני במסעדת המבורגרים - איך זה קורה?",
+    "image": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg",
+    "alt": "האווירה במסעדת SO WHAT ברעננה",
+    "articleImages": [
+      {
+        "src": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg",
+        "alt": "האווירה במסעדת SO WHAT ברעננה"
+      }
+    ],
+    "ogImage": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg"
+  },
+  {
+    "path": "/stories/kosher-burger",
+    "title": "המבורגר כשר - כשהבשר הוא הסיפור",
+    "image": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg",
+    "alt": "המבורגר SO קלאסי - צילום המנה המעודכן",
+    "articleImages": [
+      {
+        "src": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg",
+        "alt": "המבורגר SO קלאסי - צילום המנה המעודכן"
+      }
+    ],
+    "ogImage": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg"
+  },
+  {
+    "path": "/stories/burger-jewish-tradition",
+    "title": "המבורגר במסורת היהודית - חיבור בין תרבות, טעמים והיסטוריה",
+    "image": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg",
+    "alt": "המבורגר SO קלאסי ברעננה",
+    "articleImages": [
+      {
+        "src": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg",
+        "alt": "המבורגר SO קלאסי ברעננה"
+      }
+    ],
+    "ogImage": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg"
+  },
+  {
+    "path": "/stories/choosing-restaurant-raanana",
+    "title": "מסעדה ברעננה: 5 דברים שכדאי לבדוק לפני שיוצאים לאכול",
+    "image": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg",
+    "alt": "האווירה במסעדת SO WHAT ברעננה",
+    "articleImages": [
+      {
+        "src": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg",
+        "alt": "האווירה במסעדת SO WHAT ברעננה"
+      }
+    ],
+    "ogImage": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg"
+  },
+  {
+    "path": "/stories/burger-sharon-evening",
+    "title": "המבורגר בשרון: ערב שמתחיל בבשר טרי ונגמר בעוד קצת זמן יחד",
+    "image": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg",
+    "alt": "נפגשים ב-SO WHAT ברעננה",
+    "articleImages": [
+      {
+        "src": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg",
+        "alt": "נפגשים ב-SO WHAT ברעננה"
+      }
+    ],
+    "ogImage": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/gallery/gal-1792652085453-q4be64b5.jpg"
+  },
+  {
+    "path": "/stories/smash-burger-crispy-edges",
+    "title": "סמאש בורגר: מה יוצר את הקצוות הקריספיים והביס העסיסי?",
+    "image": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792251193629-0869qe39.jpg",
+    "alt": "ארוחת המבורגר SO Smash",
+    "articleImages": [
+      {
+        "src": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792251193629-0869qe39.jpg",
+        "alt": "ארוחת המבורגר SO Smash"
+      }
+    ],
+    "ogImage": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1792251193629-0869qe39.jpg"
+  },
+  {
+    "path": "/stories/burger-trends-israel",
+    "title": "המגמות שמעצבות את עולם ההמבורגר בישראל",
+    "image": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179692351-kgu8a3ra.jpg",
+    "alt": "ארוחת המבורגר SO קלאסי עם צ׳יפס ושתייה",
+    "articleImages": [
+      {
+        "src": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179692351-kgu8a3ra.jpg",
+        "alt": "ארוחת המבורגר SO קלאסי עם צ׳יפס ושתייה"
+      }
+    ],
+    "ogImage": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179692351-kgu8a3ra.jpg"
+  },
+  {
+    "path": "/stories/burger-history-israel",
+    "title": "היסטוריה של המבורגר בישראל: ממנה אמריקאית לקלאסיקה מקומית",
+    "image": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg",
+    "alt": "המבורגר SO קלאסי - צילום מעודכן",
+    "articleImages": [
+      {
+        "src": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg",
+        "alt": "המבורגר SO קלאסי - צילום מעודכן"
+      }
+    ],
+    "ogImage": "https://ytirgybgu1ipjyak.public.blob.vercel-storage.com/menu/img-1793179630704-0er15rmu.jpg"
+  }
+]

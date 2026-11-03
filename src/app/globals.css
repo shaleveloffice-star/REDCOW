@@ -14,6 +14,7 @@
 }
 .home-creators-heading h2 { margin: 0; font-size: clamp(20px, 3vw, 28px); }
 .home-creators-heading a { color: inherit; font-size: 14px; text-underline-offset: 4px; }
+.home-creators-heading h2 a { font: inherit; text-decoration: none; }
 .home-creators-grid {
   position: relative;
   display: grid;

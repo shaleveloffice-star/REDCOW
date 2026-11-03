@@ -73,7 +73,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
       onFocusCapture={() => setInteracting(true)}
       onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setInteracting(false); }}>
       <div className="home-creators-heading">
-        <h2 id="home-creators-title">{locale === "he" ? "מדברים עלינו" : t.nav.recommendations}</h2>
+        <h2 id="home-creators-title"><Link href="/recommendations">{locale === "he" ? "מדברים עלינו" : t.nav.recommendations}</Link></h2>
         <Link href="/recommendations">{copy.all}</Link>
       </div>
       <ul ref={trackRef} className="home-creators-grid">

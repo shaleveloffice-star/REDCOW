@@ -1,0 +1,12 @@
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-block: 16px;
+}
+.toolbar label { display: flex; align-items: center; gap: 8px; }
+.tableScroll { overflow-x: auto; }
+.handled > td { background: #e8f5e9 !important; color: #14532d; }
+.status { font-weight: 700; white-space: nowrap; }
+.handleButton { margin-bottom: 8px; white-space: nowrap; }

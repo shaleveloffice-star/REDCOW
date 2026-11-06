@@ -17,6 +17,16 @@ import { getAdminFirestore } from "@/lib/firebase/admin-runtime";
 
 const paths = ["/admin/career-applications"];
 
+export async function setCareerApplicationHandledAction(id: string, handled: boolean) {
+  await requireAdmin();
+  if (typeof handled !== "boolean") throw new Error("סטטוס לא תקין");
+  const current = (await listCareerApplications()).find(application => application.id === id);
+  if (!current) throw new Error("הפנייה לא נמצאה");
+  const saved = await upsertCareerApplication({ ...current, status: handled ? "resolved" : "new" });
+  paths.forEach(path => revalidatePath(path));
+  return saved;
+}
+
 export async function submitCareerApplicationAction(formData: FormData): Promise<CareerApplicationResult> {
   const unavailable = { success: false as const, message: "לא ניתן לשלוח כרגע. נסו שוב בעוד כמה דקות." };
   try {

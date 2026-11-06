@@ -35,8 +35,11 @@ export function AdminCareerApplicationsManager({ applications }: { applications:
   const [draft, setDraft] = useState<CareerApplication | null>(null);
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const [copyMessage, setCopyMessage] = useState("");
-  const selected = applications.filter(application => selectedIds.includes(application.id));
-  const allSelected = applications.length > 0 && selected.length === applications.length;
+  const [showHandled, setShowHandled] = useState(false);
+  const visibleApplications = applications.filter(application => (application.status === "resolved") === showHandled);
+  const handledCount = applications.filter(application => application.status === "resolved").length;
+  const selected = visibleApplications.filter(application => selectedIds.includes(application.id));
+  const allSelected = visibleApplications.length > 0 && selected.length === visibleApplications.length;
   const isNew = draft ? !applications.some((a) => a.id === draft.id) : false;
 
   const close = () => {
@@ -47,9 +50,17 @@ export function AdminCareerApplicationsManager({ applications }: { applications:
   return (
     <>
       <AdminToolbar label="הוסף פנייה ידנית" onAdd={() => setDraft(newApplication())} />
+      <div className={styles.tabs} aria-label="סינון פניות">
+        {[false, true].map(handled => (
+          <button key={String(handled)} type="button" aria-pressed={showHandled === handled}
+            onClick={() => { setShowHandled(handled); setSelectedIds([]); setCopyMessage(""); }}>
+            {handled ? `טופלו (${handledCount})` : `פניות (${applications.length - handledCount})`}
+          </button>
+        ))}
+      </div>
       <div className={styles.toolbar}>
-        <label><input type="checkbox" checked={allSelected} disabled={!applications.length}
-          onChange={event => { setSelectedIds(event.target.checked ? applications.map(application => application.id) : []); setCopyMessage(""); }} />בחירת הכול</label>
+        <label><input type="checkbox" checked={allSelected} disabled={!visibleApplications.length}
+          onChange={event => { setSelectedIds(event.target.checked ? visibleApplications.map(application => application.id) : []); setCopyMessage(""); }} />בחירת הכול</label>
         <button type="button" disabled={!selected.length} onClick={async () => {
           try {
             await navigator.clipboard.writeText(formatCareerApplications(selected));
@@ -74,7 +85,8 @@ export function AdminCareerApplicationsManager({ applications }: { applications:
           </tr>
         </thead>
         <tbody>
-          {applications.map((application) => (
+          {!visibleApplications.length ? <tr><td colSpan={7}>{showHandled ? "אין פניות שטופלו" : "אין פניות להצגה"}</td></tr> : null}
+          {visibleApplications.map((application) => (
             <tr key={application.id} className={application.status === "resolved" ? styles.handled : undefined}>
               <td><input type="checkbox" aria-label={`בחירת הפנייה של ${application.fullName}`} checked={selectedIds.includes(application.id)}
                 onChange={event => { setSelectedIds(ids => event.target.checked ? [...ids, application.id] : ids.filter(id => id !== application.id)); setCopyMessage(""); }} /></td>
@@ -93,7 +105,11 @@ export function AdminCareerApplicationsManager({ applications }: { applications:
               <td className={styles.status}>{CAREER_STATUS_LABELS[application.status]}</td>
               <td>
                 <button type="button" className={styles.handleButton} disabled={isPending}
-                  onClick={() => run(async () => { await setCareerApplicationHandledAction(application.id, application.status !== "resolved"); })}>
+                  onClick={() => run(async () => {
+                    await setCareerApplicationHandledAction(application.id, application.status !== "resolved");
+                    setSelectedIds(ids => ids.filter(id => id !== application.id));
+                    setCopyMessage("");
+                  })}>
                   {application.status === "resolved" ? "החזר לחדש" : "סמן כטופל"}
                 </button>
                 <AdminRowActions

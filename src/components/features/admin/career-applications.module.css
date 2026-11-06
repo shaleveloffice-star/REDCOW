@@ -10,3 +10,6 @@
 .handled > td { background: #e8f5e9 !important; color: #14532d; }
 .status { font-weight: 700; white-space: nowrap; }
 .handleButton { margin-bottom: 8px; white-space: nowrap; }
+.tabs { display: flex; gap: 8px; margin-block: 16px; }
+.tabs button { padding: 10px 20px; border: 1px solid #d1d5db; border-radius: 8px; background: white; color: #111827; font-weight: 700; }
+.tabs button[aria-pressed="true"] { background: #14532d; border-color: #14532d; color: white; }

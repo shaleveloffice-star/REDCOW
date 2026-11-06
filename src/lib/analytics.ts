@@ -11,6 +11,7 @@ export type AnalyticsSource =
   | "menu_item"
   | "home"
   | "home_location"
+  | "locations"
   | "home_menu_showcase"
   | "home_social"
   | "footer";

@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import { TrackedAnchor } from "@/components/analytics/tracked-click";
 import { useMemo } from "react";
 
 import { LocationsMap } from "@/components/features/locations/locations-map";
@@ -145,14 +146,17 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
                 <h3 className="locations-card-name">{card.name}</h3>
                 <p className="locations-card-address">{card.address}</p>
                 <p className="locations-card-hours">{card.hours}</p>
-                <a
+                <TrackedAnchor
                   className="locations-card-link"
+                  eventName="location_open"
+                  source="locations"
+                  eventParams={{ network: "maps" }}
                   href={card.mapsUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   {t.locations.navigate}
-                </a>
+                </TrackedAnchor>
               </article>
             </li>
           ))}

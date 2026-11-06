@@ -205,10 +205,10 @@ export async function SiteFooter() {
             </h2>
             <div className="site-footer-contact-list">
               {phone ? (
-                <a href={`tel:${phone}`} className="site-footer-contact-link">
+                <TrackedAnchor href={`tel:${phone}`} className="site-footer-contact-link" eventName="phone_click" source="footer">
                   <IconPhone className="site-footer-icon" />
                   <span>{phone}</span>
-                </a>
+                </TrackedAnchor>
               ) : null}
               <p className="site-footer-contact-item">
                 <IconMapPin className="site-footer-icon" />

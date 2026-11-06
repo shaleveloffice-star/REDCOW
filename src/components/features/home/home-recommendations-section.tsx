@@ -169,9 +169,18 @@ function CreatorEmbed({ src, title, active }: { src: string; title: string; acti
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   // Once loaded, keep the iframe mounted forever so carousel rotation does not remount it.
-  const [loaded, setLoaded] = useState(active);
+  const [loaded, setLoaded] = useState(false);
   useEffect(() => {
-    if (active) setLoaded(true);
+    const element = ref.current;
+    if (!element || !active) return;
+    const observer = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        setLoaded(true);
+        observer.disconnect();
+      }
+    }, { rootMargin: "300px 0px" });
+    observer.observe(element);
+    return () => observer.disconnect();
   }, [active]);
   useEffect(() => {
     const element = ref.current;
@@ -203,10 +212,7 @@ function CreatorVideo({ src, active, paused }: { src: string; active: boolean; p
   const ref = useRef<HTMLVideoElement>(null);
   const shouldPlay = active && !paused;
   // Warm preload once; never flip-flop preload attrs (avoids media reload).
-  const [warm, setWarm] = useState(active);
-  useEffect(() => {
-    if (active) setWarm(true);
-  }, [active]);
+  const [warm, setWarm] = useState(false);
 
   useEffect(() => {
     const video = ref.current;
@@ -232,6 +238,7 @@ function CreatorVideo({ src, active, paused }: { src: string; active: boolean; p
     };
     const observer = new IntersectionObserver(([entry]) => {
       inView = entry.isIntersecting;
+      if (inView && active) setWarm(true);
       sync();
     }, { threshold: 0.2 });
     observer.observe(video);
@@ -248,7 +255,7 @@ function CreatorVideo({ src, active, paused }: { src: string; active: boolean; p
       motion.removeEventListener("change", sync);
       video.removeEventListener("canplay", sync);
     };
-  }, [shouldPlay]);
+  }, [shouldPlay, active]);
 
   return (
     <video
@@ -257,7 +264,7 @@ function CreatorVideo({ src, active, paused }: { src: string; active: boolean; p
       muted
       loop
       playsInline
-      preload={warm ? "auto" : "metadata"}
+      preload={warm ? "auto" : "none"}
       aria-hidden="true"
     />
   );

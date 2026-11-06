@@ -113,7 +113,7 @@ export async function LocationSection({ siteImages, branch }: LocationSectionPro
               mobileSrc={exteriorImages.mobile}
               alt={imageAlt}
               className="location-media-image site-media-focus"
-              loading="eager"
+              loading="lazy"
               style={pickSiteImageMediaStyle(siteImages, "location-exterior")}
             />
             <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "location-exterior")} />

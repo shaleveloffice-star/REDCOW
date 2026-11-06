@@ -49,7 +49,7 @@ test('retired content without verified replacements is not redirected to unrelat
 });
 
 test('creator embeds stay mounted once active so carousel rotation does not remount iframes',()=>{
- let state=[],cursor=0,effects=[];
+ let state=[],cursor=0,effects=[],intersection;
  const node={};
  const jsx=(type,props)=>({type,props});
  const load=createLoader({
@@ -57,12 +57,17 @@ test('creator embeds stay mounted once active so carousel rotation does not remo
  'react/jsx-runtime':{jsx,jsxs:jsx},'next/link':{},
  '@/components/features/recommendations/recommendation-video-dialog':{},
  '@/components/providers/locale-provider':{useLocale:()=>({locale:'he'}),useTranslations:()=>({nav:{recommendations:'Reviews'}})}
- },{ResizeObserver:class{observe(){} disconnect(){}}});
+ },{ResizeObserver:class{observe(){} disconnect(){}},IntersectionObserver:class{constructor(callback){intersection=callback;}observe(){}disconnect(){}}});
  const Home=load('@/components/features/home/home-recommendations-section').HomeRecommendationsSection;
  const home=Home({items:[{id:'a',creatorName:'A',contentUrl:'https://instagram.com/p/a/',mediaUrl:''}]});
  const preview=home.props.children[1].props.children[0].props.children[0].props.children[0];
  const render=(props)=>{cursor=0;effects=[];return preview.type(props);};
  state=[];
+ assert.equal(render({src:preview.props.src,title:preview.props.title,active:true}).props.children,null,'offscreen embed must not start a request');
+ effects.forEach(fn=>fn());
+ intersection([{isIntersecting:false}]);
+ assert.equal(state[1],false);
+ intersection([{isIntersecting:true}]);
  const activeFrame=render({src:preview.props.src,title:preview.props.title,active:true}).props.children;
  assert.equal(activeFrame.type,'iframe');
  assert.equal(activeFrame.props.src,'https://www.instagram.com/p/a/embed/?hidecaption=1');

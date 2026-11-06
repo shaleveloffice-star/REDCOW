@@ -1,6 +1,7 @@
 import type { Locale } from "@/i18n/config";
 import { getDefaultSeoPageFields } from "@/data/seo-content-defaults";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
+import { normalizeLocationHoursCopy } from "@/lib/business-hours-copy";
 import type {
   ResolvedCategorySeoContent,
   ResolvedSeoPageContent,
@@ -133,19 +134,21 @@ export function resolveSeoPageContent(
   const defaults = getDefaultSeoPageFields(locale, pageId);
   const source = stored ?? {};
 
-  const introduction = pickText(source.introduction, defaults.introduction);
-  const bottomContent = pickText(source.bottomContent, defaults.bottomContent);
+  const hoursCopy = pageId === "locations" ? normalizeLocationHoursCopy : (text: string) => text;
+  const introduction = hoursCopy(pickText(source.introduction, defaults.introduction));
+  const bottomContent = hoursCopy(pickText(source.bottomContent, defaults.bottomContent));
+  const faq = pickFaqBlock(source.faq, defaults.faq);
   const categoryIntros = pickCategoryIntros(source.categoryIntros, defaults.categoryIntros);
 
   return {
     metaTitle: pickText(source.metaTitle, defaults.metaTitle),
-    metaDescription: pickText(source.metaDescription, defaults.metaDescription),
+    metaDescription: hoursCopy(pickText(source.metaDescription, defaults.metaDescription)),
     sectionTitle: pickText(source.sectionTitle, defaults.sectionTitle),
     introduction,
     introductionParagraphs: splitParagraphs(introduction),
     bottomContent,
     bottomParagraphs: splitParagraphs(bottomContent),
-    faq: pickFaqBlock(source.faq, defaults.faq),
+    faq: { ...faq, items: faq.items.map(item => ({ ...item, answer: hoursCopy(item.answer) })) },
     cta: pickCta(source.cta),
     smashStory: pickStoryBlock(source.smashStory, defaults.smashStory),
     grindingStory: pickStoryBlock(source.grindingStory, defaults.grindingStory),

@@ -5,6 +5,26 @@ const path = require('node:path');
 const vm = require('node:vm');
 const { createLoader, root } = require('./helpers.cjs');
 
+test('each menu ordering CTA emits one intent event with its method and never a purchase', () => {
+  const calls = [];
+  const jsx = (type, props) => ({ type, props });
+  const load = createLoader({
+    'react/jsx-runtime': { jsx, jsxs: jsx },
+    'next/link': { default: 'a', __esModule: true },
+    '@/components/shared/site-icons': {},
+    '@/components/providers/locale-provider': { useTranslations: () => ({ orderModal: { title: '', pickup: '', delivery: '' }, menuPage: { viewLocations: '' } }) },
+    '@/lib/analytics': { trackEvent: (...args) => calls.push(args) }
+  });
+  const tree = load('@/components/features/menu/menu-order-ctas').MenuOrderCtas({ pickupUrl: '', deliveryUrl: '' });
+  const links = tree.props.children.props.children;
+  links[0].props.onClick();
+  links[1].props.onClick();
+  assert.deepEqual(calls, [
+    ['order_open', { source: 'menu', order_method: 'pickup' }],
+    ['order_open', { source: 'menu', order_method: 'delivery' }]
+  ]);
+});
+
 test('attribution survives while private query values and fragments do not', () => {
   const { analyticsPageLocation, ANALYTICS_QUERY_KEYS } = createLoader()('@/lib/analytics-url');
   for (const key of ANALYTICS_QUERY_KEYS) {

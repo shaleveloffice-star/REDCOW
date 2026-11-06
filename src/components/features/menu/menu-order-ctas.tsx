@@ -26,8 +26,7 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
           href={resolveOrderUrl(pickupUrl)}
           className="menu-bleecker-cta"
           onClick={() => {
-            trackEvent("order_open", { source: "menu" });
-            trackEvent("order_pickup", { source: "menu" });
+            trackEvent("order_open", { source: "menu", order_method: "pickup" });
           }}
         >
           <IconBurgerMark className="menu-bleecker-cta-icon" />
@@ -38,9 +37,7 @@ export function MenuOrderCtas({ pickupUrl, deliveryUrl }: MenuOrderCtasProps) {
           className="menu-bleecker-cta"
           href={resolveOrderUrl(deliveryUrl)}
           onClick={() => {
-            // Consistent funnel: open intent, then known delivery choice.
-            trackEvent("order_open", { source: "menu" });
-            trackEvent("order_delivery", { source: "menu" });
+            trackEvent("order_open", { source: "menu", order_method: "delivery" });
           }}
         >
           <IconDeliveryMark className="menu-bleecker-cta-icon" />

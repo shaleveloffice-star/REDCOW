@@ -69,7 +69,8 @@ const navGroups: NavGroup[] = [
     items: [
       { href: "/admin/customer-club", label: "מועדון לקוחות", icon: Users },
       { href: "/admin/contact-messages", label: "הודעות", icon: Mail },
-      { href: "/admin/career-applications", label: "פניות דרושים", icon: FileText }
+      { href: "/admin/career-applications", label: "פניות דרושים", icon: FileText },
+      { href: "/admin/game-scores", label: "שיאי המשחק", icon: Star }
     ]
   },
   {

@@ -7,6 +7,7 @@ import { HeroSection } from "@/components/features/home/hero-section";
 import { HomeRecommendationsSection } from "@/components/features/home/home-recommendations-section";
 import { HomeMenuShowcaseSection } from "@/components/features/home/home-menu-showcase-section";
 import { HomeSmashStorySection } from "@/components/features/home/home-smash-story-section";
+import { BurgerGameSection } from "@/components/features/home/burger-game-section";
 import { HomeSocialVibeSection } from "@/components/features/home/home-social-vibe-section";
 import { SeoFaqSection } from "@/components/shared/seo-faq-section";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -85,6 +86,7 @@ export default async function HomePage() {
           sectionId="faq"
           titleId="home-faq-title"
         />
+        <BurgerGameSection />
       </main>
       <SiteFooter />
     </div>

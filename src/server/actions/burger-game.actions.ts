@@ -5,7 +5,7 @@ import { getAdminFirestore } from "@/lib/firebase/admin-runtime";
 import { consumeRateLimitAsync, getRequestClientIp } from "@/lib/security/rate-limit";
 import { requireAdminRole } from "@/lib/auth/admin-guard";
 import { revalidatePath } from "next/cache";
-import { GAME_FPS, gameNickname, gamePhone, replayBurgerGame } from "@/lib/game/burger-game";
+import { GAME_FPS, qualifiesForBurgerPrize, gameNickname, gamePhone, replayBurgerGame } from "@/lib/game/burger-game";
 
 export async function getBurgerLeaderboard() {
   const db = await getAdminFirestore();
@@ -26,15 +26,14 @@ export async function startBurgerGameAction() {
   } catch (error) { return { ok: false as const, error: error instanceof Error ? error.message : "לא ניתן להתחיל כרגע" }; }
 }
 
-export async function checkBurgerRecord(id: string, moves: number[]) {
+export async function checkBurgerPrize(id: string, moves: number[]) {
   const db = await getAdminFirestore();
   if (!db || !/^[a-f0-9-]{36}$/.test(id)) throw new Error("לא ניתן לבדוק את השיא כרגע");
   const data = (await db.collection("burgerGameSessions").doc(id).get()).data();
   if (!data || data.used || Date.now() - data.startedAt > 15 * 60_000) throw new Error("המשחק אינו זמין");
   const game = replayBurgerGame(data.seed, moves);
   if (game.tick > (Date.now() - data.startedAt) * GAME_FPS / 1000 + GAME_FPS * 2) throw new Error("משך המשחק לא תקין");
-  const rows = await getBurgerLeaderboard();
-  return game.score > (rows[0]?.score ?? 0);
+  return qualifiesForBurgerPrize(game.score);
 }
 
 export async function saveBurgerScoreAction(id: string, nickname: string, moves: number[], phoneInput = "") {
@@ -55,8 +54,7 @@ export async function saveBurgerScoreAction(id: string, nickname: string, moves:
       const game = replayBurgerGame(data.seed, moves);
       if (game.tick > (Date.now() - data.startedAt) * GAME_FPS / 1000 + GAME_FPS * 2) throw new Error("משך המשחק לא תקין");
       if (!game.score) throw new Error("צריך לתפוס לפחות המבורגר אחד כדי להיכנס לטבלה");
-      const leaders = await transaction.get(db.collection("burgerGameScores").orderBy("score", "desc").limit(1));
-      const isRecord = game.score > Number(leaders.docs[0]?.get("score") ?? 0);
+      const isRecord = qualifiesForBurgerPrize(game.score);
       if (isRecord && !phoneInput) throw new Error("RECORD_PHONE_REQUIRED");
       const phone = isRecord ? gamePhone(phoneInput) : null;
       transaction.create(db.collection("burgerGameScores").doc(id), { name, score: game.score, createdAt: new Date() });
@@ -66,7 +64,7 @@ export async function saveBurgerScoreAction(id: string, nickname: string, moves:
     return { ok: true as const };
   } catch (error) {
     const needsPhone = error instanceof Error && error.message === "RECORD_PHONE_REQUIRED";
-    return { ok: false as const, needsPhone, error: needsPhone ? "עליתם למקום הראשון! הזינו טלפון כדי לשמור את השיא." : error instanceof Error ? error.message : "השמירה נכשלה" };
+    return { ok: false as const, needsPhone, error: needsPhone ? "הגעתם ל-1,250 נקודות! הזינו טלפון לתיאום קבלת הארוחה." : error instanceof Error ? error.message : "השמירה נכשלה" };
   }
 }
 

@@ -9,7 +9,6 @@ export function BurgerGameSection() {
   const [scores, setScores] = useState<Awaited<ReturnType<typeof getBurgerLeaderboard>>>([]);
   const [expanded, setExpanded] = useState(false);
   const [boardStatus, setBoardStatus] = useState("טוענים את טבלת השיאים…");
-  const leader = scores[0]?.name;
   const trigger = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     let active = true;
@@ -34,8 +33,8 @@ export function BurgerGameSection() {
     };
   }, [open]);
   return <section className={styles.section} aria-labelledby="burger-game-title" dir="rtl">
-    <h2 id="burger-game-title">{leader ? <>חושבים שתצליחו לעקוף את <bdi>{leader}</bdi>?</> : "חושבים שתצליחו לעקוף את המוביל?"}</h2>
-    <p>ב-1 וב-15 בכל חודש, מי שמוביל בטבלת השיאים במועד חלוקת הפרס מקבל מאיתנו ארוחה על חשבון הבית!</p>
+    <h2 id="burger-game-title">מגיעים ל-1,250 נקודות וזוכים בארוחה!</h2>
+    <p>כל מי שמגיע ל-1,250 נקודות ומעלה במשחק מקבל מאיתנו ארוחה על חשבון הבית!</p>
 
     <p>יש לכם את זה?</p>
     <button ref={trigger} type="button" className={styles.button} aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>יאללה, בואו לשחק! 🎮</button>

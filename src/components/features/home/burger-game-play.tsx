@@ -3,7 +3,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { mountModal } from "@/lib/a11y/focus-trap";
 import { GAME_FPS, newBurgerGame, stepBurgerGame, type BurgerGame } from "@/lib/game/burger-game";
-import { checkBurgerRecord, getBurgerLeaderboard, saveBurgerScoreAction, startBurgerGameAction } from "@/server/actions/burger-game.actions";
+import { checkBurgerPrize, getBurgerLeaderboard, saveBurgerScoreAction, startBurgerGameAction } from "@/server/actions/burger-game.actions";
 import styles from "./burger-game.module.css";
 
 // Draw our own burger: bun, beef and vegetables only — no cheese or platform emoji.
@@ -54,7 +54,7 @@ export default function BurgerGamePlay({ trigger, onClose }: { trigger: HTMLElem
     if (phase === "over") {
       resultHeading.current?.focus();
       let active = true;
-      void checkBurgerRecord(session.current, moves.current).then(value => { if (active) setRecord(value); }).catch(() => {});
+      void checkBurgerPrize(session.current, moves.current).then(value => { if (active) setRecord(value); }).catch(() => {});
       return () => { active = false; };
     }
   }, [phase]);
@@ -112,8 +112,8 @@ export default function BurgerGamePlay({ trigger, onClose }: { trigger: HTMLElem
     </> : null}
     {phase === "over" ? <div className={styles.results}>
       {record ? <div className={styles.fireworks} aria-hidden="true"><i /><i /><i /></div> : null}
-      <h3 ref={resultHeading} tabIndex={-1} aria-live="polite">{record ? "מקום ראשון! שברתם את השיא! 🏆" : "המשחק הסתיים!"}</h3>
-      {record ? <p>איזה משחק! שמרו את השיא שלכם והיכנסו לראש הטבלה. המוביל במועד חלוקת הפרס ב-1 וב-15 בכל חודש יקבל ארוחה על חשבון הבית.</p> : null}
+      <h3 ref={resultHeading} tabIndex={-1} aria-live="polite">{record ? "כל הכבוד! זכיתם בארוחה! 🏆" : "המשחק הסתיים!"}</h3>
+      {record ? <p>הגעתם ל-1,250 נקודות ומעלה! שמרו את התוצאה עם כינוי ומספר טלפון כדי שנוכל לתאם איתכם את קבלת הארוחה.</p> : null}
       <p className={styles.finalScore}>{stats.score} נקודות</p>
       {!saved && stats.score>0 ? <form className={styles.form} onSubmit={async e=>{
         e.preventDefault();setSaving(true);setMessage("");

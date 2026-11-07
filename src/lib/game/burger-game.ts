@@ -1,3 +1,5 @@
+export const GAME_PRIZE_SCORE = 1250;
+export function qualifiesForBurgerPrize(score: number): boolean { return score >= GAME_PRIZE_SCORE; }
 export const GAME_FPS = 30;
 export const GAME_MAX_TICKS = 90 * GAME_FPS;
 export type FallingBurger = { id: number; x: number; y: number };

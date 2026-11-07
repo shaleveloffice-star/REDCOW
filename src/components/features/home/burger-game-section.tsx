@@ -34,7 +34,7 @@ export function BurgerGameSection() {
     };
   }, [open]);
   return <section className={styles.section} aria-labelledby="burger-game-title" dir="rtl">
-    <h2 id="burger-game-title">{leader ? <>חושבים שאתם יותר טובים מ<bdi>{leader}</bdi>?</> : "חושבים שאתם יכולים לשבור את השיא?"} 🍔🔥</h2>
+    <h2 id="burger-game-title">{leader ? <>חושבים שאתם יותר טובים מ<bdi>{leader}</bdi>?</> : "חושבים שאתם יכולים לשבור את השיא?"}</h2>
     <p>ב-1 וב-15 בכל חודש, מי שמוביל בטבלת השיאים במועד חלוקת הפרס מקבל מאיתנו ארוחה על חשבון הבית!</p>
 
     <p>יש לכם את זה?</p>

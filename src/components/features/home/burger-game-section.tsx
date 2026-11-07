@@ -6,7 +6,10 @@ import styles from "./burger-game.module.css";
 const Game = dynamic(() => import("./burger-game-play"), { ssr: false, loading: () => <p role="status">טוענים את המשחק…</p> });
 export function BurgerGameSection() {
   const [open, setOpen] = useState(false);
-  const [leader, setLeader] = useState<string | null>(null);
+  const [scores, setScores] = useState<Awaited<ReturnType<typeof getBurgerLeaderboard>>>([]);
+  const [expanded, setExpanded] = useState(false);
+  const [boardStatus, setBoardStatus] = useState("טוענים את טבלת השיאים…");
+  const leader = scores[0]?.name;
   const trigger = useRef<HTMLButtonElement>(null);
   useEffect(() => {
     let active = true;
@@ -16,9 +19,9 @@ export function BurgerGameSection() {
       pending = true;
       try {
         const rows = await getBurgerLeaderboard();
-        if (active) setLeader(rows[0]?.name || null);
+        if (active) { setScores(rows); setBoardStatus(""); }
       } catch {
-        if (active) setLeader(null);
+        if (active) setBoardStatus("לא ניתן לעדכן את טבלת השיאים כרגע. ננסה שוב בקרוב.");
       } finally { pending = false; }
     }
     void refreshLeader();
@@ -36,6 +39,15 @@ export function BurgerGameSection() {
 
     <p>יש לכם את זה?</p>
     <button ref={trigger} type="button" className={styles.button} aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>יאללה, בואו לשחק! 🎮</button>
+    <div className={styles.miniLeaderboard}>
+      <h3>טבלת השיאים</h3>
+      {scores.length ? <table id="home-game-leaderboard" className={styles.table}>
+        <thead><tr><th scope="col">שם</th><th scope="col">ניקוד</th></tr></thead>
+        <tbody>{scores.slice(0, expanded ? scores.length : 3).map(row => <tr key={row.id}><td><bdi>{row.name}</bdi></td><td>{row.score}</td></tr>)}</tbody>
+      </table> : !boardStatus ? <p>מי יקבע את השיא הראשון?</p> : null}
+      {boardStatus ? <p role="status">{boardStatus}</p> : null}
+      {scores.length > 3 ? <button type="button" className={styles.tableToggle} aria-expanded={expanded} aria-controls="home-game-leaderboard" onClick={() => setExpanded(value => !value)}>{expanded ? "הצג רק את שלושת המובילים" : "לכל טבלת השיאים"}</button> : null}
+    </div>
     {open ? <Game trigger={trigger.current} onClose={() => setOpen(false)} /> : null}
   </section>;
 }

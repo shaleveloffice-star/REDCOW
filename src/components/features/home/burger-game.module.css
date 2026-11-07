@@ -21,7 +21,9 @@
 .shell { width:100%; max-width:none; min-height:0; margin:0; padding:16px; overflow-y:auto; overscroll-behavior:contain; box-sizing:border-box; }
 .shell p { margin:8px auto 16px; max-width:420px; }
 .stats { margin:0; font-size:18px; }
-.board { width:min(100%,calc((100dvh - 260px) * .8)); margin:0 auto; }
+.playfield { position:relative; width:min(100%,calc((100dvh - 260px) * .8)); margin:0 auto; }
+.playfield .board { width:100%; }
+.startOverlay { position:absolute; inset:0; display:grid; place-items:center; }
 .results { min-height:220px; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:24px 0; }
 .results h3 { font-size:30px; margin:0 0 12px; }
 .finalScore { font-size:36px; font-weight:700; }

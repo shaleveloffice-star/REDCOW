@@ -91,12 +91,17 @@ export default function BurgerGamePlay({ trigger, onClose }: { trigger: HTMLElem
     <div className={styles.shell}>
     {phase !== "over" ? <>
     {phase !== "playing" ? <p>גררו את הסל באצבע או הזיזו את העכבר. במקלדת: חצים ימינה ושמאלה. כל תפיסה = 10 נקודות. 3 פסילות או 90 שניות מסיימות את המשחק.</p> : null}
-    <canvas ref={canvas} className={styles.board} width={400} height={500} tabIndex={0} aria-label="משחק תפיסת המבורגרים. השתמשו בחצים כדי להזיז את הסל."
+    <div className={styles.playfield}>
+    <canvas ref={canvas} className={styles.board} width={400} height={500} tabIndex={phase === "playing" ? 0 : -1} aria-label="משחק תפיסת המבורגרים. השתמשו בחצים כדי להזיז את הסל."
       onPointerDown={e=>{e.currentTarget.setPointerCapture(e.pointerId);canvas.current?.focus();const r=e.currentTarget.getBoundingClientRect();basket.current=Math.round(Math.max(100,Math.min(900,(e.clientX-r.left)/r.width*1000)));}}
       onPointerMove={e=>{if(e.pointerType!=="mouse"&&!e.currentTarget.hasPointerCapture(e.pointerId))return;const r=e.currentTarget.getBoundingClientRect();basket.current=Math.round(Math.max(100,Math.min(900,(e.clientX-r.left)/r.width*1000)));}}
       onKeyDown={e=>{if(e.key==="ArrowLeft"||e.key==="ArrowRight"){e.preventDefault();keys.current[e.key==="ArrowLeft"?"left":"right"]=true;}}}
       onKeyUp={e=>{if(e.key==="ArrowLeft"||e.key==="ArrowRight"){e.preventDefault();keys.current[e.key==="ArrowLeft"?"left":"right"]=false;}}}
       onBlur={()=>{keys.current={left:false,right:false};if(phase==="playing")setPaused(true);}} />
+    {phase === "idle" || phase === "loading" ? <div className={styles.startOverlay}>
+      <button type="button" className={styles.button} disabled={phase === "loading"} onClick={start}>{phase === "loading" ? "מתכוננים…" : "מתחילים"}</button>
+    </div> : null}
+    </div>
     </> : null}
     {phase === "over" ? <div className={styles.results}>
       <h3 ref={resultHeading} tabIndex={-1}>המשחק הסתיים!</h3>
@@ -107,9 +112,9 @@ export default function BurgerGamePlay({ trigger, onClose }: { trigger: HTMLElem
         catch{setMessage("השמירה נכשלה. נסו שוב");}finally{setSaving(false);}
       }}><label>כינוי לטבלת השיאים<input value={name} onChange={e=>setName(e.target.value)} minLength={2} maxLength={20} required autoComplete="off" /></label><button className={styles.button} disabled={saving}>{saving?"שומרים…":"שמור שיא"}</button><p>הכינוי והניקוד יופיעו בפומבי. בחרו כינוי ללא פרטים אישיים.</p></form>:null}</div>:null}
     <p role="status" className={styles.notice}>{message}</p>
-    <div className={styles.actions}>
-      {phase!=="playing" ? <button className={styles.button} disabled={phase==="loading"||saving} onClick={start}>{phase==="loading"?"מתכוננים…":phase==="over"?"שחקו שוב":"מתחילים"}</button> : <button className={styles.button} onClick={()=>{setPaused(!paused);canvas.current?.focus();}}>{paused?"המשך משחק":"השהיה"}</button>}
-    </div>
+    {phase === "playing" || phase === "over" ? <div className={styles.actions}>
+      {phase === "over" ? <button className={styles.button} disabled={saving} onClick={start}>שחקו שוב</button> : <button className={styles.button} onClick={()=>{setPaused(!paused);canvas.current?.focus();}}>{paused?"המשך משחק":"השהיה"}</button>}
+    </div> : null}
     {phase !== "playing" ? <>
     <h3>טבלת השיאים</h3>
     {boardError?<p role="status">{boardError}</p>:<table className={styles.table}><thead><tr><th>מקום</th><th>שם</th><th>ניקוד</th></tr></thead><tbody>{rows.map((row,index)=><tr key={row.id}><td>{index+1}</td><td>{row.name}</td><td>{row.score}</td></tr>)}{!rows.length?<tr><td colSpan={3}>מי יקבע את השיא הראשון?</td></tr>:null}</tbody></table>}

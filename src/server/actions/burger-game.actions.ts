@@ -49,6 +49,8 @@ export async function saveBurgerScoreAction(id: string, nickname: string, moves:
     await db.runTransaction(async transaction => {
       const saved = await transaction.get(session);
       const data = saved.data();
+      const settings = await transaction.get(db.collection("burgerGameSettings").doc("leaderboard"));
+      if (data && data.startedAt <= Number(settings.data()?.resetAt ?? 0)) throw new Error("טבלת השיאים אופסה. התחילו משחק חדש כדי לשמור תוצאה.");
       if (!data || data.used || Date.now() - data.startedAt > 15 * 60_000) throw new Error("המשחק כבר נשמר או שפג תוקפו");
       const game = replayBurgerGame(data.seed, moves);
       if (game.tick > (Date.now() - data.startedAt) * GAME_FPS / 1000 + GAME_FPS * 2) throw new Error("משך המשחק לא תקין");
@@ -92,4 +94,25 @@ export async function deleteBurgerScoreAction(form: FormData) {
   batch.delete(db.collection("burgerGameContacts").doc(id));
   await batch.commit();
   revalidatePath("/admin/game-scores");
+}
+
+export async function resetBurgerLeaderboardAction(confirmed: boolean) {
+  await requireAdminRole(["owner", "manager"]);
+  if (confirmed !== true) throw new Error("יש לאשר את איפוס הטבלה");
+  const db = await getAdminFirestore();
+  if (!db) throw new Error("המערכת אינה זמינה");
+  const resetAt = Date.now();
+  await db.collection("burgerGameSettings").doc("leaderboard").set({ resetAt });
+  // Only remove entries belonging to the round that just ended.
+  const scores = await db.collection("burgerGameScores").where("createdAt", "<=", new Date(resetAt)).get();
+  for (let offset = 0; offset < scores.docs.length; offset += 200) {
+    const batch = db.batch();
+    for (const score of scores.docs.slice(offset, offset + 200)) {
+      batch.delete(score.ref);
+      batch.delete(db.collection("burgerGameContacts").doc(score.id));
+    }
+    await batch.commit();
+  }
+  revalidatePath("/admin/game-scores");
+  revalidatePath("/");
 }

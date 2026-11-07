@@ -44,11 +44,12 @@ test('score action stores server-computed result once, rejects expired sessions 
   let data={seed:1234,startedAt:Date.now()-100000,used:false};
   const writes=[];
   let topScore = 0;
+  let lastReset = 0;
   const load=createLoader({
     'node:crypto':require('node:crypto'),
     '@/lib/firebase/admin-runtime':{getAdminFirestore:async()=>({
       collection:name=>({doc:id=>({name,id}),orderBy:()=>({limit:()=>({query:true})})}),
-      runTransaction:async callback=>callback({get:async ref=>ref.query?{docs:[{get:()=>topScore}]}:{data:()=>data},create:(ref,value)=>writes.push({ref,value}),update:()=>{data.used=true;}})
+      runTransaction:async callback=>callback({get:async ref=>ref.query?{docs:[{get:()=>topScore}]}:{data:()=>ref.name === "burgerGameSettings" ? {resetAt:lastReset} : data},create:(ref,value)=>writes.push({ref,value}),update:()=>{data.used=true;}})
     })},
     '@/lib/security/rate-limit':{getRequestClientIp:async()=> 'test',consumeRateLimitAsync:async()=>true},
     '@/lib/auth/admin-guard':{requireAdminRole:async()=>{throw Error('unauthorized');}},
@@ -72,6 +73,9 @@ test('score action stores server-computed result once, rejects expired sessions 
   topScore=game.score;
   assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves)).ok,true);
   assert.equal(writes.length,3);
+  data={...data,used:false}; lastReset=Date.now();
+  assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves)).ok,false);
+  assert.equal(writes.length,3);
   await assert.rejects(actions.deleteBurgerScoreAction(new FormData()),/unauthorized/);
 });
 
@@ -94,4 +98,31 @@ test('phone is required and normalized, public leaderboard never returns contact
   assert.deepEqual(await actions.getBurgerLeaderboard(), [{id:'one',name:'Player',score:100}]);
   await assert.rejects(actions.getAdminBurgerScores(), /unauthorized/);
   assert.equal(reads,1);
+});
+
+test('reset requires authorization and confirmation and deletes scores and contacts in bounded batches', async () => {
+  let authorized=false, resetAt, commits=0;
+  const deleted=[];
+  const docs=Array.from({length:401},(_,i)=>({id:String(i),ref:{collection:'burgerGameScores',id:String(i)}}));
+  const actions=createLoader({
+    'node:crypto':require('node:crypto'),
+    '@/lib/auth/admin-guard':{requireAdminRole:async()=>{if(!authorized)throw Error('unauthorized');}},
+    '@/lib/security/rate-limit':{},
+    'next/cache':{revalidatePath(){}},
+    '@/lib/firebase/admin-runtime':{getAdminFirestore:async()=>({
+      collection:name=>({
+        doc:id=>({collection:name,id,set:async value=>{resetAt=value.resetAt;}}),
+        where:(field,op,value)=>{assert.equal(field,'createdAt');assert.equal(op,'<=');assert.equal(value.getTime(),resetAt);return {get:async()=>({docs})};}
+      }),
+      batch:()=>{const entries=[];return {delete:ref=>entries.push(ref),commit:async()=>{assert.ok(entries.length<=400);deleted.push(...entries);commits++;}};}
+    })}
+  })('@/server/actions/burger-game.actions');
+  await assert.rejects(actions.resetBurgerLeaderboardAction(true),/unauthorized/);
+  authorized=true;
+  await assert.rejects(actions.resetBurgerLeaderboardAction(false),/לאשר/);
+  assert.equal(resetAt,undefined);
+  await actions.resetBurgerLeaderboardAction(true);
+  assert.equal(commits,3);
+  assert.equal(deleted.length,802);
+  assert.equal(deleted.filter(row=>row.collection==='burgerGameContacts').length,401);
 });

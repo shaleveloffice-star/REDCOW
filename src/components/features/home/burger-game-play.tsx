@@ -100,7 +100,7 @@ export default function BurgerGamePlay({ trigger, onClose }: { trigger: HTMLElem
       onKeyUp={e=>{if(e.key==="ArrowLeft"||e.key==="ArrowRight"){e.preventDefault();keys.current[e.key==="ArrowLeft"?"left":"right"]=false;}}}
       onBlur={()=>{keys.current={left:false,right:false};if(phase==="playing")setPaused(true);}} />
     {phase === "idle" || phase === "loading" ? <div className={styles.startOverlay}>
-      <button type="button" className={styles.button} disabled={phase === "loading"} onClick={start}>{phase === "loading" ? "מתכוננים…" : "מתחילים"}</button>
+      <button type="button" className={styles.button} disabled={phase === "loading"} onClick={start}>{phase === "loading" ? "מתכוננים…" : "לחצו כדי להתחיל"}</button>
     </div> : null}
     </div>
     </> : null}

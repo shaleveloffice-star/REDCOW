@@ -113,7 +113,7 @@ export default function BurgerGamePlay({ trigger, onClose }: { trigger: HTMLElem
         catch{setMessage("השמירה נכשלה. נסו שוב");}finally{setSaving(false);}
       }}><label>כינוי לטבלת השיאים<input value={name} onChange={e=>setName(e.target.value)} minLength={2} maxLength={20} required autoComplete="off" /></label>
       <label>מספר טלפון ליצירת קשר<input type="tel" inputMode="tel" dir="ltr" value={phone} onChange={e=>setPhone(e.target.value)} maxLength={30} required autoComplete="tel" aria-describedby="game-phone-privacy" /></label>
-      <p id="game-phone-privacy">הטלפון יישמר לצורך יצירת קשר ותיאום קבלת הפרס ויהיה גלוי רק לצוות המורשה באדמין. הכינוי והניקוד יוצגו בטבלה הציבורית.</p>
+      <p id="game-phone-privacy">מספר הטלפון לא יוצג לציבור ויהיה נגיש רק לצוות המורשה. נשתמש בו רק לצורך זיהוי הזוכה ותיאום קבלת הפרס, ולא לדיוור או לפרסום. רק הכינוי והניקוד יוצגו בטבלה הציבורית.</p>
       <button className={styles.button} disabled={saving}>{saving?"שומרים…":"שמור שיא"}</button></form>:null}</div>:null}
     <p role="status" className={styles.notice}>{message}</p>
     {phase === "playing" || phase === "over" ? <div className={styles.actions}>

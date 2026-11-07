@@ -38,3 +38,10 @@
   .header { padding-top:max(16px,env(safe-area-inset-top)); }
   .shell { padding-bottom:max(16px,env(safe-area-inset-bottom)); }
 }
+.results { position:relative; isolation:isolate; }
+.fireworks { position:absolute; inset:0; pointer-events:none; overflow:hidden; z-index:-1; }
+.fireworks i { position:absolute; left:50%; top:22%; width:5px; height:5px; border-radius:50%; color:#ffd36a; box-shadow:0 -65px,46px -46px,65px 0,46px 46px,0 65px,-46px 46px,-65px 0,-46px -46px; animation:burst 1.6s ease-out 2 both; }
+.fireworks i:nth-child(2) { left:20%; top:42%; color:#ff965b; animation-delay:.4s; }
+.fireworks i:nth-child(3) { left:80%; top:38%; color:#fff; animation-delay:.8s; }
+@keyframes burst { from { transform:scale(0); opacity:1; } to { transform:scale(1.4); opacity:0; } }
+@media (prefers-reduced-motion:reduce) { .fireworks { display:none; } }

@@ -26,10 +26,20 @@ export async function startBurgerGameAction() {
   } catch (error) { return { ok: false as const, error: error instanceof Error ? error.message : "לא ניתן להתחיל כרגע" }; }
 }
 
-export async function saveBurgerScoreAction(id: string, nickname: string, moves: number[], phoneInput: string) {
+export async function checkBurgerRecord(id: string, moves: number[]) {
+  const db = await getAdminFirestore();
+  if (!db || !/^[a-f0-9-]{36}$/.test(id)) throw new Error("לא ניתן לבדוק את השיא כרגע");
+  const data = (await db.collection("burgerGameSessions").doc(id).get()).data();
+  if (!data || data.used || Date.now() - data.startedAt > 15 * 60_000) throw new Error("המשחק אינו זמין");
+  const game = replayBurgerGame(data.seed, moves);
+  if (game.tick > (Date.now() - data.startedAt) * GAME_FPS / 1000 + GAME_FPS * 2) throw new Error("משך המשחק לא תקין");
+  const rows = await getBurgerLeaderboard();
+  return game.score > (rows[0]?.score ?? 0);
+}
+
+export async function saveBurgerScoreAction(id: string, nickname: string, moves: number[], phoneInput = "") {
   try {
     const name = gameNickname(nickname);
-    const phone = gamePhone(phoneInput);
     if (!/^[a-f0-9-]{36}$/.test(id)) throw new Error("משחק לא תקין");
     const ip = await getRequestClientIp();
     if (!await consumeRateLimitAsync(`burger-score:${ip}`, 20, 10 * 60_000)) throw new Error("נסו שוב בעוד כמה דקות");
@@ -43,12 +53,19 @@ export async function saveBurgerScoreAction(id: string, nickname: string, moves:
       const game = replayBurgerGame(data.seed, moves);
       if (game.tick > (Date.now() - data.startedAt) * GAME_FPS / 1000 + GAME_FPS * 2) throw new Error("משך המשחק לא תקין");
       if (!game.score) throw new Error("צריך לתפוס לפחות המבורגר אחד כדי להיכנס לטבלה");
+      const leaders = await transaction.get(db.collection("burgerGameScores").orderBy("score", "desc").limit(1));
+      const isRecord = game.score > Number(leaders.docs[0]?.get("score") ?? 0);
+      if (isRecord && !phoneInput) throw new Error("RECORD_PHONE_REQUIRED");
+      const phone = isRecord ? gamePhone(phoneInput) : null;
       transaction.create(db.collection("burgerGameScores").doc(id), { name, score: game.score, createdAt: new Date() });
-      transaction.create(db.collection("burgerGameContacts").doc(id), { name, phone, score: game.score, createdAt: new Date() });
+      if (phone) transaction.create(db.collection("burgerGameContacts").doc(id), { name, phone, score: game.score, createdAt: new Date() });
       transaction.update(session, { used: true });
     });
     return { ok: true as const };
-  } catch (error) { return { ok: false as const, error: error instanceof Error ? error.message : "השמירה נכשלה" }; }
+  } catch (error) {
+    const needsPhone = error instanceof Error && error.message === "RECORD_PHONE_REQUIRED";
+    return { ok: false as const, needsPhone, error: needsPhone ? "עליתם למקום הראשון! הזינו טלפון כדי לשמור את השיא." : error instanceof Error ? error.message : "השמירה נכשלה" };
+  }
 }
 
 export async function getAdminBurgerScores() {

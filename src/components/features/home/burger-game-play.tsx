@@ -3,7 +3,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { mountModal } from "@/lib/a11y/focus-trap";
 import { GAME_FPS, newBurgerGame, stepBurgerGame, type BurgerGame } from "@/lib/game/burger-game";
-import { getBurgerLeaderboard, saveBurgerScoreAction, startBurgerGameAction } from "@/server/actions/burger-game.actions";
+import { checkBurgerRecord, getBurgerLeaderboard, saveBurgerScoreAction, startBurgerGameAction } from "@/server/actions/burger-game.actions";
 import styles from "./burger-game.module.css";
 
 // Draw our own burger: bun, beef and vegetables only — no cheese or platform emoji.
@@ -45,12 +45,18 @@ export default function BurgerGamePlay({ trigger, onClose }: { trigger: HTMLElem
   const [boardError, setBoardError] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [record, setRecord] = useState(false);
   const [saving, setSaving] = useState(false), [saved, setSaved] = useState(false);
   async function refresh() { try { setRows(await getBurgerLeaderboard()); setBoardError(""); } catch { setBoardError("טבלת השיאים אינה זמינה כרגע"); } }
   useEffect(() => { void refresh(); }, []);
   useEffect(() => {
     if (phase === "playing") canvas.current?.focus();
-    if (phase === "over") resultHeading.current?.focus();
+    if (phase === "over") {
+      resultHeading.current?.focus();
+      let active = true;
+      void checkBurgerRecord(session.current, moves.current).then(value => { if (active) setRecord(value); }).catch(() => {});
+      return () => { active = false; };
+    }
   }, [phase]);
   useEffect(() => {
     const ctx = canvas.current?.getContext("2d");
@@ -76,7 +82,7 @@ export default function BurgerGamePlay({ trigger, onClose }: { trigger: HTMLElem
     return ()=>{cancelAnimationFrame(frame);document.removeEventListener("visibilitychange",hide);};
   },[phase,paused]);
   async function start() {
-    setPhase("loading");setMessage("");
+    setPhase("loading");setMessage("");setRecord(false);setPhone("");
     const result=await startBurgerGameAction().catch(()=>({ok:false as const,error:"לא ניתן להתחיל כרגע. נסו שוב"}));
     if(!result.ok){setMessage(result.error);setPhase("idle");return;}
     session.current=result.id;game.current=newBurgerGame(result.seed);basket.current=500;moves.current=[];keys.current={left:false,right:false};
@@ -105,15 +111,17 @@ export default function BurgerGamePlay({ trigger, onClose }: { trigger: HTMLElem
     </div>
     </> : null}
     {phase === "over" ? <div className={styles.results}>
-      <h3 ref={resultHeading} tabIndex={-1}>המשחק הסתיים!</h3>
+      {record ? <div className={styles.fireworks} aria-hidden="true"><i /><i /><i /></div> : null}
+      <h3 ref={resultHeading} tabIndex={-1} aria-live="polite">{record ? "מקום ראשון! שברתם את השיא! 🏆" : "המשחק הסתיים!"}</h3>
+      {record ? <p>איזה משחק! שמרו את השיא שלכם והיכנסו לראש הטבלה. המוביל במועד חלוקת הפרס ב-1 וב-15 בכל חודש יקבל ארוחה על חשבון הבית.</p> : null}
       <p className={styles.finalScore}>{stats.score} נקודות</p>
       {!saved && stats.score>0 ? <form className={styles.form} onSubmit={async e=>{
         e.preventDefault();setSaving(true);setMessage("");
-        try {const result=await saveBurgerScoreAction(session.current,name,moves.current,phone);if(result.ok){setSaved(true);setMessage("השיא נשמר! הטבלה מציגה את עשרת השיאים הגבוהים ביותר.");await refresh();}else setMessage(result.error);}
+        try {const result=await saveBurgerScoreAction(session.current,name,moves.current,phone);if(result.ok){setSaved(true);setMessage("השיא נשמר! הטבלה מציגה את עשרת השיאים הגבוהים ביותר.");await refresh();}else {setMessage(result.error);if(result.needsPhone)setRecord(true);}}
         catch{setMessage("השמירה נכשלה. נסו שוב");}finally{setSaving(false);}
       }}><label>כינוי לטבלת השיאים<input value={name} onChange={e=>setName(e.target.value)} minLength={2} maxLength={20} required autoComplete="off" /></label>
-      <label>מספר טלפון ליצירת קשר<input type="tel" inputMode="tel" dir="ltr" value={phone} onChange={e=>setPhone(e.target.value)} maxLength={30} required autoComplete="tel" aria-describedby="game-phone-privacy" /></label>
-      <p id="game-phone-privacy">מספר הטלפון לא יוצג לציבור ויהיה נגיש רק לצוות המורשה. נשתמש בו רק לצורך זיהוי הזוכה ותיאום קבלת הפרס, ולא לדיוור או לפרסום. רק הכינוי והניקוד יוצגו בטבלה הציבורית.</p>
+      {record ? <><label>מספר טלפון ליצירת קשר<input type="tel" inputMode="tel" dir="ltr" value={phone} onChange={e=>setPhone(e.target.value)} maxLength={30} required autoComplete="tel" aria-describedby="game-phone-privacy" /></label>
+      <p id="game-phone-privacy">מספר הטלפון לא יוצג לציבור ויהיה נגיש רק לצוות המורשה. נשתמש בו רק לצורך זיהוי הזוכה ותיאום קבלת הפרס, ולא לדיוור או לפרסום. רק הכינוי והניקוד יוצגו בטבלה הציבורית.</p></> : <p>הכינוי והניקוד יוצגו בטבלה הציבורית.</p>}
       <button className={styles.button} disabled={saving}>{saving?"שומרים…":"שמור שיא"}</button></form>:null}</div>:null}
     <p role="status" className={styles.notice}>{message}</p>
     {phase === "playing" || phase === "over" ? <div className={styles.actions}>

@@ -43,11 +43,12 @@ test('score action stores server-computed result once, rejects expired sessions 
   while(!game.over){const x=Math.round(Math.max(100,Math.min(900,game.burgers[0]?.x??500)));moves.push(x);stepBurgerGame(game,x);}
   let data={seed:1234,startedAt:Date.now()-100000,used:false};
   const writes=[];
+  let topScore = 0;
   const load=createLoader({
     'node:crypto':require('node:crypto'),
     '@/lib/firebase/admin-runtime':{getAdminFirestore:async()=>({
-      collection:name=>({doc:id=>({name,id})}),
-      runTransaction:async callback=>callback({get:async()=>({data:()=>data}),create:(ref,value)=>writes.push({ref,value}),update:()=>{data.used=true;}})
+      collection:name=>({doc:id=>({name,id}),orderBy:()=>({limit:()=>({query:true})})}),
+      runTransaction:async callback=>callback({get:async ref=>ref.query?{docs:[{get:()=>topScore}]}:{data:()=>data},create:(ref,value)=>writes.push({ref,value}),update:()=>{data.used=true;}})
     })},
     '@/lib/security/rate-limit':{getRequestClientIp:async()=> 'test',consumeRateLimitAsync:async()=>true},
     '@/lib/auth/admin-guard':{requireAdminRole:async()=>{throw Error('unauthorized');}},
@@ -55,6 +56,8 @@ test('score action stores server-computed result once, rejects expired sessions 
   });
   const actions=load('@/server/actions/burger-game.actions');
   const id='12345678-1234-1234-1234-123456789012';
+  assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves)).needsPhone,true);
+  assert.equal(writes.length,0);
   assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves,'0501234567')).ok,true);
   assert.equal(writes[0].value.score,game.score);
   assert.equal(writes[0].ref.name,'burgerGameScores');
@@ -65,6 +68,10 @@ test('score action stores server-computed result once, rejects expired sessions 
   data={...data,used:false,startedAt:Date.now()-16*60000};
   assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves,'0501234567')).ok,false);
   assert.equal(writes.length,2);
+  data={...data,used:false,startedAt:Date.now()-100000};
+  topScore=game.score;
+  assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves)).ok,true);
+  assert.equal(writes.length,3);
   await assert.rejects(actions.deleteBurgerScoreAction(new FormData()),/unauthorized/);
 });
 

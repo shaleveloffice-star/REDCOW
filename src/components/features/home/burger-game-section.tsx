@@ -1,14 +1,38 @@
 "use client";
 import dynamic from "next/dynamic";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { getBurgerLeaderboard } from "@/server/actions/burger-game.actions";
 import styles from "./burger-game.module.css";
 const Game = dynamic(() => import("./burger-game-play"), { ssr: false, loading: () => <p role="status">טוענים את המשחק…</p> });
 export function BurgerGameSection() {
   const [open, setOpen] = useState(false);
+  const [leader, setLeader] = useState<string | null>(null);
   const trigger = useRef<HTMLButtonElement>(null);
+  useEffect(() => {
+    let active = true;
+    let pending = false;
+    async function refreshLeader() {
+      if (document.hidden || pending) return;
+      pending = true;
+      try {
+        const rows = await getBurgerLeaderboard();
+        if (active) setLeader(rows[0]?.name || null);
+      } catch {
+        if (active) setLeader(null);
+      } finally { pending = false; }
+    }
+    void refreshLeader();
+    const timer = window.setInterval(refreshLeader, 30_000);
+    document.addEventListener("visibilitychange", refreshLeader);
+    return () => {
+      active = false;
+      window.clearInterval(timer);
+      document.removeEventListener("visibilitychange", refreshLeader);
+    };
+  }, [open]);
   return <section className={styles.section} aria-labelledby="burger-game-title" dir="rtl">
-    <h2 id="burger-game-title">חושבים שאתם יותר טובים מספיר? 🍔🔥</h2>
-    <p>מי שעוקף את השיא של ספיר מקבל מאיתנו ארוחה על חשבון הבית!</p>
+    <h2 id="burger-game-title">{leader ? <>חושבים שאתם יותר טובים מ<bdi>{leader}</bdi>?</> : "חושבים שאתם יכולים לשבור את השיא?"} 🍔🔥</h2>
+    <p>מי שעוקף את השיא{leader ? <> של <bdi>{leader}</bdi></> : " המוביל"} מקבל מאיתנו ארוחה על חשבון הבית!</p>
     <p>יש לכם את זה?</p>
     <button ref={trigger} type="button" className={styles.button} aria-haspopup="dialog" aria-expanded={open} onClick={() => setOpen(true)}>יאללה, בואו לשחק! 🎮</button>
     {open ? <Game trigger={trigger.current} onClose={() => setOpen(false)} /> : null}

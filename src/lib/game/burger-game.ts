@@ -14,7 +14,7 @@ export function stepBurgerGame(game: BurgerGame, basket: number): void {
     game.burgers.push({ id: game.tick, x: 60 + (game.seed / 4294967296) * 880, y: -45 });
     game.next = game.tick + Math.max(9, 34 - level * 4);
   }
-  const speed = 4 + level * 0.7;
+  const speed = 4 * 1.2 ** Math.floor(game.tick / (GAME_FPS * 5));
   game.burgers = game.burgers.filter(burger => {
     burger.y += speed;
     if (burger.y < 875) return true;

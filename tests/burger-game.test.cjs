@@ -22,6 +22,17 @@ test('three misses end a game and completed games stop advancing', () => {
   stepBurgerGame(game, 100);
   assert.equal(game.tick, tick);
 });
+
+test('fall speed compounds by 20 percent at each five-second boundary', () => {
+  for (const [tick, expected] of [[1, 4], [149, 4], [150, 4.8], [299, 4.8], [300, 5.76], [450, 6.912], [1800, 4 * 1.2 ** 12]]) {
+    const game = newBurgerGame(7);
+    game.tick = tick - 1;
+    game.next = GAME_MAX_TICKS + 1;
+    game.burgers = [{ id: 1, x: 500, y: 0 }];
+    stepBurgerGame(game, 500);
+    assert.ok(Math.abs(game.burgers[0].y - expected) < 1e-10, `tick ${tick}`);
+  }
+});
 test('nickname validation rejects markup, bidi controls and oversized names', () => {
   assert.equal(gameNickname('  שחקן 7  '), 'שחקן 7');
   for (const name of ['a', '<script>', 'a'.repeat(21), 'abc\u202e', null]) assert.throws(() => gameNickname(name));

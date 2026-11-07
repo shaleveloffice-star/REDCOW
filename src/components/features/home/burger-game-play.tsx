@@ -125,7 +125,7 @@ export default function BurgerGamePlay({ trigger, onClose }: { trigger: HTMLElem
       <button className={styles.button} disabled={saving}>{saving?"שומרים…":"שמור שיא"}</button></form>:null}</div>:null}
     <p role="status" className={styles.notice}>{message}</p>
     {phase === "playing" || phase === "over" ? <div className={styles.actions}>
-      {phase === "over" ? <button className={styles.button} disabled={saving} onClick={start}>שחקו שוב</button> : <button className={styles.button} onClick={()=>{setPaused(!paused);canvas.current?.focus();}}>{paused?"המשך משחק":"השהיה"}</button>}
+      {phase === "over" ? <><button type="button" className={styles.button} disabled={saving} onClick={start}>שחקו שוב</button><button type="button" className={styles.button} onClick={onClose}>סגור משחק</button></> : <button className={styles.button} onClick={()=>{setPaused(!paused);canvas.current?.focus();}}>{paused?"המשך משחק":"השהיה"}</button>}
     </div> : null}
     {phase !== "playing" ? <>
     <h3>טבלת השיאים</h3>

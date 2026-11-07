@@ -53,7 +53,7 @@ export async function HomeSmashStorySection({ siteImages, variant = "smash" }: H
     >
       {variant === "smash" ? (
         <Image
-          src="/images/home/smash-happy-burger-red.jpg"
+          src="/images/home/smash-happy-burger-skate.jpg"
           alt={locale === "he" ? "המבורגר SO WHAT הופך פרצוף עצוב לחיוך" : locale === "fr" ? "Un burger SO WHAT transforme un visage triste en sourire" : "A SO WHAT burger turns a sad face into a smile"}
           width={1280}
           height={720}

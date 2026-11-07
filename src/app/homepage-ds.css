@@ -414,6 +414,18 @@ a.menu-showcase-button.site-cta-btn {
   --home-section-edge: 25px;
 }
 
+.home-story-section--with-banner {
+  padding-top: 0;
+}
+
+.home-smash-banner {
+  display: block;
+  width: 100%;
+  max-width: 640px;
+  height: auto;
+  margin: 0 auto clamp(32px, 5vw, 48px);
+}
+
 .home-story-header {
   width: 100%;
   margin-inline: 0;

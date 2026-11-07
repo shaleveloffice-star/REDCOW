@@ -48,7 +48,7 @@ export async function HomeSmashStorySection({ siteImages, variant = "smash" }: H
   return (
     <section
       id={variant}
-      className="home-story-section home-story-section--smash"
+      className={`home-story-section home-story-section--smash${variant === "smash" ? " home-story-section--with-banner" : ""}`}
       aria-labelledby={mediaId + "-title"}
     >
       {variant === "smash" ? (
@@ -59,7 +59,7 @@ export async function HomeSmashStorySection({ siteImages, variant = "smash" }: H
           height={720}
           sizes="(max-width: 640px) 100vw, 640px"
           loading="lazy"
-          style={{ display: "block", width: "100%", maxWidth: 640, height: "auto", margin: "0 auto 24px" }}
+          className="home-smash-banner"
         />
       ) : null}
       <header className="home-story-header">

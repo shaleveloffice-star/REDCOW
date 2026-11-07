@@ -55,11 +55,36 @@ test('score action stores server-computed result once, rejects expired sessions 
   });
   const actions=load('@/server/actions/burger-game.actions');
   const id='12345678-1234-1234-1234-123456789012';
-  assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves)).ok,true);
+  assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves,'0501234567')).ok,true);
   assert.equal(writes[0].value.score,game.score);
-  assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves)).ok,false);
+  assert.equal(writes[0].ref.name,'burgerGameScores');
+  assert.equal('phone' in writes[0].value,false);
+  assert.equal(writes[1].ref.name,'burgerGameContacts');
+  assert.equal(writes[1].value.phone,'0501234567');
+  assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves,'0501234567')).ok,false);
   data={...data,used:false,startedAt:Date.now()-16*60000};
-  assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves)).ok,false);
-  assert.equal(writes.length,1);
+  assert.equal((await actions.saveBurgerScoreAction(id,'Player',moves,'0501234567')).ok,false);
+  assert.equal(writes.length,2);
   await assert.rejects(actions.deleteBurgerScoreAction(new FormData()),/unauthorized/);
+});
+
+
+test('phone is required and normalized, public leaderboard never returns contact data', async () => {
+  const { gamePhone } = createLoader()('@/lib/game/burger-game');
+  assert.equal(gamePhone('+972 50-123-4567'), '0501234567');
+  for (const value of ['', undefined, 'abc', '12345', '<script>', '050123456789']) assert.throws(() => gamePhone(value));
+  const source = { name:'Player', score:100, phone:'0501234567', createdAt:'private' };
+  let reads = 0;
+  const actions = createLoader({
+    'node:crypto':require('node:crypto'),
+    '@/lib/firebase/admin-runtime':{getAdminFirestore:async()=>({collection: name => {
+      assert.equal(name,'burgerGameScores'); reads++;
+      return {orderBy:()=>({limit:()=>({get:async()=>({docs:[{id:'one',get:key=>source[key]}]})})})};
+    }})},
+    '@/lib/auth/admin-guard':{requireAdminRole:async()=>{throw Error('unauthorized');}},
+    '@/lib/security/rate-limit':{}, 'next/cache':{}
+  })('@/server/actions/burger-game.actions');
+  assert.deepEqual(await actions.getBurgerLeaderboard(), [{id:'one',name:'Player',score:100}]);
+  await assert.rejects(actions.getAdminBurgerScores(), /unauthorized/);
+  assert.equal(reads,1);
 });

@@ -5,7 +5,7 @@ import { getAdminFirestore } from "@/lib/firebase/admin-runtime";
 import { consumeRateLimitAsync, getRequestClientIp } from "@/lib/security/rate-limit";
 import { requireAdminRole } from "@/lib/auth/admin-guard";
 import { revalidatePath } from "next/cache";
-import { GAME_FPS, gameNickname, replayBurgerGame } from "@/lib/game/burger-game";
+import { GAME_FPS, gameNickname, gamePhone, replayBurgerGame } from "@/lib/game/burger-game";
 
 export async function getBurgerLeaderboard() {
   const db = await getAdminFirestore();
@@ -26,9 +26,10 @@ export async function startBurgerGameAction() {
   } catch (error) { return { ok: false as const, error: error instanceof Error ? error.message : "לא ניתן להתחיל כרגע" }; }
 }
 
-export async function saveBurgerScoreAction(id: string, nickname: string, moves: number[]) {
+export async function saveBurgerScoreAction(id: string, nickname: string, moves: number[], phoneInput: string) {
   try {
     const name = gameNickname(nickname);
+    const phone = gamePhone(phoneInput);
     if (!/^[a-f0-9-]{36}$/.test(id)) throw new Error("משחק לא תקין");
     const ip = await getRequestClientIp();
     if (!await consumeRateLimitAsync(`burger-score:${ip}`, 20, 10 * 60_000)) throw new Error("נסו שוב בעוד כמה דקות");
@@ -43,10 +44,24 @@ export async function saveBurgerScoreAction(id: string, nickname: string, moves:
       if (game.tick > (Date.now() - data.startedAt) * GAME_FPS / 1000 + GAME_FPS * 2) throw new Error("משך המשחק לא תקין");
       if (!game.score) throw new Error("צריך לתפוס לפחות המבורגר אחד כדי להיכנס לטבלה");
       transaction.create(db.collection("burgerGameScores").doc(id), { name, score: game.score, createdAt: new Date() });
+      transaction.create(db.collection("burgerGameContacts").doc(id), { name, phone, score: game.score, createdAt: new Date() });
       transaction.update(session, { used: true });
     });
     return { ok: true as const };
   } catch (error) { return { ok: false as const, error: error instanceof Error ? error.message : "השמירה נכשלה" }; }
+}
+
+export async function getAdminBurgerScores() {
+  await requireAdminRole(["owner", "manager"]);
+  const db = await getAdminFirestore();
+  if (!db) throw new Error("המערכת אינה זמינה");
+  const snapshot = await db.collection("burgerGameScores").orderBy("score", "desc").get();
+  const contacts = snapshot.docs.length ? await db.getAll(...snapshot.docs.map(doc => db.collection("burgerGameContacts").doc(doc.id))) : [];
+  return snapshot.docs.map((doc, index) => ({
+    id: doc.id, name: String(doc.get("name")), score: Number(doc.get("score")),
+    phone: String(contacts[index]?.get("phone") || ""),
+    createdAt: doc.get("createdAt")?.toDate?.().toISOString() as string | undefined
+  }));
 }
 
 export async function deleteBurgerScoreAction(form: FormData) {
@@ -55,6 +70,9 @@ export async function deleteBurgerScoreAction(form: FormData) {
   if (!/^[a-f0-9-]{36}$/.test(id)) throw new Error("מזהה לא תקין");
   const db = await getAdminFirestore();
   if (!db) throw new Error("המערכת אינה זמינה");
-  await db.collection("burgerGameScores").doc(id).delete();
+  const batch = db.batch();
+  batch.delete(db.collection("burgerGameScores").doc(id));
+  batch.delete(db.collection("burgerGameContacts").doc(id));
+  await batch.commit();
   revalidatePath("/admin/game-scores");
 }

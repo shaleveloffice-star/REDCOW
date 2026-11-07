@@ -40,3 +40,10 @@ export function gameNickname(value: unknown): string {
   if (!/^[\p{L}\p{N} ._'׳-]{2,20}$/u.test(name)) throw new Error("הכינוי צריך להכיל 2–20 אותיות או ספרות");
   return name;
 }
+
+export function gamePhone(value: unknown): string {
+  if (typeof value !== "string" || value.length > 30) throw new Error("יש להזין מספר טלפון תקין");
+  const phone = value.replace(/[\s()-]/g, "").replace(/^\+972/, "0");
+  if (!/^0(?:5\d{8}|[23489]\d{7}|7\d{8})$/.test(phone)) throw new Error("יש להזין מספר טלפון ישראלי תקין");
+  return phone;
+}

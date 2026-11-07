@@ -23,8 +23,8 @@ test('three misses end a game and completed games stop advancing', () => {
   assert.equal(game.tick, tick);
 });
 
-test('fall speed compounds by 20 percent at each three-second boundary', () => {
-  for (const [tick, expected] of [[1, 4], [89, 4], [90, 4.8], [179, 4.8], [180, 5.76], [270, 6.912], [1080, 4 * 1.2 ** 12]]) {
+test('fall speed compounds by 20 percent at each five-second boundary', () => {
+  for (const [tick, expected] of [[1, 4], [149, 4], [150, 4.8], [299, 4.8], [300, 5.76], [450, 6.912], [1800, 4 * 1.2 ** 12]]) {
     const game = newBurgerGame(7);
     game.tick = tick - 1;
     game.next = GAME_MAX_TICKS + 1;

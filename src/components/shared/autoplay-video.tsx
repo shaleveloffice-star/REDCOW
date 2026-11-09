@@ -8,6 +8,7 @@ import { videoSourcesForMp4 } from "@/lib/video-sources";
 
 type AutoplayVideoProps = {
   src: string;
+  mobileSrc?: string;
   videoStart?: number;
   videoEnd?: number | null;
   className?: string;
@@ -41,6 +42,7 @@ function releasePlaybackSlot(video: HTMLVideoElement) {
 
 export function AutoplayVideo({
   src,
+  mobileSrc,
   videoStart = 0,
   videoEnd = null,
   className,
@@ -197,6 +199,7 @@ export function AutoplayVideo({
         disablePictureInPicture
         controlsList="nodownload noplaybackrate noremoteplayback"
       >
+        {mobileSrc ? <source src={mobileSrc} type="video/mp4" media="(max-width: 767px)" /> : null}
         {videoSourcesForMp4(src).map((source) => (
           <source key={source.type} src={source.src} type={source.type} />
         ))}

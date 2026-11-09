@@ -127,9 +127,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
                 {video ? (
                   <CreatorVideo src={video} active={active} paused={Boolean(selected)} />
                 ) : embed?.provider === "tiktok" ? (
-                  <iframe className="home-creator-tiktok" src={embed.src} title={`TikTok: ${item.creatorName}`}
-                    loading="lazy" tabIndex={-1} allow="autoplay; encrypted-media; picture-in-picture; fullscreen"
-                    allowFullScreen referrerPolicy="strict-origin-when-cross-origin" />
+                  <CreatorEmbed src={embed.src} title={item.creatorName} active={active} provider="tiktok" />
                 ) : embed ? (
                   <CreatorEmbed src={embed.src} title={item.creatorName} active={active} />
                 ) : (
@@ -165,7 +163,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   );
 }
 
-function CreatorEmbed({ src, title, active }: { src: string; title: string; active: boolean }) {
+function CreatorEmbed({ src, title, active, provider = "instagram" }: { src: string; title: string; active: boolean; provider?: "instagram" | "tiktok" }) {
   const ref = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(0);
   // Once loaded, keep the iframe mounted forever so carousel rotation does not remount it.
@@ -178,7 +176,7 @@ function CreatorEmbed({ src, title, active }: { src: string; title: string; acti
         setLoaded(true);
         observer.disconnect();
       }
-    }, { rootMargin: "300px 0px" });
+    }, { rootMargin: "150px 0px" });
     observer.observe(element);
     return () => observer.disconnect();
   }, [active]);
@@ -194,6 +192,7 @@ function CreatorEmbed({ src, title, active }: { src: string; title: string; acti
       {loaded ? (
         <iframe
           src={src}
+          className={provider === "tiktok" ? "home-creator-tiktok" : undefined}
           title={`Video: ${title}`}
           loading="eager"
           tabIndex={-1}
@@ -201,7 +200,7 @@ function CreatorEmbed({ src, title, active }: { src: string; title: string; acti
           allow="autoplay; encrypted-media; picture-in-picture; web-share"
           allowFullScreen
           referrerPolicy="strict-origin-when-cross-origin"
-          style={{ width: 326, height: 700, transform: `scale(${width / 326})` }}
+          style={provider === "tiktok" ? undefined : { width: 326, height: 700, transform: `scale(${width / 326})` }}
         />
       ) : null}
     </div>

@@ -37,6 +37,7 @@ export const LEGACY_MENU_PATH_REDIRECTS: readonly LegacyPathRedirect[] = [
  * Other retired articles without a sufficiently relevant replacement stay 404.
  */
 export const LEGACY_STORY_PATH_REDIRECTS: readonly LegacyPathRedirect[] = [
+  { source: "/stories/kosher-restaurant-raanana", destination: "/kosher" },
   { source: "/stories/smash-burger", destination: "/stories/smash-burger-crispy-edges" },
   { source: "/stories/restaurant-raanana", destination: "/stories/choosing-restaurant-raanana" }
 ];

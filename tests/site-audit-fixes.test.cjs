@@ -31,13 +31,15 @@ test('hero optimization preserves custom admin URLs, trim and existing media fil
  const {resolveHeroVideo}=load('@/lib/hero-video');
  const {videoSourcesForMp4}=load('@/lib/video-sources');
  const optimized=resolveHeroVideo('/videos/sowhat-hero-20261020.mp4');
- assert.equal(optimized.src,'/videos/sowhat-hero-20261027-optimized.mp4');
+ assert.equal(optimized.src,'/videos/sowhat-hero-20261109.mp4');
+ assert.equal(videoSourcesForMp4(optimized.src).length,1);
+ assert.ok(fs.statSync(path.join(__dirname,'../public',optimized.mobileSrc)).size < 2300000);
  assert.equal(optimized.poster,'/videos/sowhat-hero-20261027-poster.webp');
  for(const {src} of videoSourcesForMp4(optimized.src)) assert.ok(fs.existsSync(path.join(__dirname,'../public',src)));
  assert.ok(fs.existsSync(path.join(__dirname,'../public',optimized.poster)));
  for(const custom of ['/videos/custom.mp4','https://example.com/clip.mp4','/image.jpg']) assert.deepEqual(resolveHeroVideo(custom),{src:custom});
  assert.equal(resolveHeroVideo('/videos/sowhat-hero-20261020.mp4',4).poster,undefined);
- assert.equal(resolveHeroVideo('/videos/sowhat-hero-20261027-optimized.mp4').src,'/videos/sowhat-hero-20261027-optimized.mp4');
+ assert.equal(resolveHeroVideo('/videos/sowhat-hero-20261027-optimized.mp4').src,'/videos/sowhat-hero-20261109.mp4');
 });
 
 test('retired content without verified replacements is not redirected to unrelated pages',()=>{
@@ -77,4 +79,12 @@ test('creator embeds stay mounted once active so carousel rotation does not remo
  const parkedFrame=render({src:preview.props.src,title:preview.props.title,active:false}).props.children;
  assert.equal(parkedFrame.type,'iframe');
  assert.equal(parkedFrame.props.src,'https://www.instagram.com/p/a/embed/?hidecaption=1');
+ state=[];
+ const tiktok={src:'https://www.tiktok.com/player/v1/7702189686768307464',title:'TikTok',active:true,provider:'tiktok'};
+ assert.equal(render(tiktok).props.children,null);
+ effects.forEach(fn=>fn());
+ intersection([{isIntersecting:true}]);
+ const tikFrame=render(tiktok).props.children;
+ assert.equal(tikFrame.props.src,tiktok.src);
+ assert.equal(tikFrame.props.className,'home-creator-tiktok');
 });

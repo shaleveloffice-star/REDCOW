@@ -64,6 +64,7 @@ export function HeroSection({
         {!imageSrc ? null : isVideo ? (
           <AutoplayVideo
             src={video.src}
+            mobileSrc={video.mobileSrc}
             poster={video.poster}
             videoStart={videoStart}
             videoEnd={videoEnd}

@@ -45,6 +45,7 @@ test('retired stories use reviewed relevant replacements without catch-all or re
   }
   const stories = rules.filter(rule => rule.source.startsWith('/stories/'));
   assert.deepEqual(stories.map(({source, destination}) => [source, destination]), [
+    ['/stories/kosher-restaurant-raanana', '/kosher'],
     ['/stories/smash-burger', '/stories/smash-burger-crispy-edges'],
     ['/stories/restaurant-raanana', '/stories/choosing-restaurant-raanana']
   ]);

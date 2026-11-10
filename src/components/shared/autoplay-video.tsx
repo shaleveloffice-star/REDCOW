@@ -54,7 +54,19 @@ export function AutoplayVideo({
 }: AutoplayVideoProps) {
   const t = useTranslations();
   const videoRef = useRef<HTMLVideoElement>(null);
-  useVideoTrim(videoRef, src, videoStart, videoEnd);
+  // No responsive video URL is emitted during SSR or the hydration render.
+  // Choose once per asset pair, before exposing a URL to the media loader.
+  const [selection, setSelection] = useState<{ src: string; mobileSrc: string; selected: string } | null>(null);
+  const selectedSrc = mobileSrc
+    ? selection?.src === src && selection.mobileSrc === mobileSrc ? selection.selected : undefined
+    : src;
+  useEffect(() => {
+    if (!mobileSrc) return;
+    setSelection(current => current?.src === src && current.mobileSrc === mobileSrc ? current : {
+      src, mobileSrc, selected: window.matchMedia("(max-width: 767px)").matches ? mobileSrc : src
+    });
+  }, [src, mobileSrc]);
+  useVideoTrim(videoRef, selectedSrc || src, videoStart, videoEnd);
   const userPausedRef = useRef(false);
   const inViewRef = useRef(false);
   const [paused, setPaused] = useState(false);
@@ -82,7 +94,7 @@ export function AutoplayVideo({
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !selectedSrc) return;
 
     video.defaultMuted = true;
     video.muted = true;
@@ -155,11 +167,11 @@ export function AutoplayVideo({
       video.removeEventListener("canplay", tryPlay);
       document.removeEventListener("touchstart", onFirstTouch);
     };
-  }, [src, reducedMotion]);
+  }, [selectedSrc, reducedMotion]);
 
   const togglePlayback = () => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !selectedSrc) return;
 
     if (video.paused) {
       userPausedRef.current = false;
@@ -184,6 +196,7 @@ export function AutoplayVideo({
     <div className="autoplay-video-wrap">
       <video
         ref={videoRef}
+        src={mobileSrc ? selectedSrc : undefined}
         className={className}
         style={style}
         autoPlay={false}
@@ -191,7 +204,7 @@ export function AutoplayVideo({
         muted
         playsInline
         controls={false}
-        preload={preload}
+        preload={selectedSrc ? preload : "none"}
         poster={poster}
         aria-label={ariaHidden ? undefined : ariaLabel}
         aria-hidden={ariaHidden ? true : undefined}
@@ -199,14 +212,14 @@ export function AutoplayVideo({
         disablePictureInPicture
         controlsList="nodownload noplaybackrate noremoteplayback"
       >
-        {mobileSrc ? <source src={mobileSrc} type="video/mp4" media="(max-width: 767px)" /> : null}
-        {videoSourcesForMp4(src).map((source) => (
+        {!mobileSrc ? videoSourcesForMp4(src).map((source) => (
           <source key={source.type} src={source.src} type={source.type} />
-        ))}
+        )) : null}
       </video>
       <button
         type="button"
         className="autoplay-video-toggle"
+        disabled={!selectedSrc}
         aria-label={paused ? t.a11y.playVideo : t.a11y.pauseVideo}
         onClick={(event) => {
           event.preventDefault();

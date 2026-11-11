@@ -26,7 +26,6 @@ export default async function CareersPage() {
           <header className={styles.intro}>
             <p className={styles.kicker}>{copy.kicker}</p>
             <h1>{copy.heading}</h1>
-            <p className={styles.body}>{copy.intro}</p>
             <p className={styles.note}>{copy.note}</p>
             <ul className={styles.badges}>{copy.badges.map(badge => <li key={badge}>{badge}</li>)}</ul>
             <p className={styles.wordmark} dir="ltr" aria-hidden="true">SO WHAT?</p>

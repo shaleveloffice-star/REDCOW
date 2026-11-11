@@ -68,13 +68,13 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   if (!items.length) return null;
 
   return (
-    <section ref={sectionRef} className="home-creators" aria-labelledby="home-creators-title"
+    <section ref={sectionRef} className="home-creators home-creators-showcase" aria-labelledby="home-creators-title"
       onMouseEnter={() => setInteracting(true)} onMouseLeave={() => setInteracting(false)}
       onFocusCapture={() => setInteracting(true)}
       onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setInteracting(false); }}>
       <div className="home-creators-heading">
         <h2 id="home-creators-title"><Link href="/recommendations">{locale === "he" ? "מדברים עלינו" : t.nav.recommendations}</Link></h2>
-        <Link href="/recommendations">{copy.all}</Link>
+        <Link className="home-creators-all" href="/recommendations">{copy.all}<span aria-hidden="true">{locale === "he" ? "←" : "→"}</span></Link>
       </div>
       <ul ref={trackRef} className="home-creators-grid">
         {items.map((item, index) => {

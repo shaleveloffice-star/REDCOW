@@ -60,6 +60,73 @@
 .home-creator-name { display: block; margin-top: 8px; font-size: clamp(13px, 2vw, 16px); line-height: 1.3; overflow-wrap: anywhere; }
 .home-creator:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
 
+/* Home editorial showcase: quiet surfaces, generous space, compact video cards. */
+.home-creators-showcase {
+  width: 100%;
+  max-width: none;
+  padding: clamp(40px, 6vw, 88px) clamp(16px, 4vw, 64px);
+  background: #f5f5f7;
+  color: #1d1d1f;
+}
+.home-creators-showcase .home-creators-heading {
+  max-width: 1440px;
+  margin: 0 auto clamp(28px, 4vw, 48px);
+  align-items: center;
+}
+.home-creators-showcase .home-creators-heading h2 {
+  font-size: clamp(30px, 4vw, 56px);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+.home-creators-showcase .home-creators-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  min-height: 44px;
+  font-size: clamp(12px, 1.2vw, 16px);
+  text-decoration: none;
+}
+.home-creators-showcase .home-creators-all:hover { text-decoration: underline; }
+.home-creators-showcase .home-creators-grid {
+  max-width: 1440px;
+  margin-inline: auto;
+  row-gap: clamp(24px, 3vw, 40px);
+  padding-bottom: 8px;
+}
+.home-creators-showcase .home-creator-image {
+  border-radius: clamp(14px, 2vw, 28px);
+  background: #e8e8ed;
+  isolation: isolate;
+  box-shadow: 0 3px 12px rgb(0 0 0 / 5%);
+}
+.home-creators-showcase .home-creator-name {
+  margin-top: 12px;
+  font-size: clamp(12px, 1.3vw, 17px);
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  padding-inline: 4px;
+}
+.home-creators-showcase .home-creator-open::after {
+  content: "+";
+  position: absolute;
+  inset-inline-end: 8px;
+  bottom: 8px;
+  width: clamp(24px, 3vw, 36px);
+  height: clamp(24px, 3vw, 36px);
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgb(29 29 31 / 85%);
+  color: #fff;
+  font: 24px/1 Arial, sans-serif;
+}
+.home-creators-showcase .home-creator-open:focus-visible { outline-color: #0071e3; }
+.home-creators-showcase .home-creator-tiktok-link { font-size: 12px; color: #515154; }
+@media (max-width: 380px) {
+  .home-creators-showcase .home-creators-heading { align-items: flex-start; flex-direction: column; gap: 8px; }
+}
+
 /* Recommendations — open layout, no boxed section / no iframe scroll in grid */
 .recommendations-page {
   min-height: 100vh;

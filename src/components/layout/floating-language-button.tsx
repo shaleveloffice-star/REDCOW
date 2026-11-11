@@ -16,12 +16,24 @@ export function FloatingLanguageButton() {
   const menuId = useId();
 
   useEffect(() => {
-    setPreviewIndex(LOCALES.indexOf(locale));
+    const selectedIndex = LOCALES.indexOf(locale);
+    setPreviewIndex(selectedIndex);
     if (open) return;
+    let steps: number[] = [];
     const timer = window.setInterval(() => {
-      if (!document.hidden) setPreviewIndex(index => (index + 1) % LOCALES.length);
+      if (document.hidden) return;
+      steps = [];
+      setPreviewIndex((selectedIndex + 1) % LOCALES.length);
+      for (let step = 2; step <= LOCALES.length; step++) {
+        steps.push(window.setTimeout(() => {
+          setPreviewIndex((selectedIndex + step) % LOCALES.length);
+        }, (step - 1) * 180));
+      }
     }, LANGUAGE_PREVIEW_INTERVAL);
-    return () => window.clearInterval(timer);
+    return () => {
+      window.clearInterval(timer);
+      steps.forEach(id => window.clearTimeout(id));
+    };
   }, [locale, open]);
   useEffect(() => {
     if (!open) return;

@@ -135,6 +135,23 @@
   margin: 0 auto;
   padding: 0;
   list-style: none;
+  box-sizing: border-box;
+}
+
+@media (min-width: 900px) {
+  .recommendations-gallery {
+    width: 100%;
+    max-width: none;
+    padding-inline: clamp(16px, 2.5vw, 40px);
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 720px) and (max-width: 899px) {
+  .recommendations-gallery {
+    width: min(960px, calc(100% - 32px));
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
 .recommendation-card {
@@ -396,7 +413,7 @@
   overflow: hidden;
 }
 
-@media (max-width: 720px) {
+@media (max-width: 719px) {
   .recommendations-gallery {
     width: min(580px, calc(100% - 24px));
     grid-template-columns: repeat(2, minmax(0, 1fr));

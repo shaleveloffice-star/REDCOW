@@ -27,11 +27,11 @@ export function FloatingLanguageButton() {
       steps = [];
       setRolling(true);
       setPreviewIndex((selectedIndex + 1) % LOCALES.length);
-      for (let step = 2; step <= LOCALES.length; step++) {
+      for (let step = 2; step <= LOCALES.length * 3; step++) {
         steps.push(window.setTimeout(() => {
           setPreviewIndex((selectedIndex + step) % LOCALES.length);
-          if (step === LOCALES.length) setRolling(false);
-        }, (step - 1) * 180));
+          if (step === LOCALES.length * 3) setRolling(false);
+        }, (step - 1) * 360));
       }
     }, LANGUAGE_PREVIEW_INTERVAL);
     return () => {

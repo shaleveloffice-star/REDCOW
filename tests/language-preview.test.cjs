@@ -19,9 +19,12 @@ test('language preview cycles without changing selected locale', () => {
   assert.equal(delay,5000);
   tick(); assert.equal(label(render()), 'EN');
   assert.equal(render().props.className.includes('is-expanded'), true);
-  assert.deepEqual(steps.map(step => step.ms), [180,360]);
+  assert.deepEqual(steps.map(step => step.ms), [360,720,1080,1440,1800,2160,2520,2880]);
   steps[0].fn(); assert.equal(label(render()), 'FR');
   steps[1].fn(); assert.equal(label(render()), 'עב');
+  assert.equal(render().props.className.includes('is-expanded'), true);
+  for (let i=2;i<steps.length;i++) steps[i].fn();
+  assert.equal(label(render()), 'עב');
   assert.equal(render().props.className.includes('is-expanded'), false);
   assert.deepEqual(changes,[]);
   render().props.children[1].props.onClick();

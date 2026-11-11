@@ -1663,3 +1663,72 @@ body:not(:has(.admin-layout)) main::before {
     transform: none;
   }
 }
+
+/* Dark editorial menu showcase, scoped to the homepage. */
+#menu.menu-showcase-section {
+  background: #101012;
+  color: #f5f5f7;
+  padding-block: clamp(48px, 7vw, 96px);
+  --menu-showcase-gutter: clamp(16px, 2vw, 28px);
+  --menu-showcase-edge: clamp(20px, 4vw, 64px);
+  --menu-showcase-media-inset: 0px;
+}
+#menu.menu-showcase-section::before,
+#menu.menu-showcase-section::after { display: none; }
+#menu .menu-showcase-shell { max-width: 1568px; margin-inline: auto; }
+#menu .menu-showcase-header { margin-bottom: clamp(28px, 4vw, 48px); }
+#menu .menu-showcase-title {
+  font-size: clamp(34px, 4.5vw, 64px);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+  color: #f5f5f7;
+}
+#menu .menu-showcase-lead {
+  max-width: 48ch;
+  font-family: inherit;
+  font-size: clamp(15px, 1.5vw, 20px);
+  line-height: 1.6;
+  letter-spacing: 0;
+  color: #a1a1a6;
+}
+#menu .menu-showcase-track { padding-block: 8px 20px; }
+#menu .menu-showcase-card {
+  flex: 0 0 clamp(240px, 72vw, 320px);
+  max-width: 320px;
+  border-radius: 24px;
+  background: #1d1d1f;
+  border: 1px solid #303034;
+  scroll-snap-align: start;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 12%);
+}
+#menu .menu-showcase-card-link { border-radius: 24px; }
+#menu .menu-showcase-card-media,
+#menu .menu-showcase-card-video-frame { border-radius: 23px 23px 0 0; }
+#menu .menu-showcase-card-name {
+  padding: 22px 20px 26px;
+  color: #f5f5f7;
+  font-size: clamp(17px, 1.6vw, 21px);
+  line-height: 1.35;
+  letter-spacing: -0.015em;
+  text-align: start;
+  direction: inherit;
+}
+#menu .menu-showcase-action { margin-top: 24px; }
+#menu .menu-showcase-button.site-cta-btn {
+  border: 1px solid #5c5c61;
+  border-radius: 999px;
+  background: #262628;
+  color: #f5f5f7;
+  min-height: 48px;
+  padding: 14px 24px;
+}
+#menu .menu-showcase-button.site-cta-btn:hover { background: #363639; }
+#menu .menu-showcase-card-link:focus-visible { outline-offset: -4px; }
+@media (prefers-reduced-motion: reduce) {
+  #menu .menu-showcase-card,
+  #menu .menu-showcase-card-media img,
+  #menu .menu-showcase-card-media video { transition: none; }
+  #menu .menu-showcase-card:hover,
+  #menu .menu-showcase-card:hover .menu-showcase-card-media img,
+  #menu .menu-showcase-card:hover .menu-showcase-card-media video { transform: none; }
+}

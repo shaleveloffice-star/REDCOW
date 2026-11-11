@@ -115,7 +115,7 @@ export function HomeMenuShowcaseSection({ items }: HomeMenuShowcaseSectionProps)
                           alt={localized.imageAlt}
                           width={640}
                           height={640}
-                          sizes="(max-width: 767px) 67vw, 247px"
+                          sizes="(max-width: 444px) 72vw, 320px"
                           loading="lazy"
                           className="menu-showcase-card-image"
                         />

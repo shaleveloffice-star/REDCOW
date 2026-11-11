@@ -12163,3 +12163,50 @@ body:not(:has(.admin-layout)) button:focus-visible {
 @media (prefers-reduced-motion: reduce) {
   .floating-lang-glass .floating-lang-toggle { transition: none; transform: none; }
 }
+
+/* Floating mobile action dock: retains the existing light surface and actions. */
+@media (max-width: 767px) {
+  .site-cta.site-cta--mobile {
+    left: 12px;
+    right: 12px;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    width: auto;
+    max-width: 520px;
+    margin-inline: auto;
+    gap: 8px;
+    padding: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    border-radius: 28px;
+    background: rgba(245, 245, 247, 0.94);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+    box-shadow: 0 6px 28px rgb(0 0 0 / 16%), inset 0 0 0 1px rgb(0 0 0 / 5%);
+  }
+  .site-cta.site-cta--mobile .site-cta-btn {
+    min-width: 0;
+    min-height: 48px;
+    padding: 12px 14px;
+    border-radius: 20px;
+    border-width: 1px;
+    font-family: var(--font-body);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: 0;
+    white-space: nowrap;
+  }
+  .site-cta.site-cta--mobile .site-cta-btn--solid {
+    background: #1d1d1f;
+    border-color: #1d1d1f;
+    color: #fff;
+  }
+  .site-cta.site-cta--mobile .site-cta-btn--outline {
+    background: rgba(255, 255, 255, 0.75);
+    border-color: #d2d2d7;
+    color: #1d1d1f;
+  }
+  .site-cta.site-cta--mobile .site-cta-btn:focus-visible {
+    outline: 2px solid #0071e3;
+    outline-offset: 2px;
+  }
+}

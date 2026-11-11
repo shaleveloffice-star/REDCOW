@@ -11,6 +11,7 @@ const LANGUAGE_PREVIEW_INTERVAL = 5000;
 export function FloatingLanguageButton() {
   const { locale, setLocale, messages } = useLocale();
   const [open, setOpen] = useState(false);
+  const [rolling, setRolling] = useState(false);
   const [previewIndex, setPreviewIndex] = useState(() => LOCALES.indexOf(locale));
   const rootRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
@@ -18,15 +19,18 @@ export function FloatingLanguageButton() {
   useEffect(() => {
     const selectedIndex = LOCALES.indexOf(locale);
     setPreviewIndex(selectedIndex);
+    setRolling(false);
     if (open) return;
     let steps: number[] = [];
     const timer = window.setInterval(() => {
       if (document.hidden) return;
       steps = [];
+      setRolling(true);
       setPreviewIndex((selectedIndex + 1) % LOCALES.length);
       for (let step = 2; step <= LOCALES.length; step++) {
         steps.push(window.setTimeout(() => {
           setPreviewIndex((selectedIndex + step) % LOCALES.length);
+          if (step === LOCALES.length) setRolling(false);
         }, (step - 1) * 180));
       }
     }, LANGUAGE_PREVIEW_INTERVAL);
@@ -64,7 +68,7 @@ export function FloatingLanguageButton() {
   return (
     <div
       ref={rootRef}
-      className={`floating-lang floating-lang-glass is-expanded${open ? " is-open" : ""}`}
+      className={`floating-lang floating-lang-glass${rolling ? " is-expanded" : ""}${open ? " is-open" : ""}`}
     >
       {open ? (
         <div id={menuId} className="floating-lang-menu" role="menu" aria-label={messages.lang.label}>

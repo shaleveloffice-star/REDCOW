@@ -14,12 +14,15 @@ test('language preview cycles without changing selected locale', () => {
   const render = () => { cursor=0; effects=[]; return FloatingLanguageButton(); };
   const label = tree => tree.props.children[1].props.children[1].props.children;
   assert.equal(label(render()), 'עב');
+  assert.equal(render().props.className.includes('is-expanded'), false);
   const cleanup = effects[0]();
   assert.equal(delay,5000);
   tick(); assert.equal(label(render()), 'EN');
+  assert.equal(render().props.className.includes('is-expanded'), true);
   assert.deepEqual(steps.map(step => step.ms), [180,360]);
   steps[0].fn(); assert.equal(label(render()), 'FR');
   steps[1].fn(); assert.equal(label(render()), 'עב');
+  assert.equal(render().props.className.includes('is-expanded'), false);
   assert.deepEqual(changes,[]);
   render().props.children[1].props.onClick();
   const menu = render().props.children[0];

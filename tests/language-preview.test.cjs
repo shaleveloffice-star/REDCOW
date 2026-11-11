@@ -13,10 +13,10 @@ test('language preview cycles without changing selected locale', () => {
   const { FloatingLanguageButton } = load('@/components/layout/floating-language-button');
   const render = () => { cursor=0; effects=[]; return FloatingLanguageButton(); };
   const label = tree => tree.props.children[1].props.children[1].props.children;
-  assert.equal(label(render()), 'עברית');
+  assert.equal(label(render()), 'עב');
   const cleanup = effects[0]();
   assert.equal(delay,5000);
-  for (const expected of ['English','Français','עברית']) { tick(); assert.equal(label(render()), expected); }
+  for (const expected of ['EN','FR','עב']) { tick(); assert.equal(label(render()), expected); }
   assert.deepEqual(changes,[]);
   render().props.children[1].props.onClick();
   const menu = render().props.children[0];

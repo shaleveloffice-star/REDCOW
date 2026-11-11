@@ -87,7 +87,7 @@ export function FloatingLanguageButton() {
       >
         <IconLanguage className="floating-lang-icon" />
         <span className="floating-lang-current" aria-hidden="true" dir="auto">
-          {LOCALE_ACCESSIBLE_NAMES[open ? locale : LOCALES[previewIndex]]}
+          {LOCALE_LABELS[open ? locale : LOCALES[previewIndex]]}
         </span>
       </button>
     </div>

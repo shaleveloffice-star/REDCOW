@@ -12130,7 +12130,7 @@ body:not(:has(.admin-layout)) button:focus-visible {
 
 /* Stable-width language discovery pill; rotating text never changes locale. */
 .floating-lang-glass.is-expanded .floating-lang-toggle {
-  width: 136px;
+  width: 82px;
   min-height: 48px;
   gap: 9px;
   padding: 0 14px;

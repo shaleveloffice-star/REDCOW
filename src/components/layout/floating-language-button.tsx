@@ -6,39 +6,23 @@ import { useLocale } from "@/components/providers/locale-provider";
 import { IconLanguage } from "@/components/shared/site-icons";
 import { LOCALE_ACCESSIBLE_NAMES, LOCALE_LABELS, LOCALES, type Locale } from "@/i18n/config";
 
-const SCROLL_EXPAND_RATIO = 0.05;
+const LANGUAGE_PREVIEW_INTERVAL = 5000;
 
 export function FloatingLanguageButton() {
   const { locale, setLocale, messages } = useLocale();
   const [open, setOpen] = useState(false);
-  const [expanded, setExpanded] = useState(false);
+  const [previewIndex, setPreviewIndex] = useState(() => LOCALES.indexOf(locale));
   const rootRef = useRef<HTMLDivElement>(null);
   const menuId = useId();
 
   useEffect(() => {
-    let frame = 0;
-
-    const updateExpanded = () => {
-      frame = 0;
-      const pageHeight = Math.max(document.documentElement.scrollHeight, 1);
-      setExpanded(window.scrollY >= pageHeight * SCROLL_EXPAND_RATIO);
-    };
-
-    const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(updateExpanded);
-    };
-
-    updateExpanded();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      if (frame) window.cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-    };
-  }, []);
-
+    setPreviewIndex(LOCALES.indexOf(locale));
+    if (open) return;
+    const timer = window.setInterval(() => {
+      if (!document.hidden) setPreviewIndex(index => (index + 1) % LOCALES.length);
+    }, LANGUAGE_PREVIEW_INTERVAL);
+    return () => window.clearInterval(timer);
+  }, [locale, open]);
   useEffect(() => {
     if (!open) return;
 
@@ -68,7 +52,7 @@ export function FloatingLanguageButton() {
   return (
     <div
       ref={rootRef}
-      className={`floating-lang${open ? " is-open" : ""}${expanded ? " is-expanded" : ""}`}
+      className={`floating-lang floating-lang-glass is-expanded${open ? " is-open" : ""}`}
     >
       {open ? (
         <div id={menuId} className="floating-lang-menu" role="menu" aria-label={messages.lang.label}>
@@ -102,8 +86,8 @@ export function FloatingLanguageButton() {
         onClick={() => setOpen((value) => !value)}
       >
         <IconLanguage className="floating-lang-icon" />
-        <span className="floating-lang-current" aria-hidden={!expanded}>
-          {LOCALE_LABELS[locale]}
+        <span className="floating-lang-current" aria-hidden="true" dir="auto">
+          {LOCALE_ACCESSIBLE_NAMES[open ? locale : LOCALES[previewIndex]]}
         </span>
       </button>
     </div>

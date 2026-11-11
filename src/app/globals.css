@@ -12127,3 +12127,39 @@ body:not(:has(.admin-layout)) button:focus-visible {
     justify-content: center;
   }
 }
+
+/* Stable-width language discovery pill; rotating text never changes locale. */
+.floating-lang-glass.is-expanded .floating-lang-toggle {
+  width: 136px;
+  min-height: 48px;
+  gap: 9px;
+  padding: 0 14px;
+  background: rgba(245, 245, 247, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 4px 20px rgb(0 0 0 / 14%), inset 0 0 0 1px rgb(0 0 0 / 5%);
+}
+.floating-lang-glass.is-expanded .floating-lang-current {
+  max-width: none;
+  flex: 1;
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0;
+  text-transform: none;
+  text-align: center;
+}
+.floating-lang-glass .floating-lang-menu {
+  border-radius: 22px;
+  background: rgba(245, 245, 247, 0.97);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 8px;
+}
+.floating-lang-glass .floating-lang-option.is-active .floating-lang-option-code::after {
+  content: " ✓";
+}
+@media (prefers-reduced-motion: reduce) {
+  .floating-lang-glass .floating-lang-toggle { transition: none; transform: none; }
+}

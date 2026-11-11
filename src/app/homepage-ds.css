@@ -1696,7 +1696,7 @@ body:not(:has(.admin-layout)) main::before {
   flex: 0 0 clamp(240px, 72vw, 320px);
   max-width: 320px;
   border-radius: 24px;
-  background: #1d1d1f;
+  background: rgb(29 29 31 / 80%);
   border: 1px solid #303034;
   scroll-snap-align: start;
   box-shadow: 0 8px 24px rgb(0 0 0 / 12%);

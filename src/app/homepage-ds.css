@@ -1752,11 +1752,11 @@ body:not(:has(.admin-layout)) main::before {
 }
 #story .home-story-shell { align-items: center; gap: clamp(28px, 5vw, 72px); }
 #story .home-story-media {
-  border-radius: clamp(20px, 3vw, 36px);
+  border-radius: 0;
   overflow: hidden;
   background: #ffffff;
   isolation: isolate;
-  box-shadow: 0 16px 48px rgb(0 0 0 / 18%);
+  box-shadow: none;
 }
 #story .home-story-image { --home-story-image-scale: 1; }
 #story .home-story-media > .site-image-overlay { transform: none; }

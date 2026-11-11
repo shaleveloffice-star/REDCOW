@@ -1732,3 +1732,45 @@ body:not(:has(.admin-layout)) main::before {
   #menu .menu-showcase-card:hover .menu-showcase-card-media img,
   #menu .menu-showcase-card:hover .menu-showcase-card-media video { transform: none; }
 }
+
+/* Brand story: dark editorial layout, independent of the smash section. */
+#story.home-story-section {
+  background: #18181a;
+  color: #f5f5f7;
+  padding-block: clamp(48px, 7vw, 96px);
+  --home-section-edge: clamp(20px, 4vw, 64px);
+}
+#story .home-story-header,
+#story .home-story-shell { max-width: 1568px; margin-inline: auto; }
+#story .home-story-header { margin-bottom: clamp(32px, 5vw, 56px); }
+#story .home-story-title {
+  max-width: 22ch;
+  color: #f5f5f7;
+  font-size: clamp(34px, 4.5vw, 64px);
+  line-height: 1.12;
+  letter-spacing: -0.035em;
+}
+#story .home-story-shell { align-items: center; gap: clamp(28px, 5vw, 72px); }
+#story .home-story-media {
+  border-radius: clamp(20px, 3vw, 36px);
+  overflow: hidden;
+  background: #242426;
+  isolation: isolate;
+  box-shadow: 0 16px 48px rgb(0 0 0 / 18%);
+}
+#story .home-story-image { --home-story-image-scale: 1; }
+#story .home-story-media > .site-image-overlay { transform: none; }
+#story .home-story-copy {
+  max-width: 48ch;
+  padding-top: 0;
+  color: #b9b9bf;
+  font-size: clamp(17px, 1.6vw, 21px);
+  line-height: 1.75;
+  letter-spacing: 0;
+}
+#story .home-story-lead { color: #f5f5f7; font-size: clamp(21px, 2.2vw, 30px); line-height: 1.5; font-weight: 600; }
+#story .home-story-punch { color: #f5f5f7; font-weight: 600; text-decoration: none; }
+#story .home-story-shell--no-media .home-story-copy { max-width: 72ch; }
+@media (max-width: 900px) {
+  #story .home-story-copy { max-width: none; }
+}

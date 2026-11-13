@@ -36,7 +36,7 @@ export function MenuIndexView({ groups, menuSeo, menuHero, pickupUrl, deliveryUr
   const isEmpty = visibleGroups.length === 0;
 
   return (
-    <div className="menu-bleecker">
+    <div className="menu-bleecker menu-index">
       <MenuHero config={menuHero} heroAlt={t.menuPage.heroAlt} locale={locale} />
 
       <div className="menu-bleecker-toolbar menu-bleecker-toolbar--category">

@@ -12177,7 +12177,7 @@ body:not(:has(.admin-layout)) button:focus-visible {
     padding: 8px;
     border: 1px solid rgba(255, 255, 255, 0.7);
     border-radius: 28px;
-    background: rgba(245, 245, 247, 0.90);
+    background: rgba(245, 245, 247, 0.70);
     backdrop-filter: blur(18px);
     -webkit-backdrop-filter: blur(18px);
     box-shadow: 0 6px 28px rgb(0 0 0 / 16%), inset 0 0 0 1px rgb(0 0 0 / 5%);

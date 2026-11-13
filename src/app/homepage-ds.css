@@ -1771,6 +1771,10 @@ body:not(:has(.admin-layout)) main::before {
 #story .home-story-lead { color: #1d1d1f; font-size: clamp(21px, 2.2vw, 30px); line-height: 1.5; font-weight: 600; }
 #story .home-story-punch { color: #1d1d1f; font-weight: 600; text-decoration: none; }
 #story .home-story-shell--no-media .home-story-copy { max-width: 72ch; }
+#story .home-story-copy a {
+  text-decoration: underline;
+  text-underline-offset: .16em;
+}
 @media (max-width: 900px) {
   #story .home-story-copy { max-width: none; }
 }

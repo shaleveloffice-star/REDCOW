@@ -23,6 +23,24 @@ type HomeBrandStorySectionProps = {
   siteImages?: SiteImagesMap;
 };
 
+function linkStoryParagraph(text: string, locale: string) {
+  if (locale !== "he") return text;
+
+  const kosher = "כשרות רבנות רעננה";
+  const arrival = "פרטי הגעה ושעות פתיחה";
+  const paragraph = text.replace("המסעדה כשרה בהשגחת רבנות רעננה", "המסעדה פועלת תחת " + kosher);
+  const parts = paragraph.split(/(כשרות רבנות רעננה|פרטי הגעה ושעות פתיחה)/);
+  const content = parts.map((part, index) => {
+    if (part === kosher) return <a key={index} href="/kosher">{part}</a>;
+    if (part === arrival) return <a key={index} href="/locations">{part}</a>;
+    return part;
+  });
+  if (paragraph.includes("אפשר להגיע") && !paragraph.includes(arrival)) {
+    return <>{content} לפני הביקור כדאי לבדוק <a href="/locations">{arrival}</a>.</>;
+  }
+  return content;
+}
+
 export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectionProps) {
   const locale = await getServerLocale();
   const t = await getLocalizedMessages(locale);
@@ -94,14 +112,14 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
         ) : null}
 
         <div className="home-story-copy">
-          <p className="home-story-lead">{story.intro}</p>
+          <p className="home-story-lead">{linkStoryParagraph(story.intro, locale)}</p>
           {story.punchLines.map((line) => (
             <p key={line} className="home-story-punch">
-              {line}
+              {linkStoryParagraph(line, locale)}
             </p>
           ))}
           {story.closing.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+            <p key={paragraph}>{linkStoryParagraph(paragraph, locale)}</p>
           ))}
         </div>
       </div>

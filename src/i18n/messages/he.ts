@@ -91,7 +91,7 @@ export const he: Messages = {
     backHome: "חזרה לדף הבית"
   },
   kosherPage: {
-    title: "כשר בהשגחת רבנות",
+    title: "SO WHAT - מסעדה כשרה ברעננה",
     backHome: "חזרה לדף הבית",
     certificateAlt: "צילום תעודת הכשרות של מסעדת SO WHAT מטעם רבנות רעננה",
     certificateOpen: "לצפייה בתעודת הכשרות בגודל מלא — נפתח בלשונית חדשה"

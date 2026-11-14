@@ -12210,3 +12210,67 @@ body:not(:has(.admin-layout)) button:focus-visible {
     outline-offset: 2px;
   }
 }
+
+/* Mobile navigation sheet */
+.site-nav-overlay.site-nav-overlay--open {
+  box-sizing: border-box;
+  padding: calc(80px + env(safe-area-inset-top, 0px)) 20px max(20px, env(safe-area-inset-bottom));
+  background: radial-gradient(ellipse at top, #222226, #101012 66%);
+}
+
+.site-nav-overlay .site-nav-overlay-close {
+  top: calc(16px + env(safe-area-inset-top, 0px));
+  border-radius: 50%;
+  background: #313135;
+}
+
+.site-nav-overlay .site-nav-overlay-close svg {
+  width: 22px;
+  height: 22px;
+}
+
+.site-nav-overlay .site-nav-overlay-links {
+  width: min(100%, 400px);
+  max-height: 100%;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  gap: 0;
+  padding: 8px 16px;
+  border: 1px solid #363639;
+  border-radius: 26px;
+  background: #1c1c1e;
+}
+
+.site-nav-overlay .site-nav-overlay-link {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  min-height: 46px;
+  font-size: clamp(18px, 4.8vw, 23px);
+  font-weight: 600;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+.site-nav-overlay-links > .site-nav-overlay-link {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.site-nav-overlay .site-nav-overlay-link[aria-current="page"] {
+  background: #363639;
+  border-radius: 14px;
+}
+
+.site-nav-overlay .site-nav-overlay-magazine {
+  width: 100%;
+  border-top: 1px solid #39393c;
+}
+
+.site-nav-overlay .site-nav-overlay-magazine-list {
+  width: 100%;
+  box-sizing: border-box;
+  padding-bottom: 12px;
+}

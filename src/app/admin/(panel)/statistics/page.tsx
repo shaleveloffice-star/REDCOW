@@ -6,6 +6,24 @@ import { getAdminFirestore } from "@/lib/firebase/admin-firestore";
 type Totals = { views: number; seconds: number; orders: number; phones: number; directions: number };
 type Bar = { label: string; value: number };
 
+function TrendChart({ title, rows }: { title: string; rows: Bar[] }) {
+  const max = Math.max(1, ...rows.map(row => row.value));
+  const points = rows.map(({ value }, i) => {
+    const x = rows.length === 1 ? 160 : 8 + 304 * i / (rows.length - 1);
+    return [x, 100 - 90 * value / max];
+  });
+  return <section className="admin-card">
+    <h2>{title}</h2>
+    <svg viewBox="0 0 320 108" role="img" aria-label={title} style={{ width: "100%" }}>
+      <path d="M8 100H312" stroke="#bcc4d4" />
+      <polyline points={points.map(point => point.join(",")).join(" ")} fill="none" stroke="#465cb2" strokeWidth="2.5" />
+      {points.length === 1 && <circle cx={points[0][0]} cy={points[0][1]} r="4" fill="#465cb2" />}
+    </svg>
+    <div dir="ltr" style={{ display: "flex", justifyContent: "space-between" }}><span>{rows[0].label}</span><span>{rows.at(-1)?.label}</span></div>
+    <details><summary>ערכים בתרשים</summary><ul>{rows.map(row => <li key={row.label}><bdi>{row.label}</bdi> · {row.value} צפיות</li>)}</ul></details>
+  </section>;
+}
+
 function BarChart({ title, rows }: { title: string; rows: Bar[] }) {
   const maximum = Math.max(1, ...rows.map(row => row.value));
   return <section className="admin-card">
@@ -41,6 +59,9 @@ export default async function StatisticsPage({ searchParams }: { searchParams: P
     daily.set(date.toISOString().slice(0, 10), { views: 0, orders: 0, seconds: 0 });
   }
   const total: Totals = { views: 0, seconds: 0, orders: 0, phones: 0, directions: 0 };
+  const hours = Array.from({ length: 24 }, (_, hour) => ({
+    label: String(hour).padStart(2, "0") + ":00", value: 0
+  }));
   let unavailable = false;
   if (valid) try {
     const db = await getAdminFirestore();
@@ -51,6 +72,9 @@ export default async function StatisticsPage({ searchParams }: { searchParams: P
       const row = pages.get(data.path) ?? { views: 0, seconds: 0, orders: 0, phones: 0, directions: 0 };
       const day = daily.get(data.day);
       if (!day) continue;
+      for (const [hour, count] of Object.entries(data.hourlyViews ?? {})) {
+        if (/^(?:[01]\d|2[0-3])$/.test(hour) && typeof count === "number") hours[Number(hour)].value += count;
+      }
       day.views += Number(data.views ?? 0);
       day.orders += Number(data.orders ?? 0);
       day.seconds += Number(data.seconds ?? 0);
@@ -85,7 +109,10 @@ export default async function StatisticsPage({ searchParams }: { searchParams: P
         ].map(([label, value]) => <div className="admin-card" key={label}><dt>{label}</dt><dd style={{ margin: 0, fontSize: "1.5rem" }}>{value}</dd></div>)}
       </dl>
       <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(min(100%, 270px), 1fr))", gap: 16, alignItems: "start" }}>
-        <BarChart title="צפיות לפי יום" rows={Array.from(daily, ([day, data]) => ({ label: day.split("-").reverse().join("/"), value: data.views }))} />
+        <TrendChart title="מגמת צפיות יומית" rows={Array.from(daily, ([day, data]) => ({ label: day.split("-").reverse().join("/"), value: data.views }))} />
+        <div>{hours.some(hour => hour.value > 0) && <TrendChart title="צפיות לפי שעה ביום" rows={hours} />}
+          <p>{hours.reduce((sum, hour) => sum + hour.value, 0)} מתוך {total.views} צפיות בתקופה כוללות שעת צפייה.</p>
+        </div>
         <BarChart title="לחיצות להזמנה לפי יום" rows={Array.from(daily, ([day, data]) => ({ label: day.split("-").reverse().join("/"), value: data.orders }))} />
         <BarChart title="זמן גלישה לפי יום (דקות)" rows={Array.from(daily, ([day, data]) => ({ label: day.split("-").reverse().join("/"), value: Number((data.seconds / 60).toFixed(1)) }))} />
         <BarChart title="העמודים הנצפים ביותר" rows={ranked.filter(([, row]) => row.views > 0).slice(0, 5).map(([path, row]) => ({ label: path === "/" ? "דף הבית" : path, value: row.views }))} />

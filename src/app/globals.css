@@ -11289,9 +11289,17 @@ body:not(:has(.admin-layout)) button:focus-visible {
 .admin-image-overlay-preview {
   position: relative;
   overflow: hidden;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 16 / 9;
+  width: 100%;
   border-radius: 8px;
   background: #111;
+  transition: aspect-ratio 160ms ease, max-width 160ms ease;
+}
+
+.admin-image-overlay-preview.is-mobile {
+  aspect-ratio: 9 / 16;
+  max-width: 260px;
+  margin-inline: auto;
 }
 
 .admin-image-overlay-preview img,

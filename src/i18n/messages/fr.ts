@@ -50,7 +50,7 @@ export const fr: Messages = {
   },
   hero: {
     tagline: "Simplement un bon burger.",
-    captionKicker: "Le burger casher, à notre façon.",
+    captionKicker: "",
     captionTitle: "SO WHAT?",
     menuCta: "Voir la carte",
     orderCta: "Commander",

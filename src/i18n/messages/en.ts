@@ -50,7 +50,7 @@ export const en: Messages = {
   },
   hero: {
     tagline: "Simply a good burger.",
-    captionKicker: "Kosher burgers, our way.",
+    captionKicker: "",
     captionTitle: "SO WHAT?",
     menuCta: "View Menu",
     orderCta: "Order Now",

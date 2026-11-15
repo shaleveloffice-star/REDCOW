@@ -103,7 +103,6 @@ export function HeroSection({
 
       <div className="hero-caption">
         <div className="hero-caption-inner" dir={captionDir}>
-          <p className="hero-caption-kicker">{t.hero.captionKicker}</p>
           <p className="hero-caption-title" dir="ltr">
             {t.hero.captionTitle}
           </p>

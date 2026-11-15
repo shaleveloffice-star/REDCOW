@@ -7,9 +7,10 @@ import { useAdminMutation } from "@/components/features/admin/admin-crud-ui";
 import { AdminImageUrlField } from "@/components/features/admin/admin-site-image-picker";
 import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { isVideoMediaUrl } from "@/lib/menu-media";
-import { menuImageMediaStyle } from "@/lib/menu/image-zoom";
+import { normalizeMenuImageZoom } from "@/lib/menu/image-zoom";
 import {
   DEFAULT_SITE_IMAGE_FOCUS,
+  siteImageFocusStyle,
   type SiteImageFocus
 } from "@/lib/site-image-focus";
 import {
@@ -131,17 +132,27 @@ function OverlayPreview({
   focusMobile: SiteImageFocus;
   previewMode: "desktop" | "mobile";
 }) {
-  const mediaStyle = menuImageMediaStyle({
-    zoom,
-    focusDesktop: previewMode === "desktop" ? focusDesktop : focusMobile,
-    focusMobile: previewMode === "desktop" ? focusDesktop : focusMobile
-  });
+  // Admin preview must not rely on viewport media queries — the panel is always desktop-wide.
   const focus = previewMode === "desktop" ? focusDesktop : focusMobile;
+  const scale = normalizeMenuImageZoom(zoom);
+  const mediaStyle = {
+    ...siteImageFocusStyle(focus),
+    ...(scale === 1
+      ? {}
+      : {
+          scale,
+          clipPath: `inset(${(1 - 1 / scale) * 50}%)`
+        })
+  };
   return (
-    <div className="admin-image-overlay-preview">
+    <div
+      className={`admin-image-overlay-preview${previewMode === "mobile" ? " is-mobile" : ""}`}
+      data-preview-mode={previewMode}
+    >
       {src ? (
         isVideoMediaUrl(src) ? (
           <video
+            key={`preview-${previewMode}-${src}`}
             src={src}
             muted
             playsInline
@@ -150,7 +161,15 @@ function OverlayPreview({
             style={mediaStyle}
           />
         ) : (
-          <img src={src} alt="" loading="lazy" className="site-media-focus" style={mediaStyle} />
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            key={`preview-${previewMode}-${src}`}
+            src={src}
+            alt=""
+            loading="lazy"
+            className="site-media-focus"
+            style={mediaStyle}
+          />
         )
       ) : null}
       <span
@@ -312,12 +331,18 @@ export function AdminHomeSiteImagesEditor({
                 item.imageFocusDesktop.y !== 50 ||
                 item.imageFocusMobile.x !== 50 ||
                 item.imageFocusMobile.y !== 50;
+              const previewMode = previewModeFor(item.id);
+              const desktopSrc = draft.desktop.trim();
+              const mobileSrc = draft.mobile.trim();
+              const fallbackSrc = item.isHidden ? "" : item.defaultImageUrl;
+              const primarySrc = desktopSrc || mobileSrc || fallbackSrc;
               const previewSrc =
-                draft.desktop.trim() || draft.mobile.trim() || (item.isHidden ? "" : item.defaultImageUrl);
+                previewMode === "mobile"
+                  ? mobileSrc || desktopSrc || fallbackSrc
+                  : primarySrc;
               const colorInputId = `overlay-color-${item.id}`;
               const rangeInputId = `overlay-range-${item.id}`;
               const zoomInputId = `zoom-range-${item.id}`;
-              const previewMode = previewModeFor(item.id);
 
               return (
                 <article key={item.id} className="admin-home-images-item">
@@ -368,10 +393,10 @@ export function AdminHomeSiteImagesEditor({
                     )}
                   </div>
 
-                  {item.id === "hero-burger" && isVideoMediaUrl(previewSrc) ? (
-                    <VideoTrimEditor src={previewSrc} start={draft.videoStart} end={draft.videoEnd}
+                  {item.id === "hero-burger" && isVideoMediaUrl(primarySrc) ? (
+                    <VideoTrimEditor src={primarySrc} start={draft.videoStart} end={draft.videoEnd}
                       disabled={isPending} valid={validTrim}
-                      onDuration={(value) => setDurations((current) => ({ ...current, [previewSrc]: value }))}
+                      onDuration={(value) => setDurations((current) => ({ ...current, [primarySrc]: value }))}
                       onChange={(videoStart, videoEnd) => updateDraft(item.id, { videoStart, videoEnd })} />
                   ) : null}
                   <div className="admin-image-overlay">
@@ -492,14 +517,20 @@ export function AdminHomeSiteImagesEditor({
                         label="מסך רחב"
                         value={draft.focusDesktop}
                         disabled={isPending}
-                        onChange={(focusDesktop) => updateDraft(item.id, { focusDesktop })}
+                        onChange={(focusDesktop) => {
+                          updateDraft(item.id, { focusDesktop });
+                          setPreviewModes((current) => ({ ...current, [item.id]: "desktop" }));
+                        }}
                       />
                       <FocusAxisControls
                         id={`focus-mobile-${item.id}`}
                         label="טלפון"
                         value={draft.focusMobile}
                         disabled={isPending}
-                        onChange={(focusMobile) => updateDraft(item.id, { focusMobile })}
+                        onChange={(focusMobile) => {
+                          updateDraft(item.id, { focusMobile });
+                          setPreviewModes((current) => ({ ...current, [item.id]: "mobile" }));
+                        }}
                       />
                       {draft.focusDesktop.x !== 50 ||
                       draft.focusDesktop.y !== 50 ||

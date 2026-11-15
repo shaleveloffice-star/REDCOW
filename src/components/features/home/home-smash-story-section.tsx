@@ -48,20 +48,9 @@ export async function HomeSmashStorySection({ siteImages, variant = "smash" }: H
   return (
     <section
       id={variant}
-      className={`home-story-section home-story-section--smash${variant === "smash" ? " home-story-section--with-banner" : ""}`}
+      className="home-story-section home-story-section--smash"
       aria-labelledby={mediaId + "-title"}
     >
-      {variant === "smash" ? (
-        <Image
-          src="/images/home/smash-happy-burger-skate.jpg"
-          alt={locale === "he" ? "המבורגר SO WHAT הופך פרצוף עצוב לחיוך" : locale === "fr" ? "Un burger SO WHAT transforme un visage triste en sourire" : "A SO WHAT burger turns a sad face into a smile"}
-          width={1280}
-          height={720}
-          sizes="(max-width: 640px) 100vw, 640px"
-          loading="lazy"
-          className="home-smash-banner"
-        />
-      ) : null}
       <header className="home-story-header">
         <h2 id={mediaId + "-title"} className="home-story-title">
           {title}

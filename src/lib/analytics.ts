@@ -1,4 +1,5 @@
 import { analyticsAllowed } from "@/lib/analytics-consent";
+import { sendSiteMetric, type SiteMetric } from "@/lib/site-statistics";
 import { analyticsPageLocation } from "@/lib/analytics-url";
 export const GA_MEASUREMENT_ID = "G-2TM782BRGC";
 
@@ -101,6 +102,12 @@ export function trackEvent(eventName: string, params: TrackEventParams): void {
   }
 
   const { source, page: _page, location: _location, ...rest } = params;
+
+  const metrics: Partial<Record<string, SiteMetric>> = {
+    order_open: "orders", phone_click: "phones", location_open: "directions"
+  };
+  const metric = metrics[eventName];
+  if (metric) sendSiteMetric(page.split(/[?#]/)[0], metric);
 
   ensureGtag()("event", eventName, {
     ...rest,

@@ -10,6 +10,7 @@ import "./menu-item-detail.css";
 
 import { CookiePreferences } from "@/components/analytics/cookie-preferences";
 import { GoogleAnalytics } from "@/components/analytics/google-analytics";
+import { SiteStatistics } from "@/components/analytics/site-statistics";
 import { A11yBootScript } from "@/components/layout/a11y-boot-script";
 import { AccessibilityWidget } from "@/components/layout/accessibility-widget";
 import { IntroLoader } from "@/components/layout/intro-loader";
@@ -139,6 +140,7 @@ export default async function RootLayout({
             <Suspense fallback={null}>
               <CookiePreferences />
               <GoogleAnalytics />
+              <SiteStatistics />
             </Suspense>
           </div>
         </LocaleProvider>

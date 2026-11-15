@@ -46,7 +46,10 @@ const navGroups: NavGroup[] = [
   {
     id: "overview",
     label: "ראשי",
-    items: [{ href: "/admin", label: "סקירה", icon: LayoutDashboard, exact: true }]
+    items: [
+      { href: "/admin", label: "סקירה", icon: LayoutDashboard, exact: true },
+      { href: "/admin/statistics", label: "סטטיסטיקה", icon: LayoutDashboard }
+    ]
   },
   {
     id: "content",

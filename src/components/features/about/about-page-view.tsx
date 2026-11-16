@@ -4,6 +4,7 @@ import Link from "next/link";
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import { SeoFaqSection } from "@/components/shared/seo-faq-section";
+import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
 import { hasValidFaqItems } from "@/lib/seo/faq-utils";
 import { ABOUT_PAGE_IMAGES as IMG } from "@/data/site-images.registry";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
@@ -55,12 +56,12 @@ export async function AboutPageView({ siteImages, seoContent }: AboutPageViewPro
               key={paragraph.slice(0, 48)}
               className={`about-simple-description${index === 0 ? " about-simple-description--first" : ""}`}
             >
-              {paragraph}
+              {renderInlineMarkdown(paragraph)}
             </p>
           ))}
           {seoContent.bottomParagraphs.map((paragraph) => (
             <p key={paragraph.slice(0, 48)} className="about-simple-description">
-              {paragraph}
+              {renderInlineMarkdown(paragraph)}
             </p>
           ))}
           <SeoCtaBlockView {...seoContent.cta} className="about-simple-seo-cta seo-content-cta" />

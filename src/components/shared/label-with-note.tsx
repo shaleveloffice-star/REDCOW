@@ -1,8 +1,8 @@
-import { createElement, type ElementType } from "react";
+import { createElement, type ElementType, type ReactNode } from "react";
 
 type LabelWithNoteProps = {
-  label: string;
-  note?: string;
+  label: ReactNode;
+  note?: ReactNode;
   as?: ElementType;
   mainAs?: ElementType;
   noteAs?: ElementType;

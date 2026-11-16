@@ -1,3 +1,4 @@
+import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
 import { isSafePublicHref } from "@/lib/security/safe-url";
 
@@ -16,7 +17,7 @@ export function SeoContentBody({ text, className, paragraphClassName }: SeoConte
     <div className={className}>
       {paragraphs.map((paragraph, index) => (
         <p key={`${index}-${paragraph.slice(0, 32)}`} className={paragraphClassName}>
-          {paragraph}
+          {renderInlineMarkdown(paragraph)}
         </p>
       ))}
     </div>

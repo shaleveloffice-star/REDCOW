@@ -4,8 +4,10 @@ import type { SeoFaqItem, SeoPageFieldsInput, SeoPageId } from "@/types/seo-cont
 import { SEO_PAGE_DEFINITIONS } from "@/types/seo-content";
 
 import { adminFieldLabel, type AdminSeoFieldWhere } from "@/components/features/admin/admin-field-label";
+import { AdminMarkdownTextarea } from "@/components/features/admin/admin-markdown-textarea";
 
-export const SEO_PARAGRAPH_HINT = "פסקאות מופרדות בשורה ריקה. שדה ריק = ברירת מחדל מהאתר.";
+export const SEO_PARAGRAPH_HINT =
+  "פסקאות מופרדות בשורה ריקה. סמנו טקסט ולחצו «קישור» כדי להוסיף לינק. שדה ריק = ברירת מחדל מהאתר.";
 export const SEO_META_EMPTY_HINT = "שדה ריק = ברירת המחדל מהאתר";
 export const SEO_META_DESCRIPTION_HINT =
   "מופיע בתוצאות החיפוש ואינו חייב להיות זהה למבוא SEO בדף.";
@@ -135,33 +137,33 @@ export function AdminSeoFieldsForm({
         ) : null}
 
         {flags.introduction !== false ? (
-          <label>
-            {fieldWhere?.introduction
-              ? adminFieldLabel("מבוא SEO", fieldWhere.introduction)
-              : "מבוא SEO"}
-            <textarea
-              rows={6}
-              value={draft.introduction ?? ""}
-              placeholder={defaults.introduction ?? ""}
-              onChange={(event) => update({ introduction: event.target.value })}
-            />
-            <span className="admin-field-hint">{SEO_PARAGRAPH_HINT}</span>
-          </label>
+          <AdminMarkdownTextarea
+            label={
+              fieldWhere?.introduction
+                ? adminFieldLabel("מבוא SEO", fieldWhere.introduction)
+                : "מבוא SEO"
+            }
+            rows={6}
+            value={draft.introduction ?? ""}
+            placeholder={defaults.introduction ?? ""}
+            onChange={(introduction) => update({ introduction })}
+            hint={SEO_PARAGRAPH_HINT}
+          />
         ) : null}
 
         {flags.bottomContent !== false ? (
-          <label>
-            {fieldWhere?.bottomContent
-              ? adminFieldLabel("תוכן תחתון", fieldWhere.bottomContent)
-              : "תוכן תחתון"}
-            <textarea
-              rows={5}
-              value={draft.bottomContent ?? ""}
-              placeholder={defaults.bottomContent ?? ""}
-              onChange={(event) => update({ bottomContent: event.target.value })}
-            />
-            <span className="admin-field-hint">{SEO_PARAGRAPH_HINT}</span>
-          </label>
+          <AdminMarkdownTextarea
+            label={
+              fieldWhere?.bottomContent
+                ? adminFieldLabel("תוכן תחתון", fieldWhere.bottomContent)
+                : "תוכן תחתון"
+            }
+            rows={5}
+            value={draft.bottomContent ?? ""}
+            placeholder={defaults.bottomContent ?? ""}
+            onChange={(bottomContent) => update({ bottomContent })}
+            hint={SEO_PARAGRAPH_HINT}
+          />
         ) : null}
       </fieldset>
 
@@ -178,29 +180,22 @@ export function AdminSeoFieldsForm({
               onChange={(event) => updateGrindingStory({ title: event.target.value })}
             />
           </label>
-          <label>
-            פתיח
-            <textarea
-              rows={5}
-              value={draft.grindingStory?.introduction ?? ""}
-              placeholder={defaults.grindingStory?.introduction ?? ""}
-              onChange={(event) => updateGrindingStory({ introduction: event.target.value })}
-            />
-            <span className="admin-field-hint">
-              הפסקה הראשונה היא פסקת הפתיחה, והפסקאות שאחריה מוצגות כשורות מודגשות בקו תחתון.{" "}
-              {SEO_PARAGRAPH_HINT}
-            </span>
-          </label>
-          <label>
-            סיום
-            <textarea
-              rows={4}
-              value={draft.grindingStory?.bottomContent ?? ""}
-              placeholder={defaults.grindingStory?.bottomContent ?? ""}
-              onChange={(event) => updateGrindingStory({ bottomContent: event.target.value })}
-            />
-            <span className="admin-field-hint">{SEO_PARAGRAPH_HINT}</span>
-          </label>
+          <AdminMarkdownTextarea
+            label="פתיח"
+            rows={5}
+            value={draft.grindingStory?.introduction ?? ""}
+            placeholder={defaults.grindingStory?.introduction ?? ""}
+            onChange={(introduction) => updateGrindingStory({ introduction })}
+            hint={`הפסקה הראשונה היא פסקת הפתיחה, והפסקאות שאחריה מוצגות כשורות מודגשות בקו תחתון. ${SEO_PARAGRAPH_HINT}`}
+          />
+          <AdminMarkdownTextarea
+            label="סיום"
+            rows={4}
+            value={draft.grindingStory?.bottomContent ?? ""}
+            placeholder={defaults.grindingStory?.bottomContent ?? ""}
+            onChange={(bottomContent) => updateGrindingStory({ bottomContent })}
+            hint={SEO_PARAGRAPH_HINT}
+          />
         </fieldset>
       ) : null}
 
@@ -217,29 +212,22 @@ export function AdminSeoFieldsForm({
               onChange={(event) => updateSmashStory({ title: event.target.value })}
             />
           </label>
-          <label>
-            פתיח
-            <textarea
-              rows={5}
-              value={draft.smashStory?.introduction ?? ""}
-              placeholder={defaults.smashStory?.introduction ?? ""}
-              onChange={(event) => updateSmashStory({ introduction: event.target.value })}
-            />
-            <span className="admin-field-hint">
-              הפסקה הראשונה היא פסקת הפתיחה, והפסקאות שאחריה מוצגות כשורות מודגשות בקו תחתון.{" "}
-              {SEO_PARAGRAPH_HINT}
-            </span>
-          </label>
-          <label>
-            סיום
-            <textarea
-              rows={4}
-              value={draft.smashStory?.bottomContent ?? ""}
-              placeholder={defaults.smashStory?.bottomContent ?? ""}
-              onChange={(event) => updateSmashStory({ bottomContent: event.target.value })}
-            />
-            <span className="admin-field-hint">{SEO_PARAGRAPH_HINT}</span>
-          </label>
+          <AdminMarkdownTextarea
+            label="פתיח"
+            rows={5}
+            value={draft.smashStory?.introduction ?? ""}
+            placeholder={defaults.smashStory?.introduction ?? ""}
+            onChange={(introduction) => updateSmashStory({ introduction })}
+            hint={`הפסקה הראשונה היא פסקת הפתיחה, והפסקאות שאחריה מוצגות כשורות מודגשות בקו תחתון. ${SEO_PARAGRAPH_HINT}`}
+          />
+          <AdminMarkdownTextarea
+            label="סיום"
+            rows={4}
+            value={draft.smashStory?.bottomContent ?? ""}
+            placeholder={defaults.smashStory?.bottomContent ?? ""}
+            onChange={(bottomContent) => updateSmashStory({ bottomContent })}
+            hint={SEO_PARAGRAPH_HINT}
+          />
         </fieldset>
       ) : null}
 
@@ -268,15 +256,14 @@ export function AdminSeoFieldsForm({
               onChange={(event) => updateFaq({ title: event.target.value })}
             />
           </label>
-          <label>
-            {fieldWhere?.faqLead ? adminFieldLabel("פסקת פתיחה", fieldWhere.faqLead) : "פסקת פתיחה"}
-            <textarea
-              rows={2}
-              value={draft.faq?.lead ?? ""}
-              placeholder={defaults.faq?.lead ?? ""}
-              onChange={(event) => updateFaq({ lead: event.target.value })}
-            />
-          </label>
+          <AdminMarkdownTextarea
+            label={fieldWhere?.faqLead ? adminFieldLabel("פסקת פתיחה", fieldWhere.faqLead) : "פסקת פתיחה"}
+            rows={2}
+            value={draft.faq?.lead ?? ""}
+            placeholder={defaults.faq?.lead ?? ""}
+            onChange={(lead) => updateFaq({ lead })}
+            hint="סמנו טקסט ולחצו «קישור» כדי להוסיף לינק."
+          />
 
           {(draft.faq?.items ?? []).map((_item, index) => (
             <div key={`${idPrefix}-faq-${index}`} className="admin-seo-faq-item">
@@ -289,16 +276,13 @@ export function AdminSeoFieldsForm({
                   onChange={(event) => updateFaqItem(index, { question: event.target.value })}
                 />
               </label>
-              <label>
-                {fieldWhere?.faqAnswer
-                  ? adminFieldLabel("תשובה", fieldWhere.faqAnswer)
-                  : "תשובה"}
-                <textarea
-                  rows={3}
-                  value={draft.faq?.items?.[index]?.answer ?? ""}
-                  onChange={(event) => updateFaqItem(index, { answer: event.target.value })}
-                />
-              </label>
+              <AdminMarkdownTextarea
+                label={fieldWhere?.faqAnswer ? adminFieldLabel("תשובה", fieldWhere.faqAnswer) : "תשובה"}
+                rows={3}
+                value={draft.faq?.items?.[index]?.answer ?? ""}
+                onChange={(answer) => updateFaqItem(index, { answer })}
+                hint="סמנו טקסט ולחצו «קישור» כדי להוסיף לינק."
+              />
               <button
                 type="button"
                 className="button secondary admin-btn-danger"
@@ -353,15 +337,14 @@ export function AdminSeoFieldsForm({
               onChange={(event) => updateCta({ title: event.target.value })}
             />
           </label>
-          <label>
-            {fieldWhere?.ctaBody ? adminFieldLabel("טקסט", fieldWhere.ctaBody) : "טקסט"}
-            <textarea
-              rows={3}
-              value={draft.cta?.body ?? ""}
-              placeholder={defaults.cta?.body ?? ""}
-              onChange={(event) => updateCta({ body: event.target.value })}
-            />
-          </label>
+          <AdminMarkdownTextarea
+            label={fieldWhere?.ctaBody ? adminFieldLabel("טקסט", fieldWhere.ctaBody) : "טקסט"}
+            rows={3}
+            value={draft.cta?.body ?? ""}
+            placeholder={defaults.cta?.body ?? ""}
+            onChange={(body) => updateCta({ body })}
+            hint="סמנו טקסט ולחצו «קישור» כדי להוסיף לינק."
+          />
           <label>
             {fieldWhere?.ctaButtonLabel
               ? adminFieldLabel("טקסט כפתור", fieldWhere.ctaButtonLabel)

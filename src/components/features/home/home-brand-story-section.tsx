@@ -11,6 +11,7 @@ import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
+import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
 import { pickSiteImageMediaStyle } from "@/lib/site-image-media-style";
 import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
 import { canOptimizeSiteImage, resolveSiteImagePair } from "@/lib/site-image-url";
@@ -24,6 +25,9 @@ type HomeBrandStorySectionProps = {
 };
 
 function linkStoryParagraph(text: string, locale: string) {
+  if (text.includes("](")) {
+    return renderInlineMarkdown(text);
+  }
   if (locale !== "he") return text;
 
   const kosher = "כשרות רבנות רעננה";

@@ -7839,9 +7839,16 @@ a.menu-showcase-button.site-cta-btn {
   font-size: 14px;
 }
 
-.admin-article-body-field {
+.admin-article-body-field,
+.admin-markdown-textarea {
   display: grid;
   gap: 8px;
+}
+
+.admin-markdown-textarea > label {
+  color: var(--admin-text);
+  font-weight: 600;
+  font-size: 14px;
 }
 
 .admin-form input,

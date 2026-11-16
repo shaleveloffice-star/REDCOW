@@ -9,6 +9,7 @@ import { getServerLocale } from "@/i18n/get-locale";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
 import { resolveImageAlt } from "@/lib/image-alt";
 import { isVideoMediaUrl } from "@/lib/menu-media";
+import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
 import { pickSiteImageMediaStyle } from "@/lib/site-image-media-style";
 import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
 import { canOptimizeSiteImage, resolveSiteImagePair } from "@/lib/site-image-url";
@@ -98,14 +99,14 @@ export async function HomeSmashStorySection({ siteImages, variant = "smash" }: H
         ) : null}
 
         <div className="home-story-copy">
-          {intro ? <p className="home-story-lead">{intro}</p> : null}
+          {intro ? <p className="home-story-lead">{renderInlineMarkdown(intro)}</p> : null}
           {punchLines.map((line) => (
             <p key={line} className="home-story-punch">
-              {line}
+              {renderInlineMarkdown(line)}
             </p>
           ))}
           {bottomParagraphs.map((paragraph) => (
-            <p key={paragraph}>{paragraph}</p>
+            <p key={paragraph}>{renderInlineMarkdown(paragraph)}</p>
           ))}
         </div>
       </div>

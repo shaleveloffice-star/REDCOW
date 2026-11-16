@@ -2,6 +2,7 @@
 
 import { useId, useState } from "react";
 
+import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
 import { getValidFaqItems, hasValidFaqItems, type SeoFaqContent } from "@/lib/seo/faq-utils";
 
 export type { SeoFaqContent };
@@ -65,7 +66,7 @@ export function SeoFaqSection({
                 {faq.title}
               </TitleTag>
             ) : null}
-            {hasLead ? <p className={`${blockClass}-lead`}>{faq.lead}</p> : null}
+            {hasLead ? <p className={`${blockClass}-lead`}>{renderInlineMarkdown(faq.lead)}</p> : null}
           </header>
         ) : null}
 
@@ -102,7 +103,7 @@ export function SeoFaqSection({
                   className={`${blockClass}-answer`}
                   hidden={!isOpen}
                 >
-                  <p>{item.answer}</p>
+                  <p>{renderInlineMarkdown(item.answer)}</p>
                 </div>
               </div>
             );

@@ -15,6 +15,7 @@ import { BUSINESS, getBusinessHoursText, usesDefaultBranchHours, getBusinessMaps
 import { useLocale, useTranslations } from "@/components/providers/locale-provider";
 import { hasValidFaqItems } from "@/lib/seo/faq-utils";
 import { resolveImageAlt } from "@/lib/image-alt";
+import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
 import type { Branch } from "@/types/content";
 import type { ResolvedSeoPageContent } from "@/types/seo-content";
@@ -81,14 +82,14 @@ function LocationsSeoIntro({ text }: { text: string }) {
               mainAs="p"
               noteAs="p"
               className="locations-seo-intro-split"
-              label={lead.trim()}
-              note={detail.trim()}
+              label={renderInlineMarkdown(lead.trim())}
+              note={renderInlineMarkdown(detail.trim())}
             />
           );
         }
 
         return (
-          <p key={`${index}-${paragraph.slice(0, 24)}`}>{paragraph}</p>
+          <p key={`${index}-${paragraph.slice(0, 24)}`}>{renderInlineMarkdown(paragraph)}</p>
         );
       })}
     </div>

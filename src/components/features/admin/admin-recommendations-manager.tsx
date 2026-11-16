@@ -8,6 +8,7 @@ import {
   AdminToolbar,
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
+import { AdminMarkdownTextarea } from "@/components/features/admin/admin-markdown-textarea";
 import { AdminImageUrlField } from "@/components/features/admin/admin-site-image-picker";
 import { StatusBadge } from "@/components/features/admin/status-badge";
 import { createId } from "@/lib/admin/new-id";
@@ -194,15 +195,13 @@ export function AdminRecommendationsManager({
             onChange={(event) => updateConfig({ title: event.target.value })}
           />
         </label>
-        <label>
-          פתיח
-          <textarea
-            rows={3}
-            maxLength={800}
-            value={config.introduction}
-            onChange={(event) => updateConfig({ introduction: event.target.value })}
-          />
-        </label>
+        <AdminMarkdownTextarea
+          label="פתיח"
+          rows={3}
+          value={config.introduction}
+          onChange={(introduction) => updateConfig({ introduction: introduction.slice(0, 800) })}
+          hint="סמנו טקסט ולחצו «קישור» כדי להוסיף לינק. עד 800 תווים."
+        />
         <div className="admin-form-actions">
           <button className="button" type="submit" disabled={isPending}>
             {isPending ? "שומר…" : "שמירת כל השינויים"}

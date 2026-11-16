@@ -7,6 +7,7 @@ import { convertStorySectionType, flipSplitSectionType } from "@/lib/stories/con
 import { STORY_SECTION_TYPE_LABELS as SECTION_TYPE_LABELS } from "@/lib/stories/section-type-labels";
 import { storyEditableHit, StoryEditableImageWrap } from "@/lib/stories/story-editable-ui";
 import type { Locale } from "@/i18n/config";
+import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
 import { splitParagraphs } from "@/lib/seo-content/paragraphs";
 import { StoryLongContentBody } from "@/components/features/stories/story-long-content-body";
 import { STORY_SECTION_TYPES, type BrandStory, type StorySection, type StorySectionType } from "@/types/story";
@@ -99,7 +100,9 @@ function SectionBody({
       })}
     >
       {paragraphs.length > 0
-        ? paragraphs.map((paragraph) => <p key={paragraph.slice(0, 48)}>{paragraph}</p>)
+        ? paragraphs.map((paragraph) => (
+            <p key={paragraph.slice(0, 48)}>{renderInlineMarkdown(paragraph)}</p>
+          ))
         : <p>{displayBody}</p>}
     </div>
   );

@@ -311,6 +311,17 @@
   line-height: 1.65;
 }
 
+a.seo-inline-link {
+  color: inherit;
+  text-decoration: underline;
+  text-underline-offset: 0.15em;
+}
+
+a.seo-inline-link:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
+}
+
 .seo-content-cta-button {
   margin-top: 12px;
   display: inline-flex;

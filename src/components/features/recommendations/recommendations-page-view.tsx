@@ -1,6 +1,7 @@
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { RecommendationGallery } from "@/components/features/recommendations/recommendation-gallery";
 import { recommendationHasPlayableMedia } from "@/lib/recommendations/recommendation-embed";
+import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
 import type { Locale } from "@/i18n/config";
 import type { RecommendationsConfig } from "@/types/recommendations";
 
@@ -44,7 +45,9 @@ export function RecommendationsPageView({
         />
         <p className="recommendations-kicker">SO WHAT · CREATORS</p>
         <h1>{config.title}</h1>
-        {config.introduction ? <p className="recommendations-intro">{config.introduction}</p> : null}
+        {config.introduction ? (
+          <p className="recommendations-intro">{renderInlineMarkdown(config.introduction)}</p>
+        ) : null}
       </header>
 
       {items.length === 0 ? (

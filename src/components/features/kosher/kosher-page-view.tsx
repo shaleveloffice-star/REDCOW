@@ -5,6 +5,7 @@ import { SeoCtaBlockView } from "@/components/shared/seo-content-body";
 import { SeoFaqSection } from "@/components/shared/seo-faq-section";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
+import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
 import { hasValidFaqItems } from "@/lib/seo/faq-utils";
 import type { ResolvedSeoPageContent } from "@/types/seo-content";
 
@@ -36,12 +37,12 @@ export async function KosherPageView({ seoContent }: KosherPageViewProps) {
             key={paragraph.slice(0, 48)}
             className={`kosher-page-copy${index === 0 ? " kosher-page-copy--lead" : ""}`}
           >
-            {paragraph}
+            {renderInlineMarkdown(paragraph)}
           </p>
         ))}
         {seoContent.bottomParagraphs.map((paragraph) => (
           <p key={paragraph.slice(0, 48)} className="kosher-page-copy">
-            {paragraph}
+            {renderInlineMarkdown(paragraph)}
           </p>
         ))}
         <figure className="kosher-page-certificate">

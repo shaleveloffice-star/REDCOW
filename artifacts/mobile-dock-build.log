@@ -1,0 +1,81 @@
+
+> sowhat-burger-project@0.1.0 build
+> next build --webpack
+
+▲ Next.js 16.2.6 (webpack)
+- Environments: .env.local
+- Experiments (use with caution):
+  · serverActions
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 6.3s
+  Running TypeScript ...
+  Finished TypeScript in 6.5s ...
+  Collecting page data using 19 workers ...
+  Generating static pages using 19 workers (0/88) ...
+  Generating static pages using 19 workers (22/88) 
+  Generating static pages using 19 workers (44/88) 
+  Generating static pages using 19 workers (66/88) 
+✓ Generating static pages using 19 workers (88/88) in 335ms
+  Finalizing page optimization ...
+  Collecting build traces ...
+
+Route (app)
+┌ ƒ /
+├ ƒ /_not-found
+├ ƒ /about
+├ ƒ /accessibility
+├ ƒ /admin
+├ ƒ /admin/announcement-popup
+├ ƒ /admin/branches
+├ ƒ /admin/career-applications
+├ ƒ /admin/contact-messages
+├ ƒ /admin/customer-club
+├ ƒ /admin/gallery
+├ ƒ /admin/login
+├ ƒ /admin/menu
+├ ƒ /admin/menu-categories
+├ ƒ /admin/order-links
+├ ƒ /admin/pages/about
+├ ƒ /admin/pages/home
+├ ƒ /admin/pages/kosher
+├ ƒ /admin/pages/locations
+├ ƒ /admin/pages/privacy
+├ ƒ /admin/pages/terms
+├ ƒ /admin/press
+├ ƒ /admin/recommendations
+├ ƒ /admin/settings
+├ ƒ /admin/stories
+├ ƒ /api/admin/gallery-image
+├ ƒ /api/admin/gallery-media/register
+├ ƒ /api/admin/gallery-video
+├ ƒ /api/admin/gallery-video/register
+├ ƒ /api/admin/menu-image
+├ ƒ /api/admin/menu-item
+├ ƒ /api/admin/stories/generate
+├ ƒ /api/admin/stories/suggest
+├ ƒ /api/media/gallery/[file]
+├ ƒ /api/media/menu/[file]
+├ ○ /apple-icon.png
+├ ƒ /careers
+├ ○ /icon.png
+├ ƒ /kosher
+├ ƒ /locations
+├ ○ /manifest.webmanifest
+├ ƒ /menu
+├ ƒ /menu/[slug]
+├ ƒ /privacy-policy
+├ ƒ /recommendations
+├ ○ /robots.txt
+├ ƒ /sitemap.xml
+├ ƒ /stories
+├ ƒ /stories/[slug]
+├ ƒ /terms
+└ ƒ /unsubscribe
+
+
+ƒ Proxy (Middleware)
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

@@ -1,0 +1,127 @@
+[
+  {
+    "path": "/stories/burger",
+    "status": 404,
+    "location": null,
+    "noindex": true,
+    "notFound": true
+  },
+  {
+    "path": "/stories/dining-vs-delivery",
+    "status": 404,
+    "location": null,
+    "noindex": true,
+    "notFound": true
+  },
+  {
+    "path": "/stories/burgers-in-raanana",
+    "status": 404,
+    "location": null,
+    "noindex": true,
+    "notFound": true
+  },
+  {
+    "path": "/stories/raanana",
+    "status": 404,
+    "location": null,
+    "noindex": true,
+    "notFound": true
+  },
+  {
+    "path": "/stories/burger-and-fries-classic",
+    "status": 404,
+    "location": null,
+    "noindex": true,
+    "notFound": true
+  },
+  {
+    "path": "/stories/burger-restaurant-vs-stand",
+    "status": 404,
+    "location": null,
+    "noindex": true,
+    "notFound": true
+  },
+  {
+    "path": "/menu/green-salad",
+    "status": 404,
+    "location": null,
+    "noindex": true,
+    "notFound": true
+  },
+  {
+    "path": "/menu/home-fries",
+    "status": 404,
+    "location": null,
+    "noindex": true,
+    "notFound": true
+  },
+  {
+    "path": "/menu/nuggets-7",
+    "status": 404,
+    "location": null,
+    "noindex": true,
+    "notFound": true
+  },
+  {
+    "path": "/menu/caesar-salad-small",
+    "status": 404,
+    "location": null,
+    "noindex": true,
+    "notFound": true
+  },
+  {
+    "path": "/menu/caesar-salad-large",
+    "status": 404,
+    "location": null,
+    "noindex": true,
+    "notFound": true
+  },
+  {
+    "path": "/stories/smash-burger",
+    "status": 308,
+    "location": "/stories/smash-burger-crispy-edges",
+    "targetStatus": 200,
+    "noindex": false,
+    "notFound": false
+  },
+  {
+    "path": "/stories/restaurant-raanana",
+    "status": 308,
+    "location": "/stories/choosing-restaurant-raanana",
+    "targetStatus": 200,
+    "noindex": false,
+    "notFound": false
+  },
+  {
+    "path": "/menu/nb-truffle-meal",
+    "status": 308,
+    "location": "/menu/so-truffle-burger-meal",
+    "targetStatus": 200,
+    "noindex": false,
+    "notFound": false
+  },
+  {
+    "path": "/menu/hamburger-nb-confit",
+    "status": 308,
+    "location": "/menu/so-house-burger",
+    "targetStatus": 200,
+    "noindex": false,
+    "notFound": false
+  },
+  {
+    "path": "/menu/hamburger-nb-truffle",
+    "status": 308,
+    "location": "/menu/so-truffle-burger",
+    "targetStatus": 200,
+    "noindex": false,
+    "notFound": false
+  },
+  {
+    "path": "/menu/4-piece-nuggets",
+    "status": 308,
+    "location": "/menu/nuggets-4",
+    "targetStatus": 200,
+    "noindex": false,
+    "notFound": false
+  }
+]

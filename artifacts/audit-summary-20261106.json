@@ -1,0 +1,52 @@
+{
+  "date": "2026-11-06",
+  "publication": "Local code only; no commit, push or deployment this turn",
+  "liveAudit": {
+    "pages": 60,
+    "pageIssues": 0,
+    "redirects": 0,
+    "directRedirects": 0,
+    "redirectFailures": 0,
+    "internalLinks": 61,
+    "additionalInternalLinksChecked": 1,
+    "internalFailures": 0,
+    "legacyAliases": 19,
+    "legacyFailures": 0
+  },
+  "robots": {
+    "status": 200,
+    "text": "User-Agent: *\nAllow: /\nDisallow: /admin\nDisallow: /admin/\n\nHost: https://www.sowhat.co.il\nSitemap: https://www.sowhat.co.il/sitemap.xml\n"
+  },
+  "retired": {
+    "true404": 11,
+    "directPermanentTo200": 6
+  },
+  "checks": {
+    "tests": 150,
+    "lint": "passed",
+    "build": "passed",
+    "diffCheck": "passed",
+    "localSSR": "home/menu/locations returned 200 with 12:00 and 19:00 in he/en/fr; local ketchup missing from fixture (live 200)",
+    "browser": "Browser automation unavailable: timeoutMs error; no visual/GA4/GSC validation",
+    "pagespeed": "429 daily quota; no current mobile score or before/after timing claimed"
+  },
+  "changes": [
+    "Central hours Sun-Thu 12:00-00:00 Saturday 19:00-00:00 Friday closed; legacy location copy normalized without mutating CMS",
+    "Live popup already has approved hours; enabled/dismiss settings untouched",
+    "Lazy-load homepage Instagram embeds near viewport; retain loaded frames; video preload none until visible; lazy location photo",
+    "Footer phone_click and locations card location_open; one order_open event with order_method per menu CTA"
+  ],
+  "pending": [
+    "Visual mobile/desktop and lab performance before/after when browser is available",
+    "GA4 DebugView reception, enhanced measurement and key-event configuration audit",
+    "GSC current URL inspection not accessible; no indexing requests sent",
+    "Beecomm must support GA4 purchase on confirmed order with unique transaction_id/value/currency/items plus cross-domain attribution; capability not confirmed",
+    "CMS location records remain stored with old hours; public read compatibility replaces known legacy phrases",
+    "Publish and recheck production after review"
+  ],
+  "sources": [
+    "https://developers.google.com/analytics/devguides/collection/ga4/ecommerce",
+    "https://support.google.com/analytics/answer/10071811",
+    "https://www.beecomm.com/"
+  ]
+}

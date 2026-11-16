@@ -195,7 +195,9 @@ export async function getCachedMagazineStories(locale: Locale) {
 
 export const getCachedBrandStoryBySlug = cache(async (slug: string, locale: Locale) => {
   const story = await getBrandStoryBySlug(normalizeStorySlug(slug), { activeOnly: true });
-  return story ? localizeBrandStory(story, locale) : null;
+  if (!story) return null;
+  const { enrichBrandStoryContentLinks } = await import("@/lib/content/internal-content-links");
+  return localizeBrandStory(enrichBrandStoryContentLinks(story), locale);
 });
 
 export const getCachedAnnouncementPopup = unstable_cache(

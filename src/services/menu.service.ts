@@ -133,7 +133,8 @@ export async function getMenuItemBySlugForDisplay(slug: string): Promise<MenuIte
   if (!match || !match.isActive || !categories.some(category => category.id === match.categoryId)) {
     return null;
   }
-  return match;
+  const { enrichMenuItemContentLinks } = await import("@/lib/content/internal-content-links");
+  return enrichMenuItemContentLinks(match);
 }
 
 export async function getMenuCategoryBySlugForDisplay(slug: string): Promise<MenuCategory | null> {

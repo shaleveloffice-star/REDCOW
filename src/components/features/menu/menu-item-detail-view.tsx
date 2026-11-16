@@ -5,6 +5,8 @@ import { resolveOrderUrl } from "@/lib/orders";
 import { MenuItemSauces } from "@/components/features/menu/menu-item-sauces";
 import { useMemo } from "react";
 
+import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
+
 import { MenuAutoplayMedia } from "@/components/features/menu/menu-autoplay-media";
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { formatPrice, isBurgersCategory, MenuItemsGrid } from "@/components/features/menu/menu-items-grid";
@@ -138,7 +140,7 @@ export function MenuItemDetailView({
           </div>
           {longParagraphs.map((paragraph) => (
             <p key={paragraph} className="menu-item-detail-card-text">
-              {paragraph}
+              {renderInlineMarkdown(paragraph)}
             </p>
           ))}
         </section>

@@ -2,11 +2,12 @@
 const HERO_SOURCES = new Set([
   "/videos/sowhat-hero-20261020.mp4",
   "/videos/sowhat-hero-20261020-optimized.mp4",
-  "/videos/sowhat-hero-20261027-optimized.mp4"
+  "/videos/sowhat-hero-20261027-optimized.mp4",
+  "/videos/sowhat-hero-20261109.mp4"
 ]);
 
 export const OPTIMIZED_HERO = "/videos/sowhat-hero-20261109.mp4";
-export const MOBILE_HERO = "/videos/sowhat-hero-20261109-mobile.mp4";
+export const MOBILE_HERO = "/videos/sowhat-hero-20261118-mobile.mp4";
 export const HERO_VIDEO_POSTER = "/videos/sowhat-hero-20261027-poster.webp";
 
 export function resolveHeroVideo(src: string, start = 0) {

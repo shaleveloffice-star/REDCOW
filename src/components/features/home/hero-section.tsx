@@ -14,7 +14,7 @@ import { HERO_IMAGE_VERSION } from "@/data/site-image-versions";
 import { DECORATIVE_IMAGE_ALT } from "@/lib/image-alt";
 import { menuImageMediaStyle } from "@/lib/menu/image-zoom";
 import type { SiteImageFocus } from "@/lib/site-image-focus";
-import { resolveHeroVideo } from "@/lib/hero-video";
+import { MOBILE_HERO, resolveHeroVideo } from "@/lib/hero-video";
 
 /** Single hero asset — used on mobile and desktop (responsive CSS handles layout). */
 export const HERO_BURGER_IMAGE = `${HOME_HERO_IMAGE}?v=${HERO_IMAGE_VERSION}`;
@@ -47,24 +47,29 @@ export function HeroSection({
   const { locale } = useLocale();
   const captionDir = locale === "he" ? "rtl" : "ltr";
   const imageSrc = heroImageUrl === undefined ? HERO_BURGER_IMAGE : heroImageUrl.trim();
-  const mobileSrc = heroMobileImageUrl?.trim() || imageSrc;
+  const mobileImageSrc = heroMobileImageUrl?.trim() || imageSrc;
   const isVideo = isVideoMediaUrl(imageSrc);
   const video = resolveHeroVideo(imageSrc, videoStart);
-  const useOptimizedImage = mobileSrc === imageSrc && canOptimizeSiteImage(imageSrc);
+  const useOptimizedImage = mobileImageSrc === imageSrc && canOptimizeSiteImage(imageSrc);
   const mediaStyle = menuImageMediaStyle({
     zoom: heroZoom,
     focusDesktop: heroFocusDesktop,
     focusMobile: heroFocusMobile
   });
+  const mobileVideoSrc =
+    heroMobileImageUrl && isVideoMediaUrl(heroMobileImageUrl.trim())
+      ? heroMobileImageUrl.trim()
+      : (video.mobileSrc ?? MOBILE_HERO);
+  const showMobileHeroVideo = Boolean(imageSrc);
 
   return (
     <section id="hero" className="hero hero--cinematic hero--premier hero--solid" aria-label="SO WHAT?">
       {isVideo && video.poster ? <link rel="preload" as="image" href={video.poster} fetchPriority="high" /> : null}
-      <div className={`hero-burger${isVideo ? " hero-burger--video" : ""}`}>
+      <div className={`hero-burger${showMobileHeroVideo || isVideo ? " hero-burger--video" : ""}`}>
         {!imageSrc ? null : isVideo ? (
           <AutoplayVideo
             src={video.src}
-            mobileSrc={video.mobileSrc}
+            mobileSrc={mobileVideoSrc}
             poster={video.poster}
             videoStart={videoStart}
             videoEnd={videoEnd}
@@ -72,31 +77,48 @@ export function HeroSection({
             style={mediaStyle}
             preload="metadata"
           />
-        ) : useOptimizedImage ? (
-          <Image
-            src={imageSrc}
-            alt={DECORATIVE_IMAGE_ALT}
-            width={2048}
-            height={1366}
-            sizes={HERO_IMAGE_SIZES}
-            preload
-            fetchPriority="high"
-            draggable={false}
-            className="hero-burger-image site-media-focus"
-            style={mediaStyle}
-          />
         ) : (
-          <ResponsiveSiteImage
-            desktopSrc={imageSrc}
-            mobileSrc={mobileSrc}
-            alt={DECORATIVE_IMAGE_ALT}
-            width={2048}
-            height={1366}
-            loading="eager"
-            fetchPriority="high"
-            className="hero-burger-image site-media-focus"
-            style={mediaStyle}
-          />
+          <>
+            <div className="hero-media-desktop">
+              {useOptimizedImage ? (
+                <Image
+                  src={imageSrc}
+                  alt={DECORATIVE_IMAGE_ALT}
+                  width={2048}
+                  height={1366}
+                  sizes={HERO_IMAGE_SIZES}
+                  preload
+                  fetchPriority="high"
+                  draggable={false}
+                  className="hero-burger-image site-media-focus"
+                  style={mediaStyle}
+                />
+              ) : (
+                <ResponsiveSiteImage
+                  desktopSrc={imageSrc}
+                  mobileSrc={imageSrc}
+                  alt={DECORATIVE_IMAGE_ALT}
+                  width={2048}
+                  height={1366}
+                  loading="eager"
+                  fetchPriority="high"
+                  className="hero-burger-image site-media-focus"
+                  style={mediaStyle}
+                />
+              )}
+            </div>
+            <div className="hero-media-mobile-video">
+              <AutoplayVideo
+                src={MOBILE_HERO}
+                poster={video.poster}
+                videoStart={videoStart}
+                videoEnd={videoEnd}
+                className="hero-burger-image site-media-focus"
+                style={mediaStyle}
+                preload="metadata"
+              />
+            </div>
+          </>
         )}
         {imageSrc ? <SiteImageOverlay overlay={heroOverlay} /> : null}
       </div>

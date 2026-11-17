@@ -3662,11 +3662,34 @@ body:not(:has(.admin-layout)) .hero-caption-title {
 }
 
 .hero-burger > span,
-.hero-burger > picture {
+.hero-burger > picture,
+.hero-burger > .hero-media-desktop,
+.hero-burger > .hero-media-mobile-video,
+.hero-burger > .autoplay-video-wrap {
   display: block !important;
   width: 100%;
   height: 100%;
   line-height: 0;
+}
+
+.hero-media-desktop,
+.hero-media-mobile-video {
+  width: 100%;
+  height: 100%;
+}
+
+.hero-media-mobile-video {
+  display: none !important;
+}
+
+@media (max-width: 767px) {
+  .hero-media-desktop {
+    display: none !important;
+  }
+
+  .hero-media-mobile-video {
+    display: block !important;
+  }
 }
 
 /* Admin-chosen tint over a section image; the parent must be positioned. */

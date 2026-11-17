@@ -96,7 +96,6 @@ export function HeroSection({
               ) : (
                 <ResponsiveSiteImage
                   desktopSrc={imageSrc}
-                  mobileSrc={imageSrc}
                   alt={DECORATIVE_IMAGE_ALT}
                   width={2048}
                   height={1366}

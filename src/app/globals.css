@@ -3663,8 +3663,6 @@ body:not(:has(.admin-layout)) .hero-caption-title {
 
 .hero-burger > span,
 .hero-burger > picture,
-.hero-burger > .hero-media-desktop,
-.hero-burger > .hero-media-mobile-video,
 .hero-burger > .autoplay-video-wrap {
   display: block !important;
   width: 100%;
@@ -3672,22 +3670,28 @@ body:not(:has(.admin-layout)) .hero-caption-title {
   line-height: 0;
 }
 
-.hero-media-desktop,
-.hero-media-mobile-video {
+.hero-burger > .hero-media-desktop,
+.hero-burger > .hero-media-mobile-video {
   width: 100%;
   height: 100%;
+  line-height: 0;
 }
 
-.hero-media-mobile-video {
+/* Desktop image stays on wide screens; mobile gets the dedicated hero reel. */
+.hero-burger > .hero-media-desktop {
+  display: block !important;
+}
+
+.hero-burger > .hero-media-mobile-video {
   display: none !important;
 }
 
 @media (max-width: 767px) {
-  .hero-media-desktop {
+  .hero-burger > .hero-media-desktop {
     display: none !important;
   }
 
-  .hero-media-mobile-video {
+  .hero-burger > .hero-media-mobile-video {
     display: block !important;
   }
 }

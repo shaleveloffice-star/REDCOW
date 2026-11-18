@@ -43,7 +43,7 @@ const archivoBlack = Archivo_Black({
 
 const oswald = Oswald({
   subsets: ["latin"],
-  weight: "400",
+  weight: ["400", "500", "600"],
   variable: "--font-oswald",
   display: "swap"
 });

@@ -507,7 +507,7 @@ a.menu-showcase-button.site-cta-btn {
 
 .home-story-section--media-above .home-story-title {
   text-align: center;
-  max-width: 18ch;
+  max-width: min(28ch, 100%);
 }
 
 .home-story-section--media-above .home-story-shell--no-media {
@@ -515,7 +515,7 @@ a.menu-showcase-button.site-cta-btn {
 }
 
 .home-story-section--media-above .home-story-shell--no-media .home-story-copy {
-  max-width: min(42ch, 100%);
+  max-width: min(72ch, 100%);
   margin-inline: auto;
   padding-top: 0;
 }
@@ -1884,7 +1884,7 @@ body:not(:has(.admin-layout)) main::before {
 }
 #story.home-story-section--media-above .home-story-header,
 #story.home-story-section--media-above .home-story-shell {
-  max-width: min(72ch, 100%);
+  max-width: min(92ch, 100%);
   margin-inline: auto;
   text-align: center;
 }
@@ -1893,13 +1893,13 @@ body:not(:has(.admin-layout)) main::before {
   justify-content: center;
 }
 #story.home-story-section--media-above .home-story-title {
-  max-width: min(18ch, 100%);
+  max-width: min(28ch, 100%);
   margin-inline: auto;
   text-align: center;
 }
 #story.home-story-section--media-above .home-story-shell--no-media .home-story-copy,
 #story.home-story-section--media-above .home-story-copy {
-  max-width: min(42ch, 100%);
+  max-width: min(72ch, 100%);
   margin-inline: auto;
   text-align: center;
 }
@@ -1911,7 +1911,7 @@ body:not(:has(.admin-layout)) main::before {
 @media (max-width: 900px) {
   #story .home-story-copy { max-width: none; }
   #story.home-story-section--media-above .home-story-copy {
-    max-width: min(42ch, 100%);
+    max-width: min(72ch, 100%);
   }
 }
 

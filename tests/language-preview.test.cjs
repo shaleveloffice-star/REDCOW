@@ -1,15 +1,15 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
 const { createLoader } = require('./helpers.cjs');
-test('language preview cycles without changing selected locale', () => {
-  let values = [], cursor = 0, effects = [], tick, delay, changes = [], steps = [];
+test('language preview cycles without changing selected locale and stops after 4 runs', () => {
+  let values = [], cursor = 0, effects = [], tick, delay, changes = [], steps = [], cleared = 0;
   const jsx = (type, props) => ({ type, props });
   const load = createLoader({
-    react: { useState(initial) { const i = cursor++; if (!(i in values)) values[i] = typeof initial === 'function' ? initial() : initial; return [values[i], v => values[i] = typeof v === 'function' ? v(values[i]) : v]; }, useEffect: fn => effects.push(fn), useRef: () => ({current:null}), useId: () => 'languages' },
+    react: { useState(initial) { const i = cursor++; if (!(i in values)) values[i] = typeof initial === 'function' ? initial() : initial; return [values[i], v => values[i] = typeof v === 'function' ? v(values[i]) : v]; }, useEffect: fn => effects.push(fn), useRef: (v) => ({current:v ?? null}), useId: () => 'languages' },
     'react/jsx-runtime': { jsx, jsxs: jsx },
     '@/components/shared/site-icons': { IconLanguage: () => null },
     '@/components/providers/locale-provider': { useLocale: () => ({ locale:'he', setLocale: v => changes.push(v), messages:{lang:{label:'Languages',switchTo:'Switch'}} }) }
-  }, { window:{setInterval(fn,ms){tick=fn;delay=ms;return 1;},clearInterval(){},setTimeout(fn,ms){steps.push({fn,ms});return steps.length;},clearTimeout(){}}, document:{hidden:false} });
+  }, { window:{setInterval(fn,ms){tick=fn;delay=ms;return 1;},clearInterval(){cleared++;},setTimeout(fn,ms){steps.push({fn,ms});return steps.length;},clearTimeout(){}}, document:{hidden:false} });
   const { FloatingLanguageButton } = load('@/components/layout/floating-language-button');
   const render = () => { cursor=0; effects=[]; return FloatingLanguageButton(); };
   const label = tree => tree.props.children[1].props.children[1].props.children;
@@ -27,6 +27,14 @@ test('language preview cycles without changing selected locale', () => {
   assert.equal(label(render()), 'עב');
   assert.equal(render().props.className.includes('is-expanded'), false);
   assert.deepEqual(changes,[]);
+  steps = [];
+  tick();
+  tick();
+  tick();
+  assert.ok(cleared >= 1);
+  steps = [];
+  tick();
+  assert.equal(steps.length, 0);
   render().props.children[1].props.onClick();
   const menu = render().props.children[0];
   assert.equal(menu.props.children[0].props['aria-checked'],true);

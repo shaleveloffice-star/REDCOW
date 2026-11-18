@@ -7,6 +7,7 @@ import { IconLanguage } from "@/components/shared/site-icons";
 import { LOCALE_ACCESSIBLE_NAMES, LOCALE_LABELS, LOCALES, type Locale } from "@/i18n/config";
 
 const LANGUAGE_PREVIEW_INTERVAL = 5000;
+const MAX_LANGUAGE_PREVIEW_RUNS = 4;
 
 export function FloatingLanguageButton() {
   const { locale, setLocale, messages } = useLocale();
@@ -14,6 +15,7 @@ export function FloatingLanguageButton() {
   const [rolling, setRolling] = useState(false);
   const [previewIndex, setPreviewIndex] = useState(() => LOCALES.indexOf(locale));
   const rootRef = useRef<HTMLDivElement>(null);
+  const previewRunsRef = useRef(0);
   const menuId = useId();
 
   useEffect(() => {
@@ -21,22 +23,34 @@ export function FloatingLanguageButton() {
     setPreviewIndex(selectedIndex);
     setRolling(false);
     if (open) return;
+    if (previewRunsRef.current >= MAX_LANGUAGE_PREVIEW_RUNS) return;
     let steps: number[] = [];
     const timer = window.setInterval(() => {
       if (document.hidden) return;
+      if (previewRunsRef.current >= MAX_LANGUAGE_PREVIEW_RUNS) {
+        window.clearInterval(timer);
+        return;
+      }
+      previewRunsRef.current += 1;
+      steps.forEach((id) => window.clearTimeout(id));
       steps = [];
       setRolling(true);
       setPreviewIndex((selectedIndex + 1) % LOCALES.length);
       for (let step = 2; step <= LOCALES.length * 3; step++) {
-        steps.push(window.setTimeout(() => {
-          setPreviewIndex((selectedIndex + step) % LOCALES.length);
-          if (step === LOCALES.length * 3) setRolling(false);
-        }, (step - 1) * 360));
+        steps.push(
+          window.setTimeout(() => {
+            setPreviewIndex((selectedIndex + step) % LOCALES.length);
+            if (step === LOCALES.length * 3) setRolling(false);
+          }, (step - 1) * 360)
+        );
+      }
+      if (previewRunsRef.current >= MAX_LANGUAGE_PREVIEW_RUNS) {
+        window.clearInterval(timer);
       }
     }, LANGUAGE_PREVIEW_INTERVAL);
     return () => {
       window.clearInterval(timer);
-      steps.forEach(id => window.clearTimeout(id));
+      steps.forEach((id) => window.clearTimeout(id));
     };
   }, [locale, open]);
   useEffect(() => {

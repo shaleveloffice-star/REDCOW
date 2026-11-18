@@ -435,6 +435,35 @@ a.menu-showcase-button.site-cta-btn {
   text-align: start;
 }
 
+.home-story-section--media-above .home-story-media--lead {
+  width: 100%;
+  max-width: none;
+  margin: 0 0 clamp(28px, 4vw, 48px);
+  padding-inline: var(--home-section-edge, 25px);
+  box-sizing: border-box;
+  align-self: stretch;
+  overflow: hidden;
+  background: #000000;
+}
+
+.home-story-section--media-above .home-story-media--lead .home-story-image,
+.home-story-section--media-above .home-story-media--lead .autoplay-video-wrap,
+.home-story-section--media-above .home-story-media--lead video {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+  transform: none;
+}
+
+.home-story-section--media-above .home-story-media--lead > .site-image-overlay {
+  transform: none;
+}
+
+.home-story-section--media-above .home-story-header {
+  margin-top: 0;
+}
+
 .home-story-shell {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);

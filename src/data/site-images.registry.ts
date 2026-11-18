@@ -33,6 +33,7 @@ export const ATMOSPHERE_BURGER_STACK_IMAGE =
 export const ATMOSPHERE_BOTTOM_IMAGE = ATMOSPHERE_WIDE_IMAGE;
 
 export const HOME_HERO_IMAGE = "/images/hero/nb-burger-hero.webp";
+export const HOME_GRINDING_VIDEO = "/videos/home-grinding-20261118.mp4";
 export const HOME_ATMOSPHERE_SLIDE_1 = "/images/atmosphere/atmosphere-slide-1.webp";
 export const HOME_ATMOSPHERE_SLIDE_2 = "/images/atmosphere/atmosphere-slide-2.webp";
 export const HOME_ATMOSPHERE_SLIDE_3 = "/images/atmosphere/atmosphere-slide-3.webp";
@@ -142,7 +143,7 @@ export const STATIC_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
   },
   {
     title: "דף הבית - טחינה במקום",
-    items: [item("home-grinding", "תמונת הסקשן", "סקשן טחינה במקום", "/images/home/fresh-grinding.jpg")]
+    items: [item("home-grinding", "מדיה של הסקשן", "סקשן טחינה במקום", HOME_GRINDING_VIDEO)]
   },
   {
     title: "דף הבית - סמאש",
@@ -191,7 +192,7 @@ export const HOME_PAGE_SITE_IMAGE_GROUPS: SiteImageGroup[] = [
   },
   {
     title: "טחינה במקום",
-    items: [item("home-grinding", "תמונת הסקשן", "סקשן טחינה במקום", "/images/home/fresh-grinding.jpg")]
+    items: [item("home-grinding", "מדיה של הסקשן", "סקשן טחינה במקום", HOME_GRINDING_VIDEO)]
   },
   {
     title: "סמאש",

@@ -3,7 +3,7 @@ import Image from "next/image";
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
 import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
-import { HOME_SMASH_IMAGE } from "@/data/site-images.registry";
+import { HOME_GRINDING_VIDEO, HOME_SMASH_IMAGE } from "@/data/site-images.registry";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getCachedResolvedSeoPageContent } from "@/lib/cache/cached-data";
@@ -22,6 +22,17 @@ type HomeSmashStorySectionProps = {
   variant?: "smash" | "grinding";
 };
 
+function resolveGrindingMedia(images: { desktop: string; mobile: string }) {
+  // Keep a custom admin video if one was uploaded; otherwise use the grinding reel.
+  if (isVideoMediaUrl(images.desktop)) {
+    return {
+      desktop: images.desktop,
+      mobile: isVideoMediaUrl(images.mobile) ? images.mobile : images.desktop
+    };
+  }
+  return { desktop: HOME_GRINDING_VIDEO, mobile: HOME_GRINDING_VIDEO };
+}
+
 export async function HomeSmashStorySection({ siteImages, variant = "smash" }: HomeSmashStorySectionProps) {
   const locale = await getServerLocale();
   const t = await getLocalizedMessages(locale);
@@ -37,21 +48,74 @@ export async function HomeSmashStorySection({ siteImages, variant = "smash" }: H
   const imageAlt = resolveImageAlt({
     kind: "brand-story",
     locale,
-    customAlt: variant === "grinding" ? (locale === "he" ? "טחינת בשר טרי במקום במסעדת SO WHAT" : locale === "fr" ? "Viande fraîche hachée sur place chez SO WHAT" : "Fresh beef ground in-house at SO WHAT") : t.homeSmash.imageAlt
+    customAlt:
+      variant === "grinding"
+        ? locale === "he"
+          ? "טחינת בשר טרי במקום במסעדת SO WHAT"
+          : locale === "fr"
+            ? "Viande fraîche hachée sur place chez SO WHAT"
+            : "Fresh beef ground in-house at SO WHAT"
+        : t.homeSmash.imageAlt
   });
-  const images = resolveSiteImagePair(siteImages, mediaId, variant === "grinding" ? "/images/home/fresh-grinding.jpg" : HOME_SMASH_IMAGE);
+  const resolved = resolveSiteImagePair(
+    siteImages,
+    mediaId,
+    variant === "grinding" ? HOME_GRINDING_VIDEO : HOME_SMASH_IMAGE
+  );
+  const images = variant === "grinding" ? resolveGrindingMedia(resolved) : resolved;
   const hasImage = Boolean(images.desktop || images.mobile);
   const mediaStyle = pickSiteImageMediaStyle(siteImages, mediaId);
   const isVideo = isVideoMediaUrl(images.desktop);
   const useOptimizedImage =
     !isVideo && images.desktop === images.mobile && canOptimizeSiteImage(images.desktop);
+  const mediaAboveTitle = variant === "grinding" && hasImage;
+
+  const media = hasImage ? (
+    <div className={`home-story-media${mediaAboveTitle ? " home-story-media--lead" : ""}`}>
+      {isVideo ? (
+        <AutoplayVideo
+          src={images.desktop}
+          mobileSrc={images.mobile !== images.desktop ? images.mobile : undefined}
+          className="home-story-image site-media-focus"
+          style={mediaStyle}
+          preload="metadata"
+        />
+      ) : useOptimizedImage ? (
+        <Image
+          src={images.desktop}
+          alt={imageAlt}
+          width={1600}
+          height={900}
+          sizes={HOME_SMASH_IMAGE_SIZES}
+          loading="lazy"
+          draggable={false}
+          className="home-story-image site-media-focus"
+          style={mediaStyle}
+        />
+      ) : (
+        <ResponsiveSiteImage
+          desktopSrc={images.desktop}
+          mobileSrc={images.mobile}
+          alt={imageAlt}
+          width={1600}
+          height={900}
+          loading="lazy"
+          className="home-story-image site-media-focus"
+          style={mediaStyle}
+        />
+      )}
+      <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, mediaId)} />
+    </div>
+  ) : null;
 
   return (
     <section
       id={variant}
-      className="home-story-section home-story-section--smash"
+      className={`home-story-section home-story-section--smash${mediaAboveTitle ? " home-story-section--media-above" : ""}`}
       aria-labelledby={mediaId + "-title"}
     >
+      {mediaAboveTitle ? media : null}
+
       <header className="home-story-header">
         <h2 id={mediaId + "-title"} className="home-story-title">
           {title}
@@ -59,44 +123,9 @@ export async function HomeSmashStorySection({ siteImages, variant = "smash" }: H
       </header>
 
       <div
-        className={`home-story-shell home-story-shell--reverse${hasImage ? "" : " home-story-shell--no-media"}`}
+        className={`home-story-shell${mediaAboveTitle || !hasImage ? " home-story-shell--no-media" : " home-story-shell--reverse"}`}
       >
-        {hasImage ? (
-          <div className="home-story-media">
-            {isVideo ? (
-              <AutoplayVideo
-                src={images.desktop}
-                className="home-story-image site-media-focus"
-                style={mediaStyle}
-                preload="metadata"
-              />
-            ) : useOptimizedImage ? (
-              <Image
-                src={images.desktop}
-                alt={imageAlt}
-                width={1600}
-                height={900}
-                sizes={HOME_SMASH_IMAGE_SIZES}
-                loading="lazy"
-                draggable={false}
-                className="home-story-image site-media-focus"
-                style={mediaStyle}
-              />
-            ) : (
-              <ResponsiveSiteImage
-                desktopSrc={images.desktop}
-                mobileSrc={images.mobile}
-                alt={imageAlt}
-                width={1600}
-                height={900}
-                loading="lazy"
-                className="home-story-image site-media-focus"
-                style={mediaStyle}
-              />
-            )}
-            <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, mediaId)} />
-          </div>
-        ) : null}
+        {!mediaAboveTitle ? media : null}
 
         <div className="home-story-copy">
           {intro ? <p className="home-story-lead">{renderInlineMarkdown(intro)}</p> : null}

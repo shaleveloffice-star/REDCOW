@@ -494,6 +494,32 @@ a.menu-showcase-button.site-cta-btn {
   margin-top: 0;
 }
 
+.home-story-section--media-above .home-story-header,
+.home-story-section--media-above .home-story-shell--no-media,
+.home-story-section--media-above .home-story-copy {
+  text-align: center;
+}
+
+.home-story-section--media-above .home-story-header {
+  display: flex;
+  justify-content: center;
+}
+
+.home-story-section--media-above .home-story-title {
+  text-align: center;
+  max-width: 18ch;
+}
+
+.home-story-section--media-above .home-story-shell--no-media {
+  justify-items: center;
+}
+
+.home-story-section--media-above .home-story-shell--no-media .home-story-copy {
+  max-width: min(42ch, 100%);
+  margin-inline: auto;
+  padding-top: 0;
+}
+
 .home-story-shell {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);

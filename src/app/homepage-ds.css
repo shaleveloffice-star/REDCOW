@@ -520,6 +520,25 @@ a.menu-showcase-button.site-cta-btn {
   padding-top: 0;
 }
 
+/* Brand-story burger plate: keep the full product shot visible on white. */
+.home-story-section--media-above .home-story-media--story {
+  background: #ffffff;
+  aspect-ratio: auto;
+  max-height: none;
+}
+
+.home-story-section--media-above .home-story-media--story .autoplay-video-wrap,
+.home-story-section--media-above .home-story-media--story .home-story-image,
+.home-story-section--media-above .home-story-media--story img.home-story-image {
+  position: static !important;
+  width: 100% !important;
+  height: auto !important;
+  max-height: min(70vh, 720px);
+  object-fit: contain !important;
+  object-position: center center;
+  margin-inline: auto;
+}
+
 .home-story-shell {
   display: grid;
   grid-template-columns: minmax(0, 0.92fr) minmax(0, 1.08fr);
@@ -1856,6 +1875,34 @@ body:not(:has(.admin-layout)) main::before {
 #story .home-story-lead { color: #1d1d1f; font-size: clamp(21px, 2.2vw, 30px); line-height: 1.5; font-weight: 600; }
 #story .home-story-punch { color: #1d1d1f; font-weight: 600; text-decoration: none; }
 #story .home-story-shell--no-media .home-story-copy { max-width: 72ch; }
+#story.home-story-section--media-above {
+  padding-top: 0;
+}
+#story.home-story-section--media-above .home-story-media--lead {
+  max-width: none;
+  margin-inline: 0;
+}
+#story.home-story-section--media-above .home-story-header,
+#story.home-story-section--media-above .home-story-shell {
+  max-width: min(72ch, 100%);
+  margin-inline: auto;
+  text-align: center;
+}
+#story.home-story-section--media-above .home-story-header {
+  margin-bottom: clamp(20px, 3vw, 32px);
+  justify-content: center;
+}
+#story.home-story-section--media-above .home-story-title {
+  max-width: min(18ch, 100%);
+  margin-inline: auto;
+  text-align: center;
+}
+#story.home-story-section--media-above .home-story-shell--no-media .home-story-copy,
+#story.home-story-section--media-above .home-story-copy {
+  max-width: min(42ch, 100%);
+  margin-inline: auto;
+  text-align: center;
+}
 .home-story-section .home-story-copy a,
 .home-story-section .home-story-copy a.seo-inline-link {
   text-decoration: underline;
@@ -1863,6 +1910,9 @@ body:not(:has(.admin-layout)) main::before {
 }
 @media (max-width: 900px) {
   #story .home-story-copy { max-width: none; }
+  #story.home-story-section--media-above .home-story-copy {
+    max-width: min(42ch, 100%);
+  }
 }
 
 /* Footer refinement: preserve the existing dark background and all content. */

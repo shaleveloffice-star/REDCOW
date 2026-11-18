@@ -2,7 +2,6 @@ import Image from "next/image";
 
 import { AutoplayVideo } from "@/components/shared/autoplay-video";
 import { ResponsiveSiteImage } from "@/components/shared/responsive-site-image";
-import { SiteImageOverlay } from "@/components/shared/site-image-overlay";
 import { HOME_STORY_IMAGE } from "@/data/site-images.registry";
 import { HOME_STORY_IMAGE_VERSION } from "@/data/site-image-versions";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
@@ -12,13 +11,10 @@ import { resolveImageAlt } from "@/lib/image-alt";
 import { isVideoMediaUrl } from "@/lib/menu-media";
 import { layoutHomeStoryContent } from "@/lib/seo-content/home-story-layout";
 import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
-import { pickSiteImageMediaStyle } from "@/lib/site-image-media-style";
-import { pickSiteImageOverlay } from "@/lib/site-image-overlay";
 import { canOptimizeSiteImage, resolveSiteImagePair } from "@/lib/site-image-url";
 import type { SiteImagesMap } from "@/types/site-images";
 
-/** Full width up to 900px; ~46% column (scaled 1.15× in CSS) above. */
-const HOME_STORY_IMAGE_SIZES = "(max-width: 900px) 100vw, 55vw";
+const HOME_STORY_IMAGE_SIZES = "(max-width: 900px) 100vw, 100vw";
 
 type HomeBrandStorySectionProps = {
   siteImages?: SiteImagesMap;
@@ -62,59 +58,60 @@ export async function HomeBrandStorySection({ siteImages }: HomeBrandStorySectio
     HOME_STORY_IMAGE_VERSION
   );
   const hasImage = Boolean(storyImages.desktop || storyImages.mobile);
-  const mediaStyle = pickSiteImageMediaStyle(siteImages, "home-story");
   const isVideo = isVideoMediaUrl(storyImages.desktop);
   const useOptimizedImage =
     !isVideo &&
     storyImages.desktop === storyImages.mobile &&
     canOptimizeSiteImage(storyImages.desktop);
 
+  const media = hasImage ? (
+    <div className="home-story-media home-story-media--lead home-story-media--story">
+      {isVideo ? (
+        <AutoplayVideo
+          src={storyImages.desktop}
+          className="home-story-image site-media-focus"
+          preload="metadata"
+        />
+      ) : useOptimizedImage ? (
+        <Image
+          src={storyImages.desktop}
+          alt={imageAlt}
+          width={1600}
+          height={900}
+          sizes={HOME_STORY_IMAGE_SIZES}
+          loading="lazy"
+          draggable={false}
+          className="home-story-image site-media-focus"
+        />
+      ) : (
+        <ResponsiveSiteImage
+          desktopSrc={storyImages.desktop}
+          mobileSrc={storyImages.mobile}
+          alt={imageAlt}
+          width={1600}
+          height={900}
+          loading="lazy"
+          className="home-story-image site-media-focus"
+        />
+      )}
+    </div>
+  ) : null;
+
   return (
-    <section id="story" className="home-story-section" aria-labelledby="home-story-title">
+    <section
+      id="story"
+      className={`home-story-section${hasImage ? " home-story-section--media-above" : ""}`}
+      aria-labelledby="home-story-title"
+    >
+      {media}
+
       <header className="home-story-header">
         <h2 id="home-story-title" className="home-story-title">
           {story.title}
         </h2>
       </header>
 
-      <div className={`home-story-shell${hasImage ? "" : " home-story-shell--no-media"}`}>
-        {hasImage ? (
-          <div className="home-story-media">
-            {isVideo ? (
-              <AutoplayVideo
-                src={storyImages.desktop}
-                className="home-story-image site-media-focus"
-                style={mediaStyle}
-                preload="metadata"
-              />
-            ) : useOptimizedImage ? (
-              <Image
-                src={storyImages.desktop}
-                alt={imageAlt}
-                width={900}
-                height={600}
-                sizes={HOME_STORY_IMAGE_SIZES}
-                loading="lazy"
-                draggable={false}
-                className="home-story-image site-media-focus"
-                style={mediaStyle}
-              />
-            ) : (
-              <ResponsiveSiteImage
-                desktopSrc={storyImages.desktop}
-                mobileSrc={storyImages.mobile}
-                alt={imageAlt}
-                width={900}
-                height={600}
-                loading="lazy"
-                className="home-story-image site-media-focus"
-                style={mediaStyle}
-              />
-            )}
-            <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, "home-story")} />
-          </div>
-        ) : null}
-
+      <div className="home-story-shell home-story-shell--no-media">
         <div className="home-story-copy">
           <p className="home-story-lead">{linkStoryParagraph(story.intro, locale)}</p>
           {story.punchLines.map((line) => (

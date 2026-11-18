@@ -70,6 +70,8 @@ export async function HomeSmashStorySection({ siteImages, variant = "smash" }: H
     !isVideo && images.desktop === images.mobile && canOptimizeSiteImage(images.desktop);
   const mediaAboveTitle = variant === "grinding" && hasImage;
 
+  const appliedMediaStyle = mediaAboveTitle ? undefined : mediaStyle;
+
   const media = hasImage ? (
     <div className={`home-story-media${mediaAboveTitle ? " home-story-media--lead" : ""}`}>
       {isVideo ? (
@@ -77,7 +79,7 @@ export async function HomeSmashStorySection({ siteImages, variant = "smash" }: H
           src={images.desktop}
           mobileSrc={images.mobile !== images.desktop ? images.mobile : undefined}
           className="home-story-image site-media-focus"
-          style={mediaStyle}
+          style={appliedMediaStyle}
           preload="metadata"
         />
       ) : useOptimizedImage ? (
@@ -90,7 +92,7 @@ export async function HomeSmashStorySection({ siteImages, variant = "smash" }: H
           loading="lazy"
           draggable={false}
           className="home-story-image site-media-focus"
-          style={mediaStyle}
+          style={appliedMediaStyle}
         />
       ) : (
         <ResponsiveSiteImage
@@ -101,10 +103,10 @@ export async function HomeSmashStorySection({ siteImages, variant = "smash" }: H
           height={900}
           loading="lazy"
           className="home-story-image site-media-focus"
-          style={mediaStyle}
+          style={appliedMediaStyle}
         />
       )}
-      <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, mediaId)} />
+      {mediaAboveTitle ? null : <SiteImageOverlay overlay={pickSiteImageOverlay(siteImages, mediaId)} />}
     </div>
   ) : null;
 

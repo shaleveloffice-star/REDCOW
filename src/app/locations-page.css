@@ -17,7 +17,7 @@
 .locations-page-title {
   margin: 0 0 8px;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(28px, 6vw, 48px);
+  font-size: var(--type-page-h1);
   font-weight: 400;
   letter-spacing: 0.06em;
   line-height: 1.05;
@@ -57,7 +57,7 @@
 .locations-list-title {
   margin: 0 0 28px;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(28px, 6vw, 48px);
+  font-size: var(--type-section-h2);
   font-weight: 400;
   letter-spacing: 0.06em;
   text-transform: uppercase;

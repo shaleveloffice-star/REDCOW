@@ -124,10 +124,10 @@ export function HeroSection({
 
       <div className="hero-caption">
         <div className="hero-caption-inner" dir={captionDir}>
-          <p className="hero-caption-title" dir="ltr">
+          <h1 className="hero-caption-title" dir="ltr">
             {t.hero.captionTitle}
-          </p>
-          <h1 className="hero-location-heading">{t.hero.srTitle}</h1>
+          </h1>
+          <p className="hero-location-heading">{t.hero.srTitle}</p>
         </div>
       </div>
     </section>

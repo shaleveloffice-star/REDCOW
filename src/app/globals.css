@@ -74,7 +74,7 @@
   align-items: center;
 }
 .home-creators-showcase .home-creators-heading h2 {
-  font-size: clamp(30px, 4vw, 56px);
+  font-size: var(--type-section-h2);
   line-height: 1.12;
   letter-spacing: -0.035em;
 }
@@ -179,7 +179,7 @@
   margin: 0 auto;
   max-width: 12ch;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(2.5rem, 5vw, 4.5rem);
+  font-size: var(--type-page-h1);
   font-weight: 400;
   letter-spacing: -0.055em;
   line-height: 1.1;
@@ -824,10 +824,15 @@
   --font-subtitle: var(--font-assistant-stack);
   --font-playfair-display: var(--font-assistant-stack);
 
-  --type-display-hero: clamp(var(--ds-font-3xl), 7vw, 72px);
-  --type-display-1: clamp(var(--ds-font-3xl), 4.5vw, var(--ds-font-4xl));
-  --type-display-2: clamp(var(--ds-font-2xl), 3.2vw, var(--ds-font-3xl));
-  --type-display-3: clamp(var(--ds-font-xl), 2vw, var(--ds-font-2xl));
+  /* Heading ladder: hero H1 > page H1 > section H2 > sub H3 > label */
+  --type-display-hero: clamp(42px, 7.5vw, 96px);
+  --type-page-h1: clamp(40px, 6vw, 72px);
+  --type-section-h2: clamp(32px, 4.5vw, 56px);
+  --type-sub-h3: clamp(20px, 2.2vw, 28px);
+  --type-display-moment: clamp(40px, 7vw, 88px);
+  --type-display-1: var(--type-page-h1);
+  --type-display-2: var(--type-section-h2);
+  --type-display-3: var(--type-sub-h3);
 
   --type-kicker: var(--ds-font-sm);
   --type-kicker-md: var(--ds-font-sm);
@@ -2193,10 +2198,10 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 }
 
 .kosher-page > .site-faq .site-faq-title {
-  font-size: clamp(1.35rem, 2.4vw, 1.85rem);
-  letter-spacing: 0;
-  line-height: 1.15;
-  text-transform: none;
+  font-size: var(--type-section-h2);
+  letter-spacing: -0.02em;
+  line-height: 1.12;
+  text-transform: uppercase;
 }
 
 .kosher-page-end {
@@ -2228,7 +2233,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   max-width: 14ch;
   color: #fff;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(2.4rem, 6vw, 4.25rem);
+  font-size: var(--type-page-h1);
   font-weight: 400;
   letter-spacing: -0.03em;
   line-height: 0.98;
@@ -3250,7 +3255,7 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
   margin: 0;
   color: #ffffff;
   font-family: var(--font-oswald), "Oswald", sans-serif;
-  font-size: clamp(42px, 7.5vw, 84px);
+  font-size: var(--type-display-hero);
   font-weight: 500;
   letter-spacing: -0.02em;
   line-height: 1.02;
@@ -3262,7 +3267,8 @@ body:not(:has(.admin-layout)) main#main-content:not(:has(.hero)):not(:has(.menu-
 }
 
 /* Beat global [class*="-title"] bold so the hero stays medium weight */
-body:not(:has(.admin-layout)) .hero-caption-title {
+body:not(:has(.admin-layout)) .hero-caption-title,
+body:not(:has(.admin-layout)) h1.hero-caption-title {
   font-weight: 500;
 }
 
@@ -4364,10 +4370,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
 .menu-showcase-section {
   --home-text: #ffffff;
   --home-text-muted: rgba(255, 255, 255, 0.78);
-  --home-section-title-size: clamp(31.49px, 6vw, 46.98px);
+  --home-section-title-size: var(--type-section-h2);
   --home-section-title-line: 1.08;
-  --home-step-title-size: clamp(27.62px, 5vw, 46.98px);
-  --home-step-title-line: 1.1;
+  --home-step-title-size: var(--type-sub-h3);
+  --home-step-title-line: 1.15;
   --home-card-title-size: 23.75px;
   --home-card-title-line: 1.2;
   --home-subhead-size: 19.1px;
@@ -4395,10 +4401,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   margin: 0 0 10px;
   color: #ffffff;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(40px, 8vw, 72px);
+  font-size: var(--type-section-h2);
   font-weight: 400;
-  letter-spacing: 0.04em;
-  line-height: 0.95;
+  letter-spacing: -0.03em;
+  line-height: 1.08;
   text-transform: uppercase;
   text-wrap: balance;
 }
@@ -4561,10 +4567,10 @@ body:not(:has(.admin-layout)) .hero .hero-actions .hero-button--menu:active {
   .customer-club-section,
   .location-section,
   .menu-showcase-section {
-    --home-section-title-size: clamp(56px, 17vw, 92px);
-    --home-section-title-line: 0.95;
-    --home-step-title-size: clamp(36px, 10vw, 56px);
-    --home-card-title-size: clamp(24px, 6vw, 30px);
+    --home-section-title-size: var(--type-section-h2);
+    --home-section-title-line: 1.08;
+    --home-step-title-size: var(--type-sub-h3);
+    --home-card-title-size: clamp(20px, 5vw, 24px);
     --home-body-size: clamp(14px, 3.6vw, 16px);
   }
 
@@ -9409,10 +9415,14 @@ a.menu-showcase-button.site-cta-btn {
 
 @media (max-width: 800px) {
   :root {
-    --type-display-hero: clamp(26px, 10vw, 47px);
-    --type-display-1: clamp(28px, 8vw, 38px);
-    --type-display-2: clamp(24px, 6vw, 32px);
-    --type-display-3: clamp(18px, 4.5vw, 22px);
+    --type-display-hero: clamp(36px, 11vw, 52px);
+    --type-page-h1: clamp(32px, 8vw, 48px);
+    --type-section-h2: clamp(28px, 6vw, 40px);
+    --type-sub-h3: clamp(18px, 4.5vw, 24px);
+    --type-display-moment: clamp(32px, 9vw, 56px);
+    --type-display-1: var(--type-page-h1);
+    --type-display-2: var(--type-section-h2);
+    --type-display-3: var(--type-sub-h3);
     --type-lead: 16px;
     --type-body: 15px;
     --type-body-sm: 14px;
@@ -10242,7 +10252,7 @@ a.menu-showcase-button.site-cta-btn {
   margin: 0 0 24px;
   color: #ffffff;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(44px, 8vw, 92px);
+  font-size: var(--type-page-h1);
   font-weight: 400;
   letter-spacing: -0.04em;
   line-height: 0.95;

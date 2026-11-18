@@ -20,7 +20,7 @@
 .stories-index-title {
   margin: 0 0 0.35em;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(36px, 7vw, 64px);
+  font-size: var(--type-page-h1);
   font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 0.95;
@@ -153,7 +153,7 @@
 .stories-card-title {
   margin: 0;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(20px, 2.4vw, 28px);
+  font-size: var(--type-sub-h3);
   font-weight: 400;
   letter-spacing: 0.03em;
   line-height: 1.1;
@@ -162,7 +162,7 @@
 }
 
 .stories-grid-item--featured .stories-card-title {
-  font-size: clamp(28px, 4vw, 44px);
+  font-size: var(--type-section-h2);
 }
 
 .stories-card-subtitle {
@@ -307,7 +307,7 @@
   margin: 0 0 0.35em;
   max-width: calc(18ch * 1.3);
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(32px, 7vw, 72px);
+  font-size: var(--type-page-h1);
   font-weight: 400;
   letter-spacing: 0.03em;
   line-height: 0.95;
@@ -423,7 +423,7 @@
 .story-section-title {
   margin: 0 0 0.75em;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(24px, 4vw, 40px);
+  font-size: var(--type-section-h2);
   font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 1.05;
@@ -542,7 +542,7 @@
 .story-long-content-body h2.story-long-content-h2 {
   margin: 1.75em 0 0.65em;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(22px, 3.2vw, 32px);
+  font-size: var(--type-sub-h3);
   font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 1.1;
@@ -553,7 +553,7 @@
 .story-long-content-body h2.story-long-content-h1 {
   margin: 1.6em 0 0.6em;
   font-family: var(--font-archivo-black-stack);
-  font-size: clamp(30px, 4.6vw, 46px);
+  font-size: var(--type-section-h2);
   font-weight: 400;
   letter-spacing: 0.04em;
   line-height: 1.05;

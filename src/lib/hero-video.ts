@@ -7,7 +7,7 @@ const HERO_SOURCES = new Set([
 ]);
 
 export const OPTIMIZED_HERO = "/videos/sowhat-hero-20261109.mp4";
-export const MOBILE_HERO = "/videos/sowhat-hero-20261118-mobile.mp4";
+export const MOBILE_HERO = "/videos/sowhat-hero-20261123-mobile.mp4";
 export const HERO_VIDEO_POSTER = "/videos/sowhat-hero-20261027-poster.webp";
 
 export function resolveHeroVideo(src: string, start = 0) {

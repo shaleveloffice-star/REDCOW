@@ -6,6 +6,7 @@ import { getDirection } from "@/i18n/config";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { getRecommendationsForDisplay } from "@/lib/cache/cached-data";
+import { RECOMMENDATIONS_META_DESCRIPTION } from "@/lib/recommendations/recommendations-config";
 import { buildPageMetadata } from "@/lib/seo";
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -15,8 +16,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
   return buildPageMetadata({
     title: `${config.title} | SO WHAT`,
-    description:
-      config.introduction || "יוצרי תוכן שממליצים על SO WHAT ברעננה.",
+    description: RECOMMENDATIONS_META_DESCRIPTION,
     path: "/recommendations",
     locale: await getServerLocale()
   });

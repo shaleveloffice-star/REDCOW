@@ -1,6 +1,10 @@
 import { MenuBreadcrumbs } from "@/components/features/menu/menu-breadcrumbs";
 import { RecommendationGallery } from "@/components/features/recommendations/recommendation-gallery";
 import { recommendationHasPlayableMedia } from "@/lib/recommendations/recommendation-embed";
+import {
+  RECOMMENDATIONS_GOOGLE_REVIEWS_LABEL,
+  RECOMMENDATIONS_GOOGLE_REVIEWS_URL
+} from "@/lib/recommendations/recommendations-config";
 import { renderInlineMarkdown } from "@/lib/seo-content/inline-markdown";
 import type { Locale } from "@/i18n/config";
 import type { RecommendationsConfig } from "@/types/recommendations";
@@ -48,6 +52,16 @@ export function RecommendationsPageView({
         {config.introduction ? (
           <p className="recommendations-intro">{renderInlineMarkdown(config.introduction)}</p>
         ) : null}
+        <div className="recommendations-google-cta">
+          <a
+            className="site-cta-btn site-cta-btn--outline recommendations-google-btn"
+            href={RECOMMENDATIONS_GOOGLE_REVIEWS_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span className="site-cta-btn-label">{RECOMMENDATIONS_GOOGLE_REVIEWS_LABEL}</span>
+          </a>
+        </div>
       </header>
 
       {items.length === 0 ? (

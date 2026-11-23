@@ -19,7 +19,12 @@ test('recommendations metadata has its own canonical and social URL, disabled pa
  const meta=await generateMetadata();
  assert.equal(meta.alternates.canonical,'/recommendations');
  assert.equal(meta.openGraph.url,'/recommendations');
- assert.equal(meta.description,'התוכן הקיים');
+ assert.equal(
+  meta.description,
+  'טעמו, סיקרו ושיתפו. צפו בסרטונים של יוצרי תוכן ובכתבות על SO WHAT ברעננה, וקבלו הצצה להמבורגרים ולאווירה דרך העיניים של מי שבאו לטעום.'
+ );
+ assert.doesNotMatch(meta.description,/google\.com|לכל הביקורות/);
+ assert.notEqual(meta.description,'התוכן הקיים');
  enabled=false;
  const hidden=await generateMetadata();
  assert.equal(hidden.robots.index,false);

@@ -20,6 +20,16 @@ export const DEFAULT_RECOMMENDATIONS_CONFIG: RecommendationsConfig = {
   updatedAt: new Date(0).toISOString()
 };
 
+/** Page meta description — independent from CMS intro and the Google CTA. */
+export const RECOMMENDATIONS_META_DESCRIPTION =
+  "טעמו, סיקרו ושיתפו. צפו בסרטונים של יוצרי תוכן ובכתבות על SO WHAT ברעננה, וקבלו הצצה להמבורגרים ולאווירה דרך העיניים של מי שבאו לטעום.";
+
+/** Direct Google Maps reviews tab for SO WHAT, Ahuza 96 Ra'anana. */
+export const RECOMMENDATIONS_GOOGLE_REVIEWS_URL =
+  "https://www.google.com/maps/place/So+What/@32.1799866,34.8802725,17z/data=!4m8!3m7!1s0x151d39001912cc1f:0x48f36f9b49e318bf!8m2!3d32.1799821!4d34.8777029!9m1!1b1!16s%2Fg%2F11p24yjrcq";
+
+export const RECOMMENDATIONS_GOOGLE_REVIEWS_LABEL = "לכל הביקורות בגוגל";
+
 const PLATFORMS: RecommendationPlatform[] = ["instagram", "tiktok", "youtube", "other"];
 const MEDIA_TYPES: RecommendationMediaType[] = ["image", "video"];
 const TEMPLATES: RecommendationTemplate[] = ["portrait", "quote", "media"];

@@ -7696,6 +7696,35 @@ a.menu-showcase-button.site-cta-btn {
   line-height: 1.55;
 }
 
+.admin-stack {
+  display: grid;
+  gap: 20px;
+}
+
+.admin-delivery-zones-list {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.admin-delivery-zone-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: end;
+  padding: 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius-md, 10px);
+  background: var(--admin-surface-2, transparent);
+}
+
+@media (max-width: 800px) {
+  .admin-delivery-zone-row {
+    grid-template-columns: 1fr;
+    align-items: stretch;
+  }
+}
+
 .admin-card {
   min-width: 0;
   border: 1px solid var(--admin-border);

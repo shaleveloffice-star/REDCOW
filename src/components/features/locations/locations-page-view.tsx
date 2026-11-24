@@ -24,6 +24,8 @@ type LocationsPageViewProps = {
   branches: Branch[];
   exteriorImage: string;
   seoContent: ResolvedSeoPageContent;
+  deliveryZones?: ReadonlyArray<{ name: string; areasNote?: string }>;
+  deliveryZonesNote?: string;
 };
 
 type LocationCard = {
@@ -96,13 +98,22 @@ function LocationsSeoIntro({ text }: { text: string }) {
   );
 }
 
-export function LocationsPageView({ branches, exteriorImage, seoContent }: LocationsPageViewProps) {
+export function LocationsPageView({
+  branches,
+  exteriorImage,
+  seoContent,
+  deliveryZones,
+  deliveryZonesNote
+}: LocationsPageViewProps) {
   const t = useTranslations();
   const { locale } = useLocale();
   const cards = useMemo(
     () => buildCards(branches, exteriorImage, locale),
     [branches, exteriorImage, locale]
   );
+  const zones =
+    deliveryZones && deliveryZones.length > 0 ? deliveryZones : t.locations.deliveryZones;
+  const zonesNote = deliveryZonesNote?.trim() || t.locations.deliveryZonesNote;
 
   return (
     <div className="locations-page">
@@ -166,7 +177,7 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
         <div className="locations-delivery">
           <h2 className="locations-list-title">{t.locations.deliveryZonesTitle}</h2>
           <ul className="locations-delivery-grid">
-            {t.locations.deliveryZones.map((zone) => (
+            {zones.map((zone) => (
               <li key={`${zone.name}-${zone.areasNote ?? ""}`}>
                 <article className="locations-delivery-tile">
                   <IconLocationPinFilled className="locations-delivery-tile-icon" aria-hidden="true" />
@@ -185,7 +196,7 @@ export function LocationsPageView({ branches, exteriorImage, seoContent }: Locat
               </li>
             ))}
           </ul>
-          <p className="locations-delivery-note">{t.locations.deliveryZonesNote}</p>
+          <p className="locations-delivery-note">{zonesNote}</p>
         </div>
 
         <p className="locations-back">

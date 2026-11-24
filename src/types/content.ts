@@ -75,6 +75,18 @@ export type Branch = {
   updatedAt: ISODateString;
 };
 
+export type DeliveryZone = {
+  name: string;
+  areasNote?: string;
+};
+
+/** Editable delivery areas shown on /locations — empty zones keep the i18n fallback. */
+export type DeliveryZonesConfig = {
+  zones: DeliveryZone[];
+  note: string;
+  updatedAt: ISODateString;
+};
+
 export type PressItem = {
   id: string;
   title: string;

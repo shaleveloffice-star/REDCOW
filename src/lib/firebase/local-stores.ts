@@ -12,6 +12,7 @@ import type {
   CareerApplication,
   ContactMessage,
   CustomerClubSignup,
+  DeliveryZonesConfig,
   HomepageMenuShowcaseConfig,
   MenuCategory,
   MenuItem,
@@ -25,6 +26,7 @@ import type { GalleryImage } from "@/types/gallery";
 import type { SiteImageOverride } from "@/types/site-images";
 import type { EmailCampaign } from "@/types/email-campaign";
 import { defaultAnnouncementPopupConfig } from "@/data/announcement-popup-defaults";
+import { defaultDeliveryZonesConfig } from "@/data/delivery-zones-defaults";
 
 export const localMenuItemsStore = createJsonFileStore<MenuItem>("menu-items.json", mockMenuItems);
 export const localMenuCategoriesStore = createJsonFileStore<MenuCategory>(
@@ -70,4 +72,9 @@ export const localSiteSettingsStore = createJsonSingleDocStore<SiteSettings>(
 export const localAnnouncementPopupStore = createJsonSingleDocStore<AnnouncementPopupConfig>(
   "announcement-popup.json",
   defaultAnnouncementPopupConfig()
+);
+
+export const localDeliveryZonesStore = createJsonSingleDocStore<DeliveryZonesConfig>(
+  "delivery-zones.json",
+  defaultDeliveryZonesConfig()
 );

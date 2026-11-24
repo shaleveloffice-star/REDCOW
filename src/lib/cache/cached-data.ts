@@ -37,7 +37,8 @@ export const CACHE_TAGS = {
   recommendations: "recommendations",
   seoContent: "seo-content",
   brandStories: "brand-stories",
-  announcementPopup: "announcement-popup"
+  announcementPopup: "announcement-popup",
+  deliveryZones: "delivery-zones"
 } as const;
 
 export const getCachedMenuHero = unstable_cache(
@@ -207,4 +208,13 @@ export const getCachedAnnouncementPopup = unstable_cache(
   },
   [CACHE_TAGS.announcementPopup, "v1", "sowhat-compliance-v2"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.announcementPopup] }
+);
+
+export const getCachedDeliveryZones = unstable_cache(
+  async () => {
+    const { getDeliveryZones } = await import("@/services/delivery-zones.service");
+    return getDeliveryZones();
+  },
+  [CACHE_TAGS.deliveryZones, "v1"],
+  { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.deliveryZones] }
 );

@@ -625,7 +625,7 @@ export function AdminMenuTable({
             {uploadingImage ? <p className="muted">דוחס תמונה עד 80KB…</p> : null}
             <label>
               זום למרכז התמונה — {Math.round(normalizeMenuImageZoom(draft.imageZoom) * 100)}%
-              <input type="range" min={1} max={3} step={0.05} value={normalizeMenuImageZoom(draft.imageZoom)} onChange={event => setDraft({ ...draft, imageZoom: Number(event.target.value) })} />
+              <input type="range" min={0} max={3} step={0.05} value={normalizeMenuImageZoom(draft.imageZoom)} onChange={event => setDraft({ ...draft, imageZoom: Number(event.target.value) })} />
             </label>
             <button type="button" className="button secondary" onClick={() => setDraft({ ...draft, imageZoom: 1 })}>איפוס זום</button>
             <p className="muted">הגדלה למרכז התמונה, ללא שינוי הקובץ המקורי. לחצו שמור להחלת הזום באתר. הזום חל על תמונות בלבד.</p>

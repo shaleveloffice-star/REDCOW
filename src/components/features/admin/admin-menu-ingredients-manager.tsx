@@ -173,7 +173,7 @@ export function AdminMenuIngredientsManager({
             ) : null}
             <label>
               זום למרכז התמונה — {Math.round(normalizeMenuImageZoom(draft.imageZoom) * 100)}%
-              <input type="range" min={1} max={3} step={0.05} value={normalizeMenuImageZoom(draft.imageZoom)} onChange={event => setDraft({ ...draft, imageZoom: Number(event.target.value) })} />
+              <input type="range" min={0} max={3} step={0.05} value={normalizeMenuImageZoom(draft.imageZoom)} onChange={event => setDraft({ ...draft, imageZoom: Number(event.target.value) })} />
             </label>
 
             <details>

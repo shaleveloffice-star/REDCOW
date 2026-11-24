@@ -151,8 +151,8 @@ export async function saveMenuItemCore(input: MenuItem): Promise<SaveMenuItemRes
       }
     }
 
-    if (input.imageZoom !== undefined && (typeof input.imageZoom !== "number" || !Number.isFinite(input.imageZoom) || input.imageZoom < 1 || input.imageZoom > 3)) {
-      return { ok: false, error: "זום התמונה חייב להיות בין 100% ל-300%" };
+    if (input.imageZoom !== undefined && (typeof input.imageZoom !== "number" || !Number.isFinite(input.imageZoom) || input.imageZoom < 0 || input.imageZoom > 3)) {
+      return { ok: false, error: "זום התמונה חייב להיות בין 0% ל-300%" };
     }
     const imageAlt = optionalTrim(input.imageAlt);
 

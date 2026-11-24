@@ -8,7 +8,7 @@ import {
 } from "@/lib/site-image-focus";
 
 export function normalizeMenuImageZoom(value: unknown): number {
-  return typeof value === "number" && Number.isFinite(value) ? Math.min(3, Math.max(1, value)) : 1;
+  return typeof value === "number" && Number.isFinite(value) ? Math.min(3, Math.max(0, value)) : 1;
 }
 
 /** Clip the enlarged image back to its original frame; the source file is untouched. */
@@ -27,7 +27,7 @@ export function menuImageZoomStyle(
     scale: zoom,
     objectPosition: origin,
     transformOrigin: origin,
-    clipPath: `inset(${(1 - 1 / zoom) * 50}%)`
+    clipPath: `inset(${zoom > 1 ? (1 - 1 / zoom) * 50 : 0}%)`
   };
 }
 
@@ -52,7 +52,7 @@ export function menuImageMediaStyle(options: {
       ? {}
       : {
           scale: zoom,
-          clipPath: `inset(${(1 - 1 / zoom) * 50}%)`
+          clipPath: `inset(${zoom > 1 ? (1 - 1 / zoom) * 50 : 0}%)`
         })
   };
 }

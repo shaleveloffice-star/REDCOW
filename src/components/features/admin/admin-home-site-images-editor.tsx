@@ -141,7 +141,7 @@ function OverlayPreview({
       ? {}
       : {
           scale,
-          clipPath: `inset(${(1 - 1 / scale) * 50}%)`
+          clipPath: `inset(${scale > 1 ? (1 - 1 / scale) * 50 : 0}%)`
         })
   };
   return (
@@ -488,7 +488,7 @@ export function AdminHomeSiteImagesEditor({
                         <input
                           id={zoomInputId}
                           type="range"
-                          min={1}
+                          min={0}
                           max={3}
                           step={0.05}
                           value={draft.zoom}

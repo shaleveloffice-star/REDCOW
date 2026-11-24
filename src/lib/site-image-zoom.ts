@@ -8,6 +8,7 @@ export function siteImageZoomId(id: string): string {
 }
 
 export function normalizeSiteImageZoom(raw: unknown): number {
+  if (raw == null || (typeof raw === "string" && raw.trim() === "")) return 1;
   const value = typeof raw === "number" ? raw : Number(raw);
   return Math.round(normalizeMenuImageZoom(value) * 100) / 100;
 }

@@ -25,6 +25,7 @@ export function menuImageZoomStyle(
   }
   return {
     scale: zoom,
+    ...(zoom < 1 ? { objectFit: "contain" as const } : {}),
     objectPosition: origin,
     transformOrigin: origin,
     clipPath: `inset(${zoom > 1 ? (1 - 1 / zoom) * 50 : 0}%)`
@@ -52,6 +53,7 @@ export function menuImageMediaStyle(options: {
       ? {}
       : {
           scale: zoom,
+          ...(zoom < 1 ? { objectFit: "contain" as const } : {}),
           clipPath: `inset(${zoom > 1 ? (1 - 1 / zoom) * 50 : 0}%)`
         })
   };

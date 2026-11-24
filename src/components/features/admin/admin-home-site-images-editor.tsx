@@ -141,6 +141,7 @@ function OverlayPreview({
       ? {}
       : {
           scale,
+          ...(scale < 1 ? { objectFit: "contain" as const } : {}),
           clipPath: `inset(${scale > 1 ? (1 - 1 / scale) * 50 : 0}%)`
         })
   };

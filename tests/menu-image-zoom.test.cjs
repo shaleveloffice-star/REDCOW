@@ -42,8 +42,10 @@ test('zoom out supports zero and fractional scales without invalid clipping', ()
   for (const zoom of [0, 0.25, 0.5]) {
     assert.equal(normalizeMenuImageZoom(zoom), zoom);
     assert.equal(menuImageZoomStyle(zoom).scale, zoom);
+    assert.equal(menuImageZoomStyle(zoom).objectFit, 'contain');
     assert.equal(menuImageZoomStyle(zoom).clipPath, 'inset(0%)');
     assert.equal(menuImageMediaStyle({ zoom }).scale, zoom);
+    assert.equal(menuImageMediaStyle({ zoom }).objectFit, 'contain');
     assert.equal(menuImageMediaStyle({ zoom }).clipPath, 'inset(0%)');
   }
 });

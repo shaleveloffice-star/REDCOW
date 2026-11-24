@@ -40,7 +40,7 @@ export function getPrivacyContentEn(): LegalDocument {
       }
     ],
     sections: [
-      { title: "Cookie preferences", blocks: [{ type: "paragraph", text: "Allow or decline analytics in Cookie preferences and change your choice using the button at the bottom of the website. Google Analytics does not load without permission. Your choice is stored in your browser. Essential storage supports language, accessibility and admin login. Google Maps loads after you click its load button. Instagram content loads automatically as you approach its section, without a click and independently of analytics permission; loading shares technical information with Instagram and may allow its cookies." }] },
+      { title: "Cookie preferences", blocks: [{ type: "paragraph", text: "Allow or decline analytics in Cookie preferences and change your choice using the button at the bottom of the website. Google Analytics does not load without permission. Your choice is stored in your browser. Essential storage supports language, accessibility and admin login. Google Maps loads automatically on the locations page; loading shares technical information with the provider and may allow its cookies. Instagram content loads automatically as you approach its section, without a click and independently of analytics permission; loading shares technical information with Instagram and may allow its cookies." }] },
       {
         title: "1. Who we are",
         blocks: [

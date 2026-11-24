@@ -24,13 +24,14 @@ export function normalizeDeliveryZonesConfig(
 ): DeliveryZonesConfig {
   const defaults = defaultDeliveryZonesConfig();
   const raw = input ?? {};
+  // Missing/invalid zones stay empty so the public page keeps the i18n fallback.
   const zones = Array.isArray(raw.zones)
     ? raw.zones.map(normalizeZone).filter((zone): zone is DeliveryZone => Boolean(zone)).slice(0, 40)
-    : defaults.zones;
+    : [];
 
   return {
     zones,
-    note: String(raw.note ?? defaults.note).trim().slice(0, 400) || defaults.note,
+    note: String(raw.note ?? "").trim().slice(0, 400),
     updatedAt:
       typeof raw.updatedAt === "string" && raw.updatedAt.trim()
         ? raw.updatedAt

@@ -1,6 +1,10 @@
 "use client";
 
 import { AdminFormFooter, useAdminMutation } from "@/components/features/admin/admin-crud-ui";
+import {
+  ADMIN_DELIVERY_ZONES_NOTE_SEED,
+  ADMIN_DELIVERY_ZONES_SEED
+} from "@/data/delivery-zones-defaults";
 import { saveDeliveryZonesAction } from "@/server/actions/delivery-zones.actions";
 import type { DeliveryZone, DeliveryZonesConfig } from "@/types/content";
 import { useState } from "react";
@@ -13,17 +17,27 @@ function cloneZones(zones: DeliveryZone[]): DeliveryZone[] {
   return zones.map((zone) => ({ name: zone.name, areasNote: zone.areasNote ?? "" }));
 }
 
+function formZonesFromConfig(config: DeliveryZonesConfig): DeliveryZone[] {
+  // Until the first admin save, prefill with the live public list for editing.
+  if (config.zones.length > 0) return cloneZones(config.zones);
+  return cloneZones(ADMIN_DELIVERY_ZONES_SEED);
+}
+
+function formNoteFromConfig(config: DeliveryZonesConfig): string {
+  if (config.note.trim()) return config.note;
+  if (config.zones.length > 0) return "";
+  return ADMIN_DELIVERY_ZONES_NOTE_SEED;
+}
+
 export function AdminDeliveryZonesManager({ initialConfig }: { initialConfig: DeliveryZonesConfig }) {
   const { isPending, error, setError, run } = useAdminMutation();
-  const [zones, setZones] = useState<DeliveryZone[]>(
-    initialConfig.zones.length > 0 ? cloneZones(initialConfig.zones) : [emptyZone()]
-  );
-  const [note, setNote] = useState(initialConfig.note);
+  const [zones, setZones] = useState<DeliveryZone[]>(() => formZonesFromConfig(initialConfig));
+  const [note, setNote] = useState(() => formNoteFromConfig(initialConfig));
   const [savedAt, setSavedAt] = useState<string | null>(null);
 
   const reset = () => {
-    setZones(initialConfig.zones.length > 0 ? cloneZones(initialConfig.zones) : [emptyZone()]);
-    setNote(initialConfig.note);
+    setZones(formZonesFromConfig(initialConfig));
+    setNote(formNoteFromConfig(initialConfig));
     setError(null);
     setSavedAt(null);
   };
@@ -43,7 +57,7 @@ export function AdminDeliveryZonesManager({ initialConfig }: { initialConfig: De
       }}
     >
       <p className="admin-form-hint">
-        הרשימה מוצגת בעמוד המיקומים תחת „אזורי המשלוחים”. אותו מבנה כמו באתר — רק התוכן ניתן לעריכה כאן.
+        העמוד הציבורי נשאר כמו שהוא עד לשמירה. אחרי שמירה, הרשימה כאן שולטת ב„אזורי המשלוחים” ב־/locations — בלי לשנות את מבנה העמוד.
       </p>
 
       <div className="admin-delivery-zones-list">

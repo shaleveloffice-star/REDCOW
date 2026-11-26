@@ -168,7 +168,9 @@ export function branchAddress(branch: Branch | undefined, locale: BusinessLocale
 export function branchMapsUrl(branch?: Branch): string {
   if (!branch || isPrimaryRaAnanaBranch(branch)) return getBusinessMapsSearchUrl();
   const normalized = normalizeBranchLocation(branch);
-  if (normalized.wazeUrl.trim()) return normalized.wazeUrl.trim();
+  const customMapsUrl = normalized.wazeUrl.trim();
+  // Stale default Maps URL on a relocated branch should not override the new address search.
+  if (customMapsUrl && customMapsUrl !== getBusinessMapsSearchUrl()) return customMapsUrl;
   return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branchAddress(normalized))}`;
 }
 

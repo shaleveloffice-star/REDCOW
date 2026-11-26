@@ -65,7 +65,8 @@
 
 .locations-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(240px, 300px));
+  justify-content: start;
   gap: 24px;
   margin: 0;
   padding: 0;
@@ -75,6 +76,7 @@
 .locations-card-media {
   position: relative;
   aspect-ratio: 16 / 11;
+  max-height: 200px;
   margin-bottom: 14px;
   overflow: hidden;
   background: #1a1a1a;
@@ -217,7 +219,7 @@
 
 @media (max-width: 900px) {
   .locations-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 300px);
   }
 
   .locations-delivery-grid {

@@ -220,6 +220,18 @@
 @media (max-width: 900px) {
   .locations-grid {
     grid-template-columns: minmax(0, 300px);
+    justify-content: center;
+    justify-items: center;
+  }
+
+  .locations-card {
+    width: 100%;
+    max-width: 300px;
+    text-align: center;
+  }
+
+  .locations-card-link {
+    justify-content: center;
   }
 
   .locations-delivery-grid {

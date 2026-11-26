@@ -219,15 +219,20 @@
 
 @media (max-width: 900px) {
   .locations-grid {
-    grid-template-columns: minmax(0, 300px);
-    justify-content: center;
-    justify-items: center;
+    grid-template-columns: 1fr;
+    justify-content: stretch;
+    justify-items: stretch;
   }
 
   .locations-card {
     width: 100%;
-    max-width: 300px;
+    max-width: none;
     text-align: center;
+  }
+
+  .locations-card-media {
+    max-height: none;
+    width: 100%;
   }
 
   .locations-card-link {

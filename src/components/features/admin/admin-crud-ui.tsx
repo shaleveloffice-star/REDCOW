@@ -165,8 +165,9 @@ export function useAdminMutation() {
         onSuccess?.();
       } catch (err) {
         const raw = err instanceof Error ? err.message : "פעולה נכשלה";
-        const message =
-          /digest|Server Components render|omitted in production/i.test(raw)
+        const message = /Server Action .+ was not found|failed-to-find-server-action/i.test(raw)
+          ? "האדמין לא מסונכרן אחרי עדכון האתר. רעננו את הדף (Ctrl+Shift+R) ונסו שוב."
+          : /digest|Server Components render|omitted in production/i.test(raw)
             ? "הפעולה נכשלה בשרת. נסו שוב או רעננו את הדף."
             : raw;
         setError(message);

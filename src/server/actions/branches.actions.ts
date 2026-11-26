@@ -23,6 +23,21 @@ export async function getBranchesAdminData() {
   return listBranches();
 }
 
+function sanitizeMapsUrl(value: string): string {
+  const trimmed = assertSafeHttpUrl(value, "קישור Google Maps");
+  if (!trimmed) return "";
+  try {
+    const url = new URL(trimmed);
+    // Drop tracking noise from shared Google Maps links.
+    for (const key of ["entry", "g_ep", "skid", "utm_source", "utm_medium", "utm_campaign"]) {
+      url.searchParams.delete(key);
+    }
+    return url.toString();
+  } catch {
+    return trimmed;
+  }
+}
+
 export async function saveBranchAction(input: Branch) {
   await requireAdmin();
   if (!input.name.trim()) throw new Error("שם הסניף נדרש");
@@ -36,7 +51,7 @@ export async function saveBranchAction(input: Branch) {
     address: input.address.trim(),
     phone: input.phone.trim(),
     openingHours: input.openingHours.trim(),
-    wazeUrl: assertSafeHttpUrl(input.wazeUrl, "קישור Google Maps"),
+    wazeUrl: sanitizeMapsUrl(input.wazeUrl),
     isActive: input.isActive !== false
   });
   revalidateBranches();

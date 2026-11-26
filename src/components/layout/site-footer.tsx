@@ -5,10 +5,11 @@ import { FooterCustomerClubCta } from "@/components/layout/footer-customer-club-
 import { IconMail, IconMapPin, IconPhone } from "@/components/shared/site-icons";
 import { SITE_WORDMARK_LIGHT_SRC, SITE_WORDMARK_LIGHT_WEBP_SRC } from "@/data/brand-assets";
 import { BUSINESS, branchMapsUrl, branchAddress } from "@/data/business";
-import { getAboutPageEnabled, getRecommendationsForDisplay } from "@/lib/cache/cached-data";
+import { getAboutPageEnabled, getRecommendationsForDisplay, getSiteNavForDisplay } from "@/lib/cache/cached-data";
 import { getLocalizedMessages } from "@/i18n/get-localized-messages";
 import { getServerLocale } from "@/i18n/get-locale";
 import { resolveImageAlt } from "@/lib/image-alt";
+import { resolveSiteNavLinks } from "@/lib/navigation/site-nav";
 import careersStyles from "./careers-links.module.css";
 
 function InstagramIcon() {
@@ -56,20 +57,29 @@ export async function SiteFooter() {
       ? { title: "Nous recrutons", subtitle: "Rejoignez SO WHAT · Débutants bienvenus" }
       : { title: "We're hiring", subtitle: "Join SO WHAT · No experience needed" };
 
-  const [aboutEnabled, recommendations] = await Promise.all([
+  const [aboutEnabled, recommendations, siteNav] = await Promise.all([
     getAboutPageEnabled(),
-    getRecommendationsForDisplay()
+    getRecommendationsForDisplay(),
+    getSiteNavForDisplay()
   ]);
-  const footerNavLinks = [
-    { label: t.nav.home, href: "/" },
-    { label: t.nav.menu, href: "/menu" },
-    { label: t.nav.kosher, href: "/kosher" },
-    { label: t.nav.location, href: "/locations" },
-    ...(recommendations.enabled
-      ? [{ label: t.nav.recommendations, href: "/recommendations" }]
-      : []),
-    ...(aboutEnabled ? [{ label: t.nav.about, href: "/about" }] : [])
-  ];
+  const footerNavLinks = resolveSiteNavLinks({
+    itemIds: siteNav.itemIds,
+    labels: {
+      home: t.nav.home,
+      menu: t.nav.menu,
+      kosher: t.nav.kosher,
+      locations: t.nav.location,
+      recommendations: t.nav.recommendations,
+      about: t.nav.about,
+      careers: locale === "he" ? "דרושים" : locale === "fr" ? "Recrutement" : "Careers",
+      magazine: t.nav.magazine
+    },
+    aboutEnabled,
+    recommendationsEnabled: recommendations.enabled,
+    // Keep magazine in footer as a simple /stories link when stories exist.
+    magazineEnabled: true,
+    includeMagazine: true
+  });
 
   return (
     <footer className="site-footer" id="site-footer">
@@ -107,7 +117,7 @@ export async function SiteFooter() {
             </h2>
             <nav className="site-footer-links" aria-label={t.footer.nav}>
               {footerNavLinks.map((item) => (
-                <a key={item.href} href={item.href}>
+                <a key={item.id} href={item.href}>
                   {item.label}
                 </a>
               ))}

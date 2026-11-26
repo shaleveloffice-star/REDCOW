@@ -525,6 +525,63 @@
   border-block-end: 1px solid var(--admin-border);
 }
 
+.admin-site-nav-list {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-site-nav-row {
+  display: grid;
+  grid-template-columns: auto auto minmax(160px, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 14px;
+  background: var(--admin-surface);
+}
+
+.admin-site-nav-row.is-dragging {
+  opacity: 0.45;
+}
+
+.admin-site-nav-drag {
+  border: 0;
+  background: transparent;
+  color: var(--admin-text-muted);
+  font-size: 1.2rem;
+  cursor: grab;
+}
+
+.admin-site-nav-order {
+  color: var(--admin-text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 1.5rem;
+}
+
+.admin-site-nav-summary {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.admin-site-nav-summary strong {
+  font-size: 0.95rem;
+}
+
+.admin-site-nav-summary span {
+  color: var(--admin-text-muted);
+  font-size: 0.8rem;
+}
+
+.admin-site-nav-actions {
+  display: inline-flex;
+  gap: 6px;
+}
+
 .admin-recommendations-list-wrap {
   min-width: 0;
 }

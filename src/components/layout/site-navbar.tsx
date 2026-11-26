@@ -20,8 +20,10 @@ import { BUSINESS } from "@/data/business";
 import { useTranslations, useLocale } from "@/components/providers/locale-provider";
 import { focusElement, isFocusRestoreTarget, mountModal } from "@/lib/a11y/focus-trap";
 import { trackEvent, type AnalyticsSource } from "@/lib/analytics";
+import { DEFAULT_SITE_NAV_ITEM_IDS } from "@/data/site-nav-defaults";
+import { resolveSiteNavLinks } from "@/lib/navigation/site-nav";
 import { resolveOrderUrl } from "@/lib/orders";
-import type { OrderLink } from "@/types/content";
+import type { OrderLink, SiteNavItemId } from "@/types/content";
 import careersStyles from "./careers-links.module.css";
 
 export type MagazineNavStory = {
@@ -36,6 +38,7 @@ type SiteNavbarProps = {
   magazineStories?: MagazineNavStory[];
   aboutEnabled?: boolean;
   recommendationsEnabled?: boolean;
+  navItemIds?: SiteNavItemId[];
 };
 
 /** Touch / stylus / no-hover pointers — prefer tap-to-toggle over hover menus. */
@@ -131,7 +134,8 @@ export function SiteNavbar({
   orderLinks = [],
   magazineStories = [],
   aboutEnabled = false,
-  recommendationsEnabled = false
+  recommendationsEnabled = false,
+  navItemIds = [...DEFAULT_SITE_NAV_ITEM_IDS]
 }: SiteNavbarProps) {
   const t = useTranslations();
   const router = useRouter();
@@ -157,23 +161,6 @@ export function SiteNavbar({
     [orderLinks, orderUrl]
   );
 
-  const navLinks = useMemo(
-    () =>
-      [
-        { label: t.nav.home, href: "/" },
-        { label: t.nav.menu, href: "/menu" },
-        { label: t.nav.kosher, href: "/kosher" },
-        { label: t.nav.recommendations, href: "/recommendations" },
-        { label: t.nav.about, href: "/about" },
-        { label: locale === "he" ? "דרושים" : locale === "fr" ? "Recrutement" : "Careers", href: "/careers" }
-      ].filter(
-        (link) =>
-          (aboutEnabled || link.href !== "/about") &&
-          (recommendationsEnabled || link.href !== "/recommendations")
-      ),
-    [aboutEnabled, recommendationsEnabled, t, locale]
-  );
-
   const magazineItems = useMemo(
     () =>
       magazineStories
@@ -183,6 +170,27 @@ export function SiteNavbar({
           href: `/stories/${story.slug.trim()}`
         })),
     [magazineStories]
+  );
+
+  const navLinks = useMemo(
+    () =>
+      resolveSiteNavLinks({
+        itemIds: navItemIds,
+        labels: {
+          home: t.nav.home,
+          menu: t.nav.menu,
+          kosher: t.nav.kosher,
+          locations: t.nav.location,
+          recommendations: t.nav.recommendations,
+          about: t.nav.about,
+          careers: locale === "he" ? "דרושים" : locale === "fr" ? "Recrutement" : "Careers",
+          magazine: t.nav.magazine
+        },
+        aboutEnabled,
+        recommendationsEnabled,
+        magazineEnabled: magazineItems.length > 0
+      }),
+    [aboutEnabled, locale, magazineItems.length, navItemIds, recommendationsEnabled, t]
   );
 
   const trackOrder = (source: AnalyticsSource) => {
@@ -344,85 +352,86 @@ export function SiteNavbar({
 
           <div className="site-navbar-end">
             <ul className="site-navbar-links">
-              {navLinks.map((link) => (
-                <li key={link.href}>
-                  <a href={link.href} className={`site-navbar-link${link.href === "/careers" ? ` ${careersStyles.navLink}` : ""}`} aria-current={pathname === link.href ? "page" : undefined}>
-                    <span className="site-navbar-link-label">{link.label}</span>
-                  </a>
-                </li>
-              ))}
-              {magazineItems.length > 0 ? <li
-                ref={magazineRef}
-                className={`site-navbar-magazine${desktopMagazineOpen ? " is-open" : ""}`}
-                onMouseEnter={() => {
-                  if (!prefersTouchMenuInteraction()) {
-                    setDesktopMagazineOpen(true);
-                  }
-                }}
-                onMouseLeave={() => {
-                  if (!prefersTouchMenuInteraction()) {
-                    setDesktopMagazineOpen(false);
-                  }
-                }}
-              >
-                <a
-                  href="/stories"
-                  className="site-navbar-link site-navbar-magazine-trigger"
-                  aria-haspopup={magazineItems.length > 0 ? "menu" : undefined}
-                  aria-expanded={magazineItems.length > 0 ? desktopMagazineOpen : undefined}
-                  aria-controls={magazineItems.length > 0 ? magazineMenuId : undefined}
-                  onClick={(event) => {
-                    if (magazineItems.length === 0) return;
-                    // Keyboard (detail === 0): toggle without navigating.
-                    if (event.detail === 0) {
-                      event.preventDefault();
-                      setDesktopMagazineOpen((open) => !open);
-                      return;
-                    }
-                    // Touch / coarse pointer: first tap opens/closes; don't navigate yet.
-                    if (prefersTouchMenuInteraction()) {
-                      event.preventDefault();
-                      setDesktopMagazineOpen((open) => !open);
-                    }
-                    // Fine pointer mouse click: keep default navigation to /stories.
-                  }}
-                  onKeyDown={(event) => {
-                    if (magazineItems.length === 0) return;
-                    if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
-                      event.preventDefault();
-                      setDesktopMagazineOpen(true);
-                    }
-                  }}
-                >
-                  <span className="site-navbar-link-label">
-                    {t.nav.magazine}
-                    {magazineItems.length > 0 ? <IconMagazineChevron open={desktopMagazineOpen} /> : null}
-                  </span>
-                </a>
-                {magazineItems.length > 0 ? (
-                  <ul
-                    id={magazineMenuId}
-                    className="site-navbar-magazine-menu"
-                    dir={locale === "he" ? "rtl" : "ltr"}
-                    role="menu"
-                    aria-label={t.nav.magazine}
-                    hidden={!desktopMagazineOpen}
+              {navLinks.map((link) =>
+                link.id === "magazine" ? (
+                  <li
+                    key={link.id}
+                    ref={magazineRef}
+                    className={`site-navbar-magazine${desktopMagazineOpen ? " is-open" : ""}`}
+                    onMouseEnter={() => {
+                      if (!prefersTouchMenuInteraction()) {
+                        setDesktopMagazineOpen(true);
+                      }
+                    }}
+                    onMouseLeave={() => {
+                      if (!prefersTouchMenuInteraction()) {
+                        setDesktopMagazineOpen(false);
+                      }
+                    }}
                   >
-                    {magazineItems.map((item) => (
-                      <li key={item.href} role="none">
-                        <a
-                          href={item.href}
-                          className="site-navbar-magazine-item"
-                          role="menuitem"
-                          onClick={() => setDesktopMagazineOpen(false)}
-                        >
-                          {item.title}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </li> : null}
+                    <a
+                      href="/stories"
+                      className="site-navbar-link site-navbar-magazine-trigger"
+                      aria-haspopup="menu"
+                      aria-expanded={desktopMagazineOpen}
+                      aria-controls={magazineMenuId}
+                      onClick={(event) => {
+                        if (event.detail === 0) {
+                          event.preventDefault();
+                          setDesktopMagazineOpen((open) => !open);
+                          return;
+                        }
+                        if (prefersTouchMenuInteraction()) {
+                          event.preventDefault();
+                          setDesktopMagazineOpen((open) => !open);
+                        }
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === "ArrowDown" || event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          setDesktopMagazineOpen(true);
+                        }
+                      }}
+                    >
+                      <span className="site-navbar-link-label">
+                        {link.label}
+                        <IconMagazineChevron open={desktopMagazineOpen} />
+                      </span>
+                    </a>
+                    <ul
+                      id={magazineMenuId}
+                      className="site-navbar-magazine-menu"
+                      dir={locale === "he" ? "rtl" : "ltr"}
+                      role="menu"
+                      aria-label={link.label}
+                      hidden={!desktopMagazineOpen}
+                    >
+                      {magazineItems.map((item) => (
+                        <li key={item.href} role="none">
+                          <a
+                            href={item.href}
+                            className="site-navbar-magazine-item"
+                            role="menuitem"
+                            onClick={() => setDesktopMagazineOpen(false)}
+                          >
+                            {item.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  </li>
+                ) : (
+                  <li key={link.id}>
+                    <a
+                      href={link.href}
+                      className={`site-navbar-link${link.href === "/careers" ? ` ${careersStyles.navLink}` : ""}`}
+                      aria-current={pathname === link.href ? "page" : undefined}
+                    >
+                      <span className="site-navbar-link-label">{link.label}</span>
+                    </a>
+                  </li>
+                )
+              )}
               <li>
                 <a
                   href={BUSINESS.social.instagram}
@@ -516,18 +525,61 @@ export function SiteNavbar({
             <IconClose />
           </button>
           <div className="site-nav-overlay-links">
-            {navLinks.map((link, index) => (
-              <a
-                key={link.href}
-                href={link.href}
-                className={`site-nav-overlay-link${link.href === "/careers" ? ` ${careersStyles.mobileLink}` : ""}`}
-                aria-current={pathname === link.href ? "page" : undefined}
-                style={{ animationDelay: `${index * 0.08}s` }}
-                onClick={() => closeMenu(true)}
-              >
-                {link.label}
-              </a>
-            ))}
+            {navLinks.map((link, index) =>
+              link.id === "magazine" ? (
+                <div
+                  key={link.id}
+                  className="site-nav-overlay-magazine"
+                  style={{ animationDelay: `${index * 0.08}s` }}
+                >
+                  <div className="site-nav-overlay-magazine-row">
+                    <a
+                      href="/stories"
+                      className="site-nav-overlay-link site-nav-overlay-magazine-link"
+                      onClick={() => closeMenu(true)}
+                    >
+                      {link.label}
+                    </a>
+                    <button
+                      type="button"
+                      className="site-nav-overlay-magazine-toggle"
+                      aria-expanded={mobileMagazineOpen}
+                      aria-controls={mobileMagazineId}
+                      aria-label={link.label}
+                      onClick={() => setMobileMagazineOpen((open) => !open)}
+                    >
+                      <IconMagazineChevron open={mobileMagazineOpen} />
+                    </button>
+                  </div>
+                  {mobileMagazineOpen ? (
+                    <ul id={mobileMagazineId} className="site-nav-overlay-magazine-list">
+                      {magazineItems.map((item) => (
+                        <li key={item.href}>
+                          <a
+                            href={item.href}
+                            className="site-nav-overlay-magazine-item"
+                            onClick={() => closeMenu(true)}
+                          >
+                            {item.title}
+                          </a>
+                        </li>
+                      ))}
+                    </ul>
+                  ) : null}
+                </div>
+              ) : (
+                <a
+                  key={link.id}
+                  href={link.href}
+                  className={`site-nav-overlay-link${link.href === "/careers" ? ` ${careersStyles.mobileLink}` : ""}`}
+                  aria-current={pathname === link.href ? "page" : undefined}
+                  style={{ animationDelay: `${index * 0.08}s` }}
+                  onClick={() => closeMenu(true)}
+                >
+                  {link.label}
+                </a>
+              )
+            )}
             <a
               href={deliveryUrl}
               className="site-nav-overlay-link"
@@ -552,47 +604,6 @@ export function SiteNavbar({
             >
               Instagram
             </a>
-            {magazineItems.length > 0 ? (
-              <div
-                className="site-nav-overlay-magazine"
-                style={{ animationDelay: `${(navLinks.length + 2) * 0.08}s` }}
-              >
-                <div className="site-nav-overlay-magazine-row">
-                  <a
-                    href="/stories"
-                    className="site-nav-overlay-link site-nav-overlay-magazine-link"
-                    onClick={() => closeMenu(true)}
-                  >
-                    {t.nav.magazine}
-                  </a>
-                  <button
-                    type="button"
-                    className="site-nav-overlay-magazine-toggle"
-                    aria-expanded={mobileMagazineOpen}
-                    aria-controls={mobileMagazineId}
-                    aria-label={t.nav.magazine}
-                    onClick={() => setMobileMagazineOpen((open) => !open)}
-                  >
-                    <IconMagazineChevron open={mobileMagazineOpen} />
-                  </button>
-                </div>
-                {mobileMagazineOpen ? (
-                  <ul id={mobileMagazineId} className="site-nav-overlay-magazine-list">
-                    {magazineItems.map((item) => (
-                      <li key={item.href}>
-                        <a
-                          href={item.href}
-                          className="site-nav-overlay-magazine-item"
-                          onClick={() => closeMenu(true)}
-                        >
-                          {item.title}
-                        </a>
-                      </li>
-                    ))}
-                  </ul>
-                ) : null}
-              </div>
-            ) : null}
           </div>
         </div>
       ) : null}

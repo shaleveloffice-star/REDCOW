@@ -3,7 +3,7 @@ import { FloatingLanguageButton } from "@/components/layout/floating-language-bu
 import { SiteHeaderClient } from "@/components/layout/site-header-client";
 import { PageTransitionLoader } from "@/components/layout/page-transition-loader";
 import type { MagazineNavStory } from "@/components/layout/site-navbar";
-import type { AnnouncementPopupConfig, OrderLink } from "@/types/content";
+import type { AnnouncementPopupConfig, OrderLink, SiteNavItemId } from "@/types/content";
 import { Suspense } from "react";
 
 type SiteChromeProps = {
@@ -12,6 +12,7 @@ type SiteChromeProps = {
   announcementPopup: AnnouncementPopupConfig;
   aboutEnabled?: boolean;
   recommendationsEnabled?: boolean;
+  navItemIds?: SiteNavItemId[];
   children: React.ReactNode;
 };
 
@@ -22,6 +23,7 @@ export function SiteChrome({
   announcementPopup,
   aboutEnabled = false,
   recommendationsEnabled = false,
+  navItemIds,
   children
 }: SiteChromeProps) {
   return (
@@ -33,6 +35,7 @@ export function SiteChrome({
           announcementPopup={announcementPopup}
           aboutEnabled={aboutEnabled}
           recommendationsEnabled={recommendationsEnabled}
+          navItemIds={navItemIds}
         />
         <SiteChromeOffsetSync />
         <Suspense fallback={null}>

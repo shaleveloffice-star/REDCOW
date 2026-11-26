@@ -13,6 +13,7 @@ import {
   Info,
   LayoutDashboard,
   Link2,
+  ListOrdered,
   LogOut,
   Mail,
   MapPin,
@@ -79,6 +80,7 @@ const navGroups: NavGroup[] = [
     id: "seo",
     label: "SEO ועמודים",
     items: [
+      { href: "/admin/pages/navigation", label: "סדר ניווט", icon: ListOrdered },
       { href: "/admin/pages/home", label: "דף הבית", icon: Home },
       { href: "/admin/pages/about", label: "אודות", icon: Info },
       { href: "/admin/pages/kosher", label: "כשרות", icon: BadgeCheck },

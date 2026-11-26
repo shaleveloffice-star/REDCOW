@@ -19,6 +19,7 @@ import type {
   OrderLink,
   PressItem,
   AnnouncementPopupConfig,
+  SiteNavConfig,
   SiteSettings
 } from "@/types/content";
 import type { BrandStory } from "@/types/story";
@@ -27,6 +28,7 @@ import type { SiteImageOverride } from "@/types/site-images";
 import type { EmailCampaign } from "@/types/email-campaign";
 import { defaultAnnouncementPopupConfig } from "@/data/announcement-popup-defaults";
 import { defaultDeliveryZonesConfig } from "@/data/delivery-zones-defaults";
+import { defaultSiteNavConfig } from "@/data/site-nav-defaults";
 
 export const localMenuItemsStore = createJsonFileStore<MenuItem>("menu-items.json", mockMenuItems);
 export const localMenuCategoriesStore = createJsonFileStore<MenuCategory>(
@@ -77,4 +79,9 @@ export const localAnnouncementPopupStore = createJsonSingleDocStore<Announcement
 export const localDeliveryZonesStore = createJsonSingleDocStore<DeliveryZonesConfig>(
   "delivery-zones.json",
   defaultDeliveryZonesConfig()
+);
+
+export const localSiteNavStore = createJsonSingleDocStore<SiteNavConfig>(
+  "site-nav.json",
+  defaultSiteNavConfig()
 );

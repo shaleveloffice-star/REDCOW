@@ -39,6 +39,7 @@ export const CACHE_TAGS = {
   brandStories: "brand-stories",
   announcementPopup: "announcement-popup",
   deliveryZones: "delivery-zones",
+  siteNav: "site-nav",
   branches: "branches"
 } as const;
 
@@ -219,6 +220,25 @@ export const getCachedDeliveryZones = unstable_cache(
   [CACHE_TAGS.deliveryZones, "v1"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.deliveryZones] }
 );
+
+export const getCachedSiteNav = unstable_cache(
+  async () => {
+    const { getSiteNav } = await import("@/services/site-nav.service");
+    return getSiteNav();
+  },
+  [CACHE_TAGS.siteNav, "v1"],
+  { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.siteNav] }
+);
+
+export async function getSiteNavForDisplay() {
+  try {
+    return await getCachedSiteNav();
+  } catch (error) {
+    console.error("[site-nav] read failed", error);
+    const { defaultSiteNavConfig } = await import("@/data/site-nav-defaults");
+    return defaultSiteNavConfig();
+  }
+}
 
 export const getCachedBranches = unstable_cache(
   async () => {

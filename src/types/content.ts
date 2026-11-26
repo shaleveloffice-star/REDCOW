@@ -89,6 +89,23 @@ export type DeliveryZonesConfig = {
   updatedAt: ISODateString;
 };
 
+/** Primary site navigation entries (header, mobile menu, footer). */
+export type SiteNavItemId =
+  | "home"
+  | "menu"
+  | "kosher"
+  | "locations"
+  | "recommendations"
+  | "about"
+  | "careers"
+  | "magazine";
+
+/** Admin-controlled order for public navigation. */
+export type SiteNavConfig = {
+  itemIds: SiteNavItemId[];
+  updatedAt: ISODateString;
+};
+
 export type PressItem = {
   id: string;
   title: string;

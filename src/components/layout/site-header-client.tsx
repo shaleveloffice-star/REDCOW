@@ -6,7 +6,7 @@ import { SiteOpeningAnnouncement } from "@/components/layout/site-opening-announ
 import { SiteOpeningBanner } from "@/components/layout/site-opening-banner";
 import { KosherSlideNotice } from "@/components/layout/kosher-slide-notice";
 import { SiteNavbar, type MagazineNavStory } from "@/components/layout/site-navbar";
-import type { AnnouncementPopupConfig, OrderLink } from "@/types/content";
+import type { AnnouncementPopupConfig, OrderLink, SiteNavItemId } from "@/types/content";
 
 type SiteHeaderClientProps = {
   orderLinks: OrderLink[];
@@ -14,6 +14,7 @@ type SiteHeaderClientProps = {
   announcementPopup: AnnouncementPopupConfig;
   aboutEnabled?: boolean;
   recommendationsEnabled?: boolean;
+  navItemIds?: SiteNavItemId[];
 };
 
 export function SiteHeaderClient({
@@ -21,7 +22,8 @@ export function SiteHeaderClient({
   magazineStories = [],
   announcementPopup,
   aboutEnabled = false,
-  recommendationsEnabled = false
+  recommendationsEnabled = false,
+  navItemIds
 }: SiteHeaderClientProps) {
   const pathname = usePathname();
   const isHome = pathname === "/";
@@ -43,6 +45,7 @@ export function SiteHeaderClient({
         magazineStories={magazineStories}
         aboutEnabled={aboutEnabled}
         recommendationsEnabled={recommendationsEnabled}
+        navItemIds={navItemIds}
       />
     </>
   );

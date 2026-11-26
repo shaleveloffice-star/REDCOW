@@ -70,6 +70,8 @@ export type Branch = {
   phone: string;
   openingHours: string;
   wazeUrl: string;
+  /** Optional exterior photo for /locations cards. Empty falls back to site location image. */
+  imageUrl?: string;
   isActive: boolean;
   createdAt: ISODateString;
   updatedAt: ISODateString;

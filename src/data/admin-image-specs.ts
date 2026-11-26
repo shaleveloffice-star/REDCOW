@@ -52,6 +52,15 @@ export const OG_IMAGE_SPEC: AdminImageSpec = {
   note: "שיתוף ברשתות (OG)"
 };
 
+export const BRANCH_IMAGE_SPEC: AdminImageSpec = {
+  width: 1600,
+  height: 1000,
+  maxBytes: 300 * 1024,
+  maxEdge: 1600,
+  aspectHint: "16:10",
+  note: "תמונת סניף לכרטיס בעמוד המיקומים"
+};
+
 export const PRESS_IMAGE_SPEC: AdminImageSpec = {
   width: 1200,
   height: 800,

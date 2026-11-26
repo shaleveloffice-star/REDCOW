@@ -10,7 +10,8 @@ import type { Branch } from "@/types/content";
 
 const branchesStore = createFirestoreCollectionStore("branches", localBranchesStore, {
   access: "public",
-  seed: mockBranches
+  seed: mockBranches,
+  deletableFields: ["imageUrl"]
 });
 
 export async function getBranches(): Promise<Branch[]> {
@@ -54,7 +55,14 @@ export async function deleteBranch(id: string): Promise<boolean> {
 
 function normalizeBranchRecord(branch: Branch): Branch {
   const withLocation = normalizeBranchLocation(branch);
-  return isLegacyBusinessHours(withLocation.openingHours)
-    ? { ...withLocation, openingHours: getBusinessHoursText() }
-    : withLocation;
+  const imageUrl = String(withLocation.imageUrl ?? "").trim();
+  const withImage: Branch = imageUrl
+    ? { ...withLocation, imageUrl }
+    : (() => {
+        const { imageUrl: _removed, ...rest } = withLocation;
+        return rest;
+      })();
+  return isLegacyBusinessHours(withImage.openingHours)
+    ? { ...withImage, openingHours: getBusinessHoursText() }
+    : withImage;
 }

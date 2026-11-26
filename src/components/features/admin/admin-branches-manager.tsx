@@ -7,8 +7,11 @@ import {
   AdminToolbar,
   useAdminMutation
 } from "@/components/features/admin/admin-crud-ui";
+import { AdminImageUrlField } from "@/components/features/admin/admin-site-image-picker";
 import { StatusBadge } from "@/components/features/admin/status-badge";
+import { BRANCH_IMAGE_SPEC } from "@/data/admin-image-specs";
 import { createId } from "@/lib/admin/new-id";
+import type { AdminPickableImage } from "@/lib/admin/pickable-site-images";
 import { deleteBranchAction, saveBranchAction } from "@/server/actions/branches.actions";
 import type { Branch } from "@/types/content";
 import { useState } from "react";
@@ -23,13 +26,20 @@ function newBranch(): Branch {
     phone: "",
     openingHours: "",
     wazeUrl: "",
+    imageUrl: "",
     isActive: true,
     createdAt: now,
     updatedAt: now
   };
 }
 
-export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
+export function AdminBranchesManager({
+  branches,
+  images
+}: {
+  branches: Branch[];
+  images: AdminPickableImage[];
+}) {
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<Branch | null>(null);
   const [lastSavedId, setLastSavedId] = useState<string | null>(null);
@@ -43,7 +53,7 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
   return (
     <>
       <p className="admin-form-hint">
-        סניפים פעילים מוצגים בעמוד המיקומים (`/locations`). אחרי שמירה לחצו „צפייה בעמוד” בשורה של הסניף.
+        סניפים פעילים מוצגים בעמוד המיקומים (`/locations`). לכל סניף אפשר להעלות תמונה שתוצג בכרטיס.
       </p>
       <AdminToolbar label="הוסף סניף" onAdd={() => setDraft(newBranch())} />
       <p className="admin-form-hint" role="status">
@@ -55,6 +65,7 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
       <table className="table">
         <thead>
           <tr>
+            <th>תמונה</th>
             <th>סניף</th>
             <th>כתובת</th>
             <th>טלפון</th>
@@ -66,6 +77,20 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
         <tbody>
           {branches.map((branch) => (
             <tr key={branch.id}>
+              <td>
+                {branch.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={branch.imageUrl}
+                    alt=""
+                    width={72}
+                    height={48}
+                    style={{ objectFit: "cover", borderRadius: 6, display: "block" }}
+                  />
+                ) : (
+                  <span className="admin-form-hint">ברירת מחדל</span>
+                )}
+              </td>
               <td>
                 {branch.name}
                 {lastSavedId === branch.id ? (
@@ -106,7 +131,7 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
                       setLastSavedId(null);
                     });
                   }}
-                  onEdit={() => setDraft({ ...branch })}
+                  onEdit={() => setDraft({ ...branch, imageUrl: branch.imageUrl ?? "" })}
                 />
               </td>
             </tr>
@@ -163,6 +188,16 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
                 onChange={(e) => setDraft({ ...draft, wazeUrl: e.target.value })}
               />
             </label>
+            <AdminImageUrlField
+              label="תמונת סניף (כרטיס בעמוד המיקומים)"
+              value={draft.imageUrl ?? ""}
+              images={images}
+              spec={BRANCH_IMAGE_SPEC}
+              onChange={(imageUrl) => setDraft({ ...draft, imageUrl })}
+            />
+            <p className="admin-form-hint">
+              אם אין תמונה לסניף, יוצגת תמונת החזית הכללית של האתר.
+            </p>
             <label className="admin-checkbox-row">
               <input
                 checked={draft.isActive}

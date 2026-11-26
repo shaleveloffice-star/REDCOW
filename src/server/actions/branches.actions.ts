@@ -44,6 +44,7 @@ export async function saveBranchAction(input: Branch) {
   if (!input.city.trim()) throw new Error("עיר הסניף נדרשת");
   if (!input.address.trim()) throw new Error("כתובת הסניף נדרשת");
 
+  const imageUrl = assertSafeHttpUrl(String(input.imageUrl ?? ""), "תמונת סניף");
   const saved = await upsertBranch({
     ...input,
     name: input.name.trim(),
@@ -52,6 +53,7 @@ export async function saveBranchAction(input: Branch) {
     phone: input.phone.trim(),
     openingHours: input.openingHours.trim(),
     wazeUrl: sanitizeMapsUrl(input.wazeUrl),
+    ...(imageUrl ? { imageUrl } : { imageUrl: undefined }),
     isActive: input.isActive !== false
   });
   revalidateBranches();

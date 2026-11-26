@@ -45,7 +45,7 @@ function buildCards(branches: Branch[], exteriorImage: string, locale: "he" | "e
       address: branchAddress(branch, locale),
       hours: usesDefaultBranchHours(branch) ? getBusinessHoursText(locale) : branch.openingHours,
       mapsUrl: branchMapsUrl(branch),
-      image: exteriorImage
+      image: branch.imageUrl?.trim() || exteriorImage
     }));
   }
 

@@ -138,7 +138,7 @@ export function LocationsPageView({
         </h2>
         <ul className="locations-grid">
           {cards.map((card) => (
-            <li key={card.id}>
+            <li key={card.id} id={`branch-${card.id}`}>
               <article className="locations-card">
                 {card.image ? (
                   <div className="locations-card-media">

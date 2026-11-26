@@ -49,7 +49,8 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
             <th>כתובת</th>
             <th>טלפון</th>
             <th>סטטוס</th>
-            <th style={{ width: 160 }}>פעולות</th>
+            <th>קישור</th>
+            <th style={{ width: 200 }}>פעולות</th>
           </tr>
         </thead>
         <tbody>
@@ -62,6 +63,21 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
               <td>{branch.phone}</td>
               <td>
                 <StatusBadge active={branch.isActive} />
+              </td>
+              <td>
+                <a
+                  className="button secondary"
+                  href={`/locations#branch-${branch.id}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  צפייה בעמוד
+                </a>
+                {!branch.isActive ? (
+                  <p className="admin-form-hint" style={{ margin: "6px 0 0" }}>
+                    סניף לא פעיל — לא יוצג באתר עד שיסומן פעיל.
+                  </p>
+                ) : null}
               </td>
               <td>
                 <AdminRowActions

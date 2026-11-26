@@ -49,11 +49,12 @@ export const BUSINESS = {
     /** Human-readable Google Maps query (display / fallback search) */
     mapsSearchQuery: "רחוב אחוזה 96, רעננה",
     /**
-     * Canonical Google Maps share link for Ahuza St 96, Ra'anana
-     * (resolves to place 0x151d381349a2601f:0xc3723ebd96727d1f).
+     * Canonical Google Maps place link for Ahuza St 96, Ra'anana
+     * (place 0x151d381349a2601f:0xc3723ebd96727d1f).
      */
-    mapsShareUrl: "https://maps.app.goo.gl/2r7TmeL53B7Dvza56",
-    /** Precise pin from the share link (!3d / !4d) — used for embed without API key */
+    mapsShareUrl:
+      "https://www.google.com/maps/place/%D7%90%D7%97%D7%95%D7%96%D7%94+96,+%D7%A8%D7%A2%D7%A0%D7%A0%D7%94/@32.179996,34.8777354,17z/data=!3m1!4b1!4m6!3m5!1s0x151d381349a2601f:0xc3723ebd96727d1f!8m2!3d32.179996!4d34.8777354!16s%2Fg%2F11ggb9n2_6",
+    /** Precise pin from the place link (!3d / !4d) — used for embed without API key */
     mapsLat: 32.179996,
     mapsLng: 34.8777354
   },
@@ -123,20 +124,56 @@ export function getBusinessPhone(): string | null {
   return BUSINESS.phone;
 }
 
+/** Truncated CMS typo "אחוזה 9" must not override the real Ra'anana pin at 96. */
+function isRaAnanaAhuzaTypo(address: string, city: string): boolean {
+  return /רעננה/.test(city.trim()) && /אחוזה\s*0*9(?!\d)/.test(address.trim());
+}
+
+export function isPrimaryRaAnanaBranch(branch?: Branch): boolean {
+  if (!branch) return true;
+  const city = branch.city.trim();
+  const address = branch.address.trim();
+  if (city !== BUSINESS.address.addressLocality) return false;
+  return (
+    address === BUSINESS.address.streetAddress ||
+    /אחוזה\s*96/.test(address) ||
+    isRaAnanaAhuzaTypo(address, city)
+  );
+}
+
+/** Normalize known Ra'anana address/map typos before display or save. */
+export function normalizeBranchLocation(branch: Branch): Branch {
+  if (!isPrimaryRaAnanaBranch(branch)) return branch;
+
+  return {
+    ...branch,
+    address: BUSINESS.address.streetAddress,
+    city: BUSINESS.address.addressLocality,
+    wazeUrl: getBusinessMapsSearchUrl()
+  };
+}
+
 export function branchAddress(branch: Branch | undefined, locale: BusinessLocale = "he"): string {
-  if (!branch || (branch.address === BUSINESS.address.streetAddress && branch.city === BUSINESS.address.addressLocality)) return getBusinessAddress(locale);
-  return [branch.address, branch.city].filter(Boolean).join(", ");
+  const normalized = branch ? normalizeBranchLocation(branch) : undefined;
+  if (
+    !normalized ||
+    (normalized.address === BUSINESS.address.streetAddress &&
+      normalized.city === BUSINESS.address.addressLocality)
+  ) {
+    return getBusinessAddress(locale);
+  }
+  return [normalized.address, normalized.city].filter(Boolean).join(", ");
 }
 
 export function branchMapsUrl(branch?: Branch): string {
-  if (!branch) return getBusinessMapsSearchUrl();
-  const changedAddress = branch.address !== BUSINESS.address.streetAddress || branch.city !== BUSINESS.address.addressLocality;
-  if (branch.wazeUrl && !(changedAddress && branch.wazeUrl === getBusinessMapsSearchUrl())) return branch.wazeUrl;
-  return changedAddress ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branchAddress(branch))}` : getBusinessMapsSearchUrl();
+  if (!branch || isPrimaryRaAnanaBranch(branch)) return getBusinessMapsSearchUrl();
+  const normalized = normalizeBranchLocation(branch);
+  if (normalized.wazeUrl.trim()) return normalized.wazeUrl.trim();
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(branchAddress(normalized))}`;
 }
 
 export function branchMapsEmbedUrl(branch?: Branch): string {
-  if (!branch || (branch.address === BUSINESS.address.streetAddress && branch.city === BUSINESS.address.addressLocality)) return getBusinessMapsEmbedUrl();
+  if (!branch || isPrimaryRaAnanaBranch(branch)) return getBusinessMapsEmbedUrl();
   return `https://www.google.com/maps?q=${encodeURIComponent(branchAddress(branch))}&hl=he&z=17&output=embed`;
 }
 

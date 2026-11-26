@@ -121,7 +121,6 @@ export async function SiteFooter() {
                   {item.label}
                 </a>
               ))}
-              <a href="/menu">{t.footer.fullMenu}</a>
             </nav>
             <Link href="/careers" className={careersStyles.footerLink}>
               <strong>{careersCopy.title}</strong>

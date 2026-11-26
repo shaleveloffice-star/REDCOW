@@ -14,7 +14,29 @@ const branchesStore = createFirestoreCollectionStore("branches", localBranchesSt
 });
 
 export async function getBranches(): Promise<Branch[]> {
-  return (await branchesStore.getAll()).map(normalizeBranchRecord);
+  const raw = await branchesStore.getAll();
+  const normalized = raw.map(normalizeBranchRecord);
+
+  // Persist address/map heals so admin + public stop drifting from typos like "אחוזה 9".
+  for (let index = 0; index < raw.length; index += 1) {
+    const before = raw[index];
+    const after = normalized[index];
+    if (
+      before.address !== after.address ||
+      before.city !== after.city ||
+      before.wazeUrl !== after.wazeUrl ||
+      before.openingHours !== after.openingHours
+    ) {
+      void branchesStore.save(after).catch((error) => {
+        console.error("[branches] failed to persist normalized branch", after.id, error);
+      });
+    }
+  }
+
+  return normalized.sort((a, b) => {
+    if (a.isActive !== b.isActive) return a.isActive ? -1 : 1;
+    return a.name.localeCompare(b.name, "he");
+  });
 }
 
 export async function getBranchById(id: string): Promise<Branch | null> {

@@ -6,6 +6,7 @@ import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import { LOCATION_EXTERIOR_IMAGE } from "@/data/site-images.registry";
 import {
+  getCachedBranches,
   getCachedDeliveryZones,
   getCachedResolvedSeoPageContent,
   getCachedSiteImagesMap
@@ -15,7 +16,9 @@ import { getServerLocale } from "@/i18n/get-locale";
 import { getLocationsPageMetadata } from "@/lib/page-metadata";
 import { buildFaqPageJsonLd, buildStaticPageBreadcrumbJsonLd } from "@/lib/seo/json-ld";
 import { getValidFaqItems } from "@/lib/seo/faq-utils";
-import { listBranches } from "@/services/branches.service";
+
+/** Always read fresh admin branch data after saves. */
+export const dynamic = "force-dynamic";
 
 export async function generateMetadata(): Promise<Metadata> {
   const locale = await getServerLocale();
@@ -25,7 +28,7 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function LocationsPage() {
   const locale = await getServerLocale();
   const [branches, seoContent, messages, siteImages, deliveryZones] = await Promise.all([
-    listBranches({ activeOnly: true }),
+    getCachedBranches(),
     getCachedResolvedSeoPageContent(locale, "locations"),
     getLocalizedMessages(locale),
     getCachedSiteImagesMap(),

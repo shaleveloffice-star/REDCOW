@@ -38,7 +38,8 @@ export const CACHE_TAGS = {
   seoContent: "seo-content",
   brandStories: "brand-stories",
   announcementPopup: "announcement-popup",
-  deliveryZones: "delivery-zones"
+  deliveryZones: "delivery-zones",
+  branches: "branches"
 } as const;
 
 export const getCachedMenuHero = unstable_cache(
@@ -217,4 +218,13 @@ export const getCachedDeliveryZones = unstable_cache(
   },
   [CACHE_TAGS.deliveryZones, "v1"],
   { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.deliveryZones] }
+);
+
+export const getCachedBranches = unstable_cache(
+  async () => {
+    const { listBranches } = await import("@/services/branches.service");
+    return listBranches({ activeOnly: true });
+  },
+  [CACHE_TAGS.branches, "active-v1"],
+  { revalidate: CACHE_REVALIDATE_SECONDS.slow, tags: [CACHE_TAGS.branches] }
 );

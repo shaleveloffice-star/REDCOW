@@ -1,4 +1,3 @@
-import { listBranches } from "@/services/branches.service";
 import type { Metadata } from "next";
 
 import { HomeAtmosphereSection } from "@/components/features/home/home-atmosphere-section";
@@ -12,6 +11,7 @@ import { SeoFaqSection } from "@/components/shared/seo-faq-section";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { JsonLd } from "@/components/seo/json-ld";
 import {
+  getCachedBranches,
   getCachedHomepageMenu,
   getRecommendationsForDisplay,
   getCachedResolvedSeoPageContent,
@@ -49,7 +49,7 @@ export default async function HomePage() {
       return items.slice(0, 8);
     }),
     getCachedResolvedSeoPageContent(locale, "home"),
-    listBranches({ activeOnly: true }),
+    getCachedBranches(),
     getRecommendationsForDisplay()
   ]);
   const homeFaqJsonLd = buildFaqPageJsonLd(getValidFaqItems(homeSeo.faq.items));

@@ -126,7 +126,9 @@ export function getBusinessPhone(): string | null {
 
 /** Truncated CMS typo "אחוזה 9" must not override the real Ra'anana pin at 96. */
 function isRaAnanaAhuzaTypo(address: string, city: string): boolean {
-  return /רעננה/.test(city.trim()) && /אחוזה\s*0*9(?!\d)/.test(address.trim());
+  const normalizedCity = city.trim().replace(/\s+/g, " ");
+  const normalizedAddress = address.trim().replace(/\s+/g, " ");
+  return /רעננה/.test(normalizedCity) && /אחוזה\s*0*9(?!\d)/.test(normalizedAddress);
 }
 
 export function isPrimaryRaAnanaBranch(branch?: Branch): boolean {

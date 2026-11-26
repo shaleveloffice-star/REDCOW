@@ -32,6 +32,7 @@ function newBranch(): Branch {
 export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
   const { isPending, error, setError, run, confirmDelete } = useAdminMutation();
   const [draft, setDraft] = useState<Branch | null>(null);
+  const [lastSavedId, setLastSavedId] = useState<string | null>(null);
   const isNew = draft ? !branches.some((b) => b.id === draft.id) : false;
 
   const close = () => {
@@ -41,7 +42,16 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
 
   return (
     <>
+      <p className="admin-form-hint">
+        סניפים פעילים מוצגים בעמוד המיקומים (`/locations`). אחרי שמירה לחצו „צפייה בעמוד” בשורה של הסניף.
+      </p>
       <AdminToolbar label="הוסף סניף" onAdd={() => setDraft(newBranch())} />
+      <p className="admin-form-hint" role="status">
+        סה״כ סניפים באדמין: {branches.length} · פעילים: {branches.filter((b) => b.isActive).length}
+      </p>
+      {branches.length === 0 ? (
+        <p className="admin-form-hint">עדיין אין סניפים. לחצו „הוסף סניף” כדי ליצור את הראשון.</p>
+      ) : null}
       <table className="table">
         <thead>
           <tr>
@@ -56,7 +66,14 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
         <tbody>
           {branches.map((branch) => (
             <tr key={branch.id}>
-              <td>{branch.name}</td>
+              <td>
+                {branch.name}
+                {lastSavedId === branch.id ? (
+                  <div className="admin-form-hint" role="status">
+                    נשמר עכשיו
+                  </div>
+                ) : null}
+              </td>
               <td>
                 {branch.address}, {branch.city}
               </td>
@@ -86,6 +103,7 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
                     if (!confirmDelete(branch.name)) return;
                     run(async () => {
                       await deleteBranchAction(branch.id);
+                      setLastSavedId(null);
                     });
                   }}
                   onEdit={() => setDraft({ ...branch })}
@@ -103,7 +121,8 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
             onSubmit={(e) => {
               e.preventDefault();
               run(async () => {
-                await saveBranchAction(draft);
+                const saved = await saveBranchAction(draft);
+                setLastSavedId(saved.id);
               }, close);
             }}
           >
@@ -117,19 +136,32 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
             </label>
             <label>
               כתובת
-              <input required value={draft.address} onChange={(e) => setDraft({ ...draft, address: e.target.value })} />
+              <input
+                required
+                value={draft.address}
+                placeholder="לדוגמה: רחוב אחוזה 96"
+                onChange={(e) => setDraft({ ...draft, address: e.target.value })}
+              />
             </label>
             <label>
               טלפון
-              <input required value={draft.phone} onChange={(e) => setDraft({ ...draft, phone: e.target.value })} />
+              <input value={draft.phone} onChange={(e) => setDraft({ ...draft, phone: e.target.value })} />
             </label>
             <label>
               שעות פתיחה
-              <input value={draft.openingHours} onChange={(e) => setDraft({ ...draft, openingHours: e.target.value })} />
+              <input
+                value={draft.openingHours}
+                placeholder="השאירו ריק לשימוש בשעות ברירת המחדל של האתר"
+                onChange={(e) => setDraft({ ...draft, openingHours: e.target.value })}
+              />
             </label>
             <label>
-              קישור Waze
-              <input value={draft.wazeUrl} onChange={(e) => setDraft({ ...draft, wazeUrl: e.target.value })} />
+              קישור Google Maps / ניווט
+              <input
+                value={draft.wazeUrl}
+                placeholder="הדביקו קישור מפות. אפשר להשאיר ריק לסניף הראשי ברעננה"
+                onChange={(e) => setDraft({ ...draft, wazeUrl: e.target.value })}
+              />
             </label>
             <label className="admin-checkbox-row">
               <input
@@ -137,7 +169,7 @@ export function AdminBranchesManager({ branches }: { branches: Branch[] }) {
                 type="checkbox"
                 onChange={(e) => setDraft({ ...draft, isActive: e.target.checked })}
               />
-              <span>סניף פעיל</span>
+              <span>סניף פעיל (מוצג באתר)</span>
             </label>
             <AdminFormFooter error={error} isPending={isPending} onCancel={close} />
           </form>

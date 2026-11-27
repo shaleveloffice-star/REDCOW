@@ -61,7 +61,7 @@ export const BUSINESS = {
 
   phone: "077-303-4390",
 
-  email: "swhat.burger@gmail.com",
+  email: "sogroup.office@gmail.com",
 
   website: CANONICAL_SITE_ORIGIN,
 

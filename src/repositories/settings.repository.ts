@@ -1,3 +1,4 @@
+import { BUSINESS } from "@/data/business";
 import { mockOrderLinks, mockSiteSettings } from "@/data/mock/settings.mock";
 import {
   createFirestoreCollectionStore,
@@ -17,12 +18,26 @@ const orderLinksStore = createFirestoreCollectionStore("orderLinks", localOrderL
   seed: mockOrderLinks
 });
 
+function withCanonicalBusinessEmail(settings: SiteSettings): SiteSettings {
+  if (settings.email === BUSINESS.email) return settings;
+  return { ...settings, email: BUSINESS.email };
+}
+
 export async function getSiteSettings(): Promise<SiteSettings> {
-  return siteSettingsStore.get();
+  const raw = await siteSettingsStore.get();
+  const settings = withCanonicalBusinessEmail(raw);
+  if (raw.email !== BUSINESS.email) {
+    try {
+      await siteSettingsStore.save(settings);
+    } catch (error) {
+      console.error("[settings] email heal failed", error);
+    }
+  }
+  return settings;
 }
 
 export async function saveSiteSettings(input: SiteSettings): Promise<SiteSettings> {
-  return siteSettingsStore.save(input);
+  return siteSettingsStore.save(withCanonicalBusinessEmail(input));
 }
 
 export async function getOrderLinks(): Promise<OrderLink[]> {

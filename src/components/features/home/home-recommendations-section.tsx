@@ -19,7 +19,6 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   const distance = useRef(0);
   const stopped = useRef(false);
   const [pageSize, setPageSize] = useState(3);
-  const [interacting, setInteracting] = useState(false);
   const [selected, setSelected] = useState<CreatorRecommendation | null>(null);
   const trigger = useRef<HTMLButtonElement | null>(null);
   const copy = locale === "he"
@@ -28,7 +27,8 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
       ? { all: "Tous les avis" }
       : { all: "All recommendations" };
   const canRotate = items.length > pageSize * 2;
-  stopped.current = interacting || Boolean(selected);
+  // Keep scrolling under the pointer; only pause while a video dialog is open.
+  stopped.current = Boolean(selected);
 
   useEffect(() => {
     const wide = window.matchMedia("(min-width: 900px)");
@@ -68,10 +68,7 @@ export function HomeRecommendationsSection({ items }: { items: CreatorRecommenda
   if (!items.length) return null;
 
   return (
-    <section ref={sectionRef} className="home-creators home-creators-showcase" aria-labelledby="home-creators-title"
-      onMouseEnter={() => setInteracting(true)} onMouseLeave={() => setInteracting(false)}
-      onFocusCapture={() => setInteracting(true)}
-      onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setInteracting(false); }}>
+    <section ref={sectionRef} className="home-creators home-creators-showcase" aria-labelledby="home-creators-title">
       <div className="home-creators-heading">
         <h2 id="home-creators-title"><Link href="/recommendations">{locale === "he" ? "מדברים עלינו" : t.nav.recommendations}</Link></h2>
         <Link className="home-creators-all" href="/recommendations">{copy.all}<span aria-hidden="true">{locale === "he" ? "←" : "→"}</span></Link>
